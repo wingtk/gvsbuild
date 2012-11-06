@@ -173,8 +173,8 @@
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug Multithreaded|x64'">freetype2410MT_D</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug Singlethreaded|Win32'">freetype2410ST_D</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug Singlethreaded|x64'">freetype2410ST_D</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">freetype2410</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">freetype2410</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">freetype</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">freetype</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Multithreaded|Win32'">freetype2410MT</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Multithreaded|x64'">freetype2410MT</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Singlethreaded|Win32'">freetype2410ST</TargetName>
