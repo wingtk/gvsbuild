@@ -17,6 +17,7 @@
 `<AdditionalLibraryDirectories>$(GlibEtcInstallRoot)\lib;$(OutDir)..;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>`
  * Open `build\win32\vs10\gtk+.sln` with VS
  * Set up _libwimp_ as a dependency of _install_
+ * Set up _gdk_ and _gtk_ as dependencies of _libwimp_
  * Build in VS
  * Release with `release-x86.bat`
  * Extract package to `C:\mozilla-build\hexchat\build\Win32`
