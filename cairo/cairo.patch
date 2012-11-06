@@ -1,6 +1,6 @@
 diff -ruN --strip-trailing-cr cairo-1.10.2.orig/src/cairo-win32-surface.c cairo-1.10.2/src/cairo-win32-surface.c
---- cairo-1.10.2.orig/src/cairo-win32-surface.c	2010-12-25 14:21:34 +0000
-+++ cairo-1.10.2/src/cairo-win32-surface.c	2012-10-02 06:57:37 +0000
+--- cairo-1.10.2.orig/src/cairo-win32-surface.c	2010-12-25 15:21:34 +0100
++++ cairo-1.10.2/src/cairo-win32-surface.c	2012-11-06 22:19:51 +0100
 @@ -545,6 +545,79 @@
      return CAIRO_STATUS_SUCCESS;
  }
@@ -117,7 +117,7 @@ diff -ruN --strip-trailing-cr cairo-1.10.2.orig/src/cairo-win32-surface.c cairo-
      *image_out = (cairo_image_surface_t *) local->image;
      *image_extra = local;
      *image_rect = *interest_rect;
-@@ -630,6 +707,10 @@
+@@ -630,6 +707,12 @@
      if (!local)
  	return;
  
@@ -125,10 +125,12 @@ diff -ruN --strip-trailing-cr cairo-1.10.2.orig/src/cairo-win32-surface.c cairo-
 +
 +    _cairo_win32_surface_convert_from_gdi_format (local->image);
 +
++    _cairo_win32_surface_set_clip_region (surface, NULL);
++
      if (!BitBlt (surface->dc,
  		 image_rect->x, image_rect->y,
  		 image_rect->width, image_rect->height,
-@@ -1313,7 +1394,7 @@
+@@ -1313,7 +1396,7 @@
  
  UNSUPPORTED:
      /* Fall back to image surface directly, if this is a DIB surface */
