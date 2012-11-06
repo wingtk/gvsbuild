@@ -8,6 +8,8 @@
 `<CopyDir>..\..\..\..\glib-2.34.1-rel</CopyDir>`
 	* `<GlibSeparateVS10DllSuffix>-2-vs10</GlibSeparateVS10DllSuffix>` with  
 `<GlibSeparateVS10DllSuffix>-2.0</GlibSeparateVS10DllSuffix>`
+	* `<ClCompile>` with  
+`<ClCompile><MultiProcessorCompilation>true</MultiProcessorCompilation>`
  * Replace `zlib1.lib` with `zdll.lib` in `build\win32\vs10\gio.vcxproj`
  * Open `build\win32\vs10\glib.sln` with VS
  * Build in VS
