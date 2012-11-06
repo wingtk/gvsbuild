@@ -102,27 +102,6 @@ update PACKAGE_STRING, PACKAGE_VERSION, VERSION
 
 
 
-gdk-pixbuf 2.24.0:
-- extract to c:\gtk\gdk-pixbuf-*
-- build\win32\vs10\gdk-pixbuf.props
-s/intl.lib/libintl.lib
-
-gdk-pixbuf 2.26.4:
-- extract to c:\gtk\gdk-pixbuf-*
-- build\win32\vs10\gdk-pixbuf.props
-s/intl.lib/libintl.lib
-s/ <CopyDir>$(GlibEtcInstallRoot)</CopyDir> / <CopyDir>..\..\..\..\gdk-pixbuf-2.26.4-rel</CopyDir>
-s/ <GlibEtcInstallRoot>..\..\..\..\vs10\$(Platform)</GlibEtcInstallRoot> / <GlibEtcInstallRoot>..\..\..\..\build\$(Platform)</GlibEtcInstallRoot>
-s/ <GdkPixbufSeparateVS10DllSuffix>-2-vs10</GdkPixbufSeparateVS10DllSuffix> / <GdkPixbufSeparateVS10DllSuffix>-2.0</GdkPixbufSeparateVS10DllSuffix>
-- build\win32\vs10\gdk-pixbuf.vcxproj
-s/zlib1/zdll
-
-
-
-
-
-
-
 cairo 1.10.2 + alex patches:
 - extract to c:\gtk\cairo-*
 - extract cairo-vsprojects.zip to root
@@ -194,6 +173,7 @@ s/ <CopyDir>$(GlibEtcInstallRoot)</CopyDir> / <CopyDir>..\..\..\..\pango-1.30.1-
 s/ <PangoSeparateVS10DllSuffix>-1-vs10</PangoSeparateVS10DllSuffix> / <PangoSeparateVS10DllSuffix>-1.0</PangoSeparateVS10DllSuffix>
 s/intl.lib/libintl.lib
 add WIN32 to PreprocessorDefinitions
+
 
 
 
