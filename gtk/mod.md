@@ -1,4 +1,4 @@
- * Download [GTK+ HEAD](http://git.gnome.org/browse/gtk+/log/?h=gtk-2-24)
+ * Download [GTK+ 2.24.13](http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-2.24.13.tar.xz)
  * Extract to `C:\mozilla-build\hexchat`
  * Patch with `patch -p1 -i gtk.patch`
  * In `build\win32\vs10\gtk+.props`, replace:
