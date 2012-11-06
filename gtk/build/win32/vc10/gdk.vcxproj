@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -144,7 +144,6 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>imm32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -178,39 +177,39 @@
     <ResourceCompile Include="..\..\..\gdk\win32\rc\gdk.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\gdk\gdk.c" />
-    <ClCompile Include="..\..\..\gdk\gdkapplaunchcontext.c" />
-    <ClCompile Include="..\..\..\gdk\gdkcairo.c" />
-    <ClCompile Include="..\..\..\gdk\gdkcolor.c" />
-    <ClCompile Include="..\..\..\gdk\gdkcursor.c" />
-    <ClCompile Include="..\..\..\gdk\gdkdisplay.c" />
-    <ClCompile Include="..\..\..\gdk\gdkdisplaymanager.c" />
-    <ClCompile Include="..\..\..\gdk\gdkdnd.c" />
-    <ClCompile Include="..\..\..\gdk\gdkdraw.c" />
-    <ClCompile Include="..\..\..\gdk\gdkevents.c" />
-    <ClCompile Include="..\..\..\gdk\gdkfont.c" />
-    <ClCompile Include="..\..\..\gdk\gdkgc.c" />
-    <ClCompile Include="..\..\..\gdk\gdkglobals.c" />
-    <ClCompile Include="..\..\..\gdk\gdkimage.c" />
-    <ClCompile Include="..\..\..\gdk\gdkkeys.c" />
-    <ClCompile Include="..\..\..\gdk\gdkkeyuni.c" />
-    <ClCompile Include="..\..\..\gdk\gdkoffscreenwindow.c" />
-    <ClCompile Include="..\..\..\gdk\gdkpango.c" />
-    <ClCompile Include="..\..\..\gdk\gdkpixbuf-drawable.c" />
-    <ClCompile Include="..\..\..\gdk\gdkpixbuf-render.c" />
-    <ClCompile Include="..\..\..\gdk\gdkpixmap.c" />
-    <ClCompile Include="..\..\..\gdk\gdkpolyreg-generic.c" />
-    <ClCompile Include="..\..\..\gdk\gdkrectangle.c" />
-    <ClCompile Include="..\..\..\gdk\gdkregion-generic.c" />
-    <ClCompile Include="..\..\..\gdk\gdkrgb.c" />
-    <ClCompile Include="..\..\..\gdk\gdkscreen.c" />
-    <ClCompile Include="..\..\..\gdk\gdkselection.c" />
-    <ClCompile Include="..\..\..\gdk\gdkvisual.c" />
-    <ClCompile Include="..\..\..\gdk\gdkwindow.c" />
-    <ClCompile Include="..\..\..\gdk\gdkwindowimpl.c" />
-    <ClCompile Include="..\..\..\gdk\gdkenumtypes.c" />
-    <ClCompile Include="..\..\..\gdk\gdkmarshalers.c" />
-    <ClCompile Include="..\..\..\gdk\gdkkeynames.c" />
+   <ClCompile Include="..\..\..\gdk\gdk.c" />
+   <ClCompile Include="..\..\..\gdk\gdkapplaunchcontext.c" />
+   <ClCompile Include="..\..\..\gdk\gdkcairo.c" />
+   <ClCompile Include="..\..\..\gdk\gdkcolor.c" />
+   <ClCompile Include="..\..\..\gdk\gdkcursor.c" />
+   <ClCompile Include="..\..\..\gdk\gdkdisplay.c" />
+   <ClCompile Include="..\..\..\gdk\gdkdisplaymanager.c" />
+   <ClCompile Include="..\..\..\gdk\gdkdnd.c" />
+   <ClCompile Include="..\..\..\gdk\gdkdraw.c" />
+   <ClCompile Include="..\..\..\gdk\gdkevents.c" />
+   <ClCompile Include="..\..\..\gdk\gdkfont.c" />
+   <ClCompile Include="..\..\..\gdk\gdkgc.c" />
+   <ClCompile Include="..\..\..\gdk\gdkglobals.c" />
+   <ClCompile Include="..\..\..\gdk\gdkimage.c" />
+   <ClCompile Include="..\..\..\gdk\gdkkeys.c" />
+   <ClCompile Include="..\..\..\gdk\gdkkeyuni.c" />
+   <ClCompile Include="..\..\..\gdk\gdkoffscreenwindow.c" />
+   <ClCompile Include="..\..\..\gdk\gdkpango.c" />
+   <ClCompile Include="..\..\..\gdk\gdkpixbuf-drawable.c" />
+   <ClCompile Include="..\..\..\gdk\gdkpixbuf-render.c" />
+   <ClCompile Include="..\..\..\gdk\gdkpixmap.c" />
+   <ClCompile Include="..\..\..\gdk\gdkpolyreg-generic.c" />
+   <ClCompile Include="..\..\..\gdk\gdkrectangle.c" />
+   <ClCompile Include="..\..\..\gdk\gdkregion-generic.c" />
+   <ClCompile Include="..\..\..\gdk\gdkrgb.c" />
+   <ClCompile Include="..\..\..\gdk\gdkscreen.c" />
+   <ClCompile Include="..\..\..\gdk\gdkselection.c" />
+   <ClCompile Include="..\..\..\gdk\gdkvisual.c" />
+   <ClCompile Include="..\..\..\gdk\gdkwindow.c" />
+   <ClCompile Include="..\..\..\gdk\gdkwindowimpl.c" />
+   <ClCompile Include="..\..\..\gdk\gdkenumtypes.c" />
+   <ClCompile Include="..\..\..\gdk\gdkmarshalers.c" />
+   <ClCompile Include="..\..\..\gdk\gdkkeynames.c" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="gdk-win32.vcxproj">
