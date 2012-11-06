@@ -101,40 +101,6 @@ update PACKAGE_STRING, PACKAGE_VERSION, VERSION
 
 
 
-glib 2.28.8:
-- extract to c:\gtk\build\glib-*
-
-- build\win32\vs10\glib.props
-s/intl.lib/libintl.lib
-
-- gsettings/include dirs+= ..\..\..\gmodule
-
-
-glib 2.32.4:
-- extract to c:\gtk\glib-*
-- build\win32\vs10\glib.props
-s/intl.lib/libintl.lib
-- build\win32\vs10\gio.vcxproj
-s/zlib1.lib/zdll.lib
-- gio/gcontenttype.c #include <windows.h> +=
-#define XDG_MIME_TYPE_UNKNOWN "application/octet-stream"
-
-glib 2.34.0:
-- extract to c:\gtk\glib-*
-- build\win32\vs10\glib.props
-s/intl.lib/libintl.lib
-s/ <GlibEtcInstallRoot>..\..\..\..\vs10\$(Platform)</GlibEtcInstallRoot> / <GlibEtcInstallRoot>..\..\..\..\build\$(Platform)</GlibEtcInstallRoot>
-s/ <GlibSeparateVS10DllSuffix>-2-vs10</GlibSeparateVS10DllSuffix> / <GlibSeparateVS10DllSuffix>-2.0</GlibSeparateVS10DllSuffix>
-s/ <CopyDir>$(GlibEtcInstallRoot)</CopyDir> / <CopyDir>..\..\..\..\glib-2.34.0-rel</CopyDir>
-- build\win32\vs10\gio.vcxproj
-s/zlib1.lib/zdll.lib
-add gpollableutils.h, gtestdbus.h to GlibDoInstall
-
-
-
-
-
-
 atk 2.2.0:
 - extract to c:\gtk\build\atk-*
 - build\win32\vs10\atk.props

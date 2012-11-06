@@ -166,7 +166,7 @@
       <Project>{f172effc-e30f-4593-809e-db2024b1e753}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="gio.vcxproj">
+	<ProjectReference Include="gio.vcxproj">
       <Project>{f3d1583c-5613-4809-bd98-7cc1c1276f92}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
