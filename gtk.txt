@@ -149,37 +149,6 @@ s/zlib1/zdll
 
 
 
-pango 1.30.1:
-- extract to c:\gtk\pango-*
-- build\win32\vs10\pango.props
-s/intl.lib/libintl.lib
-
-------------------------------------------------------------------------
-
-pango 1.30.1:
-- remove
-pango.sln
-pangocairo.vcxproj
-pangocairo.vcxproj.filters
-- rename
-pango_fc.sln -> pango.sln
-pangocairo_fc.vcxproj -> pangocairo.vcxproj
-pangocairo_fc.vcxproj.filters -> pangocairo.vcxproj.filters
-- pango.sln
-s/pangocairo_fc/pangocairo
-- pango.props
-s/ <GlibEtcInstallRoot>..\..\..\..\vs10\$(Platform)</GlibEtcInstallRoot> / <GlibEtcInstallRoot>..\..\..\..\build\$(Platform)</GlibEtcInstallRoot>
-s/ <CopyDir>$(GlibEtcInstallRoot)</CopyDir> / <CopyDir>..\..\..\..\pango-1.30.1-rel</CopyDir>
-s/ <PangoSeparateVS10DllSuffix>-1-vs10</PangoSeparateVS10DllSuffix> / <PangoSeparateVS10DllSuffix>-1.0</PangoSeparateVS10DllSuffix>
-s/intl.lib/libintl.lib
-add WIN32 to PreprocessorDefinitions
-
-
-
-
-
-
-
 gtk+ 2.24.12:
 - build\win32\vs10\gtk+.props
 s/intl.lib/libintl.lib
