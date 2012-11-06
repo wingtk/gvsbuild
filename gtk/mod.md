@@ -15,6 +15,7 @@
 `<ClCompile><MultiProcessorCompilation>true</MultiProcessorCompilation>`
 	* `<AdditionalLibraryDirectories>$(GlibEtcInstallRoot)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>` with  
 `<AdditionalLibraryDirectories>$(GlibEtcInstallRoot)\lib;$(OutDir)..;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>`
+ * Remove `<ModuleDefinitionFile>$(IntDir)libwimp.def</ModuleDefinitionFile>` from `build\win32\vs10\libwimp.vcxproj`
  * Open `build\win32\vs10\gtk+.sln` with VS
  * Set up _libwimp_ as a dependency of _install_
  * Set up _gdk_ and _gtk_ as dependencies of _libwimp_
