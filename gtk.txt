@@ -101,30 +101,6 @@ update PACKAGE_STRING, PACKAGE_VERSION, VERSION
 
 
 
-atk 2.2.0:
-- extract to c:\gtk\build\atk-*
-- build\win32\vs10\atk.props
-s/intl.lib/libintl.lib
-
-atk 2.4.0:
-- extract to c:\gtk\atk-*
-- build\win32\vs10\atk.props
-s/intl.lib/libintl.lib
-
-atk 2.5.91:
-- extract to c:\gtk\atk-*
-- build\win32\vs10\atk.props
-s/intl.lib/libintl.lib
-s/ <CopyDir>$(AtkEtcInstallRoot)</CopyDir> / <CopyDir>..\..\..\..\atk-2.5.91-rel</CopyDir>
-s/ <AtkEtcInstallRoot>..\..\..\..\vs10\$(Platform)</AtkEtcInstallRoot> / <AtkEtcInstallRoot>..\..\..\..\build\$(Platform)</AtkEtcInstallRoot>
-s/ <AtkSeparateVS10DllSuffix>-1-vs10</AtkSeparateVS10DllSuffix> / <AtkSeparateVS10DllSuffix>-1.0</AtkSeparateVS10DllSuffix>
-
-atk 2.6.0: undeclared identifier, atkmarshal.h empty
-
-
-
-
-
 
 gdk-pixbuf 2.24.0:
 - extract to c:\gtk\gdk-pixbuf-*
