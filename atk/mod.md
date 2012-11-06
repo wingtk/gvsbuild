@@ -8,7 +8,7 @@
 `<CopyDir>..\..\..\..\atk-2.5.91-rel</CopyDir>`
 	* `<AtkSeparateVS10DllSuffix>-1-vs10</AtkSeparateVS10DllSuffix>` with  
 `<AtkSeparateVS10DllSuffix>-1.0</AtkSeparateVS10DllSuffix>`
-  * Open `build\win32\vs10\atk.sln` with VS
+ * Open `build\win32\vs10\atk.sln` with VS
  * Build in VS
  * Release with `release-x86.bat`
  * Extract package to `C:\mozilla-build\hexchat\build\Win32`
