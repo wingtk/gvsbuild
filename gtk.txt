@@ -2,33 +2,6 @@ TODO: CLEAR THIS MESS!!!
 
 
 
-libpng:
-- projects\vstudio\vstudio.sln
-- remove zlib project
-#- set ZLibSrcDir=c:\gtk\build\zlib-1.2.7
-- zlib.props
-	<ItemDefinitionGroup>
-		<ClCompile>
-			<AdditionalIncludeDirectories>..\..\..\..\build\$(Platform)\include</AdditionalIncludeDirectories>
-		</ClCompile>
-		<Link>
-			<!--AdditionalDependencies>zdll.lib</AdditionalDependencies-->
-			<AdditionalLibraryDirectories>..\..\..\..\build\$(Platform)\lib</AdditionalLibraryDirectories>
-		</Link>
-	</ItemDefinitionGroup>
-- libpng, pngtest, pngvalid
-s/zlib.lib/zdll.lib
-s/</AdditionalLibraryDirectories>/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-- pngtest custom build step beginning
-copy ..\..\..\..\build\$(Platform)\bin\zlib1.dll $(OutDir)
-- pngvalid depends on pngtest
-
-
-
-
-
-
-
 fontconfig-2.8.0:
 - extract to c:\gtk\fontconfig-*
 - extract fontconfig_vs9.zip
