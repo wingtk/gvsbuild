@@ -1,0 +1,301 @@
+TODO: CLEAR THIS MESS!!!
+
+
+
+libpng:
+- projects\vstudio\vstudio.sln
+- remove zlib project
+#- set ZLibSrcDir=c:\gtk\build\zlib-1.2.7
+- zlib.props
+	<ItemDefinitionGroup>
+		<ClCompile>
+			<AdditionalIncludeDirectories>..\..\..\..\build\$(Platform)\include</AdditionalIncludeDirectories>
+		</ClCompile>
+		<Link>
+			<!--AdditionalDependencies>zdll.lib</AdditionalDependencies-->
+			<AdditionalLibraryDirectories>..\..\..\..\build\$(Platform)\lib</AdditionalLibraryDirectories>
+		</Link>
+	</ItemDefinitionGroup>
+- libpng, pngtest, pngvalid
+s/zlib.lib/zdll.lib
+s/</AdditionalLibraryDirectories>/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+- pngtest custom build step beginning
+copy ..\..\..\..\build\$(Platform)\bin\zlib1.dll $(OutDir)
+- pngvalid depends on pngtest
+
+
+
+
+
+
+
+fontconfig-2.8.0:
+- extract to c:\gtk\fontconfig-*
+- extract fontconfig_vs9.zip
+- rename stdint.h.vs9 to stdint.h.vs10
+- *.vcxproj
+s/vs9/vs10
+s/VS9/VS10
+- config.h +=
+#define FLEXIBLE_ARRAY_MEMBER 1
+- fc-query, fc-scan includes+=
+..\vs10\$(Platform)\include
+- fontconfig.h unistd.h
+#ifdef WIN32
+#include <io.h>
+#else
+/* #include <unistd.h> */
+#endif
+- fc-cache won't succeed, no need
+- build-x86.bat
+
+------------------------------------------------------------------------
+
+fontconfig-2.8.0:
+- extract to c:\mozilla-build\hexchat\fontconfig-*
+- extract fontconfig_vs9.zip
+- remove stdint.h
+- rename config.h.vc to config.h
+- remove *.vcproj
+- fc-arch, fc-case, fc-glyphname, fc-lang, fontconfig
+remove PreBuildEvent
+- add fontconfig.props to
+fc-query, fc-scan, fontconfig.vcxproj
+- config.h
+/* #undef ENABLE_LIBXML2 */
+#define ENABLE_LIBXML2 1
+
+/* #define HAVE_EXPAT 1 */
+#undef HAVE_EXPAT
+
+#define USE_ICONV 1
+
+- fontconfig.vcxproj
+s/libexpat.lib/libxml2.lib;iconv.lib
+add iconv.lib
+- sln: add build empty project, depends on
+fc-cache, fc-cat, fc-list, fc-match, fc-query, fc-scan, fontconfig
+- fc-cache won't succeed, no need
+- set build as startup project
+- release-x*.bat
+
+
+fontconfig:
+- add fontconfig.props to all projects
+fc-arch, fc-cache, fc-case, fc-cat, fc-glyphname, fc-lang, fc-list, 
+
+
+
+
+
+
+
+pixman:
+- dl off src
+- overwrite header with sln files
+- replace vs10 with build
+
+------------------------------------------------------------------------
+
+pixman-0.26.2
+- dl off src
+- patch header
+- rename build\win32\vs10 to vc11
+- pixman.props
+s/ <PixmanEtcInstallRoot>..\..\..\..\..\vs10\$(Platform)</PixmanEtcInstallRoot> / <PixmanEtcInstallRoot>..\..\..\..\build\$(Platform)</PixmanEtcInstallRoot>
+add 
+<CopyDir>..\..\..\..\pixman-0.26.2-rel</CopyDir>
+in PixmanDoInstall
+s/PixmanEtcInstallRoot/CopyDir
+
+DELETE
+
+if exist ..\..\..\config.h goto DONE_CONFIG_H
+copy ..\..\..\config.h.win32 ..\..\..\config.h
+:DONE_CONFIG_H
+
+ADD
+
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\testpixman.exe $(CopyDir)\bin
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*-$(ApiVersion).exp $(CopyDir)\lib
+
+- rename config.h.win32 to config.h
+update PACKAGE_STRING, PACKAGE_VERSION, VERSION
+
+
+
+
+
+
+
+glib 2.28.8:
+- extract to c:\gtk\build\glib-*
+
+- build\win32\vs10\glib.props
+s/intl.lib/libintl.lib
+
+- gsettings/include dirs+= ..\..\..\gmodule
+
+
+glib 2.32.4:
+- extract to c:\gtk\glib-*
+- build\win32\vs10\glib.props
+s/intl.lib/libintl.lib
+- build\win32\vs10\gio.vcxproj
+s/zlib1.lib/zdll.lib
+- gio/gcontenttype.c #include <windows.h> +=
+#define XDG_MIME_TYPE_UNKNOWN "application/octet-stream"
+
+glib 2.34.0:
+- extract to c:\gtk\glib-*
+- build\win32\vs10\glib.props
+s/intl.lib/libintl.lib
+s/ <GlibEtcInstallRoot>..\..\..\..\vs10\$(Platform)</GlibEtcInstallRoot> / <GlibEtcInstallRoot>..\..\..\..\build\$(Platform)</GlibEtcInstallRoot>
+s/ <GlibSeparateVS10DllSuffix>-2-vs10</GlibSeparateVS10DllSuffix> / <GlibSeparateVS10DllSuffix>-2.0</GlibSeparateVS10DllSuffix>
+s/ <CopyDir>$(GlibEtcInstallRoot)</CopyDir> / <CopyDir>..\..\..\..\glib-2.34.0-rel</CopyDir>
+- build\win32\vs10\gio.vcxproj
+s/zlib1.lib/zdll.lib
+add gpollableutils.h, gtestdbus.h to GlibDoInstall
+
+
+
+
+
+
+atk 2.2.0:
+- extract to c:\gtk\build\atk-*
+- build\win32\vs10\atk.props
+s/intl.lib/libintl.lib
+
+atk 2.4.0:
+- extract to c:\gtk\atk-*
+- build\win32\vs10\atk.props
+s/intl.lib/libintl.lib
+
+atk 2.5.91:
+- extract to c:\gtk\atk-*
+- build\win32\vs10\atk.props
+s/intl.lib/libintl.lib
+s/ <CopyDir>$(AtkEtcInstallRoot)</CopyDir> / <CopyDir>..\..\..\..\atk-2.5.91-rel</CopyDir>
+s/ <AtkEtcInstallRoot>..\..\..\..\vs10\$(Platform)</AtkEtcInstallRoot> / <AtkEtcInstallRoot>..\..\..\..\build\$(Platform)</AtkEtcInstallRoot>
+s/ <AtkSeparateVS10DllSuffix>-1-vs10</AtkSeparateVS10DllSuffix> / <AtkSeparateVS10DllSuffix>-1.0</AtkSeparateVS10DllSuffix>
+
+atk 2.6.0: undeclared identifier, atkmarshal.h empty
+
+
+
+
+
+
+gdk-pixbuf 2.24.0:
+- extract to c:\gtk\gdk-pixbuf-*
+- build\win32\vs10\gdk-pixbuf.props
+s/intl.lib/libintl.lib
+
+gdk-pixbuf 2.26.4:
+- extract to c:\gtk\gdk-pixbuf-*
+- build\win32\vs10\gdk-pixbuf.props
+s/intl.lib/libintl.lib
+s/ <CopyDir>$(GlibEtcInstallRoot)</CopyDir> / <CopyDir>..\..\..\..\gdk-pixbuf-2.26.4-rel</CopyDir>
+s/ <GlibEtcInstallRoot>..\..\..\..\vs10\$(Platform)</GlibEtcInstallRoot> / <GlibEtcInstallRoot>..\..\..\..\build\$(Platform)</GlibEtcInstallRoot>
+s/ <GdkPixbufSeparateVS10DllSuffix>-2-vs10</GdkPixbufSeparateVS10DllSuffix> / <GdkPixbufSeparateVS10DllSuffix>-2.0</GdkPixbufSeparateVS10DllSuffix>
+- build\win32\vs10\gdk-pixbuf.vcxproj
+s/zlib1/zdll
+
+
+
+
+
+
+
+cairo 1.10.2 + alex patches:
+- extract to c:\gtk\cairo-*
+- extract cairo-vsprojects.zip to root
+cairo
+- includes += ..\vs10\$(Platform)\include\pixman-1
+- libdirs += ..\vs10\$(Platform)\lib
+s/zlib1.lib/zdll.lib
+cairo-gobject
+- includes += ..\vs10\$(Platform)\include\glib-2.0
+- libdirs += ..\vs10\$(Platform)\lib
+copy cairo.lib back manually
+
+cairo 1.10.2 fc + alex patches:
+- extract to c:\gtk\cairo-*
+- extract cairo-vsprojects.zip to root
+- cairo-fc.vcxproj
+includes += ..\vs10\$(Platform)\include\pixman-1
+libdirs += ..\vs10\$(Platform)\lib
+s/zlib1/zdll
+cairo-gobject
+- includes += ..\vs10\$(Platform)\include\glib-2.0
+- libdirs += ..\vs10\$(Platform)\lib
+copy cairo.lib back manually to Release
+
+------------------------------------------------------------------------
+
+cairo 1.10.2 fc + alex patches:
+- extract to c:\gtk\cairo-*
+- extract cairo-vsprojects.zip to root
+- delete *-vs9 and not -fc
+- *.vcxproj:
+add cairo.props
+delete <AdditionalIncludeDirectories>
+s/ ..\vs10\$(Platform)\ / $(CopyDir)\
+s/-vs10.dll/.dll
+- cairo-fc.vcxproj
+s/zlib1/zdll
+- rename, remove -fc from name, rename in .sln and cairo-gobject.vcxproj
+- copy cairo.lib back manually to Release
+
+
+
+
+
+
+
+
+pango 1.30.1:
+- extract to c:\gtk\pango-*
+- build\win32\vs10\pango.props
+s/intl.lib/libintl.lib
+
+------------------------------------------------------------------------
+
+pango 1.30.1:
+- remove
+pango.sln
+pangocairo.vcxproj
+pangocairo.vcxproj.filters
+- rename
+pango_fc.sln -> pango.sln
+pangocairo_fc.vcxproj -> pangocairo.vcxproj
+pangocairo_fc.vcxproj.filters -> pangocairo.vcxproj.filters
+- pango.sln
+s/pangocairo_fc/pangocairo
+- pango.props
+s/ <GlibEtcInstallRoot>..\..\..\..\vs10\$(Platform)</GlibEtcInstallRoot> / <GlibEtcInstallRoot>..\..\..\..\build\$(Platform)</GlibEtcInstallRoot>
+s/ <CopyDir>$(GlibEtcInstallRoot)</CopyDir> / <CopyDir>..\..\..\..\pango-1.30.1-rel</CopyDir>
+s/ <PangoSeparateVS10DllSuffix>-1-vs10</PangoSeparateVS10DllSuffix> / <PangoSeparateVS10DllSuffix>-1.0</PangoSeparateVS10DllSuffix>
+s/intl.lib/libintl.lib
+add WIN32 to PreprocessorDefinitions
+
+
+
+
+
+
+gtk+ 2.24.12:
+- build\win32\vs10\gtk+.props
+s/intl.lib/libintl.lib
+s/GdkPixbuf-2.0/gdk-pixbuf-2.0
+
+gtk-2.24.13:
+- gtk+.props
+s/ <GlibEtcInstallRoot>..\..\..\..\vs10\$(Platform)</GlibEtcInstallRoot> / <GlibEtcInstallRoot>..\..\..\..\build\$(Platform)</GlibEtcInstallRoot>
+s/ <CopyDir>$(GlibEtcInstallRoot)</CopyDir> / <CopyDir>..\..\..\..\gtk-2.24.13-rel</CopyDir>
+s/intl.lib/libintl.lib
+s/GdkPixbuf-2.0/gdk-pixbuf-2.0
+s/ <GtkSeparateVS10DllSuffix>-2-vs10</GtkSeparateVS10DllSuffix> / <GtkSeparateVS10DllSuffix>-2.0</GtkSeparateVS10DllSuffix>
+add ..\..\..\gdk to AdditionalIncludeDirectories
+- add multiprocessor comp to all projects except install
