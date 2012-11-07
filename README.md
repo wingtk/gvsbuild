@@ -1,4 +1,1 @@
-gtk-win32
-=========
-
-GTK+ stack for Windows
+[http://www.hexchat.org/developers/building-gtk-on-windows](http://www.hexchat.org/developers/building-gtk-on-windows)
