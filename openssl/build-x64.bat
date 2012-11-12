@@ -5,7 +5,7 @@ SET PACKAGE_NAME=openssl-1.0.1c
 
 set OPENSSL_SRC=%cd%
 set OPENSSL_DEST=%cd%-x64
-set PERL_PATH=c:\mozilla-build\perl-5.16\x64\perl\bin
+set PERL_PATH=c:\mozilla-build\perl-5.16\x64\bin
 set NASM_PATH=c:\mozilla-build\nasm
 set INCLUDE=%INCLUDE%;%OPENSSL_SRC%\..\build\x64\include
 set LIB=%LIB%;%OPENSSL_SRC%\..\build\x64\lib
