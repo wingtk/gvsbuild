@@ -7,6 +7,7 @@ set ICONV_SRC=%cd%
 set ICONV_DEST=%cd%-x64
 del CMakeCache.txt
 rmdir /q /s CMakeFiles
+set PATH=%PATH%;%ProgramFiles(x86)%\CMake 2.8\bin
 cmake -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX=%ICONV_DEST% -DCMAKE_BUILD_TYPE=Release
 nmake clean
 nmake
