@@ -1,7 +1,7 @@
 :: run this from a VS x64 command prompt
 @echo off
 
-SET PACKAGE_NAME=openssl-1.0.1c
+SET PACKAGE_NAME=openssl-1.0.1e
 
 set OPENSSL_SRC=%cd%
 set OPENSSL_DEST=%cd%-x64
