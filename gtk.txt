@@ -2,7 +2,8 @@ TO UPDATE:
 
 - fontconfig
 - pixman
-- 
+- cairo
+- pango
 
 
 TODO: CLEAR THIS MESS!!!
