@@ -1,4 +1,4 @@
- * Download [FreeType 2.4.10](http://download.savannah.gnu.org/releases/freetype/freetype-2.4.10.tar.bz2)
+ * Download [FreeType 2.4.11](http://download.savannah.gnu.org/releases/freetype/freetype-2.4.11.tar.bz2)
  * Extract to `C:\mozilla-build\hexchat`
  * Open `builds\win32\vc2010\freetype.sln` with VS
  * Add `src\base\ftbdf.c` to `freetype\Source Files\FT_MODULES`
