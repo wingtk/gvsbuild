@@ -1,11 +1,11 @@
- * Download [GLib 2.34.1](http://ftp.acc.umu.se/pub/gnome/sources/glib/2.34/glib-2.34.1.tar.xz)
+ * Download [GLib 2.34.3](http://ftp.acc.umu.se/pub/gnome/sources/glib/2.34/glib-2.34.3.tar.xz)
  * Extract to `C:\mozilla-build\hexchat`
  * In `build\win32\vs10\glib.props`, replace:
 	* `intl.lib` with `libintl.lib`
 	* `<GlibEtcInstallRoot>..\..\..\..\vs10\$(Platform)</GlibEtcInstallRoot>` with  
 `<GlibEtcInstallRoot>..\..\..\..\build\$(Platform)</GlibEtcInstallRoot>`
 	* `<CopyDir>$(GlibEtcInstallRoot)</CopyDir>` with  
-`<CopyDir>..\..\..\..\glib-2.34.1-rel</CopyDir>`
+`<CopyDir>..\..\..\..\glib-2.34.3-rel</CopyDir>`
 	* `<GlibSeparateVS10DllSuffix>-2-vs10</GlibSeparateVS10DllSuffix>` with  
 `<GlibSeparateVS10DllSuffix>-2.0</GlibSeparateVS10DllSuffix>`
 	* `<ClCompile>` with  
