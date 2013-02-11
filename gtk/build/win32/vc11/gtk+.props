@@ -2,39 +2,23 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
     <GlibEtcInstallRoot>..\..\..\..\build\$(Platform)</GlibEtcInstallRoot>
-    <CopyDir>..\..\..\..\gtk-2.24.13-rel</CopyDir>
+    <CopyDir>..\..\..\..\gtk-2.24.15-rel</CopyDir>
     <DefDir>$(SolutionDir)$(Configuration)\$(Platform)\obj\$(ProjectName)</DefDir>
     <GtkApiVersion>2.0</GtkApiVersion>
     <GtkBinaryVersion>2.10.0</GtkBinaryVersion>
-    <GtkDummyPrefix>/dummy</GtkDummyPrefix>
-    <GtkPrefixDefine>GTK_PREFIX="$(GtkDummyPrefix)"</GtkPrefixDefine>
-    <GdkDefines>GDK_COMPILATION;G_LOG_DOMAIN="Gdk"</GdkDefines>
+    <GtkDummyPrefix>\"/dummy\"</GtkDummyPrefix>
     <GtkHost>i686-pc-vs10</GtkHost>
+    <GdkDefines>GDK_COMPILATION;G_LOG_DOMAIN="Gdk"</GdkDefines>
     <GtkIncludedImmodulesDefines>INCLUDE_IM_am_et;INCLUDE_IM_cedilla;INCLUDE_IM_cyrillic_translit;INCLUDE_IM_ime;INCLUDE_IM_inuktitut;INCLUDE_IM_ipa;INCLUDE_IM_multipress;INCLUDE_IM_thai;INCLUDE_IM_ti_er;INCLUDE_IM_ti_et;INCLUDE_IM_viqr</GtkIncludedImmodulesDefines>
-    <GtkDefines>GTK_COMPILATION;G_LOG_DOMAIN="Gtk";GTK_HOST="$(GtkHost)";GTK_PRINT_BACKENDS="file";GTK_PRINT_PREVIEW_COMMAND="undefined-gtk-print-preview-command";$(GtkIncludedImmodulesDefines);GTK_LIBDIR="$(GtkDummyPrefix)/lib";GTK_DATADIR="$(GtkDummyPrefix)/share";GTK_DATA_PREFIX="$(GtkDummyPrefix)";GTK_SYSCONFDIR="$(GtkDummyPrefix)/etc";MULTIPRESS_CONFDIR="$(GtkDummyPrefix)/etc/gtk-$(GtkApiVersion)";MULTIPRESS_LOCALEDIR="$(GtkDummyPrefix)/share/locale";GTK_VERSION="$(GtkVersion)";GTK_BINARY_VERSION="$(GtkBinaryVersion)"</GtkDefines>
+    <GtkDefines>GTK_COMPILATION;G_LOG_DOMAIN="Gtk";GTK_HOST="$(GtkHost)";GTK_PRINT_BACKENDS="file";GTK_PRINT_PREVIEW_COMMAND="undefined-gtk-print-preview-command";$(GtkIncludedImmodulesDefines);GTK_LIBDIR="$(GtkDummyPrefix)/lib";GTK_DATADIR="$(GtkDummyPrefix)/share";GTK_DATA_PREFIX="$(GtkDummyPrefix)";GTK_SYSCONFDIR="$(GtkDummyPrefix)/etc";MULTIPRESS_CONFDIR="$(GtkDummyPrefix)/etc/gtk-$(GtkApiVersion)";MULTIPRESS_LOCALEDIR="$(GtkDummyPrefix)/share/locale";GTK_VERSION="$(GtkVersion)/etc";GTK_BINARY_VERSION="$(GtkBinaryVersion)/etc"</GtkDefines>
     <GtkDoInstall>
 echo on
 
 mkdir $(CopyDir)\bin
 
-copy $(Configuration)\$(Platform)\bin\*.dll $(CopyDir)\bin
+copy $(Configuration)\$(Platform)\bin\*-2.0.dll $(CopyDir)\bin
 
-
-mkdir $(CopyDir)\bin\gtk-demo
-
-copy $(Configuration)\$(Platform)\bin\*.exe $(CopyDir)\bin\gtk-demo
-
-copy ..\..\..\demos\gtk-demo\*.png $(CopyDir)\bin\gtk-demo
-
-copy ..\..\..\demos\gtk-demo\*.gif $(CopyDir)\bin\gtk-demo
-
-copy ..\..\..\demos\gtk-demo\*.ui $(CopyDir)\bin\gtk-demo
-
-copy ..\..\..\demos\gtk-demo\*.jpg $(CopyDir)\bin\gtk-demo
-
-copy ..\..\..\demos\gtk-demo\*.c $(CopyDir)\bin\gtk-demo
-
-copy ..\..\..\demos\gtk-demo\*.h $(CopyDir)\bin\gtk-demo
+copy $(Configuration)\$(Platform)\bin\*.exe $(CopyDir)\bin
 
 
 mkdir $(CopyDir)\lib
@@ -560,8 +544,43 @@ copy ..\..\..\modules\other\gail\libgail-util\gail-util.h $(CopyDir)\include\gai
 
 copy $(Configuration)\$(Platform)\bin\*-$(GtkApiVersion).lib $(CopyDir)\lib
 
-mkdir $(CopyDir)\lib\gtk-$(GtkApiVersion)\$(GtkBinaryVersion)\engines
-copy $(Configuration)\$(Platform)\bin\libwimp\libwimp.dll $(CopyDir)\lib\gtk-$(GtkApiVersion)\$(GtkBinaryVersion)\engines
+mkdir $(CopyDir)\lib\gtk-$(GtkApiVersion)\$(GtkHost)\engines
+
+copy $(Configuration)\$(Platform)\bin\libwimp.dll $(CopyDir)\lib\gtk-$(GtkApiVersion)\$(GtkHost)\engines
+
+
+mkdir $(CopyDir)\share\gtk-$(GtkApiVersion)\demo
+
+copy ..\..\..\demos\gtk-demo\*.png $(CopyDir)\share\gtk-$(GtkApiVersion)\demo
+
+copy ..\..\..\demos\gtk-demo\*.gif $(CopyDir)\share\gtk-$(GtkApiVersion)\demo
+
+copy ..\..\..\demos\gtk-demo\*.ui $(CopyDir)\share\gtk-$(GtkApiVersion)\demo
+
+copy ..\..\..\demos\gtk-demo\*.jpg $(CopyDir)\share\gtk-$(GtkApiVersion)\demo
+
+copy ..\..\..\demos\gtk-demo\*.c $(CopyDir)\share\gtk-$(GtkApiVersion)\demo
+
+copy ..\..\..\demos\gtk-demo\*.h $(CopyDir)\share\gtk-$(GtkApiVersion)\demo
+
+mkdir $(CopyDir)\share\themes\Default\gtk-2.0-key
+
+copy ..\..\..\gtk\gtkrc.key.default $(CopyDir)\share\themes\Default\gtk-2.0-key\gtkrc
+
+
+mkdir $(CopyDir)\share\themes\Emacs\gtk-2.0-key
+
+copy ..\..\..\gtk\gtkrc.key.emacs $(CopyDir)\share\themes\Emacs\gtk-2.0-key\gtkrc
+
+
+mkdir $(CopyDir)\share\themes\MS-Windows\gtk-2.0
+
+copy ..\..\..\modules\engines\ms-windows\Theme\gtk-2.0\gtkrc $(CopyDir)\share\themes\MS-Windows\gtk-2.0
+
+
+mkdir $(CopyDir)\share\themes\Raleigh\gtk-2.0
+
+copy ..\..\..\gtk\gtkrc.default $(CopyDir)\share\themes\Raleigh\gtk-2.0\gtkrc
 
 </GtkDoInstall>
     <GtkGenerateGdkDef>echo EXPORTS &gt;"$(DefDir)\gdk.def" &amp;&amp; cl /EP -DGDK_WINDOWING_WIN32 -DALL_FILES -DG_GNUC_CONST= ..\..\..\gdk\gdk.symbols &gt;&gt;"$(DefDir)\gdk.def"</GtkGenerateGdkDef>
@@ -580,14 +599,15 @@ copy $(Configuration)\$(Platform)\bin\libwimp\libwimp.dll $(CopyDir)\lib\gtk-$(G
     <IntDir>$(SolutionDir)$(Configuration)\$(PlatformName)\obj\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup>
-    <ClCompile><MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>..\..\..;$(GlibEtcInstallRoot)\lib\glib-2.0\include;$(GlibEtcInstallRoot)\include\glib-2.0;$(GlibEtcInstallRoot)\include;$(GlibEtcInstallRoot)\include\cairo;$(GlibEtcInstallRoot)\include\atk-1.0;$(GlibEtcInstallRoot)\include\pango-1.0;$(GlibEtcInstallRoot)\include\gdk-pixbuf-2.0;..\..\..\gdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    <ClCompile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>..\..\..;$(GlibEtcInstallRoot)\lib\glib-2.0\include;$(GlibEtcInstallRoot)\include\glib-2.0;$(GlibEtcInstallRoot)\include;$(GlibEtcInstallRoot)\include\cairo;$(GlibEtcInstallRoot)\include\atk-1.0;$(GlibEtcInstallRoot)\include\pango-1.0;$(GlibEtcInstallRoot)\include\gdk-pixbuf-2.0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>HAVE_CONFIG_H;G_DISABLE_SINGLE_INCLUDES;ATK_DISABLE_SINGLE_INCLUDES;GDK_PIXBUF_DISABLE_SINGLE_INCLUDES;GTK_DISABLE_SINGLE_INCLUDES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ForcedIncludeFiles>msvc_recommended_pragmas.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
 	<Link>
       <AdditionalDependencies>pangocairo-1.0.lib;cairo.lib;pango-1.0.lib;gdk_pixbuf-2.0.lib;gio-2.0.lib;gmodule-2.0.lib;gobject-2.0.lib;glib-2.0.lib;libintl.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(GlibEtcInstallRoot)\lib;$(OutDir)..;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(GlibEtcInstallRoot)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>
@@ -626,11 +646,11 @@ copy ..\..\..\gdk\gdkconfig.h.win32 ..\..\..\gdk\gdkconfig.h
     <BuildMacro Include="GtkDummyPrefix">
       <Value>$(GtkDummyPrefix)</Value>
     </BuildMacro>
-    <BuildMacro Include="GtkPrefixDefine">
-      <Value>$(GtkPrefixDefine)</Value>
-    </BuildMacro>
     <BuildMacro Include="GdkDefines">
       <Value>$(GdkDefines)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GtkHost">
+      <Value>$(GtkHost)</Value>
     </BuildMacro>
     <BuildMacro Include="GtkIncludedImmodulesDefines">
       <Value>$(GtkIncludedImmodulesDefines)</Value>
