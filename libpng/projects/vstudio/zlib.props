@@ -2,7 +2,7 @@
 <!--
  * zlib.props - location of zlib source
  *
- * libpng version 1.5.13 - September 27, 2012
+ * libpng version 1.5.14 - January 24, 2013
  *
  * Copyright (c) 1998-2011 Glenn Randers-Pehrson
  *
@@ -16,7 +16,7 @@
 
 <Project ToolsVersion="4.0"
    xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-	<PropertyGroup Label="Globals">
+  <PropertyGroup Label="Globals">
     <!-- Place the name of the directory containing the source of zlib used for
 	 debugging in this property.
 
@@ -32,15 +32,23 @@
 	 versions do not match.  The zlib version used in this build is recorded
 	 below:
      -->
-		<ZLibSrcDir>..\..\..\..\zlib-1.2.5</ZLibSrcDir>
-	</PropertyGroup>
-	<ItemDefinitionGroup>
-		<ClCompile>
-			<AdditionalIncludeDirectories>..\..\..\..\build\$(Platform)\include</AdditionalIncludeDirectories>
-		</ClCompile>
-		<Link>
-			<!--AdditionalDependencies>zdll.lib</AdditionalDependencies-->
-			<AdditionalLibraryDirectories>..\..\..\..\build\$(Platform)\lib</AdditionalLibraryDirectories>
-		</Link>
-	</ItemDefinitionGroup>
+    <ZLibSrcDir>..\..\..\..\zlib-1.2.5</ZLibSrcDir>
+
+    <!-- The following line allows compilation for an ARM target with Visual
+         Studio 2012.  Notice that this is not supported by the Visual Studio
+         2012 IDE and that the programs that result cannot be run unless they
+         signed by Microsoft.  This is therefore untested; only Microsoft can
+         test it:
+     -->
+    <WindowsSDKDesktopARMSupport>true</WindowsSDKDesktopARMSupport>
+  </PropertyGroup>
+    <ItemDefinitionGroup>
+        <ClCompile>
+            <AdditionalIncludeDirectories>..\..\..\..\build\$(Platform)\include</AdditionalIncludeDirectories>
+        </ClCompile>
+        <Link>
+            <!--AdditionalDependencies>zdll.lib</AdditionalDependencies-->
+            <AdditionalLibraryDirectories>..\..\..\..\build\$(Platform)\lib</AdditionalLibraryDirectories>
+        </Link>
+    </ItemDefinitionGroup>
 </Project>
