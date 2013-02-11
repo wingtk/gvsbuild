@@ -4,7 +4,7 @@
     <AtkApiVersion>1.0</AtkApiVersion>
     <AtkDummyPrefix>\"/dummy\"</AtkDummyPrefix>
     <AtkEtcInstallRoot>..\..\..\..\build\$(Platform)</AtkEtcInstallRoot>
-    <CopyDir>..\..\..\..\atk-2.5.91-rel</CopyDir>
+    <CopyDir>..\..\..\..\atk-2.7.5-rel</CopyDir>
     <AtkDoInstall>
 mkdir $(CopyDir)\bin
 
@@ -73,6 +73,8 @@ copy ..\..\..\atk\atkvalue.h $(CopyDir)\include\atk-$(AtkApiVersion)\atk
 
 copy ..\..\..\atk\atkwindow.h $(CopyDir)\include\atk-$(AtkApiVersion)\atk
 
+copy ..\..\..\atk\atkversion.h $(CopyDir)\include\atk-$(AtkApiVersion)\atk
+
 copy ..\..\..\atk\atk-enum-types.h $(CopyDir)\include\atk-$(AtkApiVersion)\atk
 
 
@@ -91,7 +93,6 @@ copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*-$(AtkApiVersion).lib $(Cop
     <AtkDllSuffix>$(AtkSeparateVS10DllSuffix)</AtkDllSuffix>
   </PropertyGroup>
   <PropertyGroup>
-    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
     <_PropertySheetDisplayName>atkprops</_PropertySheetDisplayName>
     <OutDir>$(SolutionDir)$(Configuration)\$(PlatformName)\bin\</OutDir>
     <IntDir>$(SolutionDir)$(Configuration)\$(PlatformName)\obj\$(ProjectName)\</IntDir>

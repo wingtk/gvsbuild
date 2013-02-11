@@ -96,6 +96,9 @@
     <ClCompile Include="..\..\..\atk\atkvalue.c">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\atk\atkversion.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\atk\atkwindow.c">
       <Filter>Sources</Filter>
     </ClCompile>
