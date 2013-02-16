@@ -1,6 +1,6 @@
  * Download [GTK+ 2.24.15](http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-2.24.15.tar.xz)
  * Extract to `C:\mozilla-build\hexchat`
- * Patch with `patch -p1 -i gtk.patch`
+ * Patch with `patch -p1 -i gtk-pixmap.patch`
  * In `build\win32\vc11\gtk+.props`, replace:
 	* `intl.lib` with `libintl.lib`
 	* `<GlibEtcInstallRoot>..\..\..\..\vs10\$(Platform)</GlibEtcInstallRoot>` with  
