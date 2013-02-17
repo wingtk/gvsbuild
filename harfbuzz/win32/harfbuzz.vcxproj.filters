@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Fichiers sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Fichiers de ressources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\hb-blob.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\hb-buffer.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\hb-common.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\hb-font.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\hb-ft.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\hb-ot-layout.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\hb-ot-tag.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\hb-ot.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\hb.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\hb-version.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\hb-uniscribe.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\hb-unicode.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\hb-shape.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\hb-set.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\hb-shape-plan.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\hb-blob.cc">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hb-buffer.cc">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hb-common.cc">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hb-fallback-shape.cc">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hb-font.cc">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hb-ft.cc">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hb-ot-layout.cc">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hb-ot-map.cc">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hb-ot-shape.cc">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hb-ot-shape-complex-arabic.cc">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hb-ot-shape-complex-indic.cc">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hb-ot-shape-normalize.cc">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hb-ot-tag.cc">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hb-shape.cc">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hb-tt-font.cc">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hb-unicode.cc">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hb-uniscribe.cc">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hb-warning.cc">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hb-ot-shape-fallback.cc">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hb-set.cc">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hb-shape-plan.cc">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hb-shaper.cc">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hb-ot-shape-complex-default.cc">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hb-ot-shape-complex-thai.cc">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\src\hb-buffer-private.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-fallback-shape-private.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-font-private.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-mutex-private.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-object-private.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-open-file-private.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-open-type-private.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-ot-head-table.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-ot-hhea-table.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-ot-hmtx-table.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-ot-layout-common-private.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-ot-layout-gdef-table.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-ot-layout-gpos-table.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-ot-layout-gsub-table.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-ot-layout-gsubgpos-private.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-ot-layout-private.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-ot-map-private.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-ot-maxp-table.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-ot-name-table.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-ot-shape-complex-arabic-table.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-ot-shape-complex-indic-machine.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-ot-shape-complex-indic-table.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-ot-shape-complex-private.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-ot-shape-private.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-private.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-unicode-private.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-atomic-private.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-cache-private.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-ot-shape-complex-arabic-fallback.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-ot-shape-complex-indic-private.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-ot-shape-fallback-private.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-ot-shape-normalize-private.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-set-private.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-shape-plan-private.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-shaper-impl-private.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-shaper-list.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\src\hb-shaper-private.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+  </ItemGroup>
+</Project>
