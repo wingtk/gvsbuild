@@ -19,29 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\hb-blob.h" />
-    <ClInclude Include="..\src\hb-buffer.h" />
-    <ClInclude Include="..\src\hb-common.h" />
-    <ClInclude Include="..\src\hb-font.h" />
-    <ClInclude Include="..\src\hb-ft.h" />
-    <ClInclude Include="..\src\hb-ot-layout.h" />
-    <ClInclude Include="..\src\hb-ot-tag.h" />
-    <ClInclude Include="..\src\hb-ot.h" />
-    <ClInclude Include="..\src\hb-set.h" />
-    <ClInclude Include="..\src\hb-shape-plan.h" />
-    <ClInclude Include="..\src\hb-shape.h" />
-    <ClInclude Include="..\src\hb-unicode.h" />
-    <ClInclude Include="..\src\hb-uniscribe.h" />
-    <ClInclude Include="..\src\hb-version.h" />
-    <ClInclude Include="..\src\hb.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="..\src\hb-blob.cc" />
     <ClCompile Include="..\src\hb-buffer.cc" />
     <ClCompile Include="..\src\hb-common.cc" />
     <ClCompile Include="..\src\hb-fallback-shape.cc" />
     <ClCompile Include="..\src\hb-font.cc" />
     <ClCompile Include="..\src\hb-ft.cc" />
+    <ClCompile Include="..\src\hb-glib.cc" />
+    <ClCompile Include="..\src\hb-gobject-structs.cc" />
     <ClCompile Include="..\src\hb-ot-layout.cc" />
     <ClCompile Include="..\src\hb-ot-map.cc" />
     <ClCompile Include="..\src\hb-ot-shape-complex-arabic.cc" />
@@ -60,45 +45,6 @@
     <ClCompile Include="..\src\hb-unicode.cc" />
     <ClCompile Include="..\src\hb-uniscribe.cc" />
     <ClCompile Include="..\src\hb-warning.cc" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\src\hb-atomic-private.hh" />
-    <None Include="..\src\hb-buffer-private.hh" />
-    <None Include="..\src\hb-cache-private.hh" />
-    <None Include="..\src\hb-fallback-shape-private.hh" />
-    <None Include="..\src\hb-font-private.hh" />
-    <None Include="..\src\hb-mutex-private.hh" />
-    <None Include="..\src\hb-object-private.hh" />
-    <None Include="..\src\hb-open-file-private.hh" />
-    <None Include="..\src\hb-open-type-private.hh" />
-    <None Include="..\src\hb-ot-head-table.hh" />
-    <None Include="..\src\hb-ot-hhea-table.hh" />
-    <None Include="..\src\hb-ot-hmtx-table.hh" />
-    <None Include="..\src\hb-ot-layout-common-private.hh" />
-    <None Include="..\src\hb-ot-layout-gdef-table.hh" />
-    <None Include="..\src\hb-ot-layout-gpos-table.hh" />
-    <None Include="..\src\hb-ot-layout-gsub-table.hh" />
-    <None Include="..\src\hb-ot-layout-gsubgpos-private.hh" />
-    <None Include="..\src\hb-ot-layout-private.hh" />
-    <None Include="..\src\hb-ot-map-private.hh" />
-    <None Include="..\src\hb-ot-maxp-table.hh" />
-    <None Include="..\src\hb-ot-name-table.hh" />
-    <None Include="..\src\hb-ot-shape-complex-arabic-fallback.hh" />
-    <None Include="..\src\hb-ot-shape-complex-arabic-table.hh" />
-    <None Include="..\src\hb-ot-shape-complex-indic-machine.hh" />
-    <None Include="..\src\hb-ot-shape-complex-indic-private.hh" />
-    <None Include="..\src\hb-ot-shape-complex-indic-table.hh" />
-    <None Include="..\src\hb-ot-shape-complex-private.hh" />
-    <None Include="..\src\hb-ot-shape-fallback-private.hh" />
-    <None Include="..\src\hb-ot-shape-normalize-private.hh" />
-    <None Include="..\src\hb-ot-shape-private.hh" />
-    <None Include="..\src\hb-private.hh" />
-    <None Include="..\src\hb-set-private.hh" />
-    <None Include="..\src\hb-shape-plan-private.hh" />
-    <None Include="..\src\hb-shaper-impl-private.hh" />
-    <None Include="..\src\hb-shaper-list.hh" />
-    <None Include="..\src\hb-shaper-private.hh" />
-    <None Include="..\src\hb-unicode-private.hh" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6318D4FC-7F92-4FDA-8E6F-ADAD0502F848}</ProjectGuid>
@@ -181,6 +127,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;HARFBUZZ_EXPORTS;HAVE_OT;HAVE_UNISCRIBE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -194,6 +142,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;HARFBUZZ_EXPORTS;HAVE_OT;HAVE_UNISCRIBE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -210,7 +160,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;HARFBUZZ_EXPORTS;HAVE_OT;HAVE_UNISCRIBE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <AdditionalIncludeDirectories>..\..\build\$(Platform)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\build\$(Platform)\include;..\..\build\$(Platform)\include\glib-2.0;..\..\build\$(Platform)\lib\glib-2.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -232,7 +182,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;HARFBUZZ_EXPORTS;HAVE_OT;HAVE_UNISCRIBE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <AdditionalIncludeDirectories>..\..\build\$(Platform)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\build\$(Platform)\include;..\..\build\$(Platform)\include\glib-2.0;..\..\build\$(Platform)\lib\glib-2.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
