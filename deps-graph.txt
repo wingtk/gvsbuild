@@ -5,6 +5,7 @@
 [Pixman]
 [libxml2]->[Fontconfig]
 [FreeType]->[Fontconfig]
+[FreeType]->[HarfBuzz]
 [win-iconv]->[gettext-runtime]
 [win-iconv]->[libxml2]
 [gettext-runtime]->[GLib]
