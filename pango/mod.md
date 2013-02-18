@@ -12,6 +12,7 @@
 	* `<PreprocessorDefinitions>HAVE_CONFIG_H;G_DISABLE_SINGLE_INCLUDES;%(PreprocessorDefinitions)</PreprocessorDefinitions>` with  
 `<PreprocessorDefinitions>HAVE_CONFIG_H;G_DISABLE_SINGLE_INCLUDES;WIN32%(PreprocessorDefinitions)</PreprocessorDefinitions>`
  * Open `build\win32\vc11\pango_fc.sln` with VS
+ * Add harfbuzz.lib to pangoft2 input
  * Build in VS
  * Release with `release-x86.bat`
  * Extract package to `C:\mozilla-build\hexchat\build\Win32`
