@@ -1,11 +1,3 @@
-TO UPDATE:
-
-- fontconfig
-- pixman
-- cairo
-- pango
-
-
 TODO: CLEAR THIS MESS!!!
 
 
@@ -102,50 +94,3 @@ copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*-$(ApiVersion).exp $(CopyDi
 
 - rename config.h.win32 to config.h
 update PACKAGE_STRING, PACKAGE_VERSION, VERSION
-
-
-
-
-
-
-
-
-cairo 1.10.2 + alex patches:
-- extract to c:\gtk\cairo-*
-- extract cairo-vsprojects.zip to root
-cairo
-- includes += ..\vs10\$(Platform)\include\pixman-1
-- libdirs += ..\vs10\$(Platform)\lib
-s/zlib1.lib/zdll.lib
-cairo-gobject
-- includes += ..\vs10\$(Platform)\include\glib-2.0
-- libdirs += ..\vs10\$(Platform)\lib
-copy cairo.lib back manually
-
-cairo 1.10.2 fc + alex patches:
-- extract to c:\gtk\cairo-*
-- extract cairo-vsprojects.zip to root
-- cairo-fc.vcxproj
-includes += ..\vs10\$(Platform)\include\pixman-1
-libdirs += ..\vs10\$(Platform)\lib
-s/zlib1/zdll
-cairo-gobject
-- includes += ..\vs10\$(Platform)\include\glib-2.0
-- libdirs += ..\vs10\$(Platform)\lib
-copy cairo.lib back manually to Release
-
-------------------------------------------------------------------------
-
-cairo 1.10.2 fc + alex patches:
-- extract to c:\gtk\cairo-*
-- extract cairo-vsprojects.zip to root
-- delete *-vs9 and not -fc
-- *.vcxproj:
-add cairo.props
-delete <AdditionalIncludeDirectories>
-s/ ..\vs10\$(Platform)\ / $(CopyDir)\
-s/-vs10.dll/.dll
-- cairo-fc.vcxproj
-s/zlib1/zdll
-- rename, remove -fc from name, rename in .sln and cairo-gobject.vcxproj
-- copy cairo.lib back manually to Release

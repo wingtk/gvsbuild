@@ -1,7 +1,7 @@
 :: run this from a command prompt
 @echo off
 
-SET PACKAGE_NAME=cairo-1.10.2
+SET PACKAGE_NAME=cairo-1.12.8
 
 set CAIRO_SRC=%cd%
 set CAIRO_DEST=%cd%-rel
