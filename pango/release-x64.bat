@@ -1,7 +1,7 @@
 :: run this from a command prompt
 @echo off
 
-SET PACKAGE_NAME=pango-1.30.1
+SET PACKAGE_NAME=pango-1.32.5
 
 set PANGO_SRC=%cd%
 set PANGO_DEST=%cd%-rel
