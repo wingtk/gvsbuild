@@ -11,6 +11,10 @@
 	<pre>..\\..\\build\\$(Platform)\\include
 ..\\..\\build\\$(Platform)\\include\\glib-2.0
 ..\\..\\build\\$(Platform)\\lib\\glib-2.0\\include</pre>
+ * Change to DLL
+ * Add lib path and fix freetype name
+ * Generate .def file with `nm -D -g --defined-only .libs/libharfbuzz.so | cut -d ' ' -f 3 | egrep -v '^(__bss_start|_edata|_end)' | sort > actual-abi`
+ * Add .def file in VS
  * Build in VS
  * Release with `release-x86.bat`
  * Extract package to `C:\mozilla-build\hexchat\build\Win32`
