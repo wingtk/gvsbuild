@@ -1,5 +1,6 @@
  * Download [Pango 1.32.6](http://ftp.gnome.org/pub/GNOME/sources/pango/1.32/pango-1.32.6.tar.xz)
  * Extract to `C:\mozilla-build\hexchat`
+ * Patch with `patch -p1 -i pango.patch`
  * In `build\win32\vc11\pango.props`, replace:
 	* `intl.lib` with `libintl.lib`
 	* `<GlibEtcInstallRoot>..\..\..\..\vs10\$(Platform)</GlibEtcInstallRoot>` with  
