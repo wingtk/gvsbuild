@@ -20,13 +20,11 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\pango\pangocairo-fcfont.c"><Filter>Source Files</Filter></ClCompile>
-    <ClCompile Include="..\..\..\pango\pangocairo-fcfontmap.c"><Filter>Source Files</Filter></ClCompile>
     <ClCompile Include="..\..\..\pango\pangocairo-win32font.c"><Filter>Source Files</Filter></ClCompile>
     <ClCompile Include="..\..\..\pango\pangocairo-win32fontmap.c"><Filter>Source Files</Filter></ClCompile>
-   <ClCompile Include="..\..\..\pango\pangocairo-context.c"><Filter>Source Files</Filter></ClCompile>
-   <ClCompile Include="..\..\..\pango\pangocairo-font.c"><Filter>Source Files</Filter></ClCompile>
-   <ClCompile Include="..\..\..\pango\pangocairo-fontmap.c"><Filter>Source Files</Filter></ClCompile>
-   <ClCompile Include="..\..\..\pango\pangocairo-render.c"><Filter>Source Files</Filter></ClCompile>
+ <ClCompile Include="..\..\..\pango\pangocairo-context.c"><Filter>Source Files</Filter></ClCompile>
+ <ClCompile Include="..\..\..\pango\pangocairo-font.c"><Filter>Source Files</Filter></ClCompile>
+ <ClCompile Include="..\..\..\pango\pangocairo-fontmap.c"><Filter>Source Files</Filter></ClCompile>
+ <ClCompile Include="..\..\..\pango\pangocairo-render.c"><Filter>Source Files</Filter></ClCompile>
   </ItemGroup>
 </Project>
