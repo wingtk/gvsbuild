@@ -12,6 +12,7 @@
 [libffi]->[GLib]
 [GLib]->[Enchant]
 [GLib]->[ATK]
+[GLib]->[HarfBuzz]
 [libpng]->[GDK-PixBuf]
 [GLib]->[GDK-PixBuf]
 [GLib]->[cairo]
