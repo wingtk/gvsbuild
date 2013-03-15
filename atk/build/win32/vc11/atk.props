@@ -4,7 +4,7 @@
     <AtkApiVersion>1.0</AtkApiVersion>
     <AtkDummyPrefix>\"/dummy\"</AtkDummyPrefix>
     <AtkEtcInstallRoot>..\..\..\..\build\$(Platform)</AtkEtcInstallRoot>
-    <CopyDir>..\..\..\..\atk-2.7.5-rel</CopyDir>
+    <CopyDir>..\..\..\..\atk-2.7.91-rel</CopyDir>
     <AtkDoInstall>
 mkdir $(CopyDir)\bin
 
