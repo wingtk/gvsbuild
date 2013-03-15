@@ -31,7 +31,10 @@
     <ClCompile Include="..\src\hb-ot-map.cc" />
     <ClCompile Include="..\src\hb-ot-shape-complex-arabic.cc" />
     <ClCompile Include="..\src\hb-ot-shape-complex-default.cc" />
+    <ClCompile Include="..\src\hb-ot-shape-complex-indic-table.cc" />
     <ClCompile Include="..\src\hb-ot-shape-complex-indic.cc" />
+    <ClCompile Include="..\src\hb-ot-shape-complex-myanmar.cc" />
+    <ClCompile Include="..\src\hb-ot-shape-complex-sea.cc" />
     <ClCompile Include="..\src\hb-ot-shape-complex-thai.cc" />
     <ClCompile Include="..\src\hb-ot-shape-fallback.cc" />
     <ClCompile Include="..\src\hb-ot-shape-normalize.cc" />
@@ -174,6 +177,18 @@
       <AdditionalLibraryDirectories>..\..\build\$(Platform)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>harfbuzz.def</ModuleDefinitionFile>
     </Link>
+    <PreBuildEvent>
+      <Command>cd $(SolutionDir)\..\src
+echo 2&gt; rllist.txt
+
+for %%a in (*.rl) do (
+echo %%a &gt;&gt; rllist.txt
+)
+
+for /f "tokens=1 delims=." %%b in (rllist.txt) do (
+..\..\..\ragel\ragel.exe -e -F1 -o %%b.hh %%b.rl
+)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -199,6 +214,18 @@
       <AdditionalLibraryDirectories>..\..\build\$(Platform)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>harfbuzz.def</ModuleDefinitionFile>
     </Link>
+    <PreBuildEvent>
+      <Command>cd $(SolutionDir)\..\src
+echo 2&gt; rllist.txt
+
+for %%a in (*.rl) do (
+echo %%a &gt;&gt; rllist.txt
+)
+
+for /f "tokens=1 delims=." %%b in (rllist.txt) do (
+..\..\..\ragel\ragel.exe -e -F1 -o %%b.hh %%b.rl
+)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

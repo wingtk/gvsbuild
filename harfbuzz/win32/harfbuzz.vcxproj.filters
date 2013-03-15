@@ -48,6 +48,15 @@
     <ClCompile Include="..\src\hb-ot-shape-complex-indic.cc">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\hb-ot-shape-complex-indic-table.cc">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hb-ot-shape-complex-myanmar.cc">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hb-ot-shape-complex-sea.cc">
+      <Filter>Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\hb-ot-shape-complex-thai.cc">
       <Filter>Source</Filter>
     </ClCompile>

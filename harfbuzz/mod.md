@@ -15,6 +15,29 @@
  * Add lib path and fix freetype name
  * Generate .def file with `./autogen.sh && cd src && make harfbuzz.def`
  * Add .def file in VS
+ * Remove every source file and add back *.cc from ..\src, then remove:
+	* hb-coretext.cc
+	* hb-graphite2.cc
+	* hb-icu.cc
+	* hb-icu-le.cc
+	* hb-old.cc
+	* hb-ucdn.cc
+	* main.cc
+	* test-size-params.cc
+	* test-would-substitute.cc
+	* test.cc
+ * Add to Pre-Build event:
+<pre>cd $(SolutionDir)\..\src
+echo 2> rllist.txt
+
+for %%a in (*.rl) do (
+echo %%a >> rllist.txt
+)
+
+for /f "tokens=1 delims=." %%b in (rllist.txt) do (
+..\..\..\ragel\ragel.exe -e -F1 -o %%b.hh %%b.rl
+)
+</pre>
  * Build in VS
  * Release with `release-x86.bat`
  * Extract package to `C:\mozilla-build\hexchat\build\Win32`
