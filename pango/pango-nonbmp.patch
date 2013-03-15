@@ -1,0 +1,126 @@
+diff --git a/modules/basic/basic-win32.c b/modules/basic/basic-win32.c
+index 2483022..f22f984 100644
+--- a/modules/basic/basic-win32.c
++++ b/modules/basic/basic-win32.c
+@@ -321,21 +321,6 @@ dump_glyphs_and_log_clusters (gboolean rtl,
+ 
+ #endif /* BASIC_WIN32_DEBUGGING */
+ 
+-static int
+-unichar_index (wchar_t *wtext,
+-	       int      ix)
+-{
+-  int i, index;
+-
+-  index = 0;
+-  for (i = 0; i < ix; i++)
+-    /* Ignore the low surrogate */
+-    if (!(wtext[i] >= 0xDC00 && wtext[i] < 0xE000))
+-      index++;
+-
+-  return index;
+-}
+-
+ static void
+ set_up_pango_log_clusters (wchar_t *wtext,
+ 			   gboolean rtl,
+@@ -354,13 +339,13 @@ set_up_pango_log_clusters (wchar_t *wtext,
+        * log_clusters array forwards.
+        */
+       int glyph0 = 0;
+-      first_char_in_cluster = unichar_index (wtext, itemlen - 1);
++      first_char_in_cluster = itemlen - 1;
+       for (j = itemlen - 1; j >= 0; j--)
+ 	{
+ 	  if (j < itemlen - 1 && usp_log_clusters[j+1] != usp_log_clusters[j])
+ 	    {
+ 	      /* Cluster starts */
+-	      first_char_in_cluster = unichar_index (wtext, j);
++	      first_char_in_cluster = j;
+ 	    }
+ 	  if (j == 0)
+ 	    {
+@@ -371,7 +356,7 @@ set_up_pango_log_clusters (wchar_t *wtext,
+ 	  else if (usp_log_clusters[j-1] == usp_log_clusters[j])
+ 	    {
+ 	      /* Cluster continues */
+-	      first_char_in_cluster = unichar_index (wtext, j-1);
++	      first_char_in_cluster = j-1;
+ 	    }
+ 	  else
+ 	    {
+@@ -393,7 +378,7 @@ set_up_pango_log_clusters (wchar_t *wtext,
+ 	  if (j > 0 && usp_log_clusters[j-1] != usp_log_clusters[j])
+ 	    {
+ 	      /* Cluster starts */
+-	      first_char_in_cluster = unichar_index (wtext, j);
++	      first_char_in_cluster = j;
+ 	    }
+ 	  if (j == itemlen - 1)
+ 	    {
+@@ -418,12 +403,12 @@ set_up_pango_log_clusters (wchar_t *wtext,
+ static void
+ convert_log_clusters_to_byte_offsets (const char       *text,
+ 				      gint              length,
+-				      PangoGlyphString *glyphs)
++				      PangoGlyphString *glyphs,
++				      gint              utf16_len)
+ {
+   const char *p;
+   int charix, glyphix;
+-  int n_chars = g_utf8_strlen (text, length);
+-  int *byte_offset = g_new (int, n_chars);
++  int *byte_offset = g_new (int, utf16_len);
+ 
+   p = text;
+   charix = 0;
+@@ -431,14 +416,20 @@ convert_log_clusters_to_byte_offsets (const char       *text,
+     {
+       byte_offset[charix] = p - text;
+       charix++;
++      if (g_utf8_get_char (p) > 0xFFFF)
++      {
++	byte_offset[charix] = p - text;
++	charix++;
++      }
+       p = g_utf8_next_char (p);
+     }
++  g_assert (charix <= utf16_len);
+ 
+-  /* Convert char indexes in the log_clusters array to byte offsets.
++  /* Convert utf16 indexes in the log_clusters array to byte offsets.
+    */
+   for (glyphix = 0; glyphix < glyphs->num_glyphs; glyphix++)
+     {
+-      g_assert (glyphs->log_clusters[glyphix] < n_chars);
++      g_assert (glyphs->log_clusters[glyphix] < utf16_len);
+       glyphs->log_clusters[glyphix] = byte_offset[glyphs->log_clusters[glyphix]];
+     }
+ 
+@@ -525,7 +516,7 @@ itemize_shape_and_place (PangoFont           *font,
+        * count as two!
+        */
+       itemlen = items[item+1].iCharPos - items[item].iCharPos;
+-      char_offset = unichar_index (wtext, items[item].iCharPos);
++      char_offset = items[item].iCharPos;
+ 
+ #ifdef BASIC_WIN32_DEBUGGING
+       if (pango_win32_debug)
+@@ -673,7 +664,7 @@ uniscribe_shape (PangoFont           *font,
+ 
+   if (retval)
+     {
+-      convert_log_clusters_to_byte_offsets (text, length, glyphs);
++      convert_log_clusters_to_byte_offsets (text, length, glyphs, wlen);
+ #ifdef BASIC_WIN32_DEBUGGING
+       if (pango_win32_debug)
+ 	{
+@@ -754,7 +745,7 @@ basic_engine_shape (PangoEngineShape 	*engine,
+       wc = g_utf8_get_char (p);
+ 
+       if (analysis->level % 2)
+-	if (pango_get_mirror_char (wc, &mirrored_ch))
++	if (g_unichar_get_mirror_char (wc, &mirrored_ch))
+ 	  wc = mirrored_ch;
+ 
+       if (wc == 0xa0)	/* non-break-space */
