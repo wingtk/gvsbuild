@@ -2,7 +2,7 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
     <GlibEtcInstallRoot>..\..\..\..\build\$(Platform)</GlibEtcInstallRoot>
-    <CopyDir>..\..\..\..\gtk-2.24.15-rel</CopyDir>
+    <CopyDir>..\..\..\..\gtk-2.24.17-rel</CopyDir>
     <DefDir>$(SolutionDir)$(Configuration)\$(Platform)\obj\$(ProjectName)</DefDir>
     <GtkApiVersion>2.0</GtkApiVersion>
     <GtkBinaryVersion>2.10.0</GtkBinaryVersion>

@@ -6,7 +6,7 @@
 	* `<GlibEtcInstallRoot>..\..\..\..\vs10\$(Platform)</GlibEtcInstallRoot>` with  
 `<GlibEtcInstallRoot>..\..\..\..\build\$(Platform)</GlibEtcInstallRoot>`
 	* `<CopyDir>$(GlibEtcInstallRoot)</CopyDir>` with  
-`<CopyDir>..\..\..\..\gtk-2.24.15-rel</CopyDir>`
+`<CopyDir>..\..\..\..\gtk-2.24.17-rel</CopyDir>`
 	* `<GtkSeparateVS10DllSuffix>-2-vs10</GtkSeparateVS10DllSuffix>` with  
 `<GtkSeparateVS10DllSuffix>-2.0</GtkSeparateVS10DllSuffix>`
 	* `<ClCompile>` with  

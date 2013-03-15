@@ -1,7 +1,7 @@
 :: run this from a command prompt
 @echo off
 
-SET PACKAGE_NAME=gtk-2.24.15
+SET PACKAGE_NAME=gtk-2.24.17
 
 set GTK_SRC=%cd%
 set GTK_DEST=%cd%-rel
