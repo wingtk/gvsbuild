@@ -1,7 +1,7 @@
 :: run this from a command prompt
 @echo off
 
-SET PACKAGE_NAME=libffi-3.0.11
+SET PACKAGE_NAME=libffi-3.0.12
 
 set LIBFFI_SRC=%cd%
 set LIBFFI_DEST=%cd%-x86

@@ -1,8 +1,6 @@
 // http://yuml.me/diagram/scruffy/class/draw
 [zlib]->[OpenSSL]
 [zlib]->[libpng]
-[zlib]->[libffi]
-[Pixman]
 [libxml2]->[Fontconfig]
 [FreeType]->[Fontconfig]
 [FreeType]->[HarfBuzz]
