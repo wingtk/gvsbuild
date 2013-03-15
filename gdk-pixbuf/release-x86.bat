@@ -1,7 +1,7 @@
 :: run this from a command prompt
 @echo off
 
-SET PACKAGE_NAME=gdk-pixbuf-2.26.5
+SET PACKAGE_NAME=gdk-pixbuf-2.27.2
 
 set GDKPIXBUF_SRC=%cd%
 set GDKPIXBUF_DEST=%cd%-rel
