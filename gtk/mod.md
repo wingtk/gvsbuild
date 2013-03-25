@@ -1,4 +1,4 @@
- * Download [GTK+ 2.24.15](http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-2.24.15.tar.xz)
+ * Download [GTK+ 2.24.17](http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-2.24.17.tar.xz)
  * Extract to `C:\mozilla-build\hexchat`
  * Patch with `patch -p1 -i gtk-pixmap.patch`
  * In `build\win32\vc11\gtk+.props`, replace:
