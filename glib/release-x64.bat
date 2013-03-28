@@ -1,7 +1,7 @@
 :: run this from a command prompt
 @echo off
 
-SET PACKAGE_NAME=glib-2.34.3
+SET PACKAGE_NAME=glib-2.36.0
 
 set GLIB_SRC=%cd%
 set GLIB_DEST=%cd%-rel
