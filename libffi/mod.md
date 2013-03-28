@@ -1,4 +1,4 @@
- * Download [libffi 3.0.12](ftp://sourceware.org/pub/libffi/libffi-3.0.12.tar.gz)
+ * Download [libffi 3.0.13](ftp://sourceware.org/pub/libffi/libffi-3.0.13.tar.gz)
  * Extract to `C:\mozilla-build\hexchat`
  * Open MSYS shell with `C:\mozilla-build\start-msvc10.bat`
  * Build with `build-x86.bat`
