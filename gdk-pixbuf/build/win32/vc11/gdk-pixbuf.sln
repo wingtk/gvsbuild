@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gdk-pixbuf-query-loaders", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gdk-pixbuf-pixdata", "gdk-pixbuf-pixdata.vcxproj", "{2AD2FF07-0514-41A8-8A32-920C744EA1A6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gengir", "gengir.vcxproj", "{2093D218-190E-4194-9421-3BA7CBF33B15}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_NoGDIP|Win32 = Debug_NoGDIP|Win32
@@ -103,6 +105,10 @@ Global
 		{2AD2FF07-0514-41A8-8A32-920C744EA1A6}.Release|Win32.Build.0 = Release|Win32
 		{2AD2FF07-0514-41A8-8A32-920C744EA1A6}.Release|x64.ActiveCfg = Release|x64
 		{2AD2FF07-0514-41A8-8A32-920C744EA1A6}.Release|x64.Build.0 = Release|x64
+		{2093D218-190E-4194-9421-3BA7CBF33B15}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2093D218-190E-4194-9421-3BA7CBF33B15}.Debug|x64.ActiveCfg = Debug|x64
+		{2093D218-190E-4194-9421-3BA7CBF33B15}.Release|Win32.ActiveCfg = Release|Win32
+		{2093D218-190E-4194-9421-3BA7CBF33B15}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

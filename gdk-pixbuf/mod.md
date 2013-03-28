@@ -1,4 +1,4 @@
- * Download [GDK-PixBuf 2.26.5](http://ftp.gnome.org/pub/gnome/sources/gdk-pixbuf/2.26/gdk-pixbuf-2.26.5.tar.xz)
+ * Download [GDK-PixBuf 2.28.0](http://ftp.gnome.org/pub/gnome/sources/gdk-pixbuf/2.28/gdk-pixbuf-2.28.0.tar.xz)
  * Extract to `C:\mozilla-build\hexchat`
  * In `build\win32\vc11\gdk-pixbuf.props`, replace:
 	* `intl.lib` with `libintl.lib`
@@ -7,7 +7,7 @@
 	* `<GlibEtcInstallRootFromBuildWin32>..\..\..\vs$(VSVer)\$(Platform)</GlibEtcInstallRootFromBuildWin32>` with  
 `<GlibEtcInstallRootFromBuildWin32>..\..\..\build\$(Platform)</GlibEtcInstallRootFromBuildWin32>`
 	* `<CopyDir>$(GlibEtcInstallRoot)</CopyDir>` with  
-`<CopyDir>..\..\..\..\gdk-pixbuf-2.27.2-rel</CopyDir>`
+`<CopyDir>..\..\..\..\gdk-pixbuf-2.28.0-rel</CopyDir>`
 	* `<GdkPixbufSeparateVSDllSuffix>-2-vs$(VSVer)</GdkPixbufSeparateVSDllSuffix>` with  
 `<GdkPixbufSeparateVS10DllSuffix>-2.0</GdkPixbufSeparateVS10DllSuffix>`
  * Replace `zlib1.lib` with `zdll.lib` in `build\win32\vs10\gdk-pixbuf.vcxproj`
