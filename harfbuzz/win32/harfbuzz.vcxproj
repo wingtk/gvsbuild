@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\hb-blob.cc" />
+    <ClCompile Include="..\src\hb-buffer-serialize.cc" />
     <ClCompile Include="..\src\hb-buffer.cc" />
     <ClCompile Include="..\src\hb-common.cc" />
     <ClCompile Include="..\src\hb-fallback-shape.cc" />

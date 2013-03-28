@@ -12,6 +12,9 @@
     <ClCompile Include="..\src\hb-buffer.cc">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\hb-buffer-serialize.cc">
+      <Filter>Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\hb-common.cc">
       <Filter>Source</Filter>
     </ClCompile>

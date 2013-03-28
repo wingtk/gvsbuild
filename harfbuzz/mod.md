@@ -1,11 +1,11 @@
- * Download [HarfBuzz 0.9.13](http://cgit.freedesktop.org/harfbuzz/snapshot/harfbuzz-0.9.13.zip)
+ * Download [HarfBuzz 0.9.14](http://cgit.freedesktop.org/harfbuzz/snapshot/harfbuzz-0.9.14.zip)
  * Download [blinkseb's HarfBuzz solution](https://github.com/blinkseb/harfbuzz)
  * Extract to `C:\mozilla-build\hexchat`
  * Rename `src\hb-version.h.in` to `src\hb-version.h` and fix the following macros:
 	* `HB_VERSION_MAJOR` (0)
 	* `HB_VERSION_MINOR` (9)
-	* `HB_VERSION_MICRO` (13)
-	* `HB_VERSION_STRING` ("0.9.13")
+	* `HB_VERSION_MICRO` (14)
+	* `HB_VERSION_STRING` ("0.9.14")
  * Open `win32\harfbuzz.sln` with VS
  * Add to _Additional Include Directories_ under _Configuration Properties_ `->` _C/C++_ `->` _General_:
 	<pre>..\\..\\build\\$(Platform)\\include
@@ -23,6 +23,7 @@
 	* hb-old.cc
 	* hb-ucdn.cc
 	* main.cc
+	* test-buffer-serialize.cc
 	* test-size-params.cc
 	* test-would-substitute.cc
 	* test.cc
