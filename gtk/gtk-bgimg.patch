@@ -1,13 +1,20 @@
 diff -ruN --strip-trailing-cr gtk-2.24.17.orig/gdk/win32/gdkgc-win32.c gtk-2.24.17/gdk/win32/gdkgc-win32.c
---- gtk-2.24.17.orig/gdk/win32/gdkgc-win32.c	2011-12-20 19:32:29 +0100
-+++ gtk-2.24.17/gdk/win32/gdkgc-win32.c	2013-03-25 01:15:28 +0100
-@@ -819,7 +819,8 @@
+--- gtk-2.24.17.orig/gdk/win32/gdkgc-win32.c	2011-12-20 10:32:29.000000000 -0800
++++ gtk-2.24.17/gdk/win32/gdkgc-win32.c	2013-03-31 12:01:03.568394700 -0700
+@@ -819,10 +819,14 @@
    HPEN hpen;
    HBRUSH hbr;
  
 -  g_assert (win32_gc->hdc == NULL);
-+  /* this causes crashes under certain circumstances, i.e. changing background in HexChat
-+  g_assert (win32_gc->hdc == NULL); */
- 
+-
    impl = get_impl_drawable (drawable);
    
++  if (win32_gc->hdc != NULL)
++  {
++    impl->hdc_count++;
++    return win32_gc->hdc;
++  }
++
+   win32_gc->hdc = _gdk_win32_drawable_acquire_dc (GDK_DRAWABLE (impl));
+   ok = win32_gc->hdc != NULL;
+ 
