@@ -22,7 +22,9 @@ mkdir %LIBXML_DEST%\share
 mkdir %LIBXML_DEST%\share\doc
 mkdir %LIBXML_DEST%\share\doc\libxml2
 copy win32\vc11\Release\libxml2.dll %LIBXML_DEST%\bin
+copy win32\vc11\Release\libxml2.pdb %LIBXML_DEST%\bin
 copy win32\vc11\Release\runsuite.exe %LIBXML_DEST%\bin
+copy win32\vc11\Release\runsuite.pdb %LIBXML_DEST%\bin
 copy win32\vc11\Release\libxml2.lib %LIBXML_DEST%\lib
 copy include\win32config.h %LIBXML_DEST%\include
 copy include\wsockcompat.h %LIBXML_DEST%\include
