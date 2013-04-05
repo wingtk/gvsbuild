@@ -23,6 +23,7 @@ copy zlib.h %ZLIB_DEST%\include
 copy zconf.h %ZLIB_DEST%\include
 copy zdll.lib %ZLIB_DEST%\lib
 copy zlib1.dll %ZLIB_DEST%\bin
+copy zlib1.pdb %ZLIB_DEST%\bin
 copy README %ZLIB_DEST%\share\doc\zlib\COPYING
 nmake -f win32\Makefile.msc clean
 
