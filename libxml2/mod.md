@@ -1,6 +1,7 @@
  * Download [libxml2 2.9.0](ftp://xmlsoft.org/libxml2/libxml2-2.9.0.tar.gz)
  * Extract to `C:\mozilla-build\hexchat`
- * Open `win32\VC10\libxml2.sln` with VS
+ * Open `win32\vc11\libxml2.sln` with VS
+ * add `stack.props` to the solution
  * For all projects:
 	* Change _Configuration Type_ to _Dynamic Library (.dll)_ under _Configuration Properties_ `->` _General_
  * For the libxml2 project:
