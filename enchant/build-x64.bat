@@ -24,15 +24,22 @@ mkdir %ENCHANT_DEST%\share
 mkdir %ENCHANT_DEST%\share\doc
 mkdir %ENCHANT_DEST%\share\doc\enchant
 copy %RELEASE_DIR%\enchant.exe %ENCHANT_DEST%\bin
+copy %RELEASE_DIR%\pdb\enchant.pdb %ENCHANT_DEST%\bin
 copy %RELEASE_DIR%\enchant-lsmod.exe %ENCHANT_DEST%\bin
+copy %RELEASE_DIR%\pdb\enchant-lsmod.pdb %ENCHANT_DEST%\bin
+copy %RELEASE_DIR%\test-enchant.exe %ENCHANT_DEST%\bin
+copy %RELEASE_DIR%\pdb\test-enchant.pdb %ENCHANT_DEST%\bin
 copy %RELEASE_DIR%\libenchant.dll %ENCHANT_DEST%\bin
+copy %RELEASE_DIR%\pdb\libenchant.pdb %ENCHANT_DEST%\bin
 copy src\enchant.h %ENCHANT_DEST%\include\enchant
 copy "src\enchant++.h" %ENCHANT_DEST%\include\enchant
 copy src\enchant-provider.h %ENCHANT_DEST%\include\enchant
 copy %RELEASE_DIR%\libenchant_ispell.dll %ENCHANT_DEST%\lib\enchant
 copy %RELEASE_DIR%\libenchant_ispell.lib %ENCHANT_DEST%\lib\enchant
+copy %RELEASE_DIR%\pdb\libenchant_ispell.pdb %ENCHANT_DEST%\lib\enchant
 copy %RELEASE_DIR%\libenchant_myspell.dll %ENCHANT_DEST%\lib\enchant
 copy %RELEASE_DIR%\libenchant_myspell.lib %ENCHANT_DEST%\lib\enchant
+copy %RELEASE_DIR%\pdb\libenchant_myspell.pdb %ENCHANT_DEST%\lib\enchant
 copy %RELEASE_DIR%\libenchant.lib %ENCHANT_DEST%\lib
 copy COPYING.LIB %ENCHANT_DEST%\share\doc\enchant\COPYING
 cd src
