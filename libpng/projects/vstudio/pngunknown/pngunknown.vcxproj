@@ -35,9 +35,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{9B36B6FE-7FC0-434F-A71F-BBEF8099F1D8}</ProjectGuid>
+    <ProjectGuid>{C5D3156C-8C8C-4936-B35F-2B829BA36FEC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>pngvalid</RootNamespace>
+    <RootNamespace>pngunknown</RootNamespace>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\zlib.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -164,14 +164,14 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libpng16.lib;zdll.lib</AdditionalDependencies>
+      <AdditionalDependencies>libpng16.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
       <Message>Executing PNG validation program</Message>
-      <Command>"$(OutDir)pngvalid.exe" --touch "$(IntDir)pngvalid.out"</Command>
-      <Outputs>$(IntDir)pngvalid.out</Outputs>
-      <Inputs>$(OutDir)pngvalid.exe</Inputs>
+      <Command>"$(OutDir)pngunknown.exe" --strict --default --touch "$(IntDir)pngunknown.out" ../../../pngtest.png</Command>
+      <Outputs>$(IntDir)pngunknown.out</Outputs>
+      <Inputs>$(OutDir)pngunknown.exe</Inputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -197,14 +197,14 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libpng16.lib;zdll.lib</AdditionalDependencies>
+      <AdditionalDependencies>libpng16.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
       <Message>Executing PNG validation program</Message>
-      <Command>"$(OutDir)pngvalid.exe" --touch "$(IntDir)pngvalid.out"</Command>
-      <Outputs>$(IntDir)pngvalid.out</Outputs>
-      <Inputs>$(OutDir)pngvalid.exe</Inputs>
+      <Command>"$(OutDir)pngunknown.exe" --strict --default --touch "$(IntDir)pngunknown.out" ../../../pngtest.png</Command>
+      <Outputs>$(IntDir)pngunknown.out</Outputs>
+      <Inputs>$(OutDir)pngunknown.exe</Inputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Library|Win32'">
@@ -235,9 +235,9 @@
     </Link>
     <CustomBuildStep>
       <Message>Executing PNG validation program</Message>
-      <Command>"$(OutDir)pngvalid.exe" --touch "$(IntDir)pngvalid.out"</Command>
-      <Outputs>$(IntDir)pngvalid.out</Outputs>
-      <Inputs>$(OutDir)pngvalid.exe</Inputs>
+      <Command>"$(OutDir)pngunknown.exe" --strict --default --touch "$(IntDir)pngunknown.out" ../../../pngtest.png</Command>
+      <Outputs>$(IntDir)pngunknown.out</Outputs>
+      <Inputs>$(OutDir)pngunknown.exe</Inputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Library|x64'">
@@ -268,9 +268,9 @@
     </Link>
     <CustomBuildStep>
       <Message>Executing PNG validation program</Message>
-      <Command>"$(OutDir)pngvalid.exe" --touch "$(IntDir)pngvalid.out"</Command>
-      <Outputs>$(IntDir)pngvalid.out</Outputs>
-      <Inputs>$(OutDir)pngvalid.exe</Inputs>
+      <Command>"$(OutDir)pngunknown.exe" --strict --default --touch "$(IntDir)pngunknown.out" ../../../pngtest.png</Command>
+      <Outputs>$(IntDir)pngunknown.out</Outputs>
+      <Inputs>$(OutDir)pngunknown.exe</Inputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -297,15 +297,15 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>libpng16.lib;zdll.lib</AdditionalDependencies>
+      <AdditionalDependencies>libpng16.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <CustomBuildStep>
       <Message>Executing PNG validation program</Message>
-      <Command>"$(OutDir)pngvalid.exe" --touch "$(IntDir)pngvalid.out"</Command>
-      <Outputs>$(IntDir)pngvalid.out</Outputs>
-      <Inputs>$(OutDir)pngvalid.exe</Inputs>
+      <Command>"$(OutDir)pngunknown.exe" --strict --default --touch "$(IntDir)pngunknown.out" ../../../pngtest.png</Command>
+      <Outputs>$(IntDir)pngunknown.out</Outputs>
+      <Inputs>$(OutDir)pngunknown.exe</Inputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -332,15 +332,15 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>libpng16.lib;zdll.lib</AdditionalDependencies>
+      <AdditionalDependencies>libpng16.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <CustomBuildStep>
       <Message>Executing PNG validation program</Message>
-      <Command>"$(OutDir)pngvalid.exe" --touch "$(IntDir)pngvalid.out"</Command>
-      <Outputs>$(IntDir)pngvalid.out</Outputs>
-      <Inputs>$(OutDir)pngvalid.exe</Inputs>
+      <Command>"$(OutDir)pngunknown.exe" --strict --default --touch "$(IntDir)pngunknown.out" ../../../pngtest.png</Command>
+      <Outputs>$(IntDir)pngunknown.out</Outputs>
+      <Inputs>$(OutDir)pngunknown.exe</Inputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Library|Win32'">
@@ -374,9 +374,9 @@
     </Link>
     <CustomBuildStep>
       <Message>Executing PNG validation program</Message>
-      <Command>"$(OutDir)pngvalid.exe" --touch "$(IntDir)pngvalid.out"</Command>
-      <Outputs>$(IntDir)pngvalid.out</Outputs>
-      <Inputs>$(OutDir)pngvalid.exe</Inputs>
+      <Command>"$(OutDir)pngunknown.exe" --strict --default --touch "$(IntDir)pngunknown.out" ../../../pngtest.png</Command>
+      <Outputs>$(IntDir)pngunknown.out</Outputs>
+      <Inputs>$(OutDir)pngunknown.exe</Inputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Library|x64'">
@@ -410,13 +410,13 @@
     </Link>
     <CustomBuildStep>
       <Message>Executing PNG validation program</Message>
-      <Command>"$(OutDir)pngvalid.exe" --touch "$(IntDir)pngvalid.out"</Command>
-      <Outputs>$(IntDir)pngvalid.out</Outputs>
-      <Inputs>$(OutDir)pngvalid.exe</Inputs>
+      <Command>"$(OutDir)pngunknown.exe" --strict --default --touch "$(IntDir)pngunknown.out" ../../../pngtest.png</Command>
+      <Outputs>$(IntDir)pngunknown.out</Outputs>
+      <Inputs>$(OutDir)pngunknown.exe</Inputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\contrib\libtests\pngvalid.c" />
+    <ClCompile Include="..\..\..\contrib\libtests\pngunknown.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,7 +1,7 @@
 :: run this from a VS x86 command prompt
 @echo off
 
-SET PACKAGE_NAME=libpng-1.5.14
+SET PACKAGE_NAME=libpng-1.6.1
 
 set LIBPNG_SRC=%cd%
 set LIBPNG_DEST=%cd%-x86
@@ -20,10 +20,17 @@ copy png.h %LIBPNG_DEST%\include
 copy pngconf.h %LIBPNG_DEST%\include
 copy pnglibconf.h %LIBPNG_DEST%\include
 copy pngpriv.h %LIBPNG_DEST%\include
-copy projects\vstudio\Release\libpng15.lib %LIBPNG_DEST%\lib
-copy projects\vstudio\Release\libpng15.dll %LIBPNG_DEST%\bin
+copy projects\vstudio\Release\libpng16.lib %LIBPNG_DEST%\lib
+copy projects\vstudio\Release\libpng16.dll %LIBPNG_DEST%\bin
+copy projects\vstudio\Release\libpng16.pdb %LIBPNG_DEST%\bin
+copy projects\vstudio\Release\pngstest.exe %LIBPNG_DEST%\bin
+copy projects\vstudio\Release\pngstest.pdb %LIBPNG_DEST%\bin
 copy projects\vstudio\Release\pngtest.exe %LIBPNG_DEST%\bin
+copy projects\vstudio\Release\pngtest.pdb %LIBPNG_DEST%\bin
+copy projects\vstudio\Release\pngunknown.exe %LIBPNG_DEST%\bin
+copy projects\vstudio\Release\pngunknown.pdb %LIBPNG_DEST%\bin
 copy projects\vstudio\Release\pngvalid.exe %LIBPNG_DEST%\bin
+copy projects\vstudio\Release\pngvalid.pdb %LIBPNG_DEST%\bin
 copy LICENSE %LIBPNG_DEST%\share\doc\libpng\COPYING
 
 cd %LIBPNG_DEST%
