@@ -8,6 +8,8 @@
 `<CopyDir>..\..\..\..\atk-2.8.0-rel</CopyDir>`
 	* `<AtkSeparateVS10DllSuffix>-1-vs10</AtkSeparateVS10DllSuffix>` with  
 `<AtkSeparateVS10DllSuffix>-1.0</AtkSeparateVS10DllSuffix>`
+ * In `build\win32\vc11\atk.props`, add to `AtkDoInstall`
+`copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*.pdb $(CopyDir)\bin`
  * Open `build\win32\vc11\atk.sln` with VS
  * Build in VS
  * Release with `release-x86.bat`
