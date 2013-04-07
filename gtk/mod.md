@@ -12,6 +12,8 @@
 	* `<ClCompile>` with  
 `<ClCompile><MultiProcessorCompilation>true</MultiProcessorCompilation>`
 	* `*-vs10.dll` with `*-2.0.dll`
+	* Add to `GtkDoInstall`:  
+`copy $(Configuration)\$(Platform)\bin\*.pdb $(CopyDir)\bin`
  * Open `build\win32\vc11\gtk+.sln` with VS
  * Build in VS
  * Release with `release-x86.bat`
