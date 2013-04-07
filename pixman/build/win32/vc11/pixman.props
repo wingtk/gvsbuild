@@ -17,6 +17,9 @@ mkdir $(CopyDir)\bin
 
 copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*.dll $(CopyDir)\bin
 
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*.exe $(CopyDir)\bin
+
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*.pdb $(CopyDir)\bin
 
 mkdir $(CopyDir)\include\pixman-$(ApiVersion)
 

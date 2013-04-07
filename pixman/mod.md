@@ -5,6 +5,9 @@
 `<PixmanEtcInstallRoot>..\..\..\..\build\$(PlatformName)</PixmanEtcInstallRoot>`
 	* `<CopyDir>$(PixmanEtcInstallRoot)</CopyDir>` with  
 `<CopyDir>..\..\..\..\pixman-0.28.2-rel</CopyDir>`
+ * In `build\win32\vc11\pixman.props`, add to `PixmanDoInstall`
+`copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*.exe $(CopyDir)\bin`  
+`copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*.pdb $(CopyDir)\bin`
  * In `build\win32\vc11\testpixman.vcxproj`, replace `libpng15.lib` with `libpng16.lib`
  * Open `build\win32\vc11\pixman.sln` with VS
  * Build in VS
