@@ -27,6 +27,7 @@ copy $(Configuration)\$(Platform)\bin\*.dll $(CopyDir)\bin
 
 copy $(Configuration)\$(Platform)\bin\*.exe $(CopyDir)\bin
 
+copy $(Configuration)\$(Platform)\bin\*.pdb $(CopyDir)\bin
 
 mkdir $(CopyDir)\lib
 
