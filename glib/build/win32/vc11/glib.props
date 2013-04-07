@@ -9,6 +9,8 @@ mkdir $(CopyDir)\bin
 
 copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*.dll $(CopyDir)\bin
 
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*.pdb $(CopyDir)\bin
+
 copy $(SolutionDir)$(Configuration)\$(Platform)\bin\glib-genmarshal.exe $(CopyDir)\bin
 
 copy $(SolutionDir)$(Configuration)\$(Platform)\bin\gspawn-win*-helper*.exe $(CopyDir)\bin
