@@ -105,9 +105,9 @@
       <DataExecutionPrevention />
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
-    <PostBuildEvent>
+    <!--PostBuildEvent>
       <Command>.\Debug\fc-cache.exe -s -f -v</Command>
-    </PostBuildEvent>
+    </PostBuildEvent-->
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -131,9 +131,9 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
     </Link>
-    <PostBuildEvent>
+    <!--PostBuildEvent>
       <Command>.\Debug\fc-cache.exe -s -f -v</Command>
-    </PostBuildEvent>
+    </PostBuildEvent-->
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -155,9 +155,9 @@
       <DataExecutionPrevention />
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
-    <PostBuildEvent>
+    <!--PostBuildEvent>
       <Command>.\Release\fc-cache.exe -s -f -v</Command>
-    </PostBuildEvent>
+    </PostBuildEvent-->
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -180,9 +180,9 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
     </Link>
-    <PostBuildEvent>
+    <!--PostBuildEvent>
       <Command>.\Release\fc-cache.exe -s -f -v</Command>
-    </PostBuildEvent>
+    </PostBuildEvent-->
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="fc-cache\fc-cache.c" />
