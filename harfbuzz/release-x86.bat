@@ -1,7 +1,7 @@
 :: run this from a command prompt
 @echo off
 
-SET PACKAGE_NAME=harfbuzz-0.9.14
+SET PACKAGE_NAME=harfbuzz-0.9.15
 
 set HARFBUZZ_SRC=%cd%
 set HARFBUZZ_DEST=%cd%-x86
@@ -17,6 +17,7 @@ mkdir %HARFBUZZ_DEST%\share
 mkdir %HARFBUZZ_DEST%\share\doc
 mkdir %HARFBUZZ_DEST%\share\doc\harfbuzz
 copy win32\libs\Release\harfbuzz.dll %HARFBUZZ_DEST%\bin
+copy win32\libs\Release\harfbuzz.pdb %HARFBUZZ_DEST%\bin
 copy src\*.h %HARFBUZZ_DEST%\include
 copy win32\libs\harfbuzz\Release\harfbuzz.lib %HARFBUZZ_DEST%\lib
 copy COPYING %HARFBUZZ_DEST%\share\doc\harfbuzz
