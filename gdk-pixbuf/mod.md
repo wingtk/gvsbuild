@@ -10,7 +10,7 @@
 `<CopyDir>..\..\..\..\gdk-pixbuf-2.28.0-rel</CopyDir>`
 	* `<GdkPixbufSeparateVSDllSuffix>-2-vs$(VSVer)</GdkPixbufSeparateVSDllSuffix>` with  
 `<GdkPixbufSeparateVS10DllSuffix>-2.0</GdkPixbufSeparateVS10DllSuffix>`
- * Replace `zlib1.lib` with `zdll.lib` in `build\win32\vs10\gdk-pixbuf.vcxproj`
+ * Replace `zlib1.lib` with `zdll.lib` and `libpng15.lib` with `libpng16.lib` in `build\win32\vc11\gdk-pixbuf.vcxproj`
  * Open `build\win32\vc11\gdk-pixbuf.sln` with VS
  * Build in VS
  * Release with `release-x86.bat`
