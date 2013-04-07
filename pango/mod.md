@@ -11,6 +11,8 @@
 `<PangoSeparateVS10DllSuffix>-1.0</PangoSeparateVS10DllSuffix>`
 	* `<PreprocessorDefinitions>HAVE_CONFIG_H;G_DISABLE_SINGLE_INCLUDES;%(PreprocessorDefinitions)</PreprocessorDefinitions>` with  
 `<PreprocessorDefinitions>HAVE_CONFIG_H;G_DISABLE_SINGLE_INCLUDES;WIN32%(PreprocessorDefinitions)</PreprocessorDefinitions>`
+	* Add to `PangoDoInstall`:  
+`copy $(Configuration)\$(Platform)\bin\*.pdb $(CopyDir)\bin`
  * Open `build\win32\vc11\pango_fc.sln` with VS
  * Add harfbuzz.lib to pangoft2 input
  * Build in VS

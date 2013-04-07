@@ -13,6 +13,7 @@ echo on
 mkdir $(CopyDir)\bin
 copy $(Configuration)\$(Platform)\bin\*.dll $(CopyDir)\bin
 copy $(Configuration)\$(Platform)\bin\*.exe $(CopyDir)\bin
+copy $(Configuration)\$(Platform)\bin\*.pdb $(CopyDir)\bin
 mkdir $(CopyDir)\lib
 copy $(Configuration)\$(Platform)\bin\*-$(PangoApiVersion).lib $(CopyDir)\lib
 mkdir $(CopyDir)\include\pango-$(PangoApiVersion)\pango
