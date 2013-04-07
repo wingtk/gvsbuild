@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gdk-pixbuf", "gdk-pixbuf.vcxproj", "{01ADE22D-F6EC-4D09-8FE1-B9A97DEC2BA3}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gdk-pixbuf-csource", "gdk-pixbuf-csource.vcxproj", "{3689C772-49A9-4E32-8161-686E1381ADB4}"
@@ -105,8 +105,16 @@ Global
 		{2AD2FF07-0514-41A8-8A32-920C744EA1A6}.Release|Win32.Build.0 = Release|Win32
 		{2AD2FF07-0514-41A8-8A32-920C744EA1A6}.Release|x64.ActiveCfg = Release|x64
 		{2AD2FF07-0514-41A8-8A32-920C744EA1A6}.Release|x64.Build.0 = Release|x64
+		{2093D218-190E-4194-9421-3BA7CBF33B15}.Debug_NoGDIP|Win32.ActiveCfg = Debug|Win32
+		{2093D218-190E-4194-9421-3BA7CBF33B15}.Debug_NoGDIP|Win32.Build.0 = Debug|Win32
+		{2093D218-190E-4194-9421-3BA7CBF33B15}.Debug_NoGDIP|x64.ActiveCfg = Debug|x64
+		{2093D218-190E-4194-9421-3BA7CBF33B15}.Debug_NoGDIP|x64.Build.0 = Debug|x64
 		{2093D218-190E-4194-9421-3BA7CBF33B15}.Debug|Win32.ActiveCfg = Debug|Win32
 		{2093D218-190E-4194-9421-3BA7CBF33B15}.Debug|x64.ActiveCfg = Debug|x64
+		{2093D218-190E-4194-9421-3BA7CBF33B15}.Release_NoGDIP|Win32.ActiveCfg = Release|Win32
+		{2093D218-190E-4194-9421-3BA7CBF33B15}.Release_NoGDIP|Win32.Build.0 = Release|Win32
+		{2093D218-190E-4194-9421-3BA7CBF33B15}.Release_NoGDIP|x64.ActiveCfg = Release|x64
+		{2093D218-190E-4194-9421-3BA7CBF33B15}.Release_NoGDIP|x64.Build.0 = Release|x64
 		{2093D218-190E-4194-9421-3BA7CBF33B15}.Release|Win32.ActiveCfg = Release|Win32
 		{2093D218-190E-4194-9421-3BA7CBF33B15}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
