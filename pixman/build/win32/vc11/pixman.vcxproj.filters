@@ -15,10 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\pixman\pixman-access-accessors.c">
+    <ClCompile Include="..\..\..\pixman\pixman.c">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\pixman\pixman-access.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pixman\pixman-access-accessors.c">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\pixman\pixman-bits-image.c">
@@ -27,22 +30,34 @@
     <ClCompile Include="..\..\..\pixman\pixman-combine32.c">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\pixman\pixman-combine64.c">
+    <ClCompile Include="..\..\..\pixman\pixman-combine-float.c">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\pixman\pixman-conical-gradient.c">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\pixman\pixman-cpu.c">
+    <ClCompile Include="..\..\..\pixman\pixman-x86.c">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\pixman\pixman-edge-accessors.c">
+    <ClCompile Include="..\..\..\pixman\pixman-mips.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pixman\pixman-arm.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pixman\pixman-ppc.c">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\pixman\pixman-edge.c">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\pixman\pixman-edge-accessors.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\pixman\pixman-fast-path.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pixman\pixman-glyph.c">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\pixman\pixman-general.c">
@@ -91,9 +106,6 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\pixman\pixman-utils.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\pixman\pixman.c">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
