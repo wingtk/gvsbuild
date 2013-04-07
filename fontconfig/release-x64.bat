@@ -20,12 +20,19 @@ mkdir %FONTCONFIG_DEST%\share
 mkdir %FONTCONFIG_DEST%\share\doc
 mkdir %FONTCONFIG_DEST%\share\doc\fontconfig
 copy x64\Release\fontconfig.dll %FONTCONFIG_DEST%\bin
+copy x64\Release\fontconfig.pdb %FONTCONFIG_DEST%\bin
 copy x64\Release\fc-cache.exe %FONTCONFIG_DEST%\bin
+copy x64\Release\fc-cache.pdb %FONTCONFIG_DEST%\bin
 copy x64\Release\fc-cat.exe %FONTCONFIG_DEST%\bin
+copy x64\Release\fc-cat.pdb %FONTCONFIG_DEST%\bin
 copy x64\Release\fc-list.exe %FONTCONFIG_DEST%\bin
+copy x64\Release\fc-list.pdb %FONTCONFIG_DEST%\bin
 copy x64\Release\fc-match.exe %FONTCONFIG_DEST%\bin
+copy x64\Release\fc-match.pdb %FONTCONFIG_DEST%\bin
 copy x64\Release\fc-query.exe %FONTCONFIG_DEST%\bin
+copy x64\Release\fc-query.pdb %FONTCONFIG_DEST%\bin
 copy x64\Release\fc-scan.exe %FONTCONFIG_DEST%\bin
+copy x64\Release\fc-scan.pdb %FONTCONFIG_DEST%\bin
 copy fonts.conf %FONTCONFIG_DEST%\etc\fonts
 copy fonts.dtd %FONTCONFIG_DEST%\etc\fonts
 copy fontconfig\fcfreetype.h %FONTCONFIG_DEST%\include\fontconfig
