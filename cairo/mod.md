@@ -4,7 +4,7 @@
  * In `msvc\vc11\cairo.props`, replace:
 	* `zlib1.lib` with `zdll.lib`
 	* `<CairoEtcInstallRoot>..\..\..\vs10\$(Platform)</CairoEtcInstallRoot>` with  
-`<CairoEtcInstallRoot>..\..\..\build\$(Platform)</CairoEtcInstallRoot>`
+`<CairoEtcInstallRoot>..\..\..\..\gtk\$(Platform)</CairoEtcInstallRoot>`
 	* `<CopyDir>$(CairoEtcInstallRoot)</CopyDir>` with  
 `<CopyDir>..\..\..\cairo-1.12.14-rel</CopyDir>`
 	* `<CairoSeparateVS10DllSuffix>-vs10</CairoSeparateVS10DllSuffix>` with  

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
-    <CairoEtcInstallRoot>..\..\..\build\$(Platform)</CairoEtcInstallRoot>
+    <CairoEtcInstallRoot>..\..\..\..\gtk\$(Platform)</CairoEtcInstallRoot>
     <GObjectIncludeDir>..\..\util\cairo-gobject;$(CairoEtcInstallRoot)\include\glib-2.0;$(CairoEtcInstallRoot)\lib\glib-2.0\include</GObjectIncludeDir>
 	<CopyDir>..\..\..\cairo-1.12.8-rel</CopyDir>
     <PreBuildCfgStd>

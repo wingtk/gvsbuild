@@ -5,12 +5,12 @@
 	</PropertyGroup>
 	<ItemDefinitionGroup>
 		<ClCompile>
-			<AdditionalIncludeDirectories>..\build\$(Platform)\include</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>..\..\gtk\$(Platform)\include</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 		</ClCompile>
 		<Link>
 			<!--AdditionalDependencies></AdditionalDependencies-->
-			<AdditionalLibraryDirectories>..\build\$(Platform)\lib</AdditionalLibraryDirectories>
+			<AdditionalLibraryDirectories>..\..\gtk\$(Platform)\lib</AdditionalLibraryDirectories>
 		</Link>
 	</ItemDefinitionGroup>
 </Project>

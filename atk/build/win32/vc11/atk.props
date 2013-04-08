@@ -4,7 +4,7 @@
     <ApiVersion>1.0</ApiVersion>
     <AtkDummyPrefix>\"/dummy\"</AtkDummyPrefix>
     <VSVer>10</VSVer>
-    <GlibEtcInstallRoot>..\..\..\..\build\$(Platform)</GlibEtcInstallRoot>
+    <GlibEtcInstallRoot>..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
     <GlibEtcInstallRootFromBuildWin32>..\..\..\vs$(VSVer)\$(Platform)</GlibEtcInstallRootFromBuildWin32>
     <CopyDir>..\..\..\..\atk-2.8.0-rel</CopyDir>
     <AtkDoInstall>

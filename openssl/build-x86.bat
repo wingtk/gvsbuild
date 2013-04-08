@@ -7,9 +7,9 @@ set OPENSSL_SRC=%cd%
 set OPENSSL_DEST=%cd%-x86
 set PERL_PATH=c:\mozilla-build\perl-5.18\Win32\bin
 set NASM_PATH=c:\mozilla-build\nasm
-set INCLUDE=%INCLUDE%;%OPENSSL_SRC%\..\build\Win32\include
-set LIB=%LIB%;%OPENSSL_SRC%\..\build\Win32\lib
-set PATH=%PATH%;%PERL_PATH%;%NASM_PATH%;%OPENSSL_SRC%\..\build\Win32\bin
+set INCLUDE=%INCLUDE%;%OPENSSL_SRC%\..\..\gtk\Win32\include
+set LIB=%LIB%;%OPENSSL_SRC%\..\..\gtk\Win32\lib
+set PATH=%PATH%;%PERL_PATH%;%NASM_PATH%;%OPENSSL_SRC%\..\..\gtk\Win32\bin
 perl Configure VC-WIN32 enable-camellia zlib-dynamic --openssldir=./
 call ms\do_nasm
 @echo off

@@ -7,7 +7,7 @@ set ENCHANT_SRC=%cd%
 set ENCHANT_DEST=%cd%-x64
 cd src
 nmake -f makefile.mak clean
-nmake -f makefile.mak X64=1 DLL=1 MFLAGS=-MD GLIBDIR=..\..\build\x64\include\glib-2.0
+nmake -f makefile.mak X64=1 DLL=1 MFLAGS=-MD GLIBDIR=..\..\..\gtk\x64\include\glib-2.0
 cd ..
 echo.Press return when ready to install!
 pause

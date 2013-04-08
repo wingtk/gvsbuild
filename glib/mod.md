@@ -3,7 +3,7 @@
  * In `build\win32\vs10\glib.props`, replace:
 	* `intl.lib` with `libintl.lib`
 	* `<GlibEtcInstallRoot>..\..\..\..\vs10\$(Platform)</GlibEtcInstallRoot>` with  
-`<GlibEtcInstallRoot>..\..\..\..\build\$(Platform)</GlibEtcInstallRoot>`
+`<GlibEtcInstallRoot>..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>`
 	* `<CopyDir>$(GlibEtcInstallRoot)</CopyDir>` with  
 `<CopyDir>..\..\..\..\glib-2.36.0-rel</CopyDir>`
 	* `<GlibSeparateVS10DllSuffix>-2-vs10</GlibSeparateVS10DllSuffix>` with  

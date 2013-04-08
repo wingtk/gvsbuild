@@ -165,7 +165,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;HARFBUZZ_EXPORTS;HAVE_OT;HAVE_UNISCRIBE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <AdditionalIncludeDirectories>..\..\build\$(Platform)\include;..\..\build\$(Platform)\include\glib-2.0;..\..\build\$(Platform)\lib\glib-2.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\gtk\$(Platform)\include;..\..\..\gtk\$(Platform)\include\glib-2.0;..\..\..\gtk\$(Platform)\lib\glib-2.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -176,7 +176,7 @@
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
       <ImportLibrary>$(SolutionDir)libs\$(ProjectName)\$(Configuration)\$(TargetName).lib</ImportLibrary>
-      <AdditionalLibraryDirectories>..\..\build\$(Platform)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\gtk\$(Platform)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>harfbuzz.def</ModuleDefinitionFile>
     </Link>
     <PreBuildEvent>
@@ -188,7 +188,7 @@ echo %%a &gt;&gt; rllist.txt
 )
 
 for /f "tokens=1 delims=." %%b in (rllist.txt) do (
-..\..\..\ragel\ragel.exe -e -F1 -o %%b.hh %%b.rl
+..\..\..\..\ragel\ragel.exe -e -F1 -o %%b.hh %%b.rl
 )</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -201,7 +201,7 @@ for /f "tokens=1 delims=." %%b in (rllist.txt) do (
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;HARFBUZZ_EXPORTS;HAVE_OT;HAVE_UNISCRIBE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <AdditionalIncludeDirectories>..\..\build\$(Platform)\include;..\..\build\$(Platform)\include\glib-2.0;..\..\build\$(Platform)\lib\glib-2.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\gtk\$(Platform)\include;..\..\..\gtk\$(Platform)\include\glib-2.0;..\..\..\gtk\$(Platform)\lib\glib-2.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -212,7 +212,7 @@ for /f "tokens=1 delims=." %%b in (rllist.txt) do (
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
       <ImportLibrary>$(SolutionDir)libs\$(ProjectName)\$(Configuration)\$(TargetName).lib</ImportLibrary>
-      <AdditionalLibraryDirectories>..\..\build\$(Platform)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\gtk\$(Platform)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>harfbuzz.def</ModuleDefinitionFile>
     </Link>
     <PreBuildEvent>
@@ -224,7 +224,7 @@ echo %%a &gt;&gt; rllist.txt
 )
 
 for /f "tokens=1 delims=." %%b in (rllist.txt) do (
-..\..\..\ragel\ragel.exe -e -F1 -o %%b.hh %%b.rl
+..\..\..\..\ragel\ragel.exe -e -F1 -o %%b.hh %%b.rl
 )</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>

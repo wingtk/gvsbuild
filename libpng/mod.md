@@ -4,11 +4,11 @@
 <pre>
 	&lt;ItemDefinitionGroup>
 		&lt;ClCompile>
-			&lt;AdditionalIncludeDirectories>..\..\..\..\build\$(Platform)\include&lt;/AdditionalIncludeDirectories>
+			&lt;AdditionalIncludeDirectories>..\..\..\..\..\gtk\$(Platform)\include&lt;/AdditionalIncludeDirectories>
 		&lt;/ClCompile>
 		&lt;Link>
 			&lt;!--AdditionalDependencies>zdll.lib&lt;/AdditionalDependencies-->
-			&lt;AdditionalLibraryDirectories>..\..\..\..\build\$(Platform)\lib&lt;/AdditionalLibraryDirectories>
+			&lt;AdditionalLibraryDirectories>..\..\..\..\..\gtk\$(Platform)\lib&lt;/AdditionalLibraryDirectories>
 		&lt;/Link>
 	&lt;/ItemDefinitionGroup>
 </pre>
@@ -27,7 +27,7 @@
  * Open `projects\vstudio\vstudio.sln` with VS
  * Remove the _zlib_ project
  * For _pngtest_, add to _Command Line_ beginning under _Configuration Properties_ `->` _Custom Build Step_ `->` _General_:
-	<pre>copy ..\\..\\..\\..\build\$(Platform)\bin\zlib1.dll $(OutDir)</pre>
+	<pre>copy ..\\..\\..\\..\\..\gtk\$(Platform)\bin\zlib1.dll $(OutDir)</pre>
  * Under solution properties, make _pngvalid_ depend on _pngtest_
  * Build in VS
  * Release with `release-x86.bat`

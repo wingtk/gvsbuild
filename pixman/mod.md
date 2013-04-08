@@ -2,7 +2,7 @@
  * Extract to `C:\mozilla-build\hexchat`
  * In `build\win32\vc11\pixman.props`, replace:
 	* `<PixmanEtcInstallRoot>..\..\..\..\vs10\$(PlatformName)</PixmanEtcInstallRoot>` with  
-`<PixmanEtcInstallRoot>..\..\..\..\build\$(PlatformName)</PixmanEtcInstallRoot>`
+`<PixmanEtcInstallRoot>..\..\..\..\..\gtk\$(PlatformName)</PixmanEtcInstallRoot>`
 	* `<CopyDir>$(PixmanEtcInstallRoot)</CopyDir>` with  
 `<CopyDir>..\..\..\..\pixman-0.28.2-rel</CopyDir>`
  * In `build\win32\vc11\pixman.props`, add to `PixmanDoInstall`
