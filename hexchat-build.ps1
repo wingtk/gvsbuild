@@ -14,11 +14,11 @@
 # Your mozilla-build directory
 $mozillaBuildDirectory = 'C:\mozilla-build'
 
-# Location where you checked out https://github.com/Arnavion/gtk-win32.git
-$patchesRootDirectory = 'C:\Stuff\Sources\gtk-win32'
+# Location where you checked out https://github.com/hexchat/gtk-win32.git
+$patchesRootDirectory = 'C:\mozilla-build\hexchat\gtk-win32'
 
 # Location where you checked out https://github.com/hexchat/hexchat.git
-$hexchatSourceDirectory = 'C:\Stuff\Sources\hexchat'
+$hexchatSourceDirectory = 'C:\mozilla-build\hexchat\hexchat'
 
 
 # Architecture: 'x86' or 'x64'
@@ -27,7 +27,7 @@ $architecture = 'x86'
 
 
 # Path to any downloader. Invoked as &$wget "$url"
-$wget = 'C:\Users\Arnavion\Desktop\aria2c.bat'
+$wget = 'C:\mozilla-build\wget\wget.exe'
 
 # Path to 7-zip executable (your own, or the one provided by mozilla-build)
 $sevenZip = 'C:\Program Files\7-Zip\7z.exe'
@@ -35,7 +35,7 @@ $sevenZip = 'C:\Program Files\7-Zip\7z.exe'
 
 
 # The directory to download the source archives to. It will be created. If an archive already exists here, it won't be downloaded again.
-$archivesDownloadDirectory = 'C:\Stuff\Sources\hexchat-deps'
+$archivesDownloadDirectory = 'C:\mozilla-build\hexchat\src'
 
 
 # Enable parallel build
