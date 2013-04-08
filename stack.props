@@ -9,7 +9,11 @@
 
 	<ItemDefinitionGroup>
 		<ClCompile>
+			<!-- UNCOMMENT ONLY ONE -->
 			<Optimization>Disabled</Optimization>
+			<!--Optimization>MaxSpeed</Optimization-->
+			<!--Optimization>MinSpace</Optimization-->
+			<!--Optimization>Full</Optimization-->
 		</ClCompile>
 	</ItemDefinitionGroup>
 
