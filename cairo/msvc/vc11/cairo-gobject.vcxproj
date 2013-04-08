@@ -367,7 +367,6 @@
       <Command>$(PreBuildCfgGobject)</Command>
     </PreBuildEvent>
     <ClCompile>
-      <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(GObjectIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;CAIRO_HAS_GOBJECT_FUNCTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
@@ -392,7 +391,6 @@
       <Command>$(PreBuildCfgGobject)</Command>
     </PreBuildEvent>
     <ClCompile>
-      <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(GObjectIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;CAIRO_HAS_GOBJECT_FUNCTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -415,7 +413,6 @@
       <Command>$(PreBuildCfgGobject)</Command>
     </PreBuildEvent>
     <ClCompile>
-      <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(GObjectIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;CAIRO_HAS_GOBJECT_FUNCTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
@@ -440,7 +437,6 @@
       <Command>$(PreBuildCfgGobject)</Command>
     </PreBuildEvent>
     <ClCompile>
-      <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(GObjectIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;CAIRO_HAS_GOBJECT_FUNCTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -463,7 +459,6 @@
       <Command>$(PreBuildCfgGobject)</Command>
     </PreBuildEvent>
     <ClCompile>
-      <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(GObjectIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;CAIRO_HAS_GOBJECT_FUNCTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
@@ -488,7 +483,6 @@
       <Command>$(PreBuildCfgGobject)</Command>
     </PreBuildEvent>
     <ClCompile>
-      <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(GObjectIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;CAIRO_HAS_GOBJECT_FUNCTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -511,7 +505,6 @@
       <Command>$(PreBuildCfgGobject)</Command>
     </PreBuildEvent>
     <ClCompile>
-      <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(GObjectIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;CAIRO_HAS_GOBJECT_FUNCTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
@@ -536,7 +529,6 @@
       <Command>$(PreBuildCfgGobject)</Command>
     </PreBuildEvent>
     <ClCompile>
-      <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(GObjectIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;CAIRO_HAS_GOBJECT_FUNCTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -559,7 +551,6 @@
       <Command>$(PreBuildCfgGobject)</Command>
     </PreBuildEvent>
     <ClCompile>
-      <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(GObjectIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;CAIRO_HAS_GOBJECT_FUNCTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
@@ -584,7 +575,6 @@
       <Command>$(PreBuildCfgGobject)</Command>
     </PreBuildEvent>
     <ClCompile>
-      <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(GObjectIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;CAIRO_HAS_GOBJECT_FUNCTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -607,7 +597,6 @@
       <Command>$(PreBuildCfgGobject)</Command>
     </PreBuildEvent>
     <ClCompile>
-      <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(GObjectIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;CAIRO_HAS_GOBJECT_FUNCTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
@@ -632,7 +621,6 @@
       <Command>$(PreBuildCfgGobject)</Command>
     </PreBuildEvent>
     <ClCompile>
-      <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(GObjectIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;CAIRO_HAS_GOBJECT_FUNCTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -655,7 +643,6 @@
       <Command>$(PreBuildCfgGobject)</Command>
     </PreBuildEvent>
     <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(GObjectIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>CAIRO_HAS_GOBJECT_FUNCTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -682,7 +669,6 @@
       <Command>$(PreBuildCfgGobject)</Command>
     </PreBuildEvent>
     <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(GObjectIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>CAIRO_HAS_GOBJECT_FUNCTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -708,7 +694,6 @@
       <Command>$(PreBuildCfgGobject)</Command>
     </PreBuildEvent>
     <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(GObjectIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>CAIRO_HAS_GOBJECT_FUNCTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -735,7 +720,6 @@
       <Command>$(PreBuildCfgGobject)</Command>
     </PreBuildEvent>
     <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(GObjectIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>CAIRO_HAS_GOBJECT_FUNCTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -761,7 +745,6 @@
       <Command>$(PreBuildCfgGobject)</Command>
     </PreBuildEvent>
     <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(GObjectIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>CAIRO_HAS_GOBJECT_FUNCTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -788,7 +771,6 @@
       <Command>$(PreBuildCfgGobject)</Command>
     </PreBuildEvent>
     <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(GObjectIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>CAIRO_HAS_GOBJECT_FUNCTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -814,7 +796,6 @@
       <Command>$(PreBuildCfgGobject)</Command>
     </PreBuildEvent>
     <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(GObjectIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>CAIRO_HAS_GOBJECT_FUNCTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -841,7 +822,6 @@
       <Command>$(PreBuildCfgGobject)</Command>
     </PreBuildEvent>
     <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(GObjectIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>CAIRO_HAS_GOBJECT_FUNCTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -867,7 +847,6 @@
       <Command>$(PreBuildCfgGobject)</Command>
     </PreBuildEvent>
     <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(GObjectIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>CAIRO_HAS_GOBJECT_FUNCTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -894,7 +873,6 @@
       <Command>$(PreBuildCfgGobject)</Command>
     </PreBuildEvent>
     <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(GObjectIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>CAIRO_HAS_GOBJECT_FUNCTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -920,7 +898,6 @@
       <Command>$(PreBuildCfgGobject)</Command>
     </PreBuildEvent>
     <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(GObjectIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>CAIRO_HAS_GOBJECT_FUNCTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -947,7 +924,6 @@
       <Command>$(PreBuildCfgGobject)</Command>
     </PreBuildEvent>
     <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(GObjectIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>CAIRO_HAS_GOBJECT_FUNCTIONS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
