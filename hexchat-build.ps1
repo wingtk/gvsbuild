@@ -2,7 +2,7 @@
 # Instructions:-
 # 1. Install mozilla-build, cmake, nasm, perl, msgfmt as per http://gtk.hexchat.org/
 # 2. Install gendef, Python and ISS as per http://docs.hexchat.org/en/latest/building.html if you want to build Perl, Python, setup, etc. in Hexchat
-# 3. Check out https://github.com/hexchat/hexchat.git and https://github.com/Arnavion/gtk-win32.git
+# 3. Check out https://github.com/hexchat/hexchat.git and https://github.com/hexchat/gtk-win32.git
 # 4. Set the properties in the Properties section below
 # 5. Paste this script in a powershell window, or run it if you know how to
 #========================================================================================================================================================
@@ -14,15 +14,22 @@
 # Your mozilla-build directory
 $mozillaBuildDirectory = 'C:\mozilla-build'
 
+# The directory to download the source archives to. It will be created. If an archive already exists here, it won't be downloaded again.
+$archivesDownloadDirectory = 'C:\mozilla-build\hexchat\src'
+
 # Location where you checked out https://github.com/hexchat/gtk-win32.git
-$patchesRootDirectory = 'C:\mozilla-build\hexchat\gtk-win32'
+$patchesRootDirectory = 'C:\mozilla-build\hexchat\github\gtk-win32'
 
 # Location where you checked out https://github.com/hexchat/hexchat.git
-$hexchatSourceDirectory = 'C:\mozilla-build\hexchat\hexchat'
+$hexchatSourceDirectory = 'C:\mozilla-build\hexchat\github\hexchat'
+
 
 
 # Architecture: 'x86' or 'x64'
 $architecture = 'x86'
+
+# Enable parallel build
+$enableParallelBuild = $true
 
 
 
@@ -31,15 +38,6 @@ $wget = 'C:\mozilla-build\wget\wget.exe'
 
 # Path to 7-zip executable (your own, or the one provided by mozilla-build)
 $sevenZip = 'C:\Program Files\7-Zip\7z.exe'
-
-
-
-# The directory to download the source archives to. It will be created. If an archive already exists here, it won't be downloaded again.
-$archivesDownloadDirectory = 'C:\mozilla-build\hexchat\src'
-
-
-# Enable parallel build
-$enableParallelBuild = $true
 
 #========================================================================================================================================================
 # Properties end here
@@ -74,7 +72,7 @@ $data = @{
 # Source URLs end here
 #========================================================================================================================================================
 
-$mozillaBuildDirectory = "$mozillaBuildDirectory\hexchat"
+$workingDirectory = "$mozillaBuildDirectory\hexchat\build"
 
 $items = @{}
 foreach ($element in $data.GetEnumerator()) {
@@ -94,8 +92,8 @@ foreach ($element in $data.GetEnumerator()) {
 		Add-Member NoteProperty ArchiveUrl $archiveUrl -PassThru |
 		Add-Member NoteProperty ArchiveFile $archiveFile -PassThru |
 		Add-Member NoteProperty PatchDirectory $(New-Object System.IO.DirectoryInfo $patchDirectory) -PassThru |
-		Add-Member NoteProperty BuildDirectory $(New-Object System.IO.DirectoryInfo "$mozillaBuildDirectory\$($archiveFile.BaseName)") -PassThru |
-		Add-Member NoteProperty BuildArchiveFile $(New-Object System.IO.FileInfo "$mozillaBuildDirectory\$($archiveFile.BaseName)-$architecture$($archiveFile.Extension)") -PassThru |
+		Add-Member NoteProperty BuildDirectory $(New-Object System.IO.DirectoryInfo "$workingDirectory\$($archiveFile.BaseName)") -PassThru |
+		Add-Member NoteProperty BuildArchiveFile $(New-Object System.IO.FileInfo "$workingDirectory\$($archiveFile.BaseName)-$architecture$($archiveFile.Extension)") -PassThru |
 		Add-Member NoteProperty Dependencies $element.Value[1] -PassThru
 	
 	$items.Add($name, $result)
@@ -230,20 +228,20 @@ $platform = $architecture
 if ($platform -eq 'x86') {
 	$platform = 'Win32'
 }
-$mozillaBuildStartVC11 = '.\start-msvc11.bat'
+$mozillaBuildStartVC11 = "$mozillaBuildDirectory\start-msvc11.bat"
 if ($architecture -eq 'x64') {
-	$mozillaBuildStartVC11 = '.\start-msvc11-x64.bat'
+	$mozillaBuildStartVC11 = "$mozillaBuildDirectory\start-msvc11-x64.bat"
 }
 
-$patch = "$mozillaBuildDirectory\..\msys\bin\patch.exe"
+$patch = "$mozillaBuildDirectory\msys\bin\patch.exe"
 
 New-Item -Type Directory $archivesDownloadDirectory
 
-New-Item -Type Directory $mozillaBuildDirectory
-Set-Location $mozillaBuildDirectory
+New-Item -Type Directory $workingDirectory
+Set-Location $workingDirectory
 Copy-Item $patchesRootDirectory\stack.props .
 
-$logDirectory = "$mozillaBuildDirectory\build\logs"
+$logDirectory = "$workingDirectory\logs"
 New-Item -Type Directory $logDirectory
 Remove-Item $logDirectory\*.log
 
@@ -261,8 +259,8 @@ function VSPrompt([string] $Name) {
 }
 
 $items.GetEnumerator() | %{
-	Start-Job -Name $_.Key -ArgumentList $_.Value, $archivesDownloadDirectory, $mozillaBuildDirectory, $wget, $sevenZip {
-		param ($item, $archivesDownloadDirectory, $mozillaBuildDirectory, $wget, $sevenZip)
+	Start-Job -Name $_.Key -ArgumentList $_.Value, $archivesDownloadDirectory, $workingDirectory, $wget, $sevenZip {
+		param ($item, $archivesDownloadDirectory, $workingDirectory, $wget, $sevenZip)
 		
 		'Beginning job to download and extract'
 		
@@ -276,8 +274,8 @@ $items.GetEnumerator() | %{
 			"Downloaded $($item.ArchiveUrl)"
 		}
 
-		"Extracting $($item.ArchiveFile.Name) to $mozillaBuildDirectory"
-		&$sevenZip x $item.ArchiveFile -o"$mozillaBuildDirectory" -y > $null
+		"Extracting $($item.ArchiveFile.Name) to $workingDirectory"
+		&$sevenZip x $item.ArchiveFile -o"$workingDirectory" -y > $null
 		"Extracted $($item.ArchiveFile.Name)"
 		
 		Copy-Item "$($item.PatchDirectory)\*" $item.BuildDirectory -Recurse -Force
@@ -346,14 +344,14 @@ while ($completedItems.Count -ne $items.Count) {
 					
 					Remove-Item $tempVSPromptBatchFile
 				}
-			} -ArgumentList $pendingItem, $mozillaBuildDirectory, $platform, $architecture, $mozillaBuildStartVC11, $sevenZip, $patch {
-				param ($item, $mozillaBuildDirectory, $platform, $architecture, $mozillaBuildStartVC11, $sevenZip, $patch)
+			} -ArgumentList $pendingItem, $workingDirectory, $platform, $architecture, $mozillaBuildStartVC11, $sevenZip, $patch {
+				param ($item, $workingDirectory, $platform, $architecture, $mozillaBuildStartVC11, $sevenZip, $patch)
 				
 				Set-Location $item.BuildDirectory
 				
 				Invoke-Expression -Command ('$null | Invoke-Command ' + "{ $($item.BuildScript) }")
 				
-				&$sevenZip x $item.BuildArchiveFile -o"$mozillaBuildDirectory\build\$platform" -y
+				&$sevenZip x $item.BuildArchiveFile -o"$workingDirectory\..\gtk\$platform" -y
 			} > $null
 		}
 	}
