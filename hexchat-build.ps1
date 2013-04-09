@@ -5,39 +5,63 @@
 # 3. Check out https://github.com/hexchat/hexchat.git and https://github.com/hexchat/gtk-win32.git
 # 4. Set the properties in the Properties section below
 # 5. Paste this script in a powershell window, or run it if you know how to
+#
+# Examples:-
+# 
+# Default paths. x86 build.
+# C:\mozilla-build\hexchat\github\gtk-win32\hexchat-build.ps1
+# 
+# Default paths. x64 build.
+# C:\mozilla-build\hexchat\github\gtk-win32\hexchat-build.ps1 -Architecture x64
+# 
+# Default paths. Items are built one at a time. x86 build.
+# C:\mozilla-build\hexchat\github\gtk-win32\hexchat-build.ps1 -DisableParallelBuild
+# 
+# Custom paths. x86 build.
+# C:\mozilla-build\hexchat\github\gtk-win32\hexchat-build.ps1 -MozillaBuildDirectory D:\mozilla-build -ArchivesDownloadDirectory C:\hexchat-deps -SevenZip C:\Downloads\7-Zip\7za.exe
 #========================================================================================================================================================
 
 #========================================================================================================================================================
 # Properties begin here
 #========================================================================================================================================================
 
-# Your mozilla-build directory
-$mozillaBuildDirectory = 'C:\mozilla-build'
-
-# The directory to download the source archives to. It will be created. If an archive already exists here, it won't be downloaded again.
-$archivesDownloadDirectory = 'C:\mozilla-build\hexchat\src'
-
-# Location where you checked out https://github.com/hexchat/gtk-win32.git
-$patchesRootDirectory = 'C:\mozilla-build\hexchat\github\gtk-win32'
-
-# Location where you checked out https://github.com/hexchat/hexchat.git
-$hexchatSourceDirectory = 'C:\mozilla-build\hexchat\github\hexchat'
-
-
-
-# Architecture: 'x86' or 'x64'
-$architecture = 'x86'
-
-# Enable parallel build
-$enableParallelBuild = $true
-
-
-
-# Path to any downloader. Invoked as &$wget "$url"
-$wget = "$mozillaBuildDirectory\wget\wget.exe"
-
-# Path to 7-zip executable (your own, or the one provided by mozilla-build)
-$sevenZip = 'C:\Program Files\7-Zip\7z.exe'
+param (
+	# Your mozilla-build directory
+	[string]
+	$MozillaBuildDirectory = 'C:\mozilla-build',
+	
+	# The directory to download the source archives to. It will be created. If an archive already exists here, it won't be downloaded again.
+	[string]
+	$ArchivesDownloadDirectory = 'C:\mozilla-build\hexchat\src',
+	
+	# Location where you checked out https://github.com/hexchat/gtk-win32.git
+	[string]
+	$PatchesRootDirectory = 'C:\mozilla-build\hexchat\github\gtk-win32',
+	
+	# Location where you checked out https://github.com/hexchat/hexchat.git
+	[string]
+	$HexchatSourceDirectory = 'C:\mozilla-build\hexchat\github\hexchat',
+	
+	
+	
+	# Architecture: 'x86' or 'x64'
+	[string][ValidateSet('x86', 'x64')]
+	$Architecture = 'x86',
+	
+	# Enable parallel build
+	[switch]
+	$DisableParallelBuild = $false,
+	
+	
+	
+	# Path to any downloader. Invoked as &$Wget "$url"
+	[string]
+	$Wget = "$MozillaBuildDirectory\wget\wget.exe",
+	
+	# Path to 7-zip executable (your own, or the one provided by mozilla-build)
+	[string]
+	$SevenZip = 'C:\Program Files\7-Zip\7z.exe'
+)
 
 #========================================================================================================================================================
 # Properties end here
@@ -72,7 +96,7 @@ $data = @{
 # Source URLs end here
 #========================================================================================================================================================
 
-$workingDirectory = "$mozillaBuildDirectory\hexchat\build"
+$workingDirectory = "$MozillaBuildDirectory\hexchat\build"
 
 $items = @{}
 foreach ($element in $data.GetEnumerator()) {
@@ -82,9 +106,9 @@ foreach ($element in $data.GetEnumerator()) {
 	$filename = New-Object System.Uri $archiveUrl
 	$filename = $filename.Segments[$filename.Segments.Length - 1]
 	
-	$patchDirectory = "$patchesRootDirectory\$name"
+	$patchDirectory = "$PatchesRootDirectory\$name"
 	
-	$archiveFile = New-Object System.IO.FileInfo "$archivesDownloadDirectory\$filename"
+	$archiveFile = New-Object System.IO.FileInfo "$ArchivesDownloadDirectory\$filename"
 	
 	$result =
 		New-Object PSObject |
@@ -93,7 +117,7 @@ foreach ($element in $data.GetEnumerator()) {
 		Add-Member NoteProperty ArchiveFile $archiveFile -PassThru |
 		Add-Member NoteProperty PatchDirectory $(New-Object System.IO.DirectoryInfo $patchDirectory) -PassThru |
 		Add-Member NoteProperty BuildDirectory $(New-Object System.IO.DirectoryInfo "$workingDirectory\$($archiveFile.BaseName)") -PassThru |
-		Add-Member NoteProperty BuildArchiveFile $(New-Object System.IO.FileInfo "$workingDirectory\$($archiveFile.BaseName)-$architecture$($archiveFile.Extension)") -PassThru |
+		Add-Member NoteProperty BuildArchiveFile $(New-Object System.IO.FileInfo "$workingDirectory\$($archiveFile.BaseName)-$Architecture$($archiveFile.Extension)") -PassThru |
 		Add-Member NoteProperty Dependencies $element.Value[1] -PassThru
 	
 	$items.Add($name, $result)
@@ -106,50 +130,50 @@ foreach ($element in $data.GetEnumerator()) {
 $items['atk'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'atk' `
 		"msbuild build\win32\vc11\atk.sln /p:Platform=$platform /p:Configuration=Release" `
-		"release-$architecture.bat"
+		"release-$Architecture.bat"
 }
 
 $items['cairo'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'cairo' `
 		"msbuild msvc\vc11\cairo.sln /p:Platform=$platform /p:Configuration=Release_FC" `
-		"release-$architecture.bat"
+		"release-$Architecture.bat"
 }
 
 $items['enchant'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'enchant' `
-		"build-$architecture.bat"
+		"build-$Architecture.bat"
 }
 
 $items['fontconfig'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'fontconfig' `
 		"$patch -p1 -i fontconfig.patch" `
 		"msbuild fontconfig.sln /p:Platform=$platform /p:Configuration=Release /t:build" `
-		"release-$architecture.bat"
+		"release-$Architecture.bat"
 }
 
 $items['freetype'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'freetype' `
 		"msbuild builds\win32\vc11\freetype.sln /p:Platform=$platform /p:Configuration=Release" `
-		"release-$architecture.bat"
+		"release-$Architecture.bat"
 }
 
 $items['gdk-pixbuf'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'gdk-pixbuf' `
 		"$patch -p1 -i gdk-pixbuf.patch" `
 		"msbuild build\win32\vc11\gdk-pixbuf.sln /p:Platform=$platform /p:Configuration=Release" `
-		"release-$architecture.bat"
+		"release-$Architecture.bat"
 }
 
 $items['gettext-runtime'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'gettext-runtime' `
 		"$patch -p1 -i gettext-runtime.patch" `
-		"build-$architecture.bat"
+		"build-$Architecture.bat"
 }
 
 $items['glib'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'glib' `
 		"msbuild build\win32\vc11\glib.sln /p:Platform=$platform /p:Configuration=Release" `
-		"release-$architecture.bat"
+		"release-$Architecture.bat"
 }
 
 $items['gtk'] | Add-Member NoteProperty BuildScript {
@@ -157,39 +181,39 @@ $items['gtk'] | Add-Member NoteProperty BuildScript {
 		"$patch -p1 -i gtk-pixmap.patch" `
 		"$patch -p1 -i gtk-bgimg.patch" `
 		"msbuild build\win32\vc11\gtk+.sln /p:Platform=$platform /p:Configuration=Release" `
-		"release-$architecture.bat"
+		"release-$Architecture.bat"
 }
 
 $items['harfbuzz'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'harfbuzz' `
 		"msbuild win32\harfbuzz.sln /p:Platform=$platform /p:Configuration=Release" `
-		"release-$architecture.bat"
+		"release-$Architecture.bat"
 }
 
 $items['libffi'] | Add-Member NoteProperty BuildScript {
 	$currentPwd = $PWD
 	Set-Location ..\..
-	echo "cd $($currentPwd -replace '\\', '\\') && build-$architecture.bat" | &$mozillaBuildStartVC11
+	echo "cd $($currentPwd -replace '\\', '\\') && build-$Architecture.bat" | &$mozillaBuildStartVC11
 	Set-Location $currentPwd
 	VSPrompt -Name 'libffi' `
-		"release-$architecture.bat"
+		"release-$Architecture.bat"
 }
 
 $items['libpng'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'libpng' `
 		"msbuild projects\vc11\vstudio.sln /p:Platform=$platform /p:Configuration=Release" `
-		"release-$architecture.bat"
+		"release-$Architecture.bat"
 }
 
 $items['libxml2'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'libxml2' `
 		"msbuild win32\vc11\libxml2.sln /p:Platform=$platform /p:Configuration=Release" `
-		"release-$architecture.bat"
+		"release-$Architecture.bat"
 }
 
 $items['openssl'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'openssl' `
-		"build-$architecture.bat"
+		"build-$Architecture.bat"
 }
 
 $items['pango'] | Add-Member NoteProperty BuildScript {
@@ -197,23 +221,23 @@ $items['pango'] | Add-Member NoteProperty BuildScript {
 		"$patch -p1 -i pango-defs.patch" `
 		"$patch -p1 -i pango-nonbmp.patch" `
 		"msbuild build\win32\vc11\pango_fc.sln /p:Platform=$platform /p:Configuration=Release" `
-		"release-$architecture.bat"
+		"release-$Architecture.bat"
 }
 
 $items['pixman'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'pixman' `
 		"msbuild build\win32\vc11\pixman.sln /p:Platform=$platform /p:Configuration=Release" `
-		"release-$architecture.bat"
+		"release-$Architecture.bat"
 }
 
 $items['win-iconv'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'win-iconv' `
-		"build-$architecture.bat"
+		"build-$Architecture.bat"
 }
 
 $items['zlib'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'zlib' `
-		"build-$architecture.bat"
+		"build-$Architecture.bat"
 }
 
 #========================================================================================================================================================
@@ -224,22 +248,22 @@ $items.GetEnumerator() | %{
 	$_.Value.Dependencies = $_.Value.Dependencies | %{ $items[$_] }
 }
 
-$platform = $architecture
+$platform = $Architecture
 if ($platform -eq 'x86') {
 	$platform = 'Win32'
 }
-$mozillaBuildStartVC11 = "$mozillaBuildDirectory\start-msvc11.bat"
-if ($architecture -eq 'x64') {
-	$mozillaBuildStartVC11 = "$mozillaBuildDirectory\start-msvc11-x64.bat"
+$mozillaBuildStartVC11 = "$MozillaBuildDirectory\start-msvc11.bat"
+if ($Architecture -eq 'x64') {
+	$mozillaBuildStartVC11 = "$MozillaBuildDirectory\start-msvc11-x64.bat"
 }
 
-$patch = "$mozillaBuildDirectory\msys\bin\patch.exe"
+$patch = "$MozillaBuildDirectory\msys\bin\patch.exe"
 
-New-Item -Type Directory $archivesDownloadDirectory
+New-Item -Type Directory $ArchivesDownloadDirectory
 
 New-Item -Type Directory $workingDirectory
 Set-Location $workingDirectory
-Copy-Item $patchesRootDirectory\stack.props .
+Copy-Item $PatchesRootDirectory\stack.props .
 
 $logDirectory = "$workingDirectory\logs"
 New-Item -Type Directory $logDirectory
@@ -248,7 +272,7 @@ Remove-Item $logDirectory\*.log
 function VSPrompt([string] $Name) {
 	$tempVSPromptBatchFile = "$($env:TEMP)\hexchat-build-$Name.bat"
 	
-	Out-File -FilePath $tempVSPromptBatchFile -InputObject "@CALL `"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\vcvarsall.bat`" $architecture" -Encoding OEM
+	Out-File -FilePath $tempVSPromptBatchFile -InputObject "@CALL `"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\vcvarsall.bat`" $Architecture" -Encoding OEM
 	foreach ($command in $args) {
 		Out-File -FilePath $tempVSPromptBatchFile -InputObject $command -Encoding OEM -Append
 	}
@@ -259,8 +283,8 @@ function VSPrompt([string] $Name) {
 }
 
 $items.GetEnumerator() | %{
-	Start-Job -Name $_.Key -ArgumentList $_.Value, $archivesDownloadDirectory, $workingDirectory, $wget, $sevenZip {
-		param ($item, $archivesDownloadDirectory, $workingDirectory, $wget, $sevenZip)
+	Start-Job -Name $_.Key -ArgumentList $_.Value, $ArchivesDownloadDirectory, $workingDirectory, $Wget, $SevenZip {
+		param ($item, $ArchivesDownloadDirectory, $workingDirectory, $Wget, $SevenZip)
 		
 		'Beginning job to download and extract'
 		
@@ -269,13 +293,13 @@ $items.GetEnumerator() | %{
 		}
 		else {
 			"$($item.ArchiveFile) doesn't exist"
-			Set-Location $archivesDownloadDirectory
-			&$wget $item.ArchiveUrl > $null 2>&1
+			Set-Location $ArchivesDownloadDirectory
+			&$Wget $item.ArchiveUrl > $null 2>&1
 			"Downloaded $($item.ArchiveUrl)"
 		}
 
 		"Extracting $($item.ArchiveFile.Name) to $workingDirectory"
-		&$sevenZip x $item.ArchiveFile -o"$workingDirectory" -y > $null
+		&$SevenZip x $item.ArchiveFile -o"$workingDirectory" -y > $null
 		"Extracted $($item.ArchiveFile.Name)"
 		
 		Copy-Item "$($item.PatchDirectory)\*" $item.BuildDirectory -Recurse -Force
@@ -308,7 +332,7 @@ $items.GetEnumerator() | %{
 }
 
 while ($completedItems.Count -ne $items.Count) {
-	if ($enableParallelBuild -or $(Get-Job) -eq $null) {
+	if (-not $DisableParallelBuild -or $(Get-Job) -eq $null) {
 		[Object[]] $nextItem =
 			$pendingItems.GetEnumerator() | ?{
 				$completedItems[$_.Key] -eq $null -and 
@@ -335,7 +359,7 @@ while ($completedItems.Count -ne $items.Count) {
 				function VSPrompt([string] $Name) {
 					$tempVSPromptBatchFile = "$($env:TEMP)\hexchat-build-$Name.bat"
 					
-					Out-File -FilePath $tempVSPromptBatchFile -InputObject "@CALL `"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\vcvarsall.bat`" $architecture" -Encoding OEM
+					Out-File -FilePath $tempVSPromptBatchFile -InputObject "@CALL `"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\vcvarsall.bat`" $Architecture" -Encoding OEM
 					foreach ($command in $args) {
 						Out-File -FilePath $tempVSPromptBatchFile -InputObject $command -Encoding OEM -Append
 					}
@@ -344,14 +368,14 @@ while ($completedItems.Count -ne $items.Count) {
 					
 					Remove-Item $tempVSPromptBatchFile
 				}
-			} -ArgumentList $pendingItem, $workingDirectory, $platform, $architecture, $mozillaBuildStartVC11, $sevenZip, $patch {
-				param ($item, $workingDirectory, $platform, $architecture, $mozillaBuildStartVC11, $sevenZip, $patch)
+			} -ArgumentList $pendingItem, $workingDirectory, $platform, $Architecture, $mozillaBuildStartVC11, $SevenZip, $patch {
+				param ($item, $workingDirectory, $platform, $Architecture, $mozillaBuildStartVC11, $SevenZip, $patch)
 				
 				Set-Location $item.BuildDirectory
 				
 				Invoke-Expression -Command ('$null | Invoke-Command ' + "{ $($item.BuildScript) }")
 				
-				&$sevenZip x $item.BuildArchiveFile -o"$workingDirectory\..\gtk\$platform" -y
+				&$SevenZip x $item.BuildArchiveFile -o"$workingDirectory\..\gtk\$platform" -y
 			} > $null
 		}
 	}
@@ -384,6 +408,6 @@ while ($completedItems.Count -ne $items.Count) {
 	Start-Sleep 1
 }
 
-Set-Location $hexchatSourceDirectory
+Set-Location $HexchatSourceDirectory
 
 VSPrompt -Name 'hexchat' "msbuild win32\hexchat.sln /p:Platform=$platform /p:Configuration=Release"
