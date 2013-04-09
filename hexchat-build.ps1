@@ -34,7 +34,7 @@ $enableParallelBuild = $true
 
 
 # Path to any downloader. Invoked as &$wget "$url"
-$wget = 'C:\mozilla-build\wget\wget.exe'
+$wget = "$mozillaBuildDirectory\wget\wget.exe"
 
 # Path to 7-zip executable (your own, or the one provided by mozilla-build)
 $sevenZip = 'C:\Program Files\7-Zip\7z.exe'
@@ -270,7 +270,7 @@ $items.GetEnumerator() | %{
 		else {
 			"$($item.ArchiveFile) doesn't exist"
 			Set-Location $archivesDownloadDirectory
-			&$wget $item.ArchiveUrl
+			&$wget $item.ArchiveUrl > $null 2>&1
 			"Downloaded $($item.ArchiveUrl)"
 		}
 
