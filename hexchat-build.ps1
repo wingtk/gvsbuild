@@ -58,7 +58,7 @@ param (
 	[string]
 	$Wget = "$MozillaBuildDirectory\wget\wget.exe",
 
-	# Path to 7-zip executable (your own, or the one provided by mozilla-build)
+	# Path to 7-zip executable (do not use the one provided by mozilla-build, it's too old)
 	[string]
 	$SevenZip = 'C:\Program Files\7-Zip\7z.exe'
 )
