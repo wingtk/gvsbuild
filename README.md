@@ -1,1 +1,1 @@
-[http://www.hexchat.org/developers/building-gtk-on-windows](http://www.hexchat.org/developers/building-gtk-on-windows)
+[http://gtk.hexchat.org/](http://gtk.hexchat.org/)
