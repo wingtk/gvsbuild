@@ -26,6 +26,14 @@
 #========================================================================================================================================================
 
 param (
+	# Architecture: 'x86' (native 32 bit), 'x86_amd64' (cross-compiled 64 bit) or 'x64' (native 64 bit). 'x64' is not available in Visual Studio Express.
+	[string][ValidateSet('x86', 'x86_amd64', 'x64')]
+	$Architecture = 'x86',
+
+	# Disable building in parallel or not
+	[switch]
+	$DisableParallelBuild = $false,
+
 	# Your mozilla-build directory
 	[string]
 	$MozillaBuildDirectory = 'C:\mozilla-build',
@@ -42,17 +50,9 @@ param (
 	[string]
 	$HexchatSourceDirectory = 'C:\mozilla-build\hexchat\github\hexchat',
 
-
-
-	# Architecture: 'x86' (32 bit), 'x86_amd64' (64 bit) or 'x64' (64 bit). 'x64' is not available in Visual Studio Express.
-	[string][ValidateSet('x86', 'x86_amd64', 'x64')]
-	$Architecture = 'x86',
-
-	# Enable parallel build
-	[switch]
-	$DisableParallelBuild = $false,
-
-
+	# Visual Studio install path
+	[string]
+	$VSInstallPath = 'C:\Program Files (x86)\Microsoft Visual Studio 11.0',
 
 	# Path to any downloader. Invoked as &$Wget "$url"
 	[string]
