@@ -98,16 +98,19 @@ $data = @{
 
 $workingDirectory = "$MozillaBuildDirectory\hexchat\build"
 
-if ($platform -eq 'x86') {
+if ($Architecture -eq 'x86') {
 	$platform = 'Win32'
+	$filenameArch = 'x86'
 	$mozillaBuildStartVC11 = "$MozillaBuildDirectory\start-msvc11.bat"
 }
 if ($Architecture -eq 'x86_amd64') {
 	$platform = 'x64'
+	$filenameArch = 'x64'
 	$mozillaBuildStartVC11 = "$MozillaBuildDirectory\start-msvc11-x86_amd64.bat"
 }
 if ($Architecture -eq 'x64') {
 	$platform = 'x64'
+	$filenameArch = 'x64'
 	$mozillaBuildStartVC11 = "$MozillaBuildDirectory\start-msvc11-x64.bat"
 }
 
@@ -130,7 +133,7 @@ foreach ($element in $data.GetEnumerator()) {
 		Add-Member NoteProperty ArchiveFile $archiveFile -PassThru |
 		Add-Member NoteProperty PatchDirectory $(New-Object System.IO.DirectoryInfo $patchDirectory) -PassThru |
 		Add-Member NoteProperty BuildDirectory $(New-Object System.IO.DirectoryInfo "$workingDirectory\$($archiveFile.BaseName)") -PassThru |
-		Add-Member NoteProperty BuildArchiveFile $(New-Object System.IO.FileInfo "$workingDirectory\$($archiveFile.BaseName)-$platform$($archiveFile.Extension)") -PassThru |
+		Add-Member NoteProperty BuildArchiveFile $(New-Object System.IO.FileInfo "$workingDirectory\$($archiveFile.BaseName)-$filenameArch$($archiveFile.Extension)") -PassThru |
 		Add-Member NoteProperty Dependencies $element.Value[1] -PassThru
 
 	$items.Add($name, $result)
@@ -143,50 +146,50 @@ foreach ($element in $data.GetEnumerator()) {
 $items['atk'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'atk' `
 		"msbuild build\win32\vc11\atk.sln /p:Platform=$platform /p:Configuration=Release" `
-		"release-$platform.bat"
+		"release-$filenameArch.bat"
 }
 
 $items['cairo'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'cairo' `
 		"msbuild msvc\vc11\cairo.sln /p:Platform=$platform /p:Configuration=Release_FC" `
-		"release-$platform.bat"
+		"release-$filenameArch.bat"
 }
 
 $items['enchant'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'enchant' `
-		"build-$platform.bat"
+		"build-$filenameArch.bat"
 }
 
 $items['fontconfig'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'fontconfig' `
 		"$patch -p1 -i fontconfig.patch" `
 		"msbuild fontconfig.sln /p:Platform=$platform /p:Configuration=Release /t:build" `
-		"release-$platform.bat"
+		"release-$filenameArch.bat"
 }
 
 $items['freetype'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'freetype' `
 		"msbuild builds\win32\vc11\freetype.sln /p:Platform=$platform /p:Configuration=Release" `
-		"release-$platform.bat"
+		"release-$filenameArch.bat"
 }
 
 $items['gdk-pixbuf'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'gdk-pixbuf' `
 		"$patch -p1 -i gdk-pixbuf.patch" `
 		"msbuild build\win32\vc11\gdk-pixbuf.sln /p:Platform=$platform /p:Configuration=Release" `
-		"release-$platform.bat"
+		"release-$filenameArch.bat"
 }
 
 $items['gettext-runtime'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'gettext-runtime' `
 		"$patch -p1 -i gettext-runtime.patch" `
-		"build-$platform.bat"
+		"build-$filenameArch.bat"
 }
 
 $items['glib'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'glib' `
 		"msbuild build\win32\vc11\glib.sln /p:Platform=$platform /p:Configuration=Release" `
-		"release-$platform.bat"
+		"release-$filenameArch.bat"
 }
 
 $items['gtk'] | Add-Member NoteProperty BuildScript {
@@ -195,39 +198,39 @@ $items['gtk'] | Add-Member NoteProperty BuildScript {
 		"$patch -p1 -i gtk-bgimg.patch" `
 		"$patch -p1 -i gtk-statusicon.patch" `
 		"msbuild build\win32\vc11\gtk+.sln /p:Platform=$platform /p:Configuration=Release" `
-		"release-$platform.bat"
+		"release-$filenameArch.bat"
 }
 
 $items['harfbuzz'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'harfbuzz' `
 		"msbuild win32\harfbuzz.sln /p:Platform=$platform /p:Configuration=Release" `
-		"release-$platform.bat"
+		"release-$filenameArch.bat"
 }
 
 $items['libffi'] | Add-Member NoteProperty BuildScript {
 	$currentPwd = $PWD
 	Set-Location ..\..
-	echo "cd $($currentPwd -replace '\\', '\\') && build-$platform.bat" | &$mozillaBuildStartVC11
+	echo "cd $($currentPwd -replace '\\', '\\') && build-$filenameArch.bat" | &$mozillaBuildStartVC11
 	Set-Location $currentPwd
 	VSPrompt -Name 'libffi' `
-		"release-$platform.bat"
+		"release-$filenameArch.bat"
 }
 
 $items['libpng'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'libpng' `
 		"msbuild projects\vc11\vstudio.sln /p:Platform=$platform /p:Configuration=Release" `
-		"release-$platform.bat"
+		"release-$filenameArch.bat"
 }
 
 $items['libxml2'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'libxml2' `
 		"msbuild win32\vc11\libxml2.sln /p:Platform=$platform /p:Configuration=Release" `
-		"release-$platform.bat"
+		"release-$filenameArch.bat"
 }
 
 $items['openssl'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'openssl' `
-		"build-$platform.bat"
+		"build-$filenameArch.bat"
 }
 
 $items['pango'] | Add-Member NoteProperty BuildScript {
@@ -235,23 +238,23 @@ $items['pango'] | Add-Member NoteProperty BuildScript {
 		"$patch -p1 -i pango-defs.patch" `
 		"$patch -p1 -i pango-nonbmp.patch" `
 		"msbuild build\win32\vc11\pango_fc.sln /p:Platform=$platform /p:Configuration=Release" `
-		"release-$platform.bat"
+		"release-$filenameArch.bat"
 }
 
 $items['pixman'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'pixman' `
 		"msbuild build\win32\vc11\pixman.sln /p:Platform=$platform /p:Configuration=Release" `
-		"release-$platform.bat"
+		"release-$filenameArch.bat"
 }
 
 $items['win-iconv'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'win-iconv' `
-		"build-$platform.bat"
+		"build-$filenameArch.bat"
 }
 
 $items['zlib'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'zlib' `
-		"build-$platform.bat"
+		"build-$filenameArch.bat"
 }
 
 #========================================================================================================================================================
@@ -373,8 +376,8 @@ while ($completedItems.Count -ne $items.Count) {
 
 					Remove-Item $tempVSPromptBatchFile
 				}
-			} -ArgumentList $pendingItem, $workingDirectory, $platform, $Architecture, $mozillaBuildStartVC11, $SevenZip, $patch {
-				param ($item, $workingDirectory, $platform, $Architecture, $mozillaBuildStartVC11, $SevenZip, $patch)
+			} -ArgumentList $pendingItem, $workingDirectory, $platform, $Architecture, $filenameArch, $mozillaBuildStartVC11, $SevenZip, $patch {
+				param ($item, $workingDirectory, $platform, $Architecture, $filenameArch, $mozillaBuildStartVC11, $SevenZip, $patch)
 
 				Set-Location $item.BuildDirectory
 
