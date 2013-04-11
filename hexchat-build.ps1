@@ -29,35 +29,35 @@ param (
 	# Your mozilla-build directory
 	[string]
 	$MozillaBuildDirectory = 'C:\mozilla-build',
-	
+
 	# The directory to download the source archives to. It will be created. If an archive already exists here, it won't be downloaded again.
 	[string]
 	$ArchivesDownloadDirectory = 'C:\mozilla-build\hexchat\src',
-	
+
 	# Location where you checked out https://github.com/hexchat/gtk-win32.git
 	[string]
 	$PatchesRootDirectory = 'C:\mozilla-build\hexchat\github\gtk-win32',
-	
+
 	# Location where you checked out https://github.com/hexchat/hexchat.git
 	[string]
 	$HexchatSourceDirectory = 'C:\mozilla-build\hexchat\github\hexchat',
-	
-	
-	
+
+
+
 	# Architecture: 'x86' (32 bit), 'x86_amd64' (64 bit) or 'x64' (64 bit). 'x64' is not available in Visual Studio Express.
 	[string][ValidateSet('x86', 'x86_amd64', 'x64')]
 	$Architecture = 'x86',
-	
+
 	# Enable parallel build
 	[switch]
 	$DisableParallelBuild = $false,
-	
-	
-	
+
+
+
 	# Path to any downloader. Invoked as &$Wget "$url"
 	[string]
 	$Wget = "$MozillaBuildDirectory\wget\wget.exe",
-	
+
 	# Path to 7-zip executable (your own, or the one provided by mozilla-build)
 	[string]
 	$SevenZip = 'C:\Program Files\7-Zip\7z.exe'
@@ -115,14 +115,14 @@ $items = @{}
 foreach ($element in $data.GetEnumerator()) {
 	$name = $element.Key
 	$archiveUrl = $element.Value[0]
-	
+
 	$filename = New-Object System.Uri $archiveUrl
 	$filename = $filename.Segments[$filename.Segments.Length - 1]
-	
+
 	$patchDirectory = "$PatchesRootDirectory\$name"
-	
+
 	$archiveFile = New-Object System.IO.FileInfo "$ArchivesDownloadDirectory\$filename"
-	
+
 	$result =
 		New-Object PSObject |
 		Add-Member NoteProperty Name $name -PassThru |
@@ -132,7 +132,7 @@ foreach ($element in $data.GetEnumerator()) {
 		Add-Member NoteProperty BuildDirectory $(New-Object System.IO.DirectoryInfo "$workingDirectory\$($archiveFile.BaseName)") -PassThru |
 		Add-Member NoteProperty BuildArchiveFile $(New-Object System.IO.FileInfo "$workingDirectory\$($archiveFile.BaseName)-$platform$($archiveFile.Extension)") -PassThru |
 		Add-Member NoteProperty Dependencies $element.Value[1] -PassThru
-	
+
 	$items.Add($name, $result)
 }
 
@@ -276,23 +276,23 @@ Remove-Item $logDirectory\*.log
 
 function VSPrompt([string] $Name) {
 	$tempVSPromptBatchFile = "$($env:TEMP)\hexchat-build-$Name.bat"
-	
+
 	Out-File -FilePath $tempVSPromptBatchFile -InputObject "@CALL `"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\vcvarsall.bat`" $Architecture" -Encoding OEM
 	foreach ($command in $args) {
 		Out-File -FilePath $tempVSPromptBatchFile -InputObject $command -Encoding OEM -Append
 	}
-	
+
 	$null | &$tempVSPromptBatchFile
-	
+
 	Remove-Item $tempVSPromptBatchFile
 }
 
 $items.GetEnumerator() | %{
 	Start-Job -Name $_.Key -ArgumentList $_.Value, $ArchivesDownloadDirectory, $workingDirectory, $Wget, $SevenZip {
 		param ($item, $ArchivesDownloadDirectory, $workingDirectory, $Wget, $SevenZip)
-		
+
 		'Beginning job to download and extract'
-		
+
 		if ($item.ArchiveFile.Exists) {
 			"$($item.ArchiveFile) already exists"
 		}
@@ -306,7 +306,7 @@ $items.GetEnumerator() | %{
 		"Extracting $($item.ArchiveFile.Name) to $workingDirectory"
 		&$SevenZip x $item.ArchiveFile -o"$workingDirectory" -y > $null
 		"Extracted $($item.ArchiveFile.Name)"
-		
+
 		Copy-Item "$($item.PatchDirectory)\*" $item.BuildDirectory -Recurse -Force
 		"Copied patch contents from $($item.PatchDirectory) to $($item.BuildDirectory)"
 	} > $null
@@ -316,14 +316,14 @@ $downloadJobs = @()
 do {
 	$downloadJobs = Get-Job | %{
 		$job = $_
-		
+
 		Receive-Job $job | %{
 			Write-Host "$($job.Name) : $_"
 		}
-		
+
 		$job
 	} | ? { $_.State -ne 'Completed' }
-	
+
 	Start-Sleep 1
 } while ($downloadJobs.Length -gt 0)
 
@@ -353,63 +353,63 @@ while ($completedItems.Count -ne $items.Count) {
 					return $true
 				}
 			}
-		
+
 		if ($nextItem.Length -gt 0) {
 			$pendingItem = $nextItem[0].Value
-			
+
 			Out-File -Append -Encoding OEM -FilePath "$logDirectory\build.log" -InputObject "$($pendingItem.Name) : Started"
 			Write-Host "$($pendingItem.Name) : Started"
-			
+
 			Start-Job -Name $pendingItem.Name -InitializationScript {
 				function VSPrompt([string] $Name) {
 					$tempVSPromptBatchFile = "$($env:TEMP)\hexchat-build-$Name.bat"
-					
+
 					Out-File -FilePath $tempVSPromptBatchFile -InputObject "@CALL `"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\vcvarsall.bat`" $Architecture" -Encoding OEM
 					foreach ($command in $args) {
 						Out-File -FilePath $tempVSPromptBatchFile -InputObject $command -Encoding OEM -Append
 					}
-					
+
 					$null | &$tempVSPromptBatchFile
-					
+
 					Remove-Item $tempVSPromptBatchFile
 				}
 			} -ArgumentList $pendingItem, $workingDirectory, $platform, $Architecture, $mozillaBuildStartVC11, $SevenZip, $patch {
 				param ($item, $workingDirectory, $platform, $Architecture, $mozillaBuildStartVC11, $SevenZip, $patch)
-				
+
 				Set-Location $item.BuildDirectory
-				
+
 				Invoke-Expression -Command ('$null | Invoke-Command ' + "{ $($item.BuildScript) }")
-				
+
 				&$SevenZip x $item.BuildArchiveFile -o"$workingDirectory\..\gtk\$platform" -y
 			} > $null
 		}
 	}
-	
+
 	Get-Job | %{
 		$job = $_
-		
+
 		[string[]] $jobOutput = Receive-Job $job
 		$jobOutput | %{
 			Out-File -Append -Encoding OEM -FilePath "$logDirectory\$($job.Name).log" -InputObject $_
 			Write-Host "$($job.Name) : $_"
 		}
-		
+
 		if ($job.State -eq 'Completed') {
 			$jobOutput = Receive-Job $job
 			$jobOutput | %{
 				Out-File -Append -Encoding OEM -FilePath "$logDirectory\$($job.Name).log" -InputObject $_
 				Write-Host "$($job.Name) : $_"
 			}
-			
+
 			$completedItems[$job.Name] = $items[$job.Name]
-			
+
 			Out-File -Append -Encoding OEM -FilePath "$logDirectory\build.log" -InputObject "$($job.Name) : Completed"
 			Write-Host "$($job.Name) : Completed"
-			
+
 			Remove-Job $job
 		}
 	}
-	
+
 	Start-Sleep 1
 }
 
