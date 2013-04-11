@@ -96,8 +96,6 @@ $data = @{
 # Source URLs end here
 #========================================================================================================================================================
 
-$workingDirectory = "$MozillaBuildDirectory\hexchat\build"
-
 if ($Architecture -eq 'x86') {
 	$platform = 'Win32'
 	$filenameArch = 'x86'
@@ -113,6 +111,8 @@ if ($Architecture -eq 'x64') {
 	$filenameArch = 'x64'
 	$mozillaBuildStartVC11 = "$MozillaBuildDirectory\start-msvc11-x64.bat"
 }
+
+$workingDirectory = "$MozillaBuildDirectory\hexchat\build\$platform"
 
 $items = @{}
 foreach ($element in $data.GetEnumerator()) {
