@@ -44,8 +44,8 @@ param (
 	
 	
 	
-	# Architecture: 'x86' or 'x64'
-	[string][ValidateSet('x86', 'x64')]
+	# Architecture: 'x86' (32 bit), 'x86_amd64' (64 bit) or 'x64' (64 bit). 'x64' is not available in Visual Studio Express.
+	[string][ValidateSet('x86', 'x86_amd64', 'x64')]
 	$Architecture = 'x86',
 	
 	# Enable parallel build
