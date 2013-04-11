@@ -180,6 +180,7 @@ $items['gtk'] | Add-Member NoteProperty BuildScript {
 	VSPrompt -Name 'gtk' `
 		"$patch -p1 -i gtk-pixmap.patch" `
 		"$patch -p1 -i gtk-bgimg.patch" `
+		"$patch -p1 -i gtk-statusicon.patch" `
 		"msbuild build\win32\vc11\gtk+.sln /p:Platform=$platform /p:Configuration=Release" `
 		"release-$Architecture.bat"
 }
