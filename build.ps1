@@ -1,10 +1,9 @@
 #========================================================================================================================================================
 # Instructions:-
 # 1. Install mozilla-build, cmake, nasm, perl, msgfmt as per http://gtk.hexchat.org/
-# 2. Install gendef, Python and ISS as per http://docs.hexchat.org/en/latest/building.html if you want to build Perl, Python, setup, etc. in Hexchat
-# 3. Check out https://github.com/hexchat/hexchat.git and https://github.com/hexchat/gtk-win32.git
-# 4. Set the properties in the Properties section below
-# 5. Paste this script in a powershell window, or run it if you know how to
+# 2. Clone https://github.com/hexchat/gtk-win32.git
+# 3. Set the command line flags based on the Properties section below, if needed
+# 4. Paste this script in a powershell window, or run it if you know how to
 #
 # Examples:-
 # 
@@ -48,10 +47,6 @@ param (
 	# Location where you checked out https://github.com/hexchat/gtk-win32.git
 	[string]
 	$PatchesRootDirectory = 'C:\mozilla-build\hexchat\github\gtk-win32',
-
-	# Location where you checked out https://github.com/hexchat/hexchat.git
-	[string]
-	$HexchatSourceDirectory = 'C:\mozilla-build\hexchat\github\hexchat',
 
 	# Visual Studio install path
 	[string]
@@ -476,10 +471,3 @@ while ($completedItems.Count -ne $items.Count) {
 	# Sleep a bit and then try again
 	Start-Sleep 1
 }
-
-
-# Everything has been built. Now build hexchat.
-
-Set-Location $HexchatSourceDirectory
-
-VSPrompt -Name 'hexchat' "msbuild win32\hexchat.sln /p:Platform=$platform /p:Configuration=Release"
