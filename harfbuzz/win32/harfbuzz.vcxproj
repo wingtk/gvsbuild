@@ -188,7 +188,7 @@ echo %%a &gt;&gt; rllist.txt
 )
 
 for /f "tokens=1 delims=." %%b in (rllist.txt) do (
-..\..\..\..\ragel\ragel.exe -e -F1 -o %%b.hh %%b.rl
+..\..\..\..\..\ragel\ragel.exe -e -F1 -o %%b.hh %%b.rl
 )</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -224,7 +224,7 @@ echo %%a &gt;&gt; rllist.txt
 )
 
 for /f "tokens=1 delims=." %%b in (rllist.txt) do (
-..\..\..\..\ragel\ragel.exe -e -F1 -o %%b.hh %%b.rl
+..\..\..\..\..\ragel\ragel.exe -e -F1 -o %%b.hh %%b.rl
 )</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
