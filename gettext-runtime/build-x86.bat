@@ -8,7 +8,7 @@ set GETTEXT_DEST=%cd%-x86
 del CMakeCache.txt
 rmdir /q /s CMakeFiles
 set PATH=%PATH%;%ProgramFiles(x86)%\CMake 2.8\bin
-cmake -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX=%GETTEXT_DEST% -DCMAKE_BUILD_TYPE=Release -DICONV_INCLUDE_DIR=%GETTEXT_SRC%\..\..\..\gtk\Win32\include -DICONV_LIBRARIES=%GETTEXT_SRC%\..\..\gtk\Win32\lib\iconv.lib
+cmake -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX=%GETTEXT_DEST% -DCMAKE_BUILD_TYPE=Release -DICONV_INCLUDE_DIR=%GETTEXT_SRC%\..\..\..\gtk\Win32\include -DICONV_LIBRARIES=%GETTEXT_SRC%\..\..\..\gtk\Win32\lib\iconv.lib
 nmake clean
 nmake
 echo.Press return when ready to install!
