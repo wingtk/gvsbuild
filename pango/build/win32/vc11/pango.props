@@ -6,7 +6,7 @@
     <PangoDummyPrefix>/dummy</PangoDummyPrefix>
     <PangoDefines>G_LOG_DOMAIN="Pango";PANGO_ENABLE_BACKEND;PANGO_ENABLE_ENGINE;SYSCONFDIR="$(PangoDummyPrefix)/etc";LIBDIR="$(PangoDummyPrefix)/lib"</PangoDefines>
     <NoFCDef>PANGO_VISUALC_NO_FC</NoFCDef>
- <GlibEtcInstallRoot>..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
+ <GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
  <CopyDir>..\..\..\..\pango-1.32.5-rel</CopyDir>
     <PangoDoInstall>
 echo on

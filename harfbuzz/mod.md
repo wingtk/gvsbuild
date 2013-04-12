@@ -8,9 +8,9 @@
 	* `HB_VERSION_STRING` ("0.9.15")
  * Open `win32\harfbuzz.sln` with VS
  * Add to _Additional Include Directories_ under _Configuration Properties_ `->` _C/C++_ `->` _General_:
-	<pre>..\..\..\gtk\$(Platform)\include
-..\..\..\gtk\$(Platform)\include\glib-2.0
-..\..\..\gtk\$(Platform)\lib\glib-2.0\include</pre>
+	<pre>..\..\..\..\gtk\$(Platform)\include
+..\..\..\..\gtk\$(Platform)\include\glib-2.0
+..\..\..\..\gtk\$(Platform)\lib\glib-2.0\include</pre>
  * Change to DLL
  * Add lib path and fix freetype name
  * Generate .def file with `./autogen.sh && cd src && make harfbuzz.def`
@@ -36,7 +36,7 @@ echo %%a >> rllist.txt
 )
 
 for /f "tokens=1 delims=." %%b in (rllist.txt) do (
-..\..\..\ragel\ragel.exe -e -F1 -o %%b.hh %%b.rl
+..\..\..\..\..\ragel\ragel.exe -e -F1 -o %%b.hh %%b.rl
 )
 </pre>
  * Build in VS

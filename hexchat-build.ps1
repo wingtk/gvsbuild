@@ -76,7 +76,7 @@ param (
 
 $data = @{
 	'atk'              = @('http://dl.hexchat.org/gtk-win32/src/atk-2.8.0.7z',            @('glib')                         );
-	'cairo'            = @('http://dl.hexchat.org/gtk-win32/src/cairo-1.12.8.7z',         @('fontconfig', 'glib', 'pixman') );
+	'cairo'            = @('http://dl.hexchat.org/gtk-win32/src/cairo-1.12.14.7z',         @('fontconfig', 'glib', 'pixman') );
 	'enchant'          = @('http://dl.hexchat.org/gtk-win32/src/enchant-1.6.0.7z',        @('glib')                         );
 	'fontconfig'       = @('http://dl.hexchat.org/gtk-win32/src/fontconfig-2.8.0.7z',     @('freetype', 'libxml2')          );
 	'freetype'         = @('http://dl.hexchat.org/gtk-win32/src/freetype-2.4.11.7z',      @()                               );
@@ -436,7 +436,7 @@ while ($completedItems.Count -ne $items.Count) {
 
 				Invoke-Expression -Command ('$null | Invoke-Command ' + "{ $($item.BuildScript) }")
 
-				&$SevenZip x $item.BuildArchiveFile -o"$workingDirectory\..\gtk\$platform" -y
+				&$SevenZip x $item.BuildArchiveFile -o"$workingDirectory\..\..\gtk\$platform" -y
 			} > $null
 		}
 	}

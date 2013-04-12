@@ -44,11 +44,11 @@
   </PropertyGroup>
 	<ItemDefinitionGroup>
 		<ClCompile>
-			<AdditionalIncludeDirectories>..\..\..\..\..\gtk\$(Platform)\include</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>..\..\..\..\..\..\gtk\$(Platform)\include</AdditionalIncludeDirectories>
 		</ClCompile>
 		<Link>
 			<!--AdditionalDependencies>zdll.lib</AdditionalDependencies-->
-			<AdditionalLibraryDirectories>..\..\..\..\..\gtk\$(Platform)\lib</AdditionalLibraryDirectories>
+			<AdditionalLibraryDirectories>..\..\..\..\..\..\gtk\$(Platform)\lib</AdditionalLibraryDirectories>
 		</Link>
 	</ItemDefinitionGroup>
 </Project>

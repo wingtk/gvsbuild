@@ -5,8 +5,8 @@
  * For all projects:
 	* Change _Configuration Type_ to _Dynamic Library (.dll)_ under _Configuration Properties_ `->` _General_
  * For the libxml2 project:
-	* Add `..\..\include;..\..\..\..\gtk\$(Platform)\include` to _Additional Include Directories_ under _Configuration Properties_ `->` _C/C++_ `->` _General_
-	* Add `..\..\..\..\gtk\$(Platform)\lib` to _Additional Library Directories_ under _Configuration Properties_ `->` _Linker_ `->` _General_
+	* Add `..\..\include;..\..\..\..\..\gtk\$(Platform)\include` to _Additional Include Directories_ under _Configuration Properties_ `->` _C/C++_ `->` _General_
+	* Add `..\..\..\..\..\gtk\$(Platform)\lib` to _Additional Library Directories_ under _Configuration Properties_ `->` _Linker_ `->` _General_
 	* Add `ws2_32.lib;iconv.lib` to _Additional Dependencies_ under _Configuration Properties_ `->` _Linker_ `->` _Input_
  * Build in VS
  * Release with `release-x86.bat`

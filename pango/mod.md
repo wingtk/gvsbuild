@@ -4,7 +4,7 @@
  * In `build\win32\vc11\pango.props`, replace:
 	* `intl.lib` with `libintl.lib`
 	* `<GlibEtcInstallRoot>..\..\..\..\vs10\$(Platform)</GlibEtcInstallRoot>` with  
-`<GlibEtcInstallRoot>..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>`
+`<GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>`
 	* `<CopyDir>$(GlibEtcInstallRoot)</CopyDir>` with  
 `<CopyDir>..\..\..\..\pango-1.32.5-rel</CopyDir>`
 	* `<PangoSeparateVS10DllSuffix>-1-vs10</PangoSeparateVS10DllSuffix>` with  

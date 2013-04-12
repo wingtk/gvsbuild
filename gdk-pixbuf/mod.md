@@ -3,9 +3,9 @@
  * In `build\win32\vc11\gdk-pixbuf.props`, replace:
 	* `intl.lib` with `libintl.lib`
 	* `<GlibEtcInstallRoot>..\..\..\..\vs$(VSVer)\$(Platform)</GlibEtcInstallRoot>` with  
-`<GlibEtcInstallRoot>..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>`
+`<GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>`
 	* `<GlibEtcInstallRootFromBuildWin32>..\..\..\vs$(VSVer)\$(Platform)</GlibEtcInstallRootFromBuildWin32>` with  
-`<GlibEtcInstallRootFromBuildWin32>..\..\..\..\gtk\$(Platform)</GlibEtcInstallRootFromBuildWin32>`
+`<GlibEtcInstallRootFromBuildWin32>..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRootFromBuildWin32>`
 	* `<CopyDir>$(GlibEtcInstallRoot)</CopyDir>` with  
 `<CopyDir>..\..\..\..\gdk-pixbuf-2.28.0-rel</CopyDir>`
 	* `<GdkPixbufSeparateVSDllSuffix>-2-vs$(VSVer)</GdkPixbufSeparateVSDllSuffix>` with  

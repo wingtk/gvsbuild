@@ -3,7 +3,7 @@
  * In `build\win32\vs10\atk.props`, replace:
 	* `intl.lib` with `libintl.lib`
 	* `<AtkEtcInstallRoot>..\..\..\..\vs10\$(Platform)</AtkEtcInstallRoot>` with  
-`<AtkEtcInstallRoot>..\..\..\..\..\gtk\$(Platform)</AtkEtcInstallRoot>`
+`<AtkEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</AtkEtcInstallRoot>`
 	* `<CopyDir>$(AtkEtcInstallRoot)</CopyDir>` with  
 `<CopyDir>..\..\..\..\atk-2.8.0-rel</CopyDir>`
 	* `<AtkSeparateVS10DllSuffix>-1-vs10</AtkSeparateVS10DllSuffix>` with  
