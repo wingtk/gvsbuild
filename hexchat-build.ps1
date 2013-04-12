@@ -11,8 +11,11 @@
 # Default paths. x86 build.
 # C:\mozilla-build\hexchat\github\gtk-win32\hexchat-build.ps1
 # 
-# Default paths. x64 build.
-# C:\mozilla-build\hexchat\github\gtk-win32\hexchat-build.ps1 -Architecture x64
+# Default paths. x64 build using the x64 cross compiler.
+# C:\mozilla-build\hexchat\github\gtk-win32\hexchat-build.ps1 -Configuration x86_amd64
+# 
+# Default paths. x64 build using the x64 native compiler.
+# C:\mozilla-build\hexchat\github\gtk-win32\hexchat-build.ps1 -Configuration x64
 # 
 # Default paths. Items are built one at a time. x86 build.
 # C:\mozilla-build\hexchat\github\gtk-win32\hexchat-build.ps1 -DisableParallelBuild
@@ -26,9 +29,9 @@
 #========================================================================================================================================================
 
 param (
-	# Architecture: 'x86' (native 32 bit), 'x86_amd64' (cross-compiled 64 bit) or 'x64' (native 64 bit). 'x64' is not available in Visual Studio Express.
+	# Configuration: 'x86' (native 32 bit), 'x86_amd64' (cross-compiled 64 bit) or 'x64' (native 64 bit). 'x64' is not available in Visual Studio Express.
 	[string][ValidateSet('x86', 'x86_amd64', 'x64')]
-	$Architecture = 'x86',
+	$Configuration = 'x86',
 
 	# Disable building in parallel or not
 	[switch]
@@ -96,20 +99,24 @@ $data = @{
 # Source URLs end here
 #========================================================================================================================================================
 
-if ($Architecture -eq 'x86') {
-	$platform = 'Win32'
-	$filenameArch = 'x86'
-	$mozillaBuildStartVC11 = "$MozillaBuildDirectory\start-msvc11.bat"
-}
-if ($Architecture -eq 'x86_amd64') {
-	$platform = 'x64'
-	$filenameArch = 'x64'
-	$mozillaBuildStartVC11 = "$MozillaBuildDirectory\start-msvc11-x86_amd64.bat"
-}
-if ($Architecture -eq 'x64') {
-	$platform = 'x64'
-	$filenameArch = 'x64'
-	$mozillaBuildStartVC11 = "$MozillaBuildDirectory\start-msvc11-x64.bat"
+switch ($Configuration) {
+	'x86' {
+		$platform = 'Win32'
+		$filenameArch = 'x86'
+		$mozillaBuildStartVC11 = "$MozillaBuildDirectory\start-msvc11.bat"
+	}
+
+	'x86_amd64' {
+		$platform = 'x64'
+		$filenameArch = 'x64'
+		$mozillaBuildStartVC11 = "$MozillaBuildDirectory\start-msvc11-x86_amd64.bat"
+	}
+
+	'x64' {
+		$platform = 'x64'
+		$filenameArch = 'x64'
+		$mozillaBuildStartVC11 = "$MozillaBuildDirectory\start-msvc11-x64.bat"
+	}
 }
 
 $workingDirectory = "$MozillaBuildDirectory\hexchat\build\$platform"
@@ -261,26 +268,60 @@ $items['zlib'] | Add-Member NoteProperty BuildScript {
 # Build steps end here
 #========================================================================================================================================================
 
+# Verify VS exists at the indicated location, and that it supports the required target
+switch ($Configuration) {
+	'x86' {
+		$vcvarsBat = "$VSInstallPath\VC\bin\vcvars32.bat"
+	}
+
+	'x86_amd64' {
+		$vcvarsBat = "$VSInstallPath\VC\bin\x86_amd64\vcvarsx86_amd64.bat"
+	}
+
+	'x64' {
+		$vcvarsBat = "$VSInstallPath\VC\bin\amd64\vcvars64.bat"
+	}
+}
+
+if (-not $(Test-Path $vcvarsBat)) {
+	throw "`"$vcvarsBat`" could not be found. Please check you have Visual Studio installed at `"$VSInstallPath`" and that it supports the configuration `"$Configuration`"."
+}
+
+
+# Connect the items to their dependencies
 $items.GetEnumerator() | %{
 	$_.Value.Dependencies = $_.Value.Dependencies | %{ $items[$_] }
 }
 
+
 $patch = "$MozillaBuildDirectory\msys\bin\patch.exe"
 
+
+# For x86_amd64 configuration, ensure start-msvc11-x86_amd64.bat exists in mozilla-build, otherwise patch mozilla-build
+if ($Configuration -eq 'x86_amd64' -and -not $(Test-Path "$MozillaBuild\start-msvc11-x86_amd64.bat")) {
+	Set-Location $MozillaBuildDirectory
+	&$patch -p0 -i $PatchesRootDirectory\mozilla-build.patch -o start-msvc11-x86_amd64.bat
+}
+
+
 New-Item -Type Directory $ArchivesDownloadDirectory
+
 
 New-Item -Type Directory $workingDirectory
 Set-Location $workingDirectory
 Copy-Item $PatchesRootDirectory\stack.props .
 
+
 $logDirectory = "$workingDirectory\logs"
 New-Item -Type Directory $logDirectory
 Remove-Item $logDirectory\*.log
 
+
+# Runs all unnamed arguments as commands in a VS prompt
 function VSPrompt([string] $Name) {
 	$tempVSPromptBatchFile = "$($env:TEMP)\hexchat-build-$Name.bat"
 
-	Out-File -FilePath $tempVSPromptBatchFile -InputObject "@CALL `"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\vcvarsall.bat`" $Architecture" -Encoding OEM
+	Out-File -FilePath $tempVSPromptBatchFile -InputObject "@CALL `"$VSInstallPath\VC\vcvarsall.bat`" $Configuration" -Encoding OEM
 	foreach ($command in $args) {
 		Out-File -FilePath $tempVSPromptBatchFile -InputObject $command -Encoding OEM -Append
 	}
@@ -290,6 +331,8 @@ function VSPrompt([string] $Name) {
 	Remove-Item $tempVSPromptBatchFile
 }
 
+
+# For each item, start a job to download the source archives, extract them to mozilla-build, and copy over the stuff from gtk-win32
 $items.GetEnumerator() | %{
 	Start-Job -Name $_.Key -ArgumentList $_.Value, $ArchivesDownloadDirectory, $workingDirectory, $Wget, $SevenZip {
 		param ($item, $ArchivesDownloadDirectory, $workingDirectory, $Wget, $SevenZip)
@@ -315,34 +358,42 @@ $items.GetEnumerator() | %{
 	} > $null
 }
 
+# While the jobs are running...
 $downloadJobs = @()
 do {
+	# Log their output
 	$downloadJobs = Get-Job | %{
 		$job = $_
 
-		Receive-Job $job | %{
+		[string[]] $jobOutput = Receive-Job $job
+		$jobOutput | %{
 			Write-Host "$($job.Name) : $_"
 		}
 
 		$job
 	} | ? { $_.State -ne 'Completed' }
 
+	# Sleep a bit and then try again
 	Start-Sleep 1
 } while ($downloadJobs.Length -gt 0)
 
+# All the jobs have been completed. Delete them all.
 Get-Job | Remove-Job
 
+
+# Map of items that have finished building (name -> item)
 $completedItems = @{}
-$pendingItems = @{}
 
-$items.GetEnumerator() | %{
-	$pendingItems.Add($_.Key, $_.Value)
-}
 
+# Until all items have been built
 while ($completedItems.Count -ne $items.Count) {
+
+	# If another job can be started (either parallel build is enabled, or it's disabled and there is no running build job)...
 	if (-not $DisableParallelBuild -or $(Get-Job) -eq $null) {
+
+		# Find an item which hasn't already been built, isn't being built currently, and whose dependencies have all been built
 		[Object[]] $nextItem =
-			$pendingItems.GetEnumerator() | ?{
+			$items.GetEnumerator() | ?{
 				$completedItems[$_.Key] -eq $null -and 
 				(Get-Job -Name $_.Key 2>$null) -eq $null
 			} | ?{
@@ -357,17 +408,19 @@ while ($completedItems.Count -ne $items.Count) {
 				}
 			}
 
+		# If such an item exists...
 		if ($nextItem.Length -gt 0) {
 			$pendingItem = $nextItem[0].Value
 
 			Out-File -Append -Encoding OEM -FilePath "$logDirectory\build.log" -InputObject "$($pendingItem.Name) : Started"
 			Write-Host "$($pendingItem.Name) : Started"
 
+			# Start a job to build it
 			Start-Job -Name $pendingItem.Name -InitializationScript {
 				function VSPrompt([string] $Name) {
 					$tempVSPromptBatchFile = "$($env:TEMP)\hexchat-build-$Name.bat"
 
-					Out-File -FilePath $tempVSPromptBatchFile -InputObject "@CALL `"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\vcvarsall.bat`" $Architecture" -Encoding OEM
+					Out-File -FilePath $tempVSPromptBatchFile -InputObject "@CALL `"$VSInstallPath\VC\vcvarsall.bat`" $Configuration" -Encoding OEM
 					foreach ($command in $args) {
 						Out-File -FilePath $tempVSPromptBatchFile -InputObject $command -Encoding OEM -Append
 					}
@@ -376,8 +429,8 @@ while ($completedItems.Count -ne $items.Count) {
 
 					Remove-Item $tempVSPromptBatchFile
 				}
-			} -ArgumentList $pendingItem, $workingDirectory, $platform, $Architecture, $filenameArch, $mozillaBuildStartVC11, $SevenZip, $patch {
-				param ($item, $workingDirectory, $platform, $Architecture, $filenameArch, $mozillaBuildStartVC11, $SevenZip, $patch)
+			} -ArgumentList $pendingItem, $Configuration, $filenameArch, $mozillaBuildStartVC11, $patch, $platform, $VSInstallPath, $workingDirectory, $SevenZip {
+				param ($item, $Configuration, $filenameArch, $mozillaBuildStartVC11, $patch, $platform, $VSInstallPath, $workingDirectory, $SevenZip)
 
 				Set-Location $item.BuildDirectory
 
@@ -388,33 +441,44 @@ while ($completedItems.Count -ne $items.Count) {
 		}
 	}
 
+	# For each job...
 	Get-Job | %{
 		$job = $_
 
+		# Log all its output
 		[string[]] $jobOutput = Receive-Job $job
 		$jobOutput | %{
 			Out-File -Append -Encoding OEM -FilePath "$logDirectory\$($job.Name).log" -InputObject $_
 			Write-Host "$($job.Name) : $_"
 		}
 
+		# If the job has been completed...
 		if ($job.State -eq 'Completed') {
+
+			# Make sure all its output has been logged
 			$jobOutput = Receive-Job $job
 			$jobOutput | %{
 				Out-File -Append -Encoding OEM -FilePath "$logDirectory\$($job.Name).log" -InputObject $_
 				Write-Host "$($job.Name) : $_"
 			}
 
+			# Add the item to the completed items map
 			$completedItems[$job.Name] = $items[$job.Name]
 
 			Out-File -Append -Encoding OEM -FilePath "$logDirectory\build.log" -InputObject "$($job.Name) : Completed"
 			Write-Host "$($job.Name) : Completed"
 
+			# Delete the job
 			Remove-Job $job
 		}
 	}
 
+	# Sleep a bit and then try again
 	Start-Sleep 1
 }
+
+
+# Everything has been built. Now build hexchat.
 
 Set-Location $HexchatSourceDirectory
 
