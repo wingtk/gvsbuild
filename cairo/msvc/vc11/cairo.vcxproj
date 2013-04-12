@@ -961,6 +961,7 @@
     <ClCompile Include="..\..\src\cairo-botor-scan-converter.c" />
     <ClCompile Include="..\..\src\cairo-boxes.c" />
     <ClCompile Include="..\..\src\cairo-boxes-intersect.c" />
+    <ClCompile Include="..\..\src\cairo-path-stroke-traps.c" />
     <ClCompile Include="..\..\src\cairo.c" />
     <ClCompile Include="..\..\src\cairo-cache.c" />
     <ClCompile Include="..\..\src\cairo-clip.c" />
