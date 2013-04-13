@@ -1,13 +1,10 @@
-:: run this from a VS x64 command prompt
+:: run this from a command prompt
 @echo off
 
 SET PACKAGE_NAME=zlib-1.2.8
 
-nmake -f win32\Makefile.msc clean
-nmake -f win32\Makefile.msc AS=ml64 LOC="-I. -I.\win32 -DASMV -DASMINF" OBJA="inffasx64.obj gvmat64.obj inffas8664.obj"
 set ZLIB_SRC=%cd%
 set ZLIB_DEST=%cd%-x64
-nmake -f win32\Makefile.msc test
 echo.Press return when ready to install!
 pause
 
@@ -21,11 +18,20 @@ mkdir %ZLIB_DEST%\share\doc
 mkdir %ZLIB_DEST%\share\doc\zlib
 copy zlib.h %ZLIB_DEST%\include
 copy zconf.h %ZLIB_DEST%\include
-copy zdll.lib %ZLIB_DEST%\lib
-copy zlib1.dll %ZLIB_DEST%\bin
-copy zlib1.pdb %ZLIB_DEST%\bin
+copy contrib\vstudio\vc11\x64\MiniUnzipRelease\miniunz.exe %ZLIB_DEST%\bin
+copy contrib\vstudio\vc11\x64\MiniUnzipRelease\miniunz.pdb %ZLIB_DEST%\bin
+copy contrib\vstudio\vc11\x64\MiniZipRelease\minizip.exe %ZLIB_DEST%\bin
+copy contrib\vstudio\vc11\x64\MiniZipRelease\minizip.pdb %ZLIB_DEST%\bin
+copy contrib\vstudio\vc11\x64\TestZlibDllRelease\testzlibdll.exe %ZLIB_DEST%\bin
+copy contrib\vstudio\vc11\x64\TestZlibDllRelease\testzlibdll.pdb %ZLIB_DEST%\bin
+copy contrib\vstudio\vc11\x64\TestZlibReleaseWithoutAsm\testzlib.exe %ZLIB_DEST%\bin
+copy contrib\vstudio\vc11\x64\TestZlibReleaseWithoutAsm\testzlib.pdb %ZLIB_DEST%\bin
+copy contrib\vstudio\vc11\x64\ZlibDllReleaseWithoutAsm\zlibwapi.dll %ZLIB_DEST%\bin
+copy contrib\vstudio\vc11\x64\ZlibDllReleaseWithoutAsm\zlibwapi.map %ZLIB_DEST%\bin
+copy contrib\vstudio\vc11\x64\ZlibDllReleaseWithoutAsm\zlibwapi.pdb %ZLIB_DEST%\bin
+copy contrib\vstudio\vc11\x64\ZlibDllReleaseWithoutAsm\zlibwapi.lib %ZLIB_DEST%\lib
+copy contrib\vstudio\vc11\x64\ZlibStatReleaseWithoutAsm\zlibstat.lib %ZLIB_DEST%\lib
 copy README %ZLIB_DEST%\share\doc\zlib\COPYING
-nmake -f win32\Makefile.msc clean
 
 cd %ZLIB_DEST%
 set PATH=%PATH%;%ProgramFiles%\7-zip
