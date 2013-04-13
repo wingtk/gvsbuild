@@ -1,68 +1,112 @@
-#========================================================================================================================================================
-# Instructions:-
-# 1. Install mozilla-build, cmake, nasm, perl, msgfmt as per http://gtk.hexchat.org/
-# 2. Clone https://github.com/hexchat/gtk-win32.git
-# 3. Set the command line flags based on the Properties section below, if needed
-# 4. Paste this script in a powershell window, or run it if you know how to
-#
-# Examples:-
-# 
-# Default paths. x86 build.
-# C:\mozilla-build\hexchat\github\gtk-win32\hexchat-build.ps1
-# 
-# Default paths. x64 build using the x64 cross compiler.
-# C:\mozilla-build\hexchat\github\gtk-win32\hexchat-build.ps1 -Configuration x86_amd64
-# 
-# Default paths. x64 build using the x64 native compiler.
-# C:\mozilla-build\hexchat\github\gtk-win32\hexchat-build.ps1 -Configuration x64
-# 
-# Default paths. Items are built one at a time. x86 build.
-# C:\mozilla-build\hexchat\github\gtk-win32\hexchat-build.ps1 -DisableParallelBuild
-# 
-# Custom paths. x86 build.
-# C:\mozilla-build\hexchat\github\gtk-win32\hexchat-build.ps1 -MozillaBuildDirectory D:\mozilla-build -ArchivesDownloadDirectory C:\hexchat-deps -SevenZip C:\Downloads\7-Zip\7za.exe
-#========================================================================================================================================================
+<#
+
+.SYNOPSIS
+This is a build script to build GTK+ and openssl.
+
+
+.DESCRIPTION
+1. Install mozilla-build, cmake, nasm, perl, msgfmt as per http://gtk.hexchat.org/
+2. Clone https://github.com/hexchat/gtk-win32.git
+3. Run this script. Set the parameters, if needed.
+
+
+.PARAMETER Configuration
+The configuration to be built. One of the following:
+x86       - 32-bit build.
+x86_amd64 - 64-bit build using the 32-bit cross-compiler. Use this if you have VS Express.
+x64       - 64-bit build using the native 64-bit compiler. Not available in VS Express.
+
+
+.PARAMETER DisableParallelBuild
+Setting this to $true forces the items to be built one after the other.
+
+
+.PARAMETER MozillaBuildDirectory
+The directory where you installed Mozilla Build.
+
+
+.PARAMETER ArchivesDownloadDirectory
+The directory to download the source archives to. It will be created. If a source archive already exists here, it won't be downloaded again.
+
+
+.PARAMETER PatchesRootDirectory
+The directory where you checked out https://github.com/hexchat/gtk-win32.git
+
+
+.PARAMETER VSInstallPath
+The directory where you installed Visual Studio
+
+
+.PARAMETER Wget
+The path to any downloader. It is invoked as &$Wget "$url" and should output a file in the current directory.
+
+
+.PARAMETER SevenZip
+The path to a 7-zip executable. Do not use the one provided by Mozilla Build as it's too old and will not work.
+
+
+.EXAMPLE
+build.ps1
+Default paths. x86 build.
+
+
+.EXAMPLE
+build.ps1 -Configuration x86_amd64
+Default paths. x64 build using the x64 cross compiler.
+
+
+.EXAMPLE
+build.ps1 -Configuration x64
+Default paths. x64 build using the x64 native compiler.
+
+
+.EXAMPLE
+build.ps1 -DisableParallelBuild
+Default paths. Items are built one at a time. x86 build.
+
+
+.EXAMPLE
+build.ps1 -MozillaBuildDirectory D:\mozilla-build -ArchivesDownloadDirectory C:\hexchat-deps -SevenZip C:\Downloads\7-Zip\7za.exe
+Custom paths. x86 build.
+
+
+.LINK
+http://gtk.hexchat.org/
+
+#>
 
 #========================================================================================================================================================
-# Properties begin here
+# Parameters begin here
 #========================================================================================================================================================
 
 param (
-	# Configuration: 'x86' (native 32 bit), 'x86_amd64' (cross-compiled 64 bit) or 'x64' (native 64 bit). 'x64' is not available in Visual Studio Express.
 	[string][ValidateSet('x86', 'x86_amd64', 'x64')]
 	$Configuration = 'x86',
 
-	# Disable building in parallel or not
 	[switch]
 	$DisableParallelBuild = $false,
 
-	# Your mozilla-build directory
 	[string]
 	$MozillaBuildDirectory = 'C:\mozilla-build',
 
-	# The directory to download the source archives to. It will be created. If an archive already exists here, it won't be downloaded again.
 	[string]
 	$ArchivesDownloadDirectory = 'C:\mozilla-build\hexchat\src',
 
-	# Location where you checked out https://github.com/hexchat/gtk-win32.git
 	[string]
 	$PatchesRootDirectory = 'C:\mozilla-build\hexchat\github\gtk-win32',
 
-	# Visual Studio install path
 	[string]
 	$VSInstallPath = 'C:\Program Files (x86)\Microsoft Visual Studio 11.0',
 
-	# Path to any downloader. Invoked as &$Wget "$url"
 	[string]
 	$Wget = "$MozillaBuildDirectory\wget\wget.exe",
 
-	# Path to 7-zip executable (do not use the one provided by mozilla-build, it's too old)
 	[string]
 	$SevenZip = 'C:\Program Files\7-Zip\7z.exe'
 )
 
 #========================================================================================================================================================
-# Properties end here
+# Parameters end here
 #========================================================================================================================================================
 
 #========================================================================================================================================================
@@ -71,7 +115,7 @@ param (
 
 $data = @{
 	'atk'              = @('http://dl.hexchat.org/gtk-win32/src/atk-2.8.0.7z',            @('glib')                         );
-	'cairo'            = @('http://dl.hexchat.org/gtk-win32/src/cairo-1.12.14.7z',         @('fontconfig', 'glib', 'pixman') );
+	'cairo'            = @('http://dl.hexchat.org/gtk-win32/src/cairo-1.12.14.7z',        @('fontconfig', 'glib', 'pixman') );
 	'enchant'          = @('http://dl.hexchat.org/gtk-win32/src/enchant-1.6.0.7z',        @('glib')                         );
 	'fontconfig'       = @('http://dl.hexchat.org/gtk-win32/src/fontconfig-2.8.0.7z',     @('freetype', 'libxml2')          );
 	'freetype'         = @('http://dl.hexchat.org/gtk-win32/src/freetype-2.4.11.7z',      @()                               );
