@@ -99,7 +99,7 @@
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Itanium'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Itanium'">false</GenerateManifest>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">x64\MiniZip$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">x86\MiniZip$(Configuration)\Tmp\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">x64\MiniZip$(Configuration)\Tmp\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Itanium'">ia64\$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Itanium'">ia64\$(Configuration)\</IntDir>
