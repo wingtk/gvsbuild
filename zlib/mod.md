@@ -12,7 +12,7 @@
 	* Correct `Output Directory` and `Intermediate Directory` for `minizip` on `x64`
 	* Fix runtime libraries (`/MT` for static libraries, `/MD` for DLL builds)
 	* Select `Generate Debug Info` for `zlibvc` and for `testzlib` on `x64`
- * Open `contrib\vstudio\vc11\zlib.sln` with VS
+ * Open `contrib\vstudio\vc11\zlibvc.sln` with VS
  * Build in VS
  * Release with `release-x86.bat`
  * Extract package to `C:\mozilla-build\hexchat\build\Win32`
