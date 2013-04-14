@@ -45,6 +45,10 @@ The path to any downloader. It is invoked as &$Wget "$url" and should output a f
 The path to a 7-zip executable. Do not use the one provided by Mozilla Build as it's too old and will not work.
 
 
+.PARAMETER OnlyBuild
+A subset of the items you want built.
+
+
 .EXAMPLE
 build.ps1
 Default paths. x86 build.
@@ -68,6 +72,11 @@ Default paths. Items are built one at a time. x86 build.
 .EXAMPLE
 build.ps1 -MozillaBuildDirectory D:\mozilla-build -ArchivesDownloadDirectory C:\hexchat-deps -SevenZip C:\Downloads\7-Zip\7za.exe
 Custom paths. x86 build.
+
+
+.EXAMPLE
+build.ps1 -OnlyBuild openssl
+Only builds openssl and its dependencies (zlib).
 
 
 .LINK
@@ -102,7 +111,10 @@ param (
 	$Wget = "$MozillaBuildDirectory\wget\wget.exe",
 
 	[string]
-	$SevenZip = 'C:\Program Files\7-Zip\7z.exe'
+	$SevenZip = 'C:\Program Files\7-Zip\7z.exe',
+
+	[string[]]
+	$OnlyBuild = @()
 )
 
 #========================================================================================================================================================
@@ -325,7 +337,26 @@ foreach ($element in $items.GetEnumerator()) {
 	$item['PatchDirectory'] = $(New-Object System.IO.DirectoryInfo $patchDirectory)
 	$item['BuildDirectory'] = $(New-Object System.IO.DirectoryInfo "$workingDirectory\$($archiveFile.BaseName)")
 	$item['BuildArchiveFile'] = $(New-Object System.IO.FileInfo "$workingDirectory\$($archiveFile.BaseName)-$filenameArch$($archiveFile.Extension)")
-	$item['Dependencies'] = $item['Dependencies'] | %{ $items[$_] }
+	$item['Dependencies'] = @($item['Dependencies'] | %{ $items[$_] })
+}
+
+
+# If OnlyBuild is not an empty array, only keep the items that are specified
+if ($OnlyBuild.Length -gt 0) {
+	$newItems = @{}
+
+	$queue = New-Object System.Collections.Generic.Queue[string] (, $OnlyBuild)
+
+	while ($queue.Length -gt 0) {
+		$itemName = $queue.Dequeue()
+		$item = $items[$itemName]
+
+		$newItems[$itemName] = $item
+
+		@($item['Dependencies']) | %{ $queue.Enqueue($_.Name) }
+	}
+
+	$items = $newItems
 }
 
 
@@ -432,7 +463,7 @@ while ($completedItems.Count -ne $items.Count) {
 				$completedItems[$_.Key] -eq $null -and 
 				(Get-Job -Name $_.Key 2>$null) -eq $null
 			} | %{ $_.Value } | ?{
-				[Object[]] $dependencies = $_['Dependencies']
+				[Object[]] $dependencies = @($_['Dependencies'])
 				if ($dependencies.Length -gt 0) {
 					[Object[]] $remainingDependencies = $dependencies | ?{ $completedItems[$_['Name']] -eq $null }
 					return $remainingDependencies.Length -eq 0
