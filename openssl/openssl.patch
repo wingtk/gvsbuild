@@ -1,0 +1,34 @@
+diff -ruN --strip-trailing-cr openssl-1.0.1e.orig/crypto/comp/c_zlib.c openssl-1.0.1e/crypto/comp/c_zlib.c
+--- openssl-1.0.1e.orig/crypto/comp/c_zlib.c	2013-02-11 16:26:04 +0100
++++ openssl-1.0.1e/crypto/comp/c_zlib.c	2013-04-14 02:10:23 +0200
+@@ -346,7 +346,11 @@
+ 	if (!zlib_loaded)
+ 		{
+ #if defined(OPENSSL_SYS_WINDOWS) || defined(OPENSSL_SYS_WIN32)
++#ifdef ZLIB_WINAPI
++		zlib_dso = DSO_load(NULL, "ZLIBWAPI", NULL, 0);
++#else
+ 		zlib_dso = DSO_load(NULL, "ZLIB1", NULL, 0);
++#endif
+ #else
+ 		zlib_dso = DSO_load(NULL, "z", NULL, 0);
+ #endif
+diff -ruN --strip-trailing-cr openssl-1.0.1e.orig/util/pl/VC-32.pl openssl-1.0.1e/util/pl/VC-32.pl
+--- openssl-1.0.1e.orig/util/pl/VC-32.pl	2013-02-11 16:26:04 +0100
++++ openssl-1.0.1e/util/pl/VC-32.pl	2013-04-14 02:18:24 +0200
+@@ -21,7 +21,14 @@
+ $mkdir='$(PERL) util/mkdir-p.pl';
+ $rm='del /Q';
+ 
+-$zlib_lib="zlib1.lib";
++if ($cflags =~ /\-DZLIB_WINAPI/)
++	{
++	$zlib_lib="zlibwapi.lib";
++	}
++else
++	{
++	$zlib_lib="zlib1.lib";
++	}
+ 
+ # Santize -L options for ms link
+ $l_flags =~ s/-L("\[^"]+")/\/libpath:$1/g;
