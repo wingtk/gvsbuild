@@ -241,6 +241,7 @@ $items['libxml2']['BuildScript'] = {
 
 $items['openssl']['BuildScript'] = {
 	VSPrompt -Name 'openssl' `
+		"$patch -p1 -i openssl.patch" `
 		"build-$filenameArch.bat"
 }
 
@@ -265,7 +266,8 @@ $items['win-iconv']['BuildScript'] = {
 
 $items['zlib']['BuildScript'] = {
 	VSPrompt -Name 'zlib' `
-		"build-$filenameArch.bat"
+		"msbuild contrib\vstudio\vc11\zlibvc.sln /p:Platform=$platform /p:Configuration=ReleaseWithoutAsm" `
+		"release-$filenameArch.bat"
 }
 
 #========================================================================================================================================================
