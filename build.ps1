@@ -131,11 +131,11 @@ $items = @{
 	'enchant'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/enchant-1.6.0.7z';        'Dependencies' = @('glib')                         };
 	'fontconfig'       = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/fontconfig-2.8.0.7z';     'Dependencies' = @('freetype', 'libxml2')          };
 	'freetype'         = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/freetype-2.4.11.7z';      'Dependencies' = @()                               };
-	'gdk-pixbuf'       = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/gdk-pixbuf-2.28.0.7z';    'Dependencies' = @('glib', 'libpng')               };
+	'gdk-pixbuf'       = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/gdk-pixbuf-2.28.1.7z';    'Dependencies' = @('glib', 'libpng')               };
 	'gettext-runtime'  = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/gettext-runtime-0.18.7z'; 'Dependencies' = @('win-iconv')                    };
-	'glib'             = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/glib-2.36.0.7z';          'Dependencies' = @('gettext-runtime', 'libffi')    };
+	'glib'             = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/glib-2.36.1.7z';          'Dependencies' = @('gettext-runtime', 'libffi')    };
 	'gtk'              = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/gtk-2.24.17.7z';          'Dependencies' = @('atk', 'gdk-pixbuf', 'pango')   };
-	'harfbuzz'         = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/harfbuzz-0.9.15.7z';      'Dependencies' = @('freetype', 'glib')             };
+	'harfbuzz'         = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/harfbuzz-0.9.16.7z';      'Dependencies' = @('freetype', 'glib')             };
 	'libffi'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/libffi-3.0.13.7z';        'Dependencies' = @()                               };
 	'libpng'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/libpng-1.6.2.7z';         'Dependencies' = @('zlib')                         };
 	'libxml2'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/libxml2-2.9.0.7z';        'Dependencies' = @('win-iconv')                    };

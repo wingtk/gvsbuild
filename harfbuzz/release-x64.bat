@@ -1,7 +1,7 @@
 :: run this from a command prompt
 @echo off
 
-SET PACKAGE_NAME=harfbuzz-0.9.15
+SET PACKAGE_NAME=harfbuzz-0.9.16
 
 set HARFBUZZ_SRC=%cd%
 set HARFBUZZ_DEST=%cd%-x64
