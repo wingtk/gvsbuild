@@ -234,7 +234,8 @@
     </Link>
     <CustomBuildStep>
       <Message>Executing PNG test program</Message>
-      <Command>"$(OutDir)pngtest.exe" ..\..\..\pngtest.png "$(IntDir)pngout.png"</Command>
+      <Command>copy ..\..\..\..\..\..\gtk\$(Platform)\bin\zlib1.dll $(OutDir)
+"$(OutDir)pngtest.exe" ..\..\..\pngtest.png "$(IntDir)pngout.png"</Command>
       <Outputs>$(IntDir)pngout.png</Outputs>
       <Inputs>..\..\..\pngtest.png;$(OutDir)pngtest.exe</Inputs>
     </CustomBuildStep>
@@ -266,7 +267,8 @@
     </Link>
     <CustomBuildStep>
       <Message>Executing PNG test program</Message>
-      <Command>"$(OutDir)pngtest.exe" ..\..\..\pngtest.png "$(IntDir)pngout.png"</Command>
+      <Command>copy ..\..\..\..\..\..\gtk\$(Platform)\bin\zlib1.dll $(OutDir)
+"$(OutDir)pngtest.exe" ..\..\..\pngtest.png "$(IntDir)pngout.png"</Command>
       <Outputs>$(IntDir)pngout.png</Outputs>
       <Inputs>..\..\..\pngtest.png;$(OutDir)pngtest.exe</Inputs>
     </CustomBuildStep>
@@ -372,7 +374,8 @@
     <CustomBuildStep>
       <Message>Executing PNG test program</Message>
       <Command>$(OutDir)pngtest.exe ..\..\..\pngtest.png $(IntDir)pngout.png</Command>
-      <Command>"$(OutDir)pngtest.exe" ..\..\..\pngtest.png "$(IntDir)pngout.png"</Command>
+      <Command>copy ..\..\..\..\..\..\gtk\$(Platform)\bin\zlib1.dll $(OutDir)
+"$(OutDir)pngtest.exe" ..\..\..\pngtest.png "$(IntDir)pngout.png"</Command>
       <Outputs>$(IntDir)pngout.png</Outputs>
       <Inputs>..\..\..\pngtest.png;$(OutDir)pngtest.exe</Inputs>
     </CustomBuildStep>
@@ -408,7 +411,8 @@
     <CustomBuildStep>
       <Message>Executing PNG test program</Message>
       <Command>$(OutDir)pngtest.exe ..\..\..\pngtest.png $(IntDir)pngout.png</Command>
-      <Command>"$(OutDir)pngtest.exe" ..\..\..\pngtest.png "$(IntDir)pngout.png"</Command>
+      <Command>copy ..\..\..\..\..\..\gtk\$(Platform)\bin\zlib1.dll $(OutDir)
+"$(OutDir)pngtest.exe" ..\..\..\pngtest.png "$(IntDir)pngout.png"</Command>
       <Outputs>$(IntDir)pngout.png</Outputs>
       <Inputs>..\..\..\pngtest.png;$(OutDir)pngtest.exe</Inputs>
     </CustomBuildStep>

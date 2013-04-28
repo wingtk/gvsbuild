@@ -1,4 +1,4 @@
- * Download [libpng 1.6.1](ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng-1.6.1.tar.xz)
+ * Download [libpng 1.6.2](ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng-1.6.2.tar.xz)
  * Extract to `C:\mozilla-build\hexchat`
  * Add to `projects\vstudio\zlib.props`:
 <pre>
@@ -29,6 +29,7 @@
  * For _pngtest_, add to _Command Line_ beginning under _Configuration Properties_ `->` _Custom Build Step_ `->` _General_:
 	<pre>copy ..\..\..\..\..\..\gtk\$(Platform)\bin\zlib1.dll $(OutDir)</pre>
  * Under solution properties, make _pngvalid_ depend on _pngtest_
+ * Make a new _x64_ solution platform based on _Win32_
  * Build in VS
  * Release with `release-x86.bat`
  * Extract package to `C:\mozilla-build\hexchat\build\Win32`

@@ -137,7 +137,7 @@ $items = @{
 	'gtk'              = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/gtk-2.24.17.7z';          'Dependencies' = @('atk', 'gdk-pixbuf', 'pango')   };
 	'harfbuzz'         = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/harfbuzz-0.9.15.7z';      'Dependencies' = @('freetype', 'glib')             };
 	'libffi'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/libffi-3.0.13.7z';        'Dependencies' = @()                               };
-	'libpng'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/libpng-1.6.1.7z';         'Dependencies' = @('zlib')                         };
+	'libpng'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/libpng-1.6.2.7z';         'Dependencies' = @('zlib')                         };
 	'libxml2'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/libxml2-2.9.0.7z';        'Dependencies' = @('win-iconv')                    };
 	'openssl'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/openssl-1.0.1e.7z';       'Dependencies' = @('zlib')                         };
 	'pango'            = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/pango-1.32.5.7z';         'Dependencies' = @('cairo', 'harfbuzz')            };

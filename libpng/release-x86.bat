@@ -1,7 +1,7 @@
 :: run this from a VS x86 command prompt
 @echo off
 
-SET PACKAGE_NAME=libpng-1.6.1
+SET PACKAGE_NAME=libpng-1.6.2
 
 set LIBPNG_SRC=%cd%
 set LIBPNG_DEST=%cd%-x86
