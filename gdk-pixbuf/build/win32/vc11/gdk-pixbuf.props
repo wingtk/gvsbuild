@@ -4,7 +4,7 @@
     <VSVer>10</VSVer>
     <GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
     <GlibEtcInstallRootFromBuildWin32>..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRootFromBuildWin32>
-    <CopyDir>..\..\..\..\gdk-pixbuf-2.28.0-rel</CopyDir>
+    <CopyDir>..\..\..\..\gdk-pixbuf-2.28.1-rel</CopyDir>
     <ApiVersion>2.0</ApiVersion>
     <GdkPixbufBinaryVersion>2.10.0</GdkPixbufBinaryVersion>
     <GDIP_MACROS>INCLUDE_gdiplus</GDIP_MACROS>
