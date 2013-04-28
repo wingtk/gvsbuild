@@ -2,7 +2,7 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
     <GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
-    <CopyDir>..\..\..\..\glib-2.36.0-rel</CopyDir>
+    <CopyDir>..\..\..\..\glib-2.36.1-rel</CopyDir>
     <ApiVersion>2.0</ApiVersion>
     <GlibDoInstall>
 mkdir $(CopyDir)\bin
@@ -528,10 +528,10 @@ copy ..\..\..\gio\gschema.dtd $(CopyDir)\share\glib-$(ApiVersion)\schemas
 </GlibDoInstall>
     <GlibLibtoolCompatibleDllPrefix>lib</GlibLibtoolCompatibleDllPrefix>
     <GlibLibtoolCompatibleDllSuffix>-$(ApiVersion)-0</GlibLibtoolCompatibleDllSuffix>
-    <GlibSeparateVS10DllPrefix />
-    <GlibSeparateVS10DllSuffix>-2.0</GlibSeparateVS10DllSuffix>
-    <GlibDllPrefix>$(GlibSeparateVS10DllPrefix)</GlibDllPrefix>
-    <GlibDllSuffix>$(GlibSeparateVS10DllSuffix)</GlibDllSuffix>
+    <GlibSeparateVS11DllPrefix />
+    <GlibSeparateVS11DllSuffix>-2.0</GlibSeparateVS11DllSuffix>
+    <GlibDllPrefix>$(GlibSeparateVS11DllPrefix)</GlibDllPrefix>
+    <GlibDllSuffix>$(GlibSeparateVS11DllSuffix)</GlibDllSuffix>
   </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>glibprops</_PropertySheetDisplayName>
@@ -599,11 +599,11 @@ copy ..\..\..\gio\gnetworking.h.win32 ..\..\..\gio\gnetworking.h
     <BuildMacro Include="GlibLibtoolCompatibleDllSuffix">
       <Value>$(GlibLibtoolCompatibleDllSuffix)</Value>
     </BuildMacro>
-    <BuildMacro Include="GlibSeparateVS10DllPrefix">
-      <Value>$(GlibSeparateVS10DllPrefix)</Value>
+    <BuildMacro Include="GlibSeparateVS11DllPrefix">
+      <Value>$(GlibSeparateVS11DllPrefix)</Value>
     </BuildMacro>
-    <BuildMacro Include="GlibSeparateVS10DllSuffix">
-      <Value>$(GlibSeparateVS10DllSuffix)</Value>
+    <BuildMacro Include="GlibSeparateVS11DllSuffix">
+      <Value>$(GlibSeparateVS11DllSuffix)</Value>
     </BuildMacro>
     <BuildMacro Include="GlibDllPrefix">
       <Value>$(GlibDllPrefix)</Value>
