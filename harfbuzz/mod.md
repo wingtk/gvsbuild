@@ -1,11 +1,11 @@
- * Download [HarfBuzz 0.9.15](http://cgit.freedesktop.org/harfbuzz/snapshot/harfbuzz-0.9.15.zip)
+ * Download [HarfBuzz 0.9.16](http://cgit.freedesktop.org/harfbuzz/snapshot/harfbuzz-0.9.16.zip)
  * Download [blinkseb's HarfBuzz solution](https://github.com/blinkseb/harfbuzz)
  * Extract to `C:\mozilla-build\hexchat`
  * Rename `src\hb-version.h.in` to `src\hb-version.h` and fix the following macros:
 	* `HB_VERSION_MAJOR` (0)
 	* `HB_VERSION_MINOR` (9)
-	* `HB_VERSION_MICRO` (15)
-	* `HB_VERSION_STRING` ("0.9.15")
+	* `HB_VERSION_MICRO` (16)
+	* `HB_VERSION_STRING` ("0.9.16")
  * Open `win32\harfbuzz.sln` with VS
  * Add to _Additional Include Directories_ under _Configuration Properties_ `->` _C/C++_ `->` _General_:
 	<pre>..\..\..\..\gtk\$(Platform)\include
