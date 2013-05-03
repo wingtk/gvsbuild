@@ -1,7 +1,7 @@
 :: run this from a VS x64 command prompt
 @echo off
 
-SET PACKAGE_NAME=zlib-1.2.7
+SET PACKAGE_NAME=zlib-1.2.8
 
 nmake -f win32\Makefile.msc clean
 nmake -f win32\Makefile.msc AS=ml64 LOC="-I. -I.\win32 -DASMV -DASMINF" OBJA="inffasx64.obj gvmat64.obj inffas8664.obj"

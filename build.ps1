@@ -143,7 +143,7 @@ $items = @{
 	'pango'            = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/pango-1.32.5.7z';         'Dependencies' = @('cairo', 'harfbuzz')            };
 	'pixman'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/pixman-0.28.2.7z';        'Dependencies' = @('libpng')                       };
 	'win-iconv'        = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/win-iconv-0.0.6.7z';      'Dependencies' = @()                               };
-	'zlib'             = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/zlib-1.2.7.7z';           'Dependencies' = @()                               };
+	'zlib'             = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/zlib-1.2.8.7z';           'Dependencies' = @()                               };
 }
 
 #========================================================================================================================================================
