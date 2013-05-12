@@ -29,7 +29,7 @@ copy contrib\vstudio\vc11\x64\TestZlibReleaseWithoutAsm\testzlib.pdb %ZLIB_DEST%
 copy contrib\vstudio\vc11\x64\ZlibDllReleaseWithoutAsm\zlib1.dll %ZLIB_DEST%\bin
 copy contrib\vstudio\vc11\x64\ZlibDllReleaseWithoutAsm\zlib1.map %ZLIB_DEST%\bin
 copy contrib\vstudio\vc11\x64\ZlibDllReleaseWithoutAsm\zlib1.pdb %ZLIB_DEST%\bin
-copy contrib\vstudio\vc11\x64\ZlibDllReleaseWithoutAsm\zdll.lib %ZLIB_DEST%\lib
+copy contrib\vstudio\vc11\x64\ZlibDllReleaseWithoutAsm\zlib1.lib %ZLIB_DEST%\lib
 copy contrib\vstudio\vc11\x64\ZlibStatReleaseWithoutAsm\zlibstat.lib %ZLIB_DEST%\lib
 copy README %ZLIB_DEST%\share\doc\zlib\COPYING
 

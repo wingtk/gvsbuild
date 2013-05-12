@@ -7,12 +7,12 @@
 			&lt;AdditionalIncludeDirectories>..\..\..\..\..\..\gtk\$(Platform)\include&lt;/AdditionalIncludeDirectories>
 		&lt;/ClCompile>
 		&lt;Link>
-			&lt;!--AdditionalDependencies>zdll.lib&lt;/AdditionalDependencies-->
+			&lt;!--AdditionalDependencies>zlib1.lib&lt;/AdditionalDependencies-->
 			&lt;AdditionalLibraryDirectories>..\..\..\..\..\..\gtk\$(Platform)\lib&lt;/AdditionalLibraryDirectories>
 		&lt;/Link>
 	&lt;/ItemDefinitionGroup>
 </pre>
- * Replace `zlib.lib` with `zdll.lib` in:
+ * Replace `zlib.lib` with `zlib1.lib` in:
 	* `projects\vstudio\libpng\libpng.vcxproj`
 	* `projects\vstudio\pngstest\pngstest.vcxproj`
 	* `projects\vstudio\pngtest\pngtest.vcxproj`

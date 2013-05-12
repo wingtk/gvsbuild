@@ -12,7 +12,7 @@
 `<GdkPixbufSeparateVSDllSuffix>-2.0</GdkPixbufSeparateVSDllSuffix>`
  * In `build\win32\vc11\gdk-pixbuf.props`, add to `GdkPixbufDoInstall`:  
 `copy $(Configuration)\$(Platform)\bin\*.pdb $(CopyDir)\bin`
- * Replace `zlib1.lib` with `zdll.lib` and `libpng15.lib` with `libpng16.lib` in `build\win32\vc11\gdk-pixbuf.vcxproj`
+ * Replace `libpng15.lib` with `libpng16.lib` in `build\win32\vc11\gdk-pixbuf.vcxproj`
  * Open `build\win32\vc11\gdk-pixbuf.sln` with VS
  * Build in VS
  * Release with `release-x86.bat`

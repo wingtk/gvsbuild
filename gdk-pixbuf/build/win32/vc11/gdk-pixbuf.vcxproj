@@ -175,7 +175,7 @@
       <Command>$(GdkPixbufGenerateGdkPixbufDef)</Command>
     </PreLinkEvent>
     <Link>
-      <AdditionalDependencies>Gdiplus.lib;libpng16.lib;zdll.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Gdiplus.lib;libpng16.lib;zlib1.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(GdkPixbufDllPrefix)gdk_pixbuf$(GdkPixbufDllSuffix).dll</OutputFile>
       <ModuleDefinitionFile>$(IntDir)\gdk-pixbuf.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -227,7 +227,7 @@
       <Command>$(GdkPixbufGenerateGdkPixbufDef)</Command>
     </PreLinkEvent>
     <Link>
-      <AdditionalDependencies>Gdiplus.lib;libpng16.lib;zdll.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Gdiplus.lib;libpng16.lib;zlib1.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(GdkPixbufDllPrefix)gdk_pixbuf$(GdkPixbufDllSuffix).dll</OutputFile>
       <ModuleDefinitionFile>$(IntDir)\gdk-pixbuf.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -284,7 +284,7 @@
       <Command>$(GdkPixbufGenerateGdkPixbufDef)</Command>
     </PreLinkEvent>
     <Link>
-      <AdditionalDependencies>libpng16.lib;zdll.lib;intl.lib;libjpeg.lib;libjasper.lib;libtiff_i.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libpng16.lib;zlib1.lib;intl.lib;libjpeg.lib;libjasper.lib;libtiff_i.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(GdkPixbufDllPrefix)gdk_pixbuf$(GdkPixbufDllSuffix).dll</OutputFile>
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ModuleDefinitionFile>$(IntDir)\gdk-pixbuf.def</ModuleDefinitionFile>
@@ -338,7 +338,7 @@
       <Command>$(GdkPixbufGenerateGdkPixbufDef)</Command>
     </PreLinkEvent>
     <Link>
-      <AdditionalDependencies>libpng16.lib;zdll.lib;intl.lib;libjpeg.lib;libjasper.lib;libtiff_i.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libpng16.lib;zlib1.lib;intl.lib;libjpeg.lib;libjasper.lib;libtiff_i.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(GdkPixbufDllPrefix)gdk_pixbuf$(GdkPixbufDllSuffix).dll</OutputFile>
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ModuleDefinitionFile>$(IntDir)\gdk-pixbuf.def</ModuleDefinitionFile>

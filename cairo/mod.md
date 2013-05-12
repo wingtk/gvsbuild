@@ -2,7 +2,6 @@
  * Download [VS solution](https://live.gnome.org/GTK%2B/Win32/MSVCCompilationOfGTKStack?action=AttachFile&do=get&target=cairo-vsprojects.zip)
  * Extract to `C:\mozilla-build\hexchat`
  * In `msvc\vc11\cairo.props`, replace:
-	* `zlib1.lib` with `zdll.lib`
 	* `<CairoEtcInstallRoot>..\..\..\vs10\$(Platform)</CairoEtcInstallRoot>` with  
 `<CairoEtcInstallRoot>..\..\..\..\..\gtk\$(Platform)</CairoEtcInstallRoot>`
 	* `<CopyDir>$(CairoEtcInstallRoot)</CopyDir>` with  
