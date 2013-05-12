@@ -237,7 +237,7 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
-      <ImportLibrary>$(OutDir)zdll.lib</ImportLibrary>
+      <ImportLibrary>$(OutDir)zlib1.lib</ImportLibrary>
     </Link>
     <PreBuildEvent>
       <Command>cd ..\..\masmx86
@@ -289,7 +289,7 @@ bld_ml32.bat</Command>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
-      <ImportLibrary>$(OutDir)zdll.lib</ImportLibrary>
+      <ImportLibrary>$(OutDir)zlib1.lib</ImportLibrary>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -339,7 +339,7 @@ bld_ml32.bat</Command>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
-      <ImportLibrary>$(OutDir)zdll.lib</ImportLibrary>
+      <ImportLibrary>$(OutDir)zlib1.lib</ImportLibrary>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
@@ -386,7 +386,7 @@ bld_ml32.bat</Command>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>$(OutDir)zlib1.map</MapFileName>
       <SubSystem>Windows</SubSystem>
-      <ImportLibrary>$(OutDir)zdll.lib</ImportLibrary>
+      <ImportLibrary>$(OutDir)zlib1.lib</ImportLibrary>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PreBuildEvent>
@@ -432,7 +432,7 @@ bld_ml64.bat</Command>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>$(OutDir)zlib1.map</MapFileName>
       <SubSystem>Windows</SubSystem>
-      <ImportLibrary>$(OutDir)zdll.lib</ImportLibrary>
+      <ImportLibrary>$(OutDir)zlib1.lib</ImportLibrary>
       <TargetMachine>MachineIA64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -477,7 +477,7 @@ bld_ml64.bat</Command>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>$(OutDir)zlib1.map</MapFileName>
       <SubSystem>Windows</SubSystem>
-      <ImportLibrary>$(OutDir)zdll.lib</ImportLibrary>
+      <ImportLibrary>$(OutDir)zlib1.lib</ImportLibrary>
       <TargetMachine>MachineX64</TargetMachine>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
@@ -523,7 +523,7 @@ bld_ml64.bat</Command>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>$(OutDir)zlib1.map</MapFileName>
       <SubSystem>Windows</SubSystem>
-      <ImportLibrary>$(OutDir)zdll.lib</ImportLibrary>
+      <ImportLibrary>$(OutDir)zlib1.lib</ImportLibrary>
       <TargetMachine>MachineIA64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -569,7 +569,7 @@ bld_ml64.bat</Command>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>$(OutDir)zlib1.map</MapFileName>
       <SubSystem>Windows</SubSystem>
-      <ImportLibrary>$(OutDir)zdll.lib</ImportLibrary>
+      <ImportLibrary>$(OutDir)zlib1.lib</ImportLibrary>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PreBuildEvent>
@@ -618,7 +618,7 @@ bld_ml64.bat</Command>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>$(OutDir)zlib1.map</MapFileName>
       <SubSystem>Windows</SubSystem>
-      <ImportLibrary>$(OutDir)zdll.lib</ImportLibrary>
+      <ImportLibrary>$(OutDir)zlib1.lib</ImportLibrary>
       <TargetMachine>MachineIA64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>

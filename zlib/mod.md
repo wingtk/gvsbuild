@@ -14,7 +14,7 @@
 	* Select `Generate Debug Info` for `zlibvc` and for `testzlib` on `x64`
 	* For all projects:
 		* Remove `ZLIB_WINAPI` from `PreprocessorDefinitions`
-		* Replace `zlibwapi.lib` with `zdll.lib`
+		* Replace `zlibwapi.lib` with `zlib1.lib`
 		* Replace `zlibwapi.dll` with `zlib1.dll`
 		* Replace `zlibwapi.pdb` with `zlib1.pdb`
 		* Replace `zlibwapi.map` with `zlib1.map`
