@@ -1,0 +1,12 @@
+diff -ruN zlib-1.2.8-orig/contrib/minizip/iowin32.c zlib-1.2.8/contrib/minizip/iowin32.c
+--- zlib-1.2.8-orig/contrib/minizip/iowin32.c	2013-04-28 15:57:11.000000000 -0700
++++ zlib-1.2.8/contrib/minizip/iowin32.c	2013-05-12 13:54:33.135536800 -0700
+@@ -26,7 +26,7 @@
+ #endif
+ 
+ 
+-#if defined(WINAPI_FAMILY_PARTITION) && (!(defined(IOWIN32_USING_WINRT_API)))
++#if (_WIN32_WINNT >= _WIN32_WINNT_WIN8) && defined(WINAPI_FAMILY_PARTITION) && (!(defined(IOWIN32_USING_WINRT_API)))
+ #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
+ #define IOWIN32_USING_WINRT_API 1
+ #endif
