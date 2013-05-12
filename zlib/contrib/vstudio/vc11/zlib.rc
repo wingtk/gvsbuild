@@ -19,7 +19,7 @@ BEGIN
       VALUE "FileDescription", "zlib data compression and ZIP file I/O library\0"
       VALUE "FileVersion",	"1.2.8\0"
       VALUE "InternalName",	"zlib\0"
-      VALUE "OriginalFilename",	"zlibwapi.dll\0"
+      VALUE "OriginalFilename",	"zlib1.dll\0"
       VALUE "ProductName",	"ZLib.DLL\0"
       VALUE "Comments","DLL support by Alessandro Iacopetti & Gilles Vollant\0"
       VALUE "LegalCopyright", "(C) 1995-2013 Jean-loup Gailly & Mark Adler\0"

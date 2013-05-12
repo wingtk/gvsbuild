@@ -12,6 +12,12 @@
 	* Correct `Output Directory` and `Intermediate Directory` for `minizip` on `x64`
 	* Fix runtime libraries (`/MT` for static libraries, `/MD` for DLL builds)
 	* Select `Generate Debug Info` for `zlibvc` and for `testzlib` on `x64`
+	* For all projects:
+		* Remove `ZLIB_WINAPI` from `PreprocessorDefinitions`
+		* Replace `zlibwapi.lib` with `zdll.lib`
+		* Replace `zlibwapi.dll` with `zlib1.dll`
+		* Replace `zlibwapi.pdb` with `zlib1.pdb`
+		* Replace `zlibwapi.map` with `zlib1.map`
  * Open `contrib\vstudio\vc11\zlibvc.sln` with VS
  * Build in VS
  * Release with `release-x86.bat`
