@@ -241,7 +241,6 @@ $items['libxml2']['BuildScript'] = {
 
 $items['openssl']['BuildScript'] = {
 	VSPrompt -Name 'openssl' `
-		"$patch -p1 -i openssl.patch" `
 		"build-$filenameArch.bat"
 }
 

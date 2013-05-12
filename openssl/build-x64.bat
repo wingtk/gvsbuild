@@ -10,7 +10,7 @@ set NASM_PATH=c:\mozilla-build\nasm
 set INCLUDE=%INCLUDE%;%OPENSSL_SRC%\..\..\..\gtk\x64\include
 set LIB=%LIB%;%OPENSSL_SRC%\..\..\..\gtk\x64\lib
 set PATH=%PATH%;%PERL_PATH%;%NASM_PATH%;%OPENSSL_SRC%\..\..\..\gtk\x64\bin
-perl Configure VC-WIN64A enable-camellia zlib-dynamic --openssldir=./ -DZLIB_WINAPI
+perl Configure VC-WIN64A enable-camellia zlib-dynamic --openssldir=./
 call ms\do_win64a
 @echo off
 nmake -f ms\ntdll.mak vclean
