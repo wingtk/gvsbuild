@@ -1,7 +1,7 @@
 :: run this from a command prompt
 @echo off
 
-SET PACKAGE_NAME=freetype-2.4.11
+SET PACKAGE_NAME=freetype-2.4.12
 
 set FREETYPE_SRC=%cd%
 set FREETYPE_DEST=%cd%-x86
