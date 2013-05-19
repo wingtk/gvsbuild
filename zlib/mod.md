@@ -21,7 +21,6 @@
 		* Replace `zlibwapi.pdb` with `zlib1.pdb`
 		* Replace `zlibwapi.map` with `zlib1.map`
 	* Select `miniunz` and `minizip` not to be built
- * Patch with `patch -p1 -i zlib-minizip-win8.patch`
  * Open `contrib\vstudio\vc11\zlibvc.sln` with VS
  * Build in VS
  * Release with `release-x86.bat`
