@@ -254,6 +254,7 @@ $items['pango']['BuildScript'] = {
 
 $items['pixman']['BuildScript'] = {
 	VSPrompt -Name 'pixman' `
+		"$patch -p1 -i pixman.patch" `
 		"msbuild build\win32\vc11\pixman.sln /p:Platform=$platform /p:Configuration=Release" `
 		"release-$filenameArch.bat"
 }

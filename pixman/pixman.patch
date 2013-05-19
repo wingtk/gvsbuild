@@ -1,0 +1,13 @@
+diff -ruN --strip-trailing-cr pixman-0.30.0.orig/pixman/pixman-filter.c pixman-0.30.0/pixman/pixman-filter.c
+--- pixman-0.30.0.orig/pixman/pixman-filter.c	2013-04-18 07:03:32 +0200
++++ pixman-0.30.0/pixman/pixman-filter.c	2013-05-19 18:44:11 +0200
+@@ -28,7 +28,9 @@
+ #include <stdio.h>
+ #include <math.h>
+ #include <assert.h>
++#ifdef HAVE_CONFIG_H
+ #include <config.h>
++#endif
+ #include "pixman-private.h"
+ 
+ typedef double (* kernel_func_t) (double x);
