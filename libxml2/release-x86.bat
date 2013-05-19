@@ -1,10 +1,10 @@
 :: run this from a command prompt
 @echo off
 
-SET PACKAGE_NAME=libxml2-2.9.0
+SET PACKAGE_NAME=libxml2-2.9.1
 
 copy win32\vc11\Release\runsuite.exe .
-set PATH=%PATH%;..\build\Win32\bin;win32\vc11\Release
+set PATH=%PATH%;..\..\..\gtk\Win32\bin;win32\vc11\Release
 runsuite.exe
 del runsuite.exe
 set LIBXML_SRC=%cd%
