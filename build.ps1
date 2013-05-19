@@ -133,7 +133,7 @@ $items = @{
 	'freetype'         = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/freetype-2.4.12.7z';      'Dependencies' = @()                               };
 	'gdk-pixbuf'       = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/gdk-pixbuf-2.28.1.7z';    'Dependencies' = @('glib', 'libpng')               };
 	'gettext-runtime'  = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/gettext-runtime-0.18.7z'; 'Dependencies' = @('win-iconv')                    };
-	'glib'             = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/glib-2.36.1.7z';          'Dependencies' = @('gettext-runtime', 'libffi')    };
+	'glib'             = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/glib-2.36.2.7z';          'Dependencies' = @('gettext-runtime', 'libffi')    };
 	'gtk'              = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/gtk-2.24.17.7z';          'Dependencies' = @('atk', 'gdk-pixbuf', 'pango')   };
 	'harfbuzz'         = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/harfbuzz-0.9.16.7z';      'Dependencies' = @('freetype', 'glib')             };
 	'libffi'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.org/gtk-win32/src/libffi-3.0.13.7z';        'Dependencies' = @()                               };

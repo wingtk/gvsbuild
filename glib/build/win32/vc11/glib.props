@@ -2,7 +2,7 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
     <GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
-    <CopyDir>..\..\..\..\glib-2.36.1-rel</CopyDir>
+    <CopyDir>..\..\..\..\glib-2.36.2-rel</CopyDir>
     <ApiVersion>2.0</ApiVersion>
     <GlibDoInstall>
 mkdir $(CopyDir)\bin
