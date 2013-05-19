@@ -1,4 +1,4 @@
- * Download [GTK+ 2.24.17](http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-2.24.17.tar.xz)
+ * Download [GTK+ 2.24.18](http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-2.24.18.tar.xz)
  * Extract to `C:\mozilla-build\hexchat`
  * Patch with `patch -p1 -i gtk-pixmap.patch`
  * In `build\win32\vc11\gtk+.props`, replace:
@@ -6,7 +6,7 @@
 	* `<GlibEtcInstallRoot>..\..\..\..\vs10\$(Platform)</GlibEtcInstallRoot>` with  
 `<GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>`
 	* `<CopyDir>$(GlibEtcInstallRoot)</CopyDir>` with  
-`<CopyDir>..\..\..\..\gtk-2.24.17-rel</CopyDir>`
+`<CopyDir>..\..\..\..\gtk-2.24.18-rel</CopyDir>`
 	* `<GtkSeparateVS10DllSuffix>-2-vs10</GtkSeparateVS10DllSuffix>` with  
 `<GtkSeparateVS10DllSuffix>-2.0</GtkSeparateVS10DllSuffix>`
 	* `<ClCompile>` with  
