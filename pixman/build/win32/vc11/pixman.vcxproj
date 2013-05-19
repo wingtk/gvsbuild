@@ -185,6 +185,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\pixman\pixman-filter.c" />
     <ClCompile Include="..\..\..\pixman\pixman.c" />
     <ClCompile Include="..\..\..\pixman\pixman-access.c" />
     <ClCompile Include="..\..\..\pixman\pixman-access-accessors.c" />
@@ -216,6 +217,7 @@
     <ClCompile Include="..\..\..\pixman\pixman-timer.c" />
     <ClCompile Include="..\..\..\pixman\pixman-trap.c" />
     <ClCompile Include="..\..\..\pixman\pixman-utils.c" />
+    <ClCompile Include="..\..\..\test\utils-prng.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,7 +1,7 @@
 :: run this from a command prompt
 @echo off
 
-SET PACKAGE_NAME=pixman-0.28.2
+SET PACKAGE_NAME=pixman-0.30.0
 
 set PIXMAN_SRC=%cd%
 set PIXMAN_DEST=%cd%-rel

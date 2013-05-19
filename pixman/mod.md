@@ -1,10 +1,10 @@
- * Download [Pixman 0.28.2](http://cairographics.org/releases/pixman-0.28.2.tar.gz)
+ * Download [Pixman 0.30.0](http://cairographics.org/releases/pixman-0.30.0.tar.gz)
  * Extract to `C:\mozilla-build\hexchat`
  * In `build\win32\vc11\pixman.props`, replace:
 	* `<PixmanEtcInstallRoot>..\..\..\..\vs10\$(PlatformName)</PixmanEtcInstallRoot>` with  
 `<PixmanEtcInstallRoot>..\..\..\..\..\..\gtk\$(PlatformName)</PixmanEtcInstallRoot>`
 	* `<CopyDir>$(PixmanEtcInstallRoot)</CopyDir>` with  
-`<CopyDir>..\..\..\..\pixman-0.28.2-rel</CopyDir>`
+`<CopyDir>..\..\..\..\pixman-0.30.0-rel</CopyDir>`
  * In `build\win32\vc11\pixman.props`, add to `PixmanDoInstall`
 `copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*.exe $(CopyDir)\bin`  
 `copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*.pdb $(CopyDir)\bin`
