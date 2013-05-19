@@ -7,6 +7,7 @@
 	* Add `stack.props` to each project
 	* Select all projects to be built
 	* For `zlibstat` and `zlibvc` remove any files that belong to `minizip`
+	* Replace `contrib\vstudio\vc11\zlibvc.def` with `win32\zlib.def`
 	* For `miniunz`, `minizip` and `testzlibdll`, change:
 		* `Additional Library Directories` to `$(OutDir)..\ZlibDllReleaseWithoutAsm`
 		* `Additional Dependencies` to `zlibwapi.lib;%(AdditionalDependencies)`
@@ -19,6 +20,7 @@
 		* Replace `zlibwapi.dll` with `zlib1.dll`
 		* Replace `zlibwapi.pdb` with `zlib1.pdb`
 		* Replace `zlibwapi.map` with `zlib1.map`
+	* Select `miniunz` and `minizip` not to be built
  * Patch with `patch -p1 -i zlib-minizip-win8.patch`
  * Open `contrib\vstudio\vc11\zlibvc.sln` with VS
  * Build in VS

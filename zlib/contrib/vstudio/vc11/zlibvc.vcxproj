@@ -228,7 +228,7 @@
       <AdditionalDependencies>..\..\masmx86\match686.obj;..\..\masmx86\inffas32.obj;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)zlib1.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <ModuleDefinitionFile>.\zlibvc.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>..\..\..\win32\zlib.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)zlib1.pdb</ProgramDatabaseFile>
       <GenerateMapFile>true</GenerateMapFile>
@@ -281,7 +281,7 @@ bld_ml32.bat</Command>
       <OutputFile>$(OutDir)zlib1.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <ModuleDefinitionFile>.\zlibvc.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>..\..\..\win32\zlib.def</ModuleDefinitionFile>
       <ProgramDatabaseFile>$(OutDir)zlib1.pdb</ProgramDatabaseFile>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>$(OutDir)zlib1.map</MapFileName>
@@ -331,7 +331,7 @@ bld_ml32.bat</Command>
       <OutputFile>$(OutDir)zlib1.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <ModuleDefinitionFile>.\zlibvc.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>..\..\..\win32\zlib.def</ModuleDefinitionFile>
       <ProgramDatabaseFile>$(OutDir)zlib1.pdb</ProgramDatabaseFile>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>$(OutDir)zlib1.map</MapFileName>
@@ -380,7 +380,7 @@ bld_ml32.bat</Command>
       <AdditionalDependencies>..\..\masmx64\gvmat64.obj;..\..\masmx64\inffasx64.obj;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)zlib1.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <ModuleDefinitionFile>.\zlibvc.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>..\..\..\win32\zlib.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)zlib1.pdb</ProgramDatabaseFile>
       <GenerateMapFile>true</GenerateMapFile>
@@ -426,7 +426,7 @@ bld_ml64.bat</Command>
     <Link>
       <OutputFile>$(OutDir)zlib1.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <ModuleDefinitionFile>.\zlibvc.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>..\..\..\win32\zlib.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)zlib1.pdb</ProgramDatabaseFile>
       <GenerateMapFile>true</GenerateMapFile>
@@ -472,7 +472,7 @@ bld_ml64.bat</Command>
       <OutputFile>$(OutDir)zlib1.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <ModuleDefinitionFile>.\zlibvc.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>..\..\..\win32\zlib.def</ModuleDefinitionFile>
       <ProgramDatabaseFile>$(OutDir)zlib1.pdb</ProgramDatabaseFile>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>$(OutDir)zlib1.map</MapFileName>
@@ -518,7 +518,7 @@ bld_ml64.bat</Command>
       <OutputFile>$(OutDir)zlib1.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <ModuleDefinitionFile>.\zlibvc.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>..\..\..\win32\zlib.def</ModuleDefinitionFile>
       <ProgramDatabaseFile>$(OutDir)zlib1.pdb</ProgramDatabaseFile>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>$(OutDir)zlib1.map</MapFileName>
@@ -564,7 +564,7 @@ bld_ml64.bat</Command>
       <OutputFile>$(OutDir)zlib1.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <ModuleDefinitionFile>.\zlibvc.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>..\..\..\win32\zlib.def</ModuleDefinitionFile>
       <ProgramDatabaseFile>$(OutDir)zlib1.pdb</ProgramDatabaseFile>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>$(OutDir)zlib1.map</MapFileName>
@@ -613,7 +613,7 @@ bld_ml64.bat</Command>
       <OutputFile>$(OutDir)zlib1.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <ModuleDefinitionFile>.\zlibvc.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>..\..\..\win32\zlib.def</ModuleDefinitionFile>
       <ProgramDatabaseFile>$(OutDir)zlib1.pdb</ProgramDatabaseFile>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>$(OutDir)zlib1.map</MapFileName>
@@ -651,7 +651,7 @@ bld_ml64.bat</Command>
     <ResourceCompile Include="zlib.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="zlibvc.def" />
+    <None Include="..\..\..\win32\zlib.def" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\deflate.h" />

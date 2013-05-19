@@ -449,9 +449,6 @@
   <ItemGroup>
     <ResourceCompile Include="zlib.rc" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="zlibvc.def" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
