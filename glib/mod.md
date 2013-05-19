@@ -12,7 +12,6 @@
 `<ClCompile><MultiProcessorCompilation>true</MultiProcessorCompilation>`
  * In `build\win32\vc11\glib.props`, add to `GlibDoInstall`
 `copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*.pdb $(CopyDir)\bin`
- * Replace `zlib1.lib` with `zdll.lib` in `build\win32\vs10\gio.vcxproj`
  * Open `build\win32\vc11\glib.sln` with VS
  * Build in VS
  * Release with `release-x86.bat`

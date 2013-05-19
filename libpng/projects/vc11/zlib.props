@@ -47,7 +47,7 @@
 			<AdditionalIncludeDirectories>..\..\..\..\..\..\gtk\$(Platform)\include</AdditionalIncludeDirectories>
 		</ClCompile>
 		<Link>
-			<!--AdditionalDependencies>zdll.lib</AdditionalDependencies-->
+			<!--AdditionalDependencies>zlib1.lib</AdditionalDependencies-->
 			<AdditionalLibraryDirectories>..\..\..\..\..\..\gtk\$(Platform)\lib</AdditionalLibraryDirectories>
 		</Link>
 	</ItemDefinitionGroup>

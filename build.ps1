@@ -265,7 +265,9 @@ $items['win-iconv']['BuildScript'] = {
 
 $items['zlib']['BuildScript'] = {
 	VSPrompt -Name 'zlib' `
-		"build-$filenameArch.bat"
+		"$patch -p1 -i zlib-minizip-win8.patch" `
+		"msbuild contrib\vstudio\vc11\zlibvc.sln /p:Platform=$platform /p:Configuration=ReleaseWithoutAsm" `
+		"release-$filenameArch.bat"
 }
 
 #========================================================================================================================================================
