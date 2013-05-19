@@ -6,6 +6,7 @@
 	* Change `Configuration` to `ReleaseWithoutAsm`
 	* Add `stack.props` to each project
 	* Select all projects to be built
+	* For `zlibstat` and `zlibvc` remove any files that belong to `minizip`
 	* For `miniunz`, `minizip` and `testzlibdll`, change:
 		* `Additional Library Directories` to `$(OutDir)..\ZlibDllReleaseWithoutAsm`
 		* `Additional Dependencies` to `zlibwapi.lib;%(AdditionalDependencies)`
