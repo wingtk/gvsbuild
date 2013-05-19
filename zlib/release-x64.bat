@@ -18,10 +18,6 @@ mkdir %ZLIB_DEST%\share\doc
 mkdir %ZLIB_DEST%\share\doc\zlib
 copy zlib.h %ZLIB_DEST%\include
 copy zconf.h %ZLIB_DEST%\include
-copy contrib\vstudio\vc11\x64\MiniUnzipRelease\miniunz.exe %ZLIB_DEST%\bin
-copy contrib\vstudio\vc11\x64\MiniUnzipRelease\miniunz.pdb %ZLIB_DEST%\bin
-copy contrib\vstudio\vc11\x64\MiniZipRelease\minizip.exe %ZLIB_DEST%\bin
-copy contrib\vstudio\vc11\x64\MiniZipRelease\minizip.pdb %ZLIB_DEST%\bin
 copy contrib\vstudio\vc11\x64\TestZlibDllRelease\testzlibdll.exe %ZLIB_DEST%\bin
 copy contrib\vstudio\vc11\x64\TestZlibDllRelease\testzlibdll.pdb %ZLIB_DEST%\bin
 copy contrib\vstudio\vc11\x64\TestZlibReleaseWithoutAsm\testzlib.exe %ZLIB_DEST%\bin
