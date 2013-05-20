@@ -205,6 +205,7 @@ $items['glib']['BuildScript'] = {
 
 $items['gtk']['BuildScript'] = {
 	VSPrompt -Name 'gtk' `
+		"$patch -p1 -i gtk-revert-scrolldc-commit.patch" `
 		"$patch -p1 -i gtk-pixmap.patch" `
 		"$patch -p1 -i gtk-bgimg.patch" `
 		"$patch -p1 -i gtk-statusicon.patch" `
