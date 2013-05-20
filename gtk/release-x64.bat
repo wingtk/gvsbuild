@@ -5,7 +5,7 @@ SET PACKAGE_NAME=gtk-2.24.18
 
 set GTK_SRC=%cd%
 set GTK_DEST=%cd%-rel
-set MSGFMT_PATH=..\..\msgfmt
+set MSGFMT_PATH=..\..\..\..\msgfmt
 :: we'll go 1 level deeper
 set PATH=%PATH%;..\%MSGFMT_PATH%
 rmdir /q /s "%GTK_DEST%\share\locale"
