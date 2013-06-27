@@ -1,7 +1,7 @@
 :: run this from a command prompt
 @echo off
 
-SET PACKAGE_NAME=atk-2.8.0
+SET PACKAGE_NAME=atk-2.9.3
 
 set ATK_SRC=%cd%
 set ATK_DEST=%cd%-rel

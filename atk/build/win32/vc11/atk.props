@@ -6,7 +6,7 @@
     <VSVer>10</VSVer>
     <GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
     <GlibEtcInstallRootFromBuildWin32>..\..\..\vs$(VSVer)\$(Platform)</GlibEtcInstallRootFromBuildWin32>
-    <CopyDir>..\..\..\..\atk-2.8.0-rel</CopyDir>
+    <CopyDir>..\..\..\..\atk-2.9.3-rel</CopyDir>
     <AtkDoInstall>
 mkdir $(CopyDir)\bin
 
@@ -184,4 +184,5 @@ $(GLibEtcInstallRoot)\bin\glib-genmarshal --prefix=atk_marshal ..\..\..\atk\atkm
       <Value>$(AtkDllSuffix)</Value>
     </BuildMacro>
   </ItemGroup>
+  <Import Project="..\..\..\..\stack.props" />
 </Project>
