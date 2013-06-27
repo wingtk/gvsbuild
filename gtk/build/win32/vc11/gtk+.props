@@ -2,7 +2,7 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
     <GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
-    <CopyDir>..\..\..\..\gtk-2.24.18-rel</CopyDir>
+    <CopyDir>..\..\..\..\gtk-2.24.19-rel</CopyDir>
     <DefDir>$(SolutionDir)$(Configuration)\$(Platform)\obj\$(ProjectName)</DefDir>
     <GtkApiVersion>2.0</GtkApiVersion>
     <GtkBinaryVersion>2.10.0</GtkBinaryVersion>
@@ -690,4 +690,5 @@ copy ..\..\..\gdk\gdkconfig.h.win32 ..\..\..\gdk\gdkconfig.h
       <Value>$(GtkDllSuffix)</Value>
     </BuildMacro>
   </ItemGroup>
+  <Import Project="..\..\..\..\stack.props" />
 </Project>

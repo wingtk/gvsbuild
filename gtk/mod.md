@@ -1,6 +1,9 @@
- * Download [GTK+ 2.24.18](http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-2.24.18.tar.xz)
+ * Download [GTK+ 2.24.19](http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-2.24.19.tar.xz)
  * Extract to `C:\mozilla-build\hexchat`
+ * Patch with `patch -p1 -i gtk-revert-scrolldc-commit.patch`
  * Patch with `patch -p1 -i gtk-pixmap.patch`
+ * Patch with `patch -p1 -i gtk-bgimg.patch`
+ * Patch with `patch -p1 -i gtk-statusicon.patch`
  * In `build\win32\vc11\gtk+.props`, replace:
 	* `intl.lib` with `libintl.lib`
 	* `<GlibEtcInstallRoot>..\..\..\..\vs10\$(Platform)</GlibEtcInstallRoot>` with  
@@ -14,7 +17,10 @@
 	* `*-vs10.dll` with `*-2.0.dll`
 	* Add to `GtkDoInstall`:  
 `copy $(Configuration)\$(Platform)\bin\*.pdb $(CopyDir)\bin`
+ * In `build\win32\vc11\gtk+.props`, add `<Import Project="..\..\..\..\stack.props" />` at the end
+ * Delete `<Optimization>` lines in all `*.vcxproj` files
  * Open `build\win32\vc11\gtk+.sln` with VS
+ * Select `Release|Win32` configuration
  * Build in VS
  * Release with `release-x86.bat`
  * Extract package to `C:\mozilla-build\hexchat\build\Win32`
