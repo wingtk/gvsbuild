@@ -90,9 +90,6 @@
     <ClCompile Include="..\src\hb-unicode.cc">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\hb-uniscribe.cc">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\hb-warning.cc">
       <Filter>Source</Filter>
     </ClCompile>

@@ -1,44 +1,26 @@
- * Download [HarfBuzz 0.9.16](http://cgit.freedesktop.org/harfbuzz/snapshot/harfbuzz-0.9.16.zip)
+ * Download [HarfBuzz 0.9.18](http://cgit.freedesktop.org/harfbuzz/snapshot/harfbuzz-0.9.18.tar.gz)
  * Download [blinkseb's HarfBuzz solution](https://github.com/blinkseb/harfbuzz)
  * Extract to `C:\mozilla-build\hexchat`
- * Rename `src\hb-version.h.in` to `src\hb-version.h` and fix the following macros:
+ * Copy `src\hb-version.h.in` as `src\hb-version.h` and fix the following macros:
 	* `HB_VERSION_MAJOR` (0)
 	* `HB_VERSION_MINOR` (9)
-	* `HB_VERSION_MICRO` (16)
-	* `HB_VERSION_STRING` ("0.9.16")
+	* `HB_VERSION_MICRO` (18)
+	* `HB_VERSION_STRING` ("0.9.18")
  * Open `win32\harfbuzz.sln` with VS
- * Add to _Additional Include Directories_ under _Configuration Properties_ `->` _C/C++_ `->` _General_:
-	<pre>..\..\..\..\gtk\$(Platform)\include
-..\..\..\..\gtk\$(Platform)\include\glib-2.0
-..\..\..\..\gtk\$(Platform)\lib\glib-2.0\include</pre>
- * Change to DLL
+ * Generate .def file:
+	* Open solution
+	* Select `Release|Win32` configuration
+	* Build solution
+	* Start VS2012 Command Prompt
+	<pre>cd C:\mozilla-build\hexchat\build\Win32\harfbuzz-0.9.18\win32\libs\Release
+powershell.exe -command "Out-File -Encoding utf8 -FilePath ..\\..\\harfbuzz.def -InputObject 'EXPORTS'; dumpbin /LINKERMEMBER harfbuzz.lib | Select-String ' .. \_(hb\_.*)$' | %{ $_.Matches[0].Groups[1].Value } | Out-File -Encoding utf8 -Append -FilePath ..\\..\\harfbuzz.def"</pre>
+	* Go back to solution and change the project type to DLL.
+	* Add `EXPORTS` at the top of harfbuzz.def
+	* Set _Linker_ `->` _Input_ `->` _Module DefinitionFile_ to `harfbuzz.def`
  * Add lib path and fix freetype name
- * Generate .def file with `./autogen.sh && cd src && make harfbuzz.def`
- * Add .def file in VS
- * Remove every source file and add back *.cc from ..\src, then remove:
-	* hb-coretext.cc
-	* hb-graphite2.cc
-	* hb-icu.cc
-	* hb-icu-le.cc
-	* hb-old.cc
-	* hb-ucdn.cc
-	* main.cc
-	* test-buffer-serialize.cc
-	* test-size-params.cc
-	* test-would-substitute.cc
-	* test.cc
- * Add to Pre-Build event:
-<pre>cd $(SolutionDir)\..\src
-echo 2> rllist.txt
-
-for %%a in (*.rl) do (
-echo %%a >> rllist.txt
-)
-
-for /f "tokens=1 delims=." %%b in (rllist.txt) do (
-..\..\..\..\..\ragel\ragel.exe -e -F1 -o %%b.hh %%b.rl
-)
-</pre>
+ * Add `<Import Project="..\..\stack.props" />`
+ * Add `<Import Project="harfbuzz.props" />`
+ * Select `Release|Win32` configuration
  * Build in VS
  * Release with `release-x86.bat`
  * Extract package to `C:\mozilla-build\hexchat\build\Win32`

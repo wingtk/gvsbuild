@@ -1,4 +1,4 @@
-EXPORTS
+﻿EXPORTS
 hb_blob_create
 hb_blob_create_sub_blob
 hb_blob_destroy
