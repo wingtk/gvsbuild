@@ -369,7 +369,7 @@ $patch = "$MozillaBuildDirectory\msys\bin\patch.exe"
 # For x86_amd64 configuration, ensure start-msvc11-x86_amd64.bat exists in mozilla-build, otherwise patch mozilla-build to create it
 if ($Configuration -eq 'x86_amd64' -and -not $(Test-Path "$MozillaBuild\start-msvc11-x86_amd64.bat")) {
 	Set-Location $MozillaBuildDirectory
-	&$patch -p0 -i $PatchesRootDirectory\mozilla-build.patch -o start-msvc11-x86_amd64.bat
+	&$patch -p1 -i $PatchesRootDirectory\mozilla-build.patch -o start-msvc11-x86_amd64.bat
 }
 
 
