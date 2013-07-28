@@ -34,11 +34,15 @@ The directory where you checked out https://github.com/hexchat/gtk-win32.git
 
 
 .PARAMETER VSInstallPath
-The directory where you installed Visual Studio
+The directory where you installed Visual Studio.
 
 
 .PARAMETER Wget
 The path to any downloader. It is invoked as &$Wget "$url" and should output a file in the current directory.
+
+
+.PARAMETER Patch
+The path to a patch.exe binary.
 
 
 .PARAMETER SevenZip
@@ -109,6 +113,9 @@ param (
 
 	[string]
 	$Wget = "$MozillaBuildDirectory\wget\wget.exe",
+
+	[string]
+	$Patch = "$MozillaBuildDirectory\msys\bin\patch.exe",
 
 	[string]
 	$SevenZip = 'C:\Program Files\7-Zip\7z.exe',
@@ -361,9 +368,6 @@ if ($OnlyBuild.Length -gt 0) {
 
 	$items = $newItems
 }
-
-
-$patch = "$MozillaBuildDirectory\msys\bin\patch.exe"
 
 
 # For x86_amd64 configuration, ensure start-msvc11-x86_amd64.bat exists in mozilla-build, otherwise patch mozilla-build to create it
