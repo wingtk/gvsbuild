@@ -109,7 +109,7 @@ param (
 	$PatchesRootDirectory = 'C:\mozilla-build\hexchat\github\gtk-win32',
 
 	[string]
-	$VSInstallPath = 'C:\Program Files (x86)\Microsoft Visual Studio 11.0',
+	$VSInstallPath = 'C:\Program Files (x86)\Microsoft Visual Studio 12.0',
 
 	[string]
 	$Wget = "$MozillaBuildDirectory\wget\wget.exe",
@@ -307,19 +307,19 @@ switch ($Configuration) {
 	'x86' {
 		$platform = 'Win32'
 		$filenameArch = 'x86'
-		$mozillaBuildStartVC11 = "$MozillaBuildDirectory\start-msvc11.bat"
+		$mozillaBuildStartVC11 = "$MozillaBuildDirectory\start-msvc12.bat"
 	}
 
 	'x86_amd64' {
 		$platform = 'x64'
 		$filenameArch = 'x64'
-		$mozillaBuildStartVC11 = "$MozillaBuildDirectory\start-msvc11-x86_amd64.bat"
+		$mozillaBuildStartVC11 = "$MozillaBuildDirectory\start-msvc12-x86_amd64.bat"
 	}
 
 	'x64' {
 		$platform = 'x64'
 		$filenameArch = 'x64'
-		$mozillaBuildStartVC11 = "$MozillaBuildDirectory\start-msvc11-x64.bat"
+		$mozillaBuildStartVC11 = "$MozillaBuildDirectory\start-msvc12-x64.bat"
 	}
 }
 
