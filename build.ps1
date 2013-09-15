@@ -180,7 +180,7 @@ $items['enchant']['BuildScript'] = {
 
 $items['fontconfig']['BuildScript'] = {
 	VSPrompt -Name 'fontconfig' `
-		"$patch -p1 -i fontconfig.patch" `
+		"$Patch -p1 -i fontconfig.patch" `
 		"msbuild fontconfig.sln /p:Platform=$platform /p:Configuration=Release /t:build" `
 		"release-$filenameArch.bat"
 }
@@ -193,14 +193,14 @@ $items['freetype']['BuildScript'] = {
 
 $items['gdk-pixbuf']['BuildScript'] = {
 	VSPrompt -Name 'gdk-pixbuf' `
-		"$patch -p1 -i gdk-pixbuf.patch" `
+		"$Patch -p1 -i gdk-pixbuf.patch" `
 		"msbuild build\win32\vc11\gdk-pixbuf.sln /p:Platform=$platform /p:Configuration=Release" `
 		"release-$filenameArch.bat"
 }
 
 $items['gettext-runtime']['BuildScript'] = {
 	VSPrompt -Name 'gettext-runtime' `
-		"$patch -p1 -i gettext-runtime.patch" `
+		"$Patch -p1 -i gettext-runtime.patch" `
 		"build-$filenameArch.bat"
 }
 
@@ -212,10 +212,10 @@ $items['glib']['BuildScript'] = {
 
 $items['gtk']['BuildScript'] = {
 	VSPrompt -Name 'gtk' `
-		"$patch -p1 -i gtk-revert-scrolldc-commit.patch" `
-		"$patch -p1 -i gtk-pixmap.patch" `
-		"$patch -p1 -i gtk-bgimg.patch" `
-		"$patch -p1 -i gtk-statusicon.patch" `
+		"$Patch -p1 -i gtk-revert-scrolldc-commit.patch" `
+		"$Patch -p1 -i gtk-pixmap.patch" `
+		"$Patch -p1 -i gtk-bgimg.patch" `
+		"$Patch -p1 -i gtk-statusicon.patch" `
 		"msbuild build\win32\vc11\gtk+.sln /p:Platform=$platform /p:Configuration=Release" `
 		"release-$filenameArch.bat"
 }
@@ -229,7 +229,7 @@ $items['harfbuzz']['BuildScript'] = {
 $items['libffi']['BuildScript'] = {
 	$currentPwd = $PWD
 	Set-Location ..\..
-	echo "cd $($currentPwd -replace '\\', '\\') && build-$filenameArch.bat" | &$mozillaBuildStartVC11
+	echo "cd $($currentPwd -replace '\\', '\\') && build-$filenameArch.bat" | &$mozillaBuildStartVC
 	Set-Location $currentPwd
 	VSPrompt -Name 'libffi' `
 		"release-$filenameArch.bat"
@@ -254,15 +254,15 @@ $items['openssl']['BuildScript'] = {
 
 $items['pango']['BuildScript'] = {
 	VSPrompt -Name 'pango' `
-		"$patch -p1 -i pango-defs.patch" `
-		"$patch -p1 -i pango-nonbmp.patch" `
+		"$Patch -p1 -i pango-defs.patch" `
+		"$Patch -p1 -i pango-nonbmp.patch" `
 		"msbuild build\win32\vc11\pango_fc.sln /p:Platform=$platform /p:Configuration=Release" `
 		"release-$filenameArch.bat"
 }
 
 $items['pixman']['BuildScript'] = {
 	VSPrompt -Name 'pixman' `
-		"$patch -p1 -i pixman.patch" `
+		"$Patch -p1 -i pixman.patch" `
 		"msbuild build\win32\vc11\pixman.sln /p:Platform=$platform /p:Configuration=Release" `
 		"release-$filenameArch.bat"
 }
@@ -307,19 +307,19 @@ switch ($Configuration) {
 	'x86' {
 		$platform = 'Win32'
 		$filenameArch = 'x86'
-		$mozillaBuildStartVC11 = "$MozillaBuildDirectory\start-msvc12.bat"
+		$mozillaBuildStartVC = "$MozillaBuildDirectory\start-msvc12.bat"
 	}
 
 	'x86_amd64' {
 		$platform = 'x64'
 		$filenameArch = 'x64'
-		$mozillaBuildStartVC11 = "$MozillaBuildDirectory\start-msvc12-x86_amd64.bat"
+		$mozillaBuildStartVC = "$MozillaBuildDirectory\start-msvc12-x86_amd64.bat"
 	}
 
 	'x64' {
 		$platform = 'x64'
 		$filenameArch = 'x64'
-		$mozillaBuildStartVC11 = "$MozillaBuildDirectory\start-msvc12-x64.bat"
+		$mozillaBuildStartVC = "$MozillaBuildDirectory\start-msvc12-x64.bat"
 	}
 }
 
@@ -395,21 +395,6 @@ Copy-Item $PatchesRootDirectory\stack.props .
 $logDirectory = "$workingDirectory\logs"
 New-Item -Type Directory $logDirectory
 Remove-Item $logDirectory\*.log
-
-
-# Runs all unnamed arguments as commands in a VS prompt
-function VSPrompt([string] $Name) {
-	$tempVSPromptBatchFile = "$($env:TEMP)\hexchat-build-$Name.bat"
-
-	Out-File -FilePath $tempVSPromptBatchFile -InputObject "@CALL `"$VSInstallPath\VC\vcvarsall.bat`" $Configuration" -Encoding OEM
-	foreach ($command in $args) {
-		Out-File -FilePath $tempVSPromptBatchFile -InputObject $command -Encoding OEM -Append
-	}
-
-	$null | &$tempVSPromptBatchFile
-
-	Remove-Item $tempVSPromptBatchFile
-}
 
 
 # For each item, start a job to download the source archives, extract them to mozilla-build, and copy over the stuff from gtk-win32
@@ -496,6 +481,7 @@ while ($completedItems.Count -ne $items.Count) {
 
 			# Start a job to build it
 			Start-Job -Name $pendingItem['Name'] -InitializationScript {
+				# Runs all unnamed arguments as commands in a VS prompt
 				function VSPrompt([string] $Name) {
 					$tempVSPromptBatchFile = "$($env:TEMP)\hexchat-build-$Name.bat"
 
@@ -508,8 +494,17 @@ while ($completedItems.Count -ne $items.Count) {
 
 					Remove-Item $tempVSPromptBatchFile
 				}
-			} -ArgumentList $pendingItem, $Configuration, $filenameArch, $mozillaBuildStartVC11, $patch, $platform, $VSInstallPath, $workingDirectory, $SevenZip {
-				param ($item, $Configuration, $filenameArch, $mozillaBuildStartVC11, $patch, $platform, $VSInstallPath, $workingDirectory, $SevenZip)
+			} -ArgumentList $pendingItem {
+				param ($item)
+
+				$mozillaBuildStartVC = $using:mozillaBuildStartVC
+				$Configuration = $using:Configuration
+				$filenameArch = $using:filenameArch
+				$Patch = $using:Patch
+				$platform = $using:platform
+				$VSInstallPath = $using:VSInstallPath
+				$workingDirectory = $using:workingDirectory
+				$SevenZip = $using:SevenZip
 
 				Set-Location $item['BuildDirectory']
 
