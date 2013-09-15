@@ -370,11 +370,18 @@ if ($OnlyBuild.Length -gt 0) {
 }
 
 
-# For x86_amd64 configuration, ensure start-msvc11-x86_amd64.bat exists in mozilla-build, otherwise patch mozilla-build to create it
-if ($Configuration -eq 'x86_amd64' -and -not $(Test-Path "$MozillaBuild\start-msvc11-x86_amd64.bat")) {
-	Set-Location $MozillaBuildDirectory
-	&$patch -p1 -i $PatchesRootDirectory\mozilla-build\mozilla-build-x86_amd64.patch -o start-msvc11-x86_amd64.bat
+if (-not $(Test-Path "$MozillaBuild\start-msvc12.bat")) {
+	Copy-Item $PatchesRootDirectory\mozilla-build\start-msvc12.bat $MozillaBuildDirectory
 }
+if (-not $(Test-Path "$MozillaBuild\start-msvc12-x64.bat")) {
+	Copy-Item $PatchesRootDirectory\mozilla-build\start-msvc12-x64.bat $MozillaBuildDirectory
+}
+if (-not $(Test-Path "$MozillaBuild\start-msvc12-x86_amd64.bat")) {
+	Copy-Item $PatchesRootDirectory\mozilla-build\start-msvc12-x86_amd64.bat $MozillaBuildDirectory
+}
+
+Set-Location $MozillaBuildDirectory
+&$Patch -p1 -i $PatchesRootDirectory\mozilla-build\mozilla-build-vs2013.patch > $null
 
 
 New-Item -Type Directory $ArchivesDownloadDirectory

@@ -1,0 +1,48 @@
+--- mozilla-build.orig/guess-msvc.bat	Sun Jun 30 14:18:50 2013
++++ mozilla-build/guess-msvc.bat	Sat Jun 29 03:56:55 2013
+@@ -38,6 +38,7 @@ SET MSVC10KEY=%MSVCROOTKEY%\10.0\Setup\V
+ SET MSVC10EXPRESSKEY=%MSVCEXPROOTKEY%\10.0\Setup\VC
+ SET MSVC11KEY=%MSVCROOTKEY%\11.0\Setup\VC
+ SET MSVC11EXPRESSKEY=%MSVCEXPROOTKEY%\11.0\Setup\VC
++SET MSVC12KEY=%MSVCROOTKEY%\12.0\Setup\VC
+ 
+ REM First see if we can find MSVC, then set the variable
+ REM NOTE: delims=<tab><space>
+@@ -130,6 +131,13 @@ if "%VC11EXPRESSDIR%"=="" (
+   )
+ )
+ 
++REG QUERY "%MSVC12KEY%" /v ProductDir >nul 2>nul
++if "%VC12DIR%"=="" (
++  IF %ERRORLEVEL% EQU 0 (
++    FOR /F "tokens=2*" %%A IN ('REG QUERY "%MSVC12KEY%" /v ProductDir') DO SET VC12DIR=%%B
++  )
++)
++
+ REM Look for Installed SDKs:
+ SET SDKROOTKEY=HKLM\SOFTWARE\Microsoft\MicrosoftSDK\InstalledSDKs
+ SET SDK2003SP1KEY=%SDKROOTKEY%\8F9E5EF3-A9A5-491B-A889-C58EFFECE8B3
+@@ -158,6 +166,15 @@ IF NOT DEFINED MOZ_MAXWINSDK (
+   SET MOZ_MAXWINSDK=999999
+ )
+ 
++REG QUERY "%SDK80KEY%" /v KitsRoot81 >nul 2>nul
++if "%SDKDIR%"=="" IF %MOZ_MAXWINSDK% GEQ 81000 (
++  IF %ERRORLEVEL% EQU 0 (
++    FOR /F "tokens=2*" %%A IN ('REG QUERY "%SDK80KEY%" /v KitsRoot81') DO SET SDKDIR=%%B
++	SET SDKVER=8
++	SET SDKMINORVER=1
++  )
++)
++
+ REG QUERY "%SDK80KEY%" /v KitsRoot >nul 2>nul
+ if "%SDKDIR%"=="" IF %MOZ_MAXWINSDK% GEQ 80000 (
+   IF %ERRORLEVEL% EQU 0 (
+@@ -253,6 +270,7 @@ if defined VC10DIR ECHO Visual C++ 10 di
+ if defined VC10EXPRESSDIR ECHO Visual C++ 10 Express directory: %VC10EXPRESSDIR%
+ if defined VC11DIR ECHO Visual C++ 11 directory: %VC11DIR%
+ if defined VC11EXPRESSDIR ECHO Visual C++ 11 Express directory: %VC11EXPRESSDIR%
++if defined VC12DIR ECHO Visual C++ 12 directory: %VC12DIR%
+ 
+ setlocal enableextensions enabledelayedexpansion
+ 
