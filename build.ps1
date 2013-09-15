@@ -253,6 +253,10 @@ $items['openssl']['BuildScript'] = {
 }
 
 $items['pango']['BuildScript'] = {
+	# Add BOM to .\pango\pango-language-sample-table.h because cl.exe throws C2001 otherwise
+	$languageSampleTableFileContents = Get-Content .\pango\pango-language-sample-table.h -Encoding UTF8
+	Out-File .\pango\pango-language-sample-table.h -InputObject $languageSampleTableFileContents -Encoding UTF8
+
 	VSPrompt -Name 'pango' `
 		"$Patch -p1 -i pango-defs.patch" `
 		"$Patch -p1 -i pango-nonbmp.patch" `
