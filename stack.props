@@ -3,10 +3,6 @@
 
 	<ImportGroup Label="PropertySheets" />
 
-	<PropertyGroup Label="Configuration">
-		<PlatformToolset>v110</PlatformToolset>
-	</PropertyGroup>
-
 	<ItemDefinitionGroup>
 		<ClCompile>
 			<!-- UNCOMMENT ONLY ONE -->
