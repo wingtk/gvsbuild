@@ -163,13 +163,13 @@ $items = @{
 
 $items['atk']['BuildScript'] = {
 	VSPrompt -Name 'atk' `
-		"msbuild build\win32\vc11\atk.sln /p:Platform=$platform /p:Configuration=Release" `
+		"msbuild build\win32\vc12\atk.sln /p:Platform=$platform /p:Configuration=Release" `
 		"release-$filenameArch.bat"
 }
 
 $items['cairo']['BuildScript'] = {
 	VSPrompt -Name 'cairo' `
-		"msbuild msvc\vc11\cairo.sln /p:Platform=$platform /p:Configuration=Release_FC" `
+		"msbuild msvc\vc12\cairo.sln /p:Platform=$platform /p:Configuration=Release_FC" `
 		"release-$filenameArch.bat"
 }
 
@@ -187,14 +187,14 @@ $items['fontconfig']['BuildScript'] = {
 
 $items['freetype']['BuildScript'] = {
 	VSPrompt -Name 'freetype' `
-		"msbuild builds\win32\vc11\freetype.sln /p:Platform=$platform /p:Configuration=Release" `
+		"msbuild builds\win32\vc12\freetype.sln /p:Platform=$platform /p:Configuration=Release" `
 		"release-$filenameArch.bat"
 }
 
 $items['gdk-pixbuf']['BuildScript'] = {
 	VSPrompt -Name 'gdk-pixbuf' `
 		"$Patch -p1 -i gdk-pixbuf.patch" `
-		"msbuild build\win32\vc11\gdk-pixbuf.sln /p:Platform=$platform /p:Configuration=Release" `
+		"msbuild build\win32\vc12\gdk-pixbuf.sln /p:Platform=$platform /p:Configuration=Release" `
 		"release-$filenameArch.bat"
 }
 
@@ -206,7 +206,7 @@ $items['gettext-runtime']['BuildScript'] = {
 
 $items['glib']['BuildScript'] = {
 	VSPrompt -Name 'glib' `
-		"msbuild build\win32\vc11\glib.sln /p:Platform=$platform /p:Configuration=Release" `
+		"msbuild build\win32\vc12\glib.sln /p:Platform=$platform /p:Configuration=Release" `
 		"release-$filenameArch.bat"
 }
 
@@ -216,7 +216,7 @@ $items['gtk']['BuildScript'] = {
 		"$Patch -p1 -i gtk-pixmap.patch" `
 		"$Patch -p1 -i gtk-bgimg.patch" `
 		"$Patch -p1 -i gtk-statusicon.patch" `
-		"msbuild build\win32\vc11\gtk+.sln /p:Platform=$platform /p:Configuration=Release" `
+		"msbuild build\win32\vc12\gtk+.sln /p:Platform=$platform /p:Configuration=Release" `
 		"release-$filenameArch.bat"
 }
 
@@ -237,13 +237,13 @@ $items['libffi']['BuildScript'] = {
 
 $items['libpng']['BuildScript'] = {
 	VSPrompt -Name 'libpng' `
-		"msbuild projects\vc11\vstudio.sln /p:Platform=$platform /p:Configuration=Release" `
+		"msbuild projects\vc12\vstudio.sln /p:Platform=$platform /p:Configuration=Release" `
 		"release-$filenameArch.bat"
 }
 
 $items['libxml2']['BuildScript'] = {
 	VSPrompt -Name 'libxml2' `
-		"msbuild win32\vc11\libxml2.sln /p:Platform=$platform /p:Configuration=Release" `
+		"msbuild win32\vc12\libxml2.sln /p:Platform=$platform /p:Configuration=Release" `
 		"release-$filenameArch.bat"
 }
 
@@ -260,14 +260,14 @@ $items['pango']['BuildScript'] = {
 	VSPrompt -Name 'pango' `
 		"$Patch -p1 -i pango-defs.patch" `
 		"$Patch -p1 -i pango-nonbmp.patch" `
-		"msbuild build\win32\vc11\pango_fc.sln /p:Platform=$platform /p:Configuration=Release" `
+		"msbuild build\win32\vc12\pango_fc.sln /p:Platform=$platform /p:Configuration=Release" `
 		"release-$filenameArch.bat"
 }
 
 $items['pixman']['BuildScript'] = {
 	VSPrompt -Name 'pixman' `
 		"$Patch -p1 -i pixman.patch" `
-		"msbuild build\win32\vc11\pixman.sln /p:Platform=$platform /p:Configuration=Release" `
+		"msbuild build\win32\vc12\pixman.sln /p:Platform=$platform /p:Configuration=Release" `
 		"release-$filenameArch.bat"
 }
 
@@ -278,7 +278,7 @@ $items['win-iconv']['BuildScript'] = {
 
 $items['zlib']['BuildScript'] = {
 	VSPrompt -Name 'zlib' `
-		"msbuild contrib\vstudio\vc11\zlibvc.sln /p:Platform=$platform /p:Configuration=ReleaseWithoutAsm" `
+		"msbuild contrib\vstudio\vc12\zlibvc.sln /p:Platform=$platform /p:Configuration=ReleaseWithoutAsm" `
 		"release-$filenameArch.bat"
 }
 

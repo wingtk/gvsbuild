@@ -16,7 +16,7 @@ mkdir %FREETYPE_DEST%\share
 mkdir %FREETYPE_DEST%\share\doc
 mkdir %FREETYPE_DEST%\share\doc\freetype
 xcopy /s include %FREETYPE_DEST%\include\
-copy objs\x64\vc11\freetype.lib %FREETYPE_DEST%\lib\freetype.lib
+copy objs\x64\vc12\freetype.lib %FREETYPE_DEST%\lib\freetype.lib
 copy docs\LICENSE.TXT %FREETYPE_DEST%\share\doc\freetype\COPYING
 
 cd %FREETYPE_DEST%

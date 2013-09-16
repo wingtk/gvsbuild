@@ -4,7 +4,7 @@
  * Patch with `patch -p1 -i gtk-pixmap.patch`
  * Patch with `patch -p1 -i gtk-bgimg.patch`
  * Patch with `patch -p1 -i gtk-statusicon.patch`
- * In `build\win32\vc11\gtk+.props`, replace:
+ * In `build\win32\vc12\gtk+.props`, replace:
 	* `intl.lib` with `libintl.lib`
 	* `<GlibEtcInstallRoot>..\..\..\..\vs10\$(Platform)</GlibEtcInstallRoot>` with  
 `<GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>`
@@ -17,9 +17,9 @@
 	* `*-vs10.dll` with `*-2.0.dll`
 	* Add to `GtkDoInstall`:  
 `copy $(Configuration)\$(Platform)\bin\*.pdb $(CopyDir)\bin`
- * In `build\win32\vc11\gtk+.props`, add `<Import Project="..\..\..\..\stack.props" />` at the end
+ * In `build\win32\vc12\gtk+.props`, add `<Import Project="..\..\..\..\stack.props" />` at the end
  * Delete `<Optimization>` lines in all `*.vcxproj` files
- * Open `build\win32\vc11\gtk+.sln` with VS
+ * Open `build\win32\vc12\gtk+.sln` with VS
  * Select `Release|Win32` configuration
  * Build in VS
  * Release with `release-x86.bat`

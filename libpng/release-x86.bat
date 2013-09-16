@@ -20,17 +20,17 @@ copy png.h %LIBPNG_DEST%\include
 copy pngconf.h %LIBPNG_DEST%\include
 copy pnglibconf.h %LIBPNG_DEST%\include
 copy pngpriv.h %LIBPNG_DEST%\include
-copy projects\vc11\Release\libpng16.lib %LIBPNG_DEST%\lib
-copy projects\vc11\Release\libpng16.dll %LIBPNG_DEST%\bin
-copy projects\vc11\Release\libpng16.pdb %LIBPNG_DEST%\bin
-copy projects\vc11\Release\pngstest.exe %LIBPNG_DEST%\bin
-copy projects\vc11\Release\pngstest.pdb %LIBPNG_DEST%\bin
-copy projects\vc11\Release\pngtest.exe %LIBPNG_DEST%\bin
-copy projects\vc11\Release\pngtest.pdb %LIBPNG_DEST%\bin
-copy projects\vc11\Release\pngunknown.exe %LIBPNG_DEST%\bin
-copy projects\vc11\Release\pngunknown.pdb %LIBPNG_DEST%\bin
-copy projects\vc11\Release\pngvalid.exe %LIBPNG_DEST%\bin
-copy projects\vc11\Release\pngvalid.pdb %LIBPNG_DEST%\bin
+copy projects\vc12\Release\libpng16.lib %LIBPNG_DEST%\lib
+copy projects\vc12\Release\libpng16.dll %LIBPNG_DEST%\bin
+copy projects\vc12\Release\libpng16.pdb %LIBPNG_DEST%\bin
+copy projects\vc12\Release\pngstest.exe %LIBPNG_DEST%\bin
+copy projects\vc12\Release\pngstest.pdb %LIBPNG_DEST%\bin
+copy projects\vc12\Release\pngtest.exe %LIBPNG_DEST%\bin
+copy projects\vc12\Release\pngtest.pdb %LIBPNG_DEST%\bin
+copy projects\vc12\Release\pngunknown.exe %LIBPNG_DEST%\bin
+copy projects\vc12\Release\pngunknown.pdb %LIBPNG_DEST%\bin
+copy projects\vc12\Release\pngvalid.exe %LIBPNG_DEST%\bin
+copy projects\vc12\Release\pngvalid.pdb %LIBPNG_DEST%\bin
 copy LICENSE %LIBPNG_DEST%\share\doc\libpng\COPYING
 
 cd %LIBPNG_DEST%

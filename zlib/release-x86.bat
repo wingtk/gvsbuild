@@ -18,15 +18,15 @@ mkdir %ZLIB_DEST%\share\doc
 mkdir %ZLIB_DEST%\share\doc\zlib
 copy zlib.h %ZLIB_DEST%\include
 copy zconf.h %ZLIB_DEST%\include
-copy contrib\vstudio\vc11\x86\TestZlibDllRelease\testzlibdll.exe %ZLIB_DEST%\bin
-copy contrib\vstudio\vc11\x86\TestZlibDllRelease\testzlibdll.pdb %ZLIB_DEST%\bin
-copy contrib\vstudio\vc11\x86\TestZlibReleaseWithoutAsm\testzlib.exe %ZLIB_DEST%\bin
-copy contrib\vstudio\vc11\x86\TestZlibReleaseWithoutAsm\testzlib.pdb %ZLIB_DEST%\bin
-copy contrib\vstudio\vc11\x86\ZlibDllReleaseWithoutAsm\zlib1.dll %ZLIB_DEST%\bin
-copy contrib\vstudio\vc11\x86\ZlibDllReleaseWithoutAsm\zlib1.map %ZLIB_DEST%\bin
-copy contrib\vstudio\vc11\x86\ZlibDllReleaseWithoutAsm\zlib1.pdb %ZLIB_DEST%\bin
-copy contrib\vstudio\vc11\x86\ZlibDllReleaseWithoutAsm\zlib1.lib %ZLIB_DEST%\lib
-copy contrib\vstudio\vc11\x86\ZlibStatReleaseWithoutAsm\zlibstat.lib %ZLIB_DEST%\lib
+copy contrib\vstudio\vc12\x86\TestZlibDllRelease\testzlibdll.exe %ZLIB_DEST%\bin
+copy contrib\vstudio\vc12\x86\TestZlibDllRelease\testzlibdll.pdb %ZLIB_DEST%\bin
+copy contrib\vstudio\vc12\x86\TestZlibReleaseWithoutAsm\testzlib.exe %ZLIB_DEST%\bin
+copy contrib\vstudio\vc12\x86\TestZlibReleaseWithoutAsm\testzlib.pdb %ZLIB_DEST%\bin
+copy contrib\vstudio\vc12\x86\ZlibDllReleaseWithoutAsm\zlib1.dll %ZLIB_DEST%\bin
+copy contrib\vstudio\vc12\x86\ZlibDllReleaseWithoutAsm\zlib1.map %ZLIB_DEST%\bin
+copy contrib\vstudio\vc12\x86\ZlibDllReleaseWithoutAsm\zlib1.pdb %ZLIB_DEST%\bin
+copy contrib\vstudio\vc12\x86\ZlibDllReleaseWithoutAsm\zlib1.lib %ZLIB_DEST%\lib
+copy contrib\vstudio\vc12\x86\ZlibStatReleaseWithoutAsm\zlibstat.lib %ZLIB_DEST%\lib
 copy README %ZLIB_DEST%\share\doc\zlib\COPYING
 
 cd %ZLIB_DEST%

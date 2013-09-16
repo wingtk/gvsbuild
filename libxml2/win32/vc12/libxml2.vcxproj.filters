@@ -16,7 +16,7 @@
     <Filter Include="Header Files\windows">
       <UniqueIdentifier>{22791c14-7c07-4222-ad58-8c18d3fb10ba}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\windows\VC11">
+    <Filter Include="Header Files\windows\vc12">
       <UniqueIdentifier>{bfddc99f-05d4-4f06-98d1-346b1be73d6f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -159,7 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h">
-      <Filter>Header Files\windows\VC11</Filter>
+      <Filter>Header Files\windows\vc12</Filter>
     </ClInclude>
     <ClInclude Include="..\..\acconfig.h">
       <Filter>Header Files</Filter>

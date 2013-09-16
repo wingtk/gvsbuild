@@ -1,7 +1,7 @@
  * Download [cairo 1.12.14](http://cairographics.org/releases/cairo-1.12.14.tar.xz)
  * Download [VS solution](https://live.gnome.org/GTK%2B/Win32/MSVCCompilationOfGTKStack?action=AttachFile&do=get&target=cairo-vsprojects.zip)
  * Extract to `C:\mozilla-build\hexchat`
- * In `msvc\vc11\cairo.props`, replace:
+ * In `msvc\vc12\cairo.props`, replace:
 	* `<CairoEtcInstallRoot>..\..\..\vs10\$(Platform)</CairoEtcInstallRoot>` with  
 `<CairoEtcInstallRoot>..\..\..\..\..\gtk\$(Platform)</CairoEtcInstallRoot>`
 	* `<CopyDir>$(CairoEtcInstallRoot)</CopyDir>` with  
@@ -21,7 +21,7 @@
 	* Add to `CairoDoInstall`:  
 `copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*.pdb $(CopyDir)\bin`
  * Add `src\cairo-path-stroke-traps.c` to the `cairo` project
- * Open `msvc\vc11\cairo.sln` with VS and select `Release_FC` configuration
+ * Open `msvc\vc12\cairo.sln` with VS and select `Release_FC` configuration
  * Make `cairo-gobject` and `install` buildable
  * Make `install` depend on `cairo-gobject`
  * Build in VS

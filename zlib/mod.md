@@ -1,13 +1,13 @@
  * Download [zlib 1.2.7](http://zlib.net/zlib127.zip)
  * Extract to `C:\mozilla-build\hexchat`
- * Remove `Optimization` settings in `contrib\vc11\*.vcxproj`
- * In `contrib\vstudio\vc11\zlibvc.sln`:
+ * Remove `Optimization` settings in `contrib\vc12\*.vcxproj`
+ * In `contrib\vstudio\vc12\zlibvc.sln`:
 	* Remove `Itanium` platform
 	* Change `Configuration` to `ReleaseWithoutAsm`
 	* Add `stack.props` to each project
 	* Select all projects to be built
 	* For `zlibstat` and `zlibvc` remove any files that belong to `minizip`
-	* Replace `contrib\vstudio\vc11\zlibvc.def` with `win32\zlib.def`
+	* Replace `contrib\vstudio\vc12\zlibvc.def` with `win32\zlib.def`
 	* For `miniunz`, `minizip` and `testzlibdll`, change:
 		* `Additional Library Directories` to `$(OutDir)..\ZlibDllReleaseWithoutAsm`
 		* `Additional Dependencies` to `zlibwapi.lib;%(AdditionalDependencies)`
@@ -21,7 +21,7 @@
 		* Replace `zlibwapi.pdb` with `zlib1.pdb`
 		* Replace `zlibwapi.map` with `zlib1.map`
 	* Select `miniunz` and `minizip` not to be built
- * Open `contrib\vstudio\vc11\zlibvc.sln` with VS
+ * Open `contrib\vstudio\vc12\zlibvc.sln` with VS
  * Build in VS
  * Release with `release-x86.bat`
  * Extract package to `C:\mozilla-build\hexchat\build\Win32`
