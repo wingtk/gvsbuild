@@ -5,6 +5,7 @@
 
 	<ItemDefinitionGroup>
 		<ClCompile>
+			<AdditionalOptions>/d2Zi+ %(AdditionalOptions)</AdditionalOptions> 
 			<!-- UNCOMMENT ONLY ONE -->
 			<!--Optimization>Disabled</Optimization-->
 			<Optimization>MaxSpeed</Optimization>
