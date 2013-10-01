@@ -1,0 +1,16 @@
+diff -urN pango-1.32.5.orig/pango/pangowin32-fontmap.c.orig pango-1.32.5/pango/pangowin32-fontmap.c
+--- pango-1.32.5.orig/pango/pangowin32-fontmap.c.orig	2013-09-30 21:43:03.713859800 -0700
++++ pango-1.32.5/pango/pangowin32-fontmap.c	2013-09-30 21:43:36.263624900 -0700
+@@ -236,12 +236,6 @@
+     {
+       PangoWin32Face *win32face = p->data;
+ 
+-      /* Don't synthesize anything unless it's a monospace, serif, or sans font */
+-      if (!((win32face->logfontw.lfPitchAndFamily & 0xF0) == FF_MODERN ||
+-	    (win32face->logfontw.lfPitchAndFamily & 0xF0) == FF_ROMAN ||
+-	    (win32face->logfontw.lfPitchAndFamily & 0xF0) == FF_SWISS))
+-	return;
+-
+       if (pango_font_description_get_weight (win32face->description) == PANGO_WEIGHT_NORMAL &&
+ 	  pango_font_description_get_style (win32face->description) == PANGO_STYLE_NORMAL)
+ 	variant[NORMAL] = win32face;

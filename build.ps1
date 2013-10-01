@@ -260,6 +260,7 @@ $items['pango']['BuildScript'] = {
 	VSPrompt -Name 'pango' `
 		"$Patch -p1 -i pango-defs.patch" `
 		"$Patch -p1 -i pango-nonbmp.patch" `
+		"$Patch -p1 -i pango-synthesize-all-fonts.patch" `
 		"msbuild build\win32\vc12\pango_fc.sln /p:Platform=$platform /p:Configuration=Release" `
 		"release-$filenameArch.bat"
 }
