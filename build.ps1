@@ -163,13 +163,13 @@ $items = @{
 
 $items['atk']['BuildScript'] = {
 	VSPrompt -Name 'atk' `
-		"msbuild build\win32\vc12\atk.sln /p:Platform=$platform /p:Configuration=Release" `
+		"msbuild build\win32\vc12\atk.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True" `
 		"release-$filenameArch.bat"
 }
 
 $items['cairo']['BuildScript'] = {
 	VSPrompt -Name 'cairo' `
-		"msbuild msvc\vc12\cairo.sln /p:Platform=$platform /p:Configuration=Release_FC" `
+		"msbuild msvc\vc12\cairo.sln /p:Platform=$platform /p:Configuration=Release_FC /maxcpucount /nodeReuse:True" `
 		"release-$filenameArch.bat"
 }
 
@@ -181,20 +181,20 @@ $items['enchant']['BuildScript'] = {
 $items['fontconfig']['BuildScript'] = {
 	VSPrompt -Name 'fontconfig' `
 		"$Patch -p1 -i fontconfig.patch" `
-		"msbuild fontconfig.sln /p:Platform=$platform /p:Configuration=Release /t:build" `
+		"msbuild fontconfig.sln /p:Platform=$platform /p:Configuration=Release /t:build /nodeReuse:True" `
 		"release-$filenameArch.bat"
 }
 
 $items['freetype']['BuildScript'] = {
 	VSPrompt -Name 'freetype' `
-		"msbuild builds\win32\vc12\freetype.sln /p:Platform=$platform /p:Configuration=Release" `
+		"msbuild builds\win32\vc12\freetype.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True" `
 		"release-$filenameArch.bat"
 }
 
 $items['gdk-pixbuf']['BuildScript'] = {
 	VSPrompt -Name 'gdk-pixbuf' `
 		"$Patch -p1 -i gdk-pixbuf.patch" `
-		"msbuild build\win32\vc12\gdk-pixbuf.sln /p:Platform=$platform /p:Configuration=Release" `
+		"msbuild build\win32\vc12\gdk-pixbuf.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True" `
 		"release-$filenameArch.bat"
 }
 
@@ -206,7 +206,7 @@ $items['gettext-runtime']['BuildScript'] = {
 
 $items['glib']['BuildScript'] = {
 	VSPrompt -Name 'glib' `
-		"msbuild build\win32\vc12\glib.sln /p:Platform=$platform /p:Configuration=Release" `
+		"msbuild build\win32\vc12\glib.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True" `
 		"release-$filenameArch.bat"
 }
 
@@ -216,13 +216,13 @@ $items['gtk']['BuildScript'] = {
 		"$Patch -p1 -i gtk-pixmap.patch" `
 		"$Patch -p1 -i gtk-bgimg.patch" `
 		"$Patch -p1 -i gtk-statusicon.patch" `
-		"msbuild build\win32\vc12\gtk+.sln /p:Platform=$platform /p:Configuration=Release" `
+		"msbuild build\win32\vc12\gtk+.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True" `
 		"release-$filenameArch.bat"
 }
 
 $items['harfbuzz']['BuildScript'] = {
 	VSPrompt -Name 'harfbuzz' `
-		"msbuild win32\harfbuzz.sln /p:Platform=$platform /p:Configuration=Release" `
+		"msbuild win32\harfbuzz.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True" `
 		"release-$filenameArch.bat"
 }
 
@@ -237,13 +237,13 @@ $items['libffi']['BuildScript'] = {
 
 $items['libpng']['BuildScript'] = {
 	VSPrompt -Name 'libpng' `
-		"msbuild projects\vc12\vstudio.sln /p:Platform=$platform /p:Configuration=Release" `
+		"msbuild projects\vc12\vstudio.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True" `
 		"release-$filenameArch.bat"
 }
 
 $items['libxml2']['BuildScript'] = {
 	VSPrompt -Name 'libxml2' `
-		"msbuild win32\vc12\libxml2.sln /p:Platform=$platform /p:Configuration=Release" `
+		"msbuild win32\vc12\libxml2.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True" `
 		"release-$filenameArch.bat"
 }
 
@@ -261,14 +261,14 @@ $items['pango']['BuildScript'] = {
 		"$Patch -p1 -i pango-defs.patch" `
 		"$Patch -p1 -i pango-nonbmp.patch" `
 		"$Patch -p1 -i pango-synthesize-all-fonts.patch" `
-		"msbuild build\win32\vc12\pango_fc.sln /p:Platform=$platform /p:Configuration=Release" `
+		"msbuild build\win32\vc12\pango_fc.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True" `
 		"release-$filenameArch.bat"
 }
 
 $items['pixman']['BuildScript'] = {
 	VSPrompt -Name 'pixman' `
 		"$Patch -p1 -i pixman.patch" `
-		"msbuild build\win32\vc12\pixman.sln /p:Platform=$platform /p:Configuration=Release" `
+		"msbuild build\win32\vc12\pixman.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True" `
 		"release-$filenameArch.bat"
 }
 
@@ -279,7 +279,7 @@ $items['win-iconv']['BuildScript'] = {
 
 $items['zlib']['BuildScript'] = {
 	VSPrompt -Name 'zlib' `
-		"msbuild contrib\vstudio\vc12\zlibvc.sln /p:Platform=$platform /p:Configuration=ReleaseWithoutAsm" `
+		"msbuild contrib\vstudio\vc12\zlibvc.sln /p:Platform=$platform /p:Configuration=ReleaseWithoutAsm /maxcpucount /nodeReuse:True" `
 		"release-$filenameArch.bat"
 }
 
