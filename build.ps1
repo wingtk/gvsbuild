@@ -464,7 +464,7 @@ while ($completedItems.Count -ne $items.Count) {
 		# Find an item which hasn't already been built, isn't being built currently, and whose dependencies have all been built
 		[Object[]] $nextItem =
 			$items.GetEnumerator() | ?{
-				$completedItems[$_.Key] -eq $null -and 
+				$completedItems[$_.Key] -eq $null -and
 				(Get-Job -Name $_.Key 2>$null) -eq $null
 			} | %{ $_.Value } | ?{
 				[Object[]] $dependencies = @($_['Dependencies'])

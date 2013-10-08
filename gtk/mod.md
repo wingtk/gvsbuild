@@ -6,16 +6,16 @@
  * Patch with `patch -p1 -i gtk-statusicon.patch`
  * In `build\win32\vc12\gtk+.props`, replace:
 	* `intl.lib` with `libintl.lib`
-	* `<GlibEtcInstallRoot>..\..\..\..\vs10\$(Platform)</GlibEtcInstallRoot>` with  
+	* `<GlibEtcInstallRoot>..\..\..\..\vs10\$(Platform)</GlibEtcInstallRoot>` with
 `<GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>`
-	* `<CopyDir>$(GlibEtcInstallRoot)</CopyDir>` with  
+	* `<CopyDir>$(GlibEtcInstallRoot)</CopyDir>` with
 `<CopyDir>..\..\..\..\gtk-2.24.18-rel</CopyDir>`
-	* `<GtkSeparateVS10DllSuffix>-2-vs10</GtkSeparateVS10DllSuffix>` with  
+	* `<GtkSeparateVS10DllSuffix>-2-vs10</GtkSeparateVS10DllSuffix>` with
 `<GtkSeparateVS10DllSuffix>-2.0</GtkSeparateVS10DllSuffix>`
-	* `<ClCompile>` with  
+	* `<ClCompile>` with
 `<ClCompile><MultiProcessorCompilation>true</MultiProcessorCompilation>`
 	* `*-vs10.dll` with `*-2.0.dll`
-	* Add to `GtkDoInstall`:  
+	* Add to `GtkDoInstall`:
 `copy $(Configuration)\$(Platform)\bin\*.pdb $(CopyDir)\bin`
  * In `build\win32\vc12\gtk+.props`, add `<Import Project="..\..\..\..\stack.props" />` at the end
  * Delete `<Optimization>` lines in all `*.vcxproj` files
