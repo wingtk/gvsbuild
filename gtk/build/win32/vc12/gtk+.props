@@ -549,6 +549,8 @@ mkdir $(CopyDir)\lib\gtk-$(GtkApiVersion)\$(GtkHost)\engines
 
 copy $(Configuration)\$(Platform)\bin\libwimp.dll $(CopyDir)\lib\gtk-$(GtkApiVersion)\$(GtkHost)\engines
 
+copy $(Configuration)\$(Platform)\bin\libpixmap.dll $(CopyDir)\lib\gtk-$(GtkApiVersion)\$(GtkHost)\engines
+
 
 mkdir $(CopyDir)\share\gtk-$(GtkApiVersion)\demo
 

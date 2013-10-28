@@ -1,5 +1,7 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gdk-win32", "gdk-win32.vcxproj", "{FC5AADB5-95CD-4BF0-BA8B-0C16FE7073FA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gdk", "gdk.vcxproj", "{FC5AADB5-95CD-4BF0-BA8B-0C16FE7073F7}"
@@ -11,6 +13,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gailutil", "gailutil.vcxproj", "{B3B6558A-01C8-4C72-9BDE-84ABB1AE67DF}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libwimp", "libwimp.vcxproj", "{7660FB4E-2AE6-483E-8813-0974CBE6F97F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libpixmap", "libpixmap.vcxproj", "{59FD5E4C-2E79-47D9-B485-A41143D39B13}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "install", "install.vcxproj", "{FC5AADB5-95CD-4BF0-BA8B-0C16FE7073FB}"
 EndProject
@@ -78,6 +82,14 @@ Global
 		{FC5AADB5-95CD-4BF0-BA8B-0C16FE7073FB}.Release|Win32.Build.0 = Release|Win32
 		{FC5AADB5-95CD-4BF0-BA8B-0C16FE7073FB}.Release|x64.ActiveCfg = Release|x64
 		{FC5AADB5-95CD-4BF0-BA8B-0C16FE7073FB}.Release|x64.Build.0 = Release|x64
+		{59FD5E4C-2E79-47D9-B485-A41143D39B13}.Debug|Win32.ActiveCfg = Debug|Win32
+		{59FD5E4C-2E79-47D9-B485-A41143D39B13}.Debug|Win32.Build.0 = Debug|Win32
+		{59FD5E4C-2E79-47D9-B485-A41143D39B13}.Debug|x64.ActiveCfg = Debug|x64
+		{59FD5E4C-2E79-47D9-B485-A41143D39B13}.Debug|x64.Build.0 = Debug|x64
+		{59FD5E4C-2E79-47D9-B485-A41143D39B13}.Release|Win32.ActiveCfg = Release|Win32
+		{59FD5E4C-2E79-47D9-B485-A41143D39B13}.Release|Win32.Build.0 = Release|Win32
+		{59FD5E4C-2E79-47D9-B485-A41143D39B13}.Release|x64.ActiveCfg = Release|x64
+		{59FD5E4C-2E79-47D9-B485-A41143D39B13}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
