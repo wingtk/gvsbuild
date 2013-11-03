@@ -49,6 +49,10 @@ The path to a patch.exe binary.
 The path to a 7-zip executable. Do not use the one provided by Mozilla Build as it's too old and will not work.
 
 
+.PARAMETER CMakePath
+The directory where you installed cmake.
+
+
 .PARAMETER OnlyBuild
 A subset of the items you want built.
 
@@ -120,6 +124,9 @@ param (
 	[string]
 	$SevenZip = 'C:\Program Files\7-Zip\7z.exe',
 
+	[string]
+	$CMakePath = 'C:\Program Files (x86)\CMake 2.8\bin',
+
 	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'fontconfig', 'freetype', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib')]
 	$OnlyBuild = @()
 )
@@ -162,111 +169,507 @@ $items = @{
 #========================================================================================================================================================
 
 $items['atk']['BuildScript'] = {
+	$packageDestination = "$PWD-rel"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
 	VSPrompt -Name 'atk' `
-		"msbuild build\win32\vc12\atk.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True" `
-		"release-$filenameArch.bat"
+		"msbuild build\win32\vc12\atk.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True"
+
+	New-Item -Type Directory $packageDestination\share\doc\atk
+	Copy-Item .\COPYING $packageDestination\share\doc\atk
+
+	Package $packageDestination
 }
 
 $items['cairo']['BuildScript'] = {
+	$packageDestination = "$PWD-rel"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
 	VSPrompt -Name 'cairo' `
-		"msbuild msvc\vc12\cairo.sln /p:Platform=$platform /p:Configuration=Release_FC /maxcpucount /nodeReuse:True" `
-		"release-$filenameArch.bat"
+		"msbuild msvc\vc12\cairo.sln /p:Platform=$platform /p:Configuration=Release_FC /maxcpucount /nodeReuse:True"
+
+	New-Item -Type Directory $packageDestination\share\doc\cairo
+	Copy-Item .\COPYING $packageDestination\share\doc\cairo
+
+	Package $packageDestination
 }
 
 $items['enchant']['BuildScript'] = {
+	$packageDestination = "$PWD-$filenameArch"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	Push-Location .\src
 	VSPrompt -Name 'enchant' `
-		"build-$filenameArch.bat"
+		'nmake -f makefile.mak clean' `
+		"nmake -f makefile.mak DLL=1 $(if ($filenameArch -eq 'x64') { 'X64=1 ' })MFLAGS=-MD GLIBDIR=..\..\..\..\gtk\$platform\include\glib-2.0"
+	Pop-Location
+
+	New-Item -Type Directory $packageDestination\bin
+	Copy-Item `
+		.\bin\release\enchant.exe, `
+		.\bin\release\pdb\enchant.pdb, `
+		.\bin\release\enchant-lsmod.exe, `
+		.\bin\release\pdb\enchant-lsmod.pdb, `
+		.\bin\release\test-enchant.exe, `
+		.\bin\release\pdb\test-enchant.pdb, `
+		.\bin\release\libenchant.dll, `
+		.\bin\release\pdb\libenchant.pdb `
+		$packageDestination\bin
+
+	New-Item -Type Directory $packageDestination\etc\fonts
+	Copy-Item `
+		.\fonts.conf, `
+		.\fonts.dtd `
+		$packageDestination\etc\fonts
+
+	New-Item -Type Directory $packageDestination\include\enchant
+	Copy-Item `
+		.\src\enchant.h, `
+		.\src\enchant++.h, `
+		.\src\enchant-provider.h `
+		$packageDestination\include\enchant
+
+	New-Item -Type Directory $packageDestination\lib\enchant
+	Copy-Item `
+		.\bin\release\libenchant.lib `
+		$packageDestination\lib
+	Copy-Item `
+		.\bin\release\libenchant_ispell.dll, `
+		.\bin\release\libenchant_ispell.lib, `
+		.\bin\release\pdb\libenchant_ispell.pdb, `
+		.\bin\release\libenchant_myspell.dll, `
+		.\bin\release\libenchant_myspell.lib, `
+		.\bin\release\pdb\libenchant_myspell.pdb `
+		$packageDestination\lib\enchant
+
+	New-Item -Type Directory $packageDestination\share\doc\enchant
+	Copy-Item .\COPYING.LIB $packageDestination\share\doc\enchant\COPYING
+
+	Package $packageDestination
 }
 
 $items['fontconfig']['BuildScript'] = {
+	$packageDestination = "$PWD-$filenameArch"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	&$Patch -p1 -i fontconfig.patch
+
 	VSPrompt -Name 'fontconfig' `
-		"$Patch -p1 -i fontconfig.patch" `
-		"msbuild fontconfig.sln /p:Platform=$platform /p:Configuration=Release /t:build /nodeReuse:True" `
-		"release-$filenameArch.bat"
+		"msbuild fontconfig.sln /p:Platform=$platform /p:Configuration=Release /t:build /nodeReuse:True"
+
+
+	switch ($filenameArch) {
+		'x86' {
+			$releaseDirectory = '.\Release'
+		}
+
+		'x64' {
+			$releaseDirectory = '.\x64\Release'
+		}
+	}
+
+	New-Item -Type Directory $packageDestination\bin
+	Copy-Item `
+		$releaseDirectory\fontconfig.dll, `
+		$releaseDirectory\fontconfig.pdb, `
+		$releaseDirectory\fc-cache.exe, `
+		$releaseDirectory\fc-cache.pdb, `
+		$releaseDirectory\fc-cat.exe, `
+		$releaseDirectory\fc-cat.pdb, `
+		$releaseDirectory\fc-list.exe, `
+		$releaseDirectory\fc-list.pdb, `
+		$releaseDirectory\fc-match.exe, `
+		$releaseDirectory\fc-match.pdb, `
+		$releaseDirectory\fc-query.exe, `
+		$releaseDirectory\fc-query.pdb, `
+		$releaseDirectory\fc-scan.exe, `
+		$releaseDirectory\fc-scan.pdb `
+		$packageDestination\bin
+
+	New-Item -Type Directory $packageDestination\etc\fonts
+	Copy-Item `
+		.\fonts.conf, `
+		.\fonts.dtd `
+		$packageDestination\etc\fonts
+
+	New-Item -Type Directory $packageDestination\include\fontconfig
+	Copy-Item `
+		.\fontconfig\fcfreetype.h, `
+		.\fontconfig\fcprivate.h, `
+		.\fontconfig\fontconfig.h `
+		$packageDestination\include\fontconfig
+
+	New-Item -Type Directory $packageDestination\lib
+	Copy-Item `
+		$releaseDirectory\fontconfig.lib `
+		$packageDestination\lib
+
+	New-Item -Type Directory $packageDestination\share\doc\fontconfig
+	Copy-Item .\COPYING $packageDestination\share\doc\fontconfig
+
+	Package $packageDestination
 }
 
 $items['freetype']['BuildScript'] = {
+	$packageDestination = "$PWD-$filenameArch"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
 	VSPrompt -Name 'freetype' `
-		"msbuild builds\win32\vc12\freetype.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True" `
-		"release-$filenameArch.bat"
+		"msbuild builds\win32\vc12\freetype.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True"
+
+	New-Item -Type Directory $packageDestination\include
+	Copy-Item -Recurse `
+		.\include\* `
+		$packageDestination\include
+
+	New-Item -Type Directory $packageDestination\lib
+	Copy-Item `
+		".\objs\$platform\vc12\freetype.lib" `
+		$packageDestination\lib
+
+	New-Item -Type Directory $packageDestination\share\doc\freetype
+	Copy-Item .\docs\LICENSE.TXT $packageDestination\share\doc\freetype\COPYING
+
+	Package $packageDestination
 }
 
 $items['gdk-pixbuf']['BuildScript'] = {
+	$packageDestination = "$PWD-rel"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	&$Patch -p1 -i gdk-pixbuf.patch
+
 	VSPrompt -Name 'gdk-pixbuf' `
-		"$Patch -p1 -i gdk-pixbuf.patch" `
-		"msbuild build\win32\vc12\gdk-pixbuf.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True" `
-		"release-$filenameArch.bat"
+		"msbuild build\win32\vc12\gdk-pixbuf.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True"
+
+	New-Item -Type Directory $packageDestination\share\doc\gdk-pixbuf
+	Copy-Item .\COPYING $packageDestination\share\doc\gdk-pixbuf
+
+	Package $packageDestination
 }
 
 $items['gettext-runtime']['BuildScript'] = {
+	$packageDestination = "$PWD-$filenameArch"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	&$Patch -p1 -i gettext-runtime.patch
+
+	Remove-Item -Recurse CMakeCache.txt, CMakeFiles -ErrorAction Ignore
+
 	VSPrompt -Name 'gettext-runtime' `
-		"$Patch -p1 -i gettext-runtime.patch" `
-		"build-$filenameArch.bat"
+		"SET PATH=%PATH%;$CMakePath" `
+		"cmake -G `"NMake Makefiles`" -DCMAKE_INSTALL_PREFIX=`"$packageDestination`" -DCMAKE_BUILD_TYPE=Release -DICONV_INCLUDE_DIR=`"$packageDestination\..\..\..\gtk\$platform\include`" -DICONV_LIBRARIES=`"$packageDestination\..\..\..\gtk\$platform\lib\iconv.lib`"" `
+		'nmake clean' `
+		'nmake' `
+		'nmake install'
+
+	New-Item -Type Directory $packageDestination\share\doc\gettext
+	Copy-Item .\COPYING $packageDestination\share\doc\gettext
+
+	VSPrompt -Name 'gettext-runtime-2' `
+		'nmake clean'
+
+	Package $packageDestination
 }
 
 $items['glib']['BuildScript'] = {
+	$packageDestination = "$PWD-rel"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
 	VSPrompt -Name 'glib' `
-		"msbuild build\win32\vc12\glib.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True" `
-		"release-$filenameArch.bat"
+		"msbuild build\win32\vc12\glib.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True"
+
+	New-Item -Type Directory $packageDestination\share\doc\glib
+	Copy-Item .\COPYING $packageDestination\share\doc\glib
+
+	Package $packageDestination
 }
 
 $items['gtk']['BuildScript'] = {
+	$packageDestination = "$PWD-rel"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	&$Patch -p1 -i gtk-revert-scrolldc-commit.patch
+	&$Patch -p1 -i gtk-pixmap.patch
+	&$Patch -p1 -i gtk-bgimg.patch
+	&$Patch -p1 -i gtk-statusicon.patch
+
 	VSPrompt -Name 'gtk' `
-		"$Patch -p1 -i gtk-revert-scrolldc-commit.patch" `
-		"$Patch -p1 -i gtk-pixmap.patch" `
-		"$Patch -p1 -i gtk-bgimg.patch" `
-		"$Patch -p1 -i gtk-statusicon.patch" `
-		"msbuild build\win32\vc12\gtk+.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True" `
-		"release-$filenameArch.bat"
+		"msbuild build\win32\vc12\gtk+.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True"
+
+	Remove-Item -Recurse $packageDestination\share\locale
+	New-Item -Type Directory $packageDestination\share\locale
+
+	$oldPath = $env:Path
+	$env:Path = "${env:Path};..\..\..\..\..\msgfmt"
+	Push-Location .\po
+	Get-ChildItem *.po | %{
+		New-Item -Type Directory "$packageDestination\share\locale\$($_.BaseName)\LC_MESSAGES"
+		&msgfmt -co "$packageDestination\share\locale\$($_.BaseName)\LC_MESSAGES\gtk20.mo" $_.Name
+	}
+	Pop-Location
+	$env:Path = $oldPath
+
+	New-Item -Type Directory $packageDestination\share\doc\gtk
+	Copy-Item .\COPYING $packageDestination\share\doc\gtk
+
+	Package $packageDestination
 }
 
 $items['harfbuzz']['BuildScript'] = {
+	$packageDestination = "$PWD-$filenameArch"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
 	VSPrompt -Name 'harfbuzz' `
-		"msbuild win32\harfbuzz.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True" `
-		"release-$filenameArch.bat"
+		"msbuild win32\harfbuzz.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True"
+
+
+	New-Item -Type Directory $packageDestination\bin
+	Copy-Item `
+		.\win32\libs\Release\harfbuzz.dll, `
+		.\win32\libs\Release\harfbuzz.pdb `
+		$packageDestination\bin
+
+	New-Item -Type Directory $packageDestination\include
+	Copy-Item `
+		.\src\*.h `
+		$packageDestination\include
+
+	New-Item -Type Directory $packageDestination\lib
+	Copy-Item `
+		.\win32\libs\harfbuzz\Release\harfbuzz.lib `
+		$packageDestination\lib
+
+	New-Item -Type Directory $packageDestination\share\doc\harfbuzz
+	Copy-Item .\COPYING $packageDestination\share\doc\harfbuzz
+
+	Package $packageDestination
 }
 
 $items['libffi']['BuildScript'] = {
+	$packageDestination = "$PWD-$filenameArch"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	switch ($filenameArch) {
+		'x86' {
+			$buildDestination = 'i686-pc-mingw32'
+			$configureCommand = "./configure CC=`$(pwd)/msvcc.sh LD=link CPP='cl -nologo -EP' CFLAGS='-O2' --build=$buildDestination"
+		}
+
+		'x64' {
+			$buildDestination = 'x86_64-w64-mingw32'
+			$configureCommand = "./configure CC=`"`$(pwd)/msvcc.sh -m64`" LD=link CPP='cl -nologo -EP' CFLAGS='-O2' --build=$buildDestination"
+		}
+	}
+
 	$currentPwd = $PWD
-	Set-Location ..\..
-	echo "cd $($currentPwd -replace '\\', '\\') && build-$filenameArch.bat" | &$mozillaBuildStartVC
-	Set-Location $currentPwd
-	VSPrompt -Name 'libffi' `
-		"release-$filenameArch.bat"
+	Push-Location ..\..
+	echo "cd $($currentPwd -replace '\\', '\\') && $configureCommand && make clean && make" | &$mozillaBuildStartVC
+	Pop-Location
+
+	New-Item -Type Directory $packageDestination\bin
+	Copy-Item `
+		.\$buildDestination\.libs\libffi-6.dll `
+		$packageDestination\bin
+
+	New-Item -Type Directory $packageDestination\include
+	Copy-Item `
+		.\$buildDestination\include\ffi.h, `
+		.\$buildDestination\include\ffitarget.h `
+		$packageDestination\include
+
+	New-Item -Type Directory $packageDestination\lib
+	Copy-Item `
+		.\$buildDestination\.libs\libffi_convenience.lib `
+		$packageDestination\lib\libffi.lib
+
+	New-Item -Type Directory $packageDestination\share\doc\libffi
+	Copy-Item .\LICENSE $packageDestination\share\doc\libffi
+
+	Package $packageDestination
 }
 
 $items['libpng']['BuildScript'] = {
+	$packageDestination = "$PWD-$filenameArch"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
 	VSPrompt -Name 'libpng' `
-		"msbuild projects\vc12\vstudio.sln /p:Platform=$platform /p:Configuration=Release /nodeReuse:True" `
-		"release-$filenameArch.bat"
+		"msbuild projects\vc12\vstudio.sln /p:Platform=$platform /p:Configuration=Release /nodeReuse:True"
+
+	switch ($filenameArch) {
+		'x86' {
+			$releaseDirectory = '.\projects\vc12\Release'
+		}
+
+		'x64' {
+			$releaseDirectory = '.\projects\vc12\x64\Release'
+		}
+	}
+
+	New-Item -Type Directory $packageDestination\bin
+	Copy-Item `
+		$releaseDirectory\libpng16.dll, `
+		$releaseDirectory\libpng16.pdb, `
+		$releaseDirectory\pngstest.exe, `
+		$releaseDirectory\pngstest.pdb, `
+		$releaseDirectory\pngtest.exe, `
+		$releaseDirectory\pngtest.pdb, `
+		$releaseDirectory\pngunknown.exe, `
+		$releaseDirectory\pngunknown.pdb, `
+		$releaseDirectory\pngvalid.exe, `
+		$releaseDirectory\pngvalid.pdb `
+		$packageDestination\bin
+
+	New-Item -Type Directory $packageDestination\include
+	Copy-Item `
+		.\png.h, `
+		.\pngconf.h, `
+		.\pnglibconf.h, `
+		.\pngpriv.h `
+		$packageDestination\include
+
+	New-Item -Type Directory $packageDestination\lib
+	Copy-Item `
+		$releaseDirectory\libpng16.lib `
+		$packageDestination\lib
+
+	New-Item -Type Directory $packageDestination\share\doc\libpng
+	Copy-Item .\LICENSE $packageDestination\share\doc\libpng\COPYING
+
+	Package $packageDestination
 }
 
 $items['libxml2']['BuildScript'] = {
+	$packageDestination = "$PWD-$filenameArch"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
 	VSPrompt -Name 'libxml2' `
-		"msbuild win32\vc12\libxml2.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True" `
-		"release-$filenameArch.bat"
+		"msbuild win32\vc12\libxml2.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True"
+
+	switch ($filenameArch) {
+		'x86' {
+			$releaseDirectory = '.\win32\vc12\Release'
+		}
+
+		'x64' {
+			$releaseDirectory = '.\win32\vc12\x64\Release'
+		}
+	}
+
+	Copy-Item $releaseDirectory\runsuite.exe .
+	&runsuite.exe
+	Remove-Item .\runsuite.exe
+
+	New-Item -Type Directory $packageDestination\bin
+	Copy-Item `
+		$releaseDirectory\libxml2.dll, `
+		$releaseDirectory\libxml2.pdb, `
+		$releaseDirectory\runsuite.exe, `
+		$releaseDirectory\runsuite.pdb `
+		$packageDestination\bin
+
+	New-Item -Type Directory $packageDestination\include\libxml
+	Copy-Item `
+		.\include\win32config.h, `
+		.\include\wsockcompat.h, `
+		.\include\libxml\*.h `
+		$packageDestination\include\libxml
+
+	New-Item -Type Directory $packageDestination\lib
+	Copy-Item `
+		$releaseDirectory\libxml2.lib `
+		$packageDestination\lib
+
+	New-Item -Type Directory $packageDestination\share\doc\libxml2
+	Copy-Item .\COPYING $packageDestination\share\doc\libxml2
+
+	Package $packageDestination
 }
 
 $items['openssl']['BuildScript'] = {
+	$packageDestination = "$PWD-$filenameArch"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	&$Patch -p1 -i openssl-tls-error.patch
+
 	VSPrompt -Name 'openssl' `
-		"$Patch -p1 -i openssl-tls-error.patch" `
-		"build-$filenameArch.bat"
+		'set OPENSSL_SRC=%cd%' `
+		"set OPENSSL_DEST=%cd%-$filenameArch" `
+		"set PERL_PATH=$MozillaBuildDirectory\perl-5.18\$platform\bin" `
+		"set NASM_PATH=$MozillaBuildDirectory\nasm" `
+		"set INCLUDE=%INCLUDE%;%OPENSSL_SRC%\..\..\..\gtk\$platform\include" `
+		"set LIB=%LIB%;%OPENSSL_SRC%\..\..\..\gtk\$platform\lib" `
+		"set PATH=%PATH%;%PERL_PATH%;%NASM_PATH%;%OPENSSL_SRC%\..\..\..\gtk\$platform\bin" `
+		"perl Configure $(if ($filenameArch -eq 'x86') { 'VC-WIN32' } else { 'VC-WIN64A' }) enable-camellia zlib-dynamic --openssldir=./" `
+		"call $(if ($filenameArch -eq 'x86') { 'ms\do_nasm' } else { 'ms\do_win64a' })" `
+		'nmake -f ms\ntdll.mak vclean' `
+		'nmake -f ms\ntdll.mak' `
+		'nmake -f ms\ntdll.mak test' `
+		'perl mk-ca-bundle.pl -n' `
+		'move include include-orig' `
+		'nmake -f ms\ntdll.mak install'
+
+	New-Item -Type Directory $packageDestination
+
+	Move-Item .\bin $packageDestination
+	Copy-Item `
+		.\out32dll\libeay32.pdb, `
+		.\out32dll\openssl.pdb, `
+		.\out32dll\ssleay32.pdb `
+		$packageDestination\bin
+	Move-Item .\cert.pem $packageDestination\bin
+
+	Move-Item .\include $packageDestination
+	Move-Item .\include-orig .\include
+
+	Move-Item .\lib $packageDestination
+	Copy-Item `
+		.\out32dll\4758cca.pdb, `
+		.\out32dll\aep.pdb, `
+		.\out32dll\atalla.pdb, `
+		.\out32dll\capi.pdb, `
+		.\out32dll\chil.pdb, `
+		.\out32dll\cswift.pdb, `
+		.\out32dll\gmp.pdb, `
+		.\out32dll\gost.pdb, `
+		.\out32dll\nuron.pdb, `
+		.\out32dll\padlock.pdb, `
+		.\out32dll\sureware.pdb, `
+		.\out32dll\ubsec.pdb `
+		$packageDestination\lib\engines
+
+	New-Item -Type Directory $packageDestination\share\doc\openssl
+	Move-Item .\openssl.cnf $packageDestination\share\openssl.cnf.example
+	Copy-Item .\LICENSE $packageDestination\share\doc\openssl\COPYING
+
+	Package $packageDestination
 }
 
 $items['pango']['BuildScript'] = {
+	$packageDestination = "$PWD-rel"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
 	# Add BOM to .\pango\pango-language-sample-table.h because cl.exe throws C2001 otherwise
 	$languageSampleTableFileContents = Get-Content .\pango\pango-language-sample-table.h -Encoding UTF8
 	Out-File .\pango\pango-language-sample-table.h -InputObject $languageSampleTableFileContents -Encoding UTF8
 
+	&$Patch -p1 -i pango-defs.patch
+	&$Patch -p1 -i pango-nonbmp.patch
+	&$Patch -p1 -i pango-synthesize-all-fonts.patch
+
 	VSPrompt -Name 'pango' `
-		"$Patch -p1 -i pango-defs.patch" `
-		"$Patch -p1 -i pango-nonbmp.patch" `
-		"$Patch -p1 -i pango-synthesize-all-fonts.patch" `
-		"msbuild build\win32\vc12\pango_fc.sln /p:Platform=$platform /p:Configuration=Release /nodeReuse:True" `
-		"release-$filenameArch.bat"
+		"msbuild build\win32\vc12\pango_fc.sln /p:Platform=$platform /p:Configuration=Release /nodeReuse:True"
+
+	New-Item -Type Directory $packageDestination\share\doc\pango
+	Copy-Item .\COPYING $packageDestination\share\doc\pango
+
+	Package $packageDestination
 }
 
 $items['pixman']['BuildScript'] = {
+	$packageDestination = "$PWD-rel"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
 	$exports = Get-ChildItem -Recurse *.c, *.h | Select-String -Pattern 'PIXMAN_EXPORT' -Encoding UTF8 | %{
 		$content = Get-Content -Encoding UTF8 $_.Path
 		"$($content[$_.LineNumber - 1]) $($content[$_.LineNumber])"
@@ -292,19 +695,71 @@ $items['pixman']['BuildScript'] = {
 	$exports | Sort-Object -Unique | Out-File -Encoding OEM .\pixman\pixman.symbols
 
 	VSPrompt -Name 'pixman' `
-		"msbuild build\win32\vc12\pixman.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True" `
-		"release-$filenameArch.bat"
+		"msbuild build\win32\vc12\pixman.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True"
+
+	New-Item -Type Directory $packageDestination\share\doc\pixman
+	Copy-Item .\COPYING $packageDestination\share\doc\pixman
+
+	Package $packageDestination
 }
 
 $items['win-iconv']['BuildScript'] = {
+	$packageDestination = "$PWD-$filenameArch"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	Remove-Item -Recurse CMakeCache.txt, CMakeFiles -ErrorAction Ignore
+
 	VSPrompt -Name 'win-iconv' `
-		"build-$filenameArch.bat"
+		"SET PATH=%PATH%;$CMakePath" `
+		"cmake -G `"NMake Makefiles`" -DCMAKE_INSTALL_PREFIX=`"$packageDestination`" -DCMAKE_BUILD_TYPE=Release" `
+		'nmake clean' `
+		'nmake' `
+		'nmake install'
+
+	New-Item -Type Directory $packageDestination\share\doc\win-iconv
+	Copy-Item .\COPYING $packageDestination\share\doc\win-iconv
+
+	VSPrompt -Name 'win-iconv-2' `
+		'nmake clean'
+
+	Package $packageDestination
 }
 
 $items['zlib']['BuildScript'] = {
+	$packageDestination = "$PWD-$filenameArch"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
 	VSPrompt -Name 'zlib' `
-		"msbuild contrib\vstudio\vc12\zlibvc.sln /p:Platform=$platform /p:Configuration=ReleaseWithoutAsm /maxcpucount /nodeReuse:True" `
-		"release-$filenameArch.bat"
+		"msbuild contrib\vstudio\vc12\zlibvc.sln /p:Platform=$platform /p:Configuration=ReleaseWithoutAsm /maxcpucount /nodeReuse:True"
+
+	New-Item -Type Directory $packageDestination\include
+	Copy-Item zlib.h, zconf.h $packageDestination\include
+
+	Push-Location ".\contrib\vstudio\vc12\$filenameArch"
+
+	New-Item -Type Directory $packageDestination\bin
+	Copy-Item `
+		.\TestZlibDllRelease\testzlibdll.exe, `
+		.\TestZlibDllRelease\testzlibdll.pdb, `
+		.\TestZlibReleaseWithoutAsm\testzlib.exe, `
+		.\TestZlibReleaseWithoutAsm\testzlib.pdb, `
+		.\ZlibDllReleaseWithoutAsm\zlib1.dll, `
+		.\ZlibDllReleaseWithoutAsm\zlib1.map, `
+		.\ZlibDllReleaseWithoutAsm\zlib1.pdb `
+		$packageDestination\bin
+
+	New-Item -Type Directory $packageDestination\lib
+	Copy-Item `
+		.\ZlibDllReleaseWithoutAsm\zlib1.lib, `
+		.\ZlibStatReleaseWithoutAsm\zlibstat.lib `
+		$packageDestination\lib
+
+	Pop-Location
+
+	New-Item -Type Directory $packageDestination\share\doc\zlib
+	Copy-Item .\README $packageDestination\share\doc\zlib
+
+	Package $packageDestination
 }
 
 #========================================================================================================================================================
@@ -423,6 +878,9 @@ New-Item -Type Directory $logDirectory
 Remove-Item $logDirectory\*.log
 
 
+New-Item -Type Directory $workingDirectory\..\..\gtk\$platform
+
+
 # For each item, start a job to download the source archives, extract them to mozilla-build, and copy over the stuff from gtk-win32
 $items.GetEnumerator() | %{
 	Start-Job -Name $_.Key -ArgumentList $_.Value, $ArchivesDownloadDirectory, $workingDirectory, $Wget, $SevenZip {
@@ -516,13 +974,27 @@ while ($completedItems.Count -ne $items.Count) {
 						Out-File -FilePath $tempVSPromptBatchFile -InputObject $command -Encoding OEM -Append
 					}
 
-					$null | &$tempVSPromptBatchFile
+					&$tempVSPromptBatchFile
 
 					Remove-Item $tempVSPromptBatchFile
+				}
+
+				function Package([string] $directory) {
+					$archiveFilename = "$PWD-$filenameArch.7z"
+
+					Push-Location $directory
+					Remove-Item $archiveFilename -ErrorAction Ignore
+					&$SevenZip a $archiveFilename *
+					Pop-Location
+
+					Copy-Item -Recurse -Force $directory\* $workingDirectory\..\..\gtk\$platform
+
+					Remove-Item -Recurse $directory
 				}
 			} -ArgumentList $pendingItem {
 				param ($item)
 
+				$MozillaBuildDirectory = $using:MozillaBuildDirectory
 				$mozillaBuildStartVC = $using:mozillaBuildStartVC
 				$Configuration = $using:Configuration
 				$filenameArch = $using:filenameArch
@@ -531,12 +1003,11 @@ while ($completedItems.Count -ne $items.Count) {
 				$VSInstallPath = $using:VSInstallPath
 				$workingDirectory = $using:workingDirectory
 				$SevenZip = $using:SevenZip
+				$CMakePath = $using:CMakePath
 
 				Set-Location $item['BuildDirectory']
 
-				Invoke-Expression -Command ('$null | Invoke-Command ' + "{ $($item['BuildScript']) }")
-
-				&$SevenZip x $item['BuildArchiveFile'] -o"$workingDirectory\..\..\gtk\$platform" -y
+				Invoke-Command ([ScriptBlock] [ScriptBlock]::Create($item['BuildScript']))
 			} > $null
 		}
 	}
