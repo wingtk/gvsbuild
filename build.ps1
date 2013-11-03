@@ -168,13 +168,13 @@ $items = @{
 # Build steps begin here
 #========================================================================================================================================================
 
-$items['atk']['BuildScript'] = {
+$items['atk'].BuildScript = {
 	$packageDestination = "$PWD-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-	&msbuild build\win32\vc12\atk.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+	Exec msbuild build\win32\vc12\atk.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
 
 	[void] (Swap-Environment $originalEnvironment)
 
@@ -184,13 +184,13 @@ $items['atk']['BuildScript'] = {
 	Package $packageDestination
 }
 
-$items['cairo']['BuildScript'] = {
+$items['cairo'].BuildScript = {
 	$packageDestination = "$PWD-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-	&msbuild msvc\vc12\cairo.sln /p:Platform=$platform /p:Configuration=Release_FC /maxcpucount /nodeReuse:True
+	Exec msbuild msvc\vc12\cairo.sln /p:Platform=$platform /p:Configuration=Release_FC /maxcpucount /nodeReuse:True
 
 	[void] (Swap-Environment $originalEnvironment)
 
@@ -200,7 +200,7 @@ $items['cairo']['BuildScript'] = {
 	Package $packageDestination
 }
 
-$items['enchant']['BuildScript'] = {
+$items['enchant'].BuildScript = {
 	$packageDestination = "$PWD-$filenameArch"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
@@ -208,8 +208,8 @@ $items['enchant']['BuildScript'] = {
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-	&nmake -f makefile.mak clean
-	&nmake -f makefile.mak DLL=1 $(if ($filenameArch -eq 'x64') { 'X64=1' }) MFLAGS=-MD GLIBDIR=..\..\..\..\gtk\$platform\include\glib-2.0
+	Exec nmake -f makefile.mak clean
+	Exec nmake -f makefile.mak DLL=1 $(if ($filenameArch -eq 'x64') { 'X64=1' }) MFLAGS=-MD GLIBDIR=..\..\..\..\gtk\$platform\include\glib-2.0
 
 	[void] (Swap-Environment $originalEnvironment)
 
@@ -259,15 +259,15 @@ $items['enchant']['BuildScript'] = {
 	Package $packageDestination
 }
 
-$items['fontconfig']['BuildScript'] = {
+$items['fontconfig'].BuildScript = {
 	$packageDestination = "$PWD-$filenameArch"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
-	&$Patch -p1 -i fontconfig.patch
+	Exec $Patch -p1 -i fontconfig.patch
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-	&msbuild fontconfig.sln /p:Platform=$platform /p:Configuration=Release /t:build /nodeReuse:True
+	Exec msbuild fontconfig.sln /p:Platform=$platform /p:Configuration=Release /t:build /nodeReuse:True
 
 	[void] (Swap-Environment $originalEnvironment)
 
@@ -323,13 +323,13 @@ $items['fontconfig']['BuildScript'] = {
 	Package $packageDestination
 }
 
-$items['freetype']['BuildScript'] = {
+$items['freetype'].BuildScript = {
 	$packageDestination = "$PWD-$filenameArch"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-	&msbuild builds\win32\vc12\freetype.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+	Exec msbuild builds\win32\vc12\freetype.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
 
 	[void] (Swap-Environment $originalEnvironment)
 
@@ -349,15 +349,15 @@ $items['freetype']['BuildScript'] = {
 	Package $packageDestination
 }
 
-$items['gdk-pixbuf']['BuildScript'] = {
+$items['gdk-pixbuf'].BuildScript = {
 	$packageDestination = "$PWD-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
-	&$Patch -p1 -i gdk-pixbuf.patch
+	Exec $Patch -p1 -i gdk-pixbuf.patch
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-	&msbuild build\win32\vc12\gdk-pixbuf.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+	Exec msbuild build\win32\vc12\gdk-pixbuf.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
 
 	[void] (Swap-Environment $originalEnvironment)
 
@@ -367,22 +367,22 @@ $items['gdk-pixbuf']['BuildScript'] = {
 	Package $packageDestination
 }
 
-$items['gettext-runtime']['BuildScript'] = {
+$items['gettext-runtime'].BuildScript = {
 	$packageDestination = "$PWD-$filenameArch"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
-	&$Patch -p1 -i gettext-runtime.patch
+	Exec $Patch -p1 -i gettext-runtime.patch
 
 	Remove-Item -Recurse CMakeCache.txt, CMakeFiles -ErrorAction Ignore
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
 	$env:PATH = "${env:PATH};$CMakePath"
-	&cmake -G 'NMake Makefiles' "-DCMAKE_INSTALL_PREFIX=`"$packageDestination`"" -DCMAKE_BUILD_TYPE=Release "-DICONV_INCLUDE_DIR=`"$packageDestination\..\..\..\gtk\$platform\include`"" "-DICONV_LIBRARIES=`"$packageDestination\..\..\..\gtk\$platform\lib\iconv.lib`""
-	&nmake clean
-	&nmake
-	&nmake install
-	&nmake clean
+	Exec cmake -G 'NMake Makefiles' "-DCMAKE_INSTALL_PREFIX=`"$packageDestination`"" -DCMAKE_BUILD_TYPE=Release "-DICONV_INCLUDE_DIR=`"$packageDestination\..\..\..\gtk\$platform\include`"" "-DICONV_LIBRARIES=`"$packageDestination\..\..\..\gtk\$platform\lib\iconv.lib`""
+	Exec nmake clean
+	Exec nmake
+	Exec nmake install
+	Exec nmake clean
 
 	[void] (Swap-Environment $originalEnvironment)
 
@@ -392,13 +392,13 @@ $items['gettext-runtime']['BuildScript'] = {
 	Package $packageDestination
 }
 
-$items['glib']['BuildScript'] = {
+$items['glib'].BuildScript = {
 	$packageDestination = "$PWD-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-	&msbuild build\win32\vc12\glib.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+	Exec msbuild build\win32\vc12\glib.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
 
 	[void] (Swap-Environment $originalEnvironment)
 
@@ -408,18 +408,18 @@ $items['glib']['BuildScript'] = {
 	Package $packageDestination
 }
 
-$items['gtk']['BuildScript'] = {
+$items['gtk'].BuildScript = {
 	$packageDestination = "$PWD-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
-	&$Patch -p1 -i gtk-revert-scrolldc-commit.patch
-	&$Patch -p1 -i gtk-pixmap.patch
-	&$Patch -p1 -i gtk-bgimg.patch
-	&$Patch -p1 -i gtk-statusicon.patch
+	Exec $Patch -p1 -i gtk-revert-scrolldc-commit.patch
+	Exec $Patch -p1 -i gtk-pixmap.patch
+	Exec $Patch -p1 -i gtk-bgimg.patch
+	Exec $Patch -p1 -i gtk-statusicon.patch
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-	&msbuild build\win32\vc12\gtk+.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+	Exec msbuild build\win32\vc12\gtk+.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
 
 	[void] (Swap-Environment $originalEnvironment)
 
@@ -431,7 +431,7 @@ $items['gtk']['BuildScript'] = {
 	Push-Location .\po
 	Get-ChildItem *.po | %{
 		New-Item -Type Directory "$packageDestination\share\locale\$($_.BaseName)\LC_MESSAGES"
-		&msgfmt -co "$packageDestination\share\locale\$($_.BaseName)\LC_MESSAGES\gtk20.mo" $_.Name
+		Exec msgfmt -co "$packageDestination\share\locale\$($_.BaseName)\LC_MESSAGES\gtk20.mo" $_.Name
 	}
 	Pop-Location
 	$env:Path = $oldPath
@@ -442,13 +442,13 @@ $items['gtk']['BuildScript'] = {
 	Package $packageDestination
 }
 
-$items['harfbuzz']['BuildScript'] = {
+$items['harfbuzz'].BuildScript = {
 	$packageDestination = "$PWD-$filenameArch"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-	&msbuild win32\harfbuzz.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+	Exec msbuild win32\harfbuzz.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
 
 	[void] (Swap-Environment $originalEnvironment)
 
@@ -475,7 +475,7 @@ $items['harfbuzz']['BuildScript'] = {
 	Package $packageDestination
 }
 
-$items['libffi']['BuildScript'] = {
+$items['libffi'].BuildScript = {
 	$packageDestination = "$PWD-$filenameArch"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
@@ -518,13 +518,13 @@ $items['libffi']['BuildScript'] = {
 	Package $packageDestination
 }
 
-$items['libpng']['BuildScript'] = {
+$items['libpng'].BuildScript = {
 	$packageDestination = "$PWD-$filenameArch"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-	&msbuild projects\vc12\vstudio.sln /p:Platform=$platform /p:Configuration=Release /nodeReuse:True
+	Exec msbuild projects\vc12\vstudio.sln /p:Platform=$platform /p:Configuration=Release /nodeReuse:True
 
 	[void] (Swap-Environment $originalEnvironment)
 
@@ -571,13 +571,13 @@ $items['libpng']['BuildScript'] = {
 	Package $packageDestination
 }
 
-$items['libxml2']['BuildScript'] = {
+$items['libxml2'].BuildScript = {
 	$packageDestination = "$PWD-$filenameArch"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-	&msbuild win32\vc12\libxml2.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+	Exec msbuild win32\vc12\libxml2.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
 
 	[void] (Swap-Environment $originalEnvironment)
 
@@ -592,7 +592,7 @@ $items['libxml2']['BuildScript'] = {
 	}
 
 	Copy-Item $releaseDirectory\runsuite.exe .
-	&runsuite.exe
+	Exec runsuite.exe
 	Remove-Item .\runsuite.exe
 
 	New-Item -Type Directory $packageDestination\bin
@@ -621,11 +621,11 @@ $items['libxml2']['BuildScript'] = {
 	Package $packageDestination
 }
 
-$items['openssl']['BuildScript'] = {
+$items['openssl'].BuildScript = {
 	$packageDestination = "$PWD-$filenameArch"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
-	&$Patch -p1 -i openssl-tls-error.patch
+	Exec $Patch -p1 -i openssl-tls-error.patch
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
@@ -636,19 +636,19 @@ $items['openssl']['BuildScript'] = {
 	$env:INCLUDE = "${env:INCLUDE};${env:OPENSSL_SRC}\..\..\..\gtk\$platform\include"
 	$env:LIB = "${env:LIB};${env:OPENSSL_SRC}\..\..\..\gtk\$platform\lib"
 	$env:PATH = "${env:PATH};${env:PERL_PATH};${env:NASM_PATH};${env:OPENSSL_SRC}\..\..\..\gtk\$platform\bin"
-	&perl Configure $(if ($filenameArch -eq 'x86') { 'VC-WIN32' } else { 'VC-WIN64A' }) enable-camellia zlib-dynamic --openssldir=./
+	Exec perl Configure $(if ($filenameArch -eq 'x86') { 'VC-WIN32' } else { 'VC-WIN64A' }) enable-camellia zlib-dynamic --openssldir=./
 	if ($filenameArch -eq 'x86') {
-		&ms\do_nasm
+		Exec ms\do_nasm
 	}
 	else {
-		&ms\do_win64a
+		Exec ms\do_win64a
 	}
-	&nmake -f ms\ntdll.mak vclean
-	&nmake -f ms\ntdll.mak
-	&nmake -f ms\ntdll.mak test
-	&perl mk-ca-bundle.pl -n
+	Exec nmake -f ms\ntdll.mak vclean
+	Exec nmake -f ms\ntdll.mak
+	Exec nmake -f ms\ntdll.mak test
+	Exec perl mk-ca-bundle.pl -n
 	Move-Item .\include .\include-orig
-	&nmake -f ms\ntdll.mak install
+	Exec nmake -f ms\ntdll.mak install
 
 	[void] (Swap-Environment $originalEnvironment)
 
@@ -688,7 +688,7 @@ $items['openssl']['BuildScript'] = {
 	Package $packageDestination
 }
 
-$items['pango']['BuildScript'] = {
+$items['pango'].BuildScript = {
 	$packageDestination = "$PWD-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
@@ -696,13 +696,13 @@ $items['pango']['BuildScript'] = {
 	$languageSampleTableFileContents = Get-Content .\pango\pango-language-sample-table.h -Encoding UTF8
 	Out-File .\pango\pango-language-sample-table.h -InputObject $languageSampleTableFileContents -Encoding UTF8
 
-	&$Patch -p1 -i pango-defs.patch
-	&$Patch -p1 -i pango-nonbmp.patch
-	&$Patch -p1 -i pango-synthesize-all-fonts.patch
+	Exec $Patch -p1 -i pango-defs.patch
+	Exec $Patch -p1 -i pango-nonbmp.patch
+	Exec $Patch -p1 -i pango-synthesize-all-fonts.patch
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-	&msbuild build\win32\vc12\pango_fc.sln /p:Platform=$platform /p:Configuration=Release /nodeReuse:True
+	Exec msbuild build\win32\vc12\pango_fc.sln /p:Platform=$platform /p:Configuration=Release /nodeReuse:True
 
 	[void] (Swap-Environment $originalEnvironment)
 
@@ -742,7 +742,7 @@ $items['pixman']['BuildScript'] = {
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-	&msbuild build\win32\vc12\pixman.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+	Exec msbuild build\win32\vc12\pixman.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
 
 	[void] (Swap-Environment $originalEnvironment)
 
@@ -752,7 +752,7 @@ $items['pixman']['BuildScript'] = {
 	Package $packageDestination
 }
 
-$items['win-iconv']['BuildScript'] = {
+$items['win-iconv'].BuildScript = {
 	$packageDestination = "$PWD-$filenameArch"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
@@ -761,11 +761,11 @@ $items['win-iconv']['BuildScript'] = {
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
 	$env:PATH = "${env:PATH};$CMakePath"
-	&cmake -G 'NMake Makefiles' "-DCMAKE_INSTALL_PREFIX=`"$packageDestination`"" -DCMAKE_BUILD_TYPE=Release
-	&nmake clean
-	&nmake
-	&nmake install
-	&nmake clean
+	Exec cmake -G 'NMake Makefiles' "-DCMAKE_INSTALL_PREFIX=`"$packageDestination`"" -DCMAKE_BUILD_TYPE=Release
+	Exec nmake clean
+	Exec nmake
+	Exec nmake install
+	Exec nmake clean
 
 	[void] (Swap-Environment $originalEnvironment)
 
@@ -775,13 +775,13 @@ $items['win-iconv']['BuildScript'] = {
 	Package $packageDestination
 }
 
-$items['zlib']['BuildScript'] = {
+$items['zlib'].BuildScript = {
 	$packageDestination = "$PWD-$filenameArch"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-	&msbuild contrib\vstudio\vc12\zlibvc.sln /p:Platform=$platform /p:Configuration=ReleaseWithoutAsm /maxcpucount /nodeReuse:True
+	Exec msbuild contrib\vstudio\vc12\zlibvc.sln /p:Platform=$platform /p:Configuration=ReleaseWithoutAsm /maxcpucount /nodeReuse:True
 
 	[void] (Swap-Environment $originalEnvironment)
 
@@ -869,11 +869,11 @@ $workingDirectory = "$MozillaBuildDirectory\hexchat\build\$platform"
 
 
 # Set up additional properties on the items
-foreach ($element in $items.GetEnumerator()) {
-	$name = $element.Key
-	$item = $element.Value
+$items.GetEnumerator() | %{
+	$name = $_.Key
+	$item = $_.Value
 
-	$archiveUrl = $item['ArchiveUrl']
+	$archiveUrl = $item.ArchiveUrl
 
 	$filename = New-Object System.Uri $archiveUrl
 	$filename = $filename.Segments[$filename.Segments.Length - 1]
@@ -884,12 +884,21 @@ foreach ($element in $items.GetEnumerator()) {
 
 	$item = $items[$name]
 
-	$item['Name'] = $name
-	$item['ArchiveFile'] = $archiveFile
-	$item['PatchDirectory'] = $(New-Object System.IO.DirectoryInfo $patchDirectory)
-	$item['BuildDirectory'] = $(New-Object System.IO.DirectoryInfo "$workingDirectory\$($archiveFile.BaseName)")
-	$item['BuildArchiveFile'] = $(New-Object System.IO.FileInfo "$workingDirectory\$($archiveFile.BaseName)-$filenameArch$($archiveFile.Extension)")
-	$item['Dependencies'] = @($item['Dependencies'] | %{ $items[$_] })
+	$item.Name = $name
+	$item.ArchiveFile = $archiveFile
+	$item.PatchDirectory = $(New-Object System.IO.DirectoryInfo $patchDirectory)
+	$item.BuildDirectory = $(New-Object System.IO.DirectoryInfo "$workingDirectory\$($archiveFile.BaseName)")
+	$item.BuildArchiveFile = $(New-Object System.IO.FileInfo "$workingDirectory\$($archiveFile.BaseName)-$filenameArch$($archiveFile.Extension)")
+	$item.Dependencies = @($item.Dependencies | %{ $items[$_] })
+	$item.Dependents = @()
+	$item.State = ''
+}
+
+$items.GetEnumerator() | %{
+	$name = $_.Key
+	$item = $_.Value
+
+	$item.Dependencies | %{ $items[$_.Name].Dependents += $item }
 }
 
 
@@ -899,13 +908,17 @@ if ($OnlyBuild.Length -gt 0) {
 
 	$queue = New-Object System.Collections.Generic.Queue[string] (, $OnlyBuild)
 
-	while ($queue.Length -gt 0) {
+	while ($queue.Count -gt 0) {
 		$itemName = $queue.Dequeue()
 		$item = $items[$itemName]
 
 		$newItems[$itemName] = $item
 
-		@($item['Dependencies']) | %{ $queue.Enqueue($_.Name) }
+		$item.Dependencies | %{
+			if ($newItems[$_.Name] -eq $null) {
+				$queue.Enqueue($_.Name)
+			}
+		}
 	}
 
 	$items = $newItems
@@ -941,35 +954,45 @@ New-Item -Type Directory $workingDirectory\..\..\gtk\$platform
 
 # For each item, start a job to download the source archives, extract them to mozilla-build, and copy over the stuff from gtk-win32
 $items.GetEnumerator() | %{
-	Start-Job -Name $_.Key -ArgumentList $_.Value, $ArchivesDownloadDirectory, $workingDirectory, $Wget, $SevenZip {
+	$item = $_.Value
+
+	$item.State = 'Downloading and extracting'
+
+	[void] (Start-Job -Name $item.Name -InitializationScript {
+		function Exec { [string] $name; $name, [string[]] $arguments = $args; &$name @arguments; [void] ($LASTEXITCODE -and $(throw "$name $arguments exited with code $LASTEXITCODE")) }
+	} -ArgumentList $item {
 		param ($item, $ArchivesDownloadDirectory, $workingDirectory, $Wget, $SevenZip)
+
+		$ArchivesDownloadDirectory = $using:ArchivesDownloadDirectory
+		$workingDirectory = $using:workingDirectory
+		$Wget = $using:Wget
+		$SevenZip = $using:SevenZip
 
 		'Beginning job to download and extract'
 
-		if ($item['ArchiveFile'].Exists) {
-			"$($item['ArchiveFile']) already exists"
+		if ($item.ArchiveFile.Exists) {
+			"$($item.ArchiveFile) already exists"
 		}
 		else {
-			"$($item['ArchiveFile']) doesn't exist"
+			"$($item.ArchiveFile) doesn't exist"
 			Set-Location $ArchivesDownloadDirectory
-			&$Wget $item['ArchiveUrl'] > $null 2>&1
-			"Downloaded $($item['ArchiveUrl'])"
+			Exec $Wget $item.ArchiveUrl > $null 2>&1
+			"Downloaded $($item.ArchiveUrl)"
 		}
 
-		"Extracting $($item['ArchiveFile'].Name) to $workingDirectory"
-		&$SevenZip x $item['ArchiveFile'] -o"$workingDirectory" -y > $null
-		"Extracted $($item['ArchiveFile'].Name)"
+		"Extracting $($item.ArchiveFile.Name) to $workingDirectory"
+		Exec $SevenZip x $item.ArchiveFile -o"$workingDirectory" -y > $null
+		"Extracted $($item.ArchiveFile.Name)"
 
-		Copy-Item "$($item['PatchDirectory'])\*" $item['BuildDirectory'] -Recurse -Force
-		"Copied patch contents from $($item['PatchDirectory']) to $($item['BuildDirectory'])"
-	} > $null
+		Copy-Item "$($item.PatchDirectory)\*" $item.BuildDirectory -Recurse -Force
+		"Copied patch contents from $($item.PatchDirectory) to $($item.BuildDirectory)"
+	})
 }
 
 # While the jobs are running...
-$downloadJobs = @()
 do {
 	# Log their output
-	$downloadJobs = Get-Job | %{
+	Get-Job | %{
 		$job = $_
 
 		[string[]] $jobOutput = Receive-Job $job
@@ -977,52 +1000,53 @@ do {
 			Write-Host "$($job.Name) : $_"
 		}
 
-		$job
-	} | ? { $_.State -ne 'Completed' }
+		if ($job.State -eq 'Completed') {
+			Remove-Job $job
+			$items[$job.Name].State = 'Pending'
+		}
+	}
 
 	# Sleep a bit and then try again
 	Start-Sleep 1
-} while ($downloadJobs.Length -gt 0)
+} while (@($(Get-Job)).Length -gt 0)
 
 # All the jobs have been completed. Delete them all.
 Get-Job | Remove-Job
 
 
-# Map of items that have finished building (name -> item)
-$completedItems = @{}
-
-
 # Until all items have been built
-while ($completedItems.Count -ne $items.Count) {
-
-	# If another job can be started (either parallel build is enabled, or it's disabled and there is no running build job)...
-	if (-not $DisableParallelBuild -or $(Get-Job) -eq $null) {
-
+while (@($items.GetEnumerator() | ?{ ($_.Value.State -eq 'Pending') -or ($_.Value.State -eq 'Building') }).Length -gt 0) {
+	# If another job can be started - either parallel build is enabled, or it's disabled and there is no running build job), and there are no failed jobs...
+	if (
+		(-not $DisableParallelBuild -or $(Get-Job) -eq $null) -and
+		(@($items.GetEnumerator() | ?{ $_.Value.State -eq 'Failed' }).Length -eq 0)
+	) {
 		# Find an item which hasn't already been built, isn't being built currently, and whose dependencies have all been built
-		[Object[]] $nextItem =
-			$items.GetEnumerator() | ?{
-				$completedItems[$_.Key] -eq $null -and
-				(Get-Job -Name $_.Key 2>$null) -eq $null
-			} | %{ $_.Value } | ?{
-				[Object[]] $dependencies = @($_['Dependencies'])
-				if ($dependencies.Length -gt 0) {
-					[Object[]] $remainingDependencies = $dependencies | ?{ $completedItems[$_['Name']] -eq $null }
-					return $remainingDependencies.Length -eq 0
+		$nextPendingItem =
+			@($items.GetEnumerator() | ?{
+				$item = $_.Value
+
+				if ($item.State -ne 'Pending') {
+					return $false
 				}
-				else {
+
+				if ($item.Dependencies.Length -eq 0) {
 					return $true
 				}
-			}
+
+				$remainingDependencies = @($item.Dependencies | ?{ $items[$_.Name].State -ne 'Completed' })
+				return $remainingDependencies.Length -eq 0
+			} | %{ $_.Value })[0]
 
 		# If such an item exists...
-		if ($nextItem.Length -gt 0) {
-			$pendingItem = $nextItem[0]
+		if ($nextPendingItem -ne $null) {
+			$nextPendingItem.State = 'Building'
 
-			Out-File -Append -Encoding OEM -FilePath "$logDirectory\build.log" -InputObject "$($pendingItem['Name']) : Started"
-			Write-Host "$($pendingItem['Name']) : Started"
+			Out-File -Append -Encoding OEM -FilePath "$logDirectory\build.log" -InputObject "$($nextPendingItem.Name) : Started"
+			Write-Host "$($nextPendingItem.Name) : Started"
 
 			# Start a job to build it
-			Start-Job -Name $pendingItem['Name'] -InitializationScript {
+			[void] (Start-Job -Name $nextPendingItem.Name -InitializationScript {
 				function Swap-Environment([HashTable] $newEnvironment) {
 					$originalEnvironment = @{}
 
@@ -1035,19 +1059,21 @@ while ($completedItems.Count -ne $items.Count) {
 					return $originalEnvironment
 				}
 
+				function Exec { [string] $name; $name, [string[]] $arguments = $args; &$name @arguments; [void] ($LASTEXITCODE -and $(throw "$name $arguments exited with code $LASTEXITCODE")) }
+
 				function Package([string] $directory) {
 					$archiveFilename = "$PWD-$filenameArch.7z"
 
 					Push-Location $directory
 					Remove-Item $archiveFilename -ErrorAction Ignore
-					&$SevenZip a $archiveFilename *
+					Exec $SevenZip a $archiveFilename *
 					Pop-Location
 
 					Copy-Item -Recurse -Force $directory\* $workingDirectory\..\..\gtk\$platform
 
 					Remove-Item -Recurse $directory
 				}
-			} -ArgumentList $pendingItem {
+			} -ArgumentList $nextPendingItem {
 				param ($item)
 
 				$MozillaBuildDirectory = $using:MozillaBuildDirectory
@@ -1062,10 +1088,10 @@ while ($completedItems.Count -ne $items.Count) {
 				$SevenZip = $using:SevenZip
 				$CMakePath = $using:CMakePath
 
-				Set-Location $item['BuildDirectory']
+				Set-Location $item.BuildDirectory
 
-				Invoke-Command ([ScriptBlock] [ScriptBlock]::Create($item['BuildScript']))
-			} > $null
+				Invoke-Command ([ScriptBlock] [ScriptBlock]::Create($item.BuildScript))
+			})
 		}
 	}
 
@@ -1082,19 +1108,28 @@ while ($completedItems.Count -ne $items.Count) {
 
 		# If the job has been completed...
 		if ($job.State -eq 'Completed') {
-
-			# Make sure all its output has been logged
-			$jobOutput = Receive-Job $job
-			$jobOutput | %{
-				Out-File -Append -Encoding OEM -FilePath "$logDirectory\$($job.Name).log" -InputObject $_
-				Write-Host "$($job.Name) : $_"
-			}
-
-			# Add the item to the completed items map
-			$completedItems[$job.Name] = $items[$job.Name]
+			$items[$job.Name].State = 'Completed'
 
 			Out-File -Append -Encoding OEM -FilePath "$logDirectory\build.log" -InputObject "$($job.Name) : Completed"
 			Write-Host "$($job.Name) : Completed"
+
+			# Delete the job
+			Remove-Job $job
+		}
+
+		elseif ($job.State -eq 'Failed') {
+			$items[$job.Name].State = 'Failed'
+
+			$items.GetEnumerator() | %{
+				$item = $_.Value
+
+				if ($item.State -eq 'Pending') {
+					$item.State = 'Cancelled'
+				}
+			}
+
+			Out-File -Append -Encoding OEM -FilePath "$logDirectory\build.log" -InputObject "$($job.Name) : Failed"
+			Write-Host "$($job.Name) : Failed"
 
 			# Delete the job
 			Remove-Job $job
@@ -1103,4 +1138,28 @@ while ($completedItems.Count -ne $items.Count) {
 
 	# Sleep a bit and then try again
 	Start-Sleep 1
+}
+
+$itemStateGroups = @{}
+$items.GetEnumerator() | %{ $_.Value } | Group-Object -Property { $_.State } | %{ $itemStateGroups[$_.Name] = $_.Group | Sort-Object -Property { $_.Name } }
+
+if ($itemStateGroups.Completed.Length -gt 0) {
+	Write-Host ''
+	Write-Host 'The following items were successfully built:'
+
+	$itemStateGroups.Completed | %{ Write-Host $_.Name }
+}
+
+if ($itemStateGroups.Failed.Length -gt 0) {
+	Write-Host ''
+	Write-Host 'The following items failed to build:'
+
+	$itemStateGroups.Failed | %{ Write-Host $_.Name }
+}
+
+if ($itemStateGroups.Cancelled.Length -gt 0) {
+	Write-Host ''
+	Write-Host 'The following items were not built because one or more of the other items failed to build:'
+
+	$itemStateGroups.Cancelled | %{ Write-Host $_.Name }
 }
