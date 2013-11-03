@@ -643,7 +643,7 @@ $items['openssl'].BuildScript = {
 	else {
 		Exec ms\do_win64a
 	}
-	Exec nmake -f ms\ntdll.mak vclean
+	&nmake -f ms\ntdll.mak vclean   # Not Exec because it returns error code 2 if it fails to find build outputs to delete
 	Exec nmake -f ms\ntdll.mak
 	Exec nmake -f ms\ntdll.mak test
 	Exec perl mk-ca-bundle.pl -n
