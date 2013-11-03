@@ -120,7 +120,7 @@ param (
 	[string]
 	$SevenZip = 'C:\Program Files\7-Zip\7z.exe',
 
-	[string[]]
+	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'fontconfig', 'freetype', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib')]
 	$OnlyBuild = @()
 )
 
