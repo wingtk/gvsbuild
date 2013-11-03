@@ -237,7 +237,7 @@ $items['libffi']['BuildScript'] = {
 
 $items['libpng']['BuildScript'] = {
 	VSPrompt -Name 'libpng' `
-		"msbuild projects\vc12\vstudio.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True" `
+		"msbuild projects\vc12\vstudio.sln /p:Platform=$platform /p:Configuration=Release /nodeReuse:True" `
 		"release-$filenameArch.bat"
 }
 
