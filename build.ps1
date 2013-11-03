@@ -148,7 +148,7 @@ $items = @{
 	'libxml2'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libxml2-2.9.1.7z';        'Dependencies' = @('win-iconv')                         };
 	'openssl'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/openssl-1.0.1e.7z';       'Dependencies' = @('zlib')                              };
 	'pango'            = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/pango-1.32.5.7z';         'Dependencies' = @('cairo', 'harfbuzz')                 };
-	'pixman'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/pixman-0.30.0.7z';        'Dependencies' = @('libpng')                            };
+	'pixman'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/pixman-0.30.2.7z';        'Dependencies' = @('libpng')                            };
 	'win-iconv'        = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/win-iconv-0.0.6.7z';      'Dependencies' = @()                                    };
 	'zlib'             = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/zlib-1.2.8.7z';           'Dependencies' = @()                                    };
 }
@@ -267,8 +267,31 @@ $items['pango']['BuildScript'] = {
 }
 
 $items['pixman']['BuildScript'] = {
+	$exports = Get-ChildItem -Recurse *.c, *.h | Select-String -Pattern 'PIXMAN_EXPORT' -Encoding UTF8 | %{
+		$content = Get-Content -Encoding UTF8 $_.Path
+		"$($content[$_.LineNumber - 1]) $($content[$_.LineNumber])"
+	} | ?{
+		$_ -like 'PIXMAN_EXPORT *'
+	} | %{
+		if ($_ -match 'PIXMAN_EXPORT (?:const )?\S+ (?:\* )?(PREFIX(?: ?)\()?([^\s\(\)]+)') {
+			if ($Matches[1] -eq $null) {
+				$Matches[2]
+			}
+			else {
+				"pixman_region$($Matches[2])"
+				"pixman_region32$($Matches[2])"
+			}
+		}
+	} | ? {
+		-not ($_ -like '_pixman*')
+	}
+
+	$exports += 'prng_srand_r'
+	$exports += 'prng_randmemset_r'
+
+	$exports | Sort-Object -Unique | Out-File -Encoding OEM .\pixman\pixman.symbols
+
 	VSPrompt -Name 'pixman' `
-		"$Patch -p1 -i pixman.patch" `
 		"msbuild build\win32\vc12\pixman.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True" `
 		"release-$filenameArch.bat"
 }
