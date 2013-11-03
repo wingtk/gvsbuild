@@ -409,9 +409,6 @@ if (-not $(Test-Path "$MozillaBuild\start-msvc12-x86_amd64.bat")) {
 	Copy-Item $PatchesRootDirectory\mozilla-build\start-msvc12-x86_amd64.bat $MozillaBuildDirectory
 }
 
-Set-Location $MozillaBuildDirectory
-&$Patch -p1 -i $PatchesRootDirectory\mozilla-build\mozilla-build-vs2013.patch > $null
-
 
 New-Item -Type Directory $ArchivesDownloadDirectory
 
