@@ -172,8 +172,11 @@ $items['atk']['BuildScript'] = {
 	$packageDestination = "$PWD-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
-	VSPrompt -Name 'atk' `
-		"msbuild build\win32\vc12\atk.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True"
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	&msbuild build\win32\vc12\atk.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+
+	[void] (Swap-Environment $originalEnvironment)
 
 	New-Item -Type Directory $packageDestination\share\doc\atk
 	Copy-Item .\COPYING $packageDestination\share\doc\atk
@@ -185,8 +188,11 @@ $items['cairo']['BuildScript'] = {
 	$packageDestination = "$PWD-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
-	VSPrompt -Name 'cairo' `
-		"msbuild msvc\vc12\cairo.sln /p:Platform=$platform /p:Configuration=Release_FC /maxcpucount /nodeReuse:True"
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	&msbuild msvc\vc12\cairo.sln /p:Platform=$platform /p:Configuration=Release_FC /maxcpucount /nodeReuse:True
+
+	[void] (Swap-Environment $originalEnvironment)
 
 	New-Item -Type Directory $packageDestination\share\doc\cairo
 	Copy-Item .\COPYING $packageDestination\share\doc\cairo
@@ -199,9 +205,14 @@ $items['enchant']['BuildScript'] = {
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
 	Push-Location .\src
-	VSPrompt -Name 'enchant' `
-		'nmake -f makefile.mak clean' `
-		"nmake -f makefile.mak DLL=1 $(if ($filenameArch -eq 'x64') { 'X64=1 ' })MFLAGS=-MD GLIBDIR=..\..\..\..\gtk\$platform\include\glib-2.0"
+
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	&nmake -f makefile.mak clean
+	&nmake -f makefile.mak DLL=1 $(if ($filenameArch -eq 'x64') { 'X64=1' }) MFLAGS=-MD GLIBDIR=..\..\..\..\gtk\$platform\include\glib-2.0
+
+	[void] (Swap-Environment $originalEnvironment)
+
 	Pop-Location
 
 	New-Item -Type Directory $packageDestination\bin
@@ -254,9 +265,11 @@ $items['fontconfig']['BuildScript'] = {
 
 	&$Patch -p1 -i fontconfig.patch
 
-	VSPrompt -Name 'fontconfig' `
-		"msbuild fontconfig.sln /p:Platform=$platform /p:Configuration=Release /t:build /nodeReuse:True"
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
+	&msbuild fontconfig.sln /p:Platform=$platform /p:Configuration=Release /t:build /nodeReuse:True
+
+	[void] (Swap-Environment $originalEnvironment)
 
 	switch ($filenameArch) {
 		'x86' {
@@ -314,8 +327,11 @@ $items['freetype']['BuildScript'] = {
 	$packageDestination = "$PWD-$filenameArch"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
-	VSPrompt -Name 'freetype' `
-		"msbuild builds\win32\vc12\freetype.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True"
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	&msbuild builds\win32\vc12\freetype.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+
+	[void] (Swap-Environment $originalEnvironment)
 
 	New-Item -Type Directory $packageDestination\include
 	Copy-Item -Recurse `
@@ -339,8 +355,11 @@ $items['gdk-pixbuf']['BuildScript'] = {
 
 	&$Patch -p1 -i gdk-pixbuf.patch
 
-	VSPrompt -Name 'gdk-pixbuf' `
-		"msbuild build\win32\vc12\gdk-pixbuf.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True"
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	&msbuild build\win32\vc12\gdk-pixbuf.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+
+	[void] (Swap-Environment $originalEnvironment)
 
 	New-Item -Type Directory $packageDestination\share\doc\gdk-pixbuf
 	Copy-Item .\COPYING $packageDestination\share\doc\gdk-pixbuf
@@ -356,18 +375,19 @@ $items['gettext-runtime']['BuildScript'] = {
 
 	Remove-Item -Recurse CMakeCache.txt, CMakeFiles -ErrorAction Ignore
 
-	VSPrompt -Name 'gettext-runtime' `
-		"SET PATH=%PATH%;$CMakePath" `
-		"cmake -G `"NMake Makefiles`" -DCMAKE_INSTALL_PREFIX=`"$packageDestination`" -DCMAKE_BUILD_TYPE=Release -DICONV_INCLUDE_DIR=`"$packageDestination\..\..\..\gtk\$platform\include`" -DICONV_LIBRARIES=`"$packageDestination\..\..\..\gtk\$platform\lib\iconv.lib`"" `
-		'nmake clean' `
-		'nmake' `
-		'nmake install'
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	$env:PATH = "${env:PATH};$CMakePath"
+	&cmake -G 'NMake Makefiles' "-DCMAKE_INSTALL_PREFIX=`"$packageDestination`"" -DCMAKE_BUILD_TYPE=Release "-DICONV_INCLUDE_DIR=`"$packageDestination\..\..\..\gtk\$platform\include`"" "-DICONV_LIBRARIES=`"$packageDestination\..\..\..\gtk\$platform\lib\iconv.lib`""
+	&nmake clean
+	&nmake
+	&nmake install
+	&nmake clean
+
+	[void] (Swap-Environment $originalEnvironment)
 
 	New-Item -Type Directory $packageDestination\share\doc\gettext
 	Copy-Item .\COPYING $packageDestination\share\doc\gettext
-
-	VSPrompt -Name 'gettext-runtime-2' `
-		'nmake clean'
 
 	Package $packageDestination
 }
@@ -376,8 +396,11 @@ $items['glib']['BuildScript'] = {
 	$packageDestination = "$PWD-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
-	VSPrompt -Name 'glib' `
-		"msbuild build\win32\vc12\glib.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True"
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	&msbuild build\win32\vc12\glib.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+
+	[void] (Swap-Environment $originalEnvironment)
 
 	New-Item -Type Directory $packageDestination\share\doc\glib
 	Copy-Item .\COPYING $packageDestination\share\doc\glib
@@ -394,8 +417,11 @@ $items['gtk']['BuildScript'] = {
 	&$Patch -p1 -i gtk-bgimg.patch
 	&$Patch -p1 -i gtk-statusicon.patch
 
-	VSPrompt -Name 'gtk' `
-		"msbuild build\win32\vc12\gtk+.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True"
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	&msbuild build\win32\vc12\gtk+.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+
+	[void] (Swap-Environment $originalEnvironment)
 
 	Remove-Item -Recurse $packageDestination\share\locale
 	New-Item -Type Directory $packageDestination\share\locale
@@ -420,8 +446,11 @@ $items['harfbuzz']['BuildScript'] = {
 	$packageDestination = "$PWD-$filenameArch"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
-	VSPrompt -Name 'harfbuzz' `
-		"msbuild win32\harfbuzz.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True"
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	&msbuild win32\harfbuzz.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+
+	[void] (Swap-Environment $originalEnvironment)
 
 
 	New-Item -Type Directory $packageDestination\bin
@@ -493,8 +522,11 @@ $items['libpng']['BuildScript'] = {
 	$packageDestination = "$PWD-$filenameArch"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
-	VSPrompt -Name 'libpng' `
-		"msbuild projects\vc12\vstudio.sln /p:Platform=$platform /p:Configuration=Release /nodeReuse:True"
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	&msbuild projects\vc12\vstudio.sln /p:Platform=$platform /p:Configuration=Release /nodeReuse:True
+
+	[void] (Swap-Environment $originalEnvironment)
 
 	switch ($filenameArch) {
 		'x86' {
@@ -543,8 +575,11 @@ $items['libxml2']['BuildScript'] = {
 	$packageDestination = "$PWD-$filenameArch"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
-	VSPrompt -Name 'libxml2' `
-		"msbuild win32\vc12\libxml2.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True"
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	&msbuild win32\vc12\libxml2.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+
+	[void] (Swap-Environment $originalEnvironment)
 
 	switch ($filenameArch) {
 		'x86' {
@@ -592,22 +627,30 @@ $items['openssl']['BuildScript'] = {
 
 	&$Patch -p1 -i openssl-tls-error.patch
 
-	VSPrompt -Name 'openssl' `
-		'set OPENSSL_SRC=%cd%' `
-		"set OPENSSL_DEST=%cd%-$filenameArch" `
-		"set PERL_PATH=$MozillaBuildDirectory\perl-5.18\$platform\bin" `
-		"set NASM_PATH=$MozillaBuildDirectory\nasm" `
-		"set INCLUDE=%INCLUDE%;%OPENSSL_SRC%\..\..\..\gtk\$platform\include" `
-		"set LIB=%LIB%;%OPENSSL_SRC%\..\..\..\gtk\$platform\lib" `
-		"set PATH=%PATH%;%PERL_PATH%;%NASM_PATH%;%OPENSSL_SRC%\..\..\..\gtk\$platform\bin" `
-		"perl Configure $(if ($filenameArch -eq 'x86') { 'VC-WIN32' } else { 'VC-WIN64A' }) enable-camellia zlib-dynamic --openssldir=./" `
-		"call $(if ($filenameArch -eq 'x86') { 'ms\do_nasm' } else { 'ms\do_win64a' })" `
-		'nmake -f ms\ntdll.mak vclean' `
-		'nmake -f ms\ntdll.mak' `
-		'nmake -f ms\ntdll.mak test' `
-		'perl mk-ca-bundle.pl -n' `
-		'move include include-orig' `
-		'nmake -f ms\ntdll.mak install'
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	$env:OPENSSL_SRC = $PWD
+	$env:OPENSSL_DEST = "$PWD-$filenameArch"
+	$env:PERL_PATH = "$MozillaBuildDirectory\perl-5.18\$platform\bin"
+	$env:NASM_PATH = "$MozillaBuildDirectory\nasm"
+	$env:INCLUDE = "${env:INCLUDE};${env:OPENSSL_SRC}\..\..\..\gtk\$platform\include"
+	$env:LIB = "${env:LIB};${env:OPENSSL_SRC}\..\..\..\gtk\$platform\lib"
+	$env:PATH = "${env:PATH};${env:PERL_PATH};${env:NASM_PATH};${env:OPENSSL_SRC}\..\..\..\gtk\$platform\bin"
+	&perl Configure $(if ($filenameArch -eq 'x86') { 'VC-WIN32' } else { 'VC-WIN64A' }) enable-camellia zlib-dynamic --openssldir=./
+	if ($filenameArch -eq 'x86') {
+		&ms\do_nasm
+	}
+	else {
+		&ms\do_win64a
+	}
+	&nmake -f ms\ntdll.mak vclean
+	&nmake -f ms\ntdll.mak
+	&nmake -f ms\ntdll.mak test
+	&perl mk-ca-bundle.pl -n
+	Move-Item .\include .\include-orig
+	&nmake -f ms\ntdll.mak install
+
+	[void] (Swap-Environment $originalEnvironment)
 
 	New-Item -Type Directory $packageDestination
 
@@ -657,8 +700,11 @@ $items['pango']['BuildScript'] = {
 	&$Patch -p1 -i pango-nonbmp.patch
 	&$Patch -p1 -i pango-synthesize-all-fonts.patch
 
-	VSPrompt -Name 'pango' `
-		"msbuild build\win32\vc12\pango_fc.sln /p:Platform=$platform /p:Configuration=Release /nodeReuse:True"
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	&msbuild build\win32\vc12\pango_fc.sln /p:Platform=$platform /p:Configuration=Release /nodeReuse:True
+
+	[void] (Swap-Environment $originalEnvironment)
 
 	New-Item -Type Directory $packageDestination\share\doc\pango
 	Copy-Item .\COPYING $packageDestination\share\doc\pango
@@ -694,8 +740,11 @@ $items['pixman']['BuildScript'] = {
 
 	$exports | Sort-Object -Unique | Out-File -Encoding OEM .\pixman\pixman.symbols
 
-	VSPrompt -Name 'pixman' `
-		"msbuild build\win32\vc12\pixman.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True"
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	&msbuild build\win32\vc12\pixman.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+
+	[void] (Swap-Environment $originalEnvironment)
 
 	New-Item -Type Directory $packageDestination\share\doc\pixman
 	Copy-Item .\COPYING $packageDestination\share\doc\pixman
@@ -709,18 +758,19 @@ $items['win-iconv']['BuildScript'] = {
 
 	Remove-Item -Recurse CMakeCache.txt, CMakeFiles -ErrorAction Ignore
 
-	VSPrompt -Name 'win-iconv' `
-		"SET PATH=%PATH%;$CMakePath" `
-		"cmake -G `"NMake Makefiles`" -DCMAKE_INSTALL_PREFIX=`"$packageDestination`" -DCMAKE_BUILD_TYPE=Release" `
-		'nmake clean' `
-		'nmake' `
-		'nmake install'
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	$env:PATH = "${env:PATH};$CMakePath"
+	&cmake -G 'NMake Makefiles' "-DCMAKE_INSTALL_PREFIX=`"$packageDestination`"" -DCMAKE_BUILD_TYPE=Release
+	&nmake clean
+	&nmake
+	&nmake install
+	&nmake clean
+
+	[void] (Swap-Environment $originalEnvironment)
 
 	New-Item -Type Directory $packageDestination\share\doc\win-iconv
 	Copy-Item .\COPYING $packageDestination\share\doc\win-iconv
-
-	VSPrompt -Name 'win-iconv-2' `
-		'nmake clean'
 
 	Package $packageDestination
 }
@@ -729,8 +779,11 @@ $items['zlib']['BuildScript'] = {
 	$packageDestination = "$PWD-$filenameArch"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
-	VSPrompt -Name 'zlib' `
-		"msbuild contrib\vstudio\vc12\zlibvc.sln /p:Platform=$platform /p:Configuration=ReleaseWithoutAsm /maxcpucount /nodeReuse:True"
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	&msbuild contrib\vstudio\vc12\zlibvc.sln /p:Platform=$platform /p:Configuration=ReleaseWithoutAsm /maxcpucount /nodeReuse:True
+
+	[void] (Swap-Environment $originalEnvironment)
 
 	New-Item -Type Directory $packageDestination\include
 	Copy-Item zlib.h, zconf.h $packageDestination\include
@@ -786,6 +839,11 @@ if (-not $(Test-Path $vcvarsBat)) {
 	throw "`"$vcvarsBat`" could not be found. Please check you have Visual Studio installed at `"$VSInstallPath`" and that it supports the configuration `"$Configuration`"."
 }
 
+$vcvarsEnvironment = @{}
+$(&cmd /C "`"$vcvarsBat`" > NUL && SET") | %{
+	$keyValuePair = $_.Split('=', 2)
+	$vcvarsEnvironment[$keyValuePair[0]] = $keyValuePair[1]
+}
 
 switch ($Configuration) {
 	'x86' {
@@ -965,18 +1023,16 @@ while ($completedItems.Count -ne $items.Count) {
 
 			# Start a job to build it
 			Start-Job -Name $pendingItem['Name'] -InitializationScript {
-				# Runs all unnamed arguments as commands in a VS prompt
-				function VSPrompt([string] $Name) {
-					$tempVSPromptBatchFile = "$($env:TEMP)\hexchat-build-$Name.bat"
+				function Swap-Environment([HashTable] $newEnvironment) {
+					$originalEnvironment = @{}
 
-					Out-File -FilePath $tempVSPromptBatchFile -InputObject "@CALL `"$VSInstallPath\VC\vcvarsall.bat`" $Configuration" -Encoding OEM
-					foreach ($command in $args) {
-						Out-File -FilePath $tempVSPromptBatchFile -InputObject $command -Encoding OEM -Append
-					}
+					Get-ChildItem Env: | %{ $originalEnvironment[$_.Name] = $_.Value }
 
-					&$tempVSPromptBatchFile
+					$originalEnvironment.GetEnumerator() | %{ Remove-Item "env:$($_.Key)" }
 
-					Remove-Item $tempVSPromptBatchFile
+					$newEnvironment.GetEnumerator() | %{ [System.Environment]::SetEnvironmentVariable($_.Key, $_.Value) }
+
+					return $originalEnvironment
 				}
 
 				function Package([string] $directory) {
@@ -997,6 +1053,7 @@ while ($completedItems.Count -ne $items.Count) {
 				$MozillaBuildDirectory = $using:MozillaBuildDirectory
 				$mozillaBuildStartVC = $using:mozillaBuildStartVC
 				$Configuration = $using:Configuration
+				$vcvarsEnvironment = $using:vcvarsEnvironment
 				$filenameArch = $using:filenameArch
 				$Patch = $using:Patch
 				$platform = $using:platform
