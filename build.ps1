@@ -1163,3 +1163,7 @@ if ($itemStateGroups.Cancelled.Length -gt 0) {
 
 	$itemStateGroups.Cancelled | %{ Write-Host $_.Name }
 }
+
+if ($itemStateGroups.Failed.Length -gt 0) {
+	exit 1
+}
