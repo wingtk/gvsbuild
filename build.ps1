@@ -37,10 +37,6 @@ The directory where you checked out https://github.com/hexchat/gtk-win32.git
 The directory where you installed Visual Studio.
 
 
-.PARAMETER Wget
-The path to any downloader. It is invoked as &$Wget "$url" and should output a file in the current directory.
-
-
 .PARAMETER Patch
 The path to a patch.exe binary.
 
@@ -114,9 +110,6 @@ param (
 
 	[string]
 	$VSInstallPath = 'C:\Program Files (x86)\Microsoft Visual Studio 12.0',
-
-	[string]
-	$Wget = "$MozillaBuildDirectory\wget\wget.exe",
 
 	[string]
 	$Patch = "$MozillaBuildDirectory\msys\bin\patch.exe",
@@ -895,7 +888,6 @@ $items.GetEnumerator() | %{
 }
 
 $items.GetEnumerator() | %{
-	$name = $_.Key
 	$item = $_.Value
 
 	$item.Dependencies | %{ $items[$_.Name].Dependents += $item }
@@ -936,20 +928,19 @@ if (-not $(Test-Path "$MozillaBuild\start-msvc12-x86_amd64.bat")) {
 }
 
 
-New-Item -Type Directory $ArchivesDownloadDirectory
+New-Item -Type Directory $ArchivesDownloadDirectory -ErrorAction Ignore
 
 
-New-Item -Type Directory $workingDirectory
-Set-Location $workingDirectory
-Copy-Item $PatchesRootDirectory\stack.props .
+New-Item -Type Directory $workingDirectory -ErrorAction Ignore
+Copy-Item $PatchesRootDirectory\stack.props $workingDirectory
 
 
 $logDirectory = "$workingDirectory\logs"
-New-Item -Type Directory $logDirectory
+New-Item -Type Directory $logDirectory -ErrorAction Ignore
 Remove-Item $logDirectory\*.log
 
 
-New-Item -Type Directory $workingDirectory\..\..\gtk\$platform
+New-Item -Type Directory $workingDirectory\..\..\gtk\$platform -ErrorAction Ignore
 
 
 # For each item, start a job to download the source archives, extract them to mozilla-build, and copy over the stuff from gtk-win32
@@ -959,13 +950,12 @@ $items.GetEnumerator() | %{
 	$item.State = 'Downloading and extracting'
 
 	[void] (Start-Job -Name $item.Name -InitializationScript {
-		function Exec { [string] $name; $name, [string[]] $arguments = $args; &$name @arguments; [void] ($LASTEXITCODE -and $(throw "$name $arguments exited with code $LASTEXITCODE")) }
+		function Exec { $name, $arguments = @($args); $arguments = @($arguments); &$name @arguments; [void] ($LASTEXITCODE -and $(throw "$name $arguments exited with code $LASTEXITCODE")) }
 	} -ArgumentList $item {
-		param ($item, $ArchivesDownloadDirectory, $workingDirectory, $Wget, $SevenZip)
+		param ($item)
 
 		$ArchivesDownloadDirectory = $using:ArchivesDownloadDirectory
 		$workingDirectory = $using:workingDirectory
-		$Wget = $using:Wget
 		$SevenZip = $using:SevenZip
 
 		'Beginning job to download and extract'
@@ -974,9 +964,12 @@ $items.GetEnumerator() | %{
 			"$($item.ArchiveFile) already exists"
 		}
 		else {
-			"$($item.ArchiveFile) doesn't exist"
-			Set-Location $ArchivesDownloadDirectory
-			Exec $Wget $item.ArchiveUrl > $null 2>&1
+			"$($item.ArchiveFile) doesn't exist. Downloading..."
+
+			$ProgressPreference = 'SilentlyContinue'
+			Invoke-WebRequest $item.ArchiveUrl -OutFile $item.ArchiveFile
+			$ProgressPreference = 'Continue'
+
 			"Downloaded $($item.ArchiveUrl)"
 		}
 
@@ -995,23 +988,36 @@ do {
 	Get-Job | %{
 		$job = $_
 
-		[string[]] $jobOutput = Receive-Job $job
-		$jobOutput | %{
-			Write-Host "$($job.Name) : $_"
+		@(Receive-Job $job 2>&1) | %{
+			if ($_ -isnot [System.Management.Automation.ErrorRecord]) {
+				Write-Host "$($job.Name) : $_"
+			}
+			else {
+				$Host.UI.WriteErrorLine("$($job.Name) : $($_.Exception.Message)")
+			}
 		}
 
-		if ($job.State -eq 'Completed') {
-			Remove-Job $job
+		if (($job.State -eq 'Completed') -and (-not $job.HasMoreData)) {
 			$items[$job.Name].State = 'Pending'
+
+			Remove-Job $job
+		}
+		elseif (($job.State -eq 'Failed') -and (-not $job.HasMoreData)) {
+			Write-Host "$($job.Name) : Failed"
+
+			$items[$job.Name].State = 'Failed'
+
+			Remove-Job $job
 		}
 	}
 
 	# Sleep a bit and then try again
 	Start-Sleep 1
-} while (@($(Get-Job)).Length -gt 0)
+} while (@(Get-Job).Length -gt 0)
 
-# All the jobs have been completed. Delete them all.
-Get-Job | Remove-Job
+if (@($items.GetEnumerator() | ?{ $_.Value.State -eq 'Failed' }).Length -gt 0) {
+	exit 1
+}
 
 
 # Until all items have been built
@@ -1059,7 +1065,7 @@ while (@($items.GetEnumerator() | ?{ ($_.Value.State -eq 'Pending') -or ($_.Valu
 					return $originalEnvironment
 				}
 
-				function Exec { [string] $name; $name, [string[]] $arguments = $args; &$name @arguments; [void] ($LASTEXITCODE -and $(throw "$name $arguments exited with code $LASTEXITCODE")) }
+				function Exec { $name, $arguments = @($args); $arguments = @($arguments); &$name @arguments; [void] ($LASTEXITCODE -and $(throw "$name $arguments exited with code $LASTEXITCODE")) }
 
 				function Package([string] $directory) {
 					$archiveFilename = "$PWD-$filenameArch.7z"
@@ -1100,24 +1106,29 @@ while (@($items.GetEnumerator() | ?{ ($_.Value.State -eq 'Pending') -or ($_.Valu
 		$job = $_
 
 		# Log all its output
-		[string[]] $jobOutput = Receive-Job $job
-		$jobOutput | %{
+		@(Receive-Job $job 2>&1) | %{
+			if ($_ -isnot [System.Management.Automation.ErrorRecord]) {
+				Write-Host "$($job.Name) : $_"
+			}
+			else {
+				$Host.UI.WriteErrorLine("$($job.Name) : $($_.Exception.Message)")
+			}
+
 			Out-File -Append -Encoding OEM -FilePath "$logDirectory\$($job.Name).log" -InputObject $_
-			Write-Host "$($job.Name) : $_"
 		}
 
 		# If the job has been completed...
-		if ($job.State -eq 'Completed') {
+		if (($job.State -eq 'Completed') -and (-not $job.HasMoreData)) {
 			$items[$job.Name].State = 'Completed'
 
-			Out-File -Append -Encoding OEM -FilePath "$logDirectory\build.log" -InputObject "$($job.Name) : Completed"
 			Write-Host "$($job.Name) : Completed"
+			Out-File -Append -Encoding OEM -FilePath "$logDirectory\build.log" -InputObject "$($job.Name) : Completed"
 
 			# Delete the job
 			Remove-Job $job
 		}
 
-		elseif ($job.State -eq 'Failed') {
+		elseif (($job.State -eq 'Failed') -and (-not $job.HasMoreData)) {
 			$items[$job.Name].State = 'Failed'
 
 			$items.GetEnumerator() | %{
@@ -1128,8 +1139,8 @@ while (@($items.GetEnumerator() | ?{ ($_.Value.State -eq 'Pending') -or ($_.Valu
 				}
 			}
 
-			Out-File -Append -Encoding OEM -FilePath "$logDirectory\build.log" -InputObject "$($job.Name) : Failed"
 			Write-Host "$($job.Name) : Failed"
+			Out-File -Append -Encoding OEM -FilePath "$logDirectory\build.log" -InputObject "$($job.Name) : Failed"
 
 			# Delete the job
 			Remove-Job $job
