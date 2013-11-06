@@ -950,7 +950,12 @@ $items.GetEnumerator() | %{
 	$item.State = 'Downloading and extracting'
 
 	[void] (Start-Job -Name $item.Name -InitializationScript {
-		function Exec { $name, $arguments = @($args); $arguments = @($arguments); &$name @arguments; [void] ($LASTEXITCODE -and $(throw "$name $arguments exited with code $LASTEXITCODE")) }
+		function Exec {
+			$name, $arguments = @($args)
+			$arguments = @($arguments | ?{ $_ -ne $null })
+			&$name @arguments
+			[void] ($LASTEXITCODE -and $(throw "$name $arguments exited with code $LASTEXITCODE"))
+		}
 	} -ArgumentList $item {
 		param ($item)
 
@@ -1065,7 +1070,12 @@ while (@($items.GetEnumerator() | ?{ ($_.Value.State -eq 'Pending') -or ($_.Valu
 					return $originalEnvironment
 				}
 
-				function Exec { $name, $arguments = @($args); $arguments = @($arguments); &$name @arguments; [void] ($LASTEXITCODE -and $(throw "$name $arguments exited with code $LASTEXITCODE")) }
+				function Exec {
+					$name, $arguments = @($args)
+					$arguments = @($arguments | ?{ $_ -ne $null })
+					&$name @arguments
+					[void] ($LASTEXITCODE -and $(throw "$name $arguments exited with code $LASTEXITCODE"))
+				}
 
 				function Package([string] $directory) {
 					$archiveFilename = "$PWD-$filenameArch.7z"
