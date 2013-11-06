@@ -629,18 +629,33 @@ $items['openssl'].BuildScript = {
 	$env:INCLUDE = "${env:INCLUDE};${env:OPENSSL_SRC}\..\..\..\gtk\$platform\include"
 	$env:LIB = "${env:LIB};${env:OPENSSL_SRC}\..\..\..\gtk\$platform\lib"
 	$env:PATH = "${env:PATH};${env:PERL_PATH};${env:NASM_PATH};${env:OPENSSL_SRC}\..\..\..\gtk\$platform\bin"
+
 	Exec perl Configure $(if ($filenameArch -eq 'x86') { 'VC-WIN32' } else { 'VC-WIN64A' }) enable-camellia zlib-dynamic --openssldir=./
-	if ($filenameArch -eq 'x86') {
-		Exec ms\do_nasm
+
+	switch ($filenameArch) {
+		'x86' {
+			Exec perl Configure VC-WIN32 enable-camellia zlib-dynamic --openssldir=./
+			Exec ms\do_nasm
+		}
+
+		'x64' {
+			Exec perl Configure VC-WIN64A enable-camellia zlib-dynamic --openssldir=./
+			Exec ms\do_win64a
+		}
 	}
-	else {
-		Exec ms\do_win64a
-	}
-	&nmake -f ms\ntdll.mak vclean   # Not Exec because it returns error code 2 if it fails to find build outputs to delete
-	Exec nmake -f ms\ntdll.mak
+
+	# nmake returns error code 2 because it fails to find build outputs to delete
+	try { Exec nmake -f ms\ntdll.mak vclean } catch { }
+
+	# linker fails the first time, so nmake returns error code 0x460
+	try { Exec nmake -f ms\ntdll.mak } catch { }
+
+	# linker succeeds here
 	Exec nmake -f ms\ntdll.mak test
+
 	Exec perl mk-ca-bundle.pl -n
 	Move-Item .\include .\include-orig
+
 	Exec nmake -f ms\ntdll.mak install
 
 	[void] (Swap-Environment $originalEnvironment)
