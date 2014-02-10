@@ -1,1 +1,1 @@
-[http://gtk.hexchat.org/](http://gtk.hexchat.org/)
+[http://hexchat.github.io/gtk-win32/](http://hexchat.github.io/gtk-win32/)
