@@ -1,4 +1,4 @@
- * Download [zlib 1.2.7](http://zlib.net/zlib127.zip)
+ * Download [zlib 1.2.8](http://zlib.net/zlib128.zip)
  * Extract to `C:\mozilla-build\hexchat`
  * Remove `Optimization` settings in `contrib\vc12\*.vcxproj`
  * In `contrib\vstudio\vc12\zlibvc.sln`:
