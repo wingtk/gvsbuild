@@ -409,6 +409,7 @@ $items['gtk'].BuildScript = {
 	Exec $Patch -p1 -i gtk-pixmap.patch
 	Exec $Patch -p1 -i gtk-bgimg.patch
 	Exec $Patch -p1 -i gtk-statusicon.patch
+	Exec $Patch -p1 -i gtk-accel.patch
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
