@@ -620,6 +620,7 @@ $items['openssl'].BuildScript = {
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
 	Exec $Patch -p1 -i openssl-tls-error.patch
+	Exec $Patch -p1 -i openssl-heartbeat-bug.patch
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
