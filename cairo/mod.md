@@ -1,11 +1,11 @@
- * Download [cairo 1.12.14](http://cairographics.org/releases/cairo-1.12.14.tar.xz)
+ * Download [cairo 1.12.16](http://cairographics.org/releases/cairo-1.12.16.tar.xz)
  * Download [VS solution](https://live.gnome.org/GTK%2B/Win32/MSVCCompilationOfGTKStack?action=AttachFile&do=get&target=cairo-vsprojects.zip)
  * Extract to `C:\mozilla-build\hexchat`
  * In `msvc\vc12\cairo.props`, replace:
 	* `<CairoEtcInstallRoot>..\..\..\vs10\$(Platform)</CairoEtcInstallRoot>` with
 `<CairoEtcInstallRoot>..\..\..\..\..\gtk\$(Platform)</CairoEtcInstallRoot>`
 	* `<CopyDir>$(CairoEtcInstallRoot)</CopyDir>` with
-`<CopyDir>..\..\..\cairo-1.12.14-rel</CopyDir>`
+`<CopyDir>..\..\..\cairo-1.12.16-rel</CopyDir>`
 	* `<CairoSeparateVS10DllSuffix>-vs10</CairoSeparateVS10DllSuffix>` with
 `<CairoSeparateVS10DllSuffix></CairoSeparateVS10DllSuffix>`
 	* `<AdditionalIncludeDirectories>.;..\..;..\..\src;$(CairoEtcInstallRoot)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>` with
