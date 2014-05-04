@@ -29,6 +29,7 @@
     <ClCompile Include="..\src\hb-ft.cc" />
     <ClCompile Include="..\src\hb-glib.cc" />
     <ClCompile Include="..\src\hb-gobject-structs.cc" />
+    <ClCompile Include="..\src\hb-ot-font.cc" />
     <ClCompile Include="..\src\hb-ot-layout.cc" />
     <ClCompile Include="..\src\hb-ot-map.cc" />
     <ClCompile Include="..\src\hb-ot-shape-complex-arabic.cc" />
@@ -49,7 +50,6 @@
     <ClCompile Include="..\src\hb-shape-plan.cc" />
     <ClCompile Include="..\src\hb-shape.cc" />
     <ClCompile Include="..\src\hb-shaper.cc" />
-    <ClCompile Include="..\src\hb-tt-font.cc" />
     <ClCompile Include="..\src\hb-unicode.cc" />
     <ClCompile Include="..\src\hb-warning.cc" />
   </ItemGroup>
