@@ -1,15 +1,15 @@
- * Download [GTK+ 2.24.19](http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-2.24.19.tar.xz)
+ * Download [GTK+ 2.24.23](http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-2.24.23.tar.xz)
  * Extract to `C:\mozilla-build\hexchat`
  * Patch with `patch -p1 -i gtk-revert-scrolldc-commit.patch`
- * Patch with `patch -p1 -i gtk-pixmap.patch`
  * Patch with `patch -p1 -i gtk-bgimg.patch`
  * Patch with `patch -p1 -i gtk-statusicon.patch`
+ * Patch with `patch -p1 -i gtk-accel.patch`
  * In `build\win32\vc12\gtk+.props`, replace:
 	* `intl.lib` with `libintl.lib`
 	* `<GlibEtcInstallRoot>..\..\..\..\vs10\$(Platform)</GlibEtcInstallRoot>` with
 `<GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>`
 	* `<CopyDir>$(GlibEtcInstallRoot)</CopyDir>` with
-`<CopyDir>..\..\..\..\gtk-2.24.18-rel</CopyDir>`
+`<CopyDir>..\..\..\..\gtk-2.24.23-rel</CopyDir>`
 	* `<GtkSeparateVS10DllSuffix>-2-vs10</GtkSeparateVS10DllSuffix>` with
 `<GtkSeparateVS10DllSuffix>-2.0</GtkSeparateVS10DllSuffix>`
 	* `<ClCompile>` with

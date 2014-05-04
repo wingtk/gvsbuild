@@ -141,7 +141,7 @@ $items = @{
 	'gdk-pixbuf'       = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gdk-pixbuf-2.30.7.7z';    'Dependencies' = @('glib', 'libpng')                    };
 	'gettext-runtime'  = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gettext-runtime-0.18.7z'; 'Dependencies' = @('win-iconv')                         };
 	'glib'             = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/glib-2.40.0.7z';          'Dependencies' = @('gettext-runtime', 'libffi', 'zlib') };
-	'gtk'              = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gtk-2.24.19.7z';          'Dependencies' = @('atk', 'gdk-pixbuf', 'pango')        };
+	'gtk'              = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gtk-2.24.23.7z';          'Dependencies' = @('atk', 'gdk-pixbuf', 'pango')        };
 	'harfbuzz'         = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/harfbuzz-0.9.27.7z';      'Dependencies' = @('freetype', 'glib')                  };
 	'libffi'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libffi-3.0.13.7z';        'Dependencies' = @()                                    };
 	'libpng'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libpng-1.6.8.7z';         'Dependencies' = @('zlib')                              };
@@ -412,10 +412,15 @@ $items['gtk'].BuildScript = {
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
 	Exec $Patch -p1 -i gtk-revert-scrolldc-commit.patch
-	Exec $Patch -p1 -i gtk-pixmap.patch
 	Exec $Patch -p1 -i gtk-bgimg.patch
 	Exec $Patch -p1 -i gtk-statusicon.patch
 	Exec $Patch -p1 -i gtk-accel.patch
+
+	# Add BOM to .\gdk\gdkkeyuni.c because cl.exe throws C4819 otherwise
+	foreach ($file in @('.\gdk\gdkkeyuni.c')) {
+		$languageSampleTableFileContents = Get-Content $file -Encoding UTF8
+		Out-File $file -InputObject $languageSampleTableFileContents -Encoding UTF8
+	}
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 

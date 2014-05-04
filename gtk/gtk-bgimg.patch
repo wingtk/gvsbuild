@@ -1,6 +1,6 @@
-diff -ruN --strip-trailing-cr gtk-2.24.17.orig/gdk/win32/gdkgc-win32.c gtk-2.24.17/gdk/win32/gdkgc-win32.c
---- gtk-2.24.17.orig/gdk/win32/gdkgc-win32.c	2011-12-20 10:32:29.000000000 -0800
-+++ gtk-2.24.17/gdk/win32/gdkgc-win32.c	2013-03-31 12:01:03.568394700 -0700
+diff -ruN --strip-trailing-cr gtk-2.24.23.orig/gdk/win32/gdkgc-win32.c gtk-2.24.23/gdk/win32/gdkgc-win32.c
+--- gtk-2.24.23.orig/gdk/win32/gdkgc-win32.c	2014-03-05 20:56:42 -0800
++++ gtk-2.24.23/gdk/win32/gdkgc-win32.c	2014-05-04 01:23:07 -0700
 @@ -819,10 +819,14 @@
    HPEN hpen;
    HBRUSH hbr;
