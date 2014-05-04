@@ -3,19 +3,18 @@
   <PropertyGroup Label="UserMacros">
     <VSVer>10</VSVer>
     <GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
-    <GlibEtcInstallRootFromBuildWin32>..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRootFromBuildWin32>
-    <CopyDir>..\..\..\..\gdk-pixbuf-2.28.1-rel</CopyDir>
+    <CopyDir>..\..\..\..\gdk-pixbuf-2.30.7-rel</CopyDir>
     <ApiVersion>2.0</ApiVersion>
     <GdkPixbufBinaryVersion>2.10.0</GdkPixbufBinaryVersion>
     <GDIP_MACROS>INCLUDE_gdiplus</GDIP_MACROS>
     <NOGDIP_MACROS>JAS_WIN_MSVC_BUILD;INCLUDE_bmp;INCLUDE_gif;INCLUDE_ico;INCLUDE_jasper;INCLUDE_jpeg;INCLUDE_tiff;</NOGDIP_MACROS>
     <MODULAR_MACROS>INCLUDE_ani;INCLUDE_pcx;INCLUDE_tga;INCLUDE_xbm;INCLUDE_png;INCLUDE_qtif;INCLUDE_pnm;INCLUDE_icns;INCLUDE_ras;INCLUDE_wbmp;INCLUDE_xpm</MODULAR_MACROS>
-    <GdkPixbufDummyPrefix>\"/dummy\"</GdkPixbufDummyPrefix>
-    <GdkPixbufPrefixDefine>GDK_PIXBUF_PREFIX="\"$(GdkPixbufDummyPrefix)\""</GdkPixbufPrefixDefine>
-    <GdkPixbufLibdirDefine>PIXBUF_LIBDIR="\"$(GdkPixbufDummyPrefix)/lib/gdk-pixbuf-$(ApiVersion)/$(GdkPixbufBinaryVersion)/loaders\""</GdkPixbufLibdirDefine>
-    <GPBLibdirDefine>GDK_PIXBUF_LIBDIR="\"$(GdkPixbufDummyPrefix)/lib\""</GPBLibdirDefine>
-    <GdkPixbufBinVerDefine>GDK_PIXBUF_BINARY_VERSION="\"$(GdkPixbufBinaryVersion)\""</GdkPixbufBinVerDefine>
-    <GdkPixbufLocaleDir>GDK_PIXBUF_LOCALEDIR="\"./locale/\""</GdkPixbufLocaleDir>
+    <GdkPixbufDummyPrefix>/dummy</GdkPixbufDummyPrefix>
+    <GdkPixbufPrefixDefine>GDK_PIXBUF_PREFIX="$(GdkPixbufDummyPrefix)"</GdkPixbufPrefixDefine>
+    <GdkPixbufLibdirDefine>PIXBUF_LIBDIR="$(GdkPixbufDummyPrefix)/lib/gdk-pixbuf-$(ApiVersion)/$(GdkPixbufBinaryVersion)/loaders"</GdkPixbufLibdirDefine>
+    <GPBLibdirDefine>GDK_PIXBUF_LIBDIR="$(GdkPixbufDummyPrefix)/lib"</GPBLibdirDefine>
+    <GdkPixbufBinVerDefine>GDK_PIXBUF_BINARY_VERSION="$(GdkPixbufBinaryVersion)"</GdkPixbufBinVerDefine>
+    <GdkPixbufLocaleDir>GDK_PIXBUF_LOCALEDIR="./locale/"</GdkPixbufLocaleDir>
     <GdkPixbufDefines>HAVE_CONFIG_H;GDK_PIXBUF_COMPILATION;GDK_PIXBUF_ENABLE_BACKEND;$(GdkPixbufPrefixDefine);$(GdkPixbufBinVerDefine);$(MODULAR_MACROS);$(GPBLibdirDefine);$(GdkPixbufLocaleDir)</GdkPixbufDefines>
     <DefDir>$(SolutionDir)$(Configuration)\$(PlatformName)\obj\$(ProjectName)\</DefDir>
     <GdkPixbufDoInstall>
@@ -28,6 +27,7 @@ copy $(Configuration)\$(Platform)\bin\*.dll $(CopyDir)\bin
 copy $(Configuration)\$(Platform)\bin\*.exe $(CopyDir)\bin
 
 copy $(Configuration)\$(Platform)\bin\*.pdb $(CopyDir)\bin
+
 
 mkdir $(CopyDir)\lib
 
@@ -66,7 +66,7 @@ copy $(Configuration)\$(Platform)\bin\*-$(ApiVersion).lib $(CopyDir)\\lib
 set VSVER=$(VSVer)
 set CONF=$(Configuration)
 set PLAT=$(Platform)
-set BASEDIR=$(GlibEtcInstallRootFromBuildWin32)
+set BASEDIR=$(GlibEtcInstallRoot)
 cd ..
 call gengir_gdkpixbuf.bat
 
@@ -97,25 +97,12 @@ cd vs$(VSVer)
     </Link>
     <PreBuildEvent>
       <Command>
-if exist ..\..\..\config.h goto GEN_MARS_H
+if exist ..\..\..\config.h goto DONE_CONFIG_H
 
 copy ..\..\..\config.h.win32 ..\..\..\config.h
 
-:GEN_MARS_H
-
-if exist ..\..\..\gdk-pixbuf\gdk-pixbuf-marshal.h goto GEN_MARS_C
-
-glib-genmarshal.exe --prefix=_gdk_pixbuf_marshal ..\..\..\gdk-pixbuf\gdk-pixbuf-marshal.list --header &gt;..\..\..\gdk-pixbuf\gdk-pixbuf-marshal.h
-
-:GEN_MARS_C
-
-if exist ..\..\..\gdk-pixbuf\gdk-pixbuf-marshal.c goto END
-
-glib-genmarshal.exe --prefix=_gdk_pixbuf_marshal ..\..\..\gdk-pixbuf\gdk-pixbuf-marshal.list --body &gt;..\..\..\gdk-pixbuf\gdk-pixbuf-marshal.c
-
-:END
-
-</Command>
+:DONE_CONFIG_H
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -124,9 +111,6 @@ glib-genmarshal.exe --prefix=_gdk_pixbuf_marshal ..\..\..\gdk-pixbuf\gdk-pixbuf-
     </BuildMacro>
     <BuildMacro Include="GlibEtcInstallRoot">
       <Value>$(GlibEtcInstallRoot)</Value>
-    </BuildMacro>
-    <BuildMacro Include="GlibEtcInstallRootFromBuildWin32">
-      <Value>$(GlibEtcInstallRootFromBuildWin32)</Value>
     </BuildMacro>
     <BuildMacro Include="CopyDir">
       <Value>$(CopyDir)</Value>

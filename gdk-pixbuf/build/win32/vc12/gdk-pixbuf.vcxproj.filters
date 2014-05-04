@@ -15,7 +15,7 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Resouce Files">
+    <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
     </Filter>
@@ -63,6 +63,10 @@
     <ClCompile Include="..\..\..\gdk-pixbuf\io-jpeg.c"><Filter>Source Files\Non-Native</Filter></ClCompile>
     <ClCompile Include="..\..\..\gdk-pixbuf\io-tiff.c"><Filter>Source Files\Non-Native</Filter></ClCompile>
   </ItemGroup>
-  <ItemGroup><ResourceCompile Include="..\..\..\gdk-pixbuf\gdk_pixbuf.rc"><Filter>Resouce Files</Filter></ResourceCompile>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\gdk-pixbuf\gdk-pixbuf.symbols"><Filter>Resource Files</Filter></CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\..\gdk-pixbuf\gdk_pixbuf.rc"><Filter>Resource Files</Filter></ResourceCompile>
   </ItemGroup>
 </Project>

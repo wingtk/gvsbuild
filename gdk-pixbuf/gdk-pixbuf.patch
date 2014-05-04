@@ -1,13 +1,0 @@
-diff -ruN --strip-trailing-cr gdk-pixbuf-2.28.0.orig/gdk-pixbuf/io-png.c gdk-pixbuf-2.28.0/gdk-pixbuf/io-png.c
---- gdk-pixbuf-2.28.0.orig/gdk-pixbuf/io-png.c	2012-09-15 00:09:44 +0200
-+++ gdk-pixbuf-2.28.0/gdk-pixbuf/io-png.c	2013-04-07 23:59:28 +0200
-@@ -28,6 +28,9 @@
- #include <stdlib.h>
- #include <png.h>
- #include "gdk-pixbuf-private.h"
-+#ifdef _MSC_VER
-+#include <string.h>
-+#endif
- 
- 
- 
