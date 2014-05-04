@@ -1,4 +1,4 @@
- * Download [Pango 1.32.5](http://ftp.gnome.org/pub/GNOME/sources/pango/1.32/pango-1.32.5.tar.xz)
+ * Download [Pango 1.36.3](http://ftp.gnome.org/pub/GNOME/sources/pango/1.36/pango-1.36.3.tar.xz)
  * Extract to `C:\mozilla-build\hexchat`
  * Patch with `patch -p1 -i pango.patch`
  * In `build\win32\vc12\pango.props`, replace:
@@ -6,7 +6,7 @@
 	* `<GlibEtcInstallRoot>..\..\..\..\vs10\$(Platform)</GlibEtcInstallRoot>` with
 `<GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>`
 	* `<CopyDir>$(GlibEtcInstallRoot)</CopyDir>` with
-`<CopyDir>..\..\..\..\pango-1.32.5-rel</CopyDir>`
+`<CopyDir>..\..\..\..\pango-1.36.3-rel</CopyDir>`
 	* `<PangoSeparateVS10DllSuffix>-1-vs10</PangoSeparateVS10DllSuffix>` with
 `<PangoSeparateVS10DllSuffix>-1.0</PangoSeparateVS10DllSuffix>`
 	* `<PreprocessorDefinitions>HAVE_CONFIG_H;G_DISABLE_SINGLE_INCLUDES;%(PreprocessorDefinitions)</PreprocessorDefinitions>` with

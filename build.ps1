@@ -147,7 +147,7 @@ $items = @{
 	'libpng'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libpng-1.6.8.7z';         'Dependencies' = @('zlib')                              };
 	'libxml2'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libxml2-2.9.1.7z';        'Dependencies' = @('win-iconv')                         };
 	'openssl'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/openssl-1.0.1g.7z';       'Dependencies' = @('zlib')                              };
-	'pango'            = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/pango-1.32.5.7z';         'Dependencies' = @('cairo', 'harfbuzz')                 };
+	'pango'            = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/pango-1.36.3.7z';         'Dependencies' = @('cairo', 'harfbuzz')                 };
 	'pixman'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/pixman-0.32.4.7z';        'Dependencies' = @('libpng')                            };
 	'win-iconv'        = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/win-iconv-0.0.6.7z';      'Dependencies' = @()                                    };
 	'zlib'             = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/zlib-1.2.8.7z';           'Dependencies' = @()                                    };
@@ -702,9 +702,13 @@ $items['pango'].BuildScript = {
 	$languageSampleTableFileContents = Get-Content .\pango\pango-language-sample-table.h -Encoding UTF8
 	Out-File .\pango\pango-language-sample-table.h -InputObject $languageSampleTableFileContents -Encoding UTF8
 
-	Exec $Patch -p1 -i pango-defs.patch
-	Exec $Patch -p1 -i pango-nonbmp.patch
 	Exec $Patch -p1 -i pango-synthesize-all-fonts.patch
+
+	# Add BOM to .\pango\break.c because cl.exe throws C4819 otherwise
+	foreach ($file in @('.\pango\break.c')) {
+		$languageSampleTableFileContents = Get-Content $file -Encoding UTF8
+		Out-File $file -InputObject $languageSampleTableFileContents -Encoding UTF8
+	}
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
