@@ -84,7 +84,7 @@ Only builds openssl and its dependencies (zlib).
 
 
 .LINK
-http://gtk.hexchat.org/
+http://hexchat.github.io/gtk-win32/
 
 #>
 
