@@ -389,11 +389,8 @@ $items['glib'].BuildScript = {
 
 	Exec $Patch -p1 -i glib-if_nametoindex.patch
 
-	# Add BOM to .\glib\gmain.c and .\gio\gdbusaddress.c because cl.exe throws C4819 otherwise
-	foreach ($file in @('.\glib\gmain.c', '.\gio\gdbusaddress.c')) {
-		$languageSampleTableFileContents = Get-Content $file -Encoding UTF8
-		Out-File $file -InputObject $languageSampleTableFileContents -Encoding UTF8
-	}
+	Add-Utf8Bom .\gio\gdbusaddress.c
+	Add-Utf8Bom .\glib\gmain.c
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
@@ -416,11 +413,7 @@ $items['gtk'].BuildScript = {
 	Exec $Patch -p1 -i gtk-statusicon.patch
 	Exec $Patch -p1 -i gtk-accel.patch
 
-	# Add BOM to .\gdk\gdkkeyuni.c because cl.exe throws C4819 otherwise
-	foreach ($file in @('.\gdk\gdkkeyuni.c')) {
-		$languageSampleTableFileContents = Get-Content $file -Encoding UTF8
-		Out-File $file -InputObject $languageSampleTableFileContents -Encoding UTF8
-	}
+	Add-Utf8Bom .\gdk\gdkkeyuni.c
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
@@ -456,7 +449,6 @@ $items['harfbuzz'].BuildScript = {
 	Exec msbuild win32\harfbuzz.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
 
 	[void] (Swap-Environment $originalEnvironment)
-
 
 	New-Item -Type Directory $packageDestination\bin
 	Copy-Item `
@@ -703,17 +695,10 @@ $items['pango'].BuildScript = {
 	$packageDestination = "$PWD-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
-	# Add BOM to .\pango\pango-language-sample-table.h because cl.exe throws C2001 otherwise
-	$languageSampleTableFileContents = Get-Content .\pango\pango-language-sample-table.h -Encoding UTF8
-	Out-File .\pango\pango-language-sample-table.h -InputObject $languageSampleTableFileContents -Encoding UTF8
-
 	Exec $Patch -p1 -i pango-synthesize-all-fonts.patch
 
-	# Add BOM to .\pango\break.c because cl.exe throws C4819 otherwise
-	foreach ($file in @('.\pango\break.c')) {
-		$languageSampleTableFileContents = Get-Content $file -Encoding UTF8
-		Out-File $file -InputObject $languageSampleTableFileContents -Encoding UTF8
-	}
+	Add-Utf8Bom .\pango\break.c
+	Add-Utf8Bom .\pango\pango-language-sample-table.h
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
@@ -1098,6 +1083,12 @@ while (@($items.GetEnumerator() | ?{ ($_.Value.State -eq 'Pending') -or ($_.Valu
 					$arguments = @($arguments | ?{ $_ -ne $null })
 					&$name @arguments
 					[void] ($LASTEXITCODE -and $(throw "$name $arguments exited with code $LASTEXITCODE"))
+				}
+
+				# Add utf-8 BOM to the given file because cl.exe throws C4819 otherwise
+				function Add-Utf8Bom([string] $filename) {
+					$contents = Get-Content $filename -Encoding UTF8
+					Out-File $filename -InputObject $contents -Encoding UTF8
 				}
 
 				function Package([string] $directory) {
