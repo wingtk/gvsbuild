@@ -144,7 +144,7 @@ $items = @{
 	'gtk'              = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gtk-2.24.19.7z';          'Dependencies' = @('atk', 'gdk-pixbuf', 'pango')        };
 	'harfbuzz'         = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/harfbuzz-0.9.18.7z';      'Dependencies' = @('freetype', 'glib')                  };
 	'libffi'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libffi-3.0.13.7z';        'Dependencies' = @()                                    };
-	'libpng'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libpng-1.6.2.7z';         'Dependencies' = @('zlib')                              };
+	'libpng'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libpng-1.6.8.7z';         'Dependencies' = @('zlib')                              };
 	'libxml2'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libxml2-2.9.1.7z';        'Dependencies' = @('win-iconv')                         };
 	'openssl'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/openssl-1.0.1e.7z';       'Dependencies' = @('zlib')                              };
 	'pango'            = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/pango-1.32.5.7z';         'Dependencies' = @('cairo', 'harfbuzz')                 };
@@ -518,7 +518,8 @@ $items['libpng'].BuildScript = {
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-	Exec msbuild projects\vc12\vstudio.sln /p:Platform=$platform /p:Configuration=Release /nodeReuse:True
+	Exec msbuild projects\vc12\pnglibconf\pnglibconf.vcxproj /p:Platform=$platform /p:Configuration=Release /p:SolutionDir=$PWD\projects\vc12\ /nodeReuse:True
+	Exec msbuild projects\vc12\libpng\libpng.vcxproj /p:Platform=$platform /p:Configuration=Release /p:SolutionDir=$PWD\projects\vc12\ /nodeReuse:True
 
 	[void] (Swap-Environment $originalEnvironment)
 
@@ -535,15 +536,7 @@ $items['libpng'].BuildScript = {
 	New-Item -Type Directory $packageDestination\bin
 	Copy-Item `
 		$releaseDirectory\libpng16.dll, `
-		$releaseDirectory\libpng16.pdb, `
-		$releaseDirectory\pngstest.exe, `
-		$releaseDirectory\pngstest.pdb, `
-		$releaseDirectory\pngtest.exe, `
-		$releaseDirectory\pngtest.pdb, `
-		$releaseDirectory\pngunknown.exe, `
-		$releaseDirectory\pngunknown.pdb, `
-		$releaseDirectory\pngvalid.exe, `
-		$releaseDirectory\pngvalid.pdb `
+		$releaseDirectory\libpng16.pdb `
 		$packageDestination\bin
 
 	New-Item -Type Directory $packageDestination\include

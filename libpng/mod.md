@@ -1,4 +1,4 @@
- * Download [libpng 1.6.2](ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng-1.6.2.tar.xz)
+ * Download [libpng 1.6.8](ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng16/libpng-1.6.8.tar.xz)
  * Extract to `C:\mozilla-build\hexchat`
  * Add to `projects\vstudio\zlib.props`:
 <pre>
@@ -12,24 +12,10 @@
 		&lt;/Link>
 	&lt;/ItemDefinitionGroup>
 </pre>
- * Replace `zlib.lib` with `zlib1.lib` in:
-	* `projects\vstudio\libpng\libpng.vcxproj`
-	* `projects\vstudio\pngstest\pngstest.vcxproj`
-	* `projects\vstudio\pngtest\pngtest.vcxproj`
-	* `projects\vstudio\pngunknown\pngunknown.vcxproj`
-	* `projects\vstudio\pngvalid\pngvalid.vcxproj`
- * Replace `</AdditionalLibraryDirectories>` with `;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>` in:
-	* `projects\vstudio\libpng\libpng.vcxproj`
-	* `projects\vstudio\pngstest\pngstest.vcxproj`
-	* `projects\vstudio\pngtest\pngtest.vcxproj`
-	* `projects\vstudio\pngunknown\pngunknown.vcxproj`
-	* `projects\vstudio\pngvalid\pngvalid.vcxproj`
- * Open `projects\vstudio\vstudio.sln` with VS
- * Remove the _zlib_ project
- * For _pngtest_, add to _Command Line_ beginning under _Configuration Properties_ `->` _Custom Build Step_ `->` _General_:
-	<pre>copy ..\..\..\..\..\..\gtk\$(Platform)\bin\zlib1.dll $(OutDir)</pre>
- * Under solution properties, make _pngvalid_ depend on _pngtest_
- * Make a new _x64_ solution platform based on _Win32_
- * Build in VS
+ * Replace `zlib.lib` with `zlib1.lib` in `projects\vstudio\libpng\libpng.vcxproj`
+ * In `projects\vstudio\libpng\libpng.vcxproj`
+    * Replace `</AdditionalLibraryDirectories>` with `;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>`
+    * Replace `<TreatWarningAsError>true</TreatWarningAsError>` with `<TreatWarningAsError>false</TreatWarningAsError>`
+ * Build `projects\vc12\pngconflib\pngconflib.vcxproj` and `projects\vc12\libpng\libpng.vcxproj`
  * Release with `release-x86.bat`
  * Extract package to `C:\mozilla-build\hexchat\build\Win32`
