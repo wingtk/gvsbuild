@@ -140,7 +140,7 @@ $items = @{
 	'freetype'         = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/freetype-2.5.3.7z';       'Dependencies' = @()                                    };
 	'gdk-pixbuf'       = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gdk-pixbuf-2.28.1.7z';    'Dependencies' = @('glib', 'libpng')                    };
 	'gettext-runtime'  = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gettext-runtime-0.18.7z'; 'Dependencies' = @('win-iconv')                         };
-	'glib'             = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/glib-2.36.2.7z';          'Dependencies' = @('gettext-runtime', 'libffi', 'zlib') };
+	'glib'             = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/glib-2.40.0.7z';          'Dependencies' = @('gettext-runtime', 'libffi', 'zlib') };
 	'gtk'              = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gtk-2.24.19.7z';          'Dependencies' = @('atk', 'gdk-pixbuf', 'pango')        };
 	'harfbuzz'         = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/harfbuzz-0.9.18.7z';      'Dependencies' = @('freetype', 'glib')                  };
 	'libffi'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libffi-3.0.13.7z';        'Dependencies' = @()                                    };
@@ -388,6 +388,14 @@ $items['gettext-runtime'].BuildScript = {
 $items['glib'].BuildScript = {
 	$packageDestination = "$PWD-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	Exec $Patch -p1 -i glib-if_nametoindex.patch
+
+	# Add BOM to .\glib\gmain.c and .\gio\gdbusaddress.c because cl.exe throws C4819 otherwise
+	foreach ($file in @('.\glib\gmain.c', '.\gio\gdbusaddress.c')) {
+		$languageSampleTableFileContents = Get-Content $file -Encoding UTF8
+		Out-File $file -InputObject $languageSampleTableFileContents -Encoding UTF8
+	}
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
