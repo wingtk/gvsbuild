@@ -133,7 +133,7 @@ param (
 #========================================================================================================================================================
 
 $items = @{
-	'atk'              = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/atk-2.9.3.7z';            'Dependencies' = @('glib')                              };
+	'atk'              = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/atk-2.12.0.7z';           'Dependencies' = @('glib')                              };
 	'cairo'            = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/cairo-1.12.14.7z';        'Dependencies' = @('fontconfig', 'glib', 'pixman')      };
 	'enchant'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/enchant-1.6.0.7z';        'Dependencies' = @('glib')                              };
 	'fontconfig'       = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/fontconfig-2.8.0.7z';     'Dependencies' = @('freetype', 'libxml2')               };

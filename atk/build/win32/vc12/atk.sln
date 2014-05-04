@@ -5,8 +5,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "atk", "atk.vcxproj", "{86EA
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "install", "install.vcxproj", "{00702787-1566-484D-991F-3E7E459BB909}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gengir", "gengir.vcxproj", "{2093D218-190E-4194-9421-3BA7CBF33B15}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -31,10 +29,6 @@ Global
 		{00702787-1566-484D-991F-3E7E459BB909}.Release|Win32.Build.0 = Release|Win32
 		{00702787-1566-484D-991F-3E7E459BB909}.Release|x64.ActiveCfg = Release|x64
 		{00702787-1566-484D-991F-3E7E459BB909}.Release|x64.Build.0 = Release|x64
-		{2093D218-190E-4194-9421-3BA7CBF33B15}.Debug|Win32.ActiveCfg = Debug|Win32
-		{2093D218-190E-4194-9421-3BA7CBF33B15}.Debug|x64.ActiveCfg = Debug|x64
-		{2093D218-190E-4194-9421-3BA7CBF33B15}.Release|Win32.ActiveCfg = Release|Win32
-		{2093D218-190E-4194-9421-3BA7CBF33B15}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

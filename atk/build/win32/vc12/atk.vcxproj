@@ -50,19 +50,19 @@
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="atk.props" />
+    <Import Project="atk-gen-src.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="atk.props" />
+    <Import Project="atk-gen-src.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="atk.props" />
+    <Import Project="atk-gen-src.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="atk.props" />
+    <Import Project="atk-gen-src.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
@@ -82,13 +82,10 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
-    <PreLinkEvent>
-      <Command>$(GenerateAtkDef)</Command>
-    </PreLinkEvent>
     <Link>
       <OutputFile>$(OutDir)$(AtkDllPrefix)$(ProjectName)$(AtkDllSuffix).dll</OutputFile>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ModuleDefinitionFile>..\..\..\atk\atk.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>$(IntDir)\atk.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>$(OutDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
@@ -106,13 +103,10 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
-    <PreLinkEvent>
-      <Command>$(GenerateAtkDef)</Command>
-    </PreLinkEvent>
     <Link>
       <OutputFile>$(OutDir)$(AtkDllPrefix)$(ProjectName)$(AtkDllSuffix).dll</OutputFile>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ModuleDefinitionFile>..\..\..\atk\atk.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>$(IntDir)\atk.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -132,13 +126,10 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
-    <PreLinkEvent>
-      <Command>$(GenerateAtkDef)</Command>
-    </PreLinkEvent>
     <Link>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(AtkDllPrefix)$(ProjectName)$(AtkDllSuffix).dll</OutputFile>
-      <ModuleDefinitionFile>..\..\..\atk\atk.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>$(IntDir)\atk.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>$(TargetDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
@@ -154,13 +145,10 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
-    <PreLinkEvent>
-      <Command>$(GenerateAtkDef)</Command>
-    </PreLinkEvent>
     <Link>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(AtkDllPrefix)$(ProjectName)$(AtkDllSuffix).dll</OutputFile>
-      <ModuleDefinitionFile>..\..\..\atk\atk.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>$(IntDir)\atk.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -184,6 +172,8 @@
     <ClCompile Include="..\..\..\atk\atkobject.c" />
     <ClCompile Include="..\..\..\atk\atkobjectfactory.c" />
     <ClCompile Include="..\..\..\atk\atkplug.c" />
+    <ClCompile Include="..\..\..\atk\atkprivate.c" />
+    <ClCompile Include="..\..\..\atk\atkrange.c" />
     <ClCompile Include="..\..\..\atk\atkregistry.c" />
     <ClCompile Include="..\..\..\atk\atkrelation.c" />
     <ClCompile Include="..\..\..\atk\atkrelationset.c" />
@@ -193,6 +183,7 @@
     <ClCompile Include="..\..\..\atk\atkstateset.c" />
     <ClCompile Include="..\..\..\atk\atkstreamablecontent.c" />
     <ClCompile Include="..\..\..\atk\atktable.c" />
+    <ClCompile Include="..\..\..\atk\atktablecell.c" />
     <ClCompile Include="..\..\..\atk\atktext.c" />
     <ClCompile Include="..\..\..\atk\atkutil.c" />
     <ClCompile Include="..\..\..\atk\atkmisc.c" />
@@ -200,6 +191,50 @@
     <ClCompile Include="..\..\..\atk\atkversion.c" />
     <ClCompile Include="..\..\..\atk\atkwindow.c" />
     <ClCompile Include="..\..\..\atk\atk-enum-types.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\config.h.win32">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying config.h from config.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(GenConfigH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\config.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copying config.h from config.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(GenConfigH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\..\config.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying config.h from config.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(GenConfigH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\config.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying config.h from config.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(GenConfigH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\..\config.h;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\atk\atkmarshal.list">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Generating Marshalling Sources...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(GenMarshalSrc)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\atk\atkmarshal.h;..\..\..\atk\atkmarshal.c;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating Marshalling Sources...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(GenMarshalSrc)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\..\atk\atkmarshal.h;..\..\..\atk\atkmarshal.c;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Generating Marshalling Sources...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(GenMarshalSrc)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\atk\atkmarshal.h;..\..\..\atk\atkmarshal.c;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating Marshalling Sources...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(GenMarshalSrc)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\..\atk\atkmarshal.h;..\..\..\atk\atkmarshal.c;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\atk\atk.symbols">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Generating atk.def...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(GenerateAtkDef)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)atk.def;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating atk.def...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(GenerateAtkDef)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)atk.def;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Generating atk.def...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(GenerateAtkDef)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)atk.def;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating atk.def...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(GenerateAtkDef)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)atk.def;%(Outputs)</Outputs>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\..\atk\atk.rc" />

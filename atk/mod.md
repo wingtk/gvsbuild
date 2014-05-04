@@ -1,17 +1,19 @@
- * Download [ATK 2.9.3](http://ftp.gnome.org/pub/gnome/sources/atk/2.9/atk-2.9.3.tar.xz)
+ * Download [ATK 2.12.0](http://ftp.gnome.org/pub/gnome/sources/atk/2.9/atk-2.12.0.tar.xz)
  * Extract to `C:\mozilla-build\hexchat`
- * In `build\win32\vc12\atk.props`, replace:
+ * In `build\win32\vc12\atk-build-defines.props`, replace:
 	* `intl.lib` with `libintl.lib`
-	* `<GlibEtcInstallRoot>..\..\..\..\vs10\$(Platform)</GlibEtcInstallRoot>` with
-`<GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>`
+ * In `build\win32\vc12\atk-version-paths.props`, replace:
+	* `<GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\vs10\$(Platform)</GlibEtcInstallRoot>` with
+`<GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>`
 	* `<CopyDir>$(GLibEtcInstallRoot)</CopyDir>` with
-`<CopyDir>..\..\..\..\atk-2.9.3-rel</CopyDir>`
+`<CopyDir>..\..\..\..\atk-2.12.0-rel</CopyDir>`
 	* `<AtkSeparateVSDllSuffix>-1-vs$(VSVer)</AtkSeparateVSDllSuffix>` with
 `<AtkSeparateVSDllSuffix>-1.0</AtkSeparateVSDllSuffix>`
- * In `build\win32\vc12\atk.props`:
+ * In `build\win32\vc12\atk-install.props`:
 	*  add to `AtkDoInstall`
 `copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*.pdb $(CopyDir)\bin`
-	*  add at the end
+ * In `build\win32\vc12\atk-gen-src.props`:
+	*  add to `<ImportGroup Label="PropertySheets">`
 `<Import Project="..\..\..\..\stack.props" />`
  * In `build\win32\vc12\install.vcxproj`, replace `AtkEtcInstallRoot` with `GlibEtcInstallRoot`
  * Delete `<Optimization>` lines in all `*.vcxproj` files
