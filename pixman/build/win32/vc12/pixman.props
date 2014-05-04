@@ -2,7 +2,7 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
     <PixmanEtcInstallRoot>..\..\..\..\..\..\gtk\$(PlatformName)</PixmanEtcInstallRoot>
-    <CopyDir>..\..\..\..\pixman-0.30.2-rel</CopyDir>
+    <CopyDir>..\..\..\..\pixman-0.32.4-rel</CopyDir>
     <DefDir>$(SolutionDir)$(Configuration)\$(PlatformName)\obj\$(ProjectName)</DefDir>
     <ApiVersion>1</ApiVersion>
     <GenPixmanDef>
