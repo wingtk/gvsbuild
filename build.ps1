@@ -137,7 +137,7 @@ $items = @{
 	'cairo'            = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/cairo-1.12.14.7z';        'Dependencies' = @('fontconfig', 'glib', 'pixman')      };
 	'enchant'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/enchant-1.6.0.7z';        'Dependencies' = @('glib')                              };
 	'fontconfig'       = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/fontconfig-2.8.0.7z';     'Dependencies' = @('freetype', 'libxml2')               };
-	'freetype'         = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/freetype-2.5.0.1.7z';     'Dependencies' = @()                                    };
+	'freetype'         = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/freetype-2.5.3.7z';       'Dependencies' = @()                                    };
 	'gdk-pixbuf'       = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gdk-pixbuf-2.28.1.7z';    'Dependencies' = @('glib', 'libpng')                    };
 	'gettext-runtime'  = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gettext-runtime-0.18.7z'; 'Dependencies' = @('win-iconv')                         };
 	'glib'             = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/glib-2.36.2.7z';          'Dependencies' = @('gettext-runtime', 'libffi', 'zlib') };
@@ -322,7 +322,7 @@ $items['freetype'].BuildScript = {
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-	Exec msbuild builds\win32\vc12\freetype.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+	Exec msbuild builds\windows\vc2013\freetype.vcxproj /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
 
 	[void] (Swap-Environment $originalEnvironment)
 
@@ -333,7 +333,7 @@ $items['freetype'].BuildScript = {
 
 	New-Item -Type Directory $packageDestination\lib
 	Copy-Item `
-		".\objs\$platform\vc12\freetype.lib" `
+		".\objs\$platform\vc2013\freetype.lib" `
 		$packageDestination\lib
 
 	New-Item -Type Directory $packageDestination\share\doc\freetype
