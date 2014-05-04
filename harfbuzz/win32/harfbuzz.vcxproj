@@ -23,6 +23,7 @@
     <ClCompile Include="..\src\hb-buffer-serialize.cc" />
     <ClCompile Include="..\src\hb-buffer.cc" />
     <ClCompile Include="..\src\hb-common.cc" />
+    <ClCompile Include="..\src\hb-face.cc" />
     <ClCompile Include="..\src\hb-fallback-shape.cc" />
     <ClCompile Include="..\src\hb-font.cc" />
     <ClCompile Include="..\src\hb-ft.cc" />
@@ -32,11 +33,14 @@
     <ClCompile Include="..\src\hb-ot-map.cc" />
     <ClCompile Include="..\src\hb-ot-shape-complex-arabic.cc" />
     <ClCompile Include="..\src\hb-ot-shape-complex-default.cc" />
+    <ClCompile Include="..\src\hb-ot-shape-complex-hangul.cc" />
+    <ClCompile Include="..\src\hb-ot-shape-complex-hebrew.cc" />
     <ClCompile Include="..\src\hb-ot-shape-complex-indic-table.cc" />
     <ClCompile Include="..\src\hb-ot-shape-complex-indic.cc" />
     <ClCompile Include="..\src\hb-ot-shape-complex-myanmar.cc" />
     <ClCompile Include="..\src\hb-ot-shape-complex-sea.cc" />
     <ClCompile Include="..\src\hb-ot-shape-complex-thai.cc" />
+    <ClCompile Include="..\src\hb-ot-shape-complex-tibetan.cc" />
     <ClCompile Include="..\src\hb-ot-shape-fallback.cc" />
     <ClCompile Include="..\src\hb-ot-shape-normalize.cc" />
     <ClCompile Include="..\src\hb-ot-shape.cc" />
