@@ -1,9 +1,9 @@
-#define APPVER "5.18.2"
+#define APPVER "5.20"
 #define APPARCH "x86"
 #if APPARCH == "x64"
-#define PERLLOC "..\..\..\..\perl-5.18\x64"
+#define PERLLOC "..\..\..\..\perl-5.20\x64"
 #else
-#define PERLLOC "..\..\..\..\perl-5.18\Win32"
+#define PERLLOC "..\..\..\..\perl-5.20\Win32"
 #endif
 
 [Setup]
