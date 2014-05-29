@@ -19,8 +19,13 @@
 *.sdf
 *.opensdf
 *.unsuccessfulbuild
+*.back.aip
 ipch/
 obj/
 [Bb]in
 [Dd]ebug*/
 [Rr]elease*/
+perl/perl-x64-cache
+perl/perl-x64-SetupFiles
+perl/perl-x86-cache
+perl/perl-x86-SetupFiles
