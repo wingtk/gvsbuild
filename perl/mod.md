@@ -9,4 +9,4 @@
  * Go to win32
  * `nmake -f Makefile`
  * `nmake -f Makefile install`
- * Copy `Copying` to `C:mozilla-build\hexchat\perl-5.20\Win32`
+ * Copy `Copying` to `C:\mozilla-build\hexchat\perl-5.20\Win32`
