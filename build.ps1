@@ -613,7 +613,7 @@ $items['openssl'].BuildScript = {
 
 	$env:OPENSSL_SRC = $PWD
 	$env:OPENSSL_DEST = "$PWD-$filenameArch"
-	$env:PERL_PATH = "$MozillaBuildDirectory\perl-5.18\$platform\bin"
+	$env:PERL_PATH = "$MozillaBuildDirectory\perl-5.20\$platform\bin"
 	$env:NASM_PATH = "$MozillaBuildDirectory\nasm"
 	$env:INCLUDE = "${env:INCLUDE};${env:OPENSSL_SRC}\..\..\..\gtk\$platform\include"
 	$env:LIB = "${env:LIB};${env:OPENSSL_SRC}\..\..\..\gtk\$platform\lib"
