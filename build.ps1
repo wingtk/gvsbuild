@@ -13,8 +13,7 @@ This is a build script to build GTK+ and openssl.
 .PARAMETER Configuration
 The configuration to be built. One of the following:
 x86       - 32-bit build.
-x86_amd64 - 64-bit build using the 32-bit cross-compiler. Use this if you have VS Express.
-x64       - 64-bit build using the native 64-bit compiler. Not available in VS Express.
+x64       - 64-bit build. Uses the 32-bit cross-compiler with VS Express or the native 64-bit compiler with VS Professional and up.
 
 
 .PARAMETER DisableParallelBuild
@@ -59,13 +58,8 @@ Default paths. x86 build.
 
 
 .EXAMPLE
-build.ps1 -Configuration x86_amd64
-Default paths. x64 build using the x64 cross compiler.
-
-
-.EXAMPLE
 build.ps1 -Configuration x64
-Default paths. x64 build using the x64 native compiler.
+Default paths. x64 build.
 
 
 .EXAMPLE
@@ -93,7 +87,7 @@ http://hexchat.github.io/gtk-win32/
 #========================================================================================================================================================
 
 param (
-	[string][ValidateSet('x86', 'x86_amd64', 'x64')]
+	[string][ValidateSet('x86', 'x64')]
 	$Configuration = 'x86',
 
 	[switch]
@@ -827,12 +821,13 @@ switch ($Configuration) {
 		$vcvarsBat = "$VSInstallPath\VC\bin\vcvars32.bat"
 	}
 
-	'x86_amd64' {
-		$vcvarsBat = "$VSInstallPath\VC\bin\x86_amd64\vcvarsx86_amd64.bat"
-	}
-
 	'x64' {
 		$vcvarsBat = "$VSInstallPath\VC\bin\amd64\vcvars64.bat"
+
+		# make sure it works even with VS Express
+		if (-not $(Test-Path $vcvarsBat)) {
+			$vcvarsBat = "$VSInstallPath\VC\bin\x86_amd64\vcvarsx86_64.bat"
+		}
 	}
 }
 
@@ -850,19 +845,13 @@ switch ($Configuration) {
 	'x86' {
 		$platform = 'Win32'
 		$filenameArch = 'x86'
-		$mozillaBuildStartVC = "$MozillaBuildDirectory\start-msvc12.bat"
-	}
-
-	'x86_amd64' {
-		$platform = 'x64'
-		$filenameArch = 'x64'
-		$mozillaBuildStartVC = "$MozillaBuildDirectory\start-msvc12-x86_amd64.bat"
+		$mozillaBuildStartVC = "$MozillaBuildDirectory\start-shell-msvc2013.bat"
 	}
 
 	'x64' {
 		$platform = 'x64'
 		$filenameArch = 'x64'
-		$mozillaBuildStartVC = "$MozillaBuildDirectory\start-msvc12-x64.bat"
+		$mozillaBuildStartVC = "$MozillaBuildDirectory\start-shell-msvc2013-x64.bat"
 	}
 }
 
@@ -922,17 +911,6 @@ if ($OnlyBuild.Length -gt 0) {
 	}
 
 	$items = $newItems
-}
-
-
-if (-not $(Test-Path "$MozillaBuild\start-msvc12.bat")) {
-	Copy-Item $PatchesRootDirectory\mozilla-build\start-msvc12.bat $MozillaBuildDirectory
-}
-if (-not $(Test-Path "$MozillaBuild\start-msvc12-x64.bat")) {
-	Copy-Item $PatchesRootDirectory\mozilla-build\start-msvc12-x64.bat $MozillaBuildDirectory
-}
-if (-not $(Test-Path "$MozillaBuild\start-msvc12-x86_amd64.bat")) {
-	Copy-Item $PatchesRootDirectory\mozilla-build\start-msvc12-x86_amd64.bat $MozillaBuildDirectory
 }
 
 
