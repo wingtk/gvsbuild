@@ -826,7 +826,7 @@ switch ($Configuration) {
 
 		# make sure it works even with VS Express
 		if (-not $(Test-Path $vcvarsBat)) {
-			$vcvarsBat = "$VSInstallPath\VC\bin\x86_amd64\vcvarsx86_64.bat"
+			$vcvarsBat = "$VSInstallPath\VC\bin\x86_amd64\vcvarsx86_amd64.bat"
 		}
 	}
 }
