@@ -1,4 +1,4 @@
- * Download [HarfBuzz 0.9.28](http://cgit.freedesktop.org/harfbuzz/snapshot/harfbuzz-0.9.28.tar.gz)
+ * Download [HarfBuzz 0.9.29](http://cgit.freedesktop.org/harfbuzz/snapshot/harfbuzz-0.9.29.tar.gz)
  * Download [blinkseb's HarfBuzz solution](https://github.com/blinkseb/harfbuzz)
  * Extract to `C:\mozilla-build\hexchat`
  * Copy `src\hb-version.h.in` as `src\hb-version.h` and fix the following macros:
