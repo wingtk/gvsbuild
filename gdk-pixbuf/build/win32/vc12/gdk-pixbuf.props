@@ -3,7 +3,7 @@
   <PropertyGroup Label="UserMacros">
     <VSVer>10</VSVer>
     <GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
-    <CopyDir>..\..\..\..\gdk-pixbuf-2.30.7-rel</CopyDir>
+    <CopyDir>..\..\..\..\gdk-pixbuf-2.30.8-rel</CopyDir>
     <ApiVersion>2.0</ApiVersion>
     <GdkPixbufBinaryVersion>2.10.0</GdkPixbufBinaryVersion>
     <GDIP_MACROS>INCLUDE_gdiplus</GDIP_MACROS>

@@ -1,4 +1,4 @@
- * Download [GDK-PixBuf 2.30.7](http://ftp.gnome.org/pub/gnome/sources/gdk-pixbuf/2.30/gdk-pixbuf-2.30.7.tar.xz)
+ * Download [GDK-PixBuf 2.30.8](http://ftp.gnome.org/pub/gnome/sources/gdk-pixbuf/2.30/gdk-pixbuf-2.30.8.tar.xz)
  * Extract to `C:\mozilla-build\hexchat`
  * In `build\win32\vc12\gdk-pixbuf.props`, replace:
 	* `intl.lib` with `libintl.lib`
