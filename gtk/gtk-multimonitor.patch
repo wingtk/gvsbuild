@@ -1,0 +1,12 @@
+--- gtk-2.24.23.orig/gdk/win32/gdkwindow-win32.c	Wed Jun 11 00:34:18 2014
++++ gtk-2.24.23.orig/gdk/win32/gdkwindow-win32.c	Wed Jun 11 00:33:54 2014
+@@ -1184,6 +1184,9 @@
+ 	  y = center_on_rect.top + ((center_on_rect.bottom - center_on_rect.top) - (window_rect.bottom - window_rect.top)) / 2;
+ 	}
+ 
++	  x -= _gdk_offset_x;
++	  y -= _gdk_offset_y;
++
+       API_CALL (SetWindowPos, (GDK_WINDOW_HWND (window), NULL,
+ 			       x, y, 0, 0,
+ 			       SWP_NOACTIVATE | SWP_NOSIZE | SWP_NOZORDER));

@@ -407,6 +407,7 @@ $items['gtk'].BuildScript = {
 	Exec $Patch -p1 -i gtk-bgimg.patch
 	Exec $Patch -p1 -i gtk-statusicon.patch
 	Exec $Patch -p1 -i gtk-accel.patch
+	Exec $Patch -p1 -i gtk-multimonitor.patch
 
 	Add-Utf8Bom .\gdk\gdkkeyuni.c
 
