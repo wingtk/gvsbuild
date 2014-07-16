@@ -1,4 +1,4 @@
- * Download [libpng 1.6.10](ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng16/libpng-1.6.10.tar.xz)
+ * Download [libpng 1.6.12](ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng16/libpng-1.6.12.tar.xz)
  * Extract to `C:\mozilla-build\hexchat`
  * Add to `projects\vstudio\zlib.props`:
 <pre>
