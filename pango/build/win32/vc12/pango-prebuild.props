@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PropertySheetDisplayName>pangoprebuildprops</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <PreBuildEvent>
+      <Command>
+if exist ..\..\..\config.h goto DONE_CONFIG_H
+
+copy ..\..\..\config.h.win32 ..\..\..\config.h
+
+:DONE_CONFIG_H
+
+
+if exist ..\..\..\pango\DONE_MODULE_DEFS_H goto DONE_MODULE_DEFS_H
+
+copy /y ..\..\..\pango\module-defs.h.win32 ..\..\..\pango\module-defs.h
+
+copy ..\..\..\pango\module-defs.h.win32 ..\..\..\pango\DONE_MODULE_DEFS_H
+
+:DONE_MODULE_DEFS_H
+
+
+if exist ..\..\..\pango\DONE_MODULE_DEFS_LANG_C goto DONE_MODULE_DEFS_LANG_C
+
+copy ..\..\..\pango\module-defs-lang.c.win32 ..\..\..\pango\module-defs-lang.c
+
+copy ..\..\..\pango\module-defs-lang.c.win32 ..\..\..\pango\DONE_MODULE_DEFS_LANG_C
+
+:DONE_MODULE_DEFS_LANG_C
+
+
+if exist ..\..\..\pango\DONE_MODULE_DEFS_FC_C goto DONE_MODULE_DEFS_FC_C
+
+copy ..\..\..\pango\module-defs-fc.c.win32 ..\..\..\pango\module-defs-fc.c
+
+copy ..\..\..\pango\module-defs-fc.c.win32 ..\..\..\pango\DONE_MODULE_DEFS_FC_C
+
+:DONE_MODULE_DEFS_FC_C
+
+
+if exist ..\..\..\pango\DONE_MODULE_DEFS_WIN32_C goto DONE_MODULE_DEFS_WIN32_C
+
+copy ..\..\..\pango\module-defs-win32.c.win32 ..\..\..\pango\module-defs-win32.c
+
+copy ..\..\..\pango\module-defs-win32.c.win32 ..\..\..\pango\DONE_MODULE_DEFS_WIN32_C
+
+:DONE_MODULE_DEFS_WIN32_C
+      </Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+</Project>
