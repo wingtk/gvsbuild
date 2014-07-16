@@ -1,23 +1,23 @@
- * Download [GTK+ 2.24.23](http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-2.24.23.tar.xz)
+ * Download [GTK+ 2.24.24](http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-2.24.24.tar.xz)
  * Extract to `C:\mozilla-build\hexchat`
  * Patch with `patch -p1 -i gtk-revert-scrolldc-commit.patch`
  * Patch with `patch -p1 -i gtk-bgimg.patch`
  * Patch with `patch -p1 -i gtk-statusicon.patch`
  * Patch with `patch -p1 -i gtk-accel.patch`
- * In `build\win32\vc12\gtk+.props`, replace:
+ * In `build\win32\vc12\gtk-build-defines.props`, replace:
 	* `intl.lib` with `libintl.lib`
-	* `<GlibEtcInstallRoot>..\..\..\..\vs10\$(Platform)</GlibEtcInstallRoot>` with
+ * In `build\win32\vc12\gtk-version-paths.props`, replace:
+	* `<GlibEtcInstallRoot>..\..\..\..\vs$(VSVer)\$(Platform)</GlibEtcInstallRoot>` with
 `<GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>`
 	* `<CopyDir>$(GlibEtcInstallRoot)</CopyDir>` with
-`<CopyDir>..\..\..\..\gtk-2.24.23-rel</CopyDir>`
-	* `<GtkSeparateVS10DllSuffix>-2-vs10</GtkSeparateVS10DllSuffix>` with
-`<GtkSeparateVS10DllSuffix>-2.0</GtkSeparateVS10DllSuffix>`
-	* `<ClCompile>` with
-`<ClCompile><MultiProcessorCompilation>true</MultiProcessorCompilation>`
-	* `*-vs10.dll` with `*-2.0.dll`
+`<CopyDir>..\..\..\..\gtk-2.24.24-rel</CopyDir>`
+	* `<GtkSeparateVSDllSuffix>-2-vs$(VSVer)</GtkSeparateVSDllSuffix>` with
+`<GtkSeparateVSDllSuffix>-2.0</GtkSeparateVSDllSuffix>`
+ * In `build\win32\vc12\gtk-install.props`, replace:
+	* `copy $(BinDir)\*-vs$(VSVer).dll $(CopyDir)\bin` with
+`copy $(BinDir)\*-2.0.dll $(CopyDir)\bin`
 	* Add to `GtkDoInstall`:
-`copy $(Configuration)\$(Platform)\bin\*.pdb $(CopyDir)\bin`
- * In `build\win32\vc12\gtk+.props`, add `<Import Project="..\..\..\..\stack.props" />` at the end
+`copy $(BinDir)\*.pdb $(CopyDir)\bin`
  * Delete `<Optimization>` lines in all `*.vcxproj` files
  * Open `build\win32\vc12\gtk+.sln` with VS
  * Select `Release|Win32` configuration

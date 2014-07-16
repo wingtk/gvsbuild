@@ -49,19 +49,23 @@
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="gtk+.props" />
+    <Import Project="gtk-gen-srcs.props" />
+    <Import Project="..\..\..\..\stack.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="gtk+.props" />
+    <Import Project="gtk-gen-srcs.props" />
+    <Import Project="..\..\..\..\stack.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="gtk+.props" />
+    <Import Project="gtk-gen-srcs.props" />
+    <Import Project="..\..\..\..\stack.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="gtk+.props" />
+    <Import Project="gtk-gen-srcs.props" />
+    <Import Project="..\..\..\..\stack.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
@@ -88,7 +92,7 @@
       <ModuleDefinitionFile>$(IntDir)gdk.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <ImportLibrary>$(TargetDir)$(ProjectName)-win32-$(GtkApiVersion).lib</ImportLibrary>
+      <ImportLibrary>$(TargetDir)$(ProjectName)-win32-$(ApiVersion).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -110,7 +114,7 @@
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <ImportLibrary>$(TargetDir)$(ProjectName)-win32-$(GtkApiVersion).lib</ImportLibrary>
+      <ImportLibrary>$(TargetDir)$(ProjectName)-win32-$(ApiVersion).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -132,7 +136,7 @@
       <ModuleDefinitionFile>$(IntDir)gdk.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <ImportLibrary>$(TargetDir)$(ProjectName)-win32-$(GtkApiVersion).lib</ImportLibrary>
+      <ImportLibrary>$(TargetDir)$(ProjectName)-win32-$(ApiVersion).lib</ImportLibrary>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -154,7 +158,7 @@
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <ImportLibrary>$(TargetDir)$(ProjectName)-win32-$(GtkApiVersion).lib</ImportLibrary>
+      <ImportLibrary>$(TargetDir)$(ProjectName)-win32-$(ApiVersion).lib</ImportLibrary>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -178,39 +182,39 @@
     <ResourceCompile Include="..\..\..\gdk\win32\rc\gdk.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\gdk\gdk.c" />
-    <ClCompile Include="..\..\..\gdk\gdkapplaunchcontext.c" />
-    <ClCompile Include="..\..\..\gdk\gdkcairo.c" />
-    <ClCompile Include="..\..\..\gdk\gdkcolor.c" />
-    <ClCompile Include="..\..\..\gdk\gdkcursor.c" />
-    <ClCompile Include="..\..\..\gdk\gdkdisplay.c" />
-    <ClCompile Include="..\..\..\gdk\gdkdisplaymanager.c" />
-    <ClCompile Include="..\..\..\gdk\gdkdnd.c" />
-    <ClCompile Include="..\..\..\gdk\gdkdraw.c" />
-    <ClCompile Include="..\..\..\gdk\gdkevents.c" />
-    <ClCompile Include="..\..\..\gdk\gdkfont.c" />
-    <ClCompile Include="..\..\..\gdk\gdkgc.c" />
-    <ClCompile Include="..\..\..\gdk\gdkglobals.c" />
-    <ClCompile Include="..\..\..\gdk\gdkimage.c" />
-    <ClCompile Include="..\..\..\gdk\gdkkeys.c" />
-    <ClCompile Include="..\..\..\gdk\gdkkeyuni.c" />
-    <ClCompile Include="..\..\..\gdk\gdkoffscreenwindow.c" />
-    <ClCompile Include="..\..\..\gdk\gdkpango.c" />
-    <ClCompile Include="..\..\..\gdk\gdkpixbuf-drawable.c" />
-    <ClCompile Include="..\..\..\gdk\gdkpixbuf-render.c" />
-    <ClCompile Include="..\..\..\gdk\gdkpixmap.c" />
-    <ClCompile Include="..\..\..\gdk\gdkpolyreg-generic.c" />
-    <ClCompile Include="..\..\..\gdk\gdkrectangle.c" />
-    <ClCompile Include="..\..\..\gdk\gdkregion-generic.c" />
-    <ClCompile Include="..\..\..\gdk\gdkrgb.c" />
-    <ClCompile Include="..\..\..\gdk\gdkscreen.c" />
-    <ClCompile Include="..\..\..\gdk\gdkselection.c" />
-    <ClCompile Include="..\..\..\gdk\gdkvisual.c" />
-    <ClCompile Include="..\..\..\gdk\gdkwindow.c" />
-    <ClCompile Include="..\..\..\gdk\gdkwindowimpl.c" />
-    <ClCompile Include="..\..\..\gdk\gdkenumtypes.c" />
-    <ClCompile Include="..\..\..\gdk\gdkmarshalers.c" />
-    <ClCompile Include="..\..\..\gdk\gdkkeynames.c" />
+   <ClCompile Include="..\..\..\gdk\gdk.c" />
+   <ClCompile Include="..\..\..\gdk\gdkapplaunchcontext.c" />
+   <ClCompile Include="..\..\..\gdk\gdkcairo.c" />
+   <ClCompile Include="..\..\..\gdk\gdkcolor.c" />
+   <ClCompile Include="..\..\..\gdk\gdkcursor.c" />
+   <ClCompile Include="..\..\..\gdk\gdkdisplay.c" />
+   <ClCompile Include="..\..\..\gdk\gdkdisplaymanager.c" />
+   <ClCompile Include="..\..\..\gdk\gdkdnd.c" />
+   <ClCompile Include="..\..\..\gdk\gdkdraw.c" />
+   <ClCompile Include="..\..\..\gdk\gdkevents.c" />
+   <ClCompile Include="..\..\..\gdk\gdkfont.c" />
+   <ClCompile Include="..\..\..\gdk\gdkgc.c" />
+   <ClCompile Include="..\..\..\gdk\gdkglobals.c" />
+   <ClCompile Include="..\..\..\gdk\gdkimage.c" />
+   <ClCompile Include="..\..\..\gdk\gdkkeys.c" />
+   <ClCompile Include="..\..\..\gdk\gdkkeyuni.c" />
+   <ClCompile Include="..\..\..\gdk\gdkoffscreenwindow.c" />
+   <ClCompile Include="..\..\..\gdk\gdkpango.c" />
+   <ClCompile Include="..\..\..\gdk\gdkpixbuf-drawable.c" />
+   <ClCompile Include="..\..\..\gdk\gdkpixbuf-render.c" />
+   <ClCompile Include="..\..\..\gdk\gdkpixmap.c" />
+   <ClCompile Include="..\..\..\gdk\gdkpolyreg-generic.c" />
+   <ClCompile Include="..\..\..\gdk\gdkrectangle.c" />
+   <ClCompile Include="..\..\..\gdk\gdkregion-generic.c" />
+   <ClCompile Include="..\..\..\gdk\gdkrgb.c" />
+   <ClCompile Include="..\..\..\gdk\gdkscreen.c" />
+   <ClCompile Include="..\..\..\gdk\gdkselection.c" />
+   <ClCompile Include="..\..\..\gdk\gdkvisual.c" />
+   <ClCompile Include="..\..\..\gdk\gdkwindow.c" />
+   <ClCompile Include="..\..\..\gdk\gdkwindowimpl.c" />
+   <ClCompile Include="..\..\..\gdk\gdkenumtypes.c" />
+   <ClCompile Include="..\..\..\gdk\gdkmarshalers.c" />
+   <ClCompile Include="..\..\..\gdk\gdkkeynames.c" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="gdk-win32.vcxproj">
