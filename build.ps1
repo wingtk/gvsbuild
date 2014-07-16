@@ -1028,10 +1028,6 @@ while (@($items.GetEnumerator() | ?{ ($_.Value.State -eq 'Pending') -or ($_.Valu
 					return $false
 				}
 
-				if ($item.Dependencies.Length -eq 0) {
-					return $true
-				}
-
 				$remainingDependencies = @($item.Dependencies | ?{ $items[$_.Name].State -ne 'Completed' })
 				return $remainingDependencies.Length -eq 0
 			} | %{ $_.Value })[0]
