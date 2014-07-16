@@ -417,7 +417,6 @@ $items['gtk'].BuildScript = {
 
 	[void] (Swap-Environment $originalEnvironment)
 
-	Remove-Item -Recurse $packageDestination\share\locale
 	New-Item -Type Directory $packageDestination\share\locale
 
 	$oldPath = $env:Path
