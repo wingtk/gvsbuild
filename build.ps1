@@ -112,7 +112,7 @@ param (
 	$SevenZip = 'C:\Program Files\7-Zip\7z.exe',
 
 	[string]
-	$CMakePath = 'C:\Program Files (x86)\CMake 2.8\bin',
+	$CMakePath = 'C:\Program Files (x86)\CMake\bin',
 
 	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'fontconfig', 'freetype', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib')]
 	$OnlyBuild = @()
