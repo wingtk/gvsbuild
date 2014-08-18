@@ -576,10 +576,6 @@ $items['libxml2'].BuildScript = {
 		}
 	}
 
-	Copy-Item $releaseDirectory\runsuite.exe .
-	Exec runsuite.exe
-	Remove-Item .\runsuite.exe
-
 	New-Item -Type Directory $packageDestination\bin
 	Copy-Item `
 		$releaseDirectory\libxml2.dll, `
