@@ -637,10 +637,8 @@ $items['openssl'].BuildScript = {
 	# nmake returns error code 2 because it fails to find build outputs to delete
 	try { Exec nmake -f ms\ntdll.mak vclean } catch { }
 
-	# linker fails the first time, so nmake returns error code 0x460
-	try { Exec nmake -f ms\ntdll.mak } catch { }
+	Exec nmake -f ms\ntdll.mak
 
-	# linker succeeds here
 	Exec nmake -f ms\ntdll.mak test
 
 	Exec perl mk-ca-bundle.pl -n
