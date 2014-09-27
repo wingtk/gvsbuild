@@ -127,7 +127,7 @@ param (
 #========================================================================================================================================================
 
 $items = @{
-	'atk'              = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/atk-2.12.0.7z';           'Dependencies' = @('glib')                              };
+	'atk'              = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/atk-2.14.0.7z';           'Dependencies' = @('glib')                              };
 	'cairo'            = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/cairo-1.12.16.7z';        'Dependencies' = @('fontconfig', 'glib', 'pixman')      };
 	'enchant'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/enchant-1.6.0.7z';        'Dependencies' = @('glib')                              };
 	'fontconfig'       = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/fontconfig-2.8.0.7z';     'Dependencies' = @('freetype', 'libxml2')               };
@@ -161,7 +161,7 @@ $items['atk'].BuildScript = {
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-	Exec msbuild build\win32\vc12\atk.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+	Exec msbuild build\win32\vs12\atk.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
 
 	[void] (Swap-Environment $originalEnvironment)
 
