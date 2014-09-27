@@ -1,21 +1,16 @@
-diff -urN glib-2.40.0.orig/config.h.win32 glib-2.40.0/config.h.win32
---- glib-2.40.0.orig/config.h.win32	2014-05-03 13:34:53 -0700
-+++ glib-2.40.0/config.h.win32	2014-05-03 13:35:27 -0700
-@@ -218,7 +218,7 @@
- /* Windows Vista/Server 2008, so disabled for now-please see */
- /* http://msdn.microsoft.com/en-us/library/windows/desktop/bb408409%28v=vs.85%29.aspx */
- /* A workaround for Windows XP is under review in Bug 668071 */
--/* #undef HAVE_IF_NAMETOINDEX */
-+#define HAVE_IF_NAMETOINDEX 1
- 
- /* Define to 1 if you have the `inotify_init1' function. */
- /* #undef HAVE_INOTIFY_INIT1 */
-@@ -854,7 +854,7 @@
- /* #undef _POSIX_SOURCE */
- 
- /* Target the Windows XP API */
+diff -urpN glib-2.42.0.orig/config.h.win32 glib-2.42.0/config.h.win32
+--- glib-2.42.0.orig/config.h.win32	2014-05-03 13:34:53 -0700
++++ glib-2.42.0/config.h.win32	2014-05-03 13:35:27 -0700
+@@ -207,10 +207,8 @@
+ /* Define to 1 if you have the `hasmntopt' function. */
+ /* #undef HAVE_HASMNTOPT */
+
+-/* Target the Windows XP API */
+-#ifndef _WIN32_WINNT
 -#define _WIN32_WINNT 0x0501
+-#endif
++/* Target the Windows Vista API */
 +#define _WIN32_WINNT 0x0600
- 
- /* Needed to get declarations for msg_control and msg_controllen on Solaris */
- /* #undef _XOPEN_SOURCE */
+
+ #if _WIN32_WINNT >= 0x0600
+ /* if_indextoname() and if_nametoindex() are available on Windows Vista/Server

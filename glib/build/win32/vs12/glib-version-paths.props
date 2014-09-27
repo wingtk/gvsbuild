@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
-    <VSVer>11</VSVer>
+    <VSVer>12</VSVer>
     <GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
-    <CopyDir>..\..\..\..\glib-2.40.0-rel</CopyDir>
+    <CopyDir>..\..\..\..\glib-2.42.0-rel</CopyDir>
     <ApiVersion>2.0</ApiVersion>
     <GlibLibtoolCompatibleDllPrefix>lib</GlibLibtoolCompatibleDllPrefix>
     <GlibLibtoolCompatibleDllSuffix>-$(ApiVersion)-0</GlibLibtoolCompatibleDllSuffix>
@@ -11,6 +11,7 @@
     <GlibSeparateVSDllSuffix>-2.0</GlibSeparateVSDllSuffix>
     <GlibDllPrefix>$(GlibSeparateVSDllPrefix)</GlibDllPrefix>
     <GlibDllSuffix>$(GlibSeparateVSDllSuffix)</GlibDllSuffix>
+    <PythonPath>..\..\..\..\..\....\..\python-2.7\$(Platform)</PythonPath>
   </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>glibversionpathsprops</_PropertySheetDisplayName>
@@ -45,6 +46,9 @@
     </BuildMacro>
     <BuildMacro Include="GlibDllSuffix">
       <Value>$(GlibDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PythonPath">
+      <Value>$(PythonPath)</Value>
     </BuildMacro>
   </ItemGroup>
 </Project>
