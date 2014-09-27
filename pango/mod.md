@@ -1,6 +1,9 @@
- * Download [Pango 1.36.6](http://ftp.gnome.org/pub/GNOME/sources/pango/1.36/pango-1.36.6.tar.xz)
+ * Download [Pango 1.36.8](http://ftp.gnome.org/pub/GNOME/sources/pango/1.36/pango-1.36.8.tar.xz)
  * Extract to `C:\mozilla-build\hexchat`
  * Patch with `patch -p1 -i pango-synthesize-all-fonts.patch`
+ * In all vcxproj files,
+	* add `<Import Project="..\..\..\..\stack.props" />`
+	* remove all `<Optimization>` lines
  * In `build\win32\vs12\pango-build-defines.props`, replace:
 	* `intl.lib` with `libintl.lib`
 	* `<PreprocessorDefinitions>HAVE_CONFIG_H;G_DISABLE_SINGLE_INCLUDES;%(PreprocessorDefinitions)</PreprocessorDefinitions>` with
@@ -20,13 +23,13 @@ if "$(Configuration)" == "Release_FC" copy $(SolutionDir)\Release\$(Platform)\bi
 	* `<GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\vs$(VSVer)\$(Platform)</GlibEtcInstallRoot>` with
 `<GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>`
 	* `<CopyDir>$(GlibEtcInstallRoot)</CopyDir>` with
-`<CopyDir>..\..\..\..\pango-1.36.6-rel</CopyDir>`
+`<CopyDir>..\..\..\..\pango-1.36.8-rel</CopyDir>`
 	* `<PangoSeparateVSDllSuffix>-1-vs$(VSVer)</PangoSeparateVSDllSuffix>` with
 `<PangoSeparateVSDllSuffix>-1.0</PangoSeparateVSDllSuffix>`
  * In `build\win32\vs12\pangoft2.vcxproj`, replace:
 	* `<AdditionalDependencies>fontconfig.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>` with
 `<AdditionalDependencies>fontconfig.lib;freetype.lib;harfbuzz.lib;%(AdditionalDependencies)</AdditionalDependencies>`
- * Open `build\win32\vs12\pango_fc.sln` with VS
+ * Open `build\win32\vs12\pango.sln` with VS
  * Build in VS
  * Release with `release-x86.bat`
  * Extract package to `C:\mozilla-build\hexchat\build\Win32`

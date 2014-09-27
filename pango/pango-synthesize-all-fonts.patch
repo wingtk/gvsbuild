@@ -1,7 +1,7 @@
-diff -urN pango-1.32.5.orig/pango/pangowin32-fontmap.c.orig pango-1.32.5/pango/pangowin32-fontmap.c
---- pango-1.32.5.orig/pango/pangowin32-fontmap.c.orig	2013-09-30 21:43:03.713859800 -0700
-+++ pango-1.32.5/pango/pangowin32-fontmap.c	2013-09-30 21:43:36.263624900 -0700
-@@ -236,12 +236,6 @@
+diff -urpN pango-1.36.8.orig/pango/pangowin32-fontmap.c pango-1.36.8/pango/pangowin32-fontmap.c
+--- pango-1.36.8.orig/pango/pangowin32-fontmap.c	Thu Jul 31 23:49:36 2014
++++ pango-1.36.8/pango/pangowin32-fontmap.c	Sat Sep 27 01:44:28 2014
+@@ -244,12 +244,6 @@ synthesize_foreach (gpointer key,
      {
        PangoWin32Face *win32face = p->data;
  
