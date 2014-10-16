@@ -15,6 +15,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\cairo.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\cairo-analysis-surface.c">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -51,10 +54,10 @@
     <ClCompile Include="..\..\src\cairo-boxes-intersect.c">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\cairo.c">
+    <ClCompile Include="..\..\src\cairo-cache.c">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\cairo-cache.c">
+    <ClCompile Include="..\..\src\cairo-cff-subset.c">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\cairo-clip.c">
@@ -70,6 +73,9 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\cairo-clip-surface.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cairo-clip-tor-scan-converter.c">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\cairo-color.c">
@@ -91,6 +97,9 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\cairo-default-context.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cairo-deflate-stream.c">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\cairo-device.c">
@@ -117,10 +126,13 @@
     <ClCompile Include="..\..\src\cairo-font-options.c">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\cairo-freed-pool.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\cairo-freelist.c">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\cairo-freed-pool.c">
+    <ClCompile Include="..\..\src\cairo-ft-font.c">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\cairo-gstate.c">
@@ -144,13 +156,16 @@
     <ClCompile Include="..\..\src\cairo-image-surface.c">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\cairo-line.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\cairo-lzw.c">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\cairo-matrix.c">
+    <ClCompile Include="..\..\src\cairo-mask-compositor.c">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\cairo-mask-compositor.c">
+    <ClCompile Include="..\..\src\cairo-matrix.c">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\cairo-mesh-pattern-rasterizer.c">
@@ -177,10 +192,10 @@
     <ClCompile Include="..\..\src\cairo-paginated-surface.c">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\cairo-path-bounds.c">
+    <ClCompile Include="..\..\src\cairo-path.c">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\cairo-path.c">
+    <ClCompile Include="..\..\src\cairo-path-bounds.c">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\cairo-path-fill.c">
@@ -201,13 +216,28 @@
     <ClCompile Include="..\..\src\cairo-path-stroke-polygon.c">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\cairo-path-stroke-traps.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\cairo-path-stroke-tristrip.c">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\cairo-pattern.c">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\cairo-pdf-operators.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cairo-pdf-shading.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cairo-pdf-surface.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\cairo-pen.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cairo-png.c">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\cairo-polygon.c">
@@ -217,6 +247,9 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\cairo-polygon-reduce.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cairo-ps-surface.c">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\cairo-raster-source-pattern.c">
@@ -238,6 +271,12 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\cairo-scaled-font.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cairo-scaled-font-subsets.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cairo-script-surface.c">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\cairo-shape-mask-compositor.c">
@@ -285,16 +324,19 @@
     <ClCompile Include="..\..\src\cairo-surface-wrapper.c">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\cairo-time.c">
+    <ClCompile Include="..\..\src\cairo-svg-surface.c">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\cairo-tor-scan-converter.c">
+    <ClCompile Include="..\..\src\cairo-tee-surface.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cairo-time.c">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\cairo-tor22-scan-converter.c">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\cairo-clip-tor-scan-converter.c">
+    <ClCompile Include="..\..\src\cairo-tor-scan-converter.c">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\cairo-toy-font-face.c">
@@ -303,28 +345,10 @@
     <ClCompile Include="..\..\src\cairo-traps.c">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\cairo-tristrip.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\cairo-traps-compositor.c">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\cairo-unicode.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\cairo-user-font.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\cairo-version.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\cairo-wideint.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\cairo-cff-subset.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\cairo-scaled-font-subsets.c">
+    <ClCompile Include="..\..\src\cairo-tristrip.c">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\cairo-truetype-subset.c">
@@ -342,25 +366,19 @@
     <ClCompile Include="..\..\src\cairo-type3-glyph-surface.c">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\cairo-pdf-operators.c">
+    <ClCompile Include="..\..\src\cairo-unicode.c">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\cairo-pdf-shading.c">
+    <ClCompile Include="..\..\src\cairo-user-font.c">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\cairo-deflate-stream.c">
+    <ClCompile Include="..\..\src\cairo-version.c">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\cairo-pdf-surface.c">
+    <ClCompile Include="..\..\src\cairo-wideint.c">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\cairo-ps-surface.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\cairo-svg-surface.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\cairo-png.c">
+    <ClCompile Include="..\..\src\cairo-xml-surface.c">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\win32\cairo-win32-debug.c">
@@ -369,79 +387,22 @@
     <ClCompile Include="..\..\src\win32\cairo-win32-device.c">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\win32\cairo-win32-gdi-compositor.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\win32\cairo-win32-system.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\win32\cairo-win32-surface.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\win32\cairo-win32-display-surface.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\win32\cairo-win32-printing-surface.c">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\win32\cairo-win32-font.c">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\cairo-script-surface.c">
+    <ClCompile Include="..\..\src\win32\cairo-win32-gdi-compositor.c">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\cairo-tee-surface.c">
+    <ClCompile Include="..\..\src\win32\cairo-win32-printing-surface.c">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\cairo-xml-surface.c">
+    <ClCompile Include="..\..\src\win32\cairo-win32-surface.c">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\cairo-ft-font.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\cairo-wgl-context.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\cairo-gl-composite.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\cairo-gl-device.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\cairo-gl-dispatch.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\cairo-gl-glyphs.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\cairo-gl-gradient.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\cairo-gl-info.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\cairo-gl-operand.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\cairo-gl-shaders.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\cairo-gl-msaa-compositor.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\cairo-gl-spans-compositor.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\cairo-gl-traps-compositor.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\cairo-gl-source.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\cairo-gl-surface.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\cairo-path-stroke-traps.c">
+    <ClCompile Include="..\..\src\win32\cairo-win32-system.c">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>

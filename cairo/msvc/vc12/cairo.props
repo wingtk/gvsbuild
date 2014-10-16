@@ -3,7 +3,7 @@
   <PropertyGroup Label="UserMacros">
     <CairoEtcInstallRoot>..\..\..\..\..\gtk\$(Platform)</CairoEtcInstallRoot>
     <GObjectIncludeDir>..\..\util\cairo-gobject;$(CairoEtcInstallRoot)\include\glib-2.0;$(CairoEtcInstallRoot)\lib\glib-2.0\include</GObjectIncludeDir>
-	<CopyDir>..\..\..\cairo-1.12.16-rel</CopyDir>
+	<CopyDir>..\..\..\cairo-1.14.0-rel</CopyDir>
     <PreBuildCfgStd>
 if exist $(SolutionDir)\$(Configuration).FEATURES goto DONE_CONFIG
 

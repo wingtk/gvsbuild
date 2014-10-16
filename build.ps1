@@ -128,7 +128,7 @@ param (
 
 $items = @{
 	'atk'              = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/atk-2.14.0.7z';           'Dependencies' = @('glib')                              };
-	'cairo'            = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/cairo-1.12.16.7z';        'Dependencies' = @('fontconfig', 'glib', 'pixman')      };
+	'cairo'            = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/cairo-1.14.0.7z';         'Dependencies' = @('fontconfig', 'glib', 'pixman')      };
 	'enchant'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/enchant-1.6.0.7z';        'Dependencies' = @('glib')                              };
 	'fontconfig'       = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/fontconfig-2.8.0.7z';     'Dependencies' = @('freetype', 'libxml2')               };
 	'freetype'         = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/freetype-2.5.3.7z';       'Dependencies' = @()                                    };
@@ -174,6 +174,8 @@ $items['atk'].BuildScript = {
 $items['cairo'].BuildScript = {
 	$packageDestination = "$PWD-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	Exec $Patch -p1 -i cairo-array-vs-struct-initializer.patch
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
