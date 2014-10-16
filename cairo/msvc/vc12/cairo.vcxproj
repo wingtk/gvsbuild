@@ -60,11 +60,6 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup>
-    <ClCompile>
-      <Optimization>Disabled</Optimization>
-    </ClCompile>
-  </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\cairo.c" />
     <ClCompile Include="..\..\src\cairo-analysis-surface.c" />
