@@ -384,6 +384,7 @@ $items['glib'].BuildScript = {
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
 	Exec $Patch -p1 -i glib-if_nametoindex.patch
+	Exec $Patch -p1 -i glib-package-installation-directory.patch
 
 	Add-Utf8Bom .\gio\gdbusaddress.c
 	Add-Utf8Bom .\gio\gfile.c
