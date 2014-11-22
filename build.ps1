@@ -640,7 +640,7 @@ $items['openssl'].BuildScript = {
 
 	Exec nmake -f ms\ntdll.mak test
 
-	Exec perl mk-ca-bundle.pl -n
+	Exec perl mk-ca-bundle.pl -n cert.pem
 	Move-Item .\include .\include-orig
 
 	Exec nmake -f ms\ntdll.mak install
