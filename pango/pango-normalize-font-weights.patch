@@ -1,0 +1,76 @@
+From 57e6d8e10ce62bd0513ed2a1071358af968361ff Mon Sep 17 00:00:00 2001
+From: Arnavion <arnavion@gmail.com>
+Date: Fri, 21 Nov 2014 23:07:04 -0800
+Subject: [PATCH] Revert "[win32] Bug 733764 - Support more / free font
+ weights"
+
+This reverts commit 9f221d657e98d2dff377420a02cd91c6411b9c5a.
+---
+ pango/pangowin32-fontmap.c | 38 ++++++++++++++++++++++++++++++++++----
+ 1 file changed, 34 insertions(+), 4 deletions(-)
+
+diff --git a/pango/pangowin32-fontmap.c b/pango/pangowin32-fontmap.c
+index 4cd9fa8..76c91c7 100644
+--- a/pango/pangowin32-fontmap.c
++++ b/pango/pangowin32-fontmap.c
+@@ -1196,11 +1196,26 @@ pango_win32_font_description_from_logfont (const LOGFONT *lfp)
+ 
+   variant = PANGO_VARIANT_NORMAL;
+ 
++  /* The PangoWeight values PANGO_WEIGHT_* map exactly do Windows FW_*
++   * values.  Is this on purpose? Quantize the weight to exact
++   * PANGO_WEIGHT_* values. Is this a good idea?
++   */
+   if (lfp->lfWeight == FW_DONTCARE)
+     weight = PANGO_WEIGHT_NORMAL;
++  else if (lfp->lfWeight <= (FW_ULTRALIGHT + FW_LIGHT) / 2)
++    weight = PANGO_WEIGHT_ULTRALIGHT;
++  else if (lfp->lfWeight <= (FW_LIGHT + FW_NORMAL) / 2)
++    weight = PANGO_WEIGHT_LIGHT;
++  else if (lfp->lfWeight <= (FW_NORMAL + FW_SEMIBOLD) / 2)
++    weight = PANGO_WEIGHT_NORMAL;
++  else if (lfp->lfWeight <= (FW_SEMIBOLD + FW_BOLD) / 2)
++    weight = PANGO_WEIGHT_SEMIBOLD;
++  else if (lfp->lfWeight <= (FW_BOLD + FW_ULTRABOLD) / 2)
++    weight = PANGO_WEIGHT_BOLD;
++  else if (lfp->lfWeight <= (FW_ULTRABOLD + FW_HEAVY) / 2)
++    weight = PANGO_WEIGHT_ULTRABOLD;
+   else
+-    /* The PangoWeight values PANGO_WEIGHT_* map exactly to Windows FW_*. */
+-    weight = (PangoWeight) lfp->lfWeight;
++    weight = PANGO_WEIGHT_HEAVY;
+ 
+   /* XXX No idea how to figure out the stretch */
+   stretch = PANGO_STRETCH_NORMAL;
+@@ -1381,11 +1396,26 @@ pango_win32_font_description_from_logfontw (const LOGFONTW *lfp)
+ 
+   variant = PANGO_VARIANT_NORMAL;
+ 
++  /* The PangoWeight values PANGO_WEIGHT_* map exactly do Windows FW_*
++   * values.  Is this on purpose? Quantize the weight to exact
++   * PANGO_WEIGHT_* values. Is this a good idea?
++   */
+   if (lfp->lfWeight == FW_DONTCARE)
+     weight = PANGO_WEIGHT_NORMAL;
++  else if (lfp->lfWeight <= (FW_ULTRALIGHT + FW_LIGHT) / 2)
++    weight = PANGO_WEIGHT_ULTRALIGHT;
++  else if (lfp->lfWeight <= (FW_LIGHT + FW_NORMAL) / 2)
++    weight = PANGO_WEIGHT_LIGHT;
++  else if (lfp->lfWeight <= (FW_NORMAL + FW_SEMIBOLD) / 2)
++    weight = PANGO_WEIGHT_NORMAL;
++  else if (lfp->lfWeight <= (FW_SEMIBOLD + FW_BOLD) / 2)
++    weight = PANGO_WEIGHT_SEMIBOLD;
++  else if (lfp->lfWeight <= (FW_BOLD + FW_ULTRABOLD) / 2)
++    weight = PANGO_WEIGHT_BOLD;
++  else if (lfp->lfWeight <= (FW_ULTRABOLD + FW_HEAVY) / 2)
++    weight = PANGO_WEIGHT_ULTRABOLD;
+   else
+-    /* The PangoWeight values PANGO_WEIGHT_* map exactly to Windows FW_*. */
+-    weight = (PangoWeight) lfp->lfWeight;
++    weight = PANGO_WEIGHT_HEAVY;
+ 
+   /* XXX No idea how to figure out the stretch */
+   stretch = PANGO_STRETCH_NORMAL;
+-- 
+1.9.4.msysgit.1
+
