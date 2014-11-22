@@ -688,8 +688,7 @@ $items['pango'].BuildScript = {
 	$packageDestination = "$PWD-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
-	Exec $Patch -p1 -i pango-synthesize-all-fonts.patch
-	Exec $Patch -p1 -i pango-normalize-font-weights.patch
+	Exec $Patch -p1 -i pango-synthesize-fonts-properly.patch
 
 	Add-Utf8Bom .\pango\break.c
 	Add-Utf8Bom .\pango\pango-language-sample-table.h
