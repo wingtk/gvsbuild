@@ -1,4 +1,4 @@
- * Download [GLib 2.42.0](http://ftp.acc.umu.se/pub/gnome/sources/glib/2.40/glib-2.42.0.tar.xz)
+ * Download [GLib 2.42.1](http://ftp.acc.umu.se/pub/gnome/sources/glib/2.42/glib-2.42.1.tar.xz)
  * Extract to `C:\mozilla-build\hexchat`
  * In all vcxproj files,
 	* add `<Import Project="..\..\..\..\stack.props" />`
@@ -12,7 +12,7 @@ copy ..\..\..\gobject\gobjectnotifyqueue.c $(CopyDir)\include\glib-2.0\gobject\g
 	* `<GlibEtcInstallRoot>..\..\..\..\vs$(VSVer)\$(Platform)</GlibEtcInstallRoot>` with
 `<GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>`
 	* `<CopyDir>$(GlibEtcInstallRoot)</CopyDir>` with
-`<CopyDir>..\..\..\..\glib-2.42.0-rel</CopyDir>`
+`<CopyDir>..\..\..\..\glib-2.42.1-rel</CopyDir>`
 	* `<GlibSeparateVS11DllSuffix>-2-vs$(VSVer)</GlibSeparateVS11DllSuffix>` with
 `<GlibSeparateVS11DllSuffix>-2.0</GlibSeparateVS11DllSuffix>`
 	* `<PythonPath>c:\python27</PythonPath>` with

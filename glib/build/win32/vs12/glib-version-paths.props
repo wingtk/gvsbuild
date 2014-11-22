@@ -3,7 +3,7 @@
   <PropertyGroup Label="UserMacros">
     <VSVer>12</VSVer>
     <GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
-    <CopyDir>..\..\..\..\glib-2.42.0-rel</CopyDir>
+    <CopyDir>..\..\..\..\glib-2.42.1-rel</CopyDir>
     <ApiVersion>2.0</ApiVersion>
     <GlibLibtoolCompatibleDllPrefix>lib</GlibLibtoolCompatibleDllPrefix>
     <GlibLibtoolCompatibleDllSuffix>-$(ApiVersion)-0</GlibLibtoolCompatibleDllSuffix>
