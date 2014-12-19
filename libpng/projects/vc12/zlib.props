@@ -2,7 +2,7 @@
 <!--
  * zlib.props - location of zlib source
  *
- * libpng version 1.6.13 - August 21, 2014
+ * libpng version 1.6.15 - November 20, 2014
  *
  * Copyright (c) 1998-2011 Glenn Randers-Pehrson
  *
@@ -42,13 +42,13 @@
      -->
     <WindowsSDKDesktopARMSupport>true</WindowsSDKDesktopARMSupport>
   </PropertyGroup>
-	<ItemDefinitionGroup>
-		<ClCompile>
-			<AdditionalIncludeDirectories>..\..\..\..\..\..\gtk\$(Platform)\include</AdditionalIncludeDirectories>
-		</ClCompile>
-		<Link>
-			<!--AdditionalDependencies>zlib1.lib</AdditionalDependencies-->
-			<AdditionalLibraryDirectories>..\..\..\..\..\..\gtk\$(Platform)\lib</AdditionalLibraryDirectories>
-		</Link>
-	</ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..\..\..\..\gtk\$(Platform)\include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <!--AdditionalDependencies>zlib1.lib</AdditionalDependencies-->
+      <AdditionalLibraryDirectories>..\..\..\..\..\..\gtk\$(Platform)\lib</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
 </Project>

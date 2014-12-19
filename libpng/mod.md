@@ -1,21 +1,67 @@
- * Download [libpng 1.6.14](ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng16/libpng-1.6.14.tar.xz)
+ * Download [libpng 1.6.15](ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng16/libpng-1.6.15.tar.xz)
  * Extract to `C:\mozilla-build\hexchat`
+ * Copy `projects\vstudio` to `projects\vc12`. Only keep libpng and pnglibconf directories.
+ * In `projects\vc12\libpng\libpng.vcxproj`:
+	* Under `<ItemGroup Label="ProjectConfigurations">`, add
+`
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+`
+	* Add `<PlatformToolset>v120</PlatformToolset>` to all `<PropertyGroup>` elements that have `Label="Configuration"`
+	* Add
+`
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <CustomBuildBeforeTargets />
+    <TargetName>$(ProjectName)16</TargetName>
+  </PropertyGroup>
+`
+	* Remove all `<Optimization>` elements
+	* Replace `<AdditionalDependencies>zlib.lib</AdditionalDependencies>` with `<AdditionalDependencies>zlib1.lib</AdditionalDependencies>`
+	* Add
+`
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeaderFile>pngpriv.h</PrecompiledHeaderFile>
+      <BrowseInformation>true</BrowseInformation>
+      <CompileAs>CompileAsC</CompileAs>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <DisableSpecificWarnings>4996;4127</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>$(ZLibSrcDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>zlib1.lib</AdditionalDependencies>
+      <Version>16</Version>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+`
+	* Under `<ClCompile Include="..\..\..\png.c">`, add `<PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>`
  * Add to `projects\vstudio\zlib.props`:
-<pre>
-	&lt;ItemDefinitionGroup>
-		&lt;ClCompile>
-			&lt;AdditionalIncludeDirectories>..\..\..\..\..\..\gtk\$(Platform)\include&lt;/AdditionalIncludeDirectories>
-		&lt;/ClCompile>
-		&lt;Link>
-			&lt;!--AdditionalDependencies>zlib1.lib&lt;/AdditionalDependencies-->
-			&lt;AdditionalLibraryDirectories>..\..\..\..\..\..\gtk\$(Platform)\lib&lt;/AdditionalLibraryDirectories>
-		&lt;/Link>
-	&lt;/ItemDefinitionGroup>
-</pre>
- * Replace `zlib.lib` with `zlib1.lib` in `projects\vstudio\libpng\libpng.vcxproj`
- * In `projects\vstudio\libpng\libpng.vcxproj`
-    * Replace `</AdditionalLibraryDirectories>` with `;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>`
-    * Replace `<TreatWarningAsError>true</TreatWarningAsError>` with `<TreatWarningAsError>false</TreatWarningAsError>`
- * Build `projects\vc12\pngconflib\pngconflib.vcxproj` and `projects\vc12\libpng\libpng.vcxproj`
- * Release with `release-x86.bat`
- * Extract package to `C:\mozilla-build\hexchat\build\Win32`
+`
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..\..\..\..\gtk\$(Platform)\include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <!--AdditionalDependencies>zlib1.lib</AdditionalDependencies-->
+      <AdditionalLibraryDirectories>..\..\..\..\..\..\gtk\$(Platform)\lib</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+`
