@@ -131,7 +131,7 @@ $items = @{
 	'cairo'            = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/cairo-1.14.0.7z';         'Dependencies' = @('fontconfig', 'glib', 'pixman')      };
 	'enchant'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/enchant-1.6.0.7z';        'Dependencies' = @('glib')                              };
 	'fontconfig'       = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/fontconfig-2.8.0.7z';     'Dependencies' = @('freetype', 'libxml2')               };
-	'freetype'         = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/freetype-2.5.3.7z';       'Dependencies' = @()                                    };
+	'freetype'         = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/freetype-2.5.4.7z';       'Dependencies' = @()                                    };
 	'gdk-pixbuf'       = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gdk-pixbuf-2.30.8.7z';    'Dependencies' = @('glib', 'libpng')                    };
 	'gettext-runtime'  = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gettext-runtime-0.18.7z'; 'Dependencies' = @('win-iconv')                         };
 	'glib'             = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/glib-2.42.1.7z';          'Dependencies' = @('gettext-runtime', 'libffi', 'zlib') };
@@ -329,7 +329,7 @@ $items['freetype'].BuildScript = {
 
 	New-Item -Type Directory $packageDestination\lib
 	Copy-Item `
-		".\objs\$platform\vc2013\freetype.lib" `
+		".\objs\vc2013\$platform\freetype.lib" `
 		$packageDestination\lib
 
 	New-Item -Type Directory $packageDestination\share\doc\freetype
