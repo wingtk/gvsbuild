@@ -1,18 +1,13 @@
- * Download [HarfBuzz 0.9.36](http://cgit.freedesktop.org/harfbuzz/snapshot/harfbuzz-0.9.36.tar.gz)
+ * Download [HarfBuzz 0.9.37](http://www.freedesktop.org/software/harfbuzz/release/harfbuzz-0.9.37.tar.bz2)
  * Download [blinkseb's HarfBuzz solution](https://github.com/blinkseb/harfbuzz)
  * Extract to `C:\mozilla-build\hexchat`
- * Copy `src\hb-version.h.in` as `src\hb-version.h` and fix the following macros:
-	* `HB_VERSION_MAJOR` (0)
-	* `HB_VERSION_MINOR` (9)
-	* `HB_VERSION_MICRO` (36)
-	* `HB_VERSION_STRING` ("0.9.36")
  * Open `win32\harfbuzz.sln` with VS
  * Generate .def file:
 	* Open solution
 	* Select `Release|Win32` configuration
 	* Build solution
-	* Start VS2012 Command Prompt
-	<pre>cd C:\mozilla-build\hexchat\build\Win32\harfbuzz-0.9.36\win32\libs\Release
+	* Start Developer Command Prompt for VS2013
+	<pre>cd C:\mozilla-build\hexchat\build\Win32\harfbuzz-0.9.37\win32\libs\Release
 powershell.exe -command "Out-File -Encoding utf8 -FilePath ..\\..\\harfbuzz.def -InputObject 'EXPORTS'; dumpbin /LINKERMEMBER harfbuzz.lib | Select-String ' .. \_(hb\_.*)$' | %{ $_.Matches[0].Groups[1].Value } | Out-File -Encoding utf8 -Append -FilePath ..\\..\\harfbuzz.def"</pre>
 	* Go back to solution and change the project type to DLL.
 	* Set _Linker_ `->` _Input_ `->` _Module DefinitionFile_ to `harfbuzz.def`
