@@ -1065,13 +1065,6 @@ while (@($items.GetEnumerator() | ?{ ($_.Value.State -eq 'Pending') -or ($_.Valu
 				}
 
 				function Package([string] $directory) {
-					$archiveFilename = "$PWD-$filenameArch.7z"
-
-					Push-Location $directory
-					Remove-Item $archiveFilename -ErrorAction Ignore
-					Exec $SevenZip a $archiveFilename *
-					Pop-Location
-
 					Copy-Item -Recurse -Force $directory\* $workingDirectory\..\..\gtk\$platform
 
 					Remove-Item -Recurse $directory
@@ -1088,7 +1081,6 @@ while (@($items.GetEnumerator() | ?{ ($_.Value.State -eq 'Pending') -or ($_.Valu
 				$platform = $using:platform
 				$VSInstallPath = $using:VSInstallPath
 				$workingDirectory = $using:workingDirectory
-				$SevenZip = $using:SevenZip
 				$CMakePath = $using:CMakePath
 
 				Set-Location $item.BuildDirectory
