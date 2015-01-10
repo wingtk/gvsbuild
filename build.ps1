@@ -620,8 +620,6 @@ $items['openssl'].BuildScript = {
 	$env:LIB = "${env:LIB};${env:OPENSSL_SRC}\..\..\..\gtk\$platform\lib"
 	$env:PATH = "${env:PATH};${env:PERL_PATH};${env:NASM_PATH};${env:OPENSSL_SRC}\..\..\..\gtk\$platform\bin"
 
-	Exec perl Configure $(if ($filenameArch -eq 'x86') { 'VC-WIN32' } else { 'VC-WIN64A' }) enable-camellia zlib-dynamic --openssldir=./
-
 	switch ($filenameArch) {
 		'x86' {
 			Exec perl Configure VC-WIN32 enable-camellia zlib-dynamic --openssldir=./
