@@ -1,0 +1,12 @@
+diff -urpN openssl-1.0.1k.orig/crypto/cversion.c openssl-1.0.1k/crypto/cversion.c
+--- openssl-1.0.1k.orig/crypto/cversion.c	Thu Jan  8 06:00:56 2015
++++ openssl-1.0.1k/crypto/cversion.c	Fri Jan  9 20:49:59 2015
+@@ -77,7 +77,7 @@ const char *SSLeay_version(int t)
+ 	if (t == SSLEAY_CFLAGS)
+ 		{
+ #ifdef CFLAGS
+-		return(cflags);
++		return(CFLAGS);
+ #else
+ 		return("compiler: information not available");
+ #endif
