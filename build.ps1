@@ -73,8 +73,8 @@ Custom paths. x86 build.
 
 
 .EXAMPLE
-build.ps1 -OnlyBuild openssl
-Only builds openssl and its dependencies (zlib).
+build.ps1 -OnlyBuild libpng
+Only builds libpng and its dependencies (zlib).
 
 
 .LINK
@@ -140,7 +140,7 @@ $items = @{
 	'libffi'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libffi-3.0.13.7z';        'Dependencies' = @()                                    };
 	'libpng'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libpng-1.6.16.7z';        'Dependencies' = @('zlib')                              };
 	'libxml2'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libxml2-2.9.1.7z';        'Dependencies' = @('win-iconv')                         };
-	'openssl'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/openssl-1.0.1l.7z';       'Dependencies' = @('zlib')                              };
+	'openssl'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/openssl-1.0.1l.7z';       'Dependencies' = @()                                    };
 	'pango'            = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/pango-1.36.8.7z';         'Dependencies' = @('cairo', 'harfbuzz')                 };
 	'pixman'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/pixman-0.32.6.7z';        'Dependencies' = @('libpng')                            };
 	'win-iconv'        = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/win-iconv-0.0.6.7z';      'Dependencies' = @()                                    };
@@ -612,22 +612,16 @@ $items['openssl'].BuildScript = {
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-	$env:OPENSSL_SRC = $PWD
-	$env:OPENSSL_DEST = "$PWD-$filenameArch"
-	$env:PERL_PATH = "$MozillaBuildDirectory\perl-5.20\$platform\bin"
-	$env:NASM_PATH = "$MozillaBuildDirectory\nasm"
-	$env:INCLUDE = "${env:INCLUDE};${env:OPENSSL_SRC}\..\..\..\gtk\$platform\include"
-	$env:LIB = "${env:LIB};${env:OPENSSL_SRC}\..\..\..\gtk\$platform\lib"
-	$env:PATH = "${env:PATH};${env:PERL_PATH};${env:NASM_PATH};${env:OPENSSL_SRC}\..\..\..\gtk\$platform\bin"
+	$env:PATH += ";$MozillaBuildDirectory\perl-5.20\$platform\bin;$MozillaBuildDirectory\nasm"
 
 	switch ($filenameArch) {
 		'x86' {
-			Exec perl Configure VC-WIN32 enable-camellia zlib-dynamic --openssldir=./
+			Exec perl Configure VC-WIN32 no-ssl2 no-ssl3 no-comp --openssldir=./
 			Exec ms\do_nasm
 		}
 
 		'x64' {
-			Exec perl Configure VC-WIN64A enable-camellia zlib-dynamic --openssldir=./
+			Exec perl Configure VC-WIN64A no-ssl2 no-ssl3 no-comp --openssldir=./
 			Exec ms\do_win64a
 		}
 	}
