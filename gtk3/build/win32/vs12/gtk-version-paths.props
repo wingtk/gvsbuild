@@ -1,17 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
-    <VSVer>10</VSVer>
-    <GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
+    <VSVer>12</VSVer>
+    <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
     <CopyDir>..\..\..\..\gtk-rel</CopyDir>
-    <DefDir>$(SolutionDir)$(Configuration)\$(Platform)\obj\$(ProjectName)</DefDir>
-    <ApiVersion>2.0</ApiVersion>
+    <ApiVersion>3.0</ApiVersion>
+    <GtkVersion>3.14.8</GtkVersion>
     <GtkLibtoolCompatibleDllPrefix>lib</GtkLibtoolCompatibleDllPrefix>
     <GtkLibtoolCompatibleDllSuffix>-$(ApiVersion)-0</GtkLibtoolCompatibleDllSuffix>
     <GtkSeparateVSDllPrefix />
-    <GtkSeparateVSDllSuffix>-2.0</GtkSeparateVSDllSuffix>
+    <GtkSeparateVSDllSuffix>-3-vs$(VSVer)</GtkSeparateVSDllSuffix>
     <GtkDllPrefix>$(GtkSeparateVSDllPrefix)</GtkDllPrefix>
     <GtkDllSuffix>$(GtkSeparateVSDllSuffix)</GtkDllSuffix>
+    <PythonPath>c:\python27</PythonPath>
   </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>gtkversionpathsprops</_PropertySheetDisplayName>
@@ -26,11 +27,11 @@
     <BuildMacro Include="CopyDir">
       <Value>$(CopyDir)</Value>
     </BuildMacro>
-    <BuildMacro Include="DefDir">
-      <Value>$(DefDir)</Value>
-    </BuildMacro>
     <BuildMacro Include="ApiVersion">
       <Value>$(ApiVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GtkVersion">
+      <Value>$(GtkVersion)</Value>
     </BuildMacro>
     <BuildMacro Include="GtkLibtoolCompatibleDllPrefix">
       <Value>$(GtkLibtoolCompatibleDllPrefix)</Value>
@@ -49,6 +50,9 @@
     </BuildMacro>
     <BuildMacro Include="GtkDllSuffix">
       <Value>$(GtkDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PythonPath">
+      <Value>$(PythonPath)</Value>
     </BuildMacro>
   </ItemGroup>
 </Project>

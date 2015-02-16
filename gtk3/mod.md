@@ -1,5 +1,5 @@
- * Download [GTK+ 2.24.25](http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-2.24.25.tar.xz)
- * Extract to `C:\mozilla-build\hexchat`
+ * Download [GTK+ 3.14.8](http://ftp.gnome.org/pub/gnome/sources/gtk+/3.14/gtk+-3.14.8.tar.xz)
+ * Extract to `C:\mozilla-build\gtk`
  * Patch with `patch -p1 -i gtk-revert-scrolldc-commit.patch`
  * Patch with `patch -p1 -i gtk-bgimg.patch`
  * Patch with `patch -p1 -i gtk-statusicon.patch`

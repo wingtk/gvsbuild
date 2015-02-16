@@ -116,7 +116,7 @@ param (
 	[string]
 	$CMakePath = 'C:\Program Files (x86)\CMake\bin',
 
-	[string[]][ValidateSet('atk', 'cairo', 'fontconfig', 'freetype', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'pango', 'pixman', 'win-iconv', 'zlib')]
+	[string[]][ValidateSet('atk', 'cairo', 'fontconfig', 'freetype', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk3', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'pango', 'pixman', 'win-iconv', 'zlib')]
 	$OnlyBuild = @()
 )
 
@@ -136,7 +136,7 @@ $items = @{
 	'gdk-pixbuf'       = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gdk-pixbuf-2.30.8.tar.xz'; 'Dependencies' = @('glib', 'libpng')                    };
 	'gettext-runtime'  = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gettext-runtime-0.18.7z';  'Dependencies' = @('win-iconv')                         };
 	'glib'             = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/glib-2.42.1.tar.xz';       'Dependencies' = @('gettext-runtime', 'libffi', 'zlib') };
-	'gtk'              = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gtk+-2.24.25.tar.xz';      'Dependencies' = @('atk', 'gdk-pixbuf', 'pango')        };
+	'gtk3'             = @{ 'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/gnome/sources/gtk+/3.14/gtk+-3.14.8.tar.xz'; 'Dependencies' = @('atk', 'gdk-pixbuf', 'pango')        };
 	'harfbuzz'         = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/harfbuzz-0.9.37.7z';       'Dependencies' = @('freetype', 'glib')                  };
 	'libffi'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libffi-3.0.13.7z';         'Dependencies' = @()                                    };
 	'libpng'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libpng-1.6.16.tar.xz';     'Dependencies' = @('zlib')                              };
@@ -343,16 +343,9 @@ $items['glib'].BuildScript = {
 	Package $packageDestination
 }
 
-$items['gtk'].BuildScript = {
-	$packageDestination = "$PWD-rel"
+$items['gtk3'].BuildScript = {
+	$packageDestination = "$PWD\..\gtk-3.14.8-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
-
-	Exec $Patch -p1 -i gtk-revert-scrolldc-commit.patch
-	Exec $Patch -p1 -i gtk-revert-recreatecairosurface-commit.patch
-	Exec $Patch -p1 -i gtk-bgimg.patch
-	Exec $Patch -p1 -i gtk-statusicon.patch
-	Exec $Patch -p1 -i gtk-accel.patch
-	Exec $Patch -p1 -i gtk-multimonitor.patch
 
 	Add-Utf8Bom .\gdk\gdkkeyuni.c
 
@@ -369,7 +362,7 @@ $items['gtk'].BuildScript = {
 	Push-Location .\po
 	Get-ChildItem *.po | %{
 		New-Item -Type Directory "$packageDestination\share\locale\$($_.BaseName)\LC_MESSAGES"
-		Exec msgfmt -co "$packageDestination\share\locale\$($_.BaseName)\LC_MESSAGES\gtk20.mo" $_.Name
+		Exec msgfmt -co "$packageDestination\share\locale\$($_.BaseName)\LC_MESSAGES\gtk30.mo" $_.Name
 	}
 	Pop-Location
 	$env:Path = $oldPath

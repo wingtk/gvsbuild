@@ -15,17 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\modules\engines\pixbuf\pixbuf-rc-style.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\modules\engines\pixbuf\pixbuf-render.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\modules\engines\pixbuf\pixbuf-draw.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\modules\engines\pixbuf\pixbuf-main.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
+    <ClCompile Include="..\..\..\libgail-util\gailmisc.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\libgail-util\gailtextutil.c"><Filter>Sources</Filter></ClCompile>
   </ItemGroup>
 </Project>
