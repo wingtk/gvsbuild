@@ -116,7 +116,7 @@ param (
 	[string]
 	$CMakePath = 'C:\Program Files (x86)\CMake\bin',
 
-	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'fontconfig', 'freetype', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib')]
+	[string[]][ValidateSet('atk', 'cairo', 'fontconfig', 'freetype', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib')]
 	$OnlyBuild = @()
 )
 
@@ -131,7 +131,6 @@ param (
 $items = @{
 	'atk'              = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/atk-2.14.0.tar.xz';        'Dependencies' = @('glib')                              };
 	'cairo'            = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/cairo-1.14.0.tar.xz';      'Dependencies' = @('fontconfig', 'glib', 'pixman')      };
-	'enchant'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/enchant-1.6.0.tar.gz';     'Dependencies' = @('glib')                              };
 	'fontconfig'       = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/fontconfig-2.8.0.tar.gz';  'Dependencies' = @('freetype', 'libxml2')               };
 	'freetype'         = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/freetype-2.5.5.tar.bz2';   'Dependencies' = @()                                    };
 	'gdk-pixbuf'       = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gdk-pixbuf-2.30.8.tar.xz'; 'Dependencies' = @('glib', 'libpng')                    };
@@ -187,65 +186,6 @@ $items['cairo'].BuildScript = {
 
 	New-Item -Type Directory $packageDestination\share\doc\cairo
 	Copy-Item .\COPYING $packageDestination\share\doc\cairo
-
-	Package $packageDestination
-}
-
-$items['enchant'].BuildScript = {
-	$packageDestination = "$PWD-$filenameArch"
-	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
-
-	Push-Location .\src
-
-	$originalEnvironment = Swap-Environment $vcvarsEnvironment
-
-	Exec nmake -f makefile.mak clean
-	Exec nmake -f makefile.mak DLL=1 $(if ($filenameArch -eq 'x64') { 'X64=1' }) MFLAGS=-MD GLIBDIR=..\..\..\..\gtk\$platform\include\glib-2.0
-
-	[void] (Swap-Environment $originalEnvironment)
-
-	Pop-Location
-
-	New-Item -Type Directory $packageDestination\bin
-	Copy-Item `
-		.\bin\release\enchant.exe, `
-		.\bin\release\pdb\enchant.pdb, `
-		.\bin\release\enchant-lsmod.exe, `
-		.\bin\release\pdb\enchant-lsmod.pdb, `
-		.\bin\release\test-enchant.exe, `
-		.\bin\release\pdb\test-enchant.pdb, `
-		.\bin\release\libenchant.dll, `
-		.\bin\release\pdb\libenchant.pdb `
-		$packageDestination\bin
-
-	New-Item -Type Directory $packageDestination\etc\fonts
-	Copy-Item `
-		.\fonts.conf, `
-		.\fonts.dtd `
-		$packageDestination\etc\fonts
-
-	New-Item -Type Directory $packageDestination\include\enchant
-	Copy-Item `
-		.\src\enchant.h, `
-		.\src\enchant++.h, `
-		.\src\enchant-provider.h `
-		$packageDestination\include\enchant
-
-	New-Item -Type Directory $packageDestination\lib\enchant
-	Copy-Item `
-		.\bin\release\libenchant.lib `
-		$packageDestination\lib
-	Copy-Item `
-		.\bin\release\libenchant_ispell.dll, `
-		.\bin\release\libenchant_ispell.lib, `
-		.\bin\release\pdb\libenchant_ispell.pdb, `
-		.\bin\release\libenchant_myspell.dll, `
-		.\bin\release\libenchant_myspell.lib, `
-		.\bin\release\pdb\libenchant_myspell.pdb `
-		$packageDestination\lib\enchant
-
-	New-Item -Type Directory $packageDestination\share\doc\enchant
-	Copy-Item .\COPYING.LIB $packageDestination\share\doc\enchant\COPYING
 
 	Package $packageDestination
 }
