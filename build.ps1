@@ -68,7 +68,7 @@ Default paths. Items are built one at a time. x86 build.
 
 
 .EXAMPLE
-build.ps1 -MozillaBuildDirectory D:\mozilla-build -ArchivesDownloadDirectory C:\hexchat-deps -SevenZip C:\Downloads\7-Zip\7za.exe
+build.ps1 -MozillaBuildDirectory D:\mozilla-build -ArchivesDownloadDirectory C:\gtk-deps -SevenZip C:\Downloads\7-Zip\7za.exe
 Custom paths. x86 build.
 
 
@@ -99,10 +99,10 @@ param (
 	$MozillaBuildDirectory = 'C:\mozilla-build',
 
 	[string]
-	$ArchivesDownloadDirectory = 'C:\mozilla-build\hexchat\src',
+	$ArchivesDownloadDirectory = 'C:\mozilla-build\gtk\src',
 
 	[string]
-	$PatchesRootDirectory = 'C:\mozilla-build\hexchat\github\gtk-win32',
+	$PatchesRootDirectory = 'C:\mozilla-build\gtk\github\gtk-win32',
 
 	[string]
 	$VSInstallPath = 'C:\Program Files (x86)\Microsoft Visual Studio 12.0',
@@ -848,7 +848,7 @@ switch ($Configuration) {
 	}
 }
 
-$workingDirectory = "$MozillaBuildDirectory\hexchat\build\$platform"
+$workingDirectory = "$MozillaBuildDirectory\gtk\build\$platform"
 
 
 # Set up additional properties on the items
