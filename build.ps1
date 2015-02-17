@@ -32,7 +32,7 @@ The directory to download the source archives to. It will be created. If a sourc
 
 
 .PARAMETER PatchesRootDirectory
-The directory where you checked out https://github.com/hexchat/gtk-win32.git
+The directory where you checked out https://github.com/nice-software/gtk-win32.git
 
 
 .PARAMETER VSInstallPath
