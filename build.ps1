@@ -6,7 +6,7 @@ This is a build script to build GTK+ and openssl.
 
 .DESCRIPTION
 1. Install mozilla-build, cmake, nasm, perl, msgfmt as per http://gtk.hexchat.org/
-2. Clone https://github.com/hexchat/gtk-win32.git
+2. Clone https://github.com/nice-software/gtk-win32.git
 3. Run this script. Set the parameters, if needed.
 
 
@@ -29,7 +29,7 @@ The directory to download the source archives to. It will be created. If a sourc
 
 
 .PARAMETER PatchesRootDirectory
-The directory where you checked out https://github.com/hexchat/gtk-win32.git
+The directory where you checked out https://github.com/nice-software/gtk-win32.git
 
 
 .PARAMETER VSInstallPath
