@@ -129,24 +129,24 @@ param (
 #========================================================================================================================================================
 
 $items = @{
-	'atk'              = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/atk-2.14.0.7z';           'Dependencies' = @('glib')                              };
-	'cairo'            = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/cairo-1.14.0.7z';         'Dependencies' = @('fontconfig', 'glib', 'pixman')      };
-	'enchant'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/enchant-1.6.0.7z';        'Dependencies' = @('glib')                              };
-	'fontconfig'       = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/fontconfig-2.8.0.7z';     'Dependencies' = @('freetype', 'libxml2')               };
-	'freetype'         = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/freetype-2.5.5.7z';       'Dependencies' = @()                                    };
-	'gdk-pixbuf'       = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gdk-pixbuf-2.30.8.7z';    'Dependencies' = @('glib', 'libpng')                    };
-	'gettext-runtime'  = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gettext-runtime-0.18.7z'; 'Dependencies' = @('win-iconv')                         };
-	'glib'             = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/glib-2.42.1.7z';          'Dependencies' = @('gettext-runtime', 'libffi', 'zlib') };
-	'gtk'              = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gtk-2.24.25.7z';          'Dependencies' = @('atk', 'gdk-pixbuf', 'pango')        };
-	'harfbuzz'         = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/harfbuzz-0.9.37.7z';      'Dependencies' = @('freetype', 'glib')                  };
-	'libffi'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libffi-3.0.13.7z';        'Dependencies' = @()                                    };
-	'libpng'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libpng-1.6.16.7z';        'Dependencies' = @('zlib')                              };
-	'libxml2'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libxml2-2.9.1.7z';        'Dependencies' = @('win-iconv')                         };
-	'openssl'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/openssl-1.0.1l.7z';       'Dependencies' = @()                                    };
-	'pango'            = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/pango-1.36.8.7z';         'Dependencies' = @('cairo', 'harfbuzz')                 };
-	'pixman'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/pixman-0.32.6.7z';        'Dependencies' = @('libpng')                            };
-	'win-iconv'        = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/win-iconv-0.0.6.7z';      'Dependencies' = @()                                    };
-	'zlib'             = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/zlib-1.2.8.7z';           'Dependencies' = @()                                    };
+	'atk'              = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/atk-2.14.0.tar.xz';        'Dependencies' = @('glib')                              };
+	'cairo'            = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/cairo-1.14.0.tar.xz';      'Dependencies' = @('fontconfig', 'glib', 'pixman')      };
+	'enchant'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/enchant-1.6.0.tar.gz';     'Dependencies' = @('glib')                              };
+	'fontconfig'       = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/fontconfig-2.8.0.tar.gz';  'Dependencies' = @('freetype', 'libxml2')               };
+	'freetype'         = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/freetype-2.5.5.tar.bz2';   'Dependencies' = @()                                    };
+	'gdk-pixbuf'       = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gdk-pixbuf-2.30.8.tar.xz'; 'Dependencies' = @('glib', 'libpng')                    };
+	'gettext-runtime'  = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gettext-runtime-0.18.7z';  'Dependencies' = @('win-iconv')                         };
+	'glib'             = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/glib-2.42.1.tar.xz';       'Dependencies' = @('gettext-runtime', 'libffi', 'zlib') };
+	'gtk'              = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gtk+-2.24.25.tar.xz';      'Dependencies' = @('atk', 'gdk-pixbuf', 'pango')        };
+	'harfbuzz'         = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/harfbuzz-0.9.37.7z';       'Dependencies' = @('freetype', 'glib')                  };
+	'libffi'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libffi-3.0.13.7z';         'Dependencies' = @()                                    };
+	'libpng'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libpng-1.6.16.tar.xz';     'Dependencies' = @('zlib')                              };
+	'libxml2'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libxml2-2.9.1.7z';         'Dependencies' = @('win-iconv')                         };
+	'openssl'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/openssl-1.0.1l.tar.gz';    'Dependencies' = @()                                    };
+	'pango'            = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/pango-1.36.8.tar.xz';      'Dependencies' = @('cairo', 'harfbuzz')                 };
+	'pixman'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/pixman-0.32.6.tar.gz';     'Dependencies' = @('libpng')                            };
+	'win-iconv'        = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/win-iconv-0.0.6.7z';       'Dependencies' = @()                                    };
+	'zlib'             = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/zlib-1.2.8.tar.xz';        'Dependencies' = @()                                    };
 }
 
 #========================================================================================================================================================
