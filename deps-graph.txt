@@ -19,7 +19,6 @@
 [GLib]->[HarfBuzz]
 [zlib]->[libpng]
 [win-iconv]->[libxml2]
-[zlib]->[OpenSSL]
 [Cairo]->[Pango]
 [HarfBuzz]->[Pango]
 [libpng]->[Pixman]
