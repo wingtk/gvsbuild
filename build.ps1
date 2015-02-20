@@ -918,6 +918,8 @@ New-Item -Type Directory $workingDirectory\..\..\gtk\$platform -ErrorAction Igno
 
 
 # For each item, start a job to download the source archives, extract them to mozilla-build, and copy over the stuff from gtk-win32
+Write-Host "Downloading and extracting source archives to $workingDirectory"
+
 $items.GetEnumerator() | %{
 	$item = $_.Value
 
@@ -1014,8 +1016,11 @@ do {
 } while (@(Get-Job).Length -gt 0)
 
 if (@($items.GetEnumerator() | ?{ $_.Value.State -eq 'Failed' }).Length -gt 0) {
+	Write-Error 'One or more source archives could not be downloaded or extracted.'
 	exit 1
 }
+
+Write-Host 'Downloaded and extracted all source archives.'
 
 
 # Until all items have been built
