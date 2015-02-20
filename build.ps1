@@ -957,9 +957,21 @@ $items.GetEnumerator() | %{
 
 		"Extracting $($item.ArchiveFile.Name) to $workingDirectory"
 
-		Exec $SevenZip x $item.ArchiveFile -o"$workingDirectory" -y > $null
+		if ($item.ArchiveFile.Name -match '.tar.(?:gz|xz|bz2)$') {
+			$command = "`"$SevenZip`" x `"$($item.ArchiveFile)`" -y -so | `"$SevenZip`" x -o`"$workingDirectory`" -y -si -ttar";
+			Exec cmd /C "`"$command`"" > $null
 
-		Move-Item "$workingDirectory\$($item.ArchiveFile.BaseName)" $item.BuildDirectory
+			$outputDirectoryName = [System.IO.Path]::GetFilenameWithoutExtension($item.ArchiveFile.BaseName)
+			Move-Item "$workingDirectory\$outputDirectoryName" $item.BuildDirectory
+		}
+		elseif ($item.ArchiveFile.Extension -eq '.7z') {
+			Exec $SevenZip x $item.ArchiveFile -o"$workingDirectory" -y > $null
+
+			Move-Item "$workingDirectory\$($item.ArchiveFile.BaseName)" $item.BuildDirectory
+		}
+		else {
+			throw "Unrecognized extension in archive file $_"
+		}
 
 		"Extracted $($item.ArchiveFile.Name)"
 
