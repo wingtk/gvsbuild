@@ -8,7 +8,7 @@
 	* `<GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\vs$(VSVer)\$(Platform)</GlibEtcInstallRoot>` with
 `<GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>`
 	* `<CopyDir>$(GLibEtcInstallRoot)</CopyDir>` with
-`<CopyDir>..\..\..\..\atk-2.14.0-rel</CopyDir>`
+`<CopyDir>..\..\..\..\atk-rel</CopyDir>`
 	* `<AtkSeparateVSDllSuffix>-1-vs$(VSVer)</AtkSeparateVSDllSuffix>` with
 `<AtkSeparateVSDllSuffix>-1.0</AtkSeparateVSDllSuffix>`
  * In `build\win32\vs12\atk.vcxproj`:

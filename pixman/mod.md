@@ -4,7 +4,7 @@
  * In `build\win32\vc12\pixman.props`, replace:
 	* `<PixmanEtcInstallRoot>..\..\..\..\vs10\$(PlatformName)</PixmanEtcInstallRoot>` with `<PixmanEtcInstallRoot>..\..\..\..\..\..\gtk\$(PlatformName)</PixmanEtcInstallRoot>`
 	* `<CopyDir>$(PixmanEtcInstallRoot)</CopyDir>` with
-`<CopyDir>..\..\..\..\pixman-0.32.6-rel</CopyDir>`
+`<CopyDir>..\..\..\..\pixman-rel</CopyDir>`
  * In `build\win32\vc12\pixman.props`, add to `PixmanDoInstall`
 `copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*.exe $(CopyDir)\bin`
 `copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*.pdb $(CopyDir)\bin`

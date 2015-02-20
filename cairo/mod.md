@@ -5,7 +5,7 @@
 	* `<CairoEtcInstallRoot>..\..\..\vs10\$(Platform)</CairoEtcInstallRoot>` with
 `<CairoEtcInstallRoot>..\..\..\..\..\gtk\$(Platform)</CairoEtcInstallRoot>`
 	* `<CopyDir>$(CairoEtcInstallRoot)</CopyDir>` with
-`<CopyDir>..\..\..\cairo-1.14.0-rel</CopyDir>`
+`<CopyDir>..\..\..\cairo-rel</CopyDir>`
 	* `<CairoSeparateVS10DllSuffix>-vs10</CairoSeparateVS10DllSuffix>` with
 `<CairoSeparateVS10DllSuffix></CairoSeparateVS10DllSuffix>`
 	* `<AdditionalIncludeDirectories>.;..\..;..\..\src;$(CairoEtcInstallRoot)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>` with

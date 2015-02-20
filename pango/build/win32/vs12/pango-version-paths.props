@@ -3,7 +3,7 @@
   <PropertyGroup Label="UserMacros">
     <VSVer>10</VSVer>
     <GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
-    <CopyDir>..\..\..\..\pango-1.36.8-rel</CopyDir>
+    <CopyDir>..\..\..\..\pango-rel</CopyDir>
     <PangoApiVersion>1.0</PangoApiVersion>
     <PangoLibtoolCompatibleDllPrefix>lib</PangoLibtoolCompatibleDllPrefix>
     <PangoLibtoolCompatibleDllSuffix>-$(PangoApiVersion)-0</PangoLibtoolCompatibleDllSuffix>

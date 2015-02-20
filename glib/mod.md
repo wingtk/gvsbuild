@@ -12,7 +12,7 @@ copy ..\..\..\gobject\gobjectnotifyqueue.c $(CopyDir)\include\glib-2.0\gobject\g
 	* `<GlibEtcInstallRoot>..\..\..\..\vs$(VSVer)\$(Platform)</GlibEtcInstallRoot>` with
 `<GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>`
 	* `<CopyDir>$(GlibEtcInstallRoot)</CopyDir>` with
-`<CopyDir>..\..\..\..\glib-2.42.1-rel</CopyDir>`
+`<CopyDir>..\..\..\..\glib-rel</CopyDir>`
 	* `<GlibSeparateVS11DllSuffix>-2-vs$(VSVer)</GlibSeparateVS11DllSuffix>` with
 `<GlibSeparateVS11DllSuffix>-2.0</GlibSeparateVS11DllSuffix>`
 	* `<PythonPath>c:\python27</PythonPath>` with

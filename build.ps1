@@ -861,17 +861,12 @@ $items.GetEnumerator() | %{
 	$filename = New-Object System.Uri $archiveUrl
 	$filename = $filename.Segments[$filename.Segments.Length - 1]
 
-	$patchDirectory = "$PatchesRootDirectory\$name"
-
-	$archiveFile = New-Object System.IO.FileInfo "$ArchivesDownloadDirectory\$filename"
-
 	$item = $items[$name]
 
 	$item.Name = $name
-	$item.ArchiveFile = $archiveFile
-	$item.PatchDirectory = $(New-Object System.IO.DirectoryInfo $patchDirectory)
-	$item.BuildDirectory = $(New-Object System.IO.DirectoryInfo "$workingDirectory\$($archiveFile.BaseName)")
-	$item.BuildArchiveFile = $(New-Object System.IO.FileInfo "$workingDirectory\$($archiveFile.BaseName)-$filenameArch$($archiveFile.Extension)")
+	$item.ArchiveFile = New-Object System.IO.FileInfo "$ArchivesDownloadDirectory\$filename"
+	$item.PatchDirectory = $(New-Object System.IO.DirectoryInfo "$PatchesRootDirectory\$name")
+	$item.BuildDirectory = New-Object System.IO.DirectoryInfo "$workingDirectory\$name"
 	$item.Dependencies = @($item.Dependencies | %{ $items[$_] })
 	$item.Dependents = @()
 	$item.State = ''
@@ -944,6 +939,9 @@ $items.GetEnumerator() | %{
 
 		'Beginning job to download and extract'
 
+		# BaseName, etc. properties of FileInfo properties are available on the PSObject. Convert it back to a FileInfo.
+		$item.ArchiveFile = New-Object System.IO.FileInfo $item.ArchiveFile
+
 		if ($item.ArchiveFile.Exists) {
 			"$($item.ArchiveFile) already exists"
 		}
@@ -958,7 +956,11 @@ $items.GetEnumerator() | %{
 		}
 
 		"Extracting $($item.ArchiveFile.Name) to $workingDirectory"
+
 		Exec $SevenZip x $item.ArchiveFile -o"$workingDirectory" -y > $null
+
+		Move-Item "$workingDirectory\$($item.ArchiveFile.BaseName)" $item.BuildDirectory
+
 		"Extracted $($item.ArchiveFile.Name)"
 
 		Copy-Item "$($item.PatchDirectory)\*" $item.BuildDirectory -Recurse -Force

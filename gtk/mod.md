@@ -18,7 +18,7 @@
 	* `<GlibEtcInstallRoot>..\..\..\..\vs$(VSVer)\$(Platform)</GlibEtcInstallRoot>` with
 `<GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>`
 	* `<CopyDir>$(GlibEtcInstallRoot)</CopyDir>` with
-`<CopyDir>..\..\..\..\gtk-2.24.25-rel</CopyDir>`
+`<CopyDir>..\..\..\..\gtk-rel</CopyDir>`
 	* `<GtkSeparateVSDllSuffix>-2-vs$(VSVer)</GtkSeparateVSDllSuffix>` with
 `<GtkSeparateVSDllSuffix>-2.0</GtkSeparateVSDllSuffix>`
  * Delete `<Optimization>` lines in all `*.vcxproj` files

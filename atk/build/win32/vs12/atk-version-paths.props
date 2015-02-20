@@ -4,7 +4,7 @@
     <ApiVersion>1.0</ApiVersion>
     <VSVer>12</VSVer>
     <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
-    <CopyDir>..\..\..\..\atk-2.14.0-rel</CopyDir>
+    <CopyDir>..\..\..\..\atk-rel</CopyDir>
     <DefDir>$(SolutionDir)$(Configuration)\$(PlatformName)\obj\$(ProjectName)\</DefDir>
     <AtkLibtoolCompatibleDllPrefix>lib</AtkLibtoolCompatibleDllPrefix>
     <AtkLibtoolCompatibleDllSuffix>-$(ApiVersion)-0</AtkLibtoolCompatibleDllSuffix>

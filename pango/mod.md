@@ -23,7 +23,7 @@ if "$(Configuration)" == "Release_FC" copy $(SolutionDir)\Release\$(Platform)\bi
 	* `<GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\vs$(VSVer)\$(Platform)</GlibEtcInstallRoot>` with
 `<GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>`
 	* `<CopyDir>$(GlibEtcInstallRoot)</CopyDir>` with
-`<CopyDir>..\..\..\..\pango-1.36.8-rel</CopyDir>`
+`<CopyDir>..\..\..\..\pango-rel</CopyDir>`
 	* `<PangoSeparateVSDllSuffix>-1-vs$(VSVer)</PangoSeparateVSDllSuffix>` with
 `<PangoSeparateVSDllSuffix>-1.0</PangoSeparateVSDllSuffix>`
  * In `build\win32\vs12\pangoft2.vcxproj`, replace:
