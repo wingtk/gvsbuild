@@ -488,10 +488,30 @@ $items['libffi'].BuildScript = {
 		}
 	}
 
-	$currentPwd = $PWD
-	Push-Location ..\..
-	echo "cd $($currentPwd -replace '\\', '\\') && $configureCommand && make clean && make" | &$mozillaBuildStartVC
-	Pop-Location
+	# When first run, mozilla-build's start-shell.bat starts ssh-add.exe and blocks on it. As a result the commands piped to it via stdin are
+	# ignored and the build blocks. Killing ssh-add.exe unblocks it.
+	$killSshAddJob = Start-Job {
+		$process = Get-Process ssh-add | ?{ $_.Path -eq "$using:MozillaBuildDirectory\msys\bin\ssh-add.exe" }
+
+		while ($process -eq $null) {
+			Start-Sleep 1
+		}
+
+		if ($process -ne $null) {
+			Stop-Process $process
+
+			# Stop the ssh-agent process too
+			$process = Get-Process ssh-agent | ?{ $_.Path -eq "$using:MozillaBuildDirectory\msys\bin\ssh-agent.exe" }
+			if ($process -ne $null) {
+				Stop-Process $process
+			}
+		}
+	}
+
+	echo "cd $($PWD -replace '\\', '\\') && $configureCommand && make clean && make" | &$mozillaBuildStartVC
+
+	Stop-Job $killSshAddJob
+	Remove-Job $killSshAddJob
 
 	New-Item -Type Directory $packageDestination\bin
 	Copy-Item `
