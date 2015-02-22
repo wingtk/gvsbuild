@@ -1,13 +1,12 @@
 <#
 
 .SYNOPSIS
-This is a build script to build GTK+ and openssl.
+This is a build script to build GTK+ 2 and openssl.
 
 
 .DESCRIPTION
-1. Install mozilla-build, cmake, nasm, perl, msgfmt as per http://gtk.hexchat.org/
-2. Clone https://github.com/hexchat/gtk-win32.git
-3. Run this script. Set the parameters, if needed.
+1. Install the requirements mentioned in the README
+2. Run this script. Set the parameters, if needed.
 
 
 .PARAMETER Configuration
