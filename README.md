@@ -63,8 +63,8 @@ These are the libraries in the bundle:
     </tr>
     <tr>
         <td>GTK+</td>
-        <td>2.24.25</td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/src/gtk+-2.24.25.tar.xz">Source</a></td>
+        <td>2.24.26</td>
+        <td><a href="https://dl.hexchat.net/gtk-win32/src/gtk+-2.24.26.tar.xz">Source</a></td>
     </tr>
     <tr>
         <td>HarfBuzz</td>
