@@ -68,8 +68,8 @@ These are the libraries in the bundle:
     </tr>
     <tr>
         <td>HarfBuzz</td>
-        <td>0.9.37</td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/src/harfbuzz-0.9.37.7z">Source</a></td>
+        <td>0.9.38</td>
+        <td><a href="https://dl.hexchat.net/gtk-win32/src/harfbuzz-0.9.38.7z">Source</a></td>
     </tr>
     <tr>
         <td>libffi</td>

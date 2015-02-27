@@ -134,9 +134,12 @@ hb_font_set_user_data
 hb_font_subtract_glyph_origin_for_direction
 hb_ft_face_create
 hb_ft_face_create_cached
+hb_ft_face_create_referenced
 hb_ft_font_create
+hb_ft_font_create_referenced
 hb_ft_font_get_face
 hb_ft_font_set_funcs
+hb_glib_blob_create
 hb_glib_get_unicode_funcs
 hb_glib_script_from_script
 hb_glib_script_to_script
