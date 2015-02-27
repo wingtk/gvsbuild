@@ -1,4 +1,4 @@
- * Download [GLib 2.42.1](http://ftp.acc.umu.se/pub/gnome/sources/glib/2.42/glib-2.42.1.tar.xz)
+ * Download [GLib 2.42.2](http://ftp.acc.umu.se/pub/gnome/sources/glib/2.42/glib-2.42.2.tar.xz)
  * Extract to `C:\mozilla-build\hexchat`
  * In all vcxproj files,
 	* add `<Import Project="..\..\..\..\stack.props" />`

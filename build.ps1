@@ -135,7 +135,7 @@ $items = @{
 	'freetype'         = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/freetype-2.5.5.tar.bz2';   'Dependencies' = @()                                    };
 	'gdk-pixbuf'       = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gdk-pixbuf-2.30.8.tar.xz'; 'Dependencies' = @('glib', 'libpng')                    };
 	'gettext-runtime'  = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gettext-runtime-0.18.7z';  'Dependencies' = @('win-iconv')                         };
-	'glib'             = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/glib-2.42.1.tar.xz';       'Dependencies' = @('gettext-runtime', 'libffi', 'zlib') };
+	'glib'             = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/glib-2.42.2.tar.xz';       'Dependencies' = @('gettext-runtime', 'libffi', 'zlib') };
 	'gtk'              = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gtk+-2.24.25.tar.xz';      'Dependencies' = @('atk', 'gdk-pixbuf', 'pango')        };
 	'harfbuzz'         = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/harfbuzz-0.9.37.7z';       'Dependencies' = @('freetype', 'glib')                  };
 	'libffi'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libffi-3.0.13.7z';         'Dependencies' = @()                                    };
@@ -389,6 +389,7 @@ $items['glib'].BuildScript = {
 
 	Add-Utf8Bom .\gio\gdbusaddress.c
 	Add-Utf8Bom .\gio\gfile.c
+	Add-Utf8Bom .\glib\gmacros.h
 	Add-Utf8Bom .\glib\gmain.c
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
