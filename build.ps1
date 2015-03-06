@@ -344,7 +344,7 @@ $items['glib'].BuildScript = {
 }
 
 $items['gtk3'].BuildScript = {
-	$packageDestination = "$PWD\..\gtk-3.14.8-rel"
+	$packageDestination = "$PWD\..\gtk-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
 	Add-Utf8Bom .\gdk\gdkkeyuni.c
