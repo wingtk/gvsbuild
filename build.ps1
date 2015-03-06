@@ -20,8 +20,11 @@ x64       - 64-bit build. Uses the 32-bit cross-compiler with VS Express or the 
 Setting this to $true forces the items to be built one after the other.
 
 
-.PARAMETER MozillaBuildDirectory
-The directory where you installed Mozilla Build.
+.PARAMETER BuildDirectory
+The directory where you wish things to be built.
+
+.PARAMETER Msys2Directory
+The directory where msys2 is installed
 
 
 .PARAMETER ArchivesDownloadDirectory
@@ -96,19 +99,22 @@ param (
 	$DisableParallelBuild = $false,
 
 	[string]
-	$MozillaBuildDirectory = 'C:\mozilla-build',
+	$BuildDirectory = 'C:\gtk-build',
 
 	[string]
-	$ArchivesDownloadDirectory = 'C:\mozilla-build\gtk\src',
+	$Msys2Directory = 'C:\msys64',
 
 	[string]
-	$PatchesRootDirectory = 'C:\mozilla-build\gtk\github\gtk-win32',
+	$ArchivesDownloadDirectory = 'C:\gtk-deps',
+
+	[string]
+	$PatchesRootDirectory = 'C:\gtk-win32',
 
 	[string]
 	$VSInstallPath = 'C:\Program Files (x86)\Microsoft Visual Studio 12.0',
 
 	[string]
-	$Patch = "$MozillaBuildDirectory\msys\bin\patch.exe",
+	$Patch = "$Msys2Directory\usr\bin\patch.exe",
 
 	[string]
 	$SevenZip = 'C:\Program Files\7-Zip\7z.exe',
@@ -421,6 +427,8 @@ $items['libffi'].BuildScript = {
 		}
 	}
 
+	$env:MSYS2DIRECTORY = "$Msys2Directory"
+
 	$currentPwd = $PWD
 	Push-Location ..\..
 	echo "cd $($currentPwd -replace '\\', '\\') && $configureCommand && make clean && make" | &$mozillaBuildStartVC
@@ -700,17 +708,17 @@ switch ($Configuration) {
 	'x86' {
 		$platform = 'Win32'
 		$filenameArch = 'x86'
-		$mozillaBuildStartVC = "$MozillaBuildDirectory\start-shell-msvc2013.bat"
+		$mozillaBuildStartVC = "$PatchesRootDirectory\mozilla-build\start-shell-msvc2013.bat"
 	}
 
 	'x64' {
 		$platform = 'x64'
 		$filenameArch = 'x64'
-		$mozillaBuildStartVC = "$MozillaBuildDirectory\start-shell-msvc2013-x64.bat"
+		$mozillaBuildStartVC = "$PatchesRootDirectory\mozilla-build\start-shell-msvc2013-x64.bat"
 	}
 }
 
-$workingDirectory = "$MozillaBuildDirectory\gtk\build\$platform"
+$workingDirectory = "$BuildDirectory\gtk\build\$platform"
 
 
 # Set up additional properties on the items
@@ -947,7 +955,8 @@ while (@($items.GetEnumerator() | ?{ ($_.Value.State -eq 'Pending') -or ($_.Valu
 			} -ArgumentList $nextPendingItem {
 				param ($item)
 
-				$MozillaBuildDirectory = $using:MozillaBuildDirectory
+				$BuildDirectory = $using:BuildDirectory
+				$Msys2Directory = $using:Msys2Directory
 				$mozillaBuildStartVC = $using:mozillaBuildStartVC
 				$Configuration = $using:Configuration
 				$vcvarsEnvironment = $using:vcvarsEnvironment
