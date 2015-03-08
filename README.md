@@ -67,6 +67,11 @@ These are the libraries in the bundle:
         <td><a href="https://dl.hexchat.net/gtk-win32/src/gtk+-2.24.28.tar.xz">Source</a></td>
     </tr>
     <tr>
+        <td>GTK+ 3</td>
+        <td>3.14.11</td>
+        <td><a href="http://ftp.acc.umu.se/pub/gnome/sources/gtk+/3.14/gtk+-3.14.11.tar.xz">Source</a></td>
+    </tr>
+    <tr>
         <td>HarfBuzz</td>
         <td>0.9.41</td>
         <td><a href="https://dl.hexchat.net/gtk-win32/src/harfbuzz-0.9.41.tar.bz2">Source</a></td>
