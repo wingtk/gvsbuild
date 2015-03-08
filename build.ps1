@@ -474,60 +474,30 @@ $items['harfbuzz'].BuildScript = {
 }
 
 $items['libffi'].BuildScript = {
-	$packageDestination = "$PWD-$filenameArch"
+	$packageDestination = "$PWD-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
 	switch ($filenameArch) {
 		'x86' {
 			$buildDestination = 'i686-pc-mingw32'
-			$configureCommand = "./configure CC=`$(pwd)/msvcc.sh LD=link CPP='cl -nologo -EP' CFLAGS='-O2' --build=$buildDestination"
 		}
 
 		'x64' {
 			$buildDestination = 'x86_64-w64-mingw32'
-			$configureCommand = "./configure CC=`"`$(pwd)/msvcc.sh -m64`" LD=link CPP='cl -nologo -EP' CFLAGS='-O2' --build=$buildDestination"
 		}
 	}
 
-	# When first run, mozilla-build's start-shell.bat starts ssh-add.exe and blocks on it. As a result the commands piped to it via stdin are
-	# ignored and the build blocks. Killing ssh-add.exe unblocks it.
-	$killSshAddJob = Start-Job {
-		do {
-			Start-Sleep 1
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-			$process = Get-Process ssh-add | ?{ $_.Path -eq "$using:MozillaBuildDirectory\msys\bin\ssh-add.exe" }
-		}
-		while ($process -eq $null)
+	Exec msbuild build\win32\vs12\libffi.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
 
-		Stop-Process $process
-
-		# Stop the ssh-agent process too
-		$process = Get-Process ssh-agent | ?{ $_.Path -eq "$using:MozillaBuildDirectory\msys\bin\ssh-agent.exe" }
-		if ($process -ne $null) {
-			Stop-Process $process
-		}
-	}
-
-	echo "cd $($PWD -replace '\\', '\\') && $configureCommand && make clean && make" | &$mozillaBuildStartVC
-
-	Stop-Job $killSshAddJob
-	Remove-Job $killSshAddJob
-
-	New-Item -Type Directory $packageDestination\bin
-	Copy-Item `
-		.\$buildDestination\.libs\libffi-6.dll `
-		$packageDestination\bin
+	[void] (Swap-Environment $originalEnvironment)
 
 	New-Item -Type Directory $packageDestination\include
 	Copy-Item `
 		.\$buildDestination\include\ffi.h, `
 		.\$buildDestination\include\ffitarget.h `
 		$packageDestination\include
-
-	New-Item -Type Directory $packageDestination\lib
-	Copy-Item `
-		.\$buildDestination\.libs\libffi_convenience.lib `
-		$packageDestination\lib\libffi.lib
 
 	New-Item -Type Directory $packageDestination\share\doc\libffi
 	Copy-Item .\LICENSE $packageDestination\share\doc\libffi
