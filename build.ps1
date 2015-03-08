@@ -409,7 +409,6 @@ $items['gtk'].BuildScript = {
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
 	Exec $Patch -p1 -i gtk-revert-scrolldc-commit.patch
-	Exec $Patch -p1 -i gtk-revert-recreatecairosurface-commit.patch
 	Exec $Patch -p1 -i gtk-bgimg.patch
 	Exec $Patch -p1 -i gtk-statusicon.patch
 	Exec $Patch -p1 -i gtk-accel.patch
