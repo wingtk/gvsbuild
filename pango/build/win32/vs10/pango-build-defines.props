@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets">
+    <Import Project="pango-version-paths.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+    <PangoBinaryVersion>1.8.0</PangoBinaryVersion>
+    <PangoDummyPrefix>/dummy</PangoDummyPrefix>
+    <PangoDefines>G_LOG_DOMAIN="Pango";PANGO_ENABLE_BACKEND;PANGO_ENABLE_ENGINE;SYSCONFDIR="$(PangoDummyPrefix)/etc";LIBDIR="$(PangoDummyPrefix)/lib"</PangoDefines>
+    <NoFCDef>PANGO_VISUALC_NO_FC</NoFCDef>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>pangobuilddefinesprops</_PropertySheetDisplayName>
+    <OutDir>$(SolutionDir)$(Configuration)\$(PlatformName)\bin\</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)\$(PlatformName)\obj\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..;..\..\..\pango;$(GlibEtcInstallRoot)\lib\glib-2.0\include;$(GlibEtcInstallRoot)\include\glib-2.0;$(GlibEtcInstallRoot)\include;$(GlibEtcInstallRoot)\include\cairo;$(GlibEtcInstallRoot)\include\fontconfig;$(GlibEtcInstallRoot)\include\freetype2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>HAVE_CONFIG_H;G_DISABLE_SINGLE_INCLUDES;WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ForcedIncludeFiles>msvc_recommended_pragmas.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>gmodule-2.0.lib;gobject-2.0.lib;glib-2.0.lib;libintl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(GlibEtcInstallRoot)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <BuildMacro Include="PangoBinaryVersion">
+      <Value>$(PangoBinaryVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PangoDummyPrefix">
+      <Value>$(PangoDummyPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PangoDefines">
+      <Value>$(PangoDefines)</Value>
+    </BuildMacro>
+    <BuildMacro Include="NoFCDef">
+      <Value>$(NoFCDef)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>
