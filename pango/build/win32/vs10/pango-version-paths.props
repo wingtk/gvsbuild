@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="UserMacros">
+    <VSVer>10</VSVer>
+    <GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
+    <CopyDir>..\..\..\..\pango-rel</CopyDir>
+    <PangoApiVersion>1.0</PangoApiVersion>
+    <PangoLibtoolCompatibleDllPrefix>lib</PangoLibtoolCompatibleDllPrefix>
+    <PangoLibtoolCompatibleDllSuffix>-$(PangoApiVersion)-0</PangoLibtoolCompatibleDllSuffix>
+    <PangoSeparateVSDllPrefix />
+    <PangoSeparateVSDllSuffix>-1.0</PangoSeparateVSDllSuffix>
+    <PangoDllPrefix>$(PangoSeparateVSDllPrefix)</PangoDllPrefix>
+    <PangoDllSuffix>$(PangoSeparateVSDllSuffix)</PangoDllSuffix>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>pangoversionpathsprops</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <ItemGroup>
+    <BuildMacro Include="VSVer">
+      <Value>$(VSVer)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GlibEtcInstallRoot">
+      <Value>$(GlibEtcInstallRoot)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GlibEtcInstallRootFromBuildWin32">
+      <Value>$(GlibEtcInstallRootFromBuildWin32)</Value>
+    </BuildMacro>
+    <BuildMacro Include="CopyDir">
+      <Value>$(CopyDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PangoApiVersion">
+      <Value>$(PangoApiVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PangoLibtoolCompatibleDllPrefix">
+      <Value>$(PangoLibtoolCompatibleDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PangoLibtoolCompatibleDllSuffix">
+      <Value>$(PangoLibtoolCompatibleDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PangoSeparateVSDllPrefix">
+      <Value>$(PangoSeparateVSDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PangoSeparateVSDllSuffix">
+      <Value>$(PangoSeparateVSDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PangoDllPrefix">
+      <Value>$(PangoDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PangoDllSuffix">
+      <Value>$(PangoDllSuffix)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>
