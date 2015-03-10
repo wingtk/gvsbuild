@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="UserMacros">
+    <ApiVersion>1.0</ApiVersion>
+    <VSVer>12</VSVer>
+    <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
+    <CopyDir>..\..\..\..\atk-rel</CopyDir>
+    <DefDir>$(SolutionDir)$(Configuration)\$(PlatformName)\obj\$(ProjectName)\</DefDir>
+    <AtkLibtoolCompatibleDllPrefix>lib</AtkLibtoolCompatibleDllPrefix>
+    <AtkLibtoolCompatibleDllSuffix>-$(ApiVersion)-0</AtkLibtoolCompatibleDllSuffix>
+    <AtkSeparateVSDllPrefix />
+    <AtkSeparateVSDllSuffix>-1.0</AtkSeparateVSDllSuffix>
+    <AtkDllPrefix>$(AtkSeparateVSDllPrefix)</AtkDllPrefix>
+    <AtkDllSuffix>$(AtkSeparateVSDllSuffix)</AtkDllSuffix>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>atkversionpathsprops</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <ItemGroup>
+    <BuildMacro Include="ApiVersion">
+      <Value>$(ApiVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GLibEtcInstallRoot">
+      <Value>$(GLibEtcInstallRoot)</Value>
+    </BuildMacro>
+    <BuildMacro Include="CopyDir">
+      <Value>$(CopyDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="DefDir">
+      <Value>$(DefDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="AtkLibtoolCompatibleDllPrefix">
+      <Value>$(AtkLibtoolCompatibleDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="AtkLibtoolCompatibleDllSuffix">
+      <Value>$(AtkLibtoolCompatibleDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="AtkSeparateVSDllPrefix">
+      <Value>$(AtkSeparateVSDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="AtkSeparateVSDllSuffix">
+      <Value>$(AtkSeparateVSDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="AtkDllPrefix">
+      <Value>$(AtkDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="AtkDllSuffix">
+      <Value>$(AtkDllSuffix)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>
