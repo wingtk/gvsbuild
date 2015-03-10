@@ -1,0 +1,261 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release_FC|Win32">
+      <Configuration>Release_FC</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_FC|x64">
+      <Configuration>Release_FC</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{55B6DC50-F887-4765-8A56-6E98E60461AB}</ProjectGuid>
+    <RootNamespace>cairo</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  <Import Project="cairo.props" />
+  <Import Project="..\..\..\stack.props" />
+  <PropertyGroup>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <PreBuildEvent>
+      <Command>$(PreBuildCfgStd)$(PreBuildCfgFT)$(PreBuildCfgFC)$(GenTmpFeaturesHeader)</Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(OutDir)$(CairoDllPrefix)$(ProjectName)$(CairoDllSuffix).dll</OutputFile>
+      <ImportLibrary>$(TargetDir)$(ProjectName).lib</ImportLibrary>
+      <AdditionalDependencies>fontconfig.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_FC|Win32'">
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\cairo.c" />
+    <ClCompile Include="..\..\src\cairo-analysis-surface.c" />
+    <ClCompile Include="..\..\src\cairo-arc.c" />
+    <ClCompile Include="..\..\src\cairo-array.c" />
+    <ClCompile Include="..\..\src\cairo-atomic.c" />
+    <ClCompile Include="..\..\src\cairo-base64-stream.c" />
+    <ClCompile Include="..\..\src\cairo-base85-stream.c" />
+    <ClCompile Include="..\..\src\cairo-bentley-ottmann.c" />
+    <ClCompile Include="..\..\src\cairo-bentley-ottmann-rectangular.c" />
+    <ClCompile Include="..\..\src\cairo-bentley-ottmann-rectilinear.c" />
+    <ClCompile Include="..\..\src\cairo-botor-scan-converter.c" />
+    <ClCompile Include="..\..\src\cairo-boxes.c" />
+    <ClCompile Include="..\..\src\cairo-boxes-intersect.c" />
+    <ClCompile Include="..\..\src\cairo-cache.c" />
+    <ClCompile Include="..\..\src\cairo-cff-subset.c" />
+    <ClCompile Include="..\..\src\cairo-clip.c" />
+    <ClCompile Include="..\..\src\cairo-clip-boxes.c" />
+    <ClCompile Include="..\..\src\cairo-clip-polygon.c" />
+    <ClCompile Include="..\..\src\cairo-clip-region.c" />
+    <ClCompile Include="..\..\src\cairo-clip-surface.c" />
+    <ClCompile Include="..\..\src\cairo-clip-tor-scan-converter.c" />
+    <!--
+    <ClCompile Include="..\..\src\cairo-cogl-context.c" />
+    <ClCompile Include="..\..\src\cairo-cogl-gradient.c" />
+    <ClCompile Include="..\..\src\cairo-cogl-surface.c" />
+    <ClCompile Include="..\..\src\cairo-cogl-utils.c" />
+    -->
+    <ClCompile Include="..\..\src\cairo-color.c" />
+    <ClCompile Include="..\..\src\cairo-composite-rectangles.c" />
+    <ClCompile Include="..\..\src\cairo-compositor.c" />
+    <ClCompile Include="..\..\src\cairo-contour.c" />
+    <ClCompile Include="..\..\src\cairo-damage.c" />
+    <ClCompile Include="..\..\src\cairo-debug.c" />
+    <ClCompile Include="..\..\src\cairo-default-context.c" />
+    <ClCompile Include="..\..\src\cairo-deflate-stream.c" />
+    <ClCompile Include="..\..\src\cairo-device.c" />
+    <!--
+    <ClCompile Include="..\..\src\cairo-directfb-surface.c" />
+    <ClCompile Include="..\..\src\cairo-egl-context.c" />
+    -->
+    <ClCompile Include="..\..\src\cairo-error.c" />
+    <ClCompile Include="..\..\src\cairo-fallback-compositor.c" />
+    <ClCompile Include="..\..\src\cairo-fixed.c" />
+    <ClCompile Include="..\..\src\cairo-font-face.c" />
+    <ClCompile Include="..\..\src\cairo-font-face-twin.c" />
+    <ClCompile Include="..\..\src\cairo-font-face-twin-data.c" />
+    <ClCompile Include="..\..\src\cairo-font-options.c" />
+    <ClCompile Include="..\..\src\cairo-freed-pool.c" />
+    <ClCompile Include="..\..\src\cairo-freelist.c" />
+    <ClCompile Include="..\..\src\cairo-ft-font.c" />
+    <!--
+    <ClCompile Include="..\..\src\cairo-gl-composite.c" />
+    <ClCompile Include="..\..\src\cairo-gl-device.c" />
+    <ClCompile Include="..\..\src\cairo-gl-dispatch.c" />
+    <ClCompile Include="..\..\src\cairo-gl-glyphs.c" />
+    <ClCompile Include="..\..\src\cairo-gl-gradient.c" />
+    <ClCompile Include="..\..\src\cairo-gl-info.c" />
+    <ClCompile Include="..\..\src\cairo-gl-msaa-compositor.c" />
+    <ClCompile Include="..\..\src\cairo-gl-operand.c" />
+    <ClCompile Include="..\..\src\cairo-gl-shaders.c" />
+    <ClCompile Include="..\..\src\cairo-gl-source.c" />
+    <ClCompile Include="..\..\src\cairo-gl-spans-compositor.c" />
+    <ClCompile Include="..\..\src\cairo-gl-surface.c" />
+    <ClCompile Include="..\..\src\cairo-gl-traps-compositor.c" />
+    <ClCompile Include="..\..\src\cairo-glx-context.c" />
+    -->
+    <ClCompile Include="..\..\src\cairo-gstate.c" />
+    <ClCompile Include="..\..\src\cairo-hash.c" />
+    <ClCompile Include="..\..\src\cairo-hull.c" />
+    <ClCompile Include="..\..\src\cairo-image-compositor.c" />
+    <ClCompile Include="..\..\src\cairo-image-info.c" />
+    <ClCompile Include="..\..\src\cairo-image-source.c" />
+    <ClCompile Include="..\..\src\cairo-image-surface.c" />
+    <ClCompile Include="..\..\src\cairo-line.c" />
+    <ClCompile Include="..\..\src\cairo-lzw.c" />
+    <ClCompile Include="..\..\src\cairo-mask-compositor.c" />
+    <ClCompile Include="..\..\src\cairo-matrix.c" />
+    <!--
+    <ClCompile Include="..\..\src\cairo-mempool.c" />
+    -->
+    <ClCompile Include="..\..\src\cairo-mesh-pattern-rasterizer.c" />
+    <ClCompile Include="..\..\src\cairo-misc.c" />
+    <ClCompile Include="..\..\src\cairo-mono-scan-converter.c" />
+    <ClCompile Include="..\..\src\cairo-mutex.c" />
+    <ClCompile Include="..\..\src\cairo-no-compositor.c" />
+    <ClCompile Include="..\..\src\cairo-observer.c" />
+    <!--
+    <ClCompile Include="..\..\src\cairo-os2-surface.c" />
+    -->
+    <ClCompile Include="..\..\src\cairo-output-stream.c" />
+    <ClCompile Include="..\..\src\cairo-paginated-surface.c" />
+    <ClCompile Include="..\..\src\cairo-path.c" />
+    <ClCompile Include="..\..\src\cairo-path-bounds.c" />
+    <ClCompile Include="..\..\src\cairo-path-fill.c" />
+    <ClCompile Include="..\..\src\cairo-path-fixed.c" />
+    <ClCompile Include="..\..\src\cairo-path-in-fill.c" />
+    <ClCompile Include="..\..\src\cairo-path-stroke.c" />
+    <ClCompile Include="..\..\src\cairo-path-stroke-boxes.c" />
+    <ClCompile Include="..\..\src\cairo-path-stroke-polygon.c" />
+    <ClCompile Include="..\..\src\cairo-path-stroke-traps.c" />
+    <ClCompile Include="..\..\src\cairo-path-stroke-tristrip.c" />
+    <ClCompile Include="..\..\src\cairo-pattern.c" />
+    <ClCompile Include="..\..\src\cairo-pdf-operators.c" />
+    <ClCompile Include="..\..\src\cairo-pdf-shading.c" />
+    <ClCompile Include="..\..\src\cairo-pdf-surface.c" />
+    <ClCompile Include="..\..\src\cairo-pen.c" />
+    <ClCompile Include="..\..\src\cairo-png.c" />
+    <ClCompile Include="..\..\src\cairo-polygon.c" />
+    <ClCompile Include="..\..\src\cairo-polygon-intersect.c" />
+    <ClCompile Include="..\..\src\cairo-polygon-reduce.c" />
+    <ClCompile Include="..\..\src\cairo-ps-surface.c" />
+    <!--
+    <ClCompile Include="..\..\src\cairo-quartz-font.c" />
+    <ClCompile Include="..\..\src\cairo-quartz-image-surface.c" />
+    <ClCompile Include="..\..\src\cairo-quartz-surface.c" />
+    -->
+    <ClCompile Include="..\..\src\cairo-raster-source-pattern.c" />
+    <ClCompile Include="..\..\src\cairo-recording-surface.c" />
+    <ClCompile Include="..\..\src\cairo-rectangle.c" />
+    <ClCompile Include="..\..\src\cairo-rectangular-scan-converter.c" />
+    <ClCompile Include="..\..\src\cairo-region.c" />
+    <ClCompile Include="..\..\src\cairo-rtree.c" />
+    <ClCompile Include="..\..\src\cairo-scaled-font.c" />
+    <ClCompile Include="..\..\src\cairo-scaled-font-subsets.c" />
+    <ClCompile Include="..\..\src\cairo-script-surface.c" />
+    <ClCompile Include="..\..\src\cairo-shape-mask-compositor.c" />
+    <ClCompile Include="..\..\src\cairo-slope.c" />
+    <ClCompile Include="..\..\src\cairo-spans.c" />
+    <ClCompile Include="..\..\src\cairo-spans-compositor.c" />
+    <ClCompile Include="..\..\src\cairo-spline.c" />
+    <ClCompile Include="..\..\src\cairo-stroke-dash.c" />
+    <ClCompile Include="..\..\src\cairo-stroke-style.c" />
+    <ClCompile Include="..\..\src\cairo-surface.c" />
+    <ClCompile Include="..\..\src\cairo-surface-clipper.c" />
+    <ClCompile Include="..\..\src\cairo-surface-fallback.c" />
+    <ClCompile Include="..\..\src\cairo-surface-observer.c" />
+    <ClCompile Include="..\..\src\cairo-surface-offset.c" />
+    <ClCompile Include="..\..\src\cairo-surface-snapshot.c" />
+    <ClCompile Include="..\..\src\cairo-surface-subsurface.c" />
+    <ClCompile Include="..\..\src\cairo-surface-wrapper.c" />
+    <ClCompile Include="..\..\src\cairo-svg-surface.c" />
+    <ClCompile Include="..\..\src\cairo-tee-surface.c" />
+    <ClCompile Include="..\..\src\cairo-time.c" />
+    <ClCompile Include="..\..\src\cairo-tor22-scan-converter.c" />
+    <ClCompile Include="..\..\src\cairo-tor-scan-converter.c" />
+    <ClCompile Include="..\..\src\cairo-toy-font-face.c" />
+    <ClCompile Include="..\..\src\cairo-traps.c" />
+    <ClCompile Include="..\..\src\cairo-traps-compositor.c" />
+    <ClCompile Include="..\..\src\cairo-tristrip.c" />
+    <ClCompile Include="..\..\src\cairo-truetype-subset.c" />
+    <ClCompile Include="..\..\src\cairo-type1-fallback.c" />
+    <ClCompile Include="..\..\src\cairo-type1-glyph-names.c" />
+    <ClCompile Include="..\..\src\cairo-type1-subset.c" />
+    <ClCompile Include="..\..\src\cairo-type3-glyph-surface.c" />
+    <ClCompile Include="..\..\src\cairo-unicode.c" />
+    <ClCompile Include="..\..\src\cairo-user-font.c" />
+    <ClCompile Include="..\..\src\cairo-version.c" />
+    <!--
+    <ClCompile Include="..\..\src\cairo-vg-surface.c" />
+    <ClCompile Include="..\..\src\cairo-wgl-context.c" />
+    -->
+    <ClCompile Include="..\..\src\cairo-wideint.c" />
+    <!--
+    <ClCompile Include="..\..\src\cairo-xcb-connection.c" />
+    <ClCompile Include="..\..\src\cairo-xcb-connection-core.c" />
+    <ClCompile Include="..\..\src\cairo-xcb-connection-render.c" />
+    <ClCompile Include="..\..\src\cairo-xcb-connection-shm.c" />
+    <ClCompile Include="..\..\src\cairo-xcb-resources.c" />
+    <ClCompile Include="..\..\src\cairo-xcb-screen.c" />
+    <ClCompile Include="..\..\src\cairo-xcb-shm.c" />
+    <ClCompile Include="..\..\src\cairo-xcb-surface.c" />
+    <ClCompile Include="..\..\src\cairo-xcb-surface-core.c" />
+    <ClCompile Include="..\..\src\cairo-xcb-surface-render.c" />
+    <ClCompile Include="..\..\src\cairo-xlib-core-compositor.c" />
+    <ClCompile Include="..\..\src\cairo-xlib-display.c" />
+    <ClCompile Include="..\..\src\cairo-xlib-fallback-compositor.c" />
+    <ClCompile Include="..\..\src\cairo-xlib-render-compositor.c" />
+    <ClCompile Include="..\..\src\cairo-xlib-screen.c" />
+    <ClCompile Include="..\..\src\cairo-xlib-source.c" />
+    <ClCompile Include="..\..\src\cairo-xlib-surface.c" />
+    <ClCompile Include="..\..\src\cairo-xlib-surface-shm.c" />
+    <ClCompile Include="..\..\src\cairo-xlib-visual.c" />
+    <ClCompile Include="..\..\src\cairo-xlib-xcb-surface.c" />
+    -->
+    <ClCompile Include="..\..\src\cairo-xml-surface.c" />
+    <ClCompile Include="..\..\src\win32\cairo-win32-debug.c" />
+    <ClCompile Include="..\..\src\win32\cairo-win32-device.c" />
+    <ClCompile Include="..\..\src\win32\cairo-win32-display-surface.c" />
+    <ClCompile Include="..\..\src\win32\cairo-win32-font.c" />
+    <ClCompile Include="..\..\src\win32\cairo-win32-gdi-compositor.c" />
+    <ClCompile Include="..\..\src\win32\cairo-win32-printing-surface.c" />
+    <ClCompile Include="..\..\src\win32\cairo-win32-system.c" />
+    <ClCompile Include="..\..\src\win32\cairo-win32-surface.c" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
