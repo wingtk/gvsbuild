@@ -1,4 +1,4 @@
- * Download [HarfBuzz 0.9.38](http://www.freedesktop.org/software/harfbuzz/release/harfbuzz-0.9.38.tar.bz2)
+ * Download [HarfBuzz 0.9.39](http://www.freedesktop.org/software/harfbuzz/release/harfbuzz-0.9.39.tar.bz2)
  * Download [blinkseb's HarfBuzz solution](https://github.com/blinkseb/harfbuzz)
  * Extract to `C:\mozilla-build\hexchat`
  * Open `win32\harfbuzz.sln` with VS

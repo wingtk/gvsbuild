@@ -13,6 +13,7 @@ hb_blob_reference
 hb_blob_set_user_data
 hb_buffer_add
 hb_buffer_add_codepoints
+hb_buffer_add_latin1
 hb_buffer_add_utf16
 hb_buffer_add_utf32
 hb_buffer_add_utf8
