@@ -1,5 +1,4 @@
  * Download [libpng 1.6.16](ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng16/libpng-1.6.16.tar.xz)
- * Extract to `C:\mozilla-build\hexchat`
  * Copy `projects\vstudio` to `projects\vc12`. Only keep libpng and pnglibconf directories.
  * In `projects\vc12\libpng\libpng.vcxproj`:
 	* Under `<ItemGroup Label="ProjectConfigurations">`, add

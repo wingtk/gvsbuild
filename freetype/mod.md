@@ -1,5 +1,4 @@
  * Download [FreeType 2.5.5](http://download.savannah.gnu.org/releases/freetype/freetype-2.5.5.tar.bz2)
- * Extract to `C:\mozilla-build\hexchat`
  * Copy `builds\windows\vc2010` to `builds\windows\vc2013`
  * In `builds\windows\vc2013\freetype.vcxproj`:
 	* Replace `<PlatformToolset>v100</PlatformToolset>` with `<PlatformToolset>v120</PlatformToolset>`

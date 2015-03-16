@@ -1,5 +1,4 @@
  * Download [GLib 2.42.2](http://ftp.acc.umu.se/pub/gnome/sources/glib/2.42/glib-2.42.2.tar.xz)
- * Extract to `C:\mozilla-build\hexchat`
  * In all vcxproj files,
 	* add `<Import Project="..\..\..\..\stack.props" />`
 	* remove all `<Optimization>` lines
@@ -17,7 +16,3 @@ copy ..\..\..\gobject\gobjectnotifyqueue.c $(CopyDir)\include\glib-2.0\gobject\g
 `<GlibSeparateVS11DllSuffix>-2.0</GlibSeparateVS11DllSuffix>`
 	* `<PythonPath>c:\python27</PythonPath>` with
 `<PythonPath>..\..\..\..\..\....\..\python-2.7\$(Platform)</PythonPath>`
- * Open `build\win32\vs12\glib.sln` with VS
- * Build in VS
- * Release with `release-x86.bat`
- * Extract package to `C:\mozilla-build\hexchat\build\Win32`

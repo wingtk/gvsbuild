@@ -1,5 +1,4 @@
  * Download [libxml2 2.9.1](ftp://xmlsoft.org/libxml2/libxml2-2.9.1.tar.gz)
- * Extract to `C:\mozilla-build\hexchat`
  * Remove the `iconv` project and its references from `win32\VC10\libxml2.sln`, `win32\VC10\libxml2.vcxproj` and `win32\VC10\runsuite.sln`
  * Open `win32\VC10\libxml2.sln` with VS
  * add `stack.props` to the solution
@@ -10,6 +9,3 @@
 	* Change _Configuration Type_ to _Dynamic Library (.dll)_ under _Configuration Properties_ `->` _General_
 	* Add `..\..\..\..\..\gtk\$(Platform)\lib` to _Additional Library Directories_ under _Configuration Properties_ `->` _Linker_ `->` _General_
 	* Add `ws2_32.lib;iconv.lib` to _Additional Dependencies_ under _Configuration Properties_ `->` _Linker_ `->` _Input_
- * Build in VS
- * Release with `release-x86.bat`
- * Extract package to `C:\mozilla-build\hexchat\build\Win32`

@@ -181,7 +181,7 @@
       <ModuleDefinitionFile>harfbuzz.def</ModuleDefinitionFile>
     </Link>
     <PreBuildEvent>
-      <Command>cd $(SolutionDir)\..\src
+      <Command>cd $(SolutionDir)..\src
 echo 2&gt; rllist.txt
 
 for %%a in (*.rl) do (
@@ -189,7 +189,7 @@ echo %%a &gt;&gt; rllist.txt
 )
 
 for /f "tokens=1 delims=." %%b in (rllist.txt) do (
-..\..\..\..\..\ragel\ragel.exe -e -F1 -o %%b.hh %%b.rl
+..\..\..\..\ragel\ragel.exe -e -F1 -o %%b.hh %%b.rl
 )</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -217,7 +217,7 @@ for /f "tokens=1 delims=." %%b in (rllist.txt) do (
       <ModuleDefinitionFile>harfbuzz.def</ModuleDefinitionFile>
     </Link>
     <PreBuildEvent>
-      <Command>cd $(SolutionDir)\..\src
+      <Command>cd $(SolutionDir)..\src
 echo 2&gt; rllist.txt
 
 for %%a in (*.rl) do (
@@ -225,7 +225,7 @@ echo %%a &gt;&gt; rllist.txt
 )
 
 for /f "tokens=1 delims=." %%b in (rllist.txt) do (
-..\..\..\..\..\ragel\ragel.exe -e -F1 -o %%b.hh %%b.rl
+..\..\..\..\ragel\ragel.exe -e -F1 -o %%b.hh %%b.rl
 )</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>

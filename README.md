@@ -122,45 +122,52 @@ If you want to build the bundle from source yourself, we have a PowerShell scrip
 
     * [Visual Studio 2013 Express for Windows Desktop](http://www.visualstudio.com/downloads/download-visual-studio-vs#d-2013-express)
     * [Windows Management Framework 4.0](https://www.microsoft.com/en-us/download/details.aspx?id=40855) - Not needed for Windows 8.1 and above
-    * [7-Zip](http://www.7-zip.org/download.html) (install to _C:\Program Files\7-Zip_; do not use the _7z.exe_ bundled with MozillaBuild)
+    * [7-Zip](http://www.7-zip.org/download.html) (install to _C:\Program Files\7-Zip_)
     * [CMake 3.0.2](http://www.cmake.org/download/)
-    * [MozillaBuild 1.10.0](https://ftp.mozilla.org/pub/mozilla.org/mozilla/libraries/win32/)
-    * Perl 5.20 [x86](https://dl.hexchat.net/misc/perl/perl-5.20.0-x86.7z) or [x64](https://dl.hexchat.net/misc/perl/perl-5.20.0-x64.7z) (extract to _C:\mozilla-build\perl-5.20\Win32_ or _C:\mozilla-build\perl-5.20\x64_)
-    * [Python 2.7](https://www.python.org/downloads/windows/) (install to _C:\mozilla-build\python-2.7\Win32_ or _C:\mozilla-build\python-2.7\x64_)
-    * [NASM](http://www.nasm.us/pub/nasm/releasebuilds/?C=M;O=D) (extract to _C:\mozilla-build\nasm_)
-    * [msgfmt](https://dl.hexchat.net/gtk-win32/msgfmt-0.18.1.7z) (extract to _C:\mozilla-build_)
-    * [Ragel](https://dl.hexchat.net/gtk-win32/ragel-6.8.7z) (extract to _C:\mozilla-build_)
+    * [msys2](https://msys2.github.io/)
+    * Perl 5.20 [x86](https://dl.hexchat.net/misc/perl/perl-5.20.0-x86.7z) or [x64](https://dl.hexchat.net/misc/perl/perl-5.20.0-x64.7z) (extract to _C:\gtk-build\perl-5.20\Win32_ or _C:\gtk-build\perl-5.20\x64_)
+    * [Python 2.7](https://www.python.org/downloads/windows/) (install to _C:\gtk-build\python-2.7\Win32_ or _C:\gtk-build\python-2.7\x64_)
+    * [msgfmt](https://dl.hexchat.net/gtk-win32/msgfmt-0.18.1.7z) (extract to _C:\gtk-build_)
+    * [Ragel](https://dl.hexchat.net/gtk-win32/ragel-6.8.7z) (extract to _C:\gtk-build_)
 
-1. Clone [this repository](https://github.com/hexchat/gtk-win32) repository to _C:\mozilla-build\hexchat\github\gtk-win32_ This repository contains the build script, project files and patches.
+1. Follow the instructions on the msys2 page to update the core packages.
+
+1. Install needed packages in the msys2 shell
+
+    ```bash
+    pacman -S gzip nasm patch tar xz
+    ```
+
+1. Clone [this repository](https://github.com/hexchat/gtk-win32) repository to _C:\gtk-build\github\gtk-win32_ This repository contains the build script, project files and patches.
 
 1. Now you have to allow PowerShell scripts to be run on your system. Open a PowerShell prompt **as Administrator** and run the following command:
 
     ```powershell
-	Set-ExecutionPolicy RemoteSigned
-	```
+    Set-ExecutionPolicy RemoteSigned
+    ```
 
 1. Now start a new PowerShell window as a regular user. Go to the _gtk-win32_ directory and start building with the script. For example, to build the 32-bit bundle, run:
 
     ```powershell
-	cd C:\mozilla-build\hexchat\github\gtk-win32
-	.\build.ps1
-	```
+    cd C:\gtk-build\github\gtk-win32
+    .\build.ps1
+    ```
 
     To build the 64-bit bundle instead, run:
 
     ```powershell
-	cd C:\mozilla-build\hexchat\github\gtk-win32
-	.\build.ps1 -Configuration x64
-	```
+    cd C:\gtk-build\github\gtk-win32
+    .\build.ps1 -Configuration x64
+    ```
 
     The script has some parameters you can pass in. Run
 
     ```powershell
-	Get-Help -Full .\build.ps1
-	```
+    Get-Help -Full .\build.ps1
+    ```
 
     to see the help for the parameters and examples.
 
-1. When the script is done, your GTK+ stack will be found under _C:\mozilla-build\hexchat\gtk_. Enjoy!
+1. When the script is done, your GTK+ stack will be found under _C:\gtk-build\gtk_. Enjoy!
 
 ![GTK+ 2 dependency graph](https://hexchat.github.io/gtk-win32/img/dependency-graph.png)

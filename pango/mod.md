@@ -1,5 +1,4 @@
  * Download [Pango 1.36.8](http://ftp.gnome.org/pub/GNOME/sources/pango/1.36/pango-1.36.8.tar.xz)
- * Extract to `C:\mozilla-build\hexchat`
  * Patch with `patch -p1 -i pango-synthesize-all-fonts.patch`
  * In all vcxproj files,
 	* add `<Import Project="..\..\..\..\stack.props" />`
@@ -29,7 +28,3 @@ if "$(Configuration)" == "Release_FC" copy $(SolutionDir)\Release\$(Platform)\bi
  * In `build\win32\vs12\pangoft2.vcxproj`, replace:
 	* `<AdditionalDependencies>fontconfig.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>` with
 `<AdditionalDependencies>fontconfig.lib;freetype.lib;harfbuzz.lib;%(AdditionalDependencies)</AdditionalDependencies>`
- * Open `build\win32\vs12\pango.sln` with VS
- * Build in VS
- * Release with `release-x86.bat`
- * Extract package to `C:\mozilla-build\hexchat\build\Win32`

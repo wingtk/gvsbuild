@@ -1,5 +1,4 @@
  * Download [ATK 2.14.0](http://ftp.gnome.org/pub/gnome/sources/atk/2.14/atk-2.14.0.tar.xz)
- * Extract to `C:\mozilla-build\hexchat`
  * In `build\win32\vs12\atk-build-defines.props`, replace:
 	* `intl.lib` with `libintl.lib`
  * In `build\win32\vs12\atk-install.props`:
@@ -16,8 +15,3 @@
 	* Remove all `<Optimization>` lines
  * In `build\win32\vs12\install.vcxproj`:
 	* replace `AtkEtcInstallRoot` with `GlibEtcInstallRoot`
- * Open `build\win32\vs12\atk.sln` with VS
- * Select `Release|Win32` configuration
- * Build in VS
- * Release with `release-x86.bat`
- * Extract package to `C:\mozilla-build\hexchat\build\Win32`

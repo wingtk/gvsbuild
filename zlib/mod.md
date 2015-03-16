@@ -1,5 +1,4 @@
  * Download [zlib 1.2.8](http://zlib.net/zlib128.zip)
- * Extract to `C:\mozilla-build\hexchat`
  * Remove `Optimization` settings in `contrib\vc12\*.vcxproj`
  * In `contrib\vstudio\vc12\zlibvc.sln`:
 	* Remove `Itanium` platform
@@ -21,7 +20,3 @@
 		* Replace `zlibwapi.pdb` with `zlib1.pdb`
 		* Replace `zlibwapi.map` with `zlib1.map`
 	* Select `miniunz` and `minizip` not to be built
- * Open `contrib\vstudio\vc12\zlibvc.sln` with VS
- * Build in VS
- * Release with `release-x86.bat`
- * Extract package to `C:\mozilla-build\hexchat\build\Win32`

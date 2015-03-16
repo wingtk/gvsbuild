@@ -19,8 +19,12 @@ x64       - 64-bit build. Uses the 32-bit cross-compiler with VS Express or the 
 Setting this to $true forces the items to be built one after the other.
 
 
-.PARAMETER MozillaBuildDirectory
-The directory where you installed Mozilla Build.
+.PARAMETER BuildDirectory
+The directory where the sources will be downloaded and built.
+
+
+.PARAMETER Msys2Directory
+The directory where you installed msys2.
 
 
 .PARAMETER ArchivesDownloadDirectory
@@ -35,16 +39,16 @@ The directory where you checked out https://github.com/hexchat/gtk-win32.git
 The directory where you installed Visual Studio.
 
 
-.PARAMETER Patch
-The path to a patch.exe binary.
-
-
 .PARAMETER SevenZip
-The path to a 7-zip executable. Do not use the one provided by Mozilla Build as it's too old and will not work.
+The path to the 7-zip executable.
 
 
 .PARAMETER CMakePath
 The directory where you installed cmake.
+
+
+.PARAMETER PerlDirectory
+The directory where you installed perl.
 
 
 .PARAMETER OnlyBuild
@@ -67,7 +71,7 @@ Default paths. Items are built one at a time. x86 build.
 
 
 .EXAMPLE
-build.ps1 -MozillaBuildDirectory D:\mozilla-build -ArchivesDownloadDirectory C:\hexchat-deps -SevenZip C:\Downloads\7-Zip\7za.exe
+build.ps1 -Msys2Directory D:\msys32 -ArchivesDownloadDirectory C:\hexchat-deps -SevenZip C:\Downloads\7-Zip\7za.exe
 Custom paths. x86 build.
 
 
@@ -95,25 +99,28 @@ param (
 	$DisableParallelBuild = $false,
 
 	[string]
-	$MozillaBuildDirectory = 'C:\mozilla-build',
+	$BuildDirectory = 'C:\gtk-build',
 
 	[string]
-	$ArchivesDownloadDirectory = 'C:\mozilla-build\hexchat\src',
+	$Msys2Directory = 'C:\msys32',
 
 	[string]
-	$PatchesRootDirectory = 'C:\mozilla-build\hexchat\github\gtk-win32',
+	$ArchivesDownloadDirectory = "$BuildDirectory\src",
+
+	[string]
+	$PatchesRootDirectory = "$BuildDirectory\github\gtk-win32",
 
 	[string]
 	$VSInstallPath = 'C:\Program Files (x86)\Microsoft Visual Studio 12.0',
-
-	[string]
-	$Patch = "$MozillaBuildDirectory\msys\bin\patch.exe",
 
 	[string]
 	$SevenZip = 'C:\Program Files\7-Zip\7z.exe',
 
 	[string]
 	$CMakePath = 'C:\Program Files (x86)\CMake\bin',
+
+	[string]
+	$PerlDirectory = "$BuildDirectory\perl-5.20",
 
 	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'fontconfig', 'freetype', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib')]
 	$OnlyBuild = @()
@@ -176,7 +183,7 @@ $items['cairo'].BuildScript = {
 	$packageDestination = "$PWD-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
-	Exec $Patch -p1 -i cairo-array-vs-struct-initializer.patch
+	Exec $patch -p1 -i cairo-array-vs-struct-initializer.patch
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
@@ -253,7 +260,7 @@ $items['fontconfig'].BuildScript = {
 	$packageDestination = "$PWD-$filenameArch"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
-	Exec $Patch -p1 -i fontconfig.patch
+	Exec $patch -p1 -i fontconfig.patch
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
@@ -359,13 +366,13 @@ $items['gettext-runtime'].BuildScript = {
 	$packageDestination = "$PWD-$filenameArch"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
-	Exec $Patch -p1 -i gettext-runtime.patch
+	Exec $patch -p1 -i gettext-runtime.patch
 
 	Remove-Item -Recurse CMakeCache.txt, CMakeFiles -ErrorAction Ignore
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-	$env:PATH = "${env:PATH};$CMakePath"
+	$env:PATH += ";$CMakePath"
 	Exec cmake -G 'NMake Makefiles' "-DCMAKE_INSTALL_PREFIX=`"$packageDestination`"" -DCMAKE_BUILD_TYPE=Release "-DICONV_INCLUDE_DIR=`"$packageDestination\..\..\..\gtk\$platform\include`"" "-DICONV_LIBRARIES=`"$packageDestination\..\..\..\gtk\$platform\lib\iconv.lib`""
 	Exec nmake clean
 	Exec nmake
@@ -384,8 +391,8 @@ $items['glib'].BuildScript = {
 	$packageDestination = "$PWD-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
-	Exec $Patch -p1 -i glib-if_nametoindex.patch
-	Exec $Patch -p1 -i glib-package-installation-directory.patch
+	Exec $patch -p1 -i glib-if_nametoindex.patch
+	Exec $patch -p1 -i glib-package-installation-directory.patch
 
 	Add-Utf8Bom .\gio\gdbusaddress.c
 	Add-Utf8Bom .\gio\gfile.c
@@ -408,10 +415,10 @@ $items['gtk'].BuildScript = {
 	$packageDestination = "$PWD-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
-	Exec $Patch -p1 -i gtk-revert-scrolldc-commit.patch
-	Exec $Patch -p1 -i gtk-bgimg.patch
-	Exec $Patch -p1 -i gtk-accel.patch
-	Exec $Patch -p1 -i gtk-multimonitor.patch
+	Exec $patch -p1 -i gtk-revert-scrolldc-commit.patch
+	Exec $patch -p1 -i gtk-bgimg.patch
+	Exec $patch -p1 -i gtk-accel.patch
+	Exec $patch -p1 -i gtk-multimonitor.patch
 
 	Add-Utf8Bom .\gdk\gdkkeyuni.c
 
@@ -421,17 +428,16 @@ $items['gtk'].BuildScript = {
 
 	[void] (Swap-Environment $originalEnvironment)
 
+	$env:PATH += ";$BuildDirectory\msgfmt"
+
 	New-Item -Type Directory $packageDestination\share\locale
 
-	$oldPath = $env:Path
-	$env:Path = "${env:Path};..\..\..\..\..\msgfmt"
 	Push-Location .\po
 	Get-ChildItem *.po | %{
 		New-Item -Type Directory "$packageDestination\share\locale\$($_.BaseName)\LC_MESSAGES"
 		Exec msgfmt -co "$packageDestination\share\locale\$($_.BaseName)\LC_MESSAGES\gtk20.mo" $_.Name
 	}
 	Pop-Location
-	$env:Path = $oldPath
 
 	New-Item -Type Directory $packageDestination\share\doc\gtk
 	Copy-Item .\COPYING $packageDestination\share\doc\gtk
@@ -601,7 +607,7 @@ $items['openssl'].BuildScript = {
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-	$env:PATH += ";$MozillaBuildDirectory\perl-5.20\$platform\bin;$MozillaBuildDirectory\nasm"
+	$env:PATH += ";$PerlDirectory\$platform\bin;$Msys2Directory\usr\bin"
 
 	switch ($filenameArch) {
 		'x86' {
@@ -669,7 +675,7 @@ $items['pango'].BuildScript = {
 	$packageDestination = "$PWD-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
-	Exec $Patch -p1 -i pango-synthesize-fonts-properly.patch
+	Exec $patch -p1 -i pango-synthesize-fonts-properly.patch
 
 	Add-Utf8Bom .\pango\break.c
 	Add-Utf8Bom .\pango\pango-language-sample-table.h
@@ -735,7 +741,8 @@ $items['win-iconv'].BuildScript = {
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-	$env:PATH = "${env:PATH};$CMakePath"
+	$env:PATH += ";$CMakePath"
+
 	Exec cmake -G 'NMake Makefiles' "-DCMAKE_INSTALL_PREFIX=`"$packageDestination`"" -DCMAKE_BUILD_TYPE=Release
 	Exec nmake clean
 	Exec nmake
@@ -795,6 +802,17 @@ $items['zlib'].BuildScript = {
 #========================================================================================================================================================
 
 
+$patch = "$Msys2Directory\usr\bin\patch.exe"
+if (-not $(Test-Path $patch)) {
+	throw "$patch not found. Please check that you installed patch in msys2 using ``pacman -S patch``"
+}
+
+$tar = "$Msys2Directory\usr\bin\tar.exe"
+if (-not $(Test-Path $tar)) {
+	throw "$tar not found. Please check that you installed tar and other unzipping tools in msys2 using ``pacman -S gzip tar xz``"
+}
+
+
 # Verify VS exists at the indicated location, and that it supports the required target
 switch ($Configuration) {
 	'x86' {
@@ -825,17 +843,15 @@ switch ($Configuration) {
 	'x86' {
 		$platform = 'Win32'
 		$filenameArch = 'x86'
-		$mozillaBuildStartVC = "$MozillaBuildDirectory\start-shell-msvc2013.bat"
 	}
 
 	'x64' {
 		$platform = 'x64'
 		$filenameArch = 'x64'
-		$mozillaBuildStartVC = "$MozillaBuildDirectory\start-shell-msvc2013-x64.bat"
 	}
 }
 
-$workingDirectory = "$MozillaBuildDirectory\hexchat\build\$platform"
+$workingDirectory = "$BuildDirectory\build\$platform"
 
 
 # Set up additional properties on the items
@@ -904,7 +920,7 @@ Remove-Item $logDirectory\*.log
 New-Item -Type Directory $workingDirectory\..\..\gtk\$platform -ErrorAction Ignore
 
 
-# For each item, start a job to download the source archives, extract them to mozilla-build, and copy over the stuff from gtk-win32
+# For each item, start a job to download the source archives, extract them to $workingDirectory, and copy over the stuff from gtk-win32
 Write-Host "Downloading and extracting source archives to $workingDirectory"
 
 $items.GetEnumerator() | %{
@@ -919,12 +935,18 @@ $items.GetEnumerator() | %{
 			&$name @arguments
 			[void] ($LASTEXITCODE -and $(throw "$name $arguments exited with code $LASTEXITCODE"))
 		}
+
+		function ConvertTo-Msys2Path ([string] $Path) {
+			([regex] '^([a-zA-Z]):').Replace(($Path -replace '\\', '/'), { "/$($args[0].Groups[1].Value.ToLower())" })
+		}
 	} -ArgumentList $item {
 		param ($item)
 
 		$ArchivesDownloadDirectory = $using:ArchivesDownloadDirectory
-		$workingDirectory = $using:workingDirectory
+		$Msys2Directory = $using:Msys2Directory
 		$SevenZip = $using:SevenZip
+		$tar = $using:tar
+		$workingDirectory = $using:workingDirectory
 
 		'Beginning job to download and extract'
 
@@ -947,8 +969,8 @@ $items.GetEnumerator() | %{
 		"Extracting $($item.ArchiveFile.Name) to $workingDirectory"
 
 		if ($item.ArchiveFile.Name -match '.tar.(?:gz|xz|bz2)$') {
-			$command = "`"$SevenZip`" x `"$($item.ArchiveFile)`" -y -so | `"$SevenZip`" x -o`"$workingDirectory`" -y -si -ttar";
-			Exec cmd /C "`"$command`"" > $null
+			$env:PATH += ";$Msys2Directory\usr\bin"
+			Exec $tar xf $(ConvertTo-Msys2Path $item.ArchiveFile) -C $(ConvertTo-Msys2Path $workingDirectory)
 
 			$outputDirectoryName = [System.IO.Path]::GetFilenameWithoutExtension($item.ArchiveFile.BaseName)
 			Move-Item "$workingDirectory\$outputDirectoryName" $item.BuildDirectory
@@ -1072,16 +1094,17 @@ while (@($items.GetEnumerator() | ?{ ($_.Value.State -eq 'Pending') -or ($_.Valu
 			} -ArgumentList $nextPendingItem {
 				param ($item)
 
-				$MozillaBuildDirectory = $using:MozillaBuildDirectory
-				$mozillaBuildStartVC = $using:mozillaBuildStartVC
+				$BuildDirectory = $using:BuildDirectory
+				$CMakePath = $using:CMakePath
 				$Configuration = $using:Configuration
-				$vcvarsEnvironment = $using:vcvarsEnvironment
 				$filenameArch = $using:filenameArch
-				$Patch = $using:Patch
+				$Msys2Directory = $using:Msys2Directory
+				$patch = $using:patch
+				$PerlDirectory = $using:PerlDirectory
 				$platform = $using:platform
+				$vcvarsEnvironment = $using:vcvarsEnvironment
 				$VSInstallPath = $using:VSInstallPath
 				$workingDirectory = $using:workingDirectory
-				$CMakePath = $using:CMakePath
 
 				Set-Location $item.BuildDirectory
 

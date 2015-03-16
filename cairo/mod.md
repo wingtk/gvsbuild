@@ -1,6 +1,5 @@
  * Download [cairo 1.14.0](http://cairographics.org/releases/cairo-1.14.0.tar.xz)
  * Download [VS solution](https://wiki.gnome.org/Projects/GTK%2B/Win32/MSVCCompilationOfGTKStack?action=AttachFile&do=get&target=cairo-vsprojects.zip)
- * Extract to `C:\mozilla-build\hexchat`
  * In `msvc\vc12\cairo.props`, replace:
 	* `<CairoEtcInstallRoot>..\..\..\vs10\$(Platform)</CairoEtcInstallRoot>` with
 `<CairoEtcInstallRoot>..\..\..\..\..\gtk\$(Platform)</CairoEtcInstallRoot>`
@@ -24,6 +23,3 @@
  * Open `msvc\vc12\cairo.sln` with VS and select `Release_FC` configuration
  * Make `cairo-gobject` and `install` buildable
  * Make `install` depend on `cairo-gobject`
- * Build in VS
- * Release with `release-x86.bat`
- * Extract package to `C:\mozilla-build\hexchat\build\Win32`
