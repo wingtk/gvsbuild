@@ -147,7 +147,7 @@ $items = @{
 	'harfbuzz'         = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/harfbuzz-0.9.39.tar.bz2';  'Dependencies' = @('freetype', 'glib')                  };
 	'libffi'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libffi-3.0.13.tar.gz';     'Dependencies' = @()                                    };
 	'libpng'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libpng-1.6.16.tar.xz';     'Dependencies' = @('zlib')                              };
-	'libxml2'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libxml2-2.9.1.7z';         'Dependencies' = @('win-iconv')                         };
+	'libxml2'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libxml2-2.9.1.tar.gz';     'Dependencies' = @('win-iconv')                         };
 	'openssl'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/openssl-1.0.1l.tar.gz';    'Dependencies' = @()                                    };
 	'pango'            = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/pango-1.36.8.tar.xz';      'Dependencies' = @('cairo', 'harfbuzz')                 };
 	'pixman'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/pixman-0.32.6.tar.gz';     'Dependencies' = @('libpng')                            };

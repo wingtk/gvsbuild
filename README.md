@@ -84,7 +84,7 @@ These are the libraries in the bundle:
     <tr>
         <td>libxml2</td>
         <td>2.9.1</td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/src/libxml2-2.9.1.7z">Source</a></td>
+        <td><a href="https://dl.hexchat.net/gtk-win32/src/libxml2-2.9.1.tar.gz">Source</a></td>
     </tr>
     <tr>
         <td>OpenSSL</td>
