@@ -39,10 +39,6 @@ The directory where you checked out https://github.com/hexchat/gtk-win32.git
 The directory where you installed Visual Studio.
 
 
-.PARAMETER SevenZip
-The path to the 7-zip executable.
-
-
 .PARAMETER CMakePath
 The directory where you installed cmake.
 
@@ -71,7 +67,7 @@ Default paths. Items are built one at a time. x86 build.
 
 
 .EXAMPLE
-build.ps1 -Msys2Directory D:\msys32 -ArchivesDownloadDirectory C:\hexchat-deps -SevenZip C:\Downloads\7-Zip\7za.exe
+build.ps1 -Msys2Directory D:\msys32 -ArchivesDownloadDirectory C:\hexchat-deps
 Custom paths. x86 build.
 
 
@@ -112,9 +108,6 @@ param (
 
 	[string]
 	$VSInstallPath = 'C:\Program Files (x86)\Microsoft Visual Studio 12.0',
-
-	[string]
-	$SevenZip = 'C:\Program Files\7-Zip\7z.exe',
 
 	[string]
 	$CMakePath = 'C:\Program Files (x86)\CMake\bin',
@@ -1018,7 +1011,6 @@ $items.GetEnumerator() | %{
 
 		$ArchivesDownloadDirectory = $using:ArchivesDownloadDirectory
 		$Msys2Directory = $using:Msys2Directory
-		$SevenZip = $using:SevenZip
 		$tar = $using:tar
 		$workingDirectory = $using:workingDirectory
 
@@ -1042,28 +1034,18 @@ $items.GetEnumerator() | %{
 
 		"Extracting $($item.ArchiveFile.Name) to $workingDirectory"
 
-		if ($item.ArchiveFile.Name -match '.tar.(?:gz|xz|bz2)$') {
-			$env:PATH += ";$Msys2Directory\usr\bin"
+		$env:PATH += ";$Msys2Directory\usr\bin"
 
-			if ($item.Name -ne 'gettext-runtime') {
-				Exec $tar xf $(ConvertTo-Msys2Path $item.ArchiveFile) -C $(ConvertTo-Msys2Path $workingDirectory)
+		if ($item.Name -ne 'gettext-runtime') {
+			Exec $tar xf $(ConvertTo-Msys2Path $item.ArchiveFile) -C $(ConvertTo-Msys2Path $workingDirectory)
 
-				$outputDirectoryName = [System.IO.Path]::GetFilenameWithoutExtension($item.ArchiveFile.BaseName)
-				Move-Item "$workingDirectory\$outputDirectoryName" $item.BuildDirectory
-			}
-			else {
-				# gettext-runtime is a tarbomb
-				[void] (New-Item -Type Directory $item.BuildDirectory)
-				Exec $tar xf $(ConvertTo-Msys2Path $item.ArchiveFile) -C $(ConvertTo-Msys2Path $item.BuildDirectory)
-			}
-		}
-		elseif ($item.ArchiveFile.Extension -eq '.7z') {
-			Exec $SevenZip x $item.ArchiveFile -o"$workingDirectory" -y > $null
-
-			Move-Item "$workingDirectory\$($item.ArchiveFile.BaseName)" $item.BuildDirectory
+			$outputDirectoryName = [System.IO.Path]::GetFilenameWithoutExtension($item.ArchiveFile.BaseName)
+			Move-Item "$workingDirectory\$outputDirectoryName" $item.BuildDirectory
 		}
 		else {
-			throw "Unrecognized extension in archive file $_"
+			# gettext-runtime is a tarbomb
+			[void] (New-Item -Type Directory $item.BuildDirectory)
+			Exec $tar xf $(ConvertTo-Msys2Path $item.ArchiveFile) -C $(ConvertTo-Msys2Path $item.BuildDirectory)
 		}
 
 		"Extracted $($item.ArchiveFile.Name)"
