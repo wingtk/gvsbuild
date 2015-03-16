@@ -104,7 +104,7 @@ These are the libraries in the bundle:
     <tr>
         <td>win-iconv</td>
         <td>0.0.6</td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/src/win-iconv-0.0.6.7z">Source</a></td>
+        <td><a href="https://dl.hexchat.net/gtk-win32/src/win-iconv-0.0.6.tar.bz2">Source</a></td>
     </tr>
     <tr>
         <td>zlib</td>

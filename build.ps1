@@ -151,7 +151,7 @@ $items = @{
 	'openssl'          = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/openssl-1.0.1l.tar.gz';    'Dependencies' = @()                                    };
 	'pango'            = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/pango-1.36.8.tar.xz';      'Dependencies' = @('cairo', 'harfbuzz')                 };
 	'pixman'           = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/pixman-0.32.6.tar.gz';     'Dependencies' = @('libpng')                            };
-	'win-iconv'        = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/win-iconv-0.0.6.7z';       'Dependencies' = @()                                    };
+	'win-iconv'        = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/win-iconv-0.0.6.tar.bz2';  'Dependencies' = @()                                    };
 	'zlib'             = @{ 'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/zlib-1.2.8.tar.xz';        'Dependencies' = @()                                    };
 }
 
@@ -736,6 +736,9 @@ $items['pixman']['BuildScript'] = {
 $items['win-iconv'].BuildScript = {
 	$packageDestination = "$PWD-$filenameArch"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	Exec $patch -p2 -i win-iconv-r38.patch
+	Exec $patch -p1 -i win-iconv-revert-r32.patch
 
 	Remove-Item -Recurse CMakeCache.txt, CMakeFiles -ErrorAction Ignore
 
