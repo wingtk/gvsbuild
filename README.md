@@ -74,7 +74,7 @@ These are the libraries in the bundle:
     <tr>
         <td>libffi</td>
         <td>3.0.13</td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/src/libffi-3.0.13.7z">Source</a></td>
+        <td><a href="https://dl.hexchat.net/gtk-win32/src/libffi-3.0.13.tar.gz">Source</a></td>
     </tr>
     <tr>
         <td>libpng</td>
