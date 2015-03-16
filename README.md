@@ -54,7 +54,7 @@ These are the libraries in the bundle:
     <tr>
         <td>gettext-runtime</td>
         <td>0.18</td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/src/gettext-runtime-0.18.7z">Source</a></td>
+        <td><a href="https://dl.hexchat.net/gtk-win32/src/gettext-vc100-0.18-src.tar.bz2">Source</a></td>
     </tr>
     <tr>
         <td>GLib</td>

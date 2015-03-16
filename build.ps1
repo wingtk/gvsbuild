@@ -166,7 +166,7 @@ $items = @{
 	};
 
 	'gettext-runtime' = @{
-		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gettext-runtime-0.18.7z'
+		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gettext-vc100-0.18-src.tar.bz2'
 		'Dependencies' = @('win-iconv')
 	};
 
@@ -1044,10 +1044,18 @@ $items.GetEnumerator() | %{
 
 		if ($item.ArchiveFile.Name -match '.tar.(?:gz|xz|bz2)$') {
 			$env:PATH += ";$Msys2Directory\usr\bin"
-			Exec $tar xf $(ConvertTo-Msys2Path $item.ArchiveFile) -C $(ConvertTo-Msys2Path $workingDirectory)
 
-			$outputDirectoryName = [System.IO.Path]::GetFilenameWithoutExtension($item.ArchiveFile.BaseName)
-			Move-Item "$workingDirectory\$outputDirectoryName" $item.BuildDirectory
+			if ($item.Name -ne 'gettext-runtime') {
+				Exec $tar xf $(ConvertTo-Msys2Path $item.ArchiveFile) -C $(ConvertTo-Msys2Path $workingDirectory)
+
+				$outputDirectoryName = [System.IO.Path]::GetFilenameWithoutExtension($item.ArchiveFile.BaseName)
+				Move-Item "$workingDirectory\$outputDirectoryName" $item.BuildDirectory
+			}
+			else {
+				# gettext-runtime is a tarbomb
+				[void] (New-Item -Type Directory $item.BuildDirectory)
+				Exec $tar xf $(ConvertTo-Msys2Path $item.ArchiveFile) -C $(ConvertTo-Msys2Path $item.BuildDirectory)
+			}
 		}
 		elseif ($item.ArchiveFile.Extension -eq '.7z') {
 			Exec $SevenZip x $item.ArchiveFile -o"$workingDirectory" -y > $null
