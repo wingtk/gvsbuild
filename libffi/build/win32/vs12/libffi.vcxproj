@@ -32,18 +32,18 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <PreprocessorDefinitions>HAVE_CONFIG_H;DLL_EXPORT;PIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\include;..\..\..\i686-pc-mingw32;..\..\..\i686-pc-mingw32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\..\include;..\..\..\x86_64-w64-mingw32;..\..\..\x86_64-w64-mingw32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\include;..\..\..\i686-pc-mingw32;..\..\..\i686-pc-mingw32\include;..\..\..\src\x86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\..\include;..\..\..\x86_64-w64-mingw32;..\..\..\x86_64-w64-mingw32\include;..\..\..\src\x86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsC</CompileAs>
     </ClCompile>
     <PreBuildEvent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      <Command><![CDATA[cl /nologo /EP /DHAVE_CONFIG_H /DDLL_EXPORT /DPIC /I..\..\..\include /I..\..\..\i686-pc-mingw32 /I..\..\..\i686-pc-mingw32\include ..\..\..\src\x86\win32.S > $(IntDir)\win32.asm]]></Command>
+      <Command><![CDATA[cl /nologo /EP /DHAVE_CONFIG_H /DDLL_EXPORT /DPIC /I..\..\..\include /I..\..\..\i686-pc-mingw32 /I..\..\..\i686-pc-mingw32\include /I..\..\..\src\x86 ..\..\..\src\x86\win32.S > $(IntDir)\win32.asm]]></Command>
     </PreBuildEvent>
     <PreBuildEvent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      <Command><![CDATA[cl /nologo /EP /DHAVE_CONFIG_H /DDLL_EXPORT /DPIC /I..\..\..\include /I..\..\..\x86_64-w64-mingw32 /I..\..\..\x86_64-w64-mingw32\include ..\..\..\src\x86\win64.S > $(IntDir)\win64.asm]]></Command>
+      <Command><![CDATA[cl /nologo /EP /DHAVE_CONFIG_H /DDLL_EXPORT /DPIC /I..\..\..\include /I..\..\..\x86_64-w64-mingw32 /I..\..\..\x86_64-w64-mingw32\include /I..\..\..\src\x86 ..\..\..\src\x86\win64.S > $(IntDir)\win64.asm]]></Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
