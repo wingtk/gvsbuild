@@ -58,8 +58,8 @@ These are the libraries in the bundle:
     </tr>
     <tr>
         <td>GLib</td>
-        <td>2.42.2</td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/src/glib-2.42.2.tar.xz">Source</a></td>
+        <td>2.44.0</td>
+        <td><a href="https://dl.hexchat.net/gtk-win32/src/glib-2.44.0.tar.xz">Source</a></td>
     </tr>
     <tr>
         <td>GTK+</td>
