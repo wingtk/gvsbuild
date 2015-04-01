@@ -28,8 +28,8 @@ These are the libraries in the bundle:
     </tr>
     <tr>
         <td>Cairo</td>
-        <td>1.14.0</td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/src/cairo-1.14.0.tar.xz">Source</a></td>
+        <td>1.14.2</td>
+        <td><a href="https://dl.hexchat.net/gtk-win32/src/cairo-1.14.2.tar.xz">Source</a></td>
     </tr>
     <tr>
         <td>Enchant</td>

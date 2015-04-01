@@ -134,7 +134,7 @@ $items = @{
 	};
 
 	'cairo' = @{
-		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/cairo-1.14.0.tar.xz'
+		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/cairo-1.14.2.tar.xz'
 		'Dependencies' = @('fontconfig', 'glib', 'pixman')
 	};
 
@@ -246,8 +246,6 @@ $items['atk'].BuildScript = {
 $items['cairo'].BuildScript = {
 	$packageDestination = "$PWD-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
-
-	Exec $patch -p1 -i cairo-array-vs-struct-initializer.patch
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
