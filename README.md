@@ -23,8 +23,8 @@ These are the libraries in the bundle:
 <table>
     <tr>
         <td>ATK</td>
-        <td>2.14.0</td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/src/atk-2.14.0.tar.xz">Source</a></td>
+        <td>2.16.0</td>
+        <td><a href="https://dl.hexchat.net/gtk-win32/src/atk-2.16.0.tar.xz">Source</a></td>
     </tr>
     <tr>
         <td>Cairo</td>

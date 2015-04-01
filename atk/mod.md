@@ -1,8 +1,6 @@
- * Download [ATK 2.14.0](http://ftp.gnome.org/pub/gnome/sources/atk/2.14/atk-2.14.0.tar.xz)
+ * Download [ATK 2.16.0](http://ftp.gnome.org/pub/gnome/sources/atk/2.16/atk-2.16.0.tar.xz)
  * In `build\win32\vs12\atk-build-defines.props`, replace:
 	* `intl.lib` with `libintl.lib`
- * In `build\win32\vs12\atk-install.props`:
-	*  add to `AtkDoInstall` `copy $(BinDir)\*.pdb $(CopyDir)\bin`
  * In `build\win32\vs12\atk-version-paths.props`, replace:
 	* `<GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\vs$(VSVer)\$(Platform)</GlibEtcInstallRoot>` with
 `<GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>`

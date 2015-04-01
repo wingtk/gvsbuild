@@ -9,15 +9,11 @@
     <AtkDoInstall>
 mkdir $(CopyDir)\bin
 
-copy $(BinDir)\*.dll $(CopyDir)\bin
-
-copy $(BinDir)\*.pdb $(CopyDir)\bin
-
+copy $(BinDir)\$(AtkDllPrefix)atk$(AtkDllSuffix).dll $(CopyDir)\bin
+copy $(BinDir)\$(AtkDllPrefix)atk$(AtkDllSuffix).pdb $(CopyDir)\bin
 
 mkdir $(CopyDir)\lib
-
-copy $(BinDir)\*-$(ApiVersion).lib $(CopyDir)\lib
-
+copy $(BinDir)\atk-$(ApiVersion).lib $(CopyDir)\lib
 
 mkdir $(CopyDir)\include\atk-$(ApiVersion)\atk
 
