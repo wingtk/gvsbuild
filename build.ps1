@@ -880,7 +880,7 @@ $items['zlib'].BuildScript = {
 
 	[void] (Swap-Environment $originalEnvironment)
 
-	Push-Location ".\build\vs$VSVer\Release\Win32"
+	Push-Location ".\build\vs$VSVer\Release\$platform"
 
 	New-Item -Type Directory $packageDestination\include
 	Copy-Item `
