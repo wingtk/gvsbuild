@@ -67,7 +67,7 @@ Default paths. Items are built one at a time. x86 build.
 
 
 .EXAMPLE
-build.ps1 -Msys2Directory D:\msys32 -ArchivesDownloadDirectory C:\hexchat-deps
+build.ps1 -Msys2Directory D:\msys64 -ArchivesDownloadDirectory C:\hexchat-deps
 Custom paths. x86 build.
 
 
@@ -98,7 +98,7 @@ param (
 	$BuildDirectory = 'C:\gtk-build',
 
 	[string]
-	$Msys2Directory = 'C:\msys32',
+	$Msys2Directory = 'C:\msys64',
 
 	[string]
 	$ArchivesDownloadDirectory = "$BuildDirectory\src",
