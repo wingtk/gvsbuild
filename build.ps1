@@ -193,7 +193,7 @@ $items = @{
 	};
 
 	'libffi' = @{
-		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libffi-3.2.1.tar.gz'
+		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libffi-3.0.13.tar.gz'
 		'Dependencies' = @()
 	};
 
@@ -598,9 +598,6 @@ $items['libffi'].BuildScript = {
 	$packageDestination = "$PWD-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
-	Exec $patch -p1 -i libffi-msvc-complex.patch
-	Exec $patch -p1 -i libffi-win64-jmp.patch
-
 	switch ($filenameArch) {
 		'x86' {
 			$buildDestination = 'i686-pc-mingw32'
@@ -620,7 +617,7 @@ $items['libffi'].BuildScript = {
 	New-Item -Type Directory $packageDestination\include
 	Copy-Item `
 		.\$buildDestination\include\ffi.h, `
-		.\src\x86\ffitarget.h `
+		.\$buildDestination\include\ffitarget.h `
 		$packageDestination\include
 
 	New-Item -Type Directory $packageDestination\share\doc\libffi
