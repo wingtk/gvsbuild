@@ -1,11 +1,64 @@
- * Download [libxml2 2.9.1](ftp://xmlsoft.org/libxml2/libxml2-2.9.1.tar.gz)
- * Remove the `iconv` project and its references from `win32\VC10\libxml2.sln`, `win32\VC10\libxml2.vcxproj` and `win32\VC10\runsuite.sln`
- * Open `win32\VC10\libxml2.sln` with VS
- * add `stack.props` to the solution
+ * Download [libxml2 2.9.2](ftp://xmlsoft.org/libxml2/libxml2-2.9.2.tar.gz)
+ * Copy win32\VC10 to win32\VC12
+ * Remove the `iconv` project and its references from `win32\VC12\libxml2.sln`, `win32\VC12\libxml2.vcxproj` and `win32\VC12\runsuite.vcxproj`
+ * Open `win32\VC12\libxml2.sln` with VS
+ * Add x64 configuration
  * For the `libxml2` and `runsuite` projects:
-	* Add `..\..\include;..\..\..\..\..\gtk\$(Platform)\include` to _Additional Include Directories_ under _Configuration Properties_ `->` _C/C++_ `->` _General_
-	* Add `4996` to _Disable Specific Warnings_ under _Configuration Properties_ `->` _C/C++_ `->` _Advanced_
+	* Set `<AdditionalIncludeDirectories>' to `$(ProjectDir);$(ProjectDir)..\..\include;$(ProjectDir)..\..\include;$(ProjectDir)..\..\..\..\..\gtk\$(Platform)\include;%(AdditionalIncludeDirectories)`
+	* Add `<DisableSpecificWarnings>4996</DisableSpecificWarnings>`
  * For the `libxml2` project:
 	* Change _Configuration Type_ to _Dynamic Library (.dll)_ under _Configuration Properties_ `->` _General_
-	* Add `..\..\..\..\..\gtk\$(Platform)\lib` to _Additional Library Directories_ under _Configuration Properties_ `->` _Linker_ `->` _General_
-	* Add `ws2_32.lib;iconv.lib` to _Additional Dependencies_ under _Configuration Properties_ `->` _Linker_ `->` _Input_
+	* Set `<AdditionalLibraryDirectories>` to `..\..\..\..\..\gtk\$(Platform)\lib`
+	* Set `<AdditionalDependencies>` to `ws2_32.lib;iconv.lib`
+	* Replace
+	```
+	  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+		<OutDir>$(ProjectDir)..\..\lib\</OutDir>
+	  </PropertyGroup>
+	  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+		<IntDir>build\$(ProjectName)$(Configuration)\</IntDir>
+	  </PropertyGroup>
+	```
+	with
+	```
+	  <PropertyGroup>
+		<OutDir>$(ProjectDir)..\..\lib\</OutDir>
+		<IntDir>build\$(ProjectName)$(Configuration)\</IntDir>
+	  </PropertyGroup>
+	```
+ * Add to libxml2.vcxproj.filters:
+	```
+	<ClCompile Include="..\..\buf.c">
+	  <Filter>Source Files</Filter>
+	</ClCompile>
+	```
+ * For the `runsuites` project:
+	* Replace
+	```
+	  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+		<OutDir>$(ProjectDir)..\..\lib\</OutDir>
+		<IntDir>build\$(ProjectName)$(Configuration)\</IntDir>
+	  </PropertyGroup>
+	```
+	with
+	```
+	  <PropertyGroup>
+		<OutDir>$(ProjectDir)..\..\lib\</OutDir>
+		<IntDir>build\$(ProjectName)$(Configuration)\</IntDir>
+	  </PropertyGroup>
+	```
+ * For `win32\VC12\config.h`, add
+	```
+	#define SEND_ARG2_CAST
+	#define GETHOSTBYNAME_ARG_CAST
+	```
+	and replace
+	```
+	#define snprintf _snprintf
+	```
+	with
+	```
+	#if _MSC_VER < 1900
+	#define snprintf _snprintf
+	#endif
+	```

@@ -189,7 +189,7 @@ $items = @{
 	};
 
 	'libxml2' = @{
-		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libxml2-2.9.1.tar.gz'
+		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libxml2-2.9.2.tar.gz'
 		'Dependencies' = @('win-iconv')
 	};
 
@@ -630,34 +630,24 @@ $items['libxml2'].BuildScript = {
 
 	[void] (Swap-Environment $originalEnvironment)
 
-	switch ($filenameArch) {
-		'x86' {
-			$releaseDirectory = '.\win32\vc12\Release'
-		}
-
-		'x64' {
-			$releaseDirectory = '.\win32\vc12\x64\Release'
-		}
-	}
-
 	New-Item -Type Directory $packageDestination\bin
 	Copy-Item `
-		$releaseDirectory\libxml2.dll, `
-		$releaseDirectory\libxml2.pdb, `
-		$releaseDirectory\runsuite.exe, `
-		$releaseDirectory\runsuite.pdb `
+		.\lib\libxml2.dll, `
+		.\lib\libxml2.pdb, `
+		.\lib\runsuite.exe, `
+		.\lib\runsuite.pdb `
 		$packageDestination\bin
 
 	New-Item -Type Directory $packageDestination\include\libxml
 	Copy-Item `
-		.\include\win32config.h, `
+		.\win32\VC12\config.h, `
 		.\include\wsockcompat.h, `
 		.\include\libxml\*.h `
 		$packageDestination\include\libxml
 
 	New-Item -Type Directory $packageDestination\lib
 	Copy-Item `
-		$releaseDirectory\libxml2.lib `
+		.\lib\libxml2.lib `
 		$packageDestination\lib
 
 	New-Item -Type Directory $packageDestination\share\doc\libxml2
