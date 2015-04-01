@@ -513,14 +513,12 @@ $items['gtk'].BuildScript = {
 
 	[void] (Swap-Environment $originalEnvironment)
 
-	$env:PATH += ";$BuildDirectory\msgfmt"
-
 	New-Item -Type Directory $packageDestination\share\locale
 
 	Push-Location .\po
 	Get-ChildItem *.po | %{
 		New-Item -Type Directory "$packageDestination\share\locale\$($_.BaseName)\LC_MESSAGES"
-		Exec msgfmt -co "$packageDestination\share\locale\$($_.BaseName)\LC_MESSAGES\gtk20.mo" $_.Name
+		Exec $msgfmt -co "$packageDestination\share\locale\$($_.BaseName)\LC_MESSAGES\gtk20.mo" $_.Name
 	}
 	Pop-Location
 
@@ -544,15 +542,12 @@ $items['gtk3'].BuildScript = {
 
 	New-Item -Type Directory $packageDestination\share\locale
 
-	$oldPath = $env:Path
-	$env:Path = "${env:Path};..\..\..\..\..\msgfmt"
 	Push-Location .\po
 	Get-ChildItem *.po | %{
 		New-Item -Type Directory "$packageDestination\share\locale\$($_.BaseName)\LC_MESSAGES"
-		Exec msgfmt -co "$packageDestination\share\locale\$($_.BaseName)\LC_MESSAGES\gtk30.mo" $_.Name
+		Exec $msgfmt -co "$packageDestination\share\locale\$($_.BaseName)\LC_MESSAGES\gtk30.mo" $_.Name
 	}
 	Pop-Location
-	$env:Path = $oldPath
 
 	New-Item -Type Directory $packageDestination\share\doc\gtk
 	Copy-Item .\COPYING $packageDestination\share\doc\gtk
@@ -925,6 +920,10 @@ if (-not $(Test-Path $tar)) {
 	throw "$tar not found. Please check that you installed tar and other unzipping tools in msys2 using ``pacman -S gzip tar xz``"
 }
 
+$msgfmt = "$Msys2Directory\usr\bin\msgfmt.exe"
+if (-not $(Test-Path $msgfmt)) {
+	throw "$msgfmt not found. Please check that you installed msgfmt in msys2 using ``pacman -S gettext``"
+}
 
 # Verify VS exists at the indicated location, and that it supports the required target
 switch ($Configuration) {
