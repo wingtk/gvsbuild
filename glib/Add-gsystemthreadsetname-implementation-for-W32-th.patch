@@ -1,0 +1,172 @@
+From 77df53cfb99cee4cee7f0024f2ed707a05bafdf9 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=D0=A0=D1=83=D1=81=D0=BB=D0=B0=D0=BD=20=D0=98=D0=B6=D0=B1?=
+ =?UTF-8?q?=D1=83=D0=BB=D0=B0=D1=82=D0=BE=D0=B2?= <lrn1986@gmail.com>
+Date: Tue, 7 Apr 2015 20:05:45 +0000
+Subject: [PATCH] Add g_system_thread_set_name() implementation for W32 threads
+
+This works by using semi-documented[1] exception to tell the debugger
+that a thread needs to have its name changed.
+
+If this exception is not caught and handled by something, it will crash
+the process, so we need to set up our own handler in case there's no
+debugger attached or the debugger can't handle this type of exception.
+
+Since SEH is not supported by gcc on i686 (at the moment), we need to use VEH
+instead. For completeness the MSVC-oriented code still uses SEH, although
+there is no reason why it shouldn't work with the VEH variant used by MinGW.
+
+VEH handler has to be set up somewhere (g_thread_win32_init () works nicely)
+and removed once it's not needed (g_thread_win32_process_detach () is added
+expressly for that purpose). Note that g_thread_win32_process_detach() is
+only called when glib is unloaded by FreeLibrary(), not when glib-using
+process is terminating.
+
+This exception is known to work with WinDbg, and adding support for it into
+GDB proved to be feasible (GDB patch will be sent upstream, eventually).
+
+[1] https://msdn.microsoft.com/en-us/library/xcb2z8hs%28v=vs.71%29.aspx
+
+https://bugzilla.gnome.org/show_bug.cgi?id=747478
+---
+ glib/glib-init.c     |  7 +++++
+ glib/glib-init.h     |  1 +
+ glib/gthread-win32.c | 79 +++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 3 files changed, 86 insertions(+), 1 deletion(-)
+
+diff --git a/glib/glib-init.c b/glib/glib-init.c
+index 24efe9d..926d368 100644
+--- a/glib/glib-init.c
++++ b/glib/glib-init.c
+@@ -265,6 +265,13 @@ DllMain (HINSTANCE hinstDLL,
+ #endif
+       break;
+ 
++    case DLL_PROCESS_DETACH:
++#ifdef THREADS_WIN32
++      if (lpvReserved == NULL)
++        g_thread_win32_process_detach ();
++#endif
++      break;
++
+     default:
+       /* do nothing */
+       ;
+diff --git a/glib/glib-init.h b/glib/glib-init.h
+index de6be78..49d0101 100644
+--- a/glib/glib-init.h
++++ b/glib/glib-init.h
+@@ -28,6 +28,7 @@ extern GLogLevelFlags g_log_msg_prefix;
+ #ifdef G_OS_WIN32
+ #include <windows.h>
+ 
++void g_thread_win32_process_detach (void);
+ void g_thread_win32_thread_detach (void);
+ void g_thread_win32_init (void);
+ void g_clock_win32_init (void);
+diff --git a/glib/gthread-win32.c b/glib/gthread-win32.c
+index 275ecc6..8395acd 100644
+--- a/glib/gthread-win32.c
++++ b/glib/gthread-win32.c
+@@ -496,10 +496,67 @@ g_system_thread_wait (GRealThread *thread)
+   win32_check_for_error (WAIT_FAILED != WaitForSingleObject (wt->handle, INFINITE));
+ }
+ 
++#define EXCEPTION_SET_THREAD_NAME ((DWORD) 0x406D1388)
++
++#ifndef _MSC_VER
++static void *SetThreadName_VEH_handle = NULL;
++
++static LONG __stdcall
++SetThreadName_VEH (PEXCEPTION_POINTERS ExceptionInfo)
++{
++  if (ExceptionInfo->ExceptionRecord != NULL &&
++      ExceptionInfo->ExceptionRecord->ExceptionCode == EXCEPTION_SET_THREAD_NAME)
++    return EXCEPTION_CONTINUE_EXECUTION;
++
++  return EXCEPTION_CONTINUE_SEARCH;
++}
++#endif
++
++typedef struct _THREADNAME_INFO
++{
++  DWORD  dwType;	/* must be 0x1000 */
++  LPCSTR szName;	/* pointer to name (in user addr space) */
++  DWORD  dwThreadID;	/* thread ID (-1=caller thread) */
++  DWORD  dwFlags;	/* reserved for future use, must be zero */
++} THREADNAME_INFO;
++
++static void
++SetThreadName (DWORD  dwThreadID,
++               LPCSTR szThreadName)
++{
++   THREADNAME_INFO info;
++   DWORD infosize;
++
++   info.dwType = 0x1000;
++   info.szName = szThreadName;
++   info.dwThreadID = dwThreadID;
++   info.dwFlags = 0;
++
++   infosize = sizeof (info) / sizeof (DWORD);
++
++#ifdef _MSC_VER
++   __try
++     {
++       RaiseException (EXCEPTION_SET_THREAD_NAME, 0, infosize, (DWORD *) &info);
++     }
++   __except (EXCEPTION_EXECUTE_HANDLER)
++     {
++     }
++#else
++   /* Without a debugger we *must* have an exception handler,
++    * otherwise raising an exception will crash the process.
++    */
++   if ((!IsDebuggerPresent ()) && (SetThreadName_VEH_handle == NULL))
++     return;
++
++   RaiseException (EXCEPTION_SET_THREAD_NAME, 0, infosize, (DWORD *) &info);
++#endif
++}
++
+ void
+ g_system_thread_set_name (const gchar *name)
+ {
+-  /* FIXME: implement */
++  SetThreadName ((DWORD) -1, name);
+ }
+ 
+ /* {{{1 SRWLock and CONDITION_VARIABLE emulation (for Windows XP) */
+@@ -988,6 +1045,14 @@ g_thread_win32_init (void)
+     g_thread_xp_init ();
+ 
+   InitializeCriticalSection (&g_private_lock);
++
++#ifndef _MSC_VER
++  SetThreadName_VEH_handle = AddVectoredExceptionHandler (1, &SetThreadName_VEH);
++  if (SetThreadName_VEH_handle == NULL)
++    {
++      /* This is bad, but what can we do? */
++    }
++#endif
+ }
+ 
+ void
+@@ -1028,4 +1093,16 @@ g_thread_win32_thread_detach (void)
+     g_thread_impl_vtable.CallThisOnThreadExit ();
+ }
+ 
++void
++g_thread_win32_process_detach (void)
++{
++#ifndef _MSC_VER
++  if (SetThreadName_VEH_handle != NULL)
++    {
++      RemoveVectoredExceptionHandler (SetThreadName_VEH_handle);
++      SetThreadName_VEH_handle = NULL;
++    }
++#endif
++}
++
+ /* vim:set foldmethod=marker: */
+-- 
+1.8.5.3
