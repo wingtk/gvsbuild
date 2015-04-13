@@ -481,11 +481,6 @@ $items['glib'].BuildScript = {
 	Exec $patch -p1 -i 0001-Change-message-system-to-use-fputs-instead-of-write.patch
 	Exec $patch -p1 -i Add-gsystemthreadsetname-implementation-for-W32-th.patch
 
-	Fix-C4819 .\gio\gdbusaddress.c
-	Fix-C4819 .\gio\gfile.c
-	Fix-C4819 .\glib\gmacros.h
-	Fix-C4819 .\glib\gmain.c
-
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
 	Exec msbuild build\win32\vs$VSVer\glib.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
@@ -506,8 +501,6 @@ $items['gtk'].BuildScript = {
 	Exec $patch -p1 -i gtk-bgimg.patch
 	Exec $patch -p1 -i gtk-accel.patch
 	Exec $patch -p1 -i gtk-multimonitor.patch
-
-	Fix-C4819 .\gdk\gdkkeyuni.c
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
@@ -533,8 +526,6 @@ $items['gtk'].BuildScript = {
 $items['gtk3'].BuildScript = {
 	$packageDestination = "$PWD\..\gtk-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
-
-	Add-Utf8Bom .\gdk\gdkkeyuni.c
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
@@ -785,9 +776,6 @@ $items['pango'].BuildScript = {
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
 	Exec $patch -p1 -i pango-synthesize-fonts-properly.patch
-
-	Fix-C4819 .\pango\break.c
-	Fix-C4819 .\pango\pango-language-sample-table.h
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
