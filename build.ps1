@@ -456,10 +456,10 @@ $items['glib'].BuildScript = {
 	Exec $patch -p1 -i glib-if_nametoindex.patch
 	Exec $patch -p1 -i glib-package-installation-directory.patch
 
-	Add-Utf8Bom .\gio\gdbusaddress.c
-	Add-Utf8Bom .\gio\gfile.c
-	Add-Utf8Bom .\glib\gmacros.h
-	Add-Utf8Bom .\glib\gmain.c
+	Fix-C4819 .\gio\gdbusaddress.c
+	Fix-C4819 .\gio\gfile.c
+	Fix-C4819 .\glib\gmacros.h
+	Fix-C4819 .\glib\gmain.c
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
@@ -482,7 +482,7 @@ $items['gtk'].BuildScript = {
 	Exec $patch -p1 -i gtk-accel.patch
 	Exec $patch -p1 -i gtk-multimonitor.patch
 
-	Add-Utf8Bom .\gdk\gdkkeyuni.c
+	Fix-C4819 .\gdk\gdkkeyuni.c
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
@@ -732,8 +732,8 @@ $items['pango'].BuildScript = {
 
 	Exec $patch -p1 -i pango-synthesize-fonts-properly.patch
 
-	Add-Utf8Bom .\pango\break.c
-	Add-Utf8Bom .\pango\pango-language-sample-table.h
+	Fix-C4819 .\pango\break.c
+	Fix-C4819 .\pango\pango-language-sample-table.h
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
@@ -1135,9 +1135,10 @@ while (@($items.GetEnumerator() | ?{ ($_.Value.State -eq 'Pending') -or ($_.Valu
 					[void] ($LASTEXITCODE -and $(throw "$name $arguments exited with code $LASTEXITCODE"))
 				}
 
-				# Add utf-8 BOM to the given file because cl.exe throws C4819 otherwise
-				function Add-Utf8Bom([string] $filename) {
+				# Add utf-8 BOM and execution charset pragma to the given file because cl.exe throws C4819 otherwise
+				function Fix-C4819([string] $filename) {
 					$contents = Get-Content $filename -Encoding UTF8
+					$contents = @('#pragma execution_character_set("utf-8")', '') + $contents
 					Out-File $filename -InputObject $contents -Encoding UTF8
 				}
 
