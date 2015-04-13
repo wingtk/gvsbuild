@@ -120,7 +120,7 @@ If you want to build the bundle from source yourself, we have a PowerShell scrip
 
 1. Install the following build tools and dependencies:
 
-    * [Visual Studio 2013 Express for Windows Desktop](http://www.visualstudio.com/downloads/download-visual-studio-vs#d-2013-express)
+    * [Visual Studio 2013 Express for Windows Desktop](http://www.visualstudio.com/downloads/download-visual-studio-vs#d-2013-express) - Any version of VS apart from 2013 is not supported.
     * [Windows Management Framework 4.0](https://www.microsoft.com/en-us/download/details.aspx?id=40855) - Not needed for Windows 8.1 and above
     * [CMake 3.0.2](http://www.cmake.org/download/)
     * [msys2](https://msys2.github.io/)
