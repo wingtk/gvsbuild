@@ -78,8 +78,8 @@ These are the libraries in the bundle:
     </tr>
     <tr>
         <td>libpng</td>
-        <td>1.6.16</td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/src/libpng-1.6.16.tar.xz">Source</a></td>
+        <td>1.6.17</td>
+        <td><a href="https://dl.hexchat.net/gtk-win32/src/libpng-1.6.17.tar.xz">Source</a></td>
     </tr>
     <tr>
         <td>libxml2</td>
