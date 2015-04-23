@@ -1031,7 +1031,11 @@ $items.GetEnumerator() | %{
 			Exec $tar xf $(ConvertTo-Msys2Path $item.ArchiveFile) -C $(ConvertTo-Msys2Path $workingDirectory)
 
 			$outputDirectoryName = [System.IO.Path]::GetFilenameWithoutExtension($item.ArchiveFile.BaseName)
-			Move-Item "$workingDirectory\$outputDirectoryName" $item.BuildDirectory
+
+			while (Test-Path "$workingDirectory\$outputDirectoryName") {
+				Move-Item "$workingDirectory\$outputDirectoryName" $item.BuildDirectory
+				Sleep 1
+			}
 		}
 		else {
 			# gettext-runtime is a tarbomb
