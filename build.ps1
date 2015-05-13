@@ -164,7 +164,7 @@ $items = @{
 	};
 
 	'glib' = @{
-		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/glib-2.44.0.tar.xz'
+		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/glib-2.44.1.tar.xz'
 		'Dependencies' = @('gettext-runtime', 'libffi', 'zlib')
 	};
 
