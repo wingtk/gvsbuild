@@ -1,13 +1,14 @@
- * Download [GTK+ 2.24.27](http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-2.24.27.tar.xz)
- * Patch with `patch -p1 -i gtk-revert-scrolldc-commit.patch`
- * Patch with `patch -p1 -i gtk-bgimg.patch`
- * Patch with `patch -p1 -i gtk-accel.patch`
+ * Download [GTK+ 2.24.28](http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-2.24.28.tar.xz)
  * In `build\win32\vs12\gtk-build-defines.props`, replace:
 	* `intl.lib` with `libintl.lib`
  * In `build\win32\vs12\gtk-install.props`:
 	* Add `;$(BinDir)\libpixmap.dll` to `<InstalledDlls>`
-	* Replace `copy $(BinDir)\*-vs$(VSVer).dll $(CopyDir)\bin` with
-`copy $(BinDir)\*-2.0.dll $(CopyDir)\bin`
+	* Add to `<GtkDoInstall`:
+`
+copy "$(BinDir)\$(GtkDllPrefix)gdk$(GtkDllSuffix).pdb" $(CopyDir)\bin
+copy "$(BinDir)\libpixmap.pdb" $(CopyDir)\bin
+copy "$(BinDir)\libwimp.pdb" $(CopyDir)\bin
+`
 	* Add to `GtkDoInstall`:
 `copy $(BinDir)\*.pdb $(CopyDir)\bin`
 	* Add to `GtkDoInstall`:
