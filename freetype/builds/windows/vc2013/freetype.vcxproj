@@ -191,18 +191,18 @@
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release Singlethreaded|x64'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release Singlethreaded|Win32'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release Singlethreaded|x64'" />
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">freetype255d</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">freetype255d</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug Multithreaded|Win32'">freetype255MTd</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug Multithreaded|x64'">freetype255MTd</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug Singlethreaded|Win32'">freetype255STd</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug Singlethreaded|x64'">freetype255STd</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">freetype26d</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">freetype26d</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug Multithreaded|Win32'">freetype26MTd</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug Multithreaded|x64'">freetype26MTd</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug Singlethreaded|Win32'">freetype26STd</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug Singlethreaded|x64'">freetype26STd</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">freetype</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">freetype</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Multithreaded|Win32'">freetype255MT</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Multithreaded|x64'">freetype255MT</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Singlethreaded|Win32'">freetype255ST</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Singlethreaded|x64'">freetype255ST</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Multithreaded|Win32'">freetype26MT</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Multithreaded|x64'">freetype26MT</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Singlethreaded|Win32'">freetype26ST</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Singlethreaded|x64'">freetype26ST</TargetName>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\freetype.user.props" Condition="exists('$(SolutionDir)\freetype.user.props')" Label="UserProperties" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -979,6 +979,7 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <ClCompile Include="..\..\..\src\base\ftbbox.c" />
+    <ClCompile Include="..\..\..\src\base\ftfntfmt.c" />
     <ClCompile Include="..\..\..\src\base\ftmm.c">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Multithreaded|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Multithreaded|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -1015,7 +1016,6 @@
     <ClCompile Include="..\..\..\src\base\ftsynth.c" />
     <ClCompile Include="..\..\..\src\base\fttype1.c" />
     <ClCompile Include="..\..\..\src\base\ftwinfnt.c" />
-    <ClCompile Include="..\..\..\src\base\ftxf86.c" />
     <ClCompile Include="..\..\..\src\base\ftlcdfil.c" />
     <ClCompile Include="..\..\..\src\base\ftgxval.c" />
     <ClCompile Include="..\..\..\src\base\ftotval.c" />

@@ -43,8 +43,8 @@ These are the libraries in the bundle:
     </tr>
     <tr>
         <td>FreeType</td>
-        <td>2.5.5</td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/src/freetype-2.5.5.tar.baz">Source</a></td>
+        <td>2.6</td>
+        <td><a href="https://dl.hexchat.net/gtk-win32/src/freetype-2.6.tar.bz2">Source</a></td>
     </tr>
     <tr>
         <td>GDK-PixBuf</td>
