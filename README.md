@@ -88,8 +88,8 @@ These are the libraries in the bundle:
     </tr>
     <tr>
         <td>OpenSSL</td>
-        <td>1.0.1m</td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/src/openssl-1.0.1m.tar.gz">Source</a></td>
+        <td>1.0.2c</td>
+        <td><a href="https://dl.hexchat.net/gtk-win32/src/openssl-1.0.2c.tar.gz">Source</a></td>
     </tr>
     <tr>
         <td>Pango</td>
