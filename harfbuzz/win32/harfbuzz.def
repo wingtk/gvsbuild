@@ -42,6 +42,7 @@ hb_buffer_reference
 hb_buffer_reset
 hb_buffer_reverse
 hb_buffer_reverse_clusters
+hb_buffer_reverse_range
 hb_buffer_serialize_format_from_string
 hb_buffer_serialize_format_to_string
 hb_buffer_serialize_glyphs
@@ -152,7 +153,6 @@ hb_gobject_font_funcs_get_type
 hb_gobject_font_get_type
 hb_gobject_glyph_info_get_type
 hb_gobject_glyph_position_get_type
-hb_gobject_language_get_type
 hb_gobject_segment_properties_get_type
 hb_gobject_set_get_type
 hb_gobject_shape_plan_get_type
@@ -239,6 +239,7 @@ hb_shape_plan_reference
 hb_shape_plan_set_user_data
 hb_tag_from_string
 hb_tag_to_string
+hb_ucdn_get_unicode_funcs
 hb_unicode_combining_class
 hb_unicode_compose
 hb_unicode_decompose

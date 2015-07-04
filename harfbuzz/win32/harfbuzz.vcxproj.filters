@@ -87,10 +87,16 @@
     <ClCompile Include="..\src\hb-shaper.cc">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\hb-ucdn.cc">
+      <Filter>Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\hb-unicode.cc">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\src\hb-warning.cc">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\hb-ucdn\ucdn.c">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
