@@ -194,7 +194,7 @@ $items = @{
 	};
 
 	'openssl' = @{
-		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/openssl-1.0.2c.tar.gz'
+		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/openssl-1.0.2d.tar.gz'
 		'Dependencies' = @()
 	};
 
