@@ -126,8 +126,8 @@ If you want to build the bundle from source yourself, we have a PowerShell scrip
     * [msys2](https://msys2.github.io/)
     * Perl 5.20 [x86](https://dl.hexchat.net/misc/perl/perl-5.20.0-x86.7z) or [x64](https://dl.hexchat.net/misc/perl/perl-5.20.0-x64.7z) (extract to _C:\gtk-build\perl-5.20\Win32_ or _C:\gtk-build\perl-5.20\x64_)
     * [Python 2.7](https://www.python.org/downloads/windows/) (install to _C:\gtk-build\python-2.7\Win32_ or _C:\gtk-build\python-2.7\x64_)
-    * [msgfmt](https://dl.hexchat.net/gtk-win32/msgfmt-0.18.1.7z) (extract to _C:\gtk-build_)
-    * [Ragel](https://dl.hexchat.net/gtk-win32/ragel-6.8.7z) (extract to _C:\gtk-build_)
+    * [msgfmt](https://dl.hexchat.net/gtk-win32/msgfmt-0.18.1.7z) (extract to _C:\gtk-build_ so you have _C:\gtk-build\msgfmt\msgfmt.exe_)
+    * [Ragel](https://dl.hexchat.net/gtk-win32/ragel-6.8.7z) (extract to _C:\gtk-build_ so you have _C:\gtk-build\ragel\ragel.exe_)
 
 1. Follow the instructions on the msys2 page to update the core packages.
 
