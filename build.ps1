@@ -124,7 +124,7 @@ param (
 	[string]
 	$PerlDirectory = "$BuildDirectory\perl-5.20",
 
-	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'fontconfig', 'freetype', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk', 'gtk3', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib')]
+	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'fontconfig', 'freetype', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk', 'gtk3', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib', 'libdb')]
 	$OnlyBuild = @()
 )
 
@@ -229,6 +229,11 @@ $items = @{
 
 	'zlib' = @{
 		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/zlib-1.2.8.tar.xz'
+		'Dependencies' = @()
+	};
+
+	'libdb' = @{
+		'ArchiveUrl' = 'http://download.oracle.com/berkeley-db/db-5.3.28.tar.gz'
 		'Dependencies' = @()
 	};
 }
@@ -891,6 +896,31 @@ $items['zlib'].BuildScript = {
 
 	New-Item -Type Directory $packageDestination\share\doc\zlib
 	Copy-Item .\README $packageDestination\share\doc\zlib
+
+	Package $packageDestination
+}
+
+$items['libdb'].BuildScript = {
+	$packageDestination = "$PWD-rel"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	Exec msbuild build_windows\Berkeley_DB_vs20$VSVer.sln /p:Platform=$platform /p:Configuration="Static Release" /maxcpucount /nodeReuse:True
+
+	[void] (Swap-Environment $originalEnvironment)
+
+	New-Item -Type Directory $packageDestination\include
+	Copy-Item `
+		.\build_windows\db.h, `
+		.\build_windows\db_config.h, `
+		.\build_windows\db_cxx.h, `
+		.\build_windows\db_int.h, `
+		.\build_windows\clib_port.h `
+		$packageDestination\include
+
+	New-Item -Type Directory $packageDestination\lib
+	Copy-Item .\build_windows\$platform\"Static Release"\* $packageDestination\lib
 
 	Package $packageDestination
 }

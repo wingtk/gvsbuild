@@ -116,6 +116,11 @@ These are the libraries in the bundle:
         <td>1.2.8</td>
         <td><a href="https://dl.hexchat.net/gtk-win32/src/zlib-1.2.8.tar.xz">Source</a></td>
     </tr>
+    <tr>
+        <td>libdb</td>
+        <td>5.3.28</td>
+        <td><a href="http://download.oracle.com/berkeley-db/db-5.3.28.tar.gz">Source</a></td>
+    </tr>
 </table>
 
 
