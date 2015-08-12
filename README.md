@@ -121,6 +121,11 @@ These are the libraries in the bundle:
         <td>5.3.28</td>
         <td><a href="http://download.oracle.com/berkeley-db/db-5.3.28.tar.gz">Source</a></td>
     </tr>
+    <tr>
+        <td>cyrus-sasl</td>
+        <td>2.1.26</td>
+        <td><a href="ftp://ftp.cyrusimap.org/cyrus-sasl/cyrus-sasl-2.1.26.tar.gz">Source</a></td>
+    </tr>
 </table>
 
 

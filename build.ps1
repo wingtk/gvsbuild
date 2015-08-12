@@ -124,7 +124,7 @@ param (
 	[string]
 	$PerlDirectory = "$BuildDirectory\perl-5.20",
 
-	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'fontconfig', 'freetype', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk', 'gtk3', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib', 'libdb')]
+	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'fontconfig', 'freetype', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk', 'gtk3', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib', 'libdb', 'cyrus-sasl')]
 	$OnlyBuild = @()
 )
 
@@ -235,6 +235,11 @@ $items = @{
 	'libdb' = @{
 		'ArchiveUrl' = 'http://download.oracle.com/berkeley-db/db-5.3.28.tar.gz'
 		'Dependencies' = @()
+	};
+
+	'cyrus-sasl' = @{
+		'ArchiveUrl' = 'ftp://ftp.cyrusimap.org/cyrus-sasl/cyrus-sasl-2.1.26.tar.gz'
+		'Dependencies' = @('libdb', 'openssl')
 	};
 }
 
@@ -921,6 +926,21 @@ $items['libdb'].BuildScript = {
 
 	New-Item -Type Directory $packageDestination\lib
 	Copy-Item .\build_windows\$platform\"Static Release"\* $packageDestination\lib
+
+	Package $packageDestination
+}
+
+$items['cyrus-sasl'].BuildScript = {
+	$packageDestination = "$PWD-rel"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	Exec nmake /f NTMakefile clean
+	Exec nmake /f NTMakefile DB_INCLUDE=`"$packageDestination\..\..\..\gtk\$platform\include`" DB_LIBPATH=`"$packageDestination\..\..\..\gtk\$platform\lib`" DB_LIB=libdb53s.lib OPENSSL_INCLUDE=`"$packageDestination\..\..\..\gtk\$platform\include`" OPENSSL_LIBPATH=`"$packageDestination\..\..\..\gtk\$platform\lib`"
+	Exec nmake /f NTMakefile install prefix=`"$packageDestination`"
+
+	[void] (Swap-Environment $originalEnvironment)
 
 	Package $packageDestination
 }
