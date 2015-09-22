@@ -153,7 +153,7 @@ $items = @{
 	};
 
 	'fontconfig' = @{
-		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/fontconfig-2.8.0.tar.gz'
+		'ArchiveUrl' = 'http://fontconfig.org/release/fontconfig-2.11.1.tar.gz'
 		'Dependencies' = @('freetype', 'libxml2')
 	};
 

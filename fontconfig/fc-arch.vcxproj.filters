@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="fc-arch\fc-arch.c">
+    <ClCompile Include="src\fcarch.c">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>

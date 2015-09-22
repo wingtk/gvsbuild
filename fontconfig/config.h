@@ -46,7 +46,7 @@
 /* System font directory */
 #define FC_DEFAULT_FONTS "c:/windows/fonts"
 
-#define FC_CACHEDIR "c:/temp"
+#define FC_CACHEDIR "c:/windows/temp"
 
 /* Define to 1 if you have the `chsize' function. */
 #define HAVE_CHSIZE 1
@@ -235,3 +235,23 @@
 
 /* Define to `int' if <sys/types.h> does not define. */
 /* #undef pid_t */
+
+#ifdef WIN32
+# ifdef _WIN64
+#  define SIZEOF_VOID_P 8
+#  define ALIGNOF_DOUBLE 8
+# else
+#  define SIZEOF_VOID_P 4
+#  define ALIGNOF_DOUBLE 4
+# endif
+#endif
+
+#define mode_t int
+
+#ifndef S_ISREG
+# ifdef S_IFREG
+#  define S_ISREG(m) (((m) & S_IFMT) == S_IFREG)
+# else
+#  define S_ISREG(m) 0
+# endif
+#endif

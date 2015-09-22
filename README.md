@@ -38,8 +38,8 @@ These are the libraries in the bundle:
     </tr>
     <tr>
         <td>Fontconfig</td>
-        <td>2.8.0</td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/src/fontconfig-2.8.0.tar.gz">Source</a></td>
+        <td>2.11.1</td>
+        <td><a href="http://fontconfig.org/release/fontconfig-2.11.1.tar.gz">Source</a></td>
     </tr>
     <tr>
         <td>FreeType</td>

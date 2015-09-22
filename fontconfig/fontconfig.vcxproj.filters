@@ -84,5 +84,17 @@
     <ClCompile Include="src\ftglue.c">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="src\fcstat.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fccompat.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fcobjs.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fchash.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

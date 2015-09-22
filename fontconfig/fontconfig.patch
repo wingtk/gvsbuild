@@ -1,19 +1,7 @@
-diff -ruN --strip-trailing-cr fontconfig-2.8.0.orig/fc-cache/fc-cache.c fontconfig-2.8.0/fc-cache/fc-cache.c
---- fontconfig-2.8.0.orig/fc-cache/fc-cache.c	2009-11-16 17:24:52 +0000
-+++ fontconfig-2.8.0/fc-cache/fc-cache.c	2012-10-02 08:35:20 +0000
-@@ -36,7 +36,9 @@
- #include <fontconfig/fontconfig.h>
- #include <stdio.h>
- #include <stdlib.h>
-+#ifndef WIN32
- #include <unistd.h>
-+#endif
- #include <sys/types.h>
- #include <sys/stat.h>
- #include <errno.h>
-diff -ruN --strip-trailing-cr fontconfig-2.8.0.orig/fc-cat/fc-cat.c fontconfig-2.8.0/fc-cat/fc-cat.c
---- fontconfig-2.8.0.orig/fc-cat/fc-cat.c	2009-11-16 17:24:52 +0000
-+++ fontconfig-2.8.0/fc-cat/fc-cat.c	2012-10-02 08:35:37 +0000
+diff -ruN --strip-trailing-cr fontconfig-2.11.1.orig/fc-cat/fc-cat.c fontconfig-2.11.1/fc-cat/fc-cat.c
+index 9a2abb3..ce449c0 100644
+--- fontconfig-2.11.1.orig/fc-cat/fc-cat.c
++++ fontconfig-2.11.1/fc-cat/fc-cat.c
 @@ -36,7 +36,9 @@
  #include <stdio.h>
  #include <stdlib.h>
@@ -24,9 +12,10 @@ diff -ruN --strip-trailing-cr fontconfig-2.8.0.orig/fc-cat/fc-cat.c fontconfig-2
  #include <sys/types.h>
  #include <sys/stat.h>
  #include <errno.h>
-diff -ruN --strip-trailing-cr fontconfig-2.8.0.orig/fc-list/fc-list.c fontconfig-2.8.0/fc-list/fc-list.c
---- fontconfig-2.8.0.orig/fc-list/fc-list.c	2009-11-16 17:24:52 +0000
-+++ fontconfig-2.8.0/fc-list/fc-list.c	2012-10-02 08:35:52 +0000
+diff -ruN --strip-trailing-cr fontconfig-2.11.1.orig/fc-list/fc-list.c fontconfig-2.11.1/fc-list/fc-list.c
+index f6c7282..6f9e655 100644
+--- fontconfig-2.11.1.orig/fc-list/fc-list.c
++++ fontconfig-2.11.1/fc-list/fc-list.c
 @@ -24,7 +24,9 @@
  
  #include <fontconfig/fontconfig.h>
@@ -37,9 +26,10 @@ diff -ruN --strip-trailing-cr fontconfig-2.8.0.orig/fc-list/fc-list.c fontconfig
  #include <stdlib.h>
  #include <string.h>
  #ifdef HAVE_CONFIG_H
-diff -ruN --strip-trailing-cr fontconfig-2.8.0.orig/fc-match/fc-match.c fontconfig-2.8.0/fc-match/fc-match.c
---- fontconfig-2.8.0.orig/fc-match/fc-match.c	2009-11-16 17:24:52 +0000
-+++ fontconfig-2.8.0/fc-match/fc-match.c	2012-10-02 08:36:04 +0000
+diff --gidiff -ruN --strip-trailing-cr fontconfig-2.11.1.orig/fc-match/fc-match.c fontconfig-2.11.1/fc-match/fc-match.c
+index f96c009..521008d 100644
+--- fontconfig-2.11.1.orig/fc-match/fc-match.c
++++ fontconfig-2.11.1/fc-match/fc-match.c
 @@ -33,7 +33,9 @@
  
  #include <fontconfig/fontconfig.h>
@@ -50,9 +40,10 @@ diff -ruN --strip-trailing-cr fontconfig-2.8.0.orig/fc-match/fc-match.c fontconf
  #include <stdlib.h>
  #include <string.h>
  
-diff -ruN --strip-trailing-cr fontconfig-2.8.0.orig/fc-query/fc-query.c fontconfig-2.8.0/fc-query/fc-query.c
---- fontconfig-2.8.0.orig/fc-query/fc-query.c	2009-11-16 17:24:52 +0000
-+++ fontconfig-2.8.0/fc-query/fc-query.c	2012-10-02 08:36:09 +0000
+diff -ruN --strip-trailing-cr fontconfig-2.11.1.orig/fc-query/fc-query.c fontconfig-2.11.1/fc-query/fc-query.c
+index 2983e0f..eb20b41 100644
+--- fontconfig-2.11.1.orig/fc-query/fc-query.c
++++ fontconfig-2.11.1/fc-query/fc-query.c
 @@ -36,7 +36,9 @@
  #include <fontconfig/fontconfig.h>
  #include <fontconfig/fcfreetype.h>
@@ -63,9 +54,10 @@ diff -ruN --strip-trailing-cr fontconfig-2.8.0.orig/fc-query/fc-query.c fontconf
  #include <stdlib.h>
  #include <string.h>
  
-diff -ruN --strip-trailing-cr fontconfig-2.8.0.orig/fc-scan/fc-scan.c fontconfig-2.8.0/fc-scan/fc-scan.c
---- fontconfig-2.8.0.orig/fc-scan/fc-scan.c	2009-11-16 17:24:52 +0000
-+++ fontconfig-2.8.0/fc-scan/fc-scan.c	2012-10-02 08:36:21 +0000
+diff -ruN --strip-trailing-cr fontconfig-2.11.1.orig/fc-scan/fc-scan.c fontconfig-2.11.1/fc-scan/fc-scan.c
+index 5638b51..59399d9 100644
+--- fontconfig-2.11.1.orig/fc-scan/fc-scan.c
++++ fontconfig-2.11.1/fc-scan/fc-scan.c
 @@ -36,7 +36,9 @@
  #include <fontconfig/fontconfig.h>
  #include <fontconfig/fcfreetype.h>
@@ -76,55 +68,110 @@ diff -ruN --strip-trailing-cr fontconfig-2.8.0.orig/fc-scan/fc-scan.c fontconfig
  #include <stdlib.h>
  #include <string.h>
  
-diff -ruN --strip-trailing-cr fontconfig-2.8.0.orig/fontconfig/fontconfig.h fontconfig-2.8.0/fontconfig/fontconfig.h
---- fontconfig-2.8.0.orig/fontconfig/fontconfig.h	2009-11-18 23:49:23 +0000
-+++ fontconfig-2.8.0/fontconfig/fontconfig.h	2012-10-02 08:36:37 +0000
-@@ -27,7 +27,9 @@
+diff -ruN --strip-trailing-cr fontconfig-2.11.1.orig/src/fcarch.c fontconfig-2.11.1/src/fcarch.c
+index 398f4bb..057c751 100644
+--- fontconfig-2.11.1.orig/src/fcarch.c
++++ fontconfig-2.11.1/src/fcarch.c
+@@ -45,13 +45,6 @@ FC_ASSERT_STATIC (SIZEOF_VOID_P == sizeof (FcStrSet *));
+ FC_ASSERT_STATIC (SIZEOF_VOID_P == sizeof (FcCharLeaf **));
+ FC_ASSERT_STATIC (SIZEOF_VOID_P == sizeof (FcChar16 *));
  
+-FC_ASSERT_STATIC (0x08 + 1*FC_MAX(SIZEOF_VOID_P,ALIGNOF_DOUBLE) == sizeof (FcValue));
+-FC_ASSERT_STATIC (0x00 + 2*SIZEOF_VOID_P == sizeof (FcPatternElt));
+-FC_ASSERT_STATIC (0x08 + 2*SIZEOF_VOID_P == sizeof (FcPattern));
+-FC_ASSERT_STATIC (0x08 + 2*SIZEOF_VOID_P == sizeof (FcCharSet));
+-FC_ASSERT_STATIC (0x08 + 6*SIZEOF_VOID_P == sizeof (FcCache));
+-
+-
+ int
+ main (int argc FC_UNUSED, char **argv FC_UNUSED)
+ {
+diff -ruN --strip-trailing-cr fontconfig-2.11.1.orig/src/fcatomic.c fontconfig-2.11.1/src/fcatomic.c
+index c1daed9..3252eec 100644
+--- fontconfig-2.11.1.orig/src/fcatomic.c
++++ fontconfig-2.11.1/src/fcatomic.c
+@@ -50,7 +50,9 @@
+ #include "fcint.h"
  #include <sys/types.h>
  #include <sys/stat.h>
-+#ifndef WIN32
- #include <unistd.h>
-+#endif
- #include <stdarg.h>
- 
- #if defined(__GNUC__) && (__GNUC__ >= 4)
-diff -ruN --strip-trailing-cr fontconfig-2.8.0.orig/src/fcatomic.c fontconfig-2.8.0/src/fcatomic.c
---- fontconfig-2.8.0.orig/src/fcatomic.c	2009-11-16 17:24:52 +0000
-+++ fontconfig-2.8.0/src/fcatomic.c	2012-10-02 08:36:59 +0000
-@@ -51,7 +51,9 @@
- #include <sys/types.h>
- #include <sys/stat.h>
- #include <fcntl.h>
 +#ifndef WIN32
  #include <unistd.h>
 +#endif
  #include <stdlib.h>
  #include <time.h>
  
-diff -ruN --strip-trailing-cr fontconfig-2.8.0.orig/src/fccache.c fontconfig-2.8.0/src/fccache.c
---- fontconfig-2.8.0.orig/src/fccache.c	2009-11-16 17:24:52 +0000
-+++ fontconfig-2.8.0/src/fccache.c	2012-10-02 08:39:46 +0000
-@@ -30,7 +30,9 @@
- #include <sys/types.h>
+diff -ruN --strip-trailing-cr fontconfig-2.11.1.orig/src/fcatomic.h fontconfig-2.11.1/src/fcatomic.h
+index 362e521..9f83a2a 100644
+--- fontconfig-2.11.1.orig/src/fcatomic.h
++++ fontconfig-2.11.1/src/fcatomic.h
+@@ -54,7 +54,7 @@
+ #ifdef MemoryBarrier
+ #define HBMemoryBarrier MemoryBarrier
+ #else
+-static inline void HBMemoryBarrier (void) {
++static __inline void HBMemoryBarrier (void) {
+   long dummy = 0;
+   InterlockedExchange (&dummy, 1);
+ }
+@@ -135,11 +135,11 @@ typedef int fc_atomic_int_t;
+ #define FC_REF_CONSTANT_VALUE ((fc_atomic_int_t) -1)
+ #define FC_REF_CONSTANT {FC_REF_CONSTANT_VALUE}
+ typedef struct _FcRef { fc_atomic_int_t count; } FcRef;
+-static inline void   FcRefInit     (FcRef *r, int v) { r->count = v; }
+-static inline int    FcRefInc      (FcRef *r) { return fc_atomic_int_add (r->count, +1); }
+-static inline int    FcRefDec      (FcRef *r) { return fc_atomic_int_add (r->count, -1); }
+-static inline int    FcRefAdd      (FcRef *r, int v) { return fc_atomic_int_add (r->count, v); }
+-static inline void   FcRefSetConst (FcRef *r) { r->count = FC_REF_CONSTANT_VALUE; }
+-static inline FcBool FcRefIsConst  (const FcRef *r) { return r->count == FC_REF_CONSTANT_VALUE; }
++static __inline void   FcRefInit     (FcRef *r, int v) { r->count = v; }
++static __inline int    FcRefInc      (FcRef *r) { return fc_atomic_int_add (r->count, +1); }
++static __inline int    FcRefDec      (FcRef *r) { return fc_atomic_int_add (r->count, -1); }
++static __inline int    FcRefAdd      (FcRef *r, int v) { return fc_atomic_int_add (r->count, v); }
++static __inline void   FcRefSetConst (FcRef *r) { r->count = FC_REF_CONSTANT_VALUE; }
++static __inline FcBool FcRefIsConst  (const FcRef *r) { return r->count == FC_REF_CONSTANT_VALUE; }
+ 
+ #endif /* _FCATOMIC_H_ */
+diff -ruN --strip-trailing-cr fontconfig-2.11.1.orig/src/fcint.h fontconfig-2.11.1/src/fcint.h
+index cdf2dab..1d11806 100644
+--- fontconfig-2.11.1.orig/fcint.h
++++ fontconfig-2.11.1/src/fcint.h
+@@ -38,7 +38,9 @@
  #include <assert.h>
- #if defined(HAVE_MMAP) || defined(__CYGWIN__)
-+#ifndef WIN32
- #  include <unistd.h>
-+#endif
- #  include <sys/mman.h>
- #elif defined(_WIN32)
- #  define _WIN32_WINNT 0x0500
-diff -ruN --strip-trailing-cr fontconfig-2.8.0.orig/src/fcint.h fontconfig-2.8.0/src/fcint.h
---- fontconfig-2.8.0.orig/src/fcint.h	2009-11-16 22:46:18 +0000
-+++ fontconfig-2.8.0/src/fcint.h	2012-10-02 08:38:33 +0000
-@@ -41,7 +41,9 @@
- #include <string.h>
- #include <ctype.h>
  #include <errno.h>
+ #include <limits.h>
 +#ifndef WIN32
  #include <unistd.h>
 +#endif
  #include <stddef.h>
  #include <sys/types.h>
  #include <sys/stat.h>
+@@ -270,7 +272,7 @@ struct _FcExprPage {
+   FcExprPage *next_page;
+   FcExpr *next;
+   FcExpr exprs[(1024 - 2/* two pointers */ - 2/* malloc overhead */) * sizeof (void *) / sizeof (FcExpr)];
+-  FcExpr end[FLEXIBLE_ARRAY_MEMBER];
++  FcExpr end[1];
+ };
+ 
+ typedef enum _FcQual {
+diff -ruN --strip-trailing-cr fontconfig-2.11.1.orig/src/fcmutex.h fontconfig-2.11.1/fontconfig/src/fcmutex.h
+index 556a05e..f478742 100644
+--- fontconfig-2.11.1.orig/src/fcmutex.h
++++ fontconfig-2.11.1/src/fcmutex.h
+@@ -118,10 +118,10 @@ typedef int fc_mutex_impl_t;
+ 
+ #define FC_MUTEX_INIT		{FC_MUTEX_IMPL_INIT}
+ typedef fc_mutex_impl_t FcMutex;
+-static inline void FcMutexInit   (FcMutex *m) { fc_mutex_impl_init (m);   }
+-static inline void FcMutexLock   (FcMutex *m) { fc_mutex_impl_lock (m);   }
+-static inline void FcMutexUnlock (FcMutex *m) { fc_mutex_impl_unlock (m); }
+-static inline void FcMutexFinish (FcMutex *m) { fc_mutex_impl_finish (m); }
++static __inline void FcMutexInit   (FcMutex *m) { fc_mutex_impl_init (m);   }
++static __inline void FcMutexLock   (FcMutex *m) { fc_mutex_impl_lock (m);   }
++static __inline void FcMutexUnlock (FcMutex *m) { fc_mutex_impl_unlock (m); }
++static __inline void FcMutexFinish (FcMutex *m) { fc_mutex_impl_finish (m); }
+ 
+ 
+ #endif /* _FCMUTEX_H_ */
+
+
