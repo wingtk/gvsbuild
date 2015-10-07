@@ -163,7 +163,7 @@ $items = @{
 	};
 
 	'gdk-pixbuf' = @{
-		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gdk-pixbuf-2.30.8.tar.xz'
+		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.32/gdk-pixbuf-2.32.1.tar.xz'
 		'Dependencies' = @('glib', 'libpng')
 	};
 
@@ -445,7 +445,7 @@ $items['gdk-pixbuf'].BuildScript = {
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-	Exec msbuild build\win32\vc$VSVer\gdk-pixbuf.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+	Exec msbuild build\win32\vs$VSVer\gdk-pixbuf.sln /p:Platform=$platform /p:Configuration=Release_GDI+ /maxcpucount /nodeReuse:True
 
 	[void] (Swap-Environment $originalEnvironment)
 
