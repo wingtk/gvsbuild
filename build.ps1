@@ -276,6 +276,9 @@ $items['cairo'].BuildScript = {
 	$packageDestination = "$PWD-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
+	Exec $patch -p1 -i 0001-win32-Add-cairo-API-to-set-up-a-Win32-surface-for-an.patch
+	Exec $patch -p1 -i 0002-win32-Add-a-win32-boilerplate-that-uses-a-real-windo.patch
+
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
 	Exec msbuild msvc\vc$VSVer\cairo.sln /p:Platform=$platform /p:Configuration=Release_FC /maxcpucount /nodeReuse:True
