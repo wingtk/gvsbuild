@@ -124,7 +124,7 @@ param (
 	[string]
 	$PerlDirectory = "$BuildDirectory\perl-5.20",
 
-	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'fontconfig', 'freetype', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk', 'gtk3', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib', 'libdb', 'cyrus-sasl')]
+	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'fontconfig', 'freetype', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk', 'gtk3', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib', 'libdb', 'cyrus-sasl', 'libepoxy')]
 	$OnlyBuild = @()
 )
 
@@ -240,6 +240,11 @@ $items = @{
 	'cyrus-sasl' = @{
 		'ArchiveUrl' = 'ftp://ftp.cyrusimap.org/cyrus-sasl/cyrus-sasl-2.1.26.tar.gz'
 		'Dependencies' = @('libdb', 'openssl')
+	};
+
+	'libepoxy' = @{
+		'ArchiveUrl' = 'https://github.com/anholt/libepoxy/releases/download/v1.3.1/libepoxy-1.3.1.tar.bz2'
+		'Dependencies' = @()
 	};
 }
 
@@ -938,6 +943,21 @@ $items['cyrus-sasl'].BuildScript = {
 	Exec nmake /f NTMakefile clean
 	Exec nmake /f NTMakefile DB_INCLUDE=`"$packageDestination\..\..\..\gtk\$platform\include`" DB_LIBPATH=`"$packageDestination\..\..\..\gtk\$platform\lib`" DB_LIB=libdb53s.lib OPENSSL_INCLUDE=`"$packageDestination\..\..\..\gtk\$platform\include`" OPENSSL_LIBPATH=`"$packageDestination\..\..\..\gtk\$platform\lib`"
 	Exec nmake /f NTMakefile install prefix=`"$packageDestination`"
+
+	[void] (Swap-Environment $originalEnvironment)
+
+	Package $packageDestination
+}
+
+$items['libepoxy'].BuildScript = {
+	$packageDestination = "$PWD-rel"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	Exec $patch -p1 -i 0001-MSVC-Builds-Support-PACKED.patch
+
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	Exec msbuild build\win32\vs$VSVer\epoxy.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
 
 	[void] (Swap-Environment $originalEnvironment)
 

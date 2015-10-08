@@ -126,6 +126,11 @@ These are the libraries in the bundle:
         <td>2.1.26</td>
         <td><a href="ftp://ftp.cyrusimap.org/cyrus-sasl/cyrus-sasl-2.1.26.tar.gz">Source</a></td>
     </tr>
+    <tr>
+        <td>libepoxy</td>
+        <td>1.3.1</td>
+        <td><a href="https://github.com/anholt/libepoxy/releases/download/v1.3.1/libepoxy-1.3.1.tar.bz2">Source</a></td>
+    </tr>
 </table>
 
 
