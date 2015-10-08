@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug_FC|Win32">
@@ -81,7 +81,6 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="pango-build-defines.props" />
   </ImportGroup>
-  <Import Project="..\..\..\..\stack.props" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
@@ -91,6 +90,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
+      <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;$(PangoDefines);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
@@ -107,7 +107,7 @@
       <ModuleDefinitionFile>..\..\..\pango\pangowin32.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <ImportLibrary>$(TargetDir)$(ProjectName)-$(PangoApiVersion).lib</ImportLibrary>
+      <ImportLibrary>$(TargetDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -128,12 +128,13 @@
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <ImportLibrary>$(TargetDir)$(ProjectName)-$(PangoApiVersion).lib</ImportLibrary>
+      <ImportLibrary>$(TargetDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
+      <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;$(PangoDefines);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -149,7 +150,7 @@
       <ModuleDefinitionFile>..\..\..\pango\pangowin32.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <ImportLibrary>$(TargetDir)$(ProjectName)-$(PangoApiVersion).lib</ImportLibrary>
+      <ImportLibrary>$(TargetDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -170,7 +171,7 @@
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <ImportLibrary>$(TargetDir)$(ProjectName)-$(PangoApiVersion).lib</ImportLibrary>
+      <ImportLibrary>$(TargetDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -178,16 +179,10 @@
     <ResourceCompile Include="..\..\..\pango\pangowin32.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\modules\basic\basic-win32.c">
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">PANGO_MODULE_PREFIX=_pango_basic_win32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PANGO_MODULE_PREFIX=_pango_basic_win32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">PANGO_MODULE_PREFIX=_pango_basic_win32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PANGO_MODULE_PREFIX=_pango_basic_win32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-	</ClCompile>
-    <ClCompile Include="..\..\..\pango\module-defs-win32.c" />
-    <ClCompile Include="..\..\..\pango\pangowin32-fontcache.c" />
-    <ClCompile Include="..\..\..\pango\pangowin32-fontmap.c" />
-    <ClCompile Include="..\..\..\pango\pangowin32.c" />
+   <ClCompile Include="..\..\..\pango\pangowin32.c" />
+   <ClCompile Include="..\..\..\pango\pangowin32-fontcache.c" />
+   <ClCompile Include="..\..\..\pango\pangowin32-fontmap.c" />
+   <ClCompile Include="..\..\..\pango\pangowin32-shape.c" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="pango.vcxproj">

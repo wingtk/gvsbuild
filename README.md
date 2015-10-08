@@ -98,8 +98,8 @@ These are the libraries in the bundle:
     </tr>
     <tr>
         <td>Pango</td>
-        <td>1.36.8</td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/src/pango-1.36.8.tar.xz">Source</a></td>
+        <td>1.38.0</td>
+        <td><a href="http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.38/pango-1.38.0.tar.xz">Source</a></td>
     </tr>
     <tr>
         <td>Pixman</td>

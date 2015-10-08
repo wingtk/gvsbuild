@@ -123,7 +123,6 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="pango-build-defines.props" />
   </ImportGroup>
-  <Import Project="..\..\..\..\stack.props" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
@@ -137,6 +136,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
+      <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;$(PangoDefines);$(NoFCDef);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
@@ -150,11 +150,11 @@
     <Link>
       <AdditionalDependencies>cairo.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(PangoDllPrefix)$(ProjectName)$(PangoDllSuffix).dll</OutputFile>
-      <IgnoreSpecificDefaultLibraries>$(OutDir)pangoft2-$(PangoApiVersion).lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>$(OutDir)pangoft2-$(ApiVersion).lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ModuleDefinitionFile>..\..\..\pango\pangocairo.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <ImportLibrary>$(TargetDir)$(ProjectName)-$(PangoApiVersion).lib</ImportLibrary>
+      <ImportLibrary>$(TargetDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -171,18 +171,19 @@
     <Link>
       <AdditionalDependencies>cairo.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(PangoDllPrefix)$(ProjectName)$(PangoDllSuffix).dll</OutputFile>
-      <IgnoreSpecificDefaultLibraries>$(OutDir)pangoft2-$(PangoApiVersion).lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>$(OutDir)pangoft2-$(ApiVersion).lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ModuleDefinitionFile>..\..\..\pango\pangocairo.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <ImportLibrary>$(TargetDir)$(ProjectName)-$(PangoApiVersion).lib</ImportLibrary>
+      <ImportLibrary>$(TargetDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
+      <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;$(PangoDefines);$(NoFCDef);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
@@ -196,11 +197,11 @@
     <Link>
       <AdditionalDependencies>cairo.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(PangoDllPrefix)$(ProjectName)$(PangoDllSuffix).dll</OutputFile>
-      <IgnoreSpecificDefaultLibraries>$(OutDir)pangoft2-$(PangoApiVersion).lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>$(OutDir)pangoft2-$(ApiVersion).lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ModuleDefinitionFile>..\..\..\pango\pangocairo.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <ImportLibrary>$(TargetDir)$(ProjectName)-$(PangoApiVersion).lib</ImportLibrary>
+      <ImportLibrary>$(TargetDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -222,12 +223,13 @@
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <ImportLibrary>$(TargetDir)$(ProjectName)-$(PangoApiVersion).lib</ImportLibrary>
+      <ImportLibrary>$(TargetDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_FC|Win32'">
     <ClCompile>
+      <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;$(PangoDefines);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
@@ -244,7 +246,7 @@
       <ModuleDefinitionFile>..\..\..\pango\pangocairo.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <ImportLibrary>$(TargetDir)$(ProjectName)-$(PangoApiVersion).lib</ImportLibrary>
+      <ImportLibrary>$(TargetDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -266,12 +268,13 @@
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <ImportLibrary>$(TargetDir)$(ProjectName)-$(PangoApiVersion).lib</ImportLibrary>
+      <ImportLibrary>$(TargetDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_FC|x64'">
     <ClCompile>
+      <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;$(PangoDefines);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
@@ -288,7 +291,7 @@
       <ModuleDefinitionFile>..\..\..\pango\pangocairo.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <ImportLibrary>$(TargetDir)$(ProjectName)-$(PangoApiVersion).lib</ImportLibrary>
+      <ImportLibrary>$(TargetDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -310,7 +313,7 @@
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <ImportLibrary>$(TargetDir)$(ProjectName)-$(PangoApiVersion).lib</ImportLibrary>
+      <ImportLibrary>$(TargetDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -332,10 +335,10 @@
     </ClCompile>
     <ClCompile Include="..\..\..\pango\pangocairo-win32font.c" />
     <ClCompile Include="..\..\..\pango\pangocairo-win32fontmap.c" />
- <ClCompile Include="..\..\..\pango\pangocairo-context.c" />
- <ClCompile Include="..\..\..\pango\pangocairo-font.c" />
- <ClCompile Include="..\..\..\pango\pangocairo-fontmap.c" />
- <ClCompile Include="..\..\..\pango\pangocairo-render.c" />
+   <ClCompile Include="..\..\..\pango\pangocairo-context.c" />
+   <ClCompile Include="..\..\..\pango\pangocairo-font.c" />
+   <ClCompile Include="..\..\..\pango\pangocairo-fontmap.c" />
+   <ClCompile Include="..\..\..\pango\pangocairo-render.c" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="pango.vcxproj">

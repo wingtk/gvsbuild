@@ -213,7 +213,7 @@ $items = @{
 	};
 
 	'pango' = @{
-		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/pango-1.36.8.tar.xz'
+		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.38/pango-1.38.0.tar.xz'
 		'Dependencies' = @('cairo', 'harfbuzz')
 	};
 
@@ -787,8 +787,6 @@ $items['openssl'].BuildScript = {
 $items['pango'].BuildScript = {
 	$packageDestination = "$PWD-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
-
-	Exec $patch -p1 -i pango-synthesize-fonts-properly.patch
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
