@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -155,39 +155,39 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\atk\atkaction.c" />
-    <ClCompile Include="..\..\..\atk\atkcomponent.c" />
-    <ClCompile Include="..\..\..\atk\atkdocument.c" />
-    <ClCompile Include="..\..\..\atk\atkeditabletext.c" />
-    <ClCompile Include="..\..\..\atk\atkgobjectaccessible.c" />
-    <ClCompile Include="..\..\..\atk\atkhyperlink.c" />
-    <ClCompile Include="..\..\..\atk\atkhyperlinkimpl.c" />
-    <ClCompile Include="..\..\..\atk\atkhypertext.c" />
-    <ClCompile Include="..\..\..\atk\atkimage.c" />
-    <ClCompile Include="..\..\..\atk\atknoopobject.c" />
-    <ClCompile Include="..\..\..\atk\atknoopobjectfactory.c" />
-    <ClCompile Include="..\..\..\atk\atkobject.c" />
-    <ClCompile Include="..\..\..\atk\atkobjectfactory.c" />
-    <ClCompile Include="..\..\..\atk\atkplug.c" />
-    <ClCompile Include="..\..\..\atk\atkprivate.c" />
-    <ClCompile Include="..\..\..\atk\atkrange.c" />
-    <ClCompile Include="..\..\..\atk\atkregistry.c" />
-    <ClCompile Include="..\..\..\atk\atkrelation.c" />
-    <ClCompile Include="..\..\..\atk\atkrelationset.c" />
-    <ClCompile Include="..\..\..\atk\atkselection.c" />
-    <ClCompile Include="..\..\..\atk\atksocket.c" />
-    <ClCompile Include="..\..\..\atk\atkstate.c" />
-    <ClCompile Include="..\..\..\atk\atkstateset.c" />
-    <ClCompile Include="..\..\..\atk\atkstreamablecontent.c" />
-    <ClCompile Include="..\..\..\atk\atktable.c" />
-    <ClCompile Include="..\..\..\atk\atktablecell.c" />
-    <ClCompile Include="..\..\..\atk\atktext.c" />
-    <ClCompile Include="..\..\..\atk\atkutil.c" />
-    <ClCompile Include="..\..\..\atk\atkmisc.c" />
-    <ClCompile Include="..\..\..\atk\atkvalue.c" />
-    <ClCompile Include="..\..\..\atk\atkversion.c" />
-    <ClCompile Include="..\..\..\atk\atkwindow.c" />
-    <ClCompile Include="..\..\..\atk\atk-enum-types.c" />
+   <ClCompile Include="..\..\..\atk\atkaction.c" />
+   <ClCompile Include="..\..\..\atk\atkcomponent.c" />
+   <ClCompile Include="..\..\..\atk\atkdocument.c" />
+   <ClCompile Include="..\..\..\atk\atkeditabletext.c" />
+   <ClCompile Include="..\..\..\atk\atkgobjectaccessible.c" />
+   <ClCompile Include="..\..\..\atk\atkhyperlink.c" />
+   <ClCompile Include="..\..\..\atk\atkhyperlinkimpl.c" />
+   <ClCompile Include="..\..\..\atk\atkhypertext.c" />
+   <ClCompile Include="..\..\..\atk\atkimage.c" />
+   <ClCompile Include="..\..\..\atk\atknoopobject.c" />
+   <ClCompile Include="..\..\..\atk\atknoopobjectfactory.c" />
+   <ClCompile Include="..\..\..\atk\atkobject.c" />
+   <ClCompile Include="..\..\..\atk\atkobjectfactory.c" />
+   <ClCompile Include="..\..\..\atk\atkplug.c" />
+   <ClCompile Include="..\..\..\atk\atkprivate.c" />
+   <ClCompile Include="..\..\..\atk\atkrange.c" />
+   <ClCompile Include="..\..\..\atk\atkregistry.c" />
+   <ClCompile Include="..\..\..\atk\atkrelation.c" />
+   <ClCompile Include="..\..\..\atk\atkrelationset.c" />
+   <ClCompile Include="..\..\..\atk\atkselection.c" />
+   <ClCompile Include="..\..\..\atk\atksocket.c" />
+   <ClCompile Include="..\..\..\atk\atkstate.c" />
+   <ClCompile Include="..\..\..\atk\atkstateset.c" />
+   <ClCompile Include="..\..\..\atk\atkstreamablecontent.c" />
+   <ClCompile Include="..\..\..\atk\atktable.c" />
+   <ClCompile Include="..\..\..\atk\atktablecell.c" />
+   <ClCompile Include="..\..\..\atk\atktext.c" />
+   <ClCompile Include="..\..\..\atk\atkutil.c" />
+   <ClCompile Include="..\..\..\atk\atkmisc.c" />
+   <ClCompile Include="..\..\..\atk\atkvalue.c" />
+   <ClCompile Include="..\..\..\atk\atkversion.c" />
+   <ClCompile Include="..\..\..\atk\atkwindow.c" />
+   <ClCompile Include="..\..\..\atk\atk-enum-types.c" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\..\config.h.win32">

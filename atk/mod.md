@@ -1,4 +1,4 @@
- * Download [ATK 2.16.0](http://ftp.gnome.org/pub/gnome/sources/atk/2.16/atk-2.16.0.tar.xz)
+ * Download [ATK 2.18.0](http://ftp.acc.umu.se/pub/GNOME/sources/atk/2.18/atk-2.18.0.tar.xz)
  * In `build\win32\vs12\atk-build-defines.props`, replace:
 	* `intl.lib` with `libintl.lib`
  * In `build\win32\vs12\atk-version-paths.props`, replace:
