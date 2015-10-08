@@ -603,6 +603,7 @@ $items['libffi'].BuildScript = {
 
 	Exec $patch -p1 -i libffi-msvc-complex.patch
 	Exec $patch -p1 -i libffi-win64-jmp.patch
+	Exec $patch -p1 -i 0001-Fix-build-on-windows.patch
 
 	switch ($filenameArch) {
 		'x86' {

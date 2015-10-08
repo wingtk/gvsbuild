@@ -1,0 +1,46 @@
+From c12e72794326b5cae9a7907bb2a96cdc062c7a77 Mon Sep 17 00:00:00 2001
+From: Ignacio Casal Quinteiro <icq@gnome.org>
+Date: Thu, 8 Oct 2015 14:09:26 +0200
+Subject: [PATCH] Fix build on windows
+
+---
+ src/x86/ffi.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/src/x86/ffi.c b/src/x86/ffi.c
+index 006c95d..939642f 100644
+--- a/src/x86/ffi.c
++++ b/src/x86/ffi.c
+@@ -99,11 +99,13 @@ unsigned int ffi_prep_args(char *stack, extended_cif *ecif)
+        i != 0;
+        i--, p_arg += dir, p_argv += dir)
+     {
++      size_t z;
++
+       /* Align if necessary */
+       if ((sizeof(void*) - 1) & (size_t) argp)
+         argp = (char *) ALIGN(argp, sizeof(void*));
+ 
+-      size_t z = (*p_arg)->size;
++      z = (*p_arg)->size;
+ 
+ #ifdef X86_WIN64
+       if (z > FFI_SIZEOF_ARG
+@@ -599,11 +601,13 @@ ffi_prep_incoming_args(char *stack, void **rvalue, void **avalue,
+        i != 0;
+        i--, p_arg += dir, p_argv += dir)
+     {
++      size_t z;
++
+       /* Align if necessary */
+       if ((sizeof(void*) - 1) & (size_t) argp)
+         argp = (char *) ALIGN(argp, sizeof(void*));
+ 
+-      size_t z = (*p_arg)->size;
++      z = (*p_arg)->size;
+ 
+ #ifdef X86_WIN64
+       if (z > FFI_SIZEOF_ARG
+-- 
+2.5.0
+
