@@ -19,6 +19,7 @@
   </ItemGroup>
   <ItemGroup>
    <ClCompile Include="..\..\..\gdk\deprecated\gdkcolor.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gdk\gdk-private.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\gdk\gdk.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\gdk\gdkapplaunchcontext.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\gdk\gdkcairo.c"><Filter>Source Files</Filter></ClCompile>
@@ -31,6 +32,8 @@
    <ClCompile Include="..\..\..\gdk\gdkdnd.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\gdk\gdkevents.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\gdk\gdkframetimings.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gdk\gdkgl.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gdk\gdkglcontext.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\gdk\gdkglobals.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\gdk\gdkkeys.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\gdk\gdkkeyuni.c"><Filter>Source Files</Filter></ClCompile>

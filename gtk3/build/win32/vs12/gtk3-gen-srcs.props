@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets">
-    <Import Project="gtk-build-defines.props" />
+    <Import Project="gtk3-build-defines.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros">
     <GenConfigH>
@@ -65,9 +65,10 @@ $(PythonPath)\python $(GlibEtcInstallRoot)\bin\gdbus-codegen --interface-prefix 
 cd $(SolutionDir)
     </GenerateGtkDbusBuiltSources>
     <GenerateGtkWin32RC>$(PythonPath)\python ..\process-in-win32.py --gtkwin32rc --gtk3manifest</GenerateGtkWin32RC>
+    <CopyDemosH>copy ..\..\..\demos\gtk-demo\demos.h.win32 ..\..\..\demos\gtk-demo\demos.h</CopyDemosH>
   </PropertyGroup>
   <PropertyGroup>
-    <_PropertySheetDisplayName>gtkgensrcsprops</_PropertySheetDisplayName>
+    <_PropertySheetDisplayName>gtk3gensrcsprops</_PropertySheetDisplayName>
   </PropertyGroup>
   <ItemGroup>
     <BuildMacro Include="GenConfigH">
@@ -84,6 +85,9 @@ cd $(SolutionDir)
     </BuildMacro>
     <BuildMacro Include="GenerateGtkWin32RC">
       <Value>$(GenerateGtkWin32RC)</Value>
+    </BuildMacro>
+    <BuildMacro Include="CopyDemosH">
+      <Value>$(CopyDemosH)</Value>
     </BuildMacro>
   </ItemGroup>
 </Project>

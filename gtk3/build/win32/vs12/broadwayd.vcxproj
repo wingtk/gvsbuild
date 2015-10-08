@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug_Broadway|Win32">
@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{3281202A-CD26-4C67-B892-EB34BDBC6130}</ProjectGuid>
+    <ProjectGuid>{E9687D21-E214-4A0C-9EB4-8B38EBB783E5}</ProjectGuid>
     <RootNamespace>broadwayd</RootNamespace>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
@@ -51,19 +51,19 @@
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_Broadway|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="gtk-build-defines.props" />
+    <Import Project="gtk3-build-defines.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Broadway|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="gtk-build-defines.props" />
+    <Import Project="gtk3-build-defines.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_Broadway|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="gtk-build-defines.props" />
+    <Import Project="gtk3-build-defines.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Broadway|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="gtk-build-defines.props" />
+    <Import Project="gtk3-build-defines.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
@@ -163,14 +163,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\gdk\broadway\broadwayd.c" />
-    <ClCompile Include="..\..\..\gdk\broadway\broadway-buffer.c" />
-    <ClCompile Include="..\..\..\gdk\broadway\broadway-output.c" />
-    <ClCompile Include="..\..\..\gdk\broadway\broadway-server.c" />
+   <ClCompile Include="..\..\..\gdk\broadway\broadwayd.c" />
+   <ClCompile Include="..\..\..\gdk\broadway\broadway-server.c" />
+   <ClCompile Include="..\..\..\gdk\broadway\broadway-buffer.c" />
+   <ClCompile Include="..\..\..\gdk\broadway\broadway-output.c" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="gtk-prebuild.vcxproj">
-      <Project>{fc5aadb5-95cd-4bf0-ba8b-0c16fe7073ff}</Project>
+    <ProjectReference Include="gtk3-prebuild.vcxproj">
+      <Project>{b98fbe68-b03c-48e3-8f32-c3c010720d30}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets">
-    <Import Project="gtk-build-defines.props" />
+    <Import Project="gtk3-build-defines.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros">
     <BinDir>$(SolutionDir)$(Configuration)\$(Platform)\bin</BinDir>
@@ -11,17 +11,15 @@
     <GtkDoInstallBin>
 mkdir $(CopyDir)\bin
 mkdir $(CopyDir)\lib
-
-copy "$(BinDir)\$(GtkDllPrefix)gdk$(GtkDllSuffix).dll" $(CopyDir)\bin
-copy "$(BinDir)\$(GtkDllPrefix)gdk$(GtkDllSuffix).pdb" $(CopyDir)\bin
+copy "$(BinDir)\$(GtkDllPrefix)gdk-3$(GtkDllSuffix).dll" $(CopyDir)\bin
+copy "$(BinDir)\$(GtkDllPrefix)gdk-3$(GtkDllSuffix).pdb" $(CopyDir)\bin
 copy "$(BinDir)\gdk-$(ApiVersion).lib" $(CopyDir)\lib
-
 if "$(Configuration)" == "Release_Broadway" goto DO_BROADWAY_BIN
 if "$(Configuration)" == "Debug_Broadway" goto DO_BROADWAY_BIN
-copy "$(BinDir)\$(GtkDllPrefix)gtk$(GtkDllSuffix).dll" $(CopyDir)\bin
-copy "$(BinDir)\$(GtkDllPrefix)gtk$(GtkDllSuffix).pdb" $(CopyDir)\bin
-copy "$(BinDir)\$(GtkDllPrefix)gailutil$(GtkDllSuffix).dll" $(CopyDir)\bin
-copy "$(BinDir)\$(GtkDllPrefix)gailutil$(GtkDllSuffix).pdb" $(CopyDir)\bin
+copy "$(BinDir)\$(GtkDllPrefix)gtk-3$(GtkDllSuffix).dll" $(CopyDir)\bin
+copy "$(BinDir)\$(GtkDllPrefix)gtk-3$(GtkDllSuffix).pdb" $(CopyDir)\bin
+copy "$(BinDir)\$(GtkDllPrefix)gailutil-3$(GtkDllSuffix).dll" $(CopyDir)\bin
+copy "$(BinDir)\$(GtkDllPrefix)gailutil-3$(GtkDllSuffix).pdb" $(CopyDir)\bin
 copy "$(BinDir)\gtk-$(ApiVersion).lib" $(CopyDir)\lib
 copy "$(BinDir)\gailutil-$(ApiVersion).lib" $(CopyDir)\lib
 copy "$(BinDir)\gtk3-demo.exe" $(CopyDir)\bin
@@ -33,18 +31,16 @@ copy "$(BinDir)\gtk3-icon-browser.pdb" $(CopyDir)\bin
 copy "$(BinDir)\gtk-encode-symbolic-svg.exe" $(CopyDir)\bin
 copy "$(BinDir)\gtk-encode-symbolic-svg.pdb" $(CopyDir)\bin
 goto DONE_BIN
-
 :DO_BROADWAY_BIN
 copy "$(BinDir)\broadwayd.exe" $(CopyDir)\bin
 copy "$(BinDir)\broadwayd.pdb" $(CopyDir)\bin
-
 if "$(Configuration)" == "Release_Broadway" goto DO_BROADWAY_RELEASE
 if "$(Configuration)" == "Debug_Broadway" goto DO_BROADWAY_DEBUG
 :DO_BROADWAY_RELEASE
-copy .\Release\$(Platform)\bin\$(GtkDllPrefix)gtk$(GtkDllSuffix).dll $(CopyDir)\bin
-copy .\Release\$(Platform)\bin\$(GtkDllPrefix)gtk$(GtkDllSuffix).pdb $(CopyDir)\bin
-copy .\Release\$(Platform)\bin\$(GtkDllPrefix)gailutil$(GtkDllSuffix).dll $(CopyDir)\bin
-copy .\Release\$(Platform)\bin\$(GtkDllPrefix)gailutil$(GtkDllSuffix).pdb $(CopyDir)\bin
+copy .\Release\$(Platform)\bin\$(GtkDllPrefix)gtk-3$(GtkDllSuffix).dll $(CopyDir)\bin
+copy .\Release\$(Platform)\bin\$(GtkDllPrefix)gtk-3$(GtkDllSuffix).pdb $(CopyDir)\bin
+copy .\Release\$(Platform)\bin\$(GtkDllPrefix)gailutil-3$(GtkDllSuffix).dll $(CopyDir)\bin
+copy .\Release\$(Platform)\bin\$(GtkDllPrefix)gailutil-3$(GtkDllSuffix).pdb $(CopyDir)\bin
 copy .\Release\$(Platform)\bin\gtk-$(ApiVersion).lib $(CopyDir)\lib
 copy .\Release\$(Platform)\bin\gailutil-$(ApiVersion).lib $(CopyDir)\lib
 copy .\Release\$(Platform)\bin\gtk3-demo.exe $(CopyDir)\bin
@@ -55,14 +51,12 @@ copy .\Release\$(Platform)\bin\gtk3-icon-browser.exe $(CopyDir)\bin
 copy .\Release\$(Platform)\bin\gtk3-icon-browser.pdb $(CopyDir)\bin
 copy .\Release\$(Platform)\bin\gtk-encode-symbolic-svg.exe $(CopyDir)\bin
 copy .\Release\$(Platform)\bin\gtk-encode-symbolic-svg.pdb $(CopyDir)\bin
-
 goto DONE_BIN
-
 :DO_BROADWAY_DEBUG
-copy .\Debug\$(Platform)\bin\$(GtkDllPrefix)gtk$(GtkDllSuffix).dll $(CopyDir)\bin
-copy .\Debug\$(Platform)\bin\$(GtkDllPrefix)gtk$(GtkDllSuffix).pdb $(CopyDir)\bin
-copy .\Debug\$(Platform)\bin\$(GtkDllPrefix)gailutil$(GtkDllSuffix).dll $(CopyDir)\bin
-copy .\Debug\$(Platform)\bin\$(GtkDllPrefix)gailutil$(GtkDllSuffix).pdb $(CopyDir)\bin
+copy .\Debug\$(Platform)\bin\$(GtkDllPrefix)gtk-3$(GtkDllSuffix).dll $(CopyDir)\bin
+copy .\Debug\$(Platform)\bin\$(GtkDllPrefix)gtk-3$(GtkDllSuffix).pdb $(CopyDir)\bin
+copy .\Debug\$(Platform)\bin\$(GtkDllPrefix)gailutil-3$(GtkDllSuffix).dll $(CopyDir)\bin
+copy .\Debug\$(Platform)\bin\$(GtkDllPrefix)gailutil-3$(GtkDllSuffix).pdb $(CopyDir)\bin
 copy .\Debug\$(Platform)\bin\gtk-$(ApiVersion).lib $(CopyDir)\lib
 copy .\Debug\$(Platform)\bin\gailutil-$(ApiVersion).lib $(CopyDir)\lib
 copy .\Debug\$(Platform)\bin\gtk3-demo.exe $(CopyDir)\bin
@@ -73,19 +67,15 @@ copy .\Debug\$(Platform)\bin\gtk3-icon-browser.exe $(CopyDir)\bin
 copy .\Debug\$(Platform)\bin\gtk3-icon-browser.pdb $(CopyDir)\bin
 copy .\Debug\$(Platform)\bin\gtk-encode-symbolic-svg.exe $(CopyDir)\bin
 copy .\Debug\$(Platform)\bin\gtk-encode-symbolic-svg.pdb $(CopyDir)\bin
-
 :DONE_BIN
     </GtkDoInstallBin>
     <GtkDoInstall>
 echo off
-mkdir $(CopyDir)\include\gtk-$(ApiVersion)\gdk
 mkdir $(CopyDir)\include\gtk-$(ApiVersion)\gdk\win32
 mkdir $(CopyDir)\include\gtk-$(ApiVersion)\gdk\deprecated
-mkdir $(CopyDir)\include\gtk-$(ApiVersion)\gtk
-mkdir $(CopyDir)\include\gtk-$(ApiVersion)\gtk\a11y
-mkdir $(CopyDir)\include\gtk-$(ApiVersion)\gtk\deprecated
 copy ..\..\..\gdk\win32\gdkwin32.h $(CopyDir)\include\gtk-$(ApiVersion)\gdk
 copy ..\..\..\gdk\gdk.h $(CopyDir)\include\gtk-3.0\gdk\gdk.h
+copy ..\..\..\gdk\gdk-autocleanup.h $(CopyDir)\include\gtk-3.0\gdk\gdk-autocleanup.h
 copy ..\..\..\gdk\gdkapplaunchcontext.h $(CopyDir)\include\gtk-3.0\gdk\gdkapplaunchcontext.h
 copy ..\..\..\gdk\gdkcairo.h $(CopyDir)\include\gtk-3.0\gdk\gdkcairo.h
 copy ..\..\..\gdk\gdkcursor.h $(CopyDir)\include\gtk-3.0\gdk\gdkcursor.h
@@ -96,6 +86,7 @@ copy ..\..\..\gdk\gdkdisplaymanager.h $(CopyDir)\include\gtk-3.0\gdk\gdkdisplaym
 copy ..\..\..\gdk\gdkdnd.h $(CopyDir)\include\gtk-3.0\gdk\gdkdnd.h
 copy ..\..\..\gdk\gdkevents.h $(CopyDir)\include\gtk-3.0\gdk\gdkevents.h
 copy ..\..\..\gdk\gdkframetimings.h $(CopyDir)\include\gtk-3.0\gdk\gdkframetimings.h
+copy ..\..\..\gdk\gdkglcontext.h $(CopyDir)\include\gtk-3.0\gdk\gdkglcontext.h
 copy ..\..\..\gdk\gdkkeys.h $(CopyDir)\include\gtk-3.0\gdk\gdkkeys.h
 copy ..\..\..\gdk\gdkkeysyms.h $(CopyDir)\include\gtk-3.0\gdk\gdkkeysyms.h
 copy ..\..\..\gdk\gdkkeysyms-compat.h $(CopyDir)\include\gtk-3.0\gdk\gdkkeysyms-compat.h
@@ -116,18 +107,23 @@ copy ..\..\..\gdk\gdkvisual.h $(CopyDir)\include\gtk-3.0\gdk\gdkvisual.h
 copy ..\..\..\gdk\gdkwindow.h $(CopyDir)\include\gtk-3.0\gdk\gdkwindow.h
 copy ..\..\..\gdk\gdkenumtypes.h $(CopyDir)\include\gtk-3.0\gdk\gdkenumtypes.h
 copy ..\..\..\gdk\gdkversionmacros.h $(CopyDir)\include\gtk-3.0\gdk\gdkversionmacros.h
-copy ..\..\..\gdk\gdkconfig.h $(CopyDir)\include\gtk-3.0\gdk\gdkconfig.h
 copy ..\..\..\gdk\deprecated\gdkcolor.h $(CopyDir)\include\gtk-3.0\gdk\deprecated\gdkcolor.h
+copy ..\..\..\gdk\gdkconfig.h $(CopyDir)\include\gtk-3.0\gdk\gdkconfig.h
 copy ..\..\..\gdk\win32\gdkwin32cursor.h $(CopyDir)\include\gtk-3.0\gdk\win32\gdkwin32cursor.h
 copy ..\..\..\gdk\win32\gdkwin32display.h $(CopyDir)\include\gtk-3.0\gdk\win32\gdkwin32display.h
 copy ..\..\..\gdk\win32\gdkwin32displaymanager.h $(CopyDir)\include\gtk-3.0\gdk\win32\gdkwin32displaymanager.h
 copy ..\..\..\gdk\win32\gdkwin32dnd.h $(CopyDir)\include\gtk-3.0\gdk\win32\gdkwin32dnd.h
+copy ..\..\..\gdk\win32\gdkwin32glcontext.h $(CopyDir)\include\gtk-3.0\gdk\win32\gdkwin32glcontext.h
 copy ..\..\..\gdk\win32\gdkwin32keys.h $(CopyDir)\include\gtk-3.0\gdk\win32\gdkwin32keys.h
 copy ..\..\..\gdk\win32\gdkwin32misc.h $(CopyDir)\include\gtk-3.0\gdk\win32\gdkwin32misc.h
 copy ..\..\..\gdk\win32\gdkwin32screen.h $(CopyDir)\include\gtk-3.0\gdk\win32\gdkwin32screen.h
 copy ..\..\..\gdk\win32\gdkwin32window.h $(CopyDir)\include\gtk-3.0\gdk\win32\gdkwin32window.h
+mkdir $(CopyDir)\include\gtk-$(ApiVersion)\gtk\a11y
+mkdir $(CopyDir)\include\gtk-$(ApiVersion)\gtk\deprecated
 copy ..\..\..\gtk\gtk.h $(CopyDir)\include\gtk-3.0\gtk\gtk.h
+copy ..\..\..\gtk\gtk-autocleanups.h $(CopyDir)\include\gtk-3.0\gtk\gtk-autocleanups.h
 copy ..\..\..\gtk\gtkx.h $(CopyDir)\include\gtk-3.0\gtk\gtkx.h
+copy ..\..\..\gtk\gtkx-autocleanups.h $(CopyDir)\include\gtk-3.0\gtk\gtkx-autocleanups.h
 copy ..\..\..\gtk\gtk-a11y.h $(CopyDir)\include\gtk-3.0\gtk\gtk-a11y.h
 copy ..\..\..\gtk\gtkaboutdialog.h $(CopyDir)\include\gtk-3.0\gtk\gtkaboutdialog.h
 copy ..\..\..\gtk\gtkaccelgroup.h $(CopyDir)\include\gtk-3.0\gtk\gtkaccelgroup.h
@@ -215,6 +211,7 @@ copy ..\..\..\gtk\gtkgesturerotate.h $(CopyDir)\include\gtk-3.0\gtk\gtkgesturero
 copy ..\..\..\gtk\gtkgesturesingle.h $(CopyDir)\include\gtk-3.0\gtk\gtkgesturesingle.h
 copy ..\..\..\gtk\gtkgestureswipe.h $(CopyDir)\include\gtk-3.0\gtk\gtkgestureswipe.h
 copy ..\..\..\gtk\gtkgesturezoom.h $(CopyDir)\include\gtk-3.0\gtk\gtkgesturezoom.h
+copy ..\..\..\gtk\gtkglarea.h $(CopyDir)\include\gtk-3.0\gtk\gtkglarea.h
 copy ..\..\..\gtk\gtkgrid.h $(CopyDir)\include\gtk-3.0\gtk\gtkgrid.h
 copy ..\..\..\gtk\gtkheaderbar.h $(CopyDir)\include\gtk-3.0\gtk\gtkheaderbar.h
 copy ..\..\..\gtk\gtkicontheme.h $(CopyDir)\include\gtk-3.0\gtk\gtkicontheme.h
@@ -242,6 +239,7 @@ copy ..\..\..\gtk\gtkmenuitem.h $(CopyDir)\include\gtk-3.0\gtk\gtkmenuitem.h
 copy ..\..\..\gtk\gtkmenushell.h $(CopyDir)\include\gtk-3.0\gtk\gtkmenushell.h
 copy ..\..\..\gtk\gtkmenutoolbutton.h $(CopyDir)\include\gtk-3.0\gtk\gtkmenutoolbutton.h
 copy ..\..\..\gtk\gtkmessagedialog.h $(CopyDir)\include\gtk-3.0\gtk\gtkmessagedialog.h
+copy ..\..\..\gtk\gtkmodelbutton.h $(CopyDir)\include\gtk-3.0\gtk\gtkmodelbutton.h
 copy ..\..\..\gtk\gtkmodules.h $(CopyDir)\include\gtk-3.0\gtk\gtkmodules.h
 copy ..\..\..\gtk\gtkmountoperation.h $(CopyDir)\include\gtk-3.0\gtk\gtkmountoperation.h
 copy ..\..\..\gtk\gtknotebook.h $(CopyDir)\include\gtk-3.0\gtk\gtknotebook.h
@@ -254,6 +252,7 @@ copy ..\..\..\gtk\gtkpapersize.h $(CopyDir)\include\gtk-3.0\gtk\gtkpapersize.h
 copy ..\..\..\gtk\gtkplacessidebar.h $(CopyDir)\include\gtk-3.0\gtk\gtkplacessidebar.h
 copy ..\..\..\gtk\gtkplug.h $(CopyDir)\include\gtk-3.0\gtk\gtkplug.h
 copy ..\..\..\gtk\gtkpopover.h $(CopyDir)\include\gtk-3.0\gtk\gtkpopover.h
+copy ..\..\..\gtk\gtkpopovermenu.h $(CopyDir)\include\gtk-3.0\gtk\gtkpopovermenu.h
 copy ..\..\..\gtk\gtkprintcontext.h $(CopyDir)\include\gtk-3.0\gtk\gtkprintcontext.h
 copy ..\..\..\gtk\gtkprintoperation.h $(CopyDir)\include\gtk-3.0\gtk\gtkprintoperation.h
 copy ..\..\..\gtk\gtkprintoperationpreview.h $(CopyDir)\include\gtk-3.0\gtk\gtkprintoperationpreview.h
@@ -269,6 +268,7 @@ copy ..\..\..\gtk\gtkrecentchoosermenu.h $(CopyDir)\include\gtk-3.0\gtk\gtkrecen
 copy ..\..\..\gtk\gtkrecentchooserwidget.h $(CopyDir)\include\gtk-3.0\gtk\gtkrecentchooserwidget.h
 copy ..\..\..\gtk\gtkrecentfilter.h $(CopyDir)\include\gtk-3.0\gtk\gtkrecentfilter.h
 copy ..\..\..\gtk\gtkrecentmanager.h $(CopyDir)\include\gtk-3.0\gtk\gtkrecentmanager.h
+copy ..\..\..\gtk\gtkrender.h $(CopyDir)\include\gtk-3.0\gtk\gtkrender.h
 copy ..\..\..\gtk\gtkrevealer.h $(CopyDir)\include\gtk-3.0\gtk\gtkrevealer.h
 copy ..\..\..\gtk\gtkscale.h $(CopyDir)\include\gtk-3.0\gtk\gtkscale.h
 copy ..\..\..\gtk\gtkscalebutton.h $(CopyDir)\include\gtk-3.0\gtk\gtkscalebutton.h
@@ -283,6 +283,7 @@ copy ..\..\..\gtk\gtkseparatormenuitem.h $(CopyDir)\include\gtk-3.0\gtk\gtksepar
 copy ..\..\..\gtk\gtkseparatortoolitem.h $(CopyDir)\include\gtk-3.0\gtk\gtkseparatortoolitem.h
 copy ..\..\..\gtk\gtksettings.h $(CopyDir)\include\gtk-3.0\gtk\gtksettings.h
 copy ..\..\..\gtk\gtkshow.h $(CopyDir)\include\gtk-3.0\gtk\gtkshow.h
+copy ..\..\..\gtk\gtkstacksidebar.h $(CopyDir)\include\gtk-3.0\gtk\gtkstacksidebar.h
 copy ..\..\..\gtk\gtksizegroup.h $(CopyDir)\include\gtk-3.0\gtk\gtksizegroup.h
 copy ..\..\..\gtk\gtksizerequest.h $(CopyDir)\include\gtk-3.0\gtk\gtksizerequest.h
 copy ..\..\..\gtk\gtksocket.h $(CopyDir)\include\gtk-3.0\gtk\gtksocket.h
@@ -292,7 +293,6 @@ copy ..\..\..\gtk\gtkstack.h $(CopyDir)\include\gtk-3.0\gtk\gtkstack.h
 copy ..\..\..\gtk\gtkstackswitcher.h $(CopyDir)\include\gtk-3.0\gtk\gtkstackswitcher.h
 copy ..\..\..\gtk\gtkstatusbar.h $(CopyDir)\include\gtk-3.0\gtk\gtkstatusbar.h
 copy ..\..\..\gtk\gtkstylecontext.h $(CopyDir)\include\gtk-3.0\gtk\gtkstylecontext.h
-copy ..\..\..\gtk\gtkstyleproperties.h $(CopyDir)\include\gtk-3.0\gtk\gtkstyleproperties.h
 copy ..\..\..\gtk\gtkstyleprovider.h $(CopyDir)\include\gtk-3.0\gtk\gtkstyleprovider.h
 copy ..\..\..\gtk\gtkswitch.h $(CopyDir)\include\gtk-3.0\gtk\gtkswitch.h
 copy ..\..\..\gtk\gtktestutils.h $(CopyDir)\include\gtk-3.0\gtk\gtktestutils.h
@@ -334,6 +334,7 @@ copy ..\..\..\gtk\gtkwindowgroup.h $(CopyDir)\include\gtk-3.0\gtk\gtkwindowgroup
 copy ..\..\..\gtk\gtktextlayout.h $(CopyDir)\include\gtk-3.0\gtk\gtktextlayout.h
 copy ..\..\..\gtk\gtktypebuiltins.h $(CopyDir)\include\gtk-3.0\gtk\gtktypebuiltins.h
 copy ..\..\..\gtk\gtkversion.h $(CopyDir)\include\gtk-3.0\gtk\gtkversion.h
+copy ..\..\..\gtk\a11y\gtk-a11y-autocleanups.h $(CopyDir)\include\gtk-3.0\gtk\a11y\gtk-a11y-autocleanups.h
 copy ..\..\..\gtk\a11y\gtkarrowaccessible.h $(CopyDir)\include\gtk-3.0\gtk\a11y\gtkarrowaccessible.h
 copy ..\..\..\gtk\a11y\gtkbooleancellaccessible.h $(CopyDir)\include\gtk-3.0\gtk\a11y\gtkbooleancellaccessible.h
 copy ..\..\..\gtk\a11y\gtkbuttonaccessible.h $(CopyDir)\include\gtk-3.0\gtk\a11y\gtkbuttonaccessible.h
@@ -411,6 +412,7 @@ copy ..\..\..\gtk\deprecated\gtkrecentaction.h $(CopyDir)\include\gtk-3.0\gtk\de
 copy ..\..\..\gtk\deprecated\gtkstatusicon.h $(CopyDir)\include\gtk-3.0\gtk\deprecated\gtkstatusicon.h
 copy ..\..\..\gtk\deprecated\gtkstock.h $(CopyDir)\include\gtk-3.0\gtk\deprecated\gtkstock.h
 copy ..\..\..\gtk\deprecated\gtkstyle.h $(CopyDir)\include\gtk-3.0\gtk\deprecated\gtkstyle.h
+copy ..\..\..\gtk\deprecated\gtkstyleproperties.h $(CopyDir)\include\gtk-3.0\gtk\deprecated\gtkstyleproperties.h
 copy ..\..\..\gtk\deprecated\gtksymboliccolor.h $(CopyDir)\include\gtk-3.0\gtk\deprecated\gtksymboliccolor.h
 copy ..\..\..\gtk\deprecated\gtktable.h $(CopyDir)\include\gtk-3.0\gtk\deprecated\gtktable.h
 copy ..\..\..\gtk\deprecated\gtktearoffmenuitem.h $(CopyDir)\include\gtk-3.0\gtk\deprecated\gtktearoffmenuitem.h
@@ -424,9 +426,9 @@ copy ..\..\..\gtk\deprecated\gtkvscrollbar.h $(CopyDir)\include\gtk-3.0\gtk\depr
 copy ..\..\..\gtk\deprecated\gtkvseparator.h $(CopyDir)\include\gtk-3.0\gtk\deprecated\gtkvseparator.h
 copy ..\..\..\gtk\deprecated\gtkvpaned.h $(CopyDir)\include\gtk-3.0\gtk\deprecated\gtkvpaned.h
 mkdir $(CopyDir)\include\gail-$(ApiVersion)\libgail-util
-copy ..\..\..\libgail-util\gail-util.h $(CopyDir)\include\gail-$(ApiVersion)\libgail-util
-copy ..\..\..\libgail-util\gailmisc.h $(CopyDir)\include\gail-$(ApiVersion)\libgail-util
-copy ..\..\..\libgail-util\gailtextutil.h $(CopyDir)\include\gail-$(ApiVersion)\libgail-util
+copy ..\..\..\libgail-util\gailmisc.h $(CopyDir)\include\gail-3.0\libgail-util\gailmisc.h
+copy ..\..\..\libgail-util\gailtextutil.h $(CopyDir)\include\gail-3.0\libgail-util\gailtextutil.h
+copy ..\..\..\libgail-util\gail-util.h $(CopyDir)\include\gail-3.0\libgail-util\gail-util.h
 mkdir $(CopyDir)\share\icons\hicolor\16x16\apps
 copy ..\..\..\demos\gtk-demo\data\16x16\gtk3-demo.png $(CopyDir)\share\icons\hicolor\16x16\apps
 mkdir $(CopyDir)\share\icons\hicolor\22x22\apps
@@ -450,14 +452,14 @@ $(GlibEtcInstallRoot)\bin\glib-compile-schemas.exe $(CopyDir)\share\glib-2.0\sch
     <GtkDoInstallBroadwayHeaders>
 copy ..\..\..\gdk\broadway\gdkbroadway.h $(CopyDir)\include\gtk-$(ApiVersion)\gdk
 mkdir $(CopyDir)\include\gtk-$(ApiVersion)\gdk\broadway
-copy ..\..\..\gdk\broadway\gdkbroadwaycursor.h $(CopyDir)\include\gtk-$(ApiVersion)\gdk\broadway
-copy ..\..\..\gdk\broadway\gdkbroadwaydisplay.h $(CopyDir)\include\gtk-$(ApiVersion)\gdk\broadway
-copy ..\..\..\gdk\broadway\gdkbroadwayvisual.h $(CopyDir)\include\gtk-$(ApiVersion)\gdk\broadway
-copy ..\..\..\gdk\broadway\gdkbroadwaywindow.h $(CopyDir)\include\gtk-$(ApiVersion)\gdk\broadway
+copy ..\..\..\gdk\broadway\gdkbroadwaydisplay.h $(CopyDir)\include\gtk-3.0\gdk\broadway\gdkbroadwaydisplay.h
+copy ..\..\..\gdk\broadway\gdkbroadwaywindow.h $(CopyDir)\include\gtk-3.0\gdk\broadway\gdkbroadwaywindow.h
+copy ..\..\..\gdk\broadway\gdkbroadwaycursor.h $(CopyDir)\include\gtk-3.0\gdk\broadway\gdkbroadwaycursor.h
+copy ..\..\..\gdk\broadway\gdkbroadwayvisual.h $(CopyDir)\include\gtk-3.0\gdk\broadway\gdkbroadwayvisual.h
     </GtkDoInstallBroadwayHeaders>
   </PropertyGroup>
   <PropertyGroup>
-    <_PropertySheetDisplayName>gtkinstallsprops</_PropertySheetDisplayName>
+    <_PropertySheetDisplayName>gtk3installsprops</_PropertySheetDisplayName>
   </PropertyGroup>
   <ItemGroup>
     <BuildMacro Include="BinDir">

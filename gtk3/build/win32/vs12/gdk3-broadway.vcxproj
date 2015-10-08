@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug_Broadway|Win32">
@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{FC5AADB5-95CD-4BF0-BA8B-0C16FE7073FE}</ProjectGuid>
+    <ProjectGuid>{1DF4C475-4472-4EE4-AC2B-3AB5A4C1A453}</ProjectGuid>
     <RootNamespace>gdkbroadway</RootNamespace>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
@@ -51,19 +51,19 @@
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_Broadway|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="gtk-build-defines.props" />
+    <Import Project="gtk3-build-defines.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Broadway|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="gtk-build-defines.props" />
+    <Import Project="gtk3-build-defines.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_Broadway|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="gtk-build-defines.props" />
+    <Import Project="gtk3-build-defines.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Broadway|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="gtk-build-defines.props" />
+    <Import Project="gtk3-build-defines.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Broadway|Win32'">
@@ -117,25 +117,25 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\gdk\broadway\gdkcursor-broadway.c" />
-    <ClCompile Include="..\..\..\gdk\broadway\gdkdevice-broadway.c" />
-    <ClCompile Include="..\..\..\gdk\broadway\gdkdevicemanager-broadway.c" />
-    <ClCompile Include="..\..\..\gdk\broadway\gdkdisplay-broadway.c" />
-    <ClCompile Include="..\..\..\gdk\broadway\gdkdnd-broadway.c" />
-    <ClCompile Include="..\..\..\gdk\broadway\gdkeventsource.c" />
-    <ClCompile Include="..\..\..\gdk\broadway\gdkglobals-broadway.c" />
-    <ClCompile Include="..\..\..\gdk\broadway\gdkkeys-broadway.c" />
-    <ClCompile Include="..\..\..\gdk\broadway\gdkproperty-broadway.c" />
-    <ClCompile Include="..\..\..\gdk\broadway\gdkscreen-broadway.c" />
-    <ClCompile Include="..\..\..\gdk\broadway\gdkselection-broadway.c" />
-    <ClCompile Include="..\..\..\gdk\broadway\gdktestutils-broadway.c" />
-    <ClCompile Include="..\..\..\gdk\broadway\gdkvisual-broadway.c" />
-    <ClCompile Include="..\..\..\gdk\broadway\gdkwindow-broadway.c" />
-    <ClCompile Include="..\..\..\gdk\broadway\gdkbroadway-server.c" />
+   <ClCompile Include="..\..\..\gdk\broadway\gdkcursor-broadway.c" />
+   <ClCompile Include="..\..\..\gdk\broadway\gdkdevice-broadway.c" />
+   <ClCompile Include="..\..\..\gdk\broadway\gdkdevicemanager-broadway.c" />
+   <ClCompile Include="..\..\..\gdk\broadway\gdkdisplay-broadway.c" />
+   <ClCompile Include="..\..\..\gdk\broadway\gdkdnd-broadway.c" />
+   <ClCompile Include="..\..\..\gdk\broadway\gdkeventsource.c" />
+   <ClCompile Include="..\..\..\gdk\broadway\gdkglobals-broadway.c" />
+   <ClCompile Include="..\..\..\gdk\broadway\gdkkeys-broadway.c" />
+   <ClCompile Include="..\..\..\gdk\broadway\gdkproperty-broadway.c" />
+   <ClCompile Include="..\..\..\gdk\broadway\gdkscreen-broadway.c" />
+   <ClCompile Include="..\..\..\gdk\broadway\gdkselection-broadway.c" />
+   <ClCompile Include="..\..\..\gdk\broadway\gdktestutils-broadway.c" />
+   <ClCompile Include="..\..\..\gdk\broadway\gdkvisual-broadway.c" />
+   <ClCompile Include="..\..\..\gdk\broadway\gdkwindow-broadway.c" />
+   <ClCompile Include="..\..\..\gdk\broadway\gdkbroadway-server.c" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="gtk-prebuild.vcxproj">
-      <Project>{fc5aadb5-95cd-4bf0-ba8b-0c16fe7073ff}</Project>
+    <ProjectReference Include="gtk3-prebuild.vcxproj">
+      <Project>{b98fbe68-b03c-48e3-8f32-c3c010720d30}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>

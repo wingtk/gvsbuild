@@ -68,8 +68,8 @@ These are the libraries in the bundle:
     </tr>
     <tr>
         <td>GTK+ 3</td>
-        <td>3.14.11</td>
-        <td><a href="http://ftp.acc.umu.se/pub/gnome/sources/gtk+/3.14/gtk+-3.14.11.tar.xz">Source</a></td>
+        <td>3.18.1</td>
+        <td><a href="http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.18/gtk+-3.18.1.tar.xz">Source</a></td>
     </tr>
     <tr>
         <td>HarfBuzz</td>
