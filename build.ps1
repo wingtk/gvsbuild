@@ -173,7 +173,7 @@ $items = @{
 	};
 
 	'glib' = @{
-		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/glib-2.44.1.tar.xz'
+		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.46/glib-2.46.0.tar.xz'
 		'Dependencies' = @('gettext-runtime', 'libffi', 'zlib')
 	};
 
@@ -491,8 +491,6 @@ $items['glib'].BuildScript = {
 
 	Exec $patch -p1 -i glib-if_nametoindex.patch
 	Exec $patch -p1 -i glib-package-installation-directory.patch
-	Exec $patch -p1 -i g-win32-command-line-1.patch
-	Exec $patch -p1 -i g-win32-command-line-2.patch
 	Exec $patch -p1 -i 0001-Change-message-system-to-use-fputs-instead-of-write.patch
 	Exec $patch -p1 -i Add-gsystemthreadsetname-implementation-for-W32-th.patch
 
