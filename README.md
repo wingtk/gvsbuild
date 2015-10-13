@@ -131,6 +131,11 @@ These are the libraries in the bundle:
         <td>1.3.1</td>
         <td><a href="https://github.com/anholt/libepoxy/releases/download/v1.3.1/libepoxy-1.3.1.tar.bz2">Source</a></td>
     </tr>
+    <tr>
+        <td>gsettings-desktop-schemas</td>
+        <td>3.18.0</td>
+        <td><a href="http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.18/gsettings-desktop-schemas-3.18.0.tar.xz">Source</a></td>
+    </tr>
 </table>
 
 

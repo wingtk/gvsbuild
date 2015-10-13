@@ -124,7 +124,7 @@ param (
 	[string]
 	$PerlDirectory = "$BuildDirectory\perl-5.20",
 
-	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'fontconfig', 'freetype', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk', 'gtk3', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib', 'libdb', 'cyrus-sasl', 'libepoxy')]
+	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'fontconfig', 'freetype', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk', 'gtk3', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib', 'libdb', 'cyrus-sasl', 'libepoxy', 'gsettings-desktop-schemas')]
 	$OnlyBuild = @()
 )
 
@@ -245,6 +245,11 @@ $items = @{
 	'libepoxy' = @{
 		'ArchiveUrl' = 'https://github.com/anholt/libepoxy/releases/download/v1.3.1/libepoxy-1.3.1.tar.bz2'
 		'Dependencies' = @()
+	};
+
+	'gsettings-desktop-schemas' = @{
+		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.18/gsettings-desktop-schemas-3.18.0.tar.xz'
+		'Dependencies' = @('glib')
 	};
 }
 
@@ -963,6 +968,20 @@ $items['libepoxy'].BuildScript = {
 	[void] (Swap-Environment $originalEnvironment)
 
 	Package $packageDestination
+}
+
+$items['gsettings-desktop-schemas'].BuildScript = {
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	Push-Location .\build\win32
+
+	Exec nmake /f gsettings-desktop-schemas-msvc.mak clean
+	Exec nmake /f gsettings-desktop-schemas-msvc.mak PYTHON=`"c:\Python27\python.exe`" PYTHON2=`"c:\Python27\python.exe`" PERL=`"c:\Perl\bin\perl.exe`"  PREFIX=`"$workingDirectory\..\..\gtk\$platform`"
+	Exec nmake /f gsettings-desktop-schemas-msvc.mak install PREFIX=`"$workingDirectory\..\..\gtk\$platform`"
+
+	Pop-Location
+
+	[void] (Swap-Environment $originalEnvironment)
 }
 
 #========================================================================================================================================================
