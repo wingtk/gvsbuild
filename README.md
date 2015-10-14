@@ -156,7 +156,7 @@ If you want to build the bundle from source yourself, we have a PowerShell scrip
     pacman -S gzip nasm patch tar xz gettext
     ```
 
-1. Clone [this repository](https://github.com/hexchat/gtk-win32) to _C:\gtk-build\github\gtk-win32_ It contains the build script, project files and patches.
+1. Clone [this repository](https://github.com/nice-software/gtk-win32) to _C:\gtk-build\github\gtk-win32_ It contains the build script, project files and patches.
 
 1. Now you have to allow PowerShell scripts to be run on your system. Open a PowerShell prompt **as Administrator** and run the following command:
 
