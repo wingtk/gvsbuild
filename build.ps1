@@ -1,3 +1,5 @@
+#Requires -version 4.0
+
 <#
 
 .SYNOPSIS
@@ -86,8 +88,6 @@ Builds gtk3 and its dependencies using VS2010
 http://hexchat.github.io/gtk-win32/
 
 #>
-
-#Requires -version 4.0
 
 #========================================================================================================================================================
 # Parameters begin here
