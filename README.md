@@ -136,6 +136,11 @@ These are the libraries in the bundle:
         <td>3.18.0</td>
         <td><a href="http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.18/gsettings-desktop-schemas-3.18.0.tar.xz">Source</a></td>
     </tr>
+    <tr>
+        <td>glib-networking</td>
+        <td>2.46.0</td>
+        <td><a href="https://github.com/nice-software/glib-networking/releases/download/2.46.0-openssl/glib-networking-2.46.0.tar.xz">Source</a></td>
+    </tr>
 </table>
 
 

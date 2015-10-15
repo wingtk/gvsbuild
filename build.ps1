@@ -124,7 +124,7 @@ param (
 	[string]
 	$PerlDirectory = "$BuildDirectory\perl-5.20",
 
-	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'fontconfig', 'freetype', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk', 'gtk3', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib', 'libdb', 'cyrus-sasl', 'libepoxy', 'gsettings-desktop-schemas')]
+	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'fontconfig', 'freetype', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk', 'gtk3', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib', 'libdb', 'cyrus-sasl', 'libepoxy', 'gsettings-desktop-schemas', 'glib-networking')]
 	$OnlyBuild = @()
 )
 
@@ -250,6 +250,11 @@ $items = @{
 	'gsettings-desktop-schemas' = @{
 		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.18/gsettings-desktop-schemas-3.18.0.tar.xz'
 		'Dependencies' = @('glib')
+	};
+
+	'glib-networking' = @{
+		'ArchiveUrl' = 'https://github.com/nice-software/glib-networking/releases/download/2.46.0-openssl/glib-networking-2.46.0.tar.xz'
+		'Dependencies' = @('gsettings-desktop-schemas', 'openssl')
 	};
 }
 
@@ -982,6 +987,19 @@ $items['gsettings-desktop-schemas'].BuildScript = {
 	Pop-Location
 
 	[void] (Swap-Environment $originalEnvironment)
+}
+
+$items['glib-networking'].BuildScript = {
+	$packageDestination = "$PWD-rel"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	Exec msbuild build\win32\vs$VSVer\glib-networking.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+
+	[void] (Swap-Environment $originalEnvironment)
+
+	Package $packageDestination
 }
 
 #========================================================================================================================================================
