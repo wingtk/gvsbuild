@@ -183,7 +183,7 @@ $items = @{
 	};
 
 	'gtk3' = @{
-		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.18/gtk+-3.18.1.tar.xz';
+		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.18/gtk+-3.18.2.tar.xz';
 		'Dependencies' = @('atk', 'gdk-pixbuf', 'pango', 'libepoxy')
 	};
 
