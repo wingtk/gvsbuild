@@ -133,8 +133,8 @@ These are the libraries in the bundle:
     </tr>
     <tr>
         <td>gsettings-desktop-schemas</td>
-        <td>3.18.0</td>
-        <td><a href="http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.18/gsettings-desktop-schemas-3.18.0.tar.xz">Source</a></td>
+        <td>3.18.1</td>
+        <td><a href="http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.18/gsettings-desktop-schemas-3.18.1.tar.xz">Source</a></td>
     </tr>
     <tr>
         <td>glib-networking</td>

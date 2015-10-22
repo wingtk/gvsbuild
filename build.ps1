@@ -248,7 +248,7 @@ $items = @{
 	};
 
 	'gsettings-desktop-schemas' = @{
-		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.18/gsettings-desktop-schemas-3.18.0.tar.xz'
+		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.18/gsettings-desktop-schemas-3.18.1.tar.xz'
 		'Dependencies' = @('glib')
 	};
 
