@@ -1,4 +1,4 @@
- * Download [GLib 2.46.0](http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.46/glib-2.46.0.tar.xz)
+ * Download [GLib 2.46.1](http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.46/glib-2.46.1.tar.xz)
  * In all vcxproj files,
 	* add `<Import Project="..\..\..\..\stack.props" />`
 	* remove all `<Optimization>` lines
