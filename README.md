@@ -138,8 +138,8 @@ These are the libraries in the bundle:
     </tr>
     <tr>
         <td>glib-networking</td>
-        <td>2.46.0</td>
-        <td><a href="https://github.com/nice-software/glib-networking/releases/download/2.46.0-openssl/glib-networking-2.46.0.tar.xz">Source</a></td>
+        <td>2.46.1</td>
+        <td><a href="https://github.com/nice-software/glib-networking/releases/download/2.46.1-openssl/glib-networking-2.46.1.tar.xz">Source</a></td>
     </tr>
 </table>
 
