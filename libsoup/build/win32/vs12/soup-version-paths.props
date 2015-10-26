@@ -4,11 +4,11 @@
     <VSVer>12</VSVer>
     <GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
     <CopyDir>..\..\..\..\libsoup-rel</CopyDir>
-    <ApiVersion>2.0</ApiVersion>
+    <ApiVersion>2.4</ApiVersion>
     <SoupLibtoolCompatibleDllPrefix>lib</SoupLibtoolCompatibleDllPrefix>
     <SoupLibtoolCompatibleDllSuffix>-$(ApiVersion)-0</SoupLibtoolCompatibleDllSuffix>
     <SoupSeparateVSDllPrefix />
-    <SoupSeparateVSDllSuffix>-2.0</SoupSeparateVSDllSuffix>
+    <SoupSeparateVSDllSuffix>-2.4</SoupSeparateVSDllSuffix>
     <SoupDllPrefix>$(SoupSeparateVSDllPrefix)</SoupDllPrefix>
     <SoupDllSuffix>$(SoupSeparateVSDllSuffix)</SoupDllSuffix>
     <PythonPath>c:\python27</PythonPath>
