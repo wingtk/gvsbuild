@@ -124,7 +124,7 @@ param (
 	[string]
 	$PerlDirectory = "$BuildDirectory\perl-5.20",
 
-	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'fontconfig', 'freetype', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk', 'gtk3', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib', 'libdb', 'cyrus-sasl', 'libepoxy', 'gsettings-desktop-schemas', 'glib-networking')]
+	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'fontconfig', 'freetype', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk', 'gtk3', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib', 'libdb', 'cyrus-sasl', 'libepoxy', 'gsettings-desktop-schemas', 'glib-networking', 'libsoup')]
 	$OnlyBuild = @()
 )
 
@@ -255,6 +255,11 @@ $items = @{
 	'glib-networking' = @{
 		'ArchiveUrl' = 'https://github.com/nice-software/glib-networking/releases/download/2.46.1-openssl/glib-networking-2.46.1.tar.xz'
 		'Dependencies' = @('gsettings-desktop-schemas', 'openssl')
+	};
+
+	'libsoup' = @{
+		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.52/libsoup-2.52.1.tar.xz'
+		'Dependencies' = @('libxml2', 'glib-networking')
 	};
 }
 
@@ -997,6 +1002,19 @@ $items['glib-networking'].BuildScript = {
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
 	Exec msbuild build\win32\vs$VSVer\glib-networking.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+
+	[void] (Swap-Environment $originalEnvironment)
+
+	Package $packageDestination
+}
+
+$items['libsoup'].BuildScript = {
+	$packageDestination = "$PWD-rel"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	Exec msbuild build\win32\vs$VSVer\soup.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
 
 	[void] (Swap-Environment $originalEnvironment)
 

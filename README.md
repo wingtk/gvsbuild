@@ -141,6 +141,11 @@ These are the libraries in the bundle:
         <td>2.46.1</td>
         <td><a href="https://github.com/nice-software/glib-networking/releases/download/2.46.1-openssl/glib-networking-2.46.1.tar.xz">Source</a></td>
     </tr>
+    <tr>
+        <td>libsoup</td>
+        <td>2.52.1</td>
+        <td><a href="http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.52/libsoup-2.52.1.tar.xz">Source</a></td>
+    </tr>
 </table>
 
 

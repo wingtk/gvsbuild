@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="UserMacros">
+    <VSVer>12</VSVer>
+    <GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
+    <CopyDir>..\..\..\..\libsoup-rel</CopyDir>
+    <ApiVersion>2.0</ApiVersion>
+    <SoupLibtoolCompatibleDllPrefix>lib</SoupLibtoolCompatibleDllPrefix>
+    <SoupLibtoolCompatibleDllSuffix>-$(ApiVersion)-0</SoupLibtoolCompatibleDllSuffix>
+    <SoupSeparateVSDllPrefix />
+    <SoupSeparateVSDllSuffix>-2.0</SoupSeparateVSDllSuffix>
+    <SoupDllPrefix>$(SoupSeparateVSDllPrefix)</SoupDllPrefix>
+    <SoupDllSuffix>$(SoupSeparateVSDllSuffix)</SoupDllSuffix>
+    <PythonPath>c:\python27</PythonPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>libsoupversionpathsprops</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <ItemGroup>
+    <BuildMacro Include="VSVer">
+      <Value>$(VSVer)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GlibEtcInstallRoot">
+      <Value>$(GlibEtcInstallRoot)</Value>
+    </BuildMacro>
+    <BuildMacro Include="CopyDir">
+      <Value>$(CopyDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="ApiVersion">
+      <Value>$(ApiVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="SoupLibtoolCompatibleDllPrefix">
+      <Value>$(SoupLibtoolCompatibleDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="SoupLibtoolCompatibleDllSuffix">
+      <Value>$(SoupLibtoolCompatibleDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="SoupSeparateVSDllPrefix">
+      <Value>$(SoupSeparateVSDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="SoupSeparateVSDllSuffix">
+      <Value>$(SoupSeparateVSDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="SoupDllPrefix">
+      <Value>$(SoupDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="SoupDllSuffix">
+      <Value>$(SoupDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PythonPath">
+      <Value>$(PythonPath)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>
