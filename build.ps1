@@ -512,6 +512,7 @@ $items['glib'].BuildScript = {
 	Exec $patch -p1 -i 0001-Change-message-system-to-use-fputs-instead-of-write.patch
 	Exec $patch -p1 -i Add-gsystemthreadsetname-implementation-for-W32-th.patch
 	Exec $patch -p1 -i 0001-win32-make-sure-bytes_read-written-is-set-to-0-on-er.patch
+	Exec $patch -p1 -i 0001-gwin32.c-Fix-g_win32_check_windows_version-on-32-bit.patch
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
