@@ -66,6 +66,9 @@ copy ..\..\..\libsoup\soup-websocket-connection.h $(CopyDir)\include\libsoup-$(A
 copy ..\..\..\libsoup\soup-websocket.h $(CopyDir)\include\libsoup-$(ApiVersion)\libsoup
 copy ..\..\..\libsoup\soup-xmlrpc.h $(CopyDir)\include\libsoup-$(ApiVersion)\libsoup
 copy ..\..\..\libsoup\soup-xmlrpc-old.h $(CopyDir)\include\libsoup-$(ApiVersion)\libsoup
+
+mkdir $(CopyDir)\lib
+copy $(BinDir)\soup-$(ApiVersion).lib $(CopyDir)\lib
 </SoupDoInstall>
   </PropertyGroup>
   <PropertyGroup>
