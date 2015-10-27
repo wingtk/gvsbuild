@@ -1013,6 +1013,10 @@ $items['libsoup'].BuildScript = {
 	$packageDestination = "$PWD-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
+	Exec $patch -p1 -i 0001-Provide-a-_SOUP_EXTERN-so-we-ensure-the-methods-get-.patch
+	Exec $patch -p1 -i 0002-Mark-externalized-methods-with-SOUP_AVAILABLE_IN_2_4.patch
+	Exec $patch -p1 -i 0003-Properly-handle-the-visibility-of-the-methods.patch
+
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
 	Exec msbuild build\win32\vs$VSVer\soup.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
