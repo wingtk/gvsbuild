@@ -1,0 +1,102 @@
+From 5e583597d4eb2475e36c1438990b48af2c3daf24 Mon Sep 17 00:00:00 2001
+From: Ignacio Casal Quinteiro <icq@gnome.org>
+Date: Tue, 27 Oct 2015 13:22:55 +0100
+Subject: [PATCH] Declare a SOUP_VAR to externalize variables
+
+This is needed to properly externalize the variables
+on windows. Since we need to handle dllexport vs dllimport
+---
+ libsoup/soup-method.h     | 45 +++++++++++++++------------------------------
+ libsoup/soup-version.h.in | 19 +++++++++++++++++++
+ 2 files changed, 34 insertions(+), 30 deletions(-)
+
+diff --git a/libsoup/soup-method.h b/libsoup/soup-method.h
+index a0952ba..cec59e3 100644
+--- a/libsoup/soup-method.h
++++ b/libsoup/soup-method.h
+@@ -58,37 +58,22 @@ G_BEGIN_DECLS
+ /* Do not use these variables directly; use the macros above, which
+  * ensure that they get initialized properly.
+  */
+-SOUP_AVAILABLE_IN_2_4
+-gpointer _SOUP_METHOD_OPTIONS;
+-SOUP_AVAILABLE_IN_2_4
+-gpointer _SOUP_METHOD_GET;
+-SOUP_AVAILABLE_IN_2_4
+-gpointer _SOUP_METHOD_HEAD;
+-SOUP_AVAILABLE_IN_2_4
+-gpointer _SOUP_METHOD_POST;
+-SOUP_AVAILABLE_IN_2_4
+-gpointer _SOUP_METHOD_PUT;
+-SOUP_AVAILABLE_IN_2_4
+-gpointer _SOUP_METHOD_DELETE;
+-SOUP_AVAILABLE_IN_2_4
+-gpointer _SOUP_METHOD_TRACE;
+-SOUP_AVAILABLE_IN_2_4
+-gpointer _SOUP_METHOD_CONNECT;
++SOUP_VAR gpointer _SOUP_METHOD_OPTIONS;
++SOUP_VAR gpointer _SOUP_METHOD_GET;
++SOUP_VAR gpointer _SOUP_METHOD_HEAD;
++SOUP_VAR gpointer _SOUP_METHOD_POST;
++SOUP_VAR gpointer _SOUP_METHOD_PUT;
++SOUP_VAR gpointer _SOUP_METHOD_DELETE;
++SOUP_VAR gpointer _SOUP_METHOD_TRACE;
++SOUP_VAR gpointer _SOUP_METHOD_CONNECT;
+ 
+-SOUP_AVAILABLE_IN_2_4
+-gpointer _SOUP_METHOD_PROPFIND;
+-SOUP_AVAILABLE_IN_2_4
+-gpointer _SOUP_METHOD_PROPPATCH;
+-SOUP_AVAILABLE_IN_2_4
+-gpointer _SOUP_METHOD_MKCOL;
+-SOUP_AVAILABLE_IN_2_4
+-gpointer _SOUP_METHOD_COPY;
+-SOUP_AVAILABLE_IN_2_4
+-gpointer _SOUP_METHOD_MOVE;
+-SOUP_AVAILABLE_IN_2_4
+-gpointer _SOUP_METHOD_LOCK;
+-SOUP_AVAILABLE_IN_2_4
+-gpointer _SOUP_METHOD_UNLOCK;
++SOUP_VAR gpointer _SOUP_METHOD_PROPFIND;
++SOUP_VAR gpointer _SOUP_METHOD_PROPPATCH;
++SOUP_VAR gpointer _SOUP_METHOD_MKCOL;
++SOUP_VAR gpointer _SOUP_METHOD_COPY;
++SOUP_VAR gpointer _SOUP_METHOD_MOVE;
++SOUP_VAR gpointer _SOUP_METHOD_LOCK;
++SOUP_VAR gpointer _SOUP_METHOD_UNLOCK;
+ 
+ G_END_DECLS
+ 
+diff --git a/libsoup/soup-version.h.in b/libsoup/soup-version.h.in
+index 3443ab3..c9661dd 100644
+--- a/libsoup/soup-version.h.in
++++ b/libsoup/soup-version.h.in
+@@ -30,6 +30,25 @@ G_BEGIN_DECLS
+ #define _SOUP_EXTERN extern
+ #endif
+ 
++/* We prefix variable declarations so they can
++ * properly get exported in Windows DLLs.
++ */
++#ifndef SOUP_VAR
++#  ifdef G_PLATFORM_WIN32
++#    ifdef LIBSOUP_COMPILATION
++#      ifdef DLL_EXPORT
++#        define SOUP_VAR __declspec(dllexport)
++#      else /* !DLL_EXPORT */
++#        define SOUP_VAR extern
++#      endif /* !DLL_EXPORT */
++#    else /* !SOUP_COMPILATION */
++#      define SOUP_VAR extern __declspec(dllimport)
++#    endif /* !LIBSOUP_COMPILATION */
++#  else /* !G_PLATFORM_WIN32 */
++#    define SOUP_VAR _SOUP_EXTERN
++#  endif /* !G_PLATFORM_WIN32 */
++#endif /* SOUP_VAR */
++
+ /* Deprecation / Availability macros */
+ 
+ #define SOUP_ENCODE_VERSION(major,minor) ((major) << 16 | (minor) << 8)
+-- 
+2.5.0
+

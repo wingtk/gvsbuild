@@ -30,6 +30,25 @@ G_BEGIN_DECLS
 #define _SOUP_EXTERN extern
 #endif
 
+/* We prefix variable declarations so they can
+ * properly get exported in Windows DLLs.
+ */
+#ifndef SOUP_VAR
+#  ifdef G_PLATFORM_WIN32
+#    ifdef LIBSOUP_COMPILATION
+#      ifdef DLL_EXPORT
+#        define SOUP_VAR __declspec(dllexport)
+#      else /* !DLL_EXPORT */
+#        define SOUP_VAR extern
+#      endif /* !DLL_EXPORT */
+#    else /* !SOUP_COMPILATION */
+#      define SOUP_VAR extern __declspec(dllimport)
+#    endif /* !LIBSOUP_COMPILATION */
+#  else /* !G_PLATFORM_WIN32 */
+#    define SOUP_VAR _SOUP_EXTERN
+#  endif /* !G_PLATFORM_WIN32 */
+#endif /* SOUP_VAR */
+
 /* Deprecation / Availability macros */
 
 #define SOUP_ENCODE_VERSION(major,minor) ((major) << 16 | (minor) << 8)

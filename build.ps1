@@ -1016,6 +1016,7 @@ $items['libsoup'].BuildScript = {
 	Exec $patch -p1 -i 0001-Provide-a-_SOUP_EXTERN-so-we-ensure-the-methods-get-.patch
 	Exec $patch -p1 -i 0002-Mark-externalized-methods-with-SOUP_AVAILABLE_IN_2_4.patch
 	Exec $patch -p1 -i 0003-Properly-handle-the-visibility-of-the-methods.patch
+	Exec $patch -p1 -i 0001-Declare-a-SOUP_VAR-to-externalize-variables.patch
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
