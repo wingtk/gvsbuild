@@ -105,7 +105,7 @@
 #define VERSION "2.52.1"
 
 #ifdef _MSC_VER
-#define _GLIB_EXTERN __declspec (dllexport) extern
+#define _SOUP_EXTERN __declspec (dllexport) extern
 #else
-#define _GLIB_EXTERN __attribute__((visibility("default"))) __declspec (dllexport) extern
+#define _SOUP_EXTERN __attribute__((visibility("default"))) __declspec (dllexport) extern
 #endif
