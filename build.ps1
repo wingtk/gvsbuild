@@ -560,6 +560,8 @@ $items['gtk3'].BuildScript = {
 	$packageDestination = "$PWD\..\gtk-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
+	Exec $patch -p1 -i 0001-win32-handle-WM_DISPLAYCHANGE-globally.patch
+
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
 	Exec msbuild build\win32\vs$VSVer\gtk+.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
