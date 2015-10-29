@@ -1,0 +1,36 @@
+From 3939e4b8d3f92cd7b399fe165bf0973deb735a6c Mon Sep 17 00:00:00 2001
+From: Ignacio Casal Quinteiro <icq@gnome.org>
+Date: Wed, 28 Oct 2015 23:10:39 +0100
+Subject: [PATCH] bio: return 0 if we have nothing to read or to write
+
+---
+ tls/openssl/gtlsbio.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/tls/openssl/gtlsbio.c b/tls/openssl/gtlsbio.c
+index a8b317d..24dd48f 100644
+--- a/tls/openssl/gtlsbio.c
++++ b/tls/openssl/gtlsbio.c
+@@ -112,6 +112,9 @@ gtls_bio_write (BIO        *bio,
+ {
+   GTlsBio *gbio;
+ 
++  if (in == NULL || inl == 0)
++    return 0;
++
+   gbio = (GTlsBio *)bio->ptr;
+ 
+   return g_pollable_stream_write (g_io_stream_get_output_stream (gbio->io_stream),
+@@ -128,6 +131,9 @@ gtls_bio_read (BIO  *bio,
+ {
+   GTlsBio *gbio;
+ 
++  if (out == NULL || outl == 0)
++    return 0;
++
+   gbio = (GTlsBio *)bio->ptr;
+ 
+   return g_pollable_stream_read (g_io_stream_get_input_stream (gbio->io_stream),
+-- 
+2.5.0
+
