@@ -124,7 +124,7 @@ param (
 	[string]
 	$PerlDirectory = "$BuildDirectory\perl-5.20",
 
-	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'fontconfig', 'freetype', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk', 'gtk3', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib', 'libdb', 'cyrus-sasl', 'libepoxy', 'gsettings-desktop-schemas', 'glib-networking', 'libsoup')]
+	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'ffmpeg', 'fontconfig', 'freetype', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk', 'gtk3', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib', 'libdb', 'cyrus-sasl', 'libepoxy', 'gsettings-desktop-schemas', 'glib-networking', 'libsoup')]
 	$OnlyBuild = @()
 )
 
@@ -261,6 +261,12 @@ $items = @{
 		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.52/libsoup-2.52.1.tar.xz'
 		'Dependencies' = @('libxml2', 'glib-networking')
 	};
+
+	'ffmpeg' = @{
+		'ArchiveUrl' = 'http://ffmpeg.org/releases/ffmpeg-2.8.1.tar.bz2'
+		'Dependencies' = @()
+	};
+
 }
 
 #========================================================================================================================================================
@@ -1027,6 +1033,44 @@ $items['libsoup'].BuildScript = {
 	Exec msbuild build\win32\vs$VSVer\soup.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
 
 	[void] (Swap-Environment $originalEnvironment)
+
+	Package $packageDestination
+}
+
+$items['ffmpeg'].BuildScript = {
+	$packageDestination = "$PWD-$filenameArch"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+	New-Item -Type Directory $packageDestination
+
+	Remove-Item -Recurse build\install -ErrorAction Ignore
+	New-Item -Type Directory build\install
+
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	Exec $Msys2Directory\usr\bin\bash build\build.sh build\install
+
+	[void] (Swap-Environment $originalEnvironment)
+
+	Copy-Item `
+		build\install\include `
+		$packageDestination `
+		-Recurse
+
+	New-Item -Type Directory $packageDestination\bin
+	Copy-Item `
+		build\install\bin\*.dll `
+		$packageDestination\bin
+
+	New-Item -Type Directory $packageDestination\lib
+	Copy-Item `
+		build\install\bin\*.lib `
+		$packageDestination\lib
+
+	New-Item -Type Directory $packageDestination\share\doc\ffmpeg
+	Copy-Item `
+		COPYING.LGPLv2.1, `
+		COPYING.LGPLv3 `
+		$packageDestination\share\doc\ffmpeg
 
 	Package $packageDestination
 }

@@ -146,6 +146,11 @@ These are the libraries in the bundle:
         <td>2.52.1</td>
         <td><a href="http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.52/libsoup-2.52.1.tar.xz">Source</a></td>
     </tr>
+    <tr>
+        <td>ffmpeg</td>
+        <td>2.8.1</td>
+        <td><a href="http://ffmpeg.org/releases/ffmpeg-2.8.1.tar.bz2">Source</a></td>
+    </tr>
 </table>
 
 
@@ -168,7 +173,7 @@ If you want to build the bundle from source yourself, we have a PowerShell scrip
 1. Install needed packages in the msys2 shell
 
     ```bash
-    pacman -S gzip nasm patch tar xz gettext
+    pacman -S gzip nasm patch tar xz gettext make coreutils
     ```
 
 1. Clone [this repository](https://github.com/nice-software/gtk-win32) to _C:\gtk-build\github\gtk-win32_ It contains the build script, project files and patches.
