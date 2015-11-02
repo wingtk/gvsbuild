@@ -1,4 +1,4 @@
-From d67ec0b430170c31dbbe5dc291aa6fc156cfa2fb Mon Sep 17 00:00:00 2001
+From 8606e57910fb3ea4c66448702ee7e3bb73f3c29d Mon Sep 17 00:00:00 2001
 From: Paolo Borelli <pborelli@gnome.org>
 Date: Thu, 29 Oct 2015 17:20:54 +0100
 Subject: [PATCH] win32: handle WM_DISPLAYCHANGE globally
@@ -7,15 +7,18 @@ Instead of handling WM_DISPLAYCHANGE on every GdkWindow, only handle
 it on an ad-hoc hidden window we create when opening the display.
 This has two reasons:
 1) we want emit the display::size-changed signal even if there are no
-   windows currently open
+   gtk windows currently open
 2) we want to emit the signal just once and not once for every window
+
+https://bugzilla.gnome.org/show_bug.cgi?id=757324
 ---
- gdk/win32/gdkdisplay-win32.c | 76 +++++++++++++++++++++++++++++++++++++++++++-
+ gdk/win32/gdkdisplay-win32.c | 84 ++++++++++++++++++++++++++++++++++++++++++--
+ gdk/win32/gdkdisplay-win32.h |  2 ++
  gdk/win32/gdkevents-win32.c  | 12 -------
- 2 files changed, 75 insertions(+), 13 deletions(-)
+ 3 files changed, 84 insertions(+), 14 deletions(-)
 
 diff --git a/gdk/win32/gdkdisplay-win32.c b/gdk/win32/gdkdisplay-win32.c
-index 0a47970..117b01f 100644
+index 0a47970..b1e6f01 100644
 --- a/gdk/win32/gdkdisplay-win32.c
 +++ b/gdk/win32/gdkdisplay-win32.c
 @@ -26,6 +26,8 @@
@@ -27,7 +30,7 @@ index 0a47970..117b01f 100644
  /**
   * gdk_win32_display_set_cursor_theme:
   * @display: (type GdkWin32Display): a #GdkDisplay
-@@ -242,6 +244,77 @@ _gdk_monitor_init (void)
+@@ -242,6 +244,81 @@ _gdk_monitor_init (void)
      }
  }
  
@@ -60,10 +63,10 @@ index 0a47970..117b01f 100644
 +}
 +
 +static LRESULT CALLBACK
-+_display_change_window_procedure (HWND   hwnd,
-+                                  UINT   message,
-+                                  WPARAM wparam,
-+                                  LPARAM lparam)
++display_change_window_procedure (HWND   hwnd,
++                                 UINT   message,
++                                 WPARAM wparam,
++                                 LPARAM lparam)
 +{
 +  LRESULT retval;
 +
@@ -81,40 +84,44 @@ index 0a47970..117b01f 100644
 +}
 +
 +/* Use a hidden window to be notified about display changes */
-+static HWND
-+_gdk_win32_register_display_change (void)
++static void
++register_display_change_notification (GdkDisplay *display)
 +{
++  GdkWin32Display *display_win32 = GDK_WIN32_DISPLAY (display);
 +  WNDCLASS wclass = { 0, };
-+  HWND     hwnd;
-+  ATOM     klass;
++  ATOM klass;
 +
 +  wclass.lpszClassName = "GdkDisplayChange";
-+  wclass.lpfnWndProc   = _display_change_window_procedure;
-+  wclass.hInstance     = _gdk_app_hmodule;
++  wclass.lpfnWndProc = display_change_window_procedure;
++  wclass.hInstance = _gdk_app_hmodule;
 +
 +  klass = RegisterClass (&wclass);
-+  if (!klass)
-+    return NULL;
-+
-+  return CreateWindow (MAKEINTRESOURCE (klass),
-+                       NULL, WS_POPUP,
-+                       0, 0, 0, 0, NULL, NULL,
-+                       _gdk_app_hmodule, NULL);
++  if (klass)
++    {
++      display_win32->hwnd = CreateWindow (MAKEINTRESOURCE (klass),
++                                          NULL, WS_POPUP,
++                                          0, 0, 0, 0, NULL, NULL,
++                                          _gdk_app_hmodule, NULL);
++      if (!display_win32->hwnd)
++        {
++          UnregisterClass (MAKEINTRESOURCE (klass), _gdk_app_hmodule);
++        }
++    }
 +}
 +
  GdkDisplay *
  _gdk_win32_display_open (const gchar *display_name)
  {
-@@ -276,6 +349,8 @@ _gdk_win32_display_open (const gchar *display_name)
+@@ -276,6 +353,8 @@ _gdk_win32_display_open (const gchar *display_name)
    /* Precalculate display name */
    (void) gdk_display_get_name (_gdk_display);
  
-+  _gdk_win32_register_display_change ();
++  register_display_change_notification (_gdk_display);
 +
    g_signal_emit_by_name (_gdk_display, "opened");
  
    GDK_NOTE (MISC, g_print ("... _gdk_display now set up\n"));
-@@ -376,7 +451,6 @@ gdk_win32_display_supports_selection_notification (GdkDisplay *display)
+@@ -376,7 +455,6 @@ gdk_win32_display_supports_selection_notification (GdkDisplay *display)
  }
  
  static HWND _hwnd_next_viewer = NULL;
@@ -122,6 +129,37 @@ index 0a47970..117b01f 100644
  
  /*
   * maybe this should be integrated with the default message loop - or maybe not ;-)
+@@ -619,7 +697,6 @@ gdk_win32_display_flush (GdkDisplay * display)
+   GdiFlush ();
+ }
+ 
+-
+ static void
+ gdk_win32_display_sync (GdkDisplay * display)
+ {
+@@ -631,6 +708,9 @@ gdk_win32_display_sync (GdkDisplay * display)
+ static void
+ gdk_win32_display_dispose (GObject *object)
+ {
++  GdkWin32Display *display_win32 = GDK_WIN32_DISPLAY (object);
++
++  g_clear_pointer(&display_win32->hwnd, (GDestroyNotify)DestroyWindow);
+ }
+ 
+ static void
+diff --git a/gdk/win32/gdkdisplay-win32.h b/gdk/win32/gdkdisplay-win32.h
+index 585d958..8cb0861 100644
+--- a/gdk/win32/gdkdisplay-win32.h
++++ b/gdk/win32/gdkdisplay-win32.h
+@@ -31,6 +31,8 @@ struct _GdkWin32Display
+   int cursor_theme_size;
+   GHashTable *cursor_cache;
+ 
++  HWND hwnd;
++
+   /* WGL/OpenGL Items */
+   guint have_wgl : 1;
+   guint gl_version;
 diff --git a/gdk/win32/gdkevents-win32.c b/gdk/win32/gdkevents-win32.c
 index 0390a1e..2ce139f 100644
 --- a/gdk/win32/gdkevents-win32.c
