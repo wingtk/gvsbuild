@@ -253,7 +253,7 @@ $items = @{
 	};
 
 	'glib-networking' = @{
-		'ArchiveUrl' = 'https://github.com/nice-software/glib-networking/releases/download/2.46.1-openssl/glib-networking-2.46.1.tar.xz'
+		'ArchiveUrl' = 'https://github.com/nice-software/glib-networking/releases/download/2.46.2-openssl/glib-networking-2.46.2.tar.xz'
 		'Dependencies' = @('gsettings-desktop-schemas', 'openssl')
 	};
 
