@@ -1,4 +1,4 @@
- * Download [GTK+ 3.18.2](http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.18/gtk+-3.18.2.tar.xz)
+ * Download [GTK+ 3.18.4](http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.18/gtk+-3.18.4.tar.xz)
  * In `build\win32\vs12\gtk3-build-defines.props`, replace:
 	* `intl.lib` with `libintl.lib`
  * In `build\win32\vs12\gtk3-version-paths.props`, replace:

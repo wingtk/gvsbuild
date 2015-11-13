@@ -183,7 +183,7 @@ $items = @{
 	};
 
 	'gtk3' = @{
-		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.18/gtk+-3.18.2.tar.xz';
+		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.18/gtk+-3.18.4.tar.xz';
 		'Dependencies' = @('atk', 'gdk-pixbuf', 'pango', 'libepoxy')
 	};
 
@@ -564,7 +564,7 @@ $items['gtk3'].BuildScript = {
 	$packageDestination = "$PWD\..\gtk-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
-	Exec $patch -p1 -i 0001-win32-handle-WM_DISPLAYCHANGE-globally.patch
+	Exec $patch -p1 -i 0001-win32-destroy-clipboard-notification-window-on-dispo.patch
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 

@@ -1,0 +1,130 @@
+From 1f5f3ca41bd2419e1aee3f210f683541a8a3f56f Mon Sep 17 00:00:00 2001
+From: Ignacio Casal Quinteiro <icq@gnome.org>
+Date: Thu, 12 Nov 2015 16:42:51 +0100
+Subject: [PATCH] win32: destroy clipboard notification window on dispose
+
+The clipboard uses a hidden window to get some specific events.
+The window was created but never destroyed on dispose.
+---
+ gdk/win32/gdkdisplay-win32.c | 48 +++++++++++++++++++++++++-------------------
+ gdk/win32/gdkdisplay-win32.h |  1 +
+ 2 files changed, 28 insertions(+), 21 deletions(-)
+
+diff --git a/gdk/win32/gdkdisplay-win32.c b/gdk/win32/gdkdisplay-win32.c
+index c819efc..7b1fbd8 100644
+--- a/gdk/win32/gdkdisplay-win32.c
++++ b/gdk/win32/gdkdisplay-win32.c
+@@ -570,30 +570,32 @@ _clipboard_window_procedure (HWND   hwnd,
+ /*
+  * Creates a hidden window and adds it to the clipboard chain
+  */
+-static HWND
+-_gdk_win32_register_clipboard_notification (void)
++static gboolean
++register_clipboard_notification (GdkDisplay *display)
+ {
++  GdkWin32Display *display_win32 = GDK_WIN32_DISPLAY (display);
+   WNDCLASS wclass = { 0, };
+-  HWND     hwnd;
+-  ATOM     klass;
++  HWND hwnd;
++  ATOM klass;
+ 
+   wclass.lpszClassName = "GdkClipboardNotification";
+-  wclass.lpfnWndProc   = _clipboard_window_procedure;
+-  wclass.hInstance     = _gdk_app_hmodule;
++  wclass.lpfnWndProc = _clipboard_window_procedure;
++  wclass.hInstance = _gdk_app_hmodule;
+ 
+   klass = RegisterClass (&wclass);
+   if (!klass)
+-    return NULL;
++    return FALSE;
++
++  display_win32->clipboard_hwnd = CreateWindow (MAKEINTRESOURCE (klass),
++                                                NULL, WS_POPUP,
++                                                0, 0, 0, 0, NULL, NULL,
++                                                _gdk_app_hmodule, NULL);
+ 
+-  hwnd = CreateWindow (MAKEINTRESOURCE (klass),
+-                       NULL, WS_POPUP,
+-                       0, 0, 0, 0, NULL, NULL,
+-                       _gdk_app_hmodule, NULL);
+-  if (!hwnd)
++  if (display_win32->clipboard_hwnd == NULL)
+     goto failed;
+ 
+   SetLastError (0);
+-  _hwnd_next_viewer = SetClipboardViewer (hwnd);
++  _hwnd_next_viewer = SetClipboardViewer (display_win32->clipboard_hwnd);
+ 
+   if (_hwnd_next_viewer == NULL && GetLastError() != 0)
+     goto failed;
+@@ -603,20 +605,20 @@ _gdk_win32_register_clipboard_notification (void)
+   /* if (AddClipboardFormatListener (hwnd) == FALSE) */
+   /*   goto failed; */
+ 
+-  return hwnd;
++  return TRUE;
+ 
+ failed:
+   g_critical ("Failed to install clipboard viewer");
+   UnregisterClass (MAKEINTRESOURCE (klass), _gdk_app_hmodule);
+-  return NULL;
++  return FALSE;
+ }
+ 
+ static gboolean
+ gdk_win32_display_request_selection_notification (GdkDisplay *display,
+-						  GdkAtom     selection)
++                                                  GdkAtom     selection)
+ 
+ {
+-  static HWND hwndViewer = NULL;
++  GdkWin32Display *display_win32 = GDK_WIN32_DISPLAY (display);
+   gboolean ret = FALSE;
+ 
+   GDK_NOTE (DND,
+@@ -626,12 +628,14 @@ gdk_win32_display_request_selection_notification (GdkDisplay *display,
+   if (selection == GDK_SELECTION_CLIPBOARD ||
+       selection == GDK_SELECTION_PRIMARY)
+     {
+-      if (!hwndViewer)
++      if (display_win32->clipboard_hwnd == NULL)
+         {
+-          hwndViewer = _gdk_win32_register_clipboard_notification ();
+-          GDK_NOTE (DND, g_print (" registered"));
++          if (register_clipboard_notification (display))
++            GDK_NOTE (DND, g_print (" registered"));
++          else
++            GDK_NOTE (DND, g_print (" failed to register"));
+         }
+-      ret = (hwndViewer != NULL);
++      ret = (display_win32->clipboard_hwnd != NULL);
+     }
+   else
+     {
+@@ -711,6 +715,8 @@ gdk_win32_display_dispose (GObject *object)
+   GdkWin32Display *display_win32 = GDK_WIN32_DISPLAY (object);
+ 
+   g_clear_pointer (&display_win32->hwnd, (GDestroyNotify)DestroyWindow);
++  g_clear_pointer (&display_win32->clipboard_hwnd, (GDestroyNotify)DestroyWindow);
++  _hwnd_next_viewer = NULL;
+ 
+   G_OBJECT_CLASS (gdk_win32_display_parent_class)->dispose (object);
+ }
+diff --git a/gdk/win32/gdkdisplay-win32.h b/gdk/win32/gdkdisplay-win32.h
+index 8cb0861..250c13b 100644
+--- a/gdk/win32/gdkdisplay-win32.h
++++ b/gdk/win32/gdkdisplay-win32.h
+@@ -32,6 +32,7 @@ struct _GdkWin32Display
+   GHashTable *cursor_cache;
+ 
+   HWND hwnd;
++  HWND clipboard_hwnd;
+ 
+   /* WGL/OpenGL Items */
+   guint have_wgl : 1;
+-- 
+2.5.0
+
