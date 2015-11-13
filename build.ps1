@@ -173,7 +173,7 @@ $items = @{
 	};
 
 	'glib' = @{
-		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.46/glib-2.46.1.tar.xz'
+		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.46/glib-2.46.2.tar.xz'
 		'Dependencies' = @('gettext-runtime', 'libffi', 'zlib')
 	};
 
@@ -517,8 +517,6 @@ $items['glib'].BuildScript = {
 	Exec $patch -p1 -i glib-package-installation-directory.patch
 	Exec $patch -p1 -i 0001-Change-message-system-to-use-fputs-instead-of-write.patch
 	Exec $patch -p1 -i Add-gsystemthreadsetname-implementation-for-W32-th.patch
-	Exec $patch -p1 -i 0001-win32-make-sure-bytes_read-written-is-set-to-0-on-er.patch
-	Exec $patch -p1 -i 0001-gwin32.c-Fix-g_win32_check_windows_version-on-32-bit.patch
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 

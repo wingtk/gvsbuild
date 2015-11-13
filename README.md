@@ -58,8 +58,8 @@ These are the libraries in the bundle:
     </tr>
     <tr>
         <td>GLib</td>
-        <td>2.46.1</td>
-        <td><a href="http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.46/glib-2.46.0.tar.xz">Source</a></td>
+        <td>2.46.2</td>
+        <td><a href="http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.46/glib-2.46.2.tar.xz">Source</a></td>
     </tr>
     <tr>
         <td>GTK+</td>
