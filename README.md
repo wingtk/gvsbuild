@@ -151,6 +151,11 @@ These are the libraries in the bundle:
         <td>2.8.1</td>
         <td><a href="http://ffmpeg.org/releases/ffmpeg-2.8.1.tar.bz2">Source</a></td>
     </tr>
+    <tr>
+        <td>lmdb</td>
+        <td>0.9.15</td>
+        <td><a href="https://github.com/nice-software/lmdb/archive/LMDB_MSVC_0.9.15.zip">Source</a></td>
+    </tr>
 </table>
 
 

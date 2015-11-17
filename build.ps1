@@ -124,7 +124,7 @@ param (
 	[string]
 	$PerlDirectory = "$BuildDirectory\perl-5.20",
 
-	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'ffmpeg', 'fontconfig', 'freetype', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk', 'gtk3', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib', 'libdb', 'cyrus-sasl', 'libepoxy', 'gsettings-desktop-schemas', 'glib-networking', 'libsoup')]
+	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'ffmpeg', 'fontconfig', 'freetype', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk', 'gtk3', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib', 'libdb', 'cyrus-sasl', 'libepoxy', 'gsettings-desktop-schemas', 'glib-networking', 'libsoup', 'lmdb')]
 	$OnlyBuild = @()
 )
 
@@ -264,6 +264,11 @@ $items = @{
 
 	'ffmpeg' = @{
 		'ArchiveUrl' = 'http://ffmpeg.org/releases/ffmpeg-2.8.1.tar.bz2'
+		'Dependencies' = @()
+	};
+
+	'lmdb' = @{
+		'ArchiveUrl' = 'https://github.com/nice-software/lmdb/archive/LMDB_MSVC_0.9.15.tar.gz'
 		'Dependencies' = @()
 	};
 
@@ -1071,6 +1076,35 @@ $items['ffmpeg'].BuildScript = {
 	Package $packageDestination
 }
 
+$items['lmdb'].BuildScript = {
+	$packageDestination = "$PWD-rel"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	Exec msbuild libraries\liblmdb\lmdb.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+
+	[void] (Swap-Environment $originalEnvironment)
+
+	New-Item -Type Directory $packageDestination\include
+	Copy-Item `
+		.\libraries\liblmdb\lmdb.h `
+		$packageDestination\include
+
+	New-Item -Type Directory $packageDestination\lib
+	Copy-Item `
+		.\libraries\liblmdb\Release\lmdb.lib, `
+		.\libraries\liblmdb\Release\lmdb.pdb `
+		$packageDestination\lib
+
+	New-Item -Type Directory $packageDestination\share\doc\lmdb
+	Copy-Item `
+		.\libraries\liblmdb\LICENSE `
+		$packageDestination\share\doc\lmdb
+
+	Package $packageDestination
+}
+
 #========================================================================================================================================================
 # Build steps end here
 #========================================================================================================================================================
@@ -1254,6 +1288,11 @@ $items.GetEnumerator() | %{
 
 			while (Test-Path "$workingDirectory\$outputDirectoryName") {
 				Move-Item "$workingDirectory\$outputDirectoryName" $item.BuildDirectory
+				Sleep 1
+			}
+
+			while (Test-Path "$workingDirectory\$($item.Name)-$outputDirectoryName") {
+				Move-Item "$workingDirectory\$($item.Name)-$outputDirectoryName" $item.BuildDirectory
 				Sleep 1
 			}
 		}
