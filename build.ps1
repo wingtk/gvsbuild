@@ -1093,8 +1093,7 @@ $items['lmdb'].BuildScript = {
 
 	New-Item -Type Directory $packageDestination\lib
 	Copy-Item `
-		.\libraries\liblmdb\Release\lmdb.lib, `
-		.\libraries\liblmdb\Release\lmdb.pdb `
+		.\libraries\liblmdb\Release\lmdb.lib `
 		$packageDestination\lib
 
 	New-Item -Type Directory $packageDestination\share\doc\lmdb
