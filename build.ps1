@@ -238,8 +238,8 @@ $items = @{
 	};
 
 	'cyrus-sasl' = @{
-		'ArchiveUrl' = 'ftp://ftp.cyrusimap.org/cyrus-sasl/cyrus-sasl-2.1.26.tar.gz'
-		'Dependencies' = @('libdb', 'openssl')
+		'ArchiveUrl' = 'https://github.com/nice-software/cyrus-sasl/releases/download/cyrus-sasl-lmdb-2.1.27/cyrus-sasl-2.1.27.tar.gz'
+		'Dependencies' = @('lmdb', 'openssl')
 	};
 
 	'libepoxy' = @{
@@ -968,8 +968,8 @@ $items['cyrus-sasl'].BuildScript = {
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
 	Exec nmake /f NTMakefile clean
-	Exec nmake /f NTMakefile DB_INCLUDE=`"$packageDestination\..\..\..\gtk\$platform\include`" DB_LIBPATH=`"$packageDestination\..\..\..\gtk\$platform\lib`" DB_LIB=libdb53s.lib OPENSSL_INCLUDE=`"$packageDestination\..\..\..\gtk\$platform\include`" OPENSSL_LIBPATH=`"$packageDestination\..\..\..\gtk\$platform\lib`"
-	Exec nmake /f NTMakefile install prefix=`"$packageDestination`"
+	Exec nmake /f NTMakefile SASLDB="LMDB" LMDB_INCLUDE=`"$packageDestination\..\..\..\gtk\$platform\include`" LMDB_LIBPATH=`"$packageDestination\..\..\..\gtk\$platform\lib`" OPENSSL_INCLUDE=`"$packageDestination\..\..\..\gtk\$platform\include`" OPENSSL_LIBPATH=`"$packageDestination\..\..\..\gtk\$platform\lib`" prefix=`"$packageDestination`"
+	Exec nmake /f NTMakefile install SASLDB="LMDB" LMDB_INCLUDE=`"$packageDestination\..\..\..\gtk\$platform\include`" LMDB_LIBPATH=`"$packageDestination\..\..\..\gtk\$platform\lib`" OPENSSL_INCLUDE=`"$packageDestination\..\..\..\gtk\$platform\include`" OPENSSL_LIBPATH=`"$packageDestination\..\..\..\gtk\$platform\lib`" prefix=`"$packageDestination`"
 
 	[void] (Swap-Environment $originalEnvironment)
 

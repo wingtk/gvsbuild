@@ -123,8 +123,8 @@ These are the libraries in the bundle:
     </tr>
     <tr>
         <td>cyrus-sasl</td>
-        <td>2.1.26</td>
-        <td><a href="ftp://ftp.cyrusimap.org/cyrus-sasl/cyrus-sasl-2.1.26.tar.gz">Source</a></td>
+        <td>2.1.27</td>
+        <td><a href="https://github.com/nice-software/cyrus-sasl/releases/download/cyrus-sasl-lmdb-2.1.27/cyrus-sasl-2.1.27.tar.gz">Source</a></td>
     </tr>
     <tr>
         <td>libepoxy</td>
