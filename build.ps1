@@ -994,7 +994,7 @@ $items['gsettings-desktop-schemas'].BuildScript = {
 	Push-Location .\build\win32
 
 	Exec nmake /f gsettings-desktop-schemas-msvc.mak clean
-	Exec nmake /f gsettings-desktop-schemas-msvc.mak PYTHON=`"c:\Python27\python.exe`" PYTHON2=`"c:\Python27\python.exe`" PERL=`"$PerlDirectory\$platform\bin\perl.exe`"  PREFIX=`"$workingDirectory\..\..\gtk\$platform`"
+	Exec nmake /f gsettings-desktop-schemas-msvc.mak PYTHON=`"c:\Python27\python.exe`" PYTHON2=`"c:\Python27\python.exe`" PERL=`"$PerlDirectory\bin\perl.exe`"  PREFIX=`"$workingDirectory\..\..\gtk\$platform`"
 	Exec nmake /f gsettings-desktop-schemas-msvc.mak install PREFIX=`"$workingDirectory\..\..\gtk\$platform`"
 
 	Pop-Location
