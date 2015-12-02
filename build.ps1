@@ -122,7 +122,7 @@ param (
 	$VSVer = '12',
 
 	[string]
-	$PerlDirectory = "$BuildDirectory\perl-5.20",
+	$PerlDirectory = "C:\perl",
 
 	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'ffmpeg', 'fontconfig', 'freetype', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk', 'gtk3', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib', 'libdb', 'cyrus-sasl', 'libepoxy', 'gsettings-desktop-schemas', 'glib-networking', 'libsoup', 'lmdb')]
 	$OnlyBuild = @()
@@ -750,7 +750,7 @@ $items['openssl'].BuildScript = {
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-	$env:PATH += ";$PerlDirectory\$platform\bin;$Msys2Directory\usr\bin"
+	$env:PATH += ";$PerlDirectory\bin;$Msys2Directory\usr\bin"
 
 	switch ($filenameArch) {
 		'x86' {
