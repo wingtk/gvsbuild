@@ -1276,7 +1276,7 @@ $items.GetEnumerator() | %{
 		$env:PATH += ";$Msys2Directory\usr\bin"
 
 		if ($item.Name -ne 'gettext-runtime') {
-			Exec $tar xf $(ConvertTo-Msys2Path $item.ArchiveFile) -C $(ConvertTo-Msys2Path $workingDirectory)
+			Exec $tar ixf $(ConvertTo-Msys2Path $item.ArchiveFile) -C $(ConvertTo-Msys2Path $workingDirectory)
 
 			$outputDirectoryName = [System.IO.Path]::GetFilenameWithoutExtension($item.ArchiveFile.BaseName)
 
@@ -1293,7 +1293,7 @@ $items.GetEnumerator() | %{
 		else {
 			# gettext-runtime is a tarbomb
 			[void] (New-Item -Type Directory $item.BuildDirectory)
-			Exec $tar xf $(ConvertTo-Msys2Path $item.ArchiveFile) -C $(ConvertTo-Msys2Path $item.BuildDirectory)
+			Exec $tar ixf $(ConvertTo-Msys2Path $item.ArchiveFile) -C $(ConvertTo-Msys2Path $item.BuildDirectory)
 		}
 
 		"Extracted $($item.ArchiveFile.Name)"
