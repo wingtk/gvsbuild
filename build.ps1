@@ -491,6 +491,7 @@ $items['gettext-runtime'].BuildScript = {
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
 	Exec $patch -p1 -i gettext-runtime.patch
+	Exec $patch -p1 -i gettext-lib-prexif.patch
 
 	Remove-Item -Recurse CMakeCache.txt, CMakeFiles -ErrorAction Ignore
 
