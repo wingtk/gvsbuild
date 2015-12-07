@@ -213,7 +213,7 @@ $items = @{
 	};
 
 	'pango' = @{
-		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.38/pango-1.38.0.tar.xz'
+		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.38/pango-1.38.1.tar.xz'
 		'Dependencies' = @('cairo', 'harfbuzz')
 	};
 
