@@ -18,7 +18,7 @@
       <ForcedIncludeFiles>msvc_recommended_pragmas.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>glib-2.0.lib;gobject-2.0.lib;gmodule-2.0.lib;libintl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glib-2.0.lib;gobject-2.0.lib;gmodule-2.0.lib;intl.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(GLibEtcInstallRoot)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

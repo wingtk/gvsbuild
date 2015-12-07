@@ -20,7 +20,7 @@
       <AdditionalOptions>/d2Zi+ %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>glib-2.0.lib;gobject-2.0.lib;gmodule-2.0.lib;libintl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glib-2.0.lib;gobject-2.0.lib;gmodule-2.0.lib;intl.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(GLibEtcInstallRoot)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutDir)$(AtkDllPrefix)$(ProjectName)$(AtkDllSuffix).pdb</ProgramDatabaseFile>
     </Link>

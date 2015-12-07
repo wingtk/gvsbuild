@@ -2,8 +2,6 @@
  * In all vcxproj files,
 	* add `<Import Project="..\..\..\..\stack.props" />`
 	* remove all `<Optimization>` lines
- * In `build\win32\vs12\glib-build-defines.props`, replace:
-	* `intl.lib` with `libintl.lib`
  * In `build\win32\vs12\glib-version-paths.props`, replace:
 	* `<GlibEtcInstallRoot>..\..\..\..\vs$(VSVer)\$(Platform)</GlibEtcInstallRoot>` with
 `<GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>`
