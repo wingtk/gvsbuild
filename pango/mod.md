@@ -1,4 +1,4 @@
- * Download [Pango 1.38.0](http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.38/pango-1.38.0.tar.xz)
+ * Download [Pango 1.38.1](http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.38/pango-1.38.1.tar.xz)
  * In all vcxproj files,
 	* add `<Import Project="..\..\..\..\stack.props" />`
 	* remove all `<Optimization>` lines
