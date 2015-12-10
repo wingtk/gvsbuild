@@ -34,7 +34,7 @@ The directory to download the source archives to. It will be created. If a sourc
 
 
 .PARAMETER PatchesRootDirectory
-The directory where you checked out https://github.com/nice-software/gtk-win32.git
+The directory where you checked out https://github.com/wingtk/gtk-win32.git
 
 
 .PARAMETER VSInstallPath
@@ -238,7 +238,7 @@ $items = @{
 	};
 
 	'cyrus-sasl' = @{
-		'ArchiveUrl' = 'https://github.com/nice-software/cyrus-sasl/releases/download/cyrus-sasl-lmdb-2.1.27/cyrus-sasl-2.1.27.tar.gz'
+		'ArchiveUrl' = 'https://github.com/wingtk/cyrus-sasl/releases/download/cyrus-sasl-lmdb-2.1.27/cyrus-sasl-2.1.27.tar.gz'
 		'Dependencies' = @('lmdb', 'openssl')
 	};
 
@@ -253,7 +253,7 @@ $items = @{
 	};
 
 	'glib-networking' = @{
-		'ArchiveUrl' = 'https://github.com/nice-software/glib-networking/releases/download/2.46.2-openssl/glib-networking-2.46.2.tar.xz'
+		'ArchiveUrl' = 'https://github.com/wingtk/glib-networking/releases/download/2.46.2-openssl/glib-networking-2.46.2.tar.xz'
 		'Dependencies' = @('gsettings-desktop-schemas', 'openssl')
 	};
 
@@ -268,7 +268,7 @@ $items = @{
 	};
 
 	'lmdb' = @{
-		'ArchiveUrl' = 'https://github.com/nice-software/lmdb/archive/LMDB_MSVC_0.9.15.tar.gz'
+		'ArchiveUrl' = 'https://github.com/wingtk/lmdb/archive/LMDB_MSVC_0.9.15.tar.gz'
 		'Dependencies' = @()
 	};
 

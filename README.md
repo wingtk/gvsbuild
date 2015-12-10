@@ -124,7 +124,7 @@ These are the libraries in the bundle:
     <tr>
         <td>cyrus-sasl</td>
         <td>2.1.27</td>
-        <td><a href="https://github.com/nice-software/cyrus-sasl/releases/download/cyrus-sasl-lmdb-2.1.27/cyrus-sasl-2.1.27.tar.gz">Source</a></td>
+        <td><a href="https://github.com/wingtk/cyrus-sasl/releases/download/cyrus-sasl-lmdb-2.1.27/cyrus-sasl-2.1.27.tar.gz">Source</a></td>
     </tr>
     <tr>
         <td>libepoxy</td>
@@ -139,7 +139,7 @@ These are the libraries in the bundle:
     <tr>
         <td>glib-networking</td>
         <td>2.46.2</td>
-        <td><a href="https://github.com/nice-software/glib-networking/releases/download/2.46.2-openssl/glib-networking-2.46.2.tar.xz">Source</a></td>
+        <td><a href="https://github.com/wingtk/glib-networking/releases/download/2.46.2-openssl/glib-networking-2.46.2.tar.xz">Source</a></td>
     </tr>
     <tr>
         <td>libsoup</td>
@@ -154,7 +154,7 @@ These are the libraries in the bundle:
     <tr>
         <td>lmdb</td>
         <td>0.9.15</td>
-        <td><a href="https://github.com/nice-software/lmdb/archive/LMDB_MSVC_0.9.15.zip">Source</a></td>
+        <td><a href="https://github.com/wingtk/lmdb/archive/LMDB_MSVC_0.9.15.zip">Source</a></td>
     </tr>
 </table>
 
@@ -181,7 +181,7 @@ If you want to build the bundle from source yourself, we have a PowerShell scrip
     pacman -S gzip nasm patch tar xz gettext make coreutils
     ```
 
-1. Clone [this repository](https://github.com/nice-software/gtk-win32) to _C:\gtk-build\github\gtk-win32_ It contains the build script, project files and patches.
+1. Clone [this repository](https://github.com/wingtk/gtk-win32) to _C:\gtk-build\github\gtk-win32_ It contains the build script, project files and patches.
 
 1. Now you have to allow PowerShell scripts to be run on your system. Open a PowerShell prompt **as Administrator** and run the following command:
 
