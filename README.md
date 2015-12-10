@@ -1,167 +1,18 @@
-Here you can download a GTK+ 2 bundle (and a few additional libraries) built with Visual Studio 2013. HexChat for Windows is built using this bundle.
+## Goals
 
+This powershell script helps you build a full GTK+ library stack for Windows using Visual Studio.
 
-## GTK+ Bundle
+The script was [developed by the HexChat developers](https://github.com/hexchat/gtk-win32), make sure to check their page for more information about the original script.
 
-This is the bundle built by us containing all the GTK+ binaries, headers and import libraries. If you just want to use GTK+ for your application and don't want to build it yourself, download this. You will also need the Visual C++ redistributable to be able to run applications that use this bundle.
+HexChat developers decided that their script should focus on their specific needs, this fork tries to be a bit more generic, in particular it pursues the following goals
 
-<table>
-    <tr>
-        <td>GTK+ bundle</td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/vc12/x86/gtk-Win32.7z">32-bit</a></td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/vc12/x64/gtk-x64.7z">64-bit</a></td>
-    </tr>
-    <tr>
-        <td><a href="https://www.microsoft.com/en-us/download/details.aspx?id=40784">Microsoft Visual C++ Redistributable Package for Visual Studio 2013</a></td>
-        <td>vcredist_x86.exe - 32-bit</a></td>
-        <td>vcredist_x64.exe - 64-bit</a></td>
-    </tr>
-</table>
+1. Build GTK+ 3 - we want to focus on the current version of GTK
+1. Support multiple version of Visual Studio - at the moment we are focusing on VS 2013, but we include projects for other versions and we gladly accept patches
+1. We try to follow as much as possible the conventions of the upstream MSVC projects by Fan Chun-wei - [Compiling the GTK+ (and Clutter) stack using Visual C++ 2008 and later](https://wiki.gnome.org/action/show/Projects/GTK+/Win32/MSVCCompilationOfGTKStack).
+1. We are pretty liberal about adding more libraries to the script - at some point we will need to make the set of libraries that are built configurable and easily extensible, but right now we are ok with adding libraries that are useful to the users of this script
+1. We try to fetch tarballs from their original locations - if patches are needed we try to fork the project on github and host a patched tarball there
 
-These are the libraries in the bundle:
-
-<table>
-    <tr>
-        <td>ATK</td>
-        <td>2.18.0</td>
-        <td><a href="http://ftp.acc.umu.se/pub/GNOME/sources/atk/2.18/atk-2.18.0.tar.xz">Source</a></td>
-    </tr>
-    <tr>
-        <td>Cairo</td>
-        <td>1.14.4</td>
-        <td><a href="http://cairographics.org/releases/cairo-1.14.4.tar.xz">Source</a></td>
-    </tr>
-    <tr>
-        <td>Enchant</td>
-        <td>1.6.0</td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/src/enchant-1.6.0.tar.gz">Source</a></td>
-    </tr>
-    <tr>
-        <td>Fontconfig</td>
-        <td>2.11.1</td>
-        <td><a href="http://fontconfig.org/release/fontconfig-2.11.1.tar.gz">Source</a></td>
-    </tr>
-    <tr>
-        <td>FreeType</td>
-        <td>2.6</td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/src/freetype-2.6.tar.bz2">Source</a></td>
-    </tr>
-    <tr>
-        <td>GDK-PixBuf</td>
-        <td>2.32.1</td>
-        <td><a href="http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.32/gdk-pixbuf-2.32.1.tar.xz">Source</a></td>
-    </tr>
-    <tr>
-        <td>gettext-runtime</td>
-        <td>0.18</td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/src/gettext-vc100-0.18-src.tar.bz2">Source</a></td>
-    </tr>
-    <tr>
-        <td>GLib</td>
-        <td>2.46.2</td>
-        <td><a href="http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.46/glib-2.46.2.tar.xz">Source</a></td>
-    </tr>
-    <tr>
-        <td>GTK+</td>
-        <td>2.24.28</td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/src/gtk+-2.24.28.tar.xz">Source</a></td>
-    </tr>
-    <tr>
-        <td>GTK+ 3</td>
-        <td>3.18.5</td>
-        <td><a href="http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.18/gtk+-3.18.5.tar.xz">Source</a></td>
-    </tr>
-    <tr>
-        <td>HarfBuzz</td>
-        <td>0.9.41</td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/src/harfbuzz-0.9.41.tar.bz2">Source</a></td>
-    </tr>
-    <tr>
-        <td>libffi</td>
-        <td>3.2.1</td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/src/libffi-3.2.1.tar.gz">Source</a></td>
-    </tr>
-    <tr>
-        <td>libpng</td>
-        <td>1.6.17</td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/src/libpng-1.6.17.tar.xz">Source</a></td>
-    </tr>
-    <tr>
-        <td>libxml2</td>
-        <td>2.9.2</td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/src/libxml2-2.9.2.tar.gz">Source</a></td>
-    </tr>
-    <tr>
-        <td>OpenSSL</td>
-        <td>1.0.2d</td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/src/openssl-1.0.2d.tar.gz">Source</a></td>
-    </tr>
-    <tr>
-        <td>Pango</td>
-        <td>1.38.1</td>
-        <td><a href="http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.38/pango-1.38.1.tar.xz">Source</a></td>
-    </tr>
-    <tr>
-        <td>Pixman</td>
-        <td>0.32.6</td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/src/pixman-0.32.6.tar.gz">Source</a></td>
-    </tr>
-    <tr>
-        <td>win-iconv</td>
-        <td>0.0.6</td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/src/win-iconv-0.0.6.tar.bz2">Source</a></td>
-    </tr>
-    <tr>
-        <td>zlib</td>
-        <td>1.2.8</td>
-        <td><a href="https://dl.hexchat.net/gtk-win32/src/zlib-1.2.8.tar.xz">Source</a></td>
-    </tr>
-    <tr>
-        <td>libdb</td>
-        <td>5.3.28</td>
-        <td><a href="http://download.oracle.com/berkeley-db/db-5.3.28.tar.gz">Source</a></td>
-    </tr>
-    <tr>
-        <td>cyrus-sasl</td>
-        <td>2.1.27</td>
-        <td><a href="https://github.com/wingtk/cyrus-sasl/releases/download/cyrus-sasl-lmdb-2.1.27/cyrus-sasl-2.1.27.tar.gz">Source</a></td>
-    </tr>
-    <tr>
-        <td>libepoxy</td>
-        <td>1.3.1</td>
-        <td><a href="https://github.com/anholt/libepoxy/releases/download/v1.3.1/libepoxy-1.3.1.tar.bz2">Source</a></td>
-    </tr>
-    <tr>
-        <td>gsettings-desktop-schemas</td>
-        <td>3.18.1</td>
-        <td><a href="http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.18/gsettings-desktop-schemas-3.18.1.tar.xz">Source</a></td>
-    </tr>
-    <tr>
-        <td>glib-networking</td>
-        <td>2.46.2</td>
-        <td><a href="https://github.com/wingtk/glib-networking/releases/download/2.46.2-openssl/glib-networking-2.46.2.tar.xz">Source</a></td>
-    </tr>
-    <tr>
-        <td>libsoup</td>
-        <td>2.52.1</td>
-        <td><a href="http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.52/libsoup-2.52.1.tar.xz">Source</a></td>
-    </tr>
-    <tr>
-        <td>ffmpeg</td>
-        <td>2.8.1</td>
-        <td><a href="http://ffmpeg.org/releases/ffmpeg-2.8.1.tar.bz2">Source</a></td>
-    </tr>
-    <tr>
-        <td>lmdb</td>
-        <td>0.9.15</td>
-        <td><a href="https://github.com/wingtk/lmdb/archive/LMDB_MSVC_0.9.15.zip">Source</a></td>
-    </tr>
-</table>
-
-
-## Building from Source
-
-If you want to build the bundle from source yourself, we have a PowerShell script that will download the sources, apply some patches and run the build. It is largely based on Fan Chun-wei's [Compiling the GTK+ (and Clutter) stack using Visual C++ 2008 and later](https://wiki.gnome.org/action/show/Projects/GTK+/Win32/MSVCCompilationOfGTKStack).
+## Building
 
 1. Install the following build tools and dependencies:
 
@@ -212,5 +63,3 @@ If you want to build the bundle from source yourself, we have a PowerShell scrip
     to see the help for the parameters and examples.
 
 1. When the script is done, your GTK+ stack will be found under _C:\gtk-build\gtk_. Enjoy!
-
-![GTK+ 2 dependency graph](https://hexchat.github.io/gtk-win32/img/dependency-graph.png)
