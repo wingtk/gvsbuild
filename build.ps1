@@ -143,7 +143,7 @@ $items = @{
 	};
 
 	'cairo' = @{
-		'ArchiveUrl' = 'http://cairographics.org/releases/cairo-1.14.4.tar.xz'
+		'ArchiveUrl' = 'http://cairographics.org/releases/cairo-1.14.6.tar.xz'
 		'Dependencies' = @('fontconfig', 'glib', 'pixman')
 	};
 

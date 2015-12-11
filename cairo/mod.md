@@ -1,4 +1,4 @@
- * Download [cairo 1.14.4](http://cairographics.org/releases/cairo-1.14.4.tar.xz)
+ * Download [cairo 1.14.6](http://cairographics.org/releases/cairo-1.14.6.tar.xz)
  * Download [VS solution](https://wiki.gnome.org/Projects/GTK%2B/Win32/MSVCCompilationOfGTKStack?action=AttachFile&do=get&target=cairo-vsprojects.zip)
  * In `msvc\vc12\cairo.props`, replace:
 	* `<CairoEtcInstallRoot>..\..\..\vs10\$(Platform)</CairoEtcInstallRoot>` with
