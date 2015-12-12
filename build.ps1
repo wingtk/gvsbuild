@@ -1299,8 +1299,10 @@ $items.GetEnumerator() | %{
 
 		"Extracted $($item.ArchiveFile.Name)"
 
-		Copy-Item "$($item.PatchDirectory)\*" $item.BuildDirectory -Recurse -Force
-		"Copied patch contents from $($item.PatchDirectory) to $($item.BuildDirectory)"
+		if ($item.PatchDirectory.Exists) {
+			Copy-Item "$($item.PatchDirectory)\*" $item.BuildDirectory -Recurse -Force
+			"Copied patch contents from $($item.PatchDirectory) to $($item.BuildDirectory)"
+		}
 	})
 }
 
