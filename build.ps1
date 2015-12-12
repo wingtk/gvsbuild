@@ -124,7 +124,7 @@ param (
 	[string]
 	$PerlDirectory = "C:\perl",
 
-	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'ffmpeg', 'fontconfig', 'freetype', 'libcroco', 'gdk-pixbuf', 'librsvg', 'gettext-runtime', 'glib', 'gtk', 'gtk3', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib', 'libdb', 'cyrus-sasl', 'libepoxy', 'gsettings-desktop-schemas', 'glib-networking', 'libsoup', 'lmdb')]
+	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'ffmpeg', 'fontconfig', 'freetype', 'libcroco', 'gdk-pixbuf', 'librsvg', 'gettext-runtime', 'glib', 'gtk', 'gtk3', 'harfbuzz', 'hicolor-icon-theme', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib', 'libdb', 'cyrus-sasl', 'libepoxy', 'gsettings-desktop-schemas', 'glib-networking', 'libsoup', 'lmdb')]
 	$OnlyBuild = @()
 )
 
@@ -200,6 +200,11 @@ $items = @{
 	'harfbuzz' = @{
 		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/harfbuzz-0.9.41.tar.bz2'
 		'Dependencies' = @('freetype', 'glib')
+	};
+
+	'hicolor-icon-theme' = @{
+		'ArchiveUrl' = 'http://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.15.tar.xz';
+		'Dependencies' = @()
 	};
 
 	'libffi' = @{
@@ -665,6 +670,16 @@ $items['harfbuzz'].BuildScript = {
 
 	New-Item -Type Directory $packageDestination\share\doc\harfbuzz
 	Copy-Item .\COPYING $packageDestination\share\doc\harfbuzz
+
+	Package $packageDestination
+}
+
+$items['hicolor-icon-theme'].BuildScript = {
+	$packageDestination = "$PWD-rel"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	New-Item -Type Directory $packageDestination\share\icons\hicolor
+	Copy-Item .\index.theme $packageDestination\share\icons\hicolor
 
 	Package $packageDestination
 }
