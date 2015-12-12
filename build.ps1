@@ -124,7 +124,7 @@ param (
 	[string]
 	$PerlDirectory = "C:\perl",
 
-	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'ffmpeg', 'fontconfig', 'freetype', 'libcroco', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk', 'gtk3', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib', 'libdb', 'cyrus-sasl', 'libepoxy', 'gsettings-desktop-schemas', 'glib-networking', 'libsoup', 'lmdb')]
+	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'ffmpeg', 'fontconfig', 'freetype', 'libcroco', 'gdk-pixbuf', 'librsvg', 'gettext-runtime', 'glib', 'gtk', 'gtk3', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib', 'libdb', 'cyrus-sasl', 'libepoxy', 'gsettings-desktop-schemas', 'glib-networking', 'libsoup', 'lmdb')]
 	$OnlyBuild = @()
 )
 
@@ -165,6 +165,11 @@ $items = @{
 	'libcroco' = @{
 		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/libcroco/0.6/libcroco-0.6.9.tar.xz'
 		'Dependencies' = @('glib', 'libxml2')
+	};
+
+	'librsvg' = @{
+		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/librsvg/2.40/librsvg-2.40.12.tar.xz'
+		'Dependencies' = @('libcroco', 'cairo', 'pango', 'gdk-pixbuf', 'gtk3')
 	};
 
 	'gdk-pixbuf' = @{
@@ -487,6 +492,22 @@ $items['libcroco'].BuildScript = {
 
 	New-Item -Type Directory $packageDestination\share\doc\libcroco
 	Copy-Item .\COPYING $packageDestination\share\doc\libcroco
+
+	Package $packageDestination
+}
+
+$items['librsvg'].BuildScript = {
+	$packageDestination = "$PWD-rel"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	Exec msbuild build\win32\vs$VSVer\librsvg.sln /p:Platform=$platform /p:Configuration=Release /p:GlibEtcInstallRoot=$BuildDirectory\gtk\$Configuration /maxcpucount /nodeReuse:True
+
+	[void] (Swap-Environment $originalEnvironment)
+
+	New-Item -Type Directory $packageDestination\share\doc\librsvg
+	Copy-Item .\COPYING $packageDestination\share\doc\librsvg
 
 	Package $packageDestination
 }
