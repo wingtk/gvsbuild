@@ -124,7 +124,38 @@ param (
 	[string]
 	$PerlDirectory = "C:\perl",
 
-	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'ffmpeg', 'fontconfig', 'freetype', 'libcroco', 'gdk-pixbuf', 'librsvg', 'gettext-runtime', 'glib', 'gtk', 'gtk3', 'harfbuzz', 'hicolor-icon-theme', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib', 'libdb', 'cyrus-sasl', 'libepoxy', 'gsettings-desktop-schemas', 'glib-networking', 'libsoup', 'lmdb')]
+	[string[]][ValidateSet(
+		'atk',
+		'cairo',
+		'cyrus-sasl',
+		'enchant',
+		'ffmpeg',
+		'fontconfig',
+		'freetype',
+		'gdk-pixbuf',
+		'gettext-runtime',
+		'glib-networking',
+		'glib',
+		'gsettings-desktop-schemas',
+		'gtk',
+		'gtk3',
+		'harfbuzz',
+		'hicolor-icon-theme',
+		'libcroco',
+		'libdb',
+		'libepoxy',
+		'libffi',
+		'libpng',
+		'librsvg',
+		'libsoup',
+		'libxml2',
+		'lmdb',
+		'openssl',
+		'pango',
+		'pixman',
+		'win-iconv',
+		'zlib'
+	)]
 	$OnlyBuild = @()
 )
 
@@ -147,9 +178,19 @@ $items = @{
 		'Dependencies' = @('fontconfig', 'glib', 'pixman')
 	};
 
+	'cyrus-sasl' = @{
+		'ArchiveUrl' = 'https://github.com/wingtk/cyrus-sasl/releases/download/cyrus-sasl-lmdb-2.1.27/cyrus-sasl-2.1.27.tar.gz'
+		'Dependencies' = @('lmdb', 'openssl')
+	};
+
 	'enchant' = @{
 		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/enchant-1.6.0.tar.gz'
 		'Dependencies' = @('glib')
+	};
+
+	'ffmpeg' = @{
+		'ArchiveUrl' = 'http://ffmpeg.org/releases/ffmpeg-2.8.1.tar.bz2'
+		'Dependencies' = @()
 	};
 
 	'fontconfig' = @{
@@ -160,16 +201,6 @@ $items = @{
 	'freetype' = @{
 		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/freetype-2.6.tar.bz2'
 		'Dependencies' = @()
-	};
-
-	'libcroco' = @{
-		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/libcroco/0.6/libcroco-0.6.9.tar.xz'
-		'Dependencies' = @('glib', 'libxml2')
-	};
-
-	'librsvg' = @{
-		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/librsvg/2.40/librsvg-2.40.12.tar.xz'
-		'Dependencies' = @('libcroco', 'cairo', 'pango', 'gdk-pixbuf', 'gtk3')
 	};
 
 	'gdk-pixbuf' = @{
@@ -185,6 +216,16 @@ $items = @{
 	'glib' = @{
 		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.46/glib-2.46.2.tar.xz'
 		'Dependencies' = @('gettext-runtime', 'libffi', 'zlib')
+	};
+
+	'glib-networking' = @{
+		'ArchiveUrl' = 'https://github.com/wingtk/glib-networking/releases/download/2.46.2-openssl/glib-networking-2.46.2.tar.xz'
+		'Dependencies' = @('gsettings-desktop-schemas', 'openssl')
+	};
+
+	'gsettings-desktop-schemas' = @{
+		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.18/gsettings-desktop-schemas-3.18.1.tar.xz'
+		'Dependencies' = @('glib')
 	};
 
 	'gtk' = @{
@@ -207,6 +248,21 @@ $items = @{
 		'Dependencies' = @()
 	};
 
+	'libcroco' = @{
+		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/libcroco/0.6/libcroco-0.6.9.tar.xz'
+		'Dependencies' = @('glib', 'libxml2')
+	};
+
+	'libdb' = @{
+		'ArchiveUrl' = 'http://download.oracle.com/berkeley-db/db-5.3.28.tar.gz'
+		'Dependencies' = @()
+	};
+
+	'libepoxy' = @{
+		'ArchiveUrl' = 'https://github.com/anholt/libepoxy/releases/download/v1.3.1/libepoxy-1.3.1.tar.bz2'
+		'Dependencies' = @()
+	};
+
 	'libffi' = @{
 		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libffi-3.2.1.tar.gz'
 		'Dependencies' = @()
@@ -217,9 +273,24 @@ $items = @{
 		'Dependencies' = @('zlib')
 	};
 
+	'librsvg' = @{
+		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/librsvg/2.40/librsvg-2.40.12.tar.xz'
+		'Dependencies' = @('libcroco', 'cairo', 'pango', 'gdk-pixbuf', 'gtk3')
+	};
+
+	'libsoup' = @{
+		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.52/libsoup-2.52.1.tar.xz'
+		'Dependencies' = @('libxml2', 'glib-networking')
+	};
+
 	'libxml2' = @{
 		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libxml2-2.9.2.tar.gz'
 		'Dependencies' = @('win-iconv')
+	};
+
+	'lmdb' = @{
+		'ArchiveUrl' = 'https://github.com/wingtk/lmdb/archive/LMDB_MSVC_0.9.15.tar.gz'
+		'Dependencies' = @()
 	};
 
 	'openssl' = @{
@@ -246,47 +317,6 @@ $items = @{
 		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/zlib-1.2.8.tar.xz'
 		'Dependencies' = @()
 	};
-
-	'libdb' = @{
-		'ArchiveUrl' = 'http://download.oracle.com/berkeley-db/db-5.3.28.tar.gz'
-		'Dependencies' = @()
-	};
-
-	'cyrus-sasl' = @{
-		'ArchiveUrl' = 'https://github.com/wingtk/cyrus-sasl/releases/download/cyrus-sasl-lmdb-2.1.27/cyrus-sasl-2.1.27.tar.gz'
-		'Dependencies' = @('lmdb', 'openssl')
-	};
-
-	'libepoxy' = @{
-		'ArchiveUrl' = 'https://github.com/anholt/libepoxy/releases/download/v1.3.1/libepoxy-1.3.1.tar.bz2'
-		'Dependencies' = @()
-	};
-
-	'gsettings-desktop-schemas' = @{
-		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.18/gsettings-desktop-schemas-3.18.1.tar.xz'
-		'Dependencies' = @('glib')
-	};
-
-	'glib-networking' = @{
-		'ArchiveUrl' = 'https://github.com/wingtk/glib-networking/releases/download/2.46.2-openssl/glib-networking-2.46.2.tar.xz'
-		'Dependencies' = @('gsettings-desktop-schemas', 'openssl')
-	};
-
-	'libsoup' = @{
-		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.52/libsoup-2.52.1.tar.xz'
-		'Dependencies' = @('libxml2', 'glib-networking')
-	};
-
-	'ffmpeg' = @{
-		'ArchiveUrl' = 'http://ffmpeg.org/releases/ffmpeg-2.8.1.tar.bz2'
-		'Dependencies' = @()
-	};
-
-	'lmdb' = @{
-		'ArchiveUrl' = 'https://github.com/wingtk/lmdb/archive/LMDB_MSVC_0.9.15.tar.gz'
-		'Dependencies' = @()
-	};
-
 }
 
 #========================================================================================================================================================
@@ -325,6 +355,21 @@ $items['cairo'].BuildScript = {
 
 	New-Item -Type Directory $packageDestination\share\doc\cairo
 	Copy-Item .\COPYING $packageDestination\share\doc\cairo
+
+	Package $packageDestination
+}
+
+$items['cyrus-sasl'].BuildScript = {
+	$packageDestination = "$PWD-rel"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	Exec nmake /f NTMakefile clean
+	Exec nmake /f NTMakefile SASLDB="LMDB" LMDB_INCLUDE=`"$packageDestination\..\..\..\gtk\$platform\include`" LMDB_LIBPATH=`"$packageDestination\..\..\..\gtk\$platform\lib`" OPENSSL_INCLUDE=`"$packageDestination\..\..\..\gtk\$platform\include`" OPENSSL_LIBPATH=`"$packageDestination\..\..\..\gtk\$platform\lib`" prefix=`"$packageDestination`"
+	Exec nmake /f NTMakefile install SASLDB="LMDB" LMDB_INCLUDE=`"$packageDestination\..\..\..\gtk\$platform\include`" LMDB_LIBPATH=`"$packageDestination\..\..\..\gtk\$platform\lib`" OPENSSL_INCLUDE=`"$packageDestination\..\..\..\gtk\$platform\include`" OPENSSL_LIBPATH=`"$packageDestination\..\..\..\gtk\$platform\lib`" prefix=`"$packageDestination`"
+
+	[void] (Swap-Environment $originalEnvironment)
 
 	Package $packageDestination
 }
@@ -384,6 +429,44 @@ $items['enchant'].BuildScript = {
 
 	New-Item -Type Directory $packageDestination\share\doc\enchant
 	Copy-Item .\COPYING.LIB $packageDestination\share\doc\enchant\COPYING
+
+	Package $packageDestination
+}
+
+$items['ffmpeg'].BuildScript = {
+	$packageDestination = "$PWD-$filenameArch"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+	New-Item -Type Directory $packageDestination
+
+	Remove-Item -Recurse build\install -ErrorAction Ignore
+	New-Item -Type Directory build\install
+
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	Exec $Msys2Directory\usr\bin\bash build\build.sh build\install
+
+	[void] (Swap-Environment $originalEnvironment)
+
+	Copy-Item `
+		build\install\include `
+		$packageDestination `
+		-Recurse
+
+	New-Item -Type Directory $packageDestination\bin
+	Copy-Item `
+		build\install\bin\*.dll `
+		$packageDestination\bin
+
+	New-Item -Type Directory $packageDestination\lib
+	Copy-Item `
+		build\install\bin\*.lib `
+		$packageDestination\lib
+
+	New-Item -Type Directory $packageDestination\share\doc\ffmpeg
+	Copy-Item `
+		COPYING.LGPLv2.1, `
+		COPYING.LGPLv3 `
+		$packageDestination\share\doc\ffmpeg
 
 	Package $packageDestination
 }
@@ -485,38 +568,6 @@ $items['freetype'].BuildScript = {
 	Package $packageDestination
 }
 
-$items['libcroco'].BuildScript = {
-	$packageDestination = "$PWD-rel"
-	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
-
-	$originalEnvironment = Swap-Environment $vcvarsEnvironment
-
-	Exec msbuild build\win32\vs$VSVer\libcroco.sln /p:Platform=$platform /p:Configuration=Release /p:GlibEtcInstallRoot=$BuildDirectory\gtk\$Configuration /maxcpucount /nodeReuse:True
-
-	[void] (Swap-Environment $originalEnvironment)
-
-	New-Item -Type Directory $packageDestination\share\doc\libcroco
-	Copy-Item .\COPYING $packageDestination\share\doc\libcroco
-
-	Package $packageDestination
-}
-
-$items['librsvg'].BuildScript = {
-	$packageDestination = "$PWD-rel"
-	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
-
-	$originalEnvironment = Swap-Environment $vcvarsEnvironment
-
-	Exec msbuild build\win32\vs$VSVer\librsvg.sln /p:Platform=$platform /p:Configuration=Release /p:GlibEtcInstallRoot=$BuildDirectory\gtk\$Configuration /maxcpucount /nodeReuse:True
-
-	[void] (Swap-Environment $originalEnvironment)
-
-	New-Item -Type Directory $packageDestination\share\doc\librsvg
-	Copy-Item .\COPYING $packageDestination\share\doc\librsvg
-
-	Package $packageDestination
-}
-
 $items['gdk-pixbuf'].BuildScript = {
 	$packageDestination = "$PWD-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
@@ -578,6 +629,33 @@ $items['glib'].BuildScript = {
 	Copy-Item .\COPYING $packageDestination\share\doc\glib
 
 	Package $packageDestination
+}
+
+$items['glib-networking'].BuildScript = {
+	$packageDestination = "$PWD-rel"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	Exec msbuild build\win32\vs$VSVer\glib-networking.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+
+	[void] (Swap-Environment $originalEnvironment)
+
+	Package $packageDestination
+}
+
+$items['gsettings-desktop-schemas'].BuildScript = {
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	Push-Location .\build\win32
+
+	Exec nmake /f gsettings-desktop-schemas-msvc.mak clean
+	Exec nmake /f gsettings-desktop-schemas-msvc.mak PYTHON=`"c:\Python27\python.exe`" PYTHON2=`"c:\Python27\python.exe`" PERL=`"c:\Perl\bin\perl.exe`"  PREFIX=`"$workingDirectory\..\..\gtk\$platform`"
+	Exec nmake /f gsettings-desktop-schemas-msvc.mak install PREFIX=`"$workingDirectory\..\..\gtk\$platform`"
+
+	Pop-Location
+
+	[void] (Swap-Environment $originalEnvironment)
 }
 
 $items['gtk'].BuildScript = {
@@ -684,6 +762,62 @@ $items['hicolor-icon-theme'].BuildScript = {
 	Package $packageDestination
 }
 
+$items['libcroco'].BuildScript = {
+	$packageDestination = "$PWD-rel"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	Exec msbuild build\win32\vs$VSVer\libcroco.sln /p:Platform=$platform /p:Configuration=Release /p:GlibEtcInstallRoot=$BuildDirectory\gtk\$Configuration /maxcpucount /nodeReuse:True
+
+	[void] (Swap-Environment $originalEnvironment)
+
+	New-Item -Type Directory $packageDestination\share\doc\libcroco
+	Copy-Item .\COPYING $packageDestination\share\doc\libcroco
+
+	Package $packageDestination
+}
+
+$items['libdb'].BuildScript = {
+	$packageDestination = "$PWD-rel"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	Exec msbuild build_windows\Berkeley_DB_vs20$VSVer.sln /p:Platform=$platform /p:Configuration="Static Release" /maxcpucount /nodeReuse:True
+
+	[void] (Swap-Environment $originalEnvironment)
+
+	New-Item -Type Directory $packageDestination\include
+	Copy-Item `
+		.\build_windows\db.h, `
+		.\build_windows\db_config.h, `
+		.\build_windows\db_cxx.h, `
+		.\build_windows\db_int.h, `
+		.\build_windows\clib_port.h `
+		$packageDestination\include
+
+	New-Item -Type Directory $packageDestination\lib
+	Copy-Item .\build_windows\$platform\"Static Release"\* $packageDestination\lib
+
+	Package $packageDestination
+}
+
+$items['libepoxy'].BuildScript = {
+	$packageDestination = "$PWD-rel"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	Exec $patch -p1 -i 0001-MSVC-Builds-Support-PACKED.patch
+
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	Exec msbuild build\win32\vs$VSVer\epoxy.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+
+	[void] (Swap-Environment $originalEnvironment)
+
+	Package $packageDestination
+}
+
 $items['libffi'].BuildScript = {
 	$packageDestination = "$PWD-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
@@ -766,6 +900,40 @@ $items['libpng'].BuildScript = {
 	Package $packageDestination
 }
 
+$items['librsvg'].BuildScript = {
+	$packageDestination = "$PWD-rel"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	Exec msbuild build\win32\vs$VSVer\librsvg.sln /p:Platform=$platform /p:Configuration=Release /p:GlibEtcInstallRoot=$BuildDirectory\gtk\$Configuration /maxcpucount /nodeReuse:True
+
+	[void] (Swap-Environment $originalEnvironment)
+
+	New-Item -Type Directory $packageDestination\share\doc\librsvg
+	Copy-Item .\COPYING $packageDestination\share\doc\librsvg
+
+	Package $packageDestination
+}
+
+$items['libsoup'].BuildScript = {
+	$packageDestination = "$PWD-rel"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	Exec $patch -p1 -i 0001-Provide-a-_SOUP_EXTERN-so-we-ensure-the-methods-get-.patch
+	Exec $patch -p1 -i 0002-Mark-externalized-methods-with-SOUP_AVAILABLE_IN_2_4.patch
+	Exec $patch -p1 -i 0003-Properly-handle-the-visibility-of-the-methods.patch
+	Exec $patch -p1 -i 0001-Declare-a-SOUP_VAR-to-externalize-variables.patch
+
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	Exec msbuild build\win32\vs$VSVer\soup.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+
+	[void] (Swap-Environment $originalEnvironment)
+
+	Package $packageDestination
+}
+
 $items['libxml2'].BuildScript = {
 	$packageDestination = "$PWD-$filenameArch"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
@@ -798,6 +966,34 @@ $items['libxml2'].BuildScript = {
 
 	New-Item -Type Directory $packageDestination\share\doc\libxml2
 	Copy-Item .\COPYING $packageDestination\share\doc\libxml2
+
+	Package $packageDestination
+}
+
+$items['lmdb'].BuildScript = {
+	$packageDestination = "$PWD-rel"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	Exec msbuild libraries\liblmdb\lmdb.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+
+	[void] (Swap-Environment $originalEnvironment)
+
+	New-Item -Type Directory $packageDestination\include
+	Copy-Item `
+		.\libraries\liblmdb\lmdb.h `
+		$packageDestination\include
+
+	New-Item -Type Directory $packageDestination\lib
+	Copy-Item `
+		.\libraries\liblmdb\$platform\Release\lmdb.lib `
+		$packageDestination\lib
+
+	New-Item -Type Directory $packageDestination\share\doc\lmdb
+	Copy-Item `
+		.\libraries\liblmdb\LICENSE `
+		$packageDestination\share\doc\lmdb
 
 	Package $packageDestination
 }
@@ -987,172 +1183,6 @@ $items['zlib'].BuildScript = {
 
 	New-Item -Type Directory $packageDestination\share\doc\zlib
 	Copy-Item .\README $packageDestination\share\doc\zlib
-
-	Package $packageDestination
-}
-
-$items['libdb'].BuildScript = {
-	$packageDestination = "$PWD-rel"
-	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
-
-	$originalEnvironment = Swap-Environment $vcvarsEnvironment
-
-	Exec msbuild build_windows\Berkeley_DB_vs20$VSVer.sln /p:Platform=$platform /p:Configuration="Static Release" /maxcpucount /nodeReuse:True
-
-	[void] (Swap-Environment $originalEnvironment)
-
-	New-Item -Type Directory $packageDestination\include
-	Copy-Item `
-		.\build_windows\db.h, `
-		.\build_windows\db_config.h, `
-		.\build_windows\db_cxx.h, `
-		.\build_windows\db_int.h, `
-		.\build_windows\clib_port.h `
-		$packageDestination\include
-
-	New-Item -Type Directory $packageDestination\lib
-	Copy-Item .\build_windows\$platform\"Static Release"\* $packageDestination\lib
-
-	Package $packageDestination
-}
-
-$items['cyrus-sasl'].BuildScript = {
-	$packageDestination = "$PWD-rel"
-	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
-
-	$originalEnvironment = Swap-Environment $vcvarsEnvironment
-
-	Exec nmake /f NTMakefile clean
-	Exec nmake /f NTMakefile SASLDB="LMDB" LMDB_INCLUDE=`"$packageDestination\..\..\..\gtk\$platform\include`" LMDB_LIBPATH=`"$packageDestination\..\..\..\gtk\$platform\lib`" OPENSSL_INCLUDE=`"$packageDestination\..\..\..\gtk\$platform\include`" OPENSSL_LIBPATH=`"$packageDestination\..\..\..\gtk\$platform\lib`" prefix=`"$packageDestination`"
-	Exec nmake /f NTMakefile install SASLDB="LMDB" LMDB_INCLUDE=`"$packageDestination\..\..\..\gtk\$platform\include`" LMDB_LIBPATH=`"$packageDestination\..\..\..\gtk\$platform\lib`" OPENSSL_INCLUDE=`"$packageDestination\..\..\..\gtk\$platform\include`" OPENSSL_LIBPATH=`"$packageDestination\..\..\..\gtk\$platform\lib`" prefix=`"$packageDestination`"
-
-	[void] (Swap-Environment $originalEnvironment)
-
-	Package $packageDestination
-}
-
-$items['libepoxy'].BuildScript = {
-	$packageDestination = "$PWD-rel"
-	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
-
-	Exec $patch -p1 -i 0001-MSVC-Builds-Support-PACKED.patch
-
-	$originalEnvironment = Swap-Environment $vcvarsEnvironment
-
-	Exec msbuild build\win32\vs$VSVer\epoxy.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
-
-	[void] (Swap-Environment $originalEnvironment)
-
-	Package $packageDestination
-}
-
-$items['gsettings-desktop-schemas'].BuildScript = {
-	$originalEnvironment = Swap-Environment $vcvarsEnvironment
-
-	Push-Location .\build\win32
-
-	Exec nmake /f gsettings-desktop-schemas-msvc.mak clean
-	Exec nmake /f gsettings-desktop-schemas-msvc.mak PYTHON=`"c:\Python27\python.exe`" PYTHON2=`"c:\Python27\python.exe`" PERL=`"c:\Perl\bin\perl.exe`"  PREFIX=`"$workingDirectory\..\..\gtk\$platform`"
-	Exec nmake /f gsettings-desktop-schemas-msvc.mak install PREFIX=`"$workingDirectory\..\..\gtk\$platform`"
-
-	Pop-Location
-
-	[void] (Swap-Environment $originalEnvironment)
-}
-
-$items['glib-networking'].BuildScript = {
-	$packageDestination = "$PWD-rel"
-	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
-
-	$originalEnvironment = Swap-Environment $vcvarsEnvironment
-
-	Exec msbuild build\win32\vs$VSVer\glib-networking.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
-
-	[void] (Swap-Environment $originalEnvironment)
-
-	Package $packageDestination
-}
-
-$items['libsoup'].BuildScript = {
-	$packageDestination = "$PWD-rel"
-	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
-
-	Exec $patch -p1 -i 0001-Provide-a-_SOUP_EXTERN-so-we-ensure-the-methods-get-.patch
-	Exec $patch -p1 -i 0002-Mark-externalized-methods-with-SOUP_AVAILABLE_IN_2_4.patch
-	Exec $patch -p1 -i 0003-Properly-handle-the-visibility-of-the-methods.patch
-	Exec $patch -p1 -i 0001-Declare-a-SOUP_VAR-to-externalize-variables.patch
-
-	$originalEnvironment = Swap-Environment $vcvarsEnvironment
-
-	Exec msbuild build\win32\vs$VSVer\soup.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
-
-	[void] (Swap-Environment $originalEnvironment)
-
-	Package $packageDestination
-}
-
-$items['ffmpeg'].BuildScript = {
-	$packageDestination = "$PWD-$filenameArch"
-	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
-	New-Item -Type Directory $packageDestination
-
-	Remove-Item -Recurse build\install -ErrorAction Ignore
-	New-Item -Type Directory build\install
-
-	$originalEnvironment = Swap-Environment $vcvarsEnvironment
-
-	Exec $Msys2Directory\usr\bin\bash build\build.sh build\install
-
-	[void] (Swap-Environment $originalEnvironment)
-
-	Copy-Item `
-		build\install\include `
-		$packageDestination `
-		-Recurse
-
-	New-Item -Type Directory $packageDestination\bin
-	Copy-Item `
-		build\install\bin\*.dll `
-		$packageDestination\bin
-
-	New-Item -Type Directory $packageDestination\lib
-	Copy-Item `
-		build\install\bin\*.lib `
-		$packageDestination\lib
-
-	New-Item -Type Directory $packageDestination\share\doc\ffmpeg
-	Copy-Item `
-		COPYING.LGPLv2.1, `
-		COPYING.LGPLv3 `
-		$packageDestination\share\doc\ffmpeg
-
-	Package $packageDestination
-}
-
-$items['lmdb'].BuildScript = {
-	$packageDestination = "$PWD-rel"
-	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
-
-	$originalEnvironment = Swap-Environment $vcvarsEnvironment
-
-	Exec msbuild libraries\liblmdb\lmdb.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
-
-	[void] (Swap-Environment $originalEnvironment)
-
-	New-Item -Type Directory $packageDestination\include
-	Copy-Item `
-		.\libraries\liblmdb\lmdb.h `
-		$packageDestination\include
-
-	New-Item -Type Directory $packageDestination\lib
-	Copy-Item `
-		.\libraries\liblmdb\$platform\Release\lmdb.lib `
-		$packageDestination\lib
-
-	New-Item -Type Directory $packageDestination\share\doc\lmdb
-	Copy-Item `
-		.\libraries\liblmdb\LICENSE `
-		$packageDestination\share\doc\lmdb
 
 	Package $packageDestination
 }
