@@ -124,7 +124,7 @@ param (
 	[string]
 	$PerlDirectory = "C:\perl",
 
-	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'ffmpeg', 'fontconfig', 'freetype', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk', 'gtk3', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib', 'libdb', 'cyrus-sasl', 'libepoxy', 'gsettings-desktop-schemas', 'glib-networking', 'libsoup', 'lmdb')]
+	[string[]][ValidateSet('atk', 'cairo', 'enchant', 'ffmpeg', 'fontconfig', 'freetype', 'libcroco', 'gdk-pixbuf', 'gettext-runtime', 'glib', 'gtk', 'gtk3', 'harfbuzz', 'libffi', 'libpng', 'libxml2', 'openssl', 'pango', 'pixman', 'win-iconv', 'zlib', 'libdb', 'cyrus-sasl', 'libepoxy', 'gsettings-desktop-schemas', 'glib-networking', 'libsoup', 'lmdb')]
 	$OnlyBuild = @()
 )
 
@@ -160,6 +160,11 @@ $items = @{
 	'freetype' = @{
 		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/freetype-2.6.tar.bz2'
 		'Dependencies' = @()
+	};
+
+	'libcroco' = @{
+		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/libcroco/0.6/libcroco-0.6.9.tar.xz'
+		'Dependencies' = @('glib', 'libxml2')
 	};
 
 	'gdk-pixbuf' = @{
@@ -466,6 +471,22 @@ $items['freetype'].BuildScript = {
 
 	New-Item -Type Directory $packageDestination\share\doc\freetype
 	Copy-Item .\docs\LICENSE.TXT $packageDestination\share\doc\freetype\COPYING
+
+	Package $packageDestination
+}
+
+$items['libcroco'].BuildScript = {
+	$packageDestination = "$PWD-rel"
+	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+
+	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	Exec msbuild build\win32\vs$VSVer\libcroco.sln /p:Platform=$platform /p:Configuration=Release /p:GlibEtcInstallRoot=$BuildDirectory\gtk\$Configuration /maxcpucount /nodeReuse:True
+
+	[void] (Swap-Environment $originalEnvironment)
+
+	New-Item -Type Directory $packageDestination\share\doc\libcroco
+	Copy-Item .\COPYING $packageDestination\share\doc\libcroco
 
 	Package $packageDestination
 }
