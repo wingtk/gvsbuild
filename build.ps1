@@ -163,7 +163,7 @@ $items = @{
 	};
 
 	'gdk-pixbuf' = @{
-		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.32/gdk-pixbuf-2.32.1.tar.xz'
+		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.32/gdk-pixbuf-2.32.2.tar.xz'
 		'Dependencies' = @('glib', 'libpng')
 	};
 
