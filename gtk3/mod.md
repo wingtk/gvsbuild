@@ -3,7 +3,7 @@
 	* `<GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\vs$(VSVer)\$(Platform)</GlibEtcInstallRoot>` with
 `<GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>`
 	* `<CopyDir>$(GlibEtcInstallRoot)</CopyDir>` with
-`<CopyDir>..\..\..\..\gtk-rel</CopyDir>`
+`<CopyDir>..\..\..\..\gtk3-rel</CopyDir>`
 	* `<GtkSeparateVSDllSuffix>-3-vs$(VSVer)</GtkSeparateVSDllSuffix>` with
 `<GtkSeparateVSDllSuffix>-3.0</GtkSeparateVSDllSuffix>`
  * Delete `<Optimization>` lines in all `*.vcxproj` files

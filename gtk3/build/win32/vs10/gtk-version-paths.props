@@ -3,7 +3,7 @@
   <PropertyGroup Label="UserMacros">
     <VSVer>12</VSVer>
     <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
-    <CopyDir>..\..\..\..\gtk-rel</CopyDir>
+    <CopyDir>..\..\..\..\gtk3-rel</CopyDir>
     <ApiVersion>3.0</ApiVersion>
     <GtkVersion>3.14.8</GtkVersion>
     <GtkLibtoolCompatibleDllPrefix>lib</GtkLibtoolCompatibleDllPrefix>

@@ -689,7 +689,7 @@ $items['gtk'].BuildScript = {
 }
 
 $items['gtk3'].BuildScript = {
-	$packageDestination = "$PWD\..\gtk-rel"
+	$packageDestination = "$PWD-rel"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
