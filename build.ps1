@@ -142,7 +142,6 @@ param (
 		'harfbuzz',
 		'hicolor-icon-theme',
 		'libcroco',
-		'libdb',
 		'libepoxy',
 		'libffi',
 		'libpng',
@@ -249,13 +248,8 @@ $items = @{
 	};
 
 	'libcroco' = @{
-		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/libcroco/0.6/libcroco-0.6.9.tar.xz'
+		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/libcroco/0.6/libcroco-0.6.11.tar.xz'
 		'Dependencies' = @('glib', 'libxml2')
-	};
-
-	'libdb' = @{
-		'ArchiveUrl' = 'http://download.oracle.com/berkeley-db/db-5.3.28.tar.gz'
-		'Dependencies' = @()
 	};
 
 	'libepoxy' = @{
@@ -747,36 +741,12 @@ $items['libcroco'].BuildScript = {
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
 	Exec msbuild build\win32\vs$VSVer\libcroco.sln /p:Platform=$platform /p:Configuration=Release /p:GlibEtcInstallRoot=$BuildDirectory\gtk\$Configuration /maxcpucount /nodeReuse:True
+	Exec msbuild build\win32\vs$VSVer\soup.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
 
 	[void] (Swap-Environment $originalEnvironment)
 
 	New-Item -Type Directory $packageDestination\share\doc\libcroco
 	Copy-Item .\COPYING $packageDestination\share\doc\libcroco
-
-	Package $packageDestination
-}
-
-$items['libdb'].BuildScript = {
-	$packageDestination = "$PWD-rel"
-	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
-
-	$originalEnvironment = Swap-Environment $vcvarsEnvironment
-
-	Exec msbuild build_windows\Berkeley_DB_vs20$VSVer.sln /p:Platform=$platform /p:Configuration="Static Release" /maxcpucount /nodeReuse:True
-
-	[void] (Swap-Environment $originalEnvironment)
-
-	New-Item -Type Directory $packageDestination\include
-	Copy-Item `
-		.\build_windows\db.h, `
-		.\build_windows\db_config.h, `
-		.\build_windows\db_cxx.h, `
-		.\build_windows\db_int.h, `
-		.\build_windows\clib_port.h `
-		$packageDestination\include
-
-	New-Item -Type Directory $packageDestination\lib
-	Copy-Item .\build_windows\$platform\"Static Release"\* $packageDestination\lib
 
 	Package $packageDestination
 }
