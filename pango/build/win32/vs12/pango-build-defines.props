@@ -8,6 +8,8 @@
     <PangoDummyPrefix>/dummy</PangoDummyPrefix>
     <PangoDefines>G_LOG_DOMAIN="Pango";PANGO_ENABLE_BACKEND;PANGO_ENABLE_ENGINE;SYSCONFDIR="$(PangoDummyPrefix)/etc";LIBDIR="$(PangoDummyPrefix)/lib"</PangoDefines>
     <NoFCDef>PANGO_VISUALC_NO_FC</NoFCDef>
+    <PangoFT2Incs>..;$(GlibEtcInstallRoot)\include\harfbuzz</PangoFT2Incs>
+    <PangoFT2Libs>fontconfig.lib;freetype.lib;harfbuzz.lib</PangoFT2Libs>
   </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>pangobuilddefinesprops</_PropertySheetDisplayName>
@@ -40,6 +42,12 @@
     </BuildMacro>
     <BuildMacro Include="NoFCDef">
       <Value>$(NoFCDef)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PangoFT2Incs">
+      <Value>$(PangoFT2Incs)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PangoFT2Libs">
+      <Value>$(PangoFT2Libs)</Value>
     </BuildMacro>
   </ItemGroup>
 </Project>

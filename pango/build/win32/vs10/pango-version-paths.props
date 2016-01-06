@@ -4,9 +4,9 @@
     <VSVer>10</VSVer>
     <GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
     <CopyDir>..\..\..\..\pango-rel</CopyDir>
-    <PangoApiVersion>1.0</PangoApiVersion>
+    <ApiVersion>1.0</ApiVersion>
     <PangoLibtoolCompatibleDllPrefix>lib</PangoLibtoolCompatibleDllPrefix>
-    <PangoLibtoolCompatibleDllSuffix>-$(PangoApiVersion)-0</PangoLibtoolCompatibleDllSuffix>
+    <PangoLibtoolCompatibleDllSuffix>-$(ApiVersion)-0</PangoLibtoolCompatibleDllSuffix>
     <PangoSeparateVSDllPrefix />
     <PangoSeparateVSDllSuffix>-1.0</PangoSeparateVSDllSuffix>
     <PangoDllPrefix>$(PangoSeparateVSDllPrefix)</PangoDllPrefix>
@@ -28,8 +28,8 @@
     <BuildMacro Include="CopyDir">
       <Value>$(CopyDir)</Value>
     </BuildMacro>
-    <BuildMacro Include="PangoApiVersion">
-      <Value>$(PangoApiVersion)</Value>
+    <BuildMacro Include="ApiVersion">
+      <Value>$(ApiVersion)</Value>
     </BuildMacro>
     <BuildMacro Include="PangoLibtoolCompatibleDllPrefix">
       <Value>$(PangoLibtoolCompatibleDllPrefix)</Value>

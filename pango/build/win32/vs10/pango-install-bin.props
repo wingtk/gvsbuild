@@ -11,52 +11,28 @@ mkdir $(CopyDir)\lib
 
 
 if "$(Configuration)" == "Release_FC" goto DO_FC_BIN
-
 if "$(Configuration)" == "Debug_FC" goto DO_FC_BIN
 
-
-copy $(Configuration)\$(Platform)\bin\*.dll $(CopyDir)\bin
-
-copy $(Configuration)\$(Platform)\bin\*-$(PangoApiVersion).lib $(CopyDir)\lib
-
+copy $(Configuration)\$(Platform)\bin\$(PangoDllPrefix)pango*$(PangoDllSuffix).dll $(CopyDir)\bin
+copy $(Configuration)\$(Platform)\bin\$(PangoDllPrefix)pango*$(PangoDllSuffix).pdb $(CopyDir)\bin
+copy $(Configuration)\$(Platform)\bin\pango*-$(ApiVersion).lib $(CopyDir)\lib
 goto DONE_BIN
 
-
 :DO_FC_BIN
-
 copy $(Configuration)\$(Platform)\bin\$(PangoDllPrefix)pangoft2$(PangoDllSuffix).dll $(CopyDir)\bin
-
+copy $(Configuration)\$(Platform)\bin\$(PangoDllPrefix)pangoft2$(PangoDllSuffix).pdb $(CopyDir)\bin
 copy $(Configuration)\$(Platform)\bin\$(PangoDllPrefix)pangocairo$(PangoDllSuffix).dll $(CopyDir)\bin
+copy $(Configuration)\$(Platform)\bin\$(PangoDllPrefix)pangocairo$(PangoDllSuffix).pdb $(CopyDir)\bin
+copy $(Configuration)\$(Platform)\bin\pangoft2-$(ApiVersion).lib $(CopyDir)\lib
+copy $(Configuration)\$(Platform)\bin\pangocairo-$(ApiVersion).lib $(CopyDir)\lib
 
-copy $(Configuration)\$(Platform)\bin\$(PangoDllPrefix)pangoft2.pdb $(CopyDir)\bin
+if "$(Configuration)" == "Release_FC" copy $(SolutionDir)\Release\$(Platform)\bin\$(PangoDllPrefix)pango*$(PangoDllSuffix).dll $(CopyDir)\bin
+if "$(Configuration)" == "Release_FC" copy $(SolutionDir)\Release\$(Platform)\bin\$(PangoDllPrefix)pango*$(PangoDllSuffix).pdb $(CopyDir)\bin
+if "$(Configuration)" == "Release_FC" copy $(SolutionDir)\Release\$(Platform)\bin\pango*-$(ApiVersion).lib $(CopyDir)\lib
 
-copy $(Configuration)\$(Platform)\bin\$(PangoDllPrefix)pangocairo.pdb $(CopyDir)\bin
-
-copy $(Configuration)\$(Platform)\bin\pangoft2-$(PangoApiVersion).lib $(CopyDir)\lib
-
-copy $(Configuration)\$(Platform)\bin\pangocairo-$(PangoApiVersion).lib $(CopyDir)\lib
-
-
-if "$(Configuration)" == "Release_FC" copy $(SolutionDir)\Release\$(Platform)\bin\$(PangoDllPrefix)pango$(PangoDllSuffix).dll $(CopyDir)\bin
-
-if "$(Configuration)" == "Release_FC" copy $(SolutionDir)\Release\$(Platform)\bin\$(PangoDllPrefix)pangowin32$(PangoDllSuffix).dll $(CopyDir)\bin
-
-if "$(Configuration)" == "Release_FC" copy $(SolutionDir)\Release\$(Platform)\bin\$(PangoDllPrefix)pango.pdb $(CopyDir)\bin
-
-if "$(Configuration)" == "Release_FC" copy $(SolutionDir)\Release\$(Platform)\bin\$(PangoDllPrefix)pangowin32.pdb $(CopyDir)\bin
-
-if "$(Configuration)" == "Release_FC" copy $(SolutionDir)\Release\$(Platform)\bin\pango-$(PangoApiVersion).lib $(CopyDir)\lib
-
-if "$(Configuration)" == "Release_FC" copy $(SolutionDir)\Release\$(Platform)\bin\pangowin32-$(PangoApiVersion).lib $(CopyDir)\lib
-
-
-if "$(Configuration)" == "Debug_FC" copy $(SolutionDir)\Debug\$(Platform)\bin\$(PangoDllPrefix)pango$(PangoDllSuffix).dll $(CopyDir)\bin
-
-if "$(Configuration)" == "Debug_FC" copy $(SolutionDir)\Debug\$(Platform)\bin\$(PangoDllPrefix)pangowin32$(PangoDllSuffix).dll $(CopyDir)\bin
-
-if "$(Configuration)" == "Debug_FC" copy $(SolutionDir)\Debug\$(Platform)\bin\pango-$(PangoApiVersion).lib $(CopyDir)\lib
-
-if "$(Configuration)" == "Debug_FC" copy $(SolutionDir)\Debug\$(Platform)\bin\pangowin32-$(PangoApiVersion).lib $(CopyDir)\lib
+if "$(Configuration)" == "Debug_FC" copy $(SolutionDir)\Debug\$(Platform)\bin\$(PangoDllPrefix)pango*$(PangoDllSuffix).dll $(CopyDir)\bin
+if "$(Configuration)" == "Debug_FC" copy $(SolutionDir)\Debug\$(Platform)\bin\$(PangoDllPrefix)pango*$(PangoDllSuffix).pdb $(CopyDir)\bin
+if "$(Configuration)" == "Debug_FC" copy $(SolutionDir)\Debug\$(Platform)\bin\pango*-$(ApiVersion).lib $(CopyDir)\lib
 
 :DONE_BIN
 
