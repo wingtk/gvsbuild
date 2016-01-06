@@ -239,7 +239,7 @@ $items = @{
 	};
 
 	'harfbuzz' = @{
-		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/harfbuzz-0.9.41.tar.bz2'
+		'ArchiveUrl' = 'https://github.com/wingtk/harfbuzz/releases/download/1.1.2.msvc/harfbuzz-1.1.2.tar.bz2'
 		'Dependencies' = @('freetype', 'glib')
 	};
 
@@ -717,39 +717,17 @@ $items['harfbuzz'].BuildScript = {
 	$packageDestination = "$PWD-$filenameArch"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
-	#make the fontconfig files work on other compatible vs versions
-	Get-ChildItem "$PWD\win32" -Filter *.vcxproj | `
-	Foreach-Object{
-		$file = $_.FullName
-		(Get-Content $file | ForEach-Object { $_ -replace "<PlatformToolset>FIXME</PlatformToolset>", "<PlatformToolset>v${VSVer}0</PlatformToolset>" } ) | Set-Content $file
-	}
-
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-	Exec msbuild win32\harfbuzz.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+	Push-Location .\build\win32
+
+	Exec nmake /f Makefile.vc clean CFG=release
+	Exec nmake /f Makefile.vc CFG=release PYTHON=`"c:\Python27\python.exe`" PERL=`"c:\Perl\bin\perl.exe`" PREFIX=`"$workingDirectory\..\..\gtk\$platform`" FREETYPE=1 GOBJECT=1
+	Exec nmake /f Makefile.vc install CFG=release PREFIX=`"$workingDirectory\..\..\gtk\$platform`" FREETYPE=1 GOBJECT=1
+
+	Pop-Location
 
 	[void] (Swap-Environment $originalEnvironment)
-
-	New-Item -Type Directory $packageDestination\bin
-	Copy-Item `
-		.\win32\libs\Release\harfbuzz.dll, `
-		.\win32\libs\Release\harfbuzz.pdb `
-		$packageDestination\bin
-
-	New-Item -Type Directory $packageDestination\include
-	Copy-Item `
-		.\src\*.h `
-		$packageDestination\include
-
-	New-Item -Type Directory $packageDestination\lib
-	Copy-Item `
-		.\win32\libs\harfbuzz\Release\harfbuzz.lib `
-		$packageDestination\lib
-
-	New-Item -Type Directory $packageDestination\share\doc\harfbuzz
-	Copy-Item .\COPYING $packageDestination\share\doc\harfbuzz
-
-	Package $packageDestination
 }
 
 $items['hicolor-icon-theme'].BuildScript = {
