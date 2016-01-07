@@ -188,7 +188,7 @@ $items = @{
 	};
 
 	'ffmpeg' = @{
-		'ArchiveUrl' = 'http://ffmpeg.org/releases/ffmpeg-2.8.1.tar.bz2'
+		'ArchiveUrl' = 'http://ffmpeg.org/releases/ffmpeg-2.8.4.tar.bz2'
 		'Dependencies' = @()
 	};
 
@@ -436,6 +436,8 @@ $items['ffmpeg'].BuildScript = {
 	New-Item -Type Directory build\install
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
+
+	$env:PATH += ";$Msys2Directory\usr\bin"
 
 	Exec $Msys2Directory\usr\bin\bash build\build.sh build\install
 
