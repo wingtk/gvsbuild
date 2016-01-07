@@ -855,7 +855,7 @@ $items['librsvg'].BuildScript = {
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-	Exec msbuild build\win32\vs$VSVer\librsvg.sln /p:Platform=$platform /p:Configuration=Release /p:GlibEtcInstallRoot=$BuildDirectory\gtk\$Configuration /maxcpucount /nodeReuse:True
+	Exec msbuild build\win32\vs$VSVer\librsvg.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
 
 	[void] (Swap-Environment $originalEnvironment)
 
