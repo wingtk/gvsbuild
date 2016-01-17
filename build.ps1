@@ -111,18 +111,18 @@ param (
 
 	[string]
 	$PatchesRootDirectory = "$BuildDirectory\github\gtk-win32",
-
+    
+    [string][ValidateSet('12', '14')]
+	$VSVer = '12',
+    
 	[string]
-	$VSInstallPath = 'C:\Program Files (x86)\Microsoft Visual Studio 12.0',
+	$VSInstallPath = "C:\Program Files (x86)\Microsoft Visual Studio $VSVer.0",
 
 	[string]
 	$CMakePath = 'C:\Program Files (x86)\CMake\bin',
 
 	[string]
-	$VSVer = '12',
-
-	[string]
-	$PerlDirectory = "C:\perl",
+	$PerlDirectory = 'C:\Perl',
 
 	[string[]][ValidateSet(
 		'atk',
@@ -665,7 +665,7 @@ $items['gtk'].BuildScript = {
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-	Exec msbuild build\win32\vs12\gtk+.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+	Exec msbuild build\win32\vs$VSVer\gtk+.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
 
 	[void] (Swap-Environment $originalEnvironment)
 
@@ -925,7 +925,7 @@ $items['lmdb'].BuildScript = {
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-	Exec msbuild libraries\liblmdb\lmdb.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
+	Exec msbuild libraries\liblmdb\msvc\vc$VSVer\lmdb.sln /p:Platform=$platform /p:Configuration=Release /maxcpucount /nodeReuse:True
 
 	[void] (Swap-Environment $originalEnvironment)
 
@@ -936,7 +936,7 @@ $items['lmdb'].BuildScript = {
 
 	New-Item -Type Directory $packageDestination\lib
 	Copy-Item `
-		.\libraries\liblmdb\$platform\Release\lmdb.lib `
+		.\libraries\liblmdb\msvc\vc$VSVer\$platform\Release\lmdb.lib `
 		$packageDestination\lib
 
 	New-Item -Type Directory $packageDestination\share\doc\lmdb
