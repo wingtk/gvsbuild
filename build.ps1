@@ -218,7 +218,7 @@ $items = @{
 	};
 
 	'glib-networking' = @{
-		'ArchiveUrl' = 'https://github.com/wingtk/glib-networking/releases/download/2.46.2-openssl/glib-networking-2.46.2.tar.xz'
+		'ArchiveUrl' = 'https://github.com/wingtk/glib-networking/releases/download/2.46.3-openssl/glib-networking-2.46.3.tar.xz'
 		'Dependencies' = @('gsettings-desktop-schemas', 'openssl')
 	};
 
