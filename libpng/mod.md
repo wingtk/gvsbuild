@@ -1,6 +1,6 @@
- * Download [libpng 1.6.17](ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng16/libpng-1.6.17.tar.xz)
- * Copy `projects\vstudio` to `projects\vc12`. Only keep libpng and pnglibconf directories.
- * In `projects\vc12\libpng\libpng.vcxproj`:
+* Download [libpng 1.6.21](ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng16/libpng-1.6.21.tar.xz)
+* Copy `projects\vstudio` to `projects\vc12`. Only keep libpng and pnglibconf directories.
+* In `projects\vc12\libpng\libpng.vcxproj`:
 	* Under `<ItemGroup Label="ProjectConfigurations">`, add
 `
     <ProjectConfiguration Include="Release|x64">
