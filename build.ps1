@@ -228,7 +228,7 @@ $items = @{
 	};
 
 	'gtk' = @{
-		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gtk+-2.24.28.tar.xz'
+		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gtk+-2.24.29.tar.xz'
 		'Dependencies' = @('atk', 'gdk-pixbuf', 'pango')
 	};
 
