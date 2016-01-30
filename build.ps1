@@ -278,7 +278,7 @@ $items = @{
 	};
 
 	'libxml2' = @{
-		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libxml2-2.9.2.tar.gz'
+		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libxml2-2.9.3.tar.gz'
 		'Dependencies' = @('win-iconv')
 	};
 
