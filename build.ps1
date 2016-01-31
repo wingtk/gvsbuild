@@ -288,7 +288,7 @@ $items = @{
 	};
 
 	'openssl' = @{
-		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/openssl-1.0.2d.tar.gz'
+		'ArchiveUrl' = 'ftp://ftp.openssl.org/source/openssl-1.0.2f.tar.gz'
 		'Dependencies' = @()
 	};
 
