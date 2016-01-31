@@ -303,7 +303,7 @@ $items = @{
 	};
 
 	'win-iconv' = @{
-		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/win-iconv-0.0.6.tar.bz2'
+		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/win-iconv-0.0.7.tar.gz'
 		'Dependencies' = @()
 	};
 
@@ -1078,10 +1078,9 @@ $items['win-iconv'].BuildScript = {
 	$packageDestination = "$PWD-$filenameArch"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
-	Exec $patch -p2 -i win-iconv-r38.patch
-	Exec $patch -p1 -i win-iconv-revert-r32.patch
-
 	Remove-Item -Recurse CMakeCache.txt, CMakeFiles -ErrorAction Ignore
+
+	Exec $patch -p1 -i missing-endif.patch
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
