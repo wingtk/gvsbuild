@@ -125,5 +125,7 @@ static int isnan (double d) {
 #define TRUE (!(FALSE))
 #endif
 
+#undef LIBXML_LZMA_ENABLED
+
 #endif /* __LIBXML_WIN32_CONFIG__ */
 

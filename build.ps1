@@ -203,7 +203,7 @@ $items = @{
 	};
 
 	'gdk-pixbuf' = @{
-		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.32/gdk-pixbuf-2.32.2.tar.xz'
+		'ArchiveUrl' = 'http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.32/gdk-pixbuf-2.32.3.tar.xz'
 		'Dependencies' = @('glib', 'libpng')
 	};
 
@@ -228,7 +228,7 @@ $items = @{
 	};
 
 	'gtk' = @{
-		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gtk+-2.24.28.tar.xz'
+		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/gtk+-2.24.29.tar.xz'
 		'Dependencies' = @('atk', 'gdk-pixbuf', 'pango')
 	};
 
@@ -263,7 +263,7 @@ $items = @{
 	};
 
 	'libpng' = @{
-		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libpng-1.6.17.tar.xz'
+		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libpng-1.6.21.tar.xz'
 		'Dependencies' = @('zlib')
 	};
 
@@ -278,7 +278,7 @@ $items = @{
 	};
 
 	'libxml2' = @{
-		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libxml2-2.9.2.tar.gz'
+		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/libxml2-2.9.3.tar.gz'
 		'Dependencies' = @('win-iconv')
 	};
 
@@ -303,7 +303,7 @@ $items = @{
 	};
 
 	'win-iconv' = @{
-		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/win-iconv-0.0.6.tar.bz2'
+		'ArchiveUrl' = 'http://dl.hexchat.net/gtk-win32/src/win-iconv-0.0.7.tar.gz'
 		'Dependencies' = @()
 	};
 
@@ -1078,10 +1078,9 @@ $items['win-iconv'].BuildScript = {
 	$packageDestination = "$PWD-$filenameArch"
 	Remove-Item -Recurse $packageDestination -ErrorAction Ignore
 
-	Exec $patch -p2 -i win-iconv-r38.patch
-	Exec $patch -p1 -i win-iconv-revert-r32.patch
-
 	Remove-Item -Recurse CMakeCache.txt, CMakeFiles -ErrorAction Ignore
+
+	Exec $patch -p1 -i missing-endif.patch
 
 	$originalEnvironment = Swap-Environment $vcvarsEnvironment
 
