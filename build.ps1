@@ -193,7 +193,7 @@ $items = @{
 	};
 
 	'fontconfig' = @{
-		'ArchiveUrl' = 'http://fontconfig.org/release/fontconfig-2.11.1.tar.gz'
+		'ArchiveUrl' = 'https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.11.1.tar.gz'
 		'Dependencies' = @('freetype', 'libxml2')
 	};
 
