@@ -96,7 +96,7 @@ class Project_atk(Project):
             )
 
     def build(self):
-        self.exec_vs(r'msbuild build\win32\vs%(vs_ver)s\atk.sln /p:Platform=%(platform)s /p:Configuration=%(configuration)s /maxcpucount /nodeReuse:True %(msbuild_opts)s')
+        self.exec_vs(r'msbuild build\win32\vs%(vs_ver)s\atk.sln /p:Platform=%(platform)s /p:Configuration=%(configuration)s /maxcpucount %(msbuild_opts)s')
         self.install(r'.\COPYING share\doc\atk')
 
 Project.add(Project_atk())
@@ -110,7 +110,7 @@ class Project_cairo(Project):
             )
 
     def build(self):
-        self.exec_vs(r'msbuild msvc\vc%(vs_ver)s\cairo.sln /p:Platform=%(platform)s /p:Configuration=Release_FC /maxcpucount /nodeReuse:True %(msbuild_opts)s')
+        self.exec_vs(r'msbuild msvc\vc%(vs_ver)s\cairo.sln /p:Platform=%(platform)s /p:Configuration=Release_FC /maxcpucount %(msbuild_opts)s')
         self.install(r'.\COPYING share\doc\cairo')
 
 Project.add(Project_cairo())
@@ -275,7 +275,7 @@ class Project_fontconfig(Project):
                 with open(proj, 'w') as f:
                     f.write(content)
 
-        self.exec_vs('msbuild fontconfig.sln /p:Platform=%(platform)s /p:Configuration=%(configuration)s /t:build /nodeReuse:True %(msbuild_opts)s')
+        self.exec_vs('msbuild fontconfig.sln /p:Platform=%(platform)s /p:Configuration=%(configuration)s /t:build %(msbuild_opts)s')
 
         if self.builder.x86:
             rel_dir = r'.\%(configuration)s'
@@ -306,7 +306,7 @@ class Project_freetype(Project):
             )
 
     def build(self):
-        self.exec_vs(r'msbuild builds\windows\vc%(vs_ver)s\freetype.vcxproj /p:Platform=%(platform)s /p:Configuration=%(configuration)s /maxcpucount /nodeReuse:True %(msbuild_opts)s')
+        self.exec_vs(r'msbuild builds\windows\vc%(vs_ver)s\freetype.vcxproj /p:Platform=%(platform)s /p:Configuration=%(configuration)s /maxcpucount %(msbuild_opts)s')
         self.install_dir(r'.\include')
         self.install(r'.\objs\%(platform)s\freetype.lib lib')
         self.install(r'.\docs\LICENSE.TXT share\doc\freetype')
@@ -322,7 +322,7 @@ class Project_gdk_pixbuf(Project):
             )
 
     def build(self):
-        self.exec_vs(r'msbuild build\win32\vs%(vs_ver)s\gdk-pixbuf.sln /p:Platform=%(platform)s /p:Configuration=Release_GDI+ /maxcpucount /nodeReuse:True %(msbuild_opts)s')
+        self.exec_vs(r'msbuild build\win32\vs%(vs_ver)s\gdk-pixbuf.sln /p:Platform=%(platform)s /p:Configuration=Release_GDI+ /maxcpucount %(msbuild_opts)s')
         self.install(r'.\COPYING share\doc\gdk-pixbuf')
 
 Project.add(Project_gdk_pixbuf())
@@ -363,7 +363,7 @@ class Project_glib(Project):
             )
 
     def build(self):
-        self.exec_vs(r'msbuild build\win32\vs%(vs_ver)s\glib.sln /p:Platform=%(platform)s /p:Configuration=%(configuration)s /maxcpucount /nodeReuse:True %(msbuild_opts)s')
+        self.exec_vs(r'msbuild build\win32\vs%(vs_ver)s\glib.sln /p:Platform=%(platform)s /p:Configuration=%(configuration)s /maxcpucount %(msbuild_opts)s')
         self.install(r'.\COPYING share\doc\glib')
 
 Project.add(Project_glib())
@@ -377,7 +377,7 @@ class Project_glib_networking(Project):
             )
 
     def build(self):
-        self.exec_vs(r'msbuild build\win32\vs%(vs_ver)s\glib-networking.sln /p:Platform=%(platform)s /p:Configuration=%(configuration)s /maxcpucount /nodeReuse:True %(msbuild_opts)s')
+        self.exec_vs(r'msbuild build\win32\vs%(vs_ver)s\glib-networking.sln /p:Platform=%(platform)s /p:Configuration=%(configuration)s /maxcpucount %(msbuild_opts)s')
 
 Project.add(Project_glib_networking())
 
@@ -403,7 +403,7 @@ class Project_gtk_base(Project):
         Project.__init__(self, name, **kwargs)
 
     def build(self):
-        self.exec_vs(r'msbuild build\win32\vs%(vs_ver)s\gtk+.sln /p:Platform=%(platform)s /p:Configuration=%(configuration)s /maxcpucount /nodeReuse:True %(msbuild_opts)s')
+        self.exec_vs(r'msbuild build\win32\vs%(vs_ver)s\gtk+.sln /p:Platform=%(platform)s /p:Configuration=%(configuration)s /maxcpucount %(msbuild_opts)s')
 
         mo = 'gtk20.mo' if self.name == 'gtk' else 'gtk30.mo'
 
@@ -476,7 +476,7 @@ class Project_libcroco(Project):
             )
 
     def build(self):
-        self.exec_vs(r'msbuild build\win32\vs%(vs_ver)s\libcroco.sln /p:Platform=%(platform)s /p:Configuration=%(configuration)s /maxcpucount /nodeReuse:True %(msbuild_opts)s')
+        self.exec_vs(r'msbuild build\win32\vs%(vs_ver)s\libcroco.sln /p:Platform=%(platform)s /p:Configuration=%(configuration)s /maxcpucount %(msbuild_opts)s')
         self.install(r'.\COPYING share\doc\libcroco')
 
 Project.add(Project_libcroco())
@@ -490,7 +490,7 @@ class Project_libepoxy(Project):
             )
 
     def build(self):
-        self.exec_vs(r'msbuild build\win32\vs%(vs_ver)s\epoxy.sln /p:Platform=%(platform)s /p:Configuration=%(configuration)s /maxcpucount /nodeReuse:True %(msbuild_opts)s')
+        self.exec_vs(r'msbuild build\win32\vs%(vs_ver)s\epoxy.sln /p:Platform=%(platform)s /p:Configuration=%(configuration)s /maxcpucount %(msbuild_opts)s')
 
 Project.add(Project_libepoxy())
 
@@ -508,7 +508,7 @@ class Project_libffi(Project):
         else:
             build_dest = 'x86_64-w64-mingw32'
 
-        self.exec_vs(r'msbuild build\win32\vs%(vs_ver)s\libffi.sln /p:Platform=%(platform)s /p:Configuration=%(configuration)s /maxcpucount /nodeReuse:True %(msbuild_opts)s')
+        self.exec_vs(r'msbuild build\win32\vs%(vs_ver)s\libffi.sln /p:Platform=%(platform)s /p:Configuration=%(configuration)s /maxcpucount %(msbuild_opts)s')
 
         self.install(r'.\\' + build_dest + r'\include\ffi.h', r'.\src\x86\ffitarget.h', 'include')
         self.install(r'LICENSE share\doc\libffi')
@@ -524,8 +524,8 @@ class Project_libpng(Project):
             )
 
     def build(self):
-        self.exec_vs(r'msbuild projects\vc%(vs_ver)s\pnglibconf\pnglibconf.vcxproj /p:Platform=%(platform)s /p:Configuration=%(configuration)s /p:SolutionDir=%(build_dir)s\projects\vc%(vs_ver)s\ /nodeReuse:True %(msbuild_opts)s')
-        self.exec_vs(r'msbuild projects\vc%(vs_ver)s\libpng\libpng.vcxproj /p:Platform=%(platform)s /p:Configuration=%(configuration)s /p:SolutionDir=%(build_dir)s\projects\vc%(vs_ver)s\ /nodeReuse:True %(msbuild_opts)s')
+        self.exec_vs(r'msbuild projects\vc%(vs_ver)s\pnglibconf\pnglibconf.vcxproj /p:Platform=%(platform)s /p:Configuration=%(configuration)s /p:SolutionDir=%(build_dir)s\projects\vc%(vs_ver)s\ %(msbuild_opts)s')
+        self.exec_vs(r'msbuild projects\vc%(vs_ver)s\libpng\libpng.vcxproj /p:Platform=%(platform)s /p:Configuration=%(configuration)s /p:SolutionDir=%(build_dir)s\projects\vc%(vs_ver)s\ %(msbuild_opts)s')
 
         if self.builder.x86:
             rel_dir = r'.\projects\vc%(vs_ver)s\%(configuration)s'
@@ -550,7 +550,7 @@ class Project_librsvg(Project):
             )
 
     def build(self):
-        self.exec_vs(r'msbuild build\win32\vs%(vs_ver)s\librsvg.sln /p:Platform=%(platform)s /p:Configuration=%(configuration)s /maxcpucount /nodeReuse:True %(msbuild_opts)s')
+        self.exec_vs(r'msbuild build\win32\vs%(vs_ver)s\librsvg.sln /p:Platform=%(platform)s /p:Configuration=%(configuration)s /maxcpucount %(msbuild_opts)s')
         self.install(r'.\COPYING share\doc\librsvg')
 
 Project.add(Project_librsvg())
@@ -568,7 +568,7 @@ class Project_libsoup(Project):
             )
 
     def build(self):
-        self.exec_vs(r'msbuild build\win32\vs%(vs_ver)s\soup.sln /p:Platform=%(platform)s /p:Configuration=%(configuration)s /maxcpucount /nodeReuse:True %(msbuild_opts)s')
+        self.exec_vs(r'msbuild build\win32\vs%(vs_ver)s\soup.sln /p:Platform=%(platform)s /p:Configuration=%(configuration)s /maxcpucount %(msbuild_opts)s')
 
 Project.add(Project_libsoup())
 
@@ -581,7 +581,7 @@ class Project_libxml2(Project):
             )
 
     def build(self):
-        self.exec_vs(r'msbuild win32\vc%(vs_ver)s\libxml2.sln /p:Platform=%(platform)s /p:Configuration=%(configuration)s /maxcpucount /nodeReuse:True %(msbuild_opts)s')
+        self.exec_vs(r'msbuild win32\vc%(vs_ver)s\libxml2.sln /p:Platform=%(platform)s /p:Configuration=%(configuration)s /maxcpucount %(msbuild_opts)s')
 
         self.install(r'.\lib\libxml2.dll .\lib\libxml2.pdb .\lib\runsuite.exe .\lib\runsuite.pdb bin')
         self.install(r'.\win32\VC12\config.h .\include\wsockcompat.h .\include\libxml\*.h include\libxml')
@@ -598,7 +598,7 @@ class Project_lmdb(Project):
             )
 
     def build(self):
-        self.exec_vs(r'msbuild libraries\liblmdb\lmdb.sln /p:Platform=%(platform)s /p:Configuration=%(configuration)s /maxcpucount /nodeReuse:True %(msbuild_opts)s')
+        self.exec_vs(r'msbuild libraries\liblmdb\lmdb.sln /p:Platform=%(platform)s /p:Configuration=%(configuration)s /maxcpucount %(msbuild_opts)s')
 
         self.install(r'.\libraries\liblmdb\lmdb.h include')
         self.install(r'.\libraries\liblmdb\%(platform)s\%(configuration)s\lmdb.lib lib')
@@ -696,7 +696,7 @@ class Project_pango(Project):
             )
 
     def build(self):
-        self.exec_vs(r'msbuild build\win32\vs%(vs_ver)s\pango.sln /p:Platform=%(platform)s /p:Configuration=Release_FC /nodeReuse:True %(msbuild_opts)s')
+        self.exec_vs(r'msbuild build\win32\vs%(vs_ver)s\pango.sln /p:Platform=%(platform)s /p:Configuration=Release_FC %(msbuild_opts)s')
         self.install(r'COPYING share\doc\pango')
 
 Project.add(Project_pango())
@@ -758,8 +758,8 @@ class Project_pixman(Project):
     def build(self):
         self.__generate_sym_file()
         
-        self.exec_vs(r'msbuild build\win32\vc%(vs_ver)s\pixman.vcxproj /p:Platform=%(platform)s /p:Configuration=%(configuration)s /p:SolutionDir=%(build_dir)s\build\win32\vc%(vs_ver)s\ /maxcpucount /nodeReuse:True %(msbuild_opts)s')
-        self.exec_vs(r'msbuild build\win32\vc%(vs_ver)s\install.vcxproj /p:Platform=%(platform)s /p:Configuration=%(configuration)s /p:SolutionDir=%(build_dir)s\build\win32\vc%(vs_ver)s\ /maxcpucount /nodeReuse:True %(msbuild_opts)s')
+        self.exec_vs(r'msbuild build\win32\vc%(vs_ver)s\pixman.vcxproj /p:Platform=%(platform)s /p:Configuration=%(configuration)s /p:SolutionDir=%(build_dir)s\build\win32\vc%(vs_ver)s\ /maxcpucount %(msbuild_opts)s')
+        self.exec_vs(r'msbuild build\win32\vc%(vs_ver)s\install.vcxproj /p:Platform=%(platform)s /p:Configuration=%(configuration)s /p:SolutionDir=%(build_dir)s\build\win32\vc%(vs_ver)s\ /maxcpucount %(msbuild_opts)s')
 
         self.install(r'.\COPYING share\doc\pixman')
 
@@ -794,7 +794,7 @@ class Project_zlib(Project):
             )
 
     def build(self):
-        self.exec_vs(r'msbuild build\win32\vs%(vs_ver)s\zlib.sln /p:Platform=%(platform)s /p:Configuration=%(configuration)s /maxcpucount /nodeReuse:True %(msbuild_opts)s')
+        self.exec_vs(r'msbuild build\win32\vs%(vs_ver)s\zlib.sln /p:Platform=%(platform)s /p:Configuration=%(configuration)s /maxcpucount %(msbuild_opts)s')
 
         self.push_location(r'.\build\vs%(vs_ver)s\%(configuration)s\%(platform)s')
 
