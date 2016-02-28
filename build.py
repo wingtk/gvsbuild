@@ -368,7 +368,7 @@ class Project_glib(Project):
             )
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\glib.sln')
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\glib.sln /p:PythonPath=%(python_dir)s')
         self.install(r'.\COPYING share\doc\glib')
 
 Project.add(Project_glib())
@@ -922,7 +922,6 @@ class Builder(object):
         for l in output.splitlines():
             k, v = l.split("=", 1)
             self.vs_env[k] = v
-        self.vs_env['PythonPath'] = opts.python_dir
 
     def preprocess(self):
         for proj in Project.list_projects():
