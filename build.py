@@ -836,6 +836,9 @@ Project.add(CmakeProject('pygtk', dependencies = ['pygobject', 'gtk']))
 global_verbose = False
 global_debug = False
 
+def print_message(msg):
+    print msg
+
 def print_log(msg):
     if global_verbose:
         print msg
@@ -874,8 +877,13 @@ class Builder(object):
         self.x86 = opts.platform == 'Win32'
         self.x64 = not self.x86
 
-        self.msbuild_opts = '/p:Platform=%(platform)s /maxcpucount %(msbuild_opts)s ' % \
+        self.msbuild_opts = '/nologo /p:Platform=%(platform)s /maxcpucount %(msbuild_opts)s ' % \
             dict(platform=opts.platform, configuration=opts.configuration, msbuild_opts=opts.msbuild_opts)
+
+        if global_verbose:
+            self.msbuild_opts += ' /v:normal'
+        else:
+            self.msbuild_opts += ' /v:minimal'
 
     def __check_tools(self, opts):
         self.patch = os.path.join(opts.msys_dir, 'usr', 'bin', 'patch.exe')
@@ -979,7 +987,7 @@ class Builder(object):
             self.__download_one(p)
 
     def __build_one(self, proj):
-        print_log("Building project %s" % (proj.name,))
+        print_message("Building project %s" % (proj.name,))
         self.__prepare_build_dir(proj)
 
         proj.pkg_dir = proj.build_dir + "-rel"
@@ -1246,7 +1254,6 @@ def get_options():
     if args.verbose:
         global_verbose = True
     if args.debug:
-        global_verbose = True
         global_debug = True
 
     if args.list:
