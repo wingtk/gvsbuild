@@ -6,6 +6,42 @@ import shutil
 import subprocess
 import sys
 
+class Tarball(object):
+    def unpack(self):
+        print_log('Extracting %s to %s' % (self.archive_file, self.builder.working_dir))
+
+        if self.name != 'gettext-runtime':
+            self.builder.exec_msys([self.builder.tar, 'ixf', self.__convert_to_msys(self.archive_file), '-C', self.__convert_to_msys(self.builder.working_dir)])
+            archive_name = os.path.basename(self.archive_file)
+            out_dir = re.match(r'(.*)\.tar', archive_name).group(1)
+            if not os.path.exists(os.path.join(self.builder.working_dir, out_dir)):
+                out_dir = self.name + '-' + out_dir
+            shutil.move(os.path.join(self.builder.working_dir, out_dir), self.build_dir)
+	else:
+            # gettext-runtime is a tarbomb
+            os.makedirs(self.build_dir)
+            self.builder.exec_msys([self.builder.tar, 'ixf', self.__convert_to_msys(self.archive_file), '-C', self.__convert_to_msys(self.build_dir)])
+
+        print_log('Extracted %s' % (self.archive_file,))
+
+    def __convert_to_msys(self, path):
+        path = path
+        if path[1] != ':':
+            raise Exception('oops')
+        path = '/' + path[0] + path[2:].replace('\\', '/')
+        return path
+
+class MercurialRepo(object):
+    def unpack(self):
+        print_log('Cloning %s to %s' % (self.repo_url, self.build_dir))
+        self.exec_cmd('hg clone %s %s-tmp' % (self.repo_url, self.build_dir))
+        shutil.move(self.build_dir + '-tmp', self.build_dir)
+        print_log('Cloned %s to %s' % (self.repo_url, self.build_dir))
+
+    def update_build_dir(self):
+        print_log('Updating directory %s' % (self.build_dir,))
+        self.exec_cmd('hg pull -u', working_dir=self.build_dir)
+
 class Project(object):
     def __init__(self, name, **kwargs):
         object.__init__(self)
@@ -29,6 +65,9 @@ class Project(object):
 
     def build(self):
         raise NotImplementedError()
+
+    def exec_cmd(self, cmd, working_dir=None, add_path=None):
+        self.builder.exec_cmd(cmd, working_dir=working_dir, add_path=add_path)
 
     def exec_vs(self, cmd, add_path=None):
         self.builder.exec_vs(cmd, working_dir=self._get_working_dir(), add_path=add_path)
@@ -70,6 +109,25 @@ class Project(object):
     def pop_location(self):
         self.__working_dir = None
 
+    def prepare_build_dir(self):
+        if self.builder.opts.clean and os.path.exists(self.build_dir):
+            shutil.rmtree(self.build_dir)
+
+        if os.path.exists(self.build_dir):
+            print_debug("directory %s already exists" % (self.build_dir,))
+            self.update_build_dir()
+        else:
+            self.unpack()
+            if os.path.exists(self.patch_dir):
+                print_log("Copying files from %s to %s" % (self.patch_dir, self.build_dir))
+                self.builder.copy_all(self.patch_dir, self.build_dir)
+
+    def update_build_dir(self):
+        pass
+
+    def unpack(self):
+        raise NotImplementedError("unpack")
+
     @staticmethod
     def add(proj):
         Project._projects.append(proj)
@@ -92,7 +150,7 @@ class Project(object):
     def get_dict():
         return dict(Project._dict)
 
-class Project_atk(Project):
+class Project_atk(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'atk',
@@ -106,7 +164,7 @@ class Project_atk(Project):
 
 Project.add(Project_atk())
 
-class Project_cairo(Project):
+class Project_cairo(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'cairo',
@@ -120,7 +178,7 @@ class Project_cairo(Project):
 
 Project.add(Project_cairo())
 
-class Project_cyrus_sasl(Project):
+class Project_cyrus_sasl(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'cyrus-sasl',
@@ -137,7 +195,7 @@ class Project_cyrus_sasl(Project):
 
 Project.add(Project_cyrus_sasl())
 
-class Project_enchant(Project):
+class Project_enchant(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'enchant',
@@ -209,7 +267,7 @@ class Project_enchant(Project):
 
 Project.add(Project_enchant())
 
-class Project_ffmpeg(Project):
+class Project_ffmpeg(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'ffmpeg',
@@ -260,7 +318,7 @@ class Project_ffmpeg(Project):
 
 Project.add(Project_ffmpeg())
 
-class Project_fontconfig(Project):
+class Project_fontconfig(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'fontconfig',
@@ -303,7 +361,7 @@ class Project_fontconfig(Project):
 
 Project.add(Project_fontconfig())
 
-class Project_freetype(Project):
+class Project_freetype(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'freetype',
@@ -318,7 +376,7 @@ class Project_freetype(Project):
 
 Project.add(Project_freetype())
 
-class Project_gdk_pixbuf(Project):
+class Project_gdk_pixbuf(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'gdk-pixbuf',
@@ -332,7 +390,7 @@ class Project_gdk_pixbuf(Project):
 
 Project.add(Project_gdk_pixbuf())
 
-class Project_gettext(Project):
+class Project_gettext(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'gettext-runtime',
@@ -355,7 +413,7 @@ class Project_gettext(Project):
 
 Project.add(Project_gettext())
 
-class Project_glib(Project):
+class Project_glib(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'glib',
@@ -373,7 +431,7 @@ class Project_glib(Project):
 
 Project.add(Project_glib())
 
-class Project_glib_networking(Project):
+class Project_glib_networking(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'glib-networking',
@@ -386,7 +444,7 @@ class Project_glib_networking(Project):
 
 Project.add(Project_glib_networking())
 
-class Project_gsettings_desktop_schemas(Project):
+class Project_gsettings_desktop_schemas(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'gsettings-desktop-schemas',
@@ -403,7 +461,7 @@ class Project_gsettings_desktop_schemas(Project):
 
 Project.add(Project_gsettings_desktop_schemas())
 
-class Project_gtk_base(Project):
+class Project_gtk_base(Tarball, Project):
     def __init__(self, name, **kwargs):
         Project.__init__(self, name, **kwargs)
 
@@ -443,7 +501,7 @@ class Project_gtk3(Project_gtk_base):
 
 Project.add(Project_gtk3())
 
-class Project_harfbuzz(Project):
+class Project_harfbuzz(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'harfbuzz',
@@ -460,7 +518,7 @@ class Project_harfbuzz(Project):
 
 Project.add(Project_harfbuzz())
 
-class Project_hicolor_icon_theme(Project):
+class Project_hicolor_icon_theme(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'hicolor-icon-theme',
@@ -472,7 +530,7 @@ class Project_hicolor_icon_theme(Project):
 
 Project.add(Project_hicolor_icon_theme())
 
-class Project_libcroco(Project):
+class Project_libcroco(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libcroco',
@@ -486,7 +544,7 @@ class Project_libcroco(Project):
 
 Project.add(Project_libcroco())
 
-class Project_libepoxy(Project):
+class Project_libepoxy(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libepoxy',
@@ -499,7 +557,7 @@ class Project_libepoxy(Project):
 
 Project.add(Project_libepoxy())
 
-class Project_libffi(Project):
+class Project_libffi(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libffi',
@@ -520,7 +578,7 @@ class Project_libffi(Project):
 
 Project.add(Project_libffi())
 
-class Project_libpng(Project):
+class Project_libpng(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libpng',
@@ -546,7 +604,7 @@ class Project_libpng(Project):
 
 Project.add(Project_libpng())
 
-class Project_librsvg(Project):
+class Project_librsvg(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'librsvg',
@@ -560,7 +618,7 @@ class Project_librsvg(Project):
 
 Project.add(Project_librsvg())
 
-class Project_libsoup(Project):
+class Project_libsoup(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libsoup',
@@ -577,7 +635,7 @@ class Project_libsoup(Project):
 
 Project.add(Project_libsoup())
 
-class Project_libxml2(Project):
+class Project_libxml2(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libxml2',
@@ -595,7 +653,7 @@ class Project_libxml2(Project):
 
 Project.add(Project_libxml2())
 
-class Project_lmdb(Project):
+class Project_lmdb(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'lmdb',
@@ -611,7 +669,7 @@ class Project_lmdb(Project):
 
 Project.add(Project_lmdb())
 
-class Project_openssl(Project):
+class Project_openssl(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'openssl',
@@ -692,7 +750,7 @@ class Project_openssl(Project):
 
 Project.add(Project_openssl())
 
-class Project_pango(Project):
+class Project_pango(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'pango',
@@ -706,7 +764,7 @@ class Project_pango(Project):
 
 Project.add(Project_pango())
 
-class Project_pixman(Project):
+class Project_pixman(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'pixman',
@@ -770,7 +828,7 @@ class Project_pixman(Project):
 
 Project.add(Project_pixman())
 
-class Project_win_iconv(Project):
+class Project_win_iconv(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'win-iconv',
@@ -791,7 +849,7 @@ class Project_win_iconv(Project):
 
 Project.add(Project_win_iconv())
 
-class Project_zlib(Project):
+class Project_zlib(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'zlib',
@@ -814,9 +872,7 @@ class Project_zlib(Project):
 Project.add(Project_zlib())
 
 
-
-
-class CmakeProject(Project):
+class CmakeProject(Tarball, Project):
     def __init__(self, name, **kwargs):
         Project.__init__(self, name, **kwargs)
 
@@ -826,10 +882,14 @@ class CmakeProject(Project):
         self.exec_vs('nmake', add_path=self.builder.opts.cmake_path)
         self.exec_vs('nmake install', add_path=self.builder.opts.cmake_path)
 
-Project.add(CmakeProject('pycairo', dependencies = ['cairo']))
-Project.add(CmakeProject('pygobject', dependencies = ['glib']))
-Project.add(CmakeProject('pygtk', dependencies = ['pygobject', 'gtk']))
-    
+class MercurialCmakeProject(MercurialRepo, CmakeProject):
+    def __init__(self, name, **kwargs):
+        CmakeProject.__init__(self, name, **kwargs)
+
+Project.add(MercurialCmakeProject('pycairo', repo_url='git+ssh://git@github.com:muntyan/pycairo-gtk-win32.git', dependencies = ['cairo']))
+Project.add(MercurialCmakeProject('pygobject', repo_url='git+ssh://git@github.com:muntyan/pygobject-gtk-win32.git', dependencies = ['glib']))
+Project.add(MercurialCmakeProject('pygtk', repo_url='git+ssh://git@github.com:muntyan/pygtk-gtk-win32.git', dependencies = ['pygobject', 'gtk']))
+
 
 #========================================================================================================================================================
 
@@ -988,14 +1048,15 @@ class Builder(object):
 
     def __build_one(self, proj):
         print_message("Building project %s" % (proj.name,))
-        self.__prepare_build_dir(proj)
+
+        proj.builder = self
+        self.__project = proj
+
+        proj.prepare_build_dir()
 
         proj.pkg_dir = proj.build_dir + "-rel"
         shutil.rmtree(proj.pkg_dir, ignore_errors=True)
         os.makedirs(proj.pkg_dir)
-
-        proj.builder = self
-        self.__project = proj
 
         proj.patch()
         proj.build()
@@ -1004,14 +1065,14 @@ class Builder(object):
         self.__project = None
 
         print_debug("copying %s to %s" % (proj.pkg_dir, self.gtk_dir))
-        self.__copy_all(proj.pkg_dir, self.gtk_dir)
+        self.copy_all(proj.pkg_dir, self.gtk_dir)
         shutil.rmtree(proj.pkg_dir, ignore_errors=True)
 
     def make_dir(self, path):
         if not os.path.exists(path):
             os.makedirs(path)
 
-    def __copy_all(self, srcdir, destdir):
+    def copy_all(self, srcdir, destdir):
         self.make_dir(destdir)
         for f in glob.glob('%s\\*' % (srcdir,)):
             self.__copy_to(f, destdir)
@@ -1037,36 +1098,6 @@ class Builder(object):
         else:
             print_debug("copying '%s' to '%s'" % (src, destdir))
             shutil.copy(src, destdir)
-
-    def __prepare_build_dir(self, proj):
-        if self.opts.clean and os.path.exists(proj.build_dir):
-            shutil.rmtree(proj.build_dir)
-
-        if self.__unpack(proj) and os.path.exists(proj.patch_dir):
-            print_log("Copying files from %s to %s" % (proj.patch_dir, proj.build_dir))
-            self.__copy_all(proj.patch_dir, proj.build_dir)
-
-    def __unpack(self, proj):
-        if os.path.exists(proj.build_dir):
-            print_debug("directory %s already exists" % (proj.build_dir,))
-            return False
-
-        print_log('Extracting %s to %s' % (proj.archive_file, self.working_dir))
-
-        if proj.name != 'gettext-runtime':
-            self.exec_msys([self.tar, 'ixf', self.__convert_to_msys(proj.archive_file), '-C', self.__convert_to_msys(self.working_dir)])
-            archive_name = os.path.basename(proj.archive_file)
-            out_dir = re.match(r'(.*)\.tar', archive_name).group(1)
-            if not os.path.exists(os.path.join(self.working_dir, out_dir)):
-                out_dir = proj.name + '-' + out_dir
-            shutil.move(os.path.join(self.working_dir, out_dir), proj.build_dir)
-	else:
-            # gettext-runtime is a tarbomb
-            os.makedirs(proj.build_dir)
-            self.exec_msys([self.tar, 'ixf', self.__convert_to_msys(proj.archive_file), '-C', self.__convert_to_msys(proj.build_dir)])
-
-        print_log('Extracted %s' % (proj.archive_file,))
-        return True
 
     def __download_one(self, proj):
         if not proj.archive_file:
@@ -1098,6 +1129,9 @@ class Builder(object):
     def exec_vs(self, cmd, working_dir=None, add_path=None):
         self.__execute(self.__sub_vars(cmd), working_dir=working_dir, add_path=add_path, env=self.vs_env)
 
+    def exec_cmd(self, args, working_dir=None, add_path=None):
+        self.__execute(args, working_dir=working_dir, add_path=add_path)
+
     def install(self, build_dir, pkg_dir, *args):
         if len(args) == 1:
             args = args[0].split()
@@ -1112,7 +1146,7 @@ class Builder(object):
         src = os.path.join(build_dir, self.__sub_vars(src))
         dest = os.path.join(pkg_dir, self.__sub_vars(dest))
         print_debug("copying %s content to %s" % (src, dest))
-        self.__copy_all(src, dest)
+        self.copy_all(src, dest)
 
     def exec_msys(self, args, working_dir=None):
         self.__execute(args, working_dir=working_dir, add_path=os.path.join(self.opts.msys_dir, 'usr', 'bin'))
@@ -1134,13 +1168,6 @@ class Builder(object):
                 key = k
                 break
         env[key] = folder + ';' + env[key]
-
-    def __convert_to_msys(self, path):
-        path = path
-        if path[1] != ':':
-            raise Exception('oops')
-        path = '/' + path[0] + path[2:].replace('\\', '/')
-        return path
 
 def __get_projects_to_build(opts):
     to_build = ordered_set()
