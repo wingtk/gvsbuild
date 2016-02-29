@@ -512,6 +512,7 @@ class Project_harfbuzz(Tarball, Project):
 
     def build(self):
         self.push_location(r'.\build\win32')
+        self.builder.make_dir(os.path.join(self.build_dir, 'build', 'win32', self.builder.opts.configuration, 'win32'))
         #Exec nmake /f Makefile.vc clean CFG=%(configuration)s
         self.exec_vs(r'nmake /nologo /f Makefile.vc CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PERL="%(perl_dir)s\bin\perl.exe" PREFIX="%(gtk_dir)s" FREETYPE=1 GOBJECT=1')
         self.exec_vs(r'nmake /nologo /f Makefile.vc install CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PERL="%(perl_dir)s\bin\perl.exe" PREFIX="%(gtk_dir)s" FREETYPE=1 GOBJECT=1')
@@ -889,7 +890,7 @@ class MercurialCmakeProject(MercurialRepo, CmakeProject):
 
 Project.add(MercurialCmakeProject('pycairo', repo_url='git+ssh://git@github.com:muntyan/pycairo-gtk-win32.git', dependencies = ['cairo']))
 Project.add(MercurialCmakeProject('pygobject', repo_url='git+ssh://git@github.com:muntyan/pygobject-gtk-win32.git', dependencies = ['glib']))
-Project.add(MercurialCmakeProject('pygtk', repo_url='git+ssh://git@github.com:muntyan/pygtk-gtk-win32.git', dependencies = ['pygobject', 'gtk']))
+Project.add(MercurialCmakeProject('pygtk', repo_url='git+ssh://git@github.com:muntyan/pygtk-gtk-win32.git', dependencies = ['gtk', 'pycairo', 'pygobject']))
 
 
 #========================================================================================================================================================
@@ -938,7 +939,7 @@ class Builder(object):
         self.x86 = opts.platform == 'Win32'
         self.x64 = not self.x86
 
-        self.msbuild_opts = '/nologo /p:Platform=%(platform)s /maxcpucount %(msbuild_opts)s ' % \
+        self.msbuild_opts = '/nologo /p:Platform=%(platform)s %(msbuild_opts)s ' % \
             dict(platform=opts.platform, configuration=opts.configuration, msbuild_opts=opts.msbuild_opts)
 
         if global_verbose:
@@ -1202,7 +1203,7 @@ def get_options(args):
     if not opts.vs_install_path:
         opts.vs_install_path = r'C:\Program Files (x86)\Microsoft Visual Studio %s.0' % (opts.vs_ver,)
 
-    opts.projects = args.projects
+    opts.projects = args.project
 
     for p in opts.projects:
         if not p in Project.get_names():
@@ -1306,7 +1307,7 @@ Examples:
     p_build.add_argument('--perl-dir', default=r'C:\Perl',
                          help="The directory where you installed perl.")
     p_build.add_argument('--python-dir', default=r'c:\Python27',
-                         help="The directory where you installed perl.")
+                         help="The directory where you installed python.")
 
     p_build.add_argument('--clean', default=False, action='store_true',
                          help='Build the project(s) from scratch')
@@ -1316,7 +1317,7 @@ Examples:
     p_build.add_argument('--msbuild-opts', default='',
                          help='Command line options to pass to msbuild.')
 
-    p_build.add_argument('projects', nargs='+',
+    p_build.add_argument('project', nargs='+',
                          help='Project(s) to build.')
 
     #==============================================================================
