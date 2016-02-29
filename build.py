@@ -5,6 +5,7 @@ import re
 import shutil
 import subprocess
 import sys
+import traceback
 
 class Tarball(object):
     def unpack(self):
@@ -187,10 +188,10 @@ class Project_cyrus_sasl(Tarball, Project):
             )
 
     def build(self):
-        #Exec nmake /f NTMakefile clean
-        self.exec_vs(r'nmake /f NTMakefile SASLDB="LMDB" LMDB_INCLUDE="%(gtk_dir)s\include" LMDB_LIBPATH="%(gtk_dir)s\lib" ' +
+        #Exec nmake /nologo /f NTMakefile clean
+        self.exec_vs(r'nmake /nologo /f NTMakefile SASLDB="LMDB" LMDB_INCLUDE="%(gtk_dir)s\include" LMDB_LIBPATH="%(gtk_dir)s\lib" ' +
                      r'OPENSSL_INCLUDE="%(gtk_dir)s\include" OPENSSL_LIBPATH="%(gtk_dir)s\lib" prefix="%(pkg_dir)s"')
-        self.exec_vs(r'nmake /f NTMakefile install SASLDB="LMDB" LMDB_INCLUDE="%(gtk_dir)s\include" LMDB_LIBPATH="%(gtk_dir)s\lib" ' +
+        self.exec_vs(r'nmake /nologo /f NTMakefile install SASLDB="LMDB" LMDB_INCLUDE="%(gtk_dir)s\include" LMDB_LIBPATH="%(gtk_dir)s\lib" ' +
                      r'OPENSSL_INCLUDE="%(gtk_dir)s\include" OPENSSL_LIBPATH="%(gtk_dir)s\lib" prefix="%(pkg_dir)s"')
 
 Project.add(Project_cyrus_sasl())
@@ -213,8 +214,8 @@ class Project_enchant(Tarball, Project):
 
         $originalEnvironment = Swap-Environment $vcvarsEnvironment
 
-        #Exec nmake -f makefile.mak clean
-        Exec nmake -f makefile.mak DLL=1 $(if ($filenameArch -eq 'x64') { 'X64=1' }) MFLAGS=-MD GLIBDIR=..\..\..\..\gtk\%(platform)s\include\glib-2.0
+        #Exec nmake /nologo -f makefile.mak clean
+        Exec nmake /nologo -f makefile.mak DLL=1 $(if ($filenameArch -eq 'x64') { 'X64=1' }) MFLAGS=-MD GLIBDIR=..\..\..\..\gtk\%(platform)s\include\glib-2.0
 
         [void] (Swap-Environment $originalEnvironment)
 
@@ -405,8 +406,8 @@ class Project_gettext(Tarball, Project):
         self.exec_vs(r'cmake -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(pkg_dir)s" -DCMAKE_BUILD_TYPE=%(configuration)s ' +
                         r'-DICONV_INCLUDE_DIR="%(gtk_dir)s\include" -DICONV_LIBRARIES="%(gtk_dir)s\lib\iconv.lib"', add_path=self.builder.opts.cmake_path)
         #Exec nmake clean
-        self.exec_vs(r'nmake', add_path=self.builder.opts.cmake_path)
-        self.exec_vs(r'nmake install', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo install', add_path=self.builder.opts.cmake_path)
         #Exec nmake clean
 
         self.install(r'.\COPYING share\doc\gettext')
@@ -455,8 +456,8 @@ class Project_gsettings_desktop_schemas(Tarball, Project):
     def build(self):
         self.push_location(r'.\build\win32')
         #Exec nmake /f gsettings-desktop-schemas-msvc.mak clean
-        self.exec_vs(r'nmake /f gsettings-desktop-schemas-msvc.mak PYTHON="%(python_dir)s\python.exe" PYTHON2="%(python_dir)s\python.exe" PERL="%(perl_dir)s\bin\perl.exe" PREFIX="%(gtk_dir)s"')
-        self.exec_vs(r'nmake /f gsettings-desktop-schemas-msvc.mak install PREFIX="%(gtk_dir)s"')
+        self.exec_vs(r'nmake /nologo /f gsettings-desktop-schemas-msvc.mak PYTHON="%(python_dir)s\python.exe" PYTHON2="%(python_dir)s\python.exe" PERL="%(perl_dir)s\bin\perl.exe" PREFIX="%(gtk_dir)s"')
+        self.exec_vs(r'nmake /nologo /f gsettings-desktop-schemas-msvc.mak install PREFIX="%(gtk_dir)s"')
         self.pop_location()
 
 Project.add(Project_gsettings_desktop_schemas())
@@ -512,8 +513,8 @@ class Project_harfbuzz(Tarball, Project):
     def build(self):
         self.push_location(r'.\build\win32')
         #Exec nmake /f Makefile.vc clean CFG=%(configuration)s
-        self.exec_vs(r'nmake /f Makefile.vc CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PERL="%(perl_dir)s\bin\perl.exe" PREFIX="%(gtk_dir)s" FREETYPE=1 GOBJECT=1')
-        self.exec_vs(r'nmake /f Makefile.vc install CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PERL="%(perl_dir)s\bin\perl.exe" PREFIX="%(gtk_dir)s" FREETYPE=1 GOBJECT=1')
+        self.exec_vs(r'nmake /nologo /f Makefile.vc CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PERL="%(perl_dir)s\bin\perl.exe" PREFIX="%(gtk_dir)s" FREETYPE=1 GOBJECT=1')
+        self.exec_vs(r'nmake /nologo /f Makefile.vc install CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PERL="%(perl_dir)s\bin\perl.exe" PREFIX="%(gtk_dir)s" FREETYPE=1 GOBJECT=1')
         self.pop_location()
 
 Project.add(Project_harfbuzz())
@@ -699,16 +700,16 @@ class Project_openssl(Tarball, Project):
         }
 
         # nmake returns error code 2 because it fails to find build outputs to delete
-        try { Exec nmake -f ms\ntdll.mak vclean } catch { }
+        try { Exec nmake /nologo -f ms\ntdll.mak vclean } catch { }
 
-        Exec nmake -f ms\ntdll.mak
+        Exec nmake /nologo -f ms\ntdll.mak
 
-        Exec nmake -f ms\ntdll.mak test
+        Exec nmake /nologo -f ms\ntdll.mak test
 
         Exec perl mk-ca-bundle.pl -n cert.pem
         Move-Item .\include .\include-orig
 
-        Exec nmake -f ms\ntdll.mak install
+        Exec nmake /nologo -f ms\ntdll.mak install
 
         [void] (Swap-Environment $originalEnvironment)
 
@@ -841,8 +842,8 @@ class Project_win_iconv(Tarball, Project):
 
         self.exec_vs('cmake -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(pkg_dir)s" -DCMAKE_BUILD_TYPE=%(configuration)s', add_path=self.builder.opts.cmake_path)
         #Exec nmake clean
-        self.exec_vs('nmake', add_path=self.builder.opts.cmake_path)
-        self.exec_vs('nmake install', add_path=self.builder.opts.cmake_path)
+        self.exec_vs('nmake /nologo', add_path=self.builder.opts.cmake_path)
+        self.exec_vs('nmake /nologo install', add_path=self.builder.opts.cmake_path)
         #Exec nmake clean
 
         self.install(r'.\COPYING share\doc\win-iconv')
@@ -879,8 +880,8 @@ class CmakeProject(Tarball, Project):
     def build(self):
         cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
         self.exec_vs('cmake -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(pkg_dir)s" -DGTK_DIR="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config, add_path=self.builder.opts.cmake_path)
-        self.exec_vs('nmake', add_path=self.builder.opts.cmake_path)
-        self.exec_vs('nmake install', add_path=self.builder.opts.cmake_path)
+        self.exec_vs('nmake /nologo', add_path=self.builder.opts.cmake_path)
+        self.exec_vs('nmake /nologo install', add_path=self.builder.opts.cmake_path)
 
 class MercurialCmakeProject(MercurialRepo, CmakeProject):
     def __init__(self, name, **kwargs):
@@ -1022,7 +1023,11 @@ class Builder(object):
     def build(self, projects):
         self.__prepare_build(projects)
         for p in projects:
-            self.__build_one(p)
+            try:
+                self.__build_one(p)
+            except:
+                traceback.print_exc()
+                error_exit("%s build failed" % (p.name))
 
     def __prepare_build(self, projects):
         if not os.path.exists(self.working_dir):
@@ -1176,7 +1181,7 @@ def get_options(args):
     opts = Options()
 
     opts.platform = args.platform
-    opts.configuration = args.configuration
+    opts.configuration = getattr(args, 'configuration', 'release')
     opts.build_dir = args.build_dir
     opts.archives_download_dir = args.archives_download_dir
     opts.patches_root_dir = args.patches_root_dir
@@ -1218,14 +1223,14 @@ def __get_projects_to_build(opts):
 
 def do_build(args):
     opts = get_options(args)
-    print_debug("Options are: %s" % (opts.__dict__,))
+    print_debug("options are: %s" % (opts.__dict__,))
     builder = Builder(opts)
     builder.preprocess()
 
     to_build = __get_projects_to_build(opts)
     if not to_build:
         error_exit("nothing to do")
-    print_log("Building %s" % ([p.name for p in to_build],))
+    print_debug("building %s" % ([p.name for p in to_build],))
 
     builder.build(to_build)
 
@@ -1280,8 +1285,8 @@ Examples:
 
     p_build.add_argument('-p', '--platform', default='x86', choices=['x86', 'x64'],
                          help='Platform to build for, x86 or x64. Default is x86.')
-    p_build.add_argument('-c', '--configuration', default='release', choices=['release', 'debug'],
-                         help='Configuration to build, release or debug. Default is release.')
+    #p_build.add_argument('-c', '--configuration', default='release', choices=['release', 'debug'],
+    #                     help='Configuration to build, release or debug. Default is release.')
     p_build.add_argument('--build-dir', default=r'C:\gtk-build',
                          help='The directory where the sources will be downloaded and built.')
     p_build.add_argument('--msys-dir', default=r'C:\Msys64',
