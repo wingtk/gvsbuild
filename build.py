@@ -1169,124 +1169,10 @@ class Builder(object):
                 break
         env[key] = folder + ';' + env[key]
 
-def __get_projects_to_build(opts):
-    to_build = ordered_set()
-    for p in opts.projects:
-        for dep in p.all_dependencies:
-            to_build.add(dep)
-        to_build.add(p)
-    for p in opts.projects_no_deps:
-        to_build.add(p)
-    return to_build
-
-def build_main():
-    opts = get_options()
-    print_debug("Options are: %s" % (get_options().__dict__,))
-    builder = Builder(opts)
-    builder.preprocess()
-
-    to_build = __get_projects_to_build(opts)
-    if not to_build:
-        error_exit("nothing to do. Use --build or --build-one to specify projects to build, use --list to list available projects")
-    print_log("Building %s" % ([p.name for p in to_build],))
-
-    builder.build(to_build)
-
-parser = argparse.ArgumentParser(
-    formatter_class=argparse.RawDescriptionHelpFormatter,
-    description='Build GTK and friends',
-    epilog=
-"""
-Examples:
-    build.py
-        Default paths. x86 build.
-
-    build.py -p x64
-        Default paths. x64 build.
-
-    build.py --msys-directory D:\msys64 --archives-download-directory C:\hexchat-deps
-        Custom paths. x86 build.
-
-    build.py --build libpng --build libffi
-        Only builds libpng, libffi, and their dependencies (zlib).
-
-    build.py --build-one glib
-        Only builds glib.
-
-    build.py --vs-ver 10 -vs-install-path "C:\Program Files (x86)\Microsoft Visual Studio 10.0" --build gtk3
-        Builds gtk3 and its dependencies using VS2010
-
-See also:
-    http://hexchat.github.io/gtk-win32/
-""")
-
-parser.add_argument('-l', '--list', default=False, action='store_true',
-                    help='List available projects and exit.')
-
-parser.add_argument('-p', '--platform', default='x86', choices=['x86', 'x64'],
-                    help='Platform to build for, x86 or x64. Default is x86.')
-parser.add_argument('-c', '--configuration', default='release', choices=['release', 'debug'],
-                    help='Configuration to build, release or debug. Default is release.')
-parser.add_argument('--build-dir', default=r'C:\gtk-build',
-                    help='The directory where the sources will be downloaded and built.')
-parser.add_argument('--msys-dir', default=r'C:\Msys64',
-                    help='The directory where you installed msys2.')
-parser.add_argument('--archives-download-dir',
-                    help="The directory to download the source archives to. It will be created. " +
-                         "If a source archive already exists here, it won't be downloaded again. " +
-                         "Default is $(build-dir)\\src.")
-parser.add_argument('--patches-root-dir',
-                    help="The directory where you checked out https://github.com/wingtk/gtk-win32.git. Default is $(build-dir)\\github\\gtk-win32.")
-parser.add_argument('--vs-ver', default='12',
-                    help="Visual Studio version 10,12, etc. Default is 12.")
-parser.add_argument('--vs-install-path',
-                    help=r"The directory where you installed Visual Studio. Default is 'C:\Program Files (x86)\Microsoft Visual Studio $(build-ver).0'")
-parser.add_argument('--cmake-path', default=r'C:\Program Files (x86)\CMake\bin',
-                    help="The directory where you installed cmake.")
-parser.add_argument('--perl-dir', default=r'C:\Perl',
-                    help="The directory where you installed perl.")
-parser.add_argument('--python-dir', default=r'c:\Python27',
-                    help="The directory where you installed perl.")
-
-def check_project(p):
-    if not p in Project.get_names():
-        raise argparse.ArgumentTypeError(
-            p + " is not a valid project name, available projects are:\n\t" + "\n\t".join(Project.get_names()))
-    return p
-
-parser.add_argument('--build', action='append', default=[], type=check_project, metavar='PROJECT',
-                    help="Project(s) you want to be built together with their dependencies")
-parser.add_argument('--build-one', action='append', default=[], type=check_project, metavar='PROJECT',
-                    help="Project(s) you want to be built without with their dependencies")
-
-parser.add_argument('--clean', default=False, action='store_true',
-                    help='Build the project(s) from scratch')
-
-parser.add_argument('-v', '--verbose', default=False, action='store_true',
-                    help='Print lots of stuff.')
-parser.add_argument('-d', '--debug', default=False, action='store_true',
-                    help='Print even more stuff.')
-parser.add_argument('--msbuild-opts', default='',
-                    help='Command line options to pass to msbuild.')
-
 class Options(object):
     pass
 
-def get_options():
-    args = parser.parse_args()
-
-    global global_verbose
-    global global_debug
-
-    if args.verbose:
-        global_verbose = True
-    if args.debug:
-        global_debug = True
-
-    if args.list:
-        print "Available projects:\n\t" + "\n\t".join(Project.get_names())
-        sys.exit(0)
-
+def get_options(args):
     opts = Options()
 
     opts.platform = args.platform
@@ -1302,6 +1188,7 @@ def get_options():
     opts.msys_dir = args.msys_dir
     opts.clean = args.clean
     opts.msbuild_opts = args.msbuild_opts
+    opts.no_deps = args.no_deps
 
     if not opts.archives_download_dir:
         opts.archives_download_dir = os.path.join(args.build_dir, 'src')
@@ -1310,9 +1197,134 @@ def get_options():
     if not opts.vs_install_path:
         opts.vs_install_path = r'C:\Program Files (x86)\Microsoft Visual Studio %s.0' % (opts.vs_ver,)
 
-    opts.projects = [Project.get_project(x) for x in args.build]
-    opts.projects_no_deps = [Project.get_project(x) for x in args.build_one]
+    opts.projects = args.projects
+
+    for p in opts.projects:
+        if not p in Project.get_names():
+            error_exit(
+                p + " is not a valid project name, available projects are:\n\t" + "\n\t".join(Project.get_names()))
 
     return opts
 
-build_main()
+def __get_projects_to_build(opts):
+    to_build = ordered_set()
+    for name in opts.projects:
+        p = Project.get_project(name)
+        if not opts.no_deps:
+            for dep in p.all_dependencies:
+                to_build.add(dep)
+        to_build.add(p)
+    return to_build
+
+def do_build(args):
+    opts = get_options(args)
+    print_debug("Options are: %s" % (opts.__dict__,))
+    builder = Builder(opts)
+    builder.preprocess()
+
+    to_build = __get_projects_to_build(opts)
+    if not to_build:
+        error_exit("nothing to do")
+    print_log("Building %s" % ([p.name for p in to_build],))
+
+    builder.build(to_build)
+
+def do_list(args):
+    print "Available projects:\n\t" + "\n\t".join(Project.get_names())
+    sys.exit(0)
+
+def handle_global_options(args):
+    global global_verbose
+    global global_debug
+    if args.verbose:
+        global_verbose = True
+    if args.debug:
+        global_verbose = True
+        global_debug = True
+
+#==============================================================================
+# Command line parser
+#==============================================================================
+
+def create_parser():
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description='Jhbuild for poor, build Gtk and friends',
+        epilog=
+    """
+Examples:
+    build.py build libpng libffi
+        Build libpng, libffi, and their dependencies (zlib).
+
+    build.py build --no-deps glib
+        Build glib only.
+    """)
+
+    #==============================================================================
+    # Global options
+    #==============================================================================
+
+    parser.add_argument('-v', '--verbose', default=False, action='store_true',
+                        help='Print lots of stuff.')
+    parser.add_argument('-d', '--debug', default=False, action='store_true',
+                        help='Print even more stuff.')
+
+    subparsers = parser.add_subparsers()
+
+    #==============================================================================
+    # build
+    #==============================================================================
+
+    p_build = subparsers.add_parser('build', help='build project(s)')
+    p_build.set_defaults(func=do_build)
+
+    p_build.add_argument('-p', '--platform', default='x86', choices=['x86', 'x64'],
+                         help='Platform to build for, x86 or x64. Default is x86.')
+    p_build.add_argument('-c', '--configuration', default='release', choices=['release', 'debug'],
+                         help='Configuration to build, release or debug. Default is release.')
+    p_build.add_argument('--build-dir', default=r'C:\gtk-build',
+                         help='The directory where the sources will be downloaded and built.')
+    p_build.add_argument('--msys-dir', default=r'C:\Msys64',
+                         help='The directory where you installed msys2.')
+    p_build.add_argument('--archives-download-dir',
+                         help="The directory to download the source archives to. It will be created. " +
+                              "If a source archive already exists here, it won't be downloaded again. " +
+                              "Default is $(build-dir)\\src.")
+    p_build.add_argument('--patches-root-dir',
+                         help="The directory where you checked out https://github.com/wingtk/gtk-win32.git. Default is $(build-dir)\\github\\gtk-win32.")
+    p_build.add_argument('--vs-ver', default='12',
+                         help="Visual Studio version 10,12, etc. Default is 12.")
+    p_build.add_argument('--vs-install-path',
+                         help=r"The directory where you installed Visual Studio. Default is 'C:\Program Files (x86)\Microsoft Visual Studio $(build-ver).0'")
+    p_build.add_argument('--cmake-path', default=r'C:\Program Files (x86)\CMake\bin',
+                         help="The directory where you installed cmake.")
+    p_build.add_argument('--perl-dir', default=r'C:\Perl',
+                         help="The directory where you installed perl.")
+    p_build.add_argument('--python-dir', default=r'c:\Python27',
+                         help="The directory where you installed perl.")
+
+    p_build.add_argument('--clean', default=False, action='store_true',
+                         help='Build the project(s) from scratch')
+    p_build.add_argument('--no-deps', default=False, action='store_true',
+                         help='Do not build dependencies of the selected project(s)')
+
+    p_build.add_argument('--msbuild-opts', default='',
+                         help='Command line options to pass to msbuild.')
+
+    p_build.add_argument('projects', nargs='+',
+                         help='Project(s) to build.')
+
+    #==============================================================================
+    # list
+    #==============================================================================
+
+    p_list = subparsers.add_parser('list', help='list available projects')
+    p_list.set_defaults(func=do_list)
+
+    return parser
+
+if __name__ == '__main__':
+    parser = create_parser()
+    args = parser.parse_args()
+    handle_global_options(args)
+    args.func(args)
