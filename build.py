@@ -679,76 +679,28 @@ class Project_openssl(Tarball, Project):
             )
 
     def build(self):
-        raise NotImplementedError()
-        comment = """
-        $packageDestination = "$PWD-$filenameArch"
-        Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+        common_options = r'no-ssl2 no-ssl3 no-comp --prefix="%(pkg_dir)s"'
 
-        $originalEnvironment = Swap-Environment $vcvarsEnvironment
+        if self.builder.x86:
+            self.exec_vs(r'%(perl_dir)s\bin\perl.exe Configure VC-WIN32 ' + common_options)
+            self.exec_vs(r'ms\do_nasm', add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
+        else:
+            self.exec_vs(r'%(perl_dir)s\bin\perl.exe Configure VC-WIN64A ' + common_options)
+            self.exec_vs(r'ms\do_win64a')
 
-        $env:PATH += ";$PerlDirectory\bin;$Msys2Directory\usr\bin"
+        try:
+            self.exec_vs(r'nmake /nologo -f ms\ntdll.mak vclean')
+        except:
+            pass
 
-        switch ($filenameArch) {
-                'x86' {
-                        Exec perl Configure VC-WIN32 no-ssl2 no-ssl3 no-comp --openssldir=./
-                        Exec ms\do_nasm
-                }
+        self.exec_vs(r'nmake /nologo -f ms\ntdll.mak')
+        self.exec_vs(r'nmake /nologo -f ms\ntdll.mak test')
+        self.exec_vs(r'%(perl_dir)s\bin\perl.exe mk-ca-bundle.pl -n cert.pem')
+        self.exec_vs(r'nmake /nologo -f ms\ntdll.mak install')
 
-                'x64' {
-                        Exec perl Configure VC-WIN64A no-ssl2 no-ssl3 no-comp --openssldir=./
-                        Exec ms\do_win64a
-                }
-        }
-
-        # nmake returns error code 2 because it fails to find build outputs to delete
-        try { Exec nmake /nologo -f ms\ntdll.mak vclean } catch { }
-
-        Exec nmake /nologo -f ms\ntdll.mak
-
-        Exec nmake /nologo -f ms\ntdll.mak test
-
-        Exec perl mk-ca-bundle.pl -n cert.pem
-        Move-Item .\include .\include-orig
-
-        Exec nmake /nologo -f ms\ntdll.mak install
-
-        [void] (Swap-Environment $originalEnvironment)
-
-        New-Item -Type Directory $packageDestination
-
-        Move-Item .\bin $packageDestination
-        Copy-Item `
-                .\out32dll\libeay32.pdb, `
-                .\out32dll\openssl.pdb, `
-                .\out32dll\ssleay32.pdb `
-                $packageDestination\bin
-        Move-Item .\cert.pem $packageDestination\bin
-
-        Move-Item .\include $packageDestination
-        Move-Item .\include-orig .\include
-
-        Move-Item .\lib $packageDestination
-        Copy-Item `
-                .\out32dll\4758cca.pdb, `
-                .\out32dll\aep.pdb, `
-                .\out32dll\atalla.pdb, `
-                .\out32dll\capi.pdb, `
-                .\out32dll\chil.pdb, `
-                .\out32dll\cswift.pdb, `
-                .\out32dll\gmp.pdb, `
-                .\out32dll\gost.pdb, `
-                .\out32dll\nuron.pdb, `
-                .\out32dll\padlock.pdb, `
-                .\out32dll\sureware.pdb, `
-                .\out32dll\ubsec.pdb `
-                $packageDestination\lib\engines
-
-        New-Item -Type Directory $packageDestination\share\doc\openssl
-        Move-Item .\openssl.cnf $packageDestination\share\openssl.cnf.example
-        Copy-Item .\LICENSE $packageDestination\share\doc\openssl\COPYING
-
-        Package $packageDestination
-        """
+        self.install(r'.\cert.pem bin')
+        self.install(r'.\openssl.cnf share')
+        self.install(r'.\LICENSE share\doc\openssl\COPYING')
 
 Project.add(Project_openssl())
 
