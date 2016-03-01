@@ -551,7 +551,7 @@ class Project_libepoxy(Tarball, Project):
         Project.__init__(self,
             'libepoxy',
             archive_url = 'https://github.com/anholt/libepoxy/releases/download/v1.3.1/libepoxy-1.3.1.tar.bz2',
-            patches = '0001-MSVC-Builds-Support-PACKED.patch',
+            patches = ['0001-MSVC-Builds-Support-PACKED.patch'],
             )
 
     def build(self):
