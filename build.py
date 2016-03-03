@@ -276,46 +276,11 @@ class Project_ffmpeg(Tarball, Project):
             )
 
     def build(self):
-        raise NotImplementedError()
-        comment = """
-        $packageDestination = "$PWD-$filenameArch"
-        Remove-Item -Recurse $packageDestination -ErrorAction Ignore
-        New-Item -Type Directory $packageDestination
+        self.exec_vs(r'bash build\build.sh %(pkg_dir)s', add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
 
-        Remove-Item -Recurse build\install -ErrorAction Ignore
-        New-Item -Type Directory build\install
-
-        $originalEnvironment = Swap-Environment $vcvarsEnvironment
-
-        $env:PATH += ";$Msys2Directory\usr\bin"
-
-        Exec $Msys2Directory\usr\bin\bash build\build.sh build\install
-
-        [void] (Swap-Environment $originalEnvironment)
-
-        Copy-Item `
-                build\install\include `
-                $packageDestination `
-                -Recurse
-
-        New-Item -Type Directory $packageDestination\bin
-        Copy-Item `
-                build\install\bin\*.dll `
-                $packageDestination\bin
-
-        New-Item -Type Directory $packageDestination\lib
-        Copy-Item `
-                build\install\bin\*.lib `
-                $packageDestination\lib
-
-        New-Item -Type Directory $packageDestination\share\doc\ffmpeg
-        Copy-Item `
-                COPYING.LGPLv2.1, `
-                COPYING.LGPLv3 `
-                $packageDestination\share\doc\ffmpeg
-
-        Package $packageDestination
-        """
+        self.install(r'.\COPYING.LGPLv2.1 ' \
+                     r'.\COPYING.LGPLv3 ' \
+                     r'share\doc\ffmpeg')
 
 Project.add(Project_ffmpeg())
 
