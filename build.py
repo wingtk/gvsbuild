@@ -626,23 +626,29 @@ class Project_openssl(Tarball, Project):
 
     def build(self):
         common_options = r'no-ssl2 no-ssl3 no-comp --prefix="%(pkg_dir)s"'
+        add_path = None
 
         if self.builder.x86:
             self.exec_vs(r'%(perl_dir)s\bin\perl.exe Configure VC-WIN32 ' + common_options)
-            self.exec_vs(r'ms\do_nasm', add_path=os.path.join(self.builder.opts.perl_dir, 'bin') + ';' + os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
+
+            # Note that we want to give priority to the system perl version.
+            # Using the msys2 one might endup giving us a broken build
+            add_path = ';'.join([os.path.join(self.builder.opts.perl_dir, 'bin'),
+                                 os.path.join(self.builder.opts.msys_dir, 'usr', 'bin')])
+            self.exec_vs(r'ms\do_nasm', add_path=add_path)
         else:
             self.exec_vs(r'%(perl_dir)s\bin\perl.exe Configure VC-WIN64A ' + common_options)
             self.exec_vs(r'ms\do_win64a')
 
         try:
-            self.exec_vs(r'nmake /nologo -f ms\ntdll.mak vclean')
+            self.exec_vs(r'nmake /nologo -f ms\ntdll.mak vclean', add_path=add_path)
         except:
             pass
 
-        self.exec_vs(r'nmake /nologo -f ms\ntdll.mak')
-        self.exec_vs(r'nmake /nologo -f ms\ntdll.mak test')
+        self.exec_vs(r'nmake /nologo -f ms\ntdll.mak', add_path=add_path)
+        self.exec_vs(r'nmake /nologo -f ms\ntdll.mak test', add_path=add_path)
         self.exec_vs(r'%(perl_dir)s\bin\perl.exe mk-ca-bundle.pl -n cert.pem')
-        self.exec_vs(r'nmake /nologo -f ms\ntdll.mak install')
+        self.exec_vs(r'nmake /nologo -f ms\ntdll.mak install', add_path=add_path)
 
         self.install(r'.\cert.pem bin')
         self.install(r'.\openssl.cnf share')
