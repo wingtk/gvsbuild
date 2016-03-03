@@ -629,7 +629,7 @@ class Project_openssl(Tarball, Project):
 
         if self.builder.x86:
             self.exec_vs(r'%(perl_dir)s\bin\perl.exe Configure VC-WIN32 ' + common_options)
-            self.exec_vs(r'ms\do_nasm', add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
+            self.exec_vs(r'ms\do_nasm', add_path=os.path.join(self.builder.opts.perl_dir, 'bin') + ';' + os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
         else:
             self.exec_vs(r'%(perl_dir)s\bin\perl.exe Configure VC-WIN64A ' + common_options)
             self.exec_vs(r'ms\do_win64a')
