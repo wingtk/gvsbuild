@@ -816,15 +816,15 @@ global_verbose = False
 global_debug = False
 
 def print_message(msg):
-    print msg
+    print(msg)
 
 def print_log(msg):
     if global_verbose:
-        print msg
+        print(msg)
 
 def print_debug(msg):
     if global_debug:
-        print "Debug:", msg
+        print("Debug:", msg)
 
 def error_exit(msg):
     print>>sys.stderr, "Error:", msg
@@ -1153,7 +1153,7 @@ def do_build(args):
     builder.build(to_build)
 
 def do_list(args):
-    print "Available projects:\n\t" + "\n\t".join(Project.get_names())
+    print("Available projects:\n\t" + "\n\t".join(Project.get_names()))
     sys.exit(0)
 
 def handle_global_options(args):
