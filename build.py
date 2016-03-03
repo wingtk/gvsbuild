@@ -18,7 +18,7 @@ class Tarball(object):
             if not os.path.exists(os.path.join(self.builder.working_dir, out_dir)):
                 out_dir = self.name + '-' + out_dir
             shutil.move(os.path.join(self.builder.working_dir, out_dir), self.build_dir)
-	else:
+        else:
             # gettext-runtime is a tarbomb
             os.makedirs(self.build_dir)
             self.builder.exec_msys([self.builder.tar, 'ixf', self.__convert_to_msys(self.archive_file), '-C', self.__convert_to_msys(self.build_dir)])
