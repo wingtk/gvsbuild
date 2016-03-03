@@ -1077,7 +1077,7 @@ class Builder(object):
             if k.lower() == 'path':
                 key = k
                 break
-        env[key] = folder + ';' + env[key]
+        env[key] = env[key] + ';' + folder
 
 class Options(object):
     pass
