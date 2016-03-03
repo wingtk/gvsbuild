@@ -205,66 +205,47 @@ class Project_enchant(Tarball, Project):
             )
 
     def build(self):
-        raise NotImplementedError()
-        comment = """
-        $packageDestination = "$PWD-$filenameArch"
-        Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+        x64_param = ''
+        if self.builder.x64:
+            x64_param = 'X64=1'
 
-        Push-Location .\src
-
-        $originalEnvironment = Swap-Environment $vcvarsEnvironment
+        self.push_location(r'.\src')
 
         #Exec nmake /nologo -f makefile.mak clean
-        Exec nmake /nologo -f makefile.mak DLL=1 $(if ($filenameArch -eq 'x64') { 'X64=1' }) MFLAGS=-MD GLIBDIR=..\..\..\..\gtk\%(platform)s\include\glib-2.0
+        self.exec_vs(r'nmake /nologo -f makefile.mak DLL=1 ' + x64_param + ' MFLAGS=-MD GLIBDIR=%(gtk_dir)s\include\glib-2.0')
 
-        [void] (Swap-Environment $originalEnvironment)
+        self.pop_location()
 
-        Pop-Location
+        self.install(r'.\bin\release\enchant.exe ' \
+                     r'.\bin\release\pdb\enchant.pdb ' \
+                     r'.\bin\release\enchant-lsmod.exe ' \
+                     r'.\bin\release\pdb\enchant-lsmod.pdb ' \
+                     r'.\bin\release\test-enchant.exe ' \
+                     r'.\bin\release\pdb\test-enchant.pdb ' \
+                     r'.\bin\release\libenchant.dll ' \
+                     r'.\bin\release\pdb\libenchant.pdb '\
+                     r'bin')
 
-        write-host $packageDestination\bin
-        New-Item -Type Directory $packageDestination\bin
-        Copy-Item `
-                .\bin\%(configuration)s\enchant.exe, `
-                .\bin\%(configuration)s\pdb\enchant.pdb, `
-                .\bin\%(configuration)s\enchant-lsmod.exe, `
-                .\bin\%(configuration)s\pdb\enchant-lsmod.pdb, `
-                .\bin\%(configuration)s\test-enchant.exe, `
-                .\bin\%(configuration)s\pdb\test-enchant.pdb, `
-                .\bin\%(configuration)s\libenchant.dll, `
-                .\bin\%(configuration)s\pdb\libenchant.pdb `
-                $packageDestination\bin
+        self.install(r'.\fonts.conf ' \
+                     r'.\fonts.dtd ' \
+                     r'etc\fonts')
 
-        New-Item -Type Directory $packageDestination\etc\fonts
-        Copy-Item `
-                .\fonts.conf, `
-                .\fonts.dtd `
-                $packageDestination\etc\fonts
+        self.install(r'.\src\enchant.h ' \
+                     r'.\src\enchant++.h ' \
+                     r'.\src\enchant-provider.h ' \
+                     r'include\enchant')
 
-        New-Item -Type Directory $packageDestination\include\enchant
-        Copy-Item `
-                .\src\enchant.h, `
-                .\src\enchant++.h, `
-                .\src\enchant-provider.h `
-                $packageDestination\include\enchant
+        self.install(r'.\bin\release\libenchant.lib lib')
 
-        New-Item -Type Directory $packageDestination\lib\enchant
-        Copy-Item `
-                .\bin\%(configuration)s\libenchant.lib `
-                $packageDestination\lib
-        Copy-Item `
-                .\bin\%(configuration)s\libenchant_ispell.dll, `
-                .\bin\%(configuration)s\libenchant_ispell.lib, `
-                .\bin\%(configuration)s\pdb\libenchant_ispell.pdb, `
-                .\bin\%(configuration)s\libenchant_myspell.dll, `
-                .\bin\%(configuration)s\libenchant_myspell.lib, `
-                .\bin\%(configuration)s\pdb\libenchant_myspell.pdb `
-                $packageDestination\lib\enchant
+        self.install(r'.\bin\release\libenchant_ispell.dll ' \
+                     r'.\bin\release\libenchant_ispell.lib ' \
+                     r'.\bin\release\pdb\libenchant_ispell.pdb ' \
+                     r'.\bin\release\libenchant_myspell.dll ' \
+                     r'.\bin\release\libenchant_myspell.lib ' \
+                     r'.\bin\release\pdb\libenchant_myspell.pdb ' \
+                     r'lib\enchant')
 
-        New-Item -Type Directory $packageDestination\share\doc\enchant
-        Copy-Item .\COPYING.LIB $packageDestination\share\doc\enchant\COPYING
-
-        Package $packageDestination
-        """
+        self.install(r'.\COPYING.LIB share\doc\enchant')
 
 Project.add(Project_enchant())
 
