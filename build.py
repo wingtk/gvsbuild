@@ -691,7 +691,7 @@ class Project_pixman(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'pixman',
-            archive_url = 'http://dl.hexchat.net/gtk-win32/src/pixman-0.32.6.tar.gz',
+            archive_url = 'http://cairographics.org/releases/pixman-0.34.0.tar.gz',
             dependencies = ['libpng'],
             )
 
