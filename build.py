@@ -329,7 +329,7 @@ class Project_freetype(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'freetype',
-            archive_url = 'http://dl.hexchat.net/gtk-win32/src/freetype-2.6.tar.bz2',
+            archive_url = 'http://download.savannah.gnu.org/releases/freetype/freetype-2.6.3.tar.bz2',
             )
 
     def build(self):
