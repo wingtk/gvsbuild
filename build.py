@@ -448,9 +448,9 @@ class Project_gtk(Project_gtk_base):
     def __init__(self):
         Project_gtk_base.__init__(self,
             'gtk', 
-            archive_url = 'http://dl.hexchat.net/gtk-win32/src/gtk+-2.24.29.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/2.24/gtk+-2.24.30.tar.xz',
             dependencies = ['atk', 'gdk-pixbuf', 'pango'],
-            patches = ['gtk-revert-scrolldc-commit.patch', 'gtk-bgimg.patch', 'gtk-accel.patch', 'gtk-multimonitor.patch', 'gdk-window.patch'],
+            patches = ['gtk-revert-scrolldc-commit.patch', 'gtk-bgimg.patch', 'gtk-accel.patch', 'gtk-multimonitor.patch'],
             )
 
 Project.add(Project_gtk())
