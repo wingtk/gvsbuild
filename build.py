@@ -755,8 +755,7 @@ class Project_win_iconv(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'win-iconv',
-            archive_url = 'http://dl.hexchat.net/gtk-win32/src/win-iconv-0.0.7.tar.gz',
-            patches = ['missing-endif.patch'],
+            archive_url = 'http://dl.hexchat.net/gtk-win32/src/win-iconv-0.0.8.tar.gz',
             )
 
     def build(self):
