@@ -7,7 +7,7 @@
     <GdkPixbufBinaryVersion>2.10.0</GdkPixbufBinaryVersion>
     <GDIP_MACROS>INCLUDE_gdiplus</GDIP_MACROS>
     <NOGDIP_MACROS>JAS_WIN_MSVC_BUILD;INCLUDE_bmp;INCLUDE_gif;INCLUDE_ico;INCLUDE_jasper;INCLUDE_jpeg;INCLUDE_tiff;</NOGDIP_MACROS>
-    <MODULAR_MACROS>INCLUDE_ani;INCLUDE_pcx;INCLUDE_tga;INCLUDE_xbm;INCLUDE_png;INCLUDE_qtif;INCLUDE_pnm;INCLUDE_icns;INCLUDE_ras;INCLUDE_wbmp;INCLUDE_xpm</MODULAR_MACROS>
+    <MODULAR_MACROS>INCLUDE_ani;INCLUDE_tga;INCLUDE_xbm;INCLUDE_png;INCLUDE_qtif;INCLUDE_pnm;INCLUDE_icns;INCLUDE_xpm</MODULAR_MACROS>
     <GdkPixbufDummyPrefix>/dummy</GdkPixbufDummyPrefix>
     <GdkPixbufPrefixDefine>GDK_PIXBUF_PREFIX="$(GdkPixbufDummyPrefix)"</GdkPixbufPrefixDefine>
     <GdkPixbufLibdirDefine>PIXBUF_LIBDIR="$(GdkPixbufDummyPrefix)/lib/gdk-pixbuf-$(ApiVersion)/$(GdkPixbufBinaryVersion)/loaders"</GdkPixbufLibdirDefine>
@@ -23,7 +23,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..;..\..\..\gdk-pixbuf;..\math-compat;$(GlibEtcInstallRoot)\include\glib-2.0;$(GlibEtcInstallRoot)\lib\glib-2.0\include;$(GlibEtcInstallRoot)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..;..\..\..\gdk-pixbuf;.;$(GlibEtcInstallRoot)\include\gio-win32-2.0;$(GlibEtcInstallRoot)\include\glib-2.0;$(GlibEtcInstallRoot)\lib\glib-2.0\include;$(GlibEtcInstallRoot)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>HAVE_CONFIG_H;G_DISABLE_SINGLE_INCLUDES;GDK_PIXBUF_DISABLE_SINGLE_INCLUDES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ForcedIncludeFiles>msvc_recommended_pragmas.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
