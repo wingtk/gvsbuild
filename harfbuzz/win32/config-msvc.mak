@@ -27,7 +27,7 @@ DIRECTWRITE_LIB = dwrite.lib
 # Bare minimum features and sources built into HarfBuzz on Windows
 HB_DEFINES =
 HB_CFLAGS = /DHAVE_CONFIG_H
-HB_UCDN_CFLAGS = /I..\..\src\hb-ucdn
+HB_UCDN_CFLAGS = /I..\src\hb-ucdn
 HB_SOURCES =	\
 	$(HB_BASE_sources)		\
 	$(HB_FALLBACK_sources)	\
