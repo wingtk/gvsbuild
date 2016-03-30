@@ -587,16 +587,12 @@ class Project_libsoup(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libsoup',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.52/libsoup-2.52.1.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.54/libsoup-2.54.0.1.tar.xz',
             dependencies = ['libxml2', 'glib-networking'],
-            patches = ['0001-Provide-a-_SOUP_EXTERN-so-we-ensure-the-methods-get-.patch',
-                       '0002-Mark-externalized-methods-with-SOUP_AVAILABLE_IN_2_4.patch',
-                       '0003-Properly-handle-the-visibility-of-the-methods.patch',
-                       '0001-Declare-a-SOUP_VAR-to-externalize-variables.patch'],
             )
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\soup.sln')
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\libsoup.sln')
 
 Project.add(Project_libsoup())
 
