@@ -172,7 +172,7 @@ class Project_atk(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'atk',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/atk/2.18/atk-2.18.0.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/atk/2.20/atk-2.20.0.tar.xz',
             dependencies = ['glib'],
             )
 

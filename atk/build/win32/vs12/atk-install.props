@@ -45,7 +45,7 @@ copy ..\..\..\atk\atkutil.h $(CopyDir)\include\atk-1.0\atk\atkutil.h
 copy ..\..\..\atk\atkmisc.h $(CopyDir)\include\atk-1.0\atk\atkmisc.h
 copy ..\..\..\atk\atkvalue.h $(CopyDir)\include\atk-1.0\atk\atkvalue.h
 copy ..\..\..\atk\atkwindow.h $(CopyDir)\include\atk-1.0\atk\atkwindow.h
-copy ..\..\..\atk\\atkversion.h $(CopyDir)\include\atk-1.0\atk\\atkversion.h
+copy ..\..\..\atk\.atk\atkversion.h $(CopyDir)\include\atk-1.0\atk\.atk\atkversion.h
 copy ..\..\..\atk\atk-enum-types.h $(CopyDir)\include\atk-1.0\atk\atk-enum-types.h
 copy ..\..\..\atk\atkversion.h $(CopyDir)\include\atk-1.0\atk\atkversion.h
     </AtkDoInstall>
