@@ -381,16 +381,19 @@ class Project_glib(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'glib',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.46/glib-2.46.2.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.48/glib-2.48.0.tar.xz',
             dependencies = ['gettext-runtime', 'libffi', 'zlib'],
             patches = ['glib-if_nametoindex.patch',
                        'glib-package-installation-directory.patch',
-                       '0001-Change-message-system-to-use-fputs-instead-of-write.patch',
                        'Add-gsystemthreadsetname-implementation-for-W32-th.patch'],
             )
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\glib.sln /p:PythonPath=%(python_dir)s')
+        configuration = 'Release_BundledPCRE'
+        if self.builder.opts.configuration == 'debug':
+            configuation = 'Debug_BundledPCRE'
+
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\glib.sln /p:PythonPath=%(python_dir)s', configuration=configuration)
         self.install(r'.\COPYING share\doc\glib')
 
 Project.add(Project_glib())

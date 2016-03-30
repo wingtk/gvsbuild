@@ -121,7 +121,6 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
-      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -175,7 +174,6 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
-      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -194,6 +192,7 @@
    <ClCompile Include="..\..\..\gio\gconverterinputstream.c" />
    <ClCompile Include="..\..\..\gio\gconverteroutputstream.c" />
    <ClCompile Include="..\..\..\gio\gcredentials.c" />
+   <ClCompile Include="..\..\..\gio\gdatagrambased.c" />
    <ClCompile Include="..\..\..\gio\gdatainputstream.c" />
    <ClCompile Include="..\..\..\gio\gdataoutputstream.c" />
    <ClCompile Include="..\..\..\gio\gdrive.c" />
@@ -283,6 +282,9 @@
    <ClCompile Include="..\..\..\gio\gtlsinteraction.c" />
    <ClCompile Include="..\..\..\gio\gtlspassword.c" />
    <ClCompile Include="..\..\..\gio\gtlsserverconnection.c" />
+   <ClCompile Include="..\..\..\gio\gdtlsconnection.c" />
+   <ClCompile Include="..\..\..\gio\gdtlsclientconnection.c" />
+   <ClCompile Include="..\..\..\gio\gdtlsserverconnection.c" />
    <ClCompile Include="..\..\..\gio\gunionvolumemonitor.c" />
    <ClCompile Include="..\..\..\gio\gvfs.c" />
    <ClCompile Include="..\..\..\gio\gvolume.c" />

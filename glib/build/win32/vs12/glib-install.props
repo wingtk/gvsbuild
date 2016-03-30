@@ -158,6 +158,7 @@ copy ..\..\..\gio\gcharsetconverter.h $(CopyDir)\include\glib-2.0\gio\gcharsetco
 copy ..\..\..\gio\gconverter.h $(CopyDir)\include\glib-2.0\gio\gconverter.h
 copy ..\..\..\gio\gconverterinputstream.h $(CopyDir)\include\glib-2.0\gio\gconverterinputstream.h
 copy ..\..\..\gio\gconverteroutputstream.h $(CopyDir)\include\glib-2.0\gio\gconverteroutputstream.h
+copy ..\..\..\gio\gdatagrambased.h $(CopyDir)\include\glib-2.0\gio\gdatagrambased.h
 copy ..\..\..\gio\gdatainputstream.h $(CopyDir)\include\glib-2.0\gio\gdatainputstream.h
 copy ..\..\..\gio\gdataoutputstream.h $(CopyDir)\include\glib-2.0\gio\gdataoutputstream.h
 copy ..\..\..\gio\gdrive.h $(CopyDir)\include\glib-2.0\gio\gdrive.h
@@ -240,6 +241,9 @@ copy ..\..\..\gio\gtlsfiledatabase.h $(CopyDir)\include\glib-2.0\gio\gtlsfiledat
 copy ..\..\..\gio\gtlsinteraction.h $(CopyDir)\include\glib-2.0\gio\gtlsinteraction.h
 copy ..\..\..\gio\gtlspassword.h $(CopyDir)\include\glib-2.0\gio\gtlspassword.h
 copy ..\..\..\gio\gtlsserverconnection.h $(CopyDir)\include\glib-2.0\gio\gtlsserverconnection.h
+copy ..\..\..\gio\gdtlsconnection.h $(CopyDir)\include\glib-2.0\gio\gdtlsconnection.h
+copy ..\..\..\gio\gdtlsclientconnection.h $(CopyDir)\include\glib-2.0\gio\gdtlsclientconnection.h
+copy ..\..\..\gio\gdtlsserverconnection.h $(CopyDir)\include\glib-2.0\gio\gdtlsserverconnection.h
 copy ..\..\..\gio\gvfs.h $(CopyDir)\include\glib-2.0\gio\gvfs.h
 copy ..\..\..\gio\gvolume.h $(CopyDir)\include\glib-2.0\gio\gvolume.h
 copy ..\..\..\gio\gvolumemonitor.h $(CopyDir)\include\glib-2.0\gio\gvolumemonitor.h
@@ -300,11 +304,22 @@ copy $(BinDir)\gthread-$(ApiVersion).lib $(CopyDir)\lib
 copy $(BinDir)\gmodule-$(ApiVersion).lib $(CopyDir)\lib
 copy $(BinDir)\gobject-$(ApiVersion).lib $(CopyDir)\lib
 copy $(BinDir)\gio-$(ApiVersion).lib $(CopyDir)\lib
+mkdir $(CopyDir)\lib\pkgconfig
+copy ..\gio-windows-2.0.pc $(CopyDir)\lib\pkgconfig
+copy ..\gio-2.0.pc $(CopyDir)\lib\pkgconfig
+copy ..\gobject-2.0.pc $(CopyDir)\lib\pkgconfig
+copy ..\gmodule-no-export-2.0.pc $(CopyDir)\lib\pkgconfig
+copy ..\gmodule-export-2.0.pc $(CopyDir)\lib\pkgconfig
+copy ..\gmodule-2.0.pc $(CopyDir)\lib\pkgconfig
+copy ..\gthread-2.0.pc $(CopyDir)\lib\pkgconfig
+copy ..\glib-2.0.pc $(CopyDir)\lib\pkgconfig
 mkdir $(CopyDir)\share\glib-$(ApiVersion)\schemas
 copy ..\..\..\gio\gschema.dtd $(CopyDir)\share\glib-$(ApiVersion)\schemas
 mkdir $(CopyDir)\share\glib-$(ApiVersion)\codegen
 copy ..\..\..\gio\gdbus-2.0\codegen\*.py $(CopyDir)\share\glib-$(ApiVersion)\codegen
 </GlibDoInstall>
+    <GlibPCFiles>..\gio-windows-2.0.pc;..\gio-2.0.pc;..\gobject-2.0.pc;..\gmodule-no-export-2.0.pc;..\gmodule-export-2.0.pc;..\gmodule-2.0.pc;..\gthread-2.0.pc;..\glib-2.0.pc</GlibPCFiles>
+    <GlibGenPC>if exist $(PythonPath)\python.exe $(PythonPath)\python.exe ..\glibpc.py --prefix=$(CopyDir) --version=$(GlibVersion)</GlibGenPC>
   </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>glibinstallprops</_PropertySheetDisplayName>
@@ -327,6 +342,12 @@ copy ..\..\..\gio\gdbus-2.0\codegen\*.py $(CopyDir)\share\glib-$(ApiVersion)\cod
     </BuildMacro>
     <BuildMacro Include="GlibDoInstall">
       <Value>$(GlibDoInstall)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GlibPCFiles">
+      <Value>$(GlibPCFiles)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GlibGenPC">
+      <Value>$(GlibGenPC)</Value>
     </BuildMacro>
   </ItemGroup>
 </Project>
