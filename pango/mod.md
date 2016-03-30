@@ -1,4 +1,4 @@
- * Download [Pango 1.38.1](http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.38/pango-1.38.1.tar.xz)
+ * Download [Pango 1.40.0](http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.40/pango-1.40.0.tar.xz)
  * In all vcxproj files,
 	* add `<Import Project="..\..\..\..\stack.props" />`
 	* remove all `<Optimization>` lines
@@ -9,6 +9,3 @@
 `<CopyDir>..\..\..\..\pango-rel</CopyDir>`
 	* `<PangoSeparateVSDllSuffix>-1-vs$(VSVer)</PangoSeparateVSDllSuffix>` with
 `<PangoSeparateVSDllSuffix>-1.0</PangoSeparateVSDllSuffix>`
- * In `build\win32\vs12\pangoft2.vcxproj`, replace:
-	* `<AdditionalDependencies>fontconfig.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>` with
-`<AdditionalDependencies>fontconfig.lib;freetype.lib;harfbuzz.lib;%(AdditionalDependencies)</AdditionalDependencies>`
