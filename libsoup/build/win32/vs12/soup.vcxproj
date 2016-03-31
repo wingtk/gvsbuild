@@ -170,6 +170,7 @@
    <ClCompile Include="..\..\..\libsoup\soup-auth-domain-basic.c" />
    <ClCompile Include="..\..\..\libsoup\soup-auth-domain-digest.c" />
    <ClCompile Include="..\..\..\libsoup\soup-auth-manager.c" />
+   <ClCompile Include="..\..\..\libsoup\soup-auth-negotiate.c" />
    <ClCompile Include="..\..\..\libsoup\soup-body-input-stream.c" />
    <ClCompile Include="..\..\..\libsoup\soup-body-output-stream.c" />
    <ClCompile Include="..\..\..\libsoup\soup-cache.c" />
