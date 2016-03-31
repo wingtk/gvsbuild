@@ -586,12 +586,28 @@ class Project_librsvg(Tarball, Project):
 
 Project.add(Project_librsvg())
 
+class Project_sqlite(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'sqlite',
+            archive_url = 'https://www.sqlite.org/2016/sqlite-autoconf-3120000.tar.gz',
+            )
+
+    def build(self):
+        self.exec_vs(r'nmake /f Makefile.msc DYNAMIC_SHELL=1 sqlite3.dll')
+
+        self.install('sqlite3.h include')
+        self.install('sqlite3.dll sqlite3.pdb bin')
+        self.install('sqlite3.lib lib')
+
+Project.add(Project_sqlite())
+
 class Project_libsoup(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libsoup',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.54/libsoup-2.54.0.1.tar.xz',
-            dependencies = ['libxml2', 'glib-networking'],
+            dependencies = ['libxml2', 'glib-networking', 'sqlite'],
             )
 
     def build(self):
