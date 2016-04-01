@@ -29,6 +29,7 @@
    <ClCompile Include="..\..\..\gio\gconverterinputstream.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\gio\gconverteroutputstream.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\gio\gcredentials.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gio\gdatagrambased.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\gio\gdatainputstream.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\gio\gdataoutputstream.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\gio\gdrive.c"><Filter>Source Files</Filter></ClCompile>
@@ -118,6 +119,9 @@
    <ClCompile Include="..\..\..\gio\gtlsinteraction.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\gio\gtlspassword.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\gio\gtlsserverconnection.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gio\gdtlsconnection.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gio\gdtlsclientconnection.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gio\gdtlsserverconnection.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\gio\gunionvolumemonitor.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\gio\gvfs.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\gio\gvolume.c"><Filter>Source Files</Filter></ClCompile>

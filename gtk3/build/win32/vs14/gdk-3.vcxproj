@@ -169,10 +169,10 @@
     <Link>
       <AdditionalDependencies>imm32.lib;winmm.lib;ws2_32.lib;dwmapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(GtkDllPrefix)$(ProjectName)$(GtkDllSuffix).dll</OutputFile>
+      <ImportLibrary>$(TargetDir)$(ProjectName).0.lib</ImportLibrary>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(GtkDllPrefix)$(ProjectName)$(GtkDllSuffix).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
-      <ImportLibrary>$(TargetDir)$(ProjectName).0.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -189,12 +189,12 @@
     <Link>
       <AdditionalDependencies>imm32.lib;winmm.lib;dwmapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(GtkDllPrefix)$(ProjectName)$(GtkDllSuffix).dll</OutputFile>
+      <ImportLibrary>$(TargetDir)$(ProjectName).0.lib</ImportLibrary>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(GtkDllPrefix)$(ProjectName)$(GtkDllSuffix).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <ImportLibrary>$(TargetDir)$(ProjectName).0.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -211,12 +211,12 @@
     <Link>
       <AdditionalDependencies>imm32.lib;winmm.lib;ws2_32.lib;dwmapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(GtkDllPrefix)$(ProjectName)$(GtkDllSuffix).dll</OutputFile>
+      <ImportLibrary>$(TargetDir)$(ProjectName).0.lib</ImportLibrary>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(GtkDllPrefix)$(ProjectName)$(GtkDllSuffix).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <ImportLibrary>$(TargetDir)$(ProjectName).0.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -236,10 +236,10 @@
     <Link>
       <AdditionalDependencies>imm32.lib;winmm.lib;dwmapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(GtkDllPrefix)$(ProjectName)$(GtkDllSuffix).dll</OutputFile>
+      <ImportLibrary>$(TargetDir)$(ProjectName).0.lib</ImportLibrary>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(GtkDllPrefix)$(ProjectName)$(GtkDllSuffix).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
-      <ImportLibrary>$(TargetDir)$(ProjectName).0.lib</ImportLibrary>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -259,10 +259,10 @@
     <Link>
       <AdditionalDependencies>imm32.lib;winmm.lib;ws2_32.lib;dwmapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(GtkDllPrefix)$(ProjectName)$(GtkDllSuffix).dll</OutputFile>
+      <ImportLibrary>$(TargetDir)$(ProjectName).0.lib</ImportLibrary>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(GtkDllPrefix)$(ProjectName)$(GtkDllSuffix).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
-      <ImportLibrary>$(TargetDir)$(ProjectName).0.lib</ImportLibrary>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -279,12 +279,12 @@
     <Link>
       <AdditionalDependencies>imm32.lib;winmm.lib;dwmapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(GtkDllPrefix)$(ProjectName)$(GtkDllSuffix).dll</OutputFile>
+      <ImportLibrary>$(TargetDir)$(ProjectName).0.lib</ImportLibrary>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(GtkDllPrefix)$(ProjectName)$(GtkDllSuffix).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <ImportLibrary>$(TargetDir)$(ProjectName).0.lib</ImportLibrary>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -301,12 +301,12 @@
     <Link>
       <AdditionalDependencies>imm32.lib;winmm.lib;ws2_32.lib;dwmapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(GtkDllPrefix)$(ProjectName)$(GtkDllSuffix).dll</OutputFile>
+      <ImportLibrary>$(TargetDir)$(ProjectName).0.lib</ImportLibrary>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(GtkDllPrefix)$(ProjectName)$(GtkDllSuffix).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <ImportLibrary>$(TargetDir)$(ProjectName).0.lib</ImportLibrary>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -342,6 +342,8 @@
     <ClCompile Include="..\..\..\gdk\gdkrectangle.c" />
     <ClCompile Include="..\..\..\gdk\gdkrgba.c" />
     <ClCompile Include="..\..\..\gdk\gdkscreen.c" />
+    <ClCompile Include="..\..\..\gdk\gdkseat.c" />
+    <ClCompile Include="..\..\..\gdk\gdkseatdefault.c" />
     <ClCompile Include="..\..\..\gdk\gdkselection.c" />
     <ClCompile Include="..\..\..\gdk\gdkvisual.c" />
     <ClCompile Include="..\..\..\gdk\gdkwindow.c" />

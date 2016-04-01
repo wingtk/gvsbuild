@@ -11,7 +11,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-   <ClCompile Include="..\..\..\demos\gtk-demo\application.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\demos\gtk-demo\application_demo.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\demos\gtk-demo\assistant.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\demos\gtk-demo\builder.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\demos\gtk-demo\button_box.c"><Filter>Source Files</Filter></ClCompile>
@@ -33,7 +33,7 @@
    <ClCompile Include="..\..\..\demos\gtk-demo\event_axes.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\demos\gtk-demo\expander.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\demos\gtk-demo\filtermodel.c"><Filter>Source Files</Filter></ClCompile>
-   <ClCompile Include="..\..\..\demos\gtk-demo\font_features.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\demos\gtk-demo\foreigndrawing.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\demos\gtk-demo\gestures.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\demos\gtk-demo\glarea.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\demos\gtk-demo\headerbar.c"><Filter>Source Files</Filter></ClCompile>
@@ -63,6 +63,7 @@
    <ClCompile Include="..\..\..\demos\gtk-demo\scale.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\demos\gtk-demo\search_entry.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\demos\gtk-demo\search_entry2.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\demos\gtk-demo\shortcuts.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\demos\gtk-demo\sidebar.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\demos\gtk-demo\sizegroup.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\demos\gtk-demo\spinbutton.c"><Filter>Source Files</Filter></ClCompile>
