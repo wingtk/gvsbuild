@@ -1,21 +1,24 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets">
+  </ImportGroup>
   <PropertyGroup Label="UserMacros">
     <VSVer>12</VSVer>
-    <GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
+    <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
     <CopyDir>..\..\..\..\libsoup-rel</CopyDir>
     <ApiVersion>2.4</ApiVersion>
     <SoupLibtoolCompatibleDllPrefix>lib</SoupLibtoolCompatibleDllPrefix>
     <SoupLibtoolCompatibleDllSuffix>-$(ApiVersion)-0</SoupLibtoolCompatibleDllSuffix>
     <SoupSeparateVSDllPrefix />
-    <SoupSeparateVSDllSuffix>-2.4</SoupSeparateVSDllSuffix>
+    <SoupSeparateVSDllSuffix>-$(ApiVersion)</SoupSeparateVSDllSuffix>
     <SoupDllPrefix>$(SoupSeparateVSDllPrefix)</SoupDllPrefix>
     <SoupDllSuffix>$(SoupSeparateVSDllSuffix)</SoupDllSuffix>
     <PythonPath>c:\python27</PythonPath>
   </PropertyGroup>
   <PropertyGroup>
-    <_PropertySheetDisplayName>libsoupversionpathsprops</_PropertySheetDisplayName>
+    <_PropertySheetDisplayName>soupversionpathsprops</_PropertySheetDisplayName>
   </PropertyGroup>
+  <ItemDefinitionGroup />
   <ItemGroup>
     <BuildMacro Include="VSVer">
       <Value>$(VSVer)</Value>

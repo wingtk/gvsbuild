@@ -1,4 +1,4 @@
- * Download [Pixman 0.32.6](http://cairographics.org/releases/pixman-0.32.6.tar.gz)
+ * Download [Pixman 0.34.0](http://cairographics.org/releases/pixman-0.34.0.tar.gz)
  * Get project files from [Chun-Wei's bug](https://bugs.freedesktop.org/attachment.cgi?id=58220)
  * In `build\win32\vc12\pixman.props`, replace:
 	* `<PixmanEtcInstallRoot>..\..\..\..\vs10\$(PlatformName)</PixmanEtcInstallRoot>` with `<PixmanEtcInstallRoot>..\..\..\..\..\..\gtk\$(PlatformName)</PixmanEtcInstallRoot>`

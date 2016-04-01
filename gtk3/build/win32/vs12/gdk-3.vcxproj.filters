@@ -46,6 +46,8 @@
    <ClCompile Include="..\..\..\gdk\gdkrectangle.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\gdk\gdkrgba.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\gdk\gdkscreen.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gdk\gdkseat.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gdk\gdkseatdefault.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\gdk\gdkselection.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\gdk\gdkvisual.c"><Filter>Source Files</Filter></ClCompile>
    <ClCompile Include="..\..\..\gdk\gdkwindow.c"><Filter>Source Files</Filter></ClCompile>

@@ -172,7 +172,7 @@ class Project_atk(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'atk',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/atk/2.18/atk-2.18.0.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/atk/2.20/atk-2.20.0.tar.xz',
             dependencies = ['glib'],
             )
 
@@ -329,7 +329,7 @@ class Project_freetype(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'freetype',
-            archive_url = 'http://dl.hexchat.net/gtk-win32/src/freetype-2.6.tar.bz2',
+            archive_url = 'http://download.savannah.gnu.org/releases/freetype/freetype-2.6.3.tar.bz2',
             )
 
     def build(self):
@@ -344,7 +344,7 @@ class Project_gdk_pixbuf(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'gdk-pixbuf',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.32/gdk-pixbuf-2.32.3.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.34/gdk-pixbuf-2.34.0.tar.xz',
             dependencies = ['glib', 'libpng'],
             )
 
@@ -381,16 +381,19 @@ class Project_glib(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'glib',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.46/glib-2.46.2.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.48/glib-2.48.0.tar.xz',
             dependencies = ['gettext-runtime', 'libffi', 'zlib'],
             patches = ['glib-if_nametoindex.patch',
                        'glib-package-installation-directory.patch',
-                       '0001-Change-message-system-to-use-fputs-instead-of-write.patch',
                        'Add-gsystemthreadsetname-implementation-for-W32-th.patch'],
             )
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\glib.sln /p:PythonPath=%(python_dir)s')
+        configuration = 'Release_BundledPCRE'
+        if self.builder.opts.configuration == 'debug':
+            configuation = 'Debug_BundledPCRE'
+
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\glib.sln /p:PythonPath=%(python_dir)s', configuration=configuration)
         self.install(r'.\COPYING share\doc\glib')
 
 Project.add(Project_glib())
@@ -399,7 +402,7 @@ class Project_glib_networking(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'glib-networking',
-            archive_url = 'https://github.com/wingtk/glib-networking/releases/download/2.46.3-openssl/glib-networking-2.46.3.tar.xz',
+            archive_url = 'https://github.com/wingtk/glib-networking/releases/download/2.48.0-openssl/glib-networking-2.48.0.tar.xz',
             dependencies = ['gsettings-desktop-schemas', 'openssl'],
             )
 
@@ -412,7 +415,7 @@ class Project_gsettings_desktop_schemas(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'gsettings-desktop-schemas',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.18/gsettings-desktop-schemas-3.18.1.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.20/gsettings-desktop-schemas-3.20.0.tar.xz',
             dependencies = ['glib'],
             )
 
@@ -448,9 +451,9 @@ class Project_gtk(Project_gtk_base):
     def __init__(self):
         Project_gtk_base.__init__(self,
             'gtk', 
-            archive_url = 'http://dl.hexchat.net/gtk-win32/src/gtk+-2.24.29.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/2.24/gtk+-2.24.30.tar.xz',
             dependencies = ['atk', 'gdk-pixbuf', 'pango'],
-            patches = ['gtk-revert-scrolldc-commit.patch', 'gtk-bgimg.patch', 'gtk-accel.patch', 'gtk-multimonitor.patch', 'gdk-window.patch'],
+            patches = ['gtk-revert-scrolldc-commit.patch', 'gtk-bgimg.patch', 'gtk-accel.patch', 'gtk-multimonitor.patch'],
             )
 
 Project.add(Project_gtk())
@@ -459,7 +462,7 @@ class Project_gtk3(Project_gtk_base):
     def __init__(self):
         Project_gtk_base.__init__(self,
             'gtk3',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.18/gtk+-3.18.6.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.20/gtk+-3.20.2.tar.xz',
             dependencies = ['atk', 'gdk-pixbuf', 'pango', 'libepoxy'],
             )
 
@@ -469,12 +472,12 @@ class Project_harfbuzz(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'harfbuzz',
-            archive_url = 'https://github.com/wingtk/harfbuzz/releases/download/1.1.2.msvc/harfbuzz-1.1.2.tar.bz2',
+            archive_url = 'https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.2.4.tar.bz2',
             dependencies = ['freetype', 'glib'],
             )
 
     def build(self):
-        self.push_location(r'.\build\win32')
+        self.push_location(r'.\win32')
         self.builder.make_dir(os.path.join(self.build_dir, 'build', 'win32', self.builder.opts.configuration, 'win32'))
         #Exec nmake /f Makefile.vc clean CFG=%(configuration)s
         self.exec_vs(r'nmake /nologo /f Makefile.vc CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PERL="%(perl_dir)s\bin\perl.exe" PREFIX="%(gtk_dir)s" FREETYPE=1 GOBJECT=1')
@@ -583,20 +586,32 @@ class Project_librsvg(Tarball, Project):
 
 Project.add(Project_librsvg())
 
+class Project_sqlite(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'sqlite',
+            archive_url = 'https://www.sqlite.org/2016/sqlite-autoconf-3120000.tar.gz',
+            )
+
+    def build(self):
+        self.exec_vs(r'nmake /f Makefile.msc DYNAMIC_SHELL=1 sqlite3.dll')
+
+        self.install('sqlite3.h include')
+        self.install('sqlite3.dll sqlite3.pdb bin')
+        self.install('sqlite3.lib lib')
+
+Project.add(Project_sqlite())
+
 class Project_libsoup(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libsoup',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.52/libsoup-2.52.1.tar.xz',
-            dependencies = ['libxml2', 'glib-networking'],
-            patches = ['0001-Provide-a-_SOUP_EXTERN-so-we-ensure-the-methods-get-.patch',
-                       '0002-Mark-externalized-methods-with-SOUP_AVAILABLE_IN_2_4.patch',
-                       '0003-Properly-handle-the-visibility-of-the-methods.patch',
-                       '0001-Declare-a-SOUP_VAR-to-externalize-variables.patch'],
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.54/libsoup-2.54.0.1.tar.xz',
+            dependencies = ['libxml2', 'glib-networking', 'sqlite'],
             )
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\soup.sln')
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\libsoup.sln')
 
 Project.add(Project_libsoup())
 
@@ -638,7 +653,7 @@ class Project_openssl(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'openssl',
-            archive_url = 'ftp://ftp.openssl.org/source/openssl-1.0.2f.tar.gz',
+            archive_url = 'ftp://ftp.openssl.org/source/openssl-1.0.2g.tar.gz',
             )
 
     def build(self):
@@ -677,7 +692,7 @@ class Project_pango(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'pango',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.38/pango-1.38.1.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.40/pango-1.40.0.tar.xz',
             dependencies = ['cairo', 'harfbuzz'],
             )
 
@@ -691,7 +706,7 @@ class Project_pixman(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'pixman',
-            archive_url = 'http://dl.hexchat.net/gtk-win32/src/pixman-0.32.6.tar.gz',
+            archive_url = 'http://cairographics.org/releases/pixman-0.34.0.tar.gz',
             dependencies = ['libpng'],
             )
 
@@ -755,8 +770,7 @@ class Project_win_iconv(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'win-iconv',
-            archive_url = 'http://dl.hexchat.net/gtk-win32/src/win-iconv-0.0.7.tar.gz',
-            patches = ['missing-endif.patch'],
+            archive_url = 'http://dl.hexchat.net/gtk-win32/src/win-iconv-0.0.8.tar.gz',
             )
 
     def build(self):

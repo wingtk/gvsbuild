@@ -1,4 +1,4 @@
- * Download [GTK+ 2.24.29](http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-2.24.29.tar.xz)
+ * Download [GTK+ 2.24.30](http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-2.24.30.tar.xz)
  * In `build\win32\vs12\gtk-install.props`:
 	* Add `;$(BinDir)\libpixmap.dll` to `<InstalledDlls>`
 	* Add to `<GtkDoInstall`:

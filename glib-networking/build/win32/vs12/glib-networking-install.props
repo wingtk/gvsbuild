@@ -7,13 +7,13 @@
     <GlibNetworkingDoInstall>
 mkdir $(CopyDir)
 
-mkdir $(CopyDir)\lib\gio\modules
-copy $(SolutionDir)$(Configuration)\$(Platform)\bin\libgiognomeproxy.dll $(CopyDir)\lib\gio\modules
-copy $(SolutionDir)$(Configuration)\$(Platform)\bin\libgiognomeproxy.pdb $(CopyDir)\lib\gio\modules
-copy $(SolutionDir)$(Configuration)\$(Platform)\bin\libgioopenssl.dll $(CopyDir)\lib\gio\modules
-copy $(SolutionDir)$(Configuration)\$(Platform)\bin\libgioopenssl.pdb $(CopyDir)\lib\gio\modules
+mkdir $(CopyDir)\bin\gio\modules
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\libgiognomeproxy.dll $(CopyDir)\bin\gio\modules
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\libgiognomeproxy.pdb $(CopyDir)\bin\gio\modules
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\libgioopenssl.dll $(CopyDir)\bin\gio\modules
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\libgioopenssl.pdb $(CopyDir)\bin\gio\modules
 
-$(GlibEtcInstallRoot)\bin\gio-querymodules $(CopyDir)\lib\gio\modules
+$(GlibEtcInstallRoot)\bin\gio-querymodules $(CopyDir)\bin\gio\modules
 </GlibNetworkingDoInstall>
   </PropertyGroup>
   <PropertyGroup>
