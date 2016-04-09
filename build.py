@@ -920,7 +920,7 @@ class Builder(object):
             raise Exception("Invalid target platform '%s'" % (opts.platform,))
 
         if not os.path.exists(vcvars_bat):
-            raise Exception("'%s' could not be found. Please check you have Visual Studio installed at '%s' and that it supports the target platform '%s'." % (vsvars_bat, opts.vs_install_path, opts.platform))
+            raise Exception("'%s' could not be found. Please check you have Visual Studio installed at '%s' and that it supports the target platform '%s'." % (vcvars_bat, opts.vs_install_path, opts.platform))
 
         output = subprocess.check_output('cmd.exe /c ""%s" && set"' % (vcvars_bat,), shell=True)
         self.vs_env = {}
