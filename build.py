@@ -1190,7 +1190,7 @@ def handle_global_options(args):
 def create_parser():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        description='Jhbuild for poor, build Gtk and friends',
+        description='Jhbuild-like system for Windows to build Gtk and friends',
         epilog=
     """
 Examples:
