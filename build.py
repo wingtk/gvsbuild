@@ -450,7 +450,7 @@ class Project_gtk_base(Tarball, Project):
             self.builder.exec_msys(['msgfmt', '-co', os.path.join(lcmsgdir, mo), f], working_dir=self._get_working_dir())
         self.pop_location()
 
-        self.install(r'.\COPYING share\doc\gtk')
+        self.install(r'.\COPYING share\doc\%s' % self.name)
 
 class Project_gtk(Project_gtk_base):
     def __init__(self):
