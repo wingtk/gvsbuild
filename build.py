@@ -211,6 +211,8 @@ class Project_cyrus_sasl(Tarball, Project):
         self.exec_vs(r'nmake /nologo /f NTMakefile install SASLDB="LMDB" LMDB_INCLUDE="%(gtk_dir)s\include" LMDB_LIBPATH="%(gtk_dir)s\lib" ' +
                      r'OPENSSL_INCLUDE="%(gtk_dir)s\include" OPENSSL_LIBPATH="%(gtk_dir)s\lib" prefix="%(pkg_dir)s"')
 
+        self.install(r'.\COPYING share\doc\cyrus-sasl')
+
 Project.add(Project_cyrus_sasl())
 
 class Project_enchant(Tarball, Project):
@@ -408,6 +410,7 @@ class Project_glib_networking(Tarball, Project):
 
     def build(self):
         self.exec_msbuild(r'build\win32\vs%(vs_ver)s\glib-networking.sln')
+        self.install(r'.\COPYING share\doc\glib-networking')
 
 Project.add(Project_glib_networking())
 
@@ -425,6 +428,8 @@ class Project_gsettings_desktop_schemas(Tarball, Project):
         self.exec_vs(r'nmake /nologo /f gsettings-desktop-schemas-msvc.mak PYTHON="%(python_dir)s\python.exe" PYTHON2="%(python_dir)s\python.exe" PERL="%(perl_dir)s\bin\perl.exe" PREFIX="%(gtk_dir)s"')
         self.exec_vs(r'nmake /nologo /f gsettings-desktop-schemas-msvc.mak install PREFIX="%(gtk_dir)s"')
         self.pop_location()
+
+        self.install(r'.\COPYING share\doc\gsettings-desktop-schemas')
 
 Project.add(Project_gsettings_desktop_schemas())
 
@@ -483,6 +488,8 @@ class Project_harfbuzz(Tarball, Project):
         self.exec_vs(r'nmake /nologo /f Makefile.vc CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PERL="%(perl_dir)s\bin\perl.exe" PREFIX="%(gtk_dir)s" FREETYPE=1 GOBJECT=1')
         self.exec_vs(r'nmake /nologo /f Makefile.vc install CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PERL="%(perl_dir)s\bin\perl.exe" PREFIX="%(gtk_dir)s" FREETYPE=1 GOBJECT=1')
         self.pop_location()
+
+        self.install(r'.\COPYING share\doc\harfbuzz')
 
 Project.add(Project_harfbuzz())
 
