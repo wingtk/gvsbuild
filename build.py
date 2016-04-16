@@ -211,6 +211,8 @@ class Project_cyrus_sasl(Tarball, Project):
         self.exec_vs(r'nmake /nologo /f NTMakefile install SASLDB="LMDB" LMDB_INCLUDE="%(gtk_dir)s\include" LMDB_LIBPATH="%(gtk_dir)s\lib" ' +
                      r'OPENSSL_INCLUDE="%(gtk_dir)s\include" OPENSSL_LIBPATH="%(gtk_dir)s\lib" prefix="%(pkg_dir)s"')
 
+        self.install(r'.\COPYING share\doc\cyrus-sasl')
+
 Project.add(Project_cyrus_sasl())
 
 class Project_enchant(Tarball, Project):
@@ -408,6 +410,7 @@ class Project_glib_networking(Tarball, Project):
 
     def build(self):
         self.exec_msbuild(r'build\win32\vs%(vs_ver)s\glib-networking.sln')
+        self.install(r'.\COPYING share\doc\glib-networking')
 
 Project.add(Project_glib_networking())
 
@@ -425,6 +428,8 @@ class Project_gsettings_desktop_schemas(Tarball, Project):
         self.exec_vs(r'nmake /nologo /f gsettings-desktop-schemas-msvc.mak PYTHON="%(python_dir)s\python.exe" PYTHON2="%(python_dir)s\python.exe" PERL="%(perl_dir)s\bin\perl.exe" PREFIX="%(gtk_dir)s"')
         self.exec_vs(r'nmake /nologo /f gsettings-desktop-schemas-msvc.mak install PREFIX="%(gtk_dir)s"')
         self.pop_location()
+
+        self.install(r'.\COPYING share\doc\gsettings-desktop-schemas')
 
 Project.add(Project_gsettings_desktop_schemas())
 
@@ -445,7 +450,7 @@ class Project_gtk_base(Tarball, Project):
             self.builder.exec_msys(['msgfmt', '-co', os.path.join(lcmsgdir, mo), f], working_dir=self._get_working_dir())
         self.pop_location()
 
-        self.install(r'.\COPYING share\doc\gtk')
+        self.install(r'.\COPYING share\doc\%s' % self.name)
 
 class Project_gtk(Project_gtk_base):
     def __init__(self):
@@ -462,7 +467,7 @@ class Project_gtk3(Project_gtk_base):
     def __init__(self):
         Project_gtk_base.__init__(self,
             'gtk3',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.20/gtk+-3.20.2.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.20/gtk+-3.20.3.tar.xz',
             dependencies = ['atk', 'gdk-pixbuf', 'pango', 'libepoxy'],
             )
 
@@ -483,6 +488,8 @@ class Project_harfbuzz(Tarball, Project):
         self.exec_vs(r'nmake /nologo /f Makefile.vc CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PERL="%(perl_dir)s\bin\perl.exe" PREFIX="%(gtk_dir)s" FREETYPE=1 GOBJECT=1')
         self.exec_vs(r'nmake /nologo /f Makefile.vc install CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PERL="%(perl_dir)s\bin\perl.exe" PREFIX="%(gtk_dir)s" FREETYPE=1 GOBJECT=1')
         self.pop_location()
+
+        self.install(r'.\COPYING share\doc\harfbuzz')
 
 Project.add(Project_harfbuzz())
 
@@ -920,7 +927,7 @@ class Builder(object):
             raise Exception("Invalid target platform '%s'" % (opts.platform,))
 
         if not os.path.exists(vcvars_bat):
-            raise Exception("'%s' could not be found. Please check you have Visual Studio installed at '%s' and that it supports the target platform '%s'." % (vsvars_bat, opts.vs_install_path, opts.platform))
+            raise Exception("'%s' could not be found. Please check you have Visual Studio installed at '%s' and that it supports the target platform '%s'." % (vcvars_bat, opts.vs_install_path, opts.platform))
 
         output = subprocess.check_output('cmd.exe /c ""%s" && set"' % (vcvars_bat,), shell=True)
         self.vs_env = {}
@@ -1190,7 +1197,7 @@ def handle_global_options(args):
 def create_parser():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        description='Jhbuild for poor, build Gtk and friends',
+        description='Jhbuild-like system for Windows to build Gtk and friends',
         epilog=
     """
 Examples:
