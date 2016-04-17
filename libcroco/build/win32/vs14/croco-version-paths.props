@@ -18,7 +18,7 @@ USA
 Author: Fan, Chun-wei
 See COPYRIGHTS file for copyright information.
 -->
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
     <ApiVersion>0.6</ApiVersion>
     <VSVer>14</VSVer>

@@ -3,7 +3,7 @@
   <ImportGroup Label="PropertySheets">
   </ImportGroup>
   <PropertyGroup Label="UserMacros">
-    <VSVer>12</VSVer>
+    <VSVer>14</VSVer>
     <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
     <CopyDir>..\..\..\..\libsoup-rel</CopyDir>
     <ApiVersion>2.4</ApiVersion>

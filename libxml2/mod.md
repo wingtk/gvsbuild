@@ -64,3 +64,16 @@
 	#endif
 	```
 	* Add `#undef LIBXML_LZMA_ENABLED`
+	
+ * In `win32`:
+  * Copy `vc12` directory and rename to `vc14`
+ * In `win32\vc14\libxml2.sln`, replace:
+  * `Microsoft Visual Studio Solution File, Format Version 12.00` with
+    `Microsoft Visual Studio Solution File, Format Version 14.00`
+  * `# Visual Studio Express 2012 for Windows Desktop` with
+    `# Visual Studio 14`
+ * In `win32\vc14` all `*.vcxproj` files, replace:
+  * `<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">` with
+    `<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">`
+  * `<PlatformToolset>v120</PlatformToolset>` with
+    `<PlatformToolset>v140</PlatformToolset>`
