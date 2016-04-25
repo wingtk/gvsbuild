@@ -793,6 +793,24 @@ class Project_win_iconv(Tarball, Project):
 
 Project.add(Project_win_iconv())
 
+class Project_wing(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'wing',
+            archive_url = 'https://git.gnome.org/browse/wing/snapshot/wing-07397eeacf68a46264d3e59eac884db11782e7c8.tar.xz',
+            dependencies = ['glib'],
+            )
+
+    def build(self):
+        self.push_location(r'.\nmake')
+        self.exec_vs(r'nmake /nologo /f Makefile.vc CFG=%(configuration)s PREFIX="%(gtk_dir)s"')
+        self.exec_vs(r'nmake /nologo /f Makefile.vc install CFG=%(configuration)s PREFIX="%(gtk_dir)s"')
+        self.pop_location()
+
+        self.install(r'.\COPYING share\doc\wing')
+
+Project.add(Project_wing())
+
 class Project_zlib(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
