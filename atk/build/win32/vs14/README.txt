@@ -67,8 +67,8 @@ If you build any of the dependencies yourselves, copy the:
 -headers into <root>\vs14\<PlatformName>\include\
 -LIBs into <root>\vs14\<PlatformName>\lib
 
-If you have not built GLib with vs14 and placed the LIBs and headers in a
-place where vs14 can find them automatically, you should also uncompress
+If you have not built GLib with VS14 and placed the LIBs and headers in a
+place where VS14 can find them automatically, you should also uncompress
 your GLib sources in <root>\ and build it from there, following the
 instructions in <root>\glib<-version>\build\win32\vs14, so that the required
 headers, EXEs, DLLs and LIBs will end up in
