@@ -5,3 +5,4 @@
 `<CopyDir>..\..\..\..\gdk-pixbuf-rel</CopyDir>`
 	* `<GdkPixbufSeparateVSDllSuffix>-2-vs$(VSVer)</GdkPixbufSeparateVSDllSuffix>` with
 `<GdkPixbufSeparateVSDllSuffix>-2.0</GdkPixbufSeparateVSDllSuffix>`
+ * Add to `build\win32\vs14` directory

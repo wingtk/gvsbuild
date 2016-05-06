@@ -6,3 +6,4 @@
 `<CopyDir>..\..\..\..\libcroco-rel</CopyDir>`
 	* `<LibCrocoSeparateVSDllSuffix>-$(ApiVersion)-vs$(VSVer)</LibCrocoSeparateVSDllSuffix>` with
 `<LibCrocoSeparateVSDllSuffix>-$(ApiVersion)</LibCrocoSeparateVSDllSuffix>`
+ * Add to `build\win32\vs14` directory

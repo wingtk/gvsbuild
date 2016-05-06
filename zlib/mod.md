@@ -20,3 +20,4 @@
 		* Replace `zlibwapi.pdb` with `zlib1.pdb`
 		* Replace `zlibwapi.map` with `zlib1.map`
 	* Select `miniunz` and `minizip` not to be built
+ * Add to `build\win32\vs14` directory

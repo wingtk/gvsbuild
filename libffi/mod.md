@@ -14,3 +14,4 @@
     ```
 
 * Convert commands to project file
+* Add to `build\win32\vs14` directory

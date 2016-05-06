@@ -5,3 +5,4 @@
 `<CopyDir>..\..\..\..\libsoup-rel</CopyDir>`
 	* `<SoupSeparateVSDllSuffix>-$(ApiVersion)-vs$(VSVer)</SoupSeparateVSDllSuffix>` with
 `<SoupSeparateVSDllSuffix>-$(ApiVersion)</SoupSeparateVSDllSuffix>`
+ * Add to `build\win32\vs14` directory

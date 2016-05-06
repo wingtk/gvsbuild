@@ -19,3 +19,4 @@ copy "$(BinDir)\libwimp.pdb" $(CopyDir)\bin
 	* `<GtkSeparateVSDllSuffix>-2-vs$(VSVer)</GtkSeparateVSDllSuffix>` with
 `<GtkSeparateVSDllSuffix>-2.0</GtkSeparateVSDllSuffix>`
  * Delete `<Optimization>` lines in all `*.vcxproj` files
+ * Add `build\win32\vs14` directory

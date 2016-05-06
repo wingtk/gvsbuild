@@ -63,4 +63,5 @@
 	#define snprintf _snprintf
 	#endif
 	```
-	* Add `#undef LIBXML_LZMA_ENABLED`
+	* Add `#undef LIBXML_LZMA_ENABLED`	
+* Add to `win32\vc14` directory

@@ -8,3 +8,4 @@
 `copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*.exe $(CopyDir)\bin`
 `copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*.pdb $(CopyDir)\bin`
  * Build `build\win32\vc12\pixman.vcxproj` and `build\win32\vc12\install.vcxproj`
+ * Add to `build\win32\vc14` directory

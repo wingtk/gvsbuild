@@ -8,3 +8,4 @@
  * In `build\win32\vs12\gtk3-install.props`, remove:
  	* `echo "Generating icon cache......"`
 `$(CopyDir)\bin\gtk-update-icon-cache.exe --ignore-theme-index --force "$(CopyDir)\share\icons\hicolor"`
+ * Add to `build\win32\vs14` directory

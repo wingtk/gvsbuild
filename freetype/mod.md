@@ -15,3 +15,4 @@
 	* Add `<ClCompile Include="..\..\..\src\base\ftbdf.c" />`
 	* Add `<Import Project="..\..\..\..\stack.props" />` at the end
 	* Delete `<Optimization>` lines
+ * Add to `builds\windows\vc14' directory
