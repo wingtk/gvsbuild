@@ -383,11 +383,10 @@ class Project_glib(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'glib',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.48/glib-2.48.0.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.48/glib-2.48.1.tar.xz',
             dependencies = ['gettext-runtime', 'libffi', 'zlib'],
             patches = ['glib-if_nametoindex.patch',
-                       'glib-package-installation-directory.patch',
-                       'Add-gsystemthreadsetname-implementation-for-W32-th.patch'],
+                       'glib-package-installation-directory.patch'],
             )
 
     def build(self):
