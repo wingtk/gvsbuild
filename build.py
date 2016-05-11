@@ -383,11 +383,10 @@ class Project_glib(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'glib',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.48/glib-2.48.0.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.48/glib-2.48.1.tar.xz',
             dependencies = ['gettext-runtime', 'libffi', 'zlib'],
             patches = ['glib-if_nametoindex.patch',
-                       'glib-package-installation-directory.patch',
-                       'Add-gsystemthreadsetname-implementation-for-W32-th.patch'],
+                       'glib-package-installation-directory.patch'],
             )
 
     def build(self):
@@ -467,7 +466,7 @@ class Project_gtk3(Project_gtk_base):
     def __init__(self):
         Project_gtk_base.__init__(self,
             'gtk3',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.20/gtk+-3.20.3.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.20/gtk+-3.20.4.tar.xz',
             dependencies = ['atk', 'gdk-pixbuf', 'pango', 'libepoxy'],
             )
 
@@ -477,7 +476,7 @@ class Project_harfbuzz(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'harfbuzz',
-            archive_url = 'https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.2.4.tar.bz2',
+            archive_url = 'https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.2.7.tar.bz2',
             dependencies = ['freetype', 'glib'],
             )
 
@@ -699,7 +698,7 @@ class Project_pango(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'pango',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.40/pango-1.40.0.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.40/pango-1.40.1.tar.xz',
             dependencies = ['cairo', 'harfbuzz'],
             )
 
