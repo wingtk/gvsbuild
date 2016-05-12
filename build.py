@@ -612,7 +612,7 @@ class Project_libsoup(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libsoup',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.54/libsoup-2.54.0.1.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.54/libsoup-2.54.1.tar.xz',
             dependencies = ['libxml2', 'glib-networking', 'sqlite'],
             )
 
