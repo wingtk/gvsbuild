@@ -403,7 +403,7 @@ class Project_glib_networking(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'glib-networking',
-            archive_url = 'https://github.com/wingtk/glib-networking/releases/download/2.48.0-openssl/glib-networking-2.48.0.tar.xz',
+            archive_url = 'https://github.com/wingtk/glib-networking/releases/download/2.48.2-openssl/glib-networking-2.48.2.tar.xz',
             dependencies = ['gsettings-desktop-schemas', 'openssl'],
             )
 
@@ -612,7 +612,7 @@ class Project_libsoup(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libsoup',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.54/libsoup-2.54.0.1.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.54/libsoup-2.54.1.tar.xz',
             dependencies = ['libxml2', 'glib-networking', 'sqlite'],
             )
 
@@ -796,7 +796,7 @@ class Project_wing(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'wing',
-            archive_url = 'https://git.gnome.org/browse/wing/snapshot/wing-25bf8c5a5d95dbbeb5964d38c4dafe55b2671cb5.tar.xz',
+            archive_url = 'https://git.gnome.org/browse/wing/snapshot/wing-7d5e244cf97d85a527817476b755fabc58b10739.tar.xz',
             dependencies = ['glib'],
             )
 
