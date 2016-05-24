@@ -927,6 +927,10 @@ class Builder(object):
             error_exit("%s not found. Please check that you installed wget in msys2 using ``pacman -S wget``" % (self.wget,))
         print_debug("wget: %s" % (self.wget,))
 
+        self.nuget = opts.nuget_path
+        if not os.path.exists(self.nuget):
+            print_log("Could not find nuget: %s" % (self.nuget,))
+
     def __check_vs(self, opts):
         # Verify VS exists at the indicated location, and that it supports the required target
         if opts.platform in ('Win32', 'win32', 'x86'):
@@ -1148,6 +1152,7 @@ def get_options(args):
     opts.vs_ver = args.vs_ver
     opts.vs_install_path = args.vs_install_path
     opts.cmake_path = args.cmake_path
+    opts.nuget_path = args.nuget_path
     opts.perl_dir = args.perl_dir
     opts.python_dir = args.python_dir
     opts.msys_dir = args.msys_dir
@@ -1157,6 +1162,8 @@ def get_options(args):
 
     if not opts.archives_download_dir:
         opts.archives_download_dir = os.path.join(args.build_dir, 'src')
+    if not opts.nuget_path:
+        opts.nuget_path = os.path.join(args.build_dir, 'nuget', 'nuget.exe')
     if not opts.patches_root_dir:
         opts.patches_root_dir = os.path.join(args.build_dir, 'github', 'gtk-win32')
     if not opts.vs_install_path:
@@ -1263,6 +1270,9 @@ Examples:
                          help=r"The directory where you installed Visual Studio. Default is 'C:\Program Files (x86)\Microsoft Visual Studio $(build-ver).0'")
     p_build.add_argument('--cmake-path', default=r'C:\Program Files (x86)\CMake\bin',
                          help="The directory where you installed cmake.")
+    p_build.add_argument('--nuget-path',
+                         help="The directory where you installed nuget. " +
+                              "Default is $(build-dir)\\nuget\\nuget.exe")
     p_build.add_argument('--perl-dir', default=r'C:\Perl',
                          help="The directory where you installed perl.")
     p_build.add_argument('--python-dir', default=r'c:\Python27',
