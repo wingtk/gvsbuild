@@ -28,17 +28,8 @@ class Tarball(object):
     def unpack(self):
         print_log('Extracting %s to %s' % (self.archive_file, self.builder.working_dir))
 
-        if self.name != 'gettext-runtime':
-            self.builder.exec_msys([self.builder.tar, 'ixf', self.__convert_to_msys(self.archive_file), '-C', self.__convert_to_msys(self.builder.working_dir)])
-            archive_name = os.path.basename(self.archive_file)
-            out_dir = re.match(r'(.*)\.tar', archive_name).group(1)
-            if not os.path.exists(os.path.join(self.builder.working_dir, out_dir)):
-                out_dir = self.name + '-' + out_dir
-            shutil.move(os.path.join(self.builder.working_dir, out_dir), self.build_dir)
-        else:
-            # gettext-runtime is a tarbomb
-            os.makedirs(self.build_dir)
-            self.builder.exec_msys([self.builder.tar, 'ixf', self.__convert_to_msys(self.archive_file), '-C', self.__convert_to_msys(self.build_dir)])
+        os.makedirs(self.build_dir)
+        self.builder.exec_msys([self.builder.tar, 'ixf', self.__convert_to_msys(self.archive_file), '-C', self.__convert_to_msys(self.build_dir), '' if self.tarbomb else '--strip-components=1'])
 
         print_log('Extracted %s' % (self.archive_file,))
 
@@ -70,6 +61,7 @@ class Project(object):
         for k in kwargs:
             setattr(self, k, kwargs[k])
         self.__working_dir = None
+        self.tarbomb = False
 
     _projects = []
     _names = []
@@ -363,6 +355,7 @@ class Project_gettext(Tarball, Project):
             archive_url = 'http://dl.hexchat.net/gtk-win32/src/gettext-vc100-0.18-src.tar.bz2',
             dependencies = ['win-iconv'],
             patches = ['gettext-runtime.patch', 'gettext-lib-prexif.patch'],
+            tarbomb = True,
             )
 
     def build(self):
