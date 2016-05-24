@@ -765,6 +765,24 @@ class Project_pixman(Tarball, Project):
 
 Project.add(Project_pixman())
 
+class Project_protobuf(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'protobuf',
+            archive_url = 'https://github.com/google/protobuf/archive/v3.0.0-beta-3.tar.gz',
+            )
+
+    def build(self):
+        cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
+        # We need to compile with STATIC_RUNTIME off since protobuf-c also compiles with it OFF
+        self.exec_vs('cmake .\cmake\ -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(pkg_dir)s" -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_MSVC_STATIC_RUNTIME=OFF -DCMAKE_BUILD_TYPE=' + cmake_config, add_path=self.builder.opts.cmake_path)
+        self.exec_vs('nmake /nologo', add_path=self.builder.opts.cmake_path)
+        self.exec_vs('nmake /nologo install', add_path=self.builder.opts.cmake_path)
+
+        self.install(r'.\LICENSE share\doc\protobuf')
+
+Project.add(Project_protobuf())
+
 class Project_win_iconv(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
