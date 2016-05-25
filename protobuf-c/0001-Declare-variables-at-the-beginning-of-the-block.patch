@@ -1,0 +1,37 @@
+From 91992b555a656493e4cc6cbc14f3bc5641704256 Mon Sep 17 00:00:00 2001
+From: Ignacio Casal Quinteiro <icq@gnome.org>
+Date: Wed, 25 May 2016 10:46:59 +0200
+Subject: [PATCH] Declare variables at the beginning of the block
+
+Also assign the variable right after checking the assertion
+---
+ protobuf-c/protobuf-c.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/protobuf-c/protobuf-c.c b/protobuf-c/protobuf-c.c
+index 9c0dac6..e98afcd 100644
+--- a/protobuf-c/protobuf-c.c
++++ b/protobuf-c/protobuf-c.c
+@@ -3152,14 +3152,16 @@ void
+ protobuf_c_message_free_unpacked(ProtobufCMessage *message,
+ 				 ProtobufCAllocator *allocator)
+ {
++	const ProtobufCMessageDescriptor *desc;
++	unsigned f;
++
+ 	if (message == NULL)
+ 		return;
+ 
+-	const ProtobufCMessageDescriptor *desc = message->descriptor;
+-	unsigned f;
+-
+ 	ASSERT_IS_MESSAGE(message);
+ 
++	desc = message->descriptor;
++
+ 	if (allocator == NULL)
+ 		allocator = &protobuf_c__allocator;
+ 	message->descriptor = NULL;
+-- 
+2.7.4
+

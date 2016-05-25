@@ -783,6 +783,25 @@ class Project_protobuf(Tarball, Project):
 
 Project.add(Project_protobuf())
 
+class Project_protobuf_c(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'protobuf-c',
+            archive_url = 'https://github.com/protobuf-c/protobuf-c/releases/download/v1.2.1/protobuf-c-1.2.1.tar.gz',
+            dependencies = ['protobuf'],
+            patches = ['0001-Declare-variables-at-the-beginning-of-the-block.patch'],
+            )
+
+    def build(self):
+        cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
+        self.exec_vs(r'cmake .\build-cmake\ -G "NMake Makefiles" -DPROTOBUF_ROOT="%(gtk_dir)s" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config,add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo install', add_path=self.builder.opts.cmake_path)
+
+        self.install(r'.\LICENSE share\doc\protobuf-c')
+
+Project.add(Project_protobuf_c())
+
 class Project_win_iconv(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
