@@ -51,6 +51,41 @@ class MercurialRepo(object):
         print_log('Updating directory %s' % (self.build_dir,))
         self.exec_cmd('hg pull -u', working_dir=self.build_dir)
 
+class GitRepo(object):
+    def unpack(self):
+        print_log('Cloning %s to %s' % (self.repo_url, self.build_dir))
+
+        self.builder.exec_msys('git clone %s %s-tmp' % (self.repo_url, self.build_dir))
+        shutil.move(self.build_dir + '-tmp', self.build_dir)
+
+        if self.fetch_submodules:
+            self.builder.exec_msys('git submodule update --init',  working_dir=self.build_dir)
+
+        if self.tag:
+            self.builder.exec_msys('git checkout -f %s' % self.tag, working_dir=self.build_dir)
+
+        print_log('Cloned %s to %s' % (self.repo_url, self.build_dir))
+
+    def update_build_dir(self):
+        print_log('Updating directory %s' % (self.build_dir,))
+
+        # I don't like too much this, but at least we ensured it is properly cleaned up
+        self.builder.exec_msys('git clean -xdf', working_dir=self.build_dir)
+
+        if self.tag:
+            self.builder.exec_msys('git fetch origin', working_dir=self.build_dir)
+            self.builder.exec_msys('git checkout -f %s' % self.tag, working_dir=self.build_dir)
+        else:
+            self.builder.exec_msys('git checkout -f', working_dir=self.build_dir)
+            self.builder.exec_msys('git pull --rebase', working_dir=self.build_dir)
+
+        if self.fetch_submodules:
+            self.builder.exec_msys('git submodule update --init', working_dir=self.build_dir)
+
+        if os.path.exists(self.patch_dir):
+            print_log("Copying files from %s to %s" % (self.patch_dir, self.build_dir))
+            self.builder.copy_all(self.patch_dir, self.build_dir)
+
 class Project(object):
     def __init__(self, name, **kwargs):
         object.__init__(self)
