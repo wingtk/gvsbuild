@@ -1112,7 +1112,10 @@ class Builder(object):
             os.makedirs(self.opts.archives_download_dir)
 
         print_log("downloading %s" % (proj.archive_file,))
-        self.__execute([self.wget, proj.archive_url], self.opts.archives_download_dir)
+        wget_opts = [self.wget];
+        if hasattr(proj, 'wget_opts'):
+            wget_opts += proj.wget_opts;
+        self.__execute(wget_opts + [proj.archive_url], self.opts.archives_download_dir)
 
     def __sub_vars(self, s):
         if '%' in s:
