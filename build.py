@@ -24,7 +24,7 @@ import subprocess
 import sys
 import traceback
 
-def convert_to_msys(self, path):
+def convert_to_msys(path):
     path = path
     if path[1] != ':':
         raise Exception('oops')
@@ -36,7 +36,7 @@ class Tarball(object):
         print_log('Extracting %s to %s' % (self.archive_file, self.builder.working_dir))
 
         os.makedirs(self.build_dir)
-        self.builder.exec_msys([self.builder.tar, 'ixf', self.convert_to_msys(self.archive_file), '-C', self.convert_to_msys(self.build_dir), '' if self.tarbomb else '--strip-components=1'])
+        self.builder.exec_msys([self.builder.tar, 'ixf', convert_to_msys(self.archive_file), '-C', convert_to_msys(self.build_dir), '' if self.tarbomb else '--strip-components=1'])
 
         print_log('Extracted %s' % (self.archive_file,))
 
