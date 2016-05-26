@@ -443,6 +443,57 @@ class Project_glib_networking(Tarball, Project):
 
 Project.add(Project_glib_networking())
 
+class Project_grpc(GitRepo, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'grpc',
+            repo_url = 'https://github.com/grpc/grpc.git',
+            fetch_submodules = True,
+            tag = 'release-0_14_1',
+            dependencies = ['protobuf'],
+            patches = ['0001-Remove-RuntimeLibrary-setting-from-the-projects.patch'],
+            )
+
+    def build(self):
+        self.exec_cmd(self.builder.nuget + ' restore ' + os.path.join(self.build_dir, 'vsprojects', 'grpc.sln'))
+        self.exec_msbuild(r'vsprojects\grpc.sln /t:grpc++')
+        self.exec_msbuild(r'vsprojects\grpc_protoc_plugins.sln')
+
+        self.install(r'.\include\grpc include\google')
+        self.install(r'.\include\grpc++ include\google')
+
+        platform = ''
+        if self.builder.x64:
+            platform = 'x64\\'
+
+        bin_dir = r'.\vsprojects\%s%s' % (platform, self.builder.opts.configuration, )
+
+        self.install(bin_dir + r'\gpr.lib lib')
+        self.install(bin_dir + r'\grpc.lib lib')
+        self.install(bin_dir + r'\grpc++.lib lib')
+
+        self.install(bin_dir + r'\grpc_cpp_plugin.exe bin')
+        self.install(bin_dir + r'\grpc_cpp_plugin.pdb bin')
+
+        self.install(bin_dir + r'\grpc_csharp_plugin.exe bin')
+        self.install(bin_dir + r'\grpc_csharp_plugin.pdb bin')
+
+        self.install(bin_dir + r'\grpc_node_plugin.exe bin')
+        self.install(bin_dir + r'\grpc_node_plugin.pdb bin')
+
+        self.install(bin_dir + r'\grpc_objective_c_plugin.exe bin')
+        self.install(bin_dir + r'\grpc_objective_c_plugin.pdb bin')
+
+        self.install(bin_dir + r'\grpc_python_plugin.exe bin')
+        self.install(bin_dir + r'\grpc_python_plugin.pdb bin')
+
+        self.install(bin_dir + r'\grpc_ruby_plugin.exe bin')
+        self.install(bin_dir + r'\grpc_ruby_plugin.pdb bin')
+
+        self.install(r'.\LICENSE share\doc\grpc')
+
+Project.add(Project_grpc())
+
 class Project_gsettings_desktop_schemas(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
