@@ -24,21 +24,21 @@ import subprocess
 import sys
 import traceback
 
+def convert_to_msys(self, path):
+    path = path
+    if path[1] != ':':
+        raise Exception('oops')
+    path = '/' + path[0] + path[2:].replace('\\', '/')
+    return path
+
 class Tarball(object):
     def unpack(self):
         print_log('Extracting %s to %s' % (self.archive_file, self.builder.working_dir))
 
         os.makedirs(self.build_dir)
-        self.builder.exec_msys([self.builder.tar, 'ixf', self.__convert_to_msys(self.archive_file), '-C', self.__convert_to_msys(self.build_dir), '' if self.tarbomb else '--strip-components=1'])
+        self.builder.exec_msys([self.builder.tar, 'ixf', self.convert_to_msys(self.archive_file), '-C', self.convert_to_msys(self.build_dir), '' if self.tarbomb else '--strip-components=1'])
 
         print_log('Extracted %s' % (self.archive_file,))
-
-    def __convert_to_msys(self, path):
-        path = path
-        if path[1] != ':':
-            raise Exception('oops')
-        path = '/' + path[0] + path[2:].replace('\\', '/')
-        return path
 
 class MercurialRepo(object):
     def unpack(self):
