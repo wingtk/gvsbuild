@@ -265,13 +265,15 @@ class Project_ffmpeg(Tarball, Project):
         Project.__init__(self,
             'ffmpeg',
             archive_url = 'http://ffmpeg.org/releases/ffmpeg-2.8.4.tar.bz2',
-            )
+            dependencies = [ 'x264' ]
+        )
 
     def build(self):
-        self.exec_vs(r'bash build\build.sh %(pkg_dir)s', add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
+        self.exec_vs(r'bash build\build.sh %(pkg_dir)s %(gtk_dir)s', add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
 
         self.install(r'.\COPYING.LGPLv2.1 ' \
                      r'.\COPYING.LGPLv3 ' \
+                     r'.\COPYING.GPLv2 ' \
                      r'share\doc\ffmpeg')
 
 Project.add(Project_ffmpeg())
