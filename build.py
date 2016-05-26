@@ -276,6 +276,25 @@ class Project_ffmpeg(Tarball, Project):
 
 Project.add(Project_ffmpeg())
 
+class Project_x264(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'x264',
+            wget_opts = [ '--no-passive-ftp'],
+            archive_url = 'ftp://ftp.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20160313-2245.tar.bz2',
+            patches = [ '0001-use-more-recent-version-of-config.guess.patch',
+                        '0002-configure-recognize-the-msys-shell.patch' ])
+    def build(self):
+        self.exec_vs(r'bash build\build.sh %s' % (convert_to_msys(self.builder.gtk_dir)),
+                     add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
+
+        # use the path expected when building with a dependent project
+        self.builder.exec_msys(['cp', 'libx264.lib', 'x264.lib'], working_dir=os.path.join(self.builder.gtk_dir, 'lib') )
+
+        self.install(r'.\COPYING share\doc\x264')
+
+Project.add(Project_x264())
+
 class Project_fontconfig(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
