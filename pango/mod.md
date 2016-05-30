@@ -9,3 +9,4 @@
 `<CopyDir>..\..\..\..\pango-rel</CopyDir>`
 	* `<PangoSeparateVSDllSuffix>-1-vs$(VSVer)</PangoSeparateVSDllSuffix>` with
 `<PangoSeparateVSDllSuffix>-1.0</PangoSeparateVSDllSuffix>`
+ * Add to `build\win32\vs14` directory

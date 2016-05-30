@@ -3,3 +3,4 @@
 `<GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>`
 	* `<CopyDir>$(GlibEtcInstallRoot)</CopyDir>` with
 `<CopyDir>..\..\..\..\glib-networking-rel</CopyDir>`
+ * Add to `build\win32\vs14` directory

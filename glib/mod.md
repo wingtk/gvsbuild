@@ -5,3 +5,4 @@
 `<CopyDir>..\..\..\..\glib-rel</CopyDir>`
 	* `<GlibSeparateVSDllSuffix>-2-vs$(VSVer)</GlibSeparateVSDllSuffix>` with
 `<GlibSeparateVSDllSuffix>-2.0</GlibSeparateVSDllSuffix>`
+ * Add to `build\win32\vs14` directory

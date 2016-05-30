@@ -14,3 +14,4 @@
 	* `<Command>$(TargetPath)</Command>`
  * In `build/win32/vs12/wgl_usefontbitmaps.vcxproj`, remove:
 	* `<Command>$(TargetPath)</Command>`
+ * Add to `build\win32\vs14` directory

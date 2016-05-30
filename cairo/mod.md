@@ -23,3 +23,4 @@
  * Open `msvc\vc12\cairo.sln` with VS and select `Release_FC` configuration
  * Make `cairo-gobject` and `install` buildable
  * Make `install` depend on `cairo-gobject`
+ * Add to `msvc\vs14` directory
