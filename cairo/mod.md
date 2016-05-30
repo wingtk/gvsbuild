@@ -23,3 +23,15 @@
  * Open `msvc\vc12\cairo.sln` with VS and select `Release_FC` configuration
  * Make `cairo-gobject` and `install` buildable
  * Make `install` depend on `cairo-gobject`
+ * In `msvc`:
+  * Copy `vs12` directory and rename to `vs14`
+ * in `msvc\vs14\cairo.sln`, replace:
+  * `Microsoft Visual Studio Solution File, Format Version 11.00` with
+    `Microsoft Visual Studio Solution File, Format Version 14.00`
+  * `# Visual Studio 2010` with
+    `# Visual Studio 14`
+ * In `msvc\vs14` all `*.vcxproj` files, replace:
+  * `<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">` with
+    `<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">`
+  * `<PlatformToolset>v120</PlatformToolset>` with
+    `<PlatformToolset>v140</PlatformToolset>`

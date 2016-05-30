@@ -32,7 +32,9 @@
 #    define W_OK 0x02
 #endif
 
+#if _MSC_VER < 1900
 #define snprintf _snprintf
+#endif
 /* Font configuration directory */
 #define CONFDIR "c:/windows/etc"
 

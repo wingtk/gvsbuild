@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets">
+    <Import Project="pango-build-defines.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+    <PangoDoInstallBin>
+mkdir $(CopyDir)\bin
+
+mkdir $(CopyDir)\lib
+
+
+if "$(Configuration)" == "Release_FC" goto DO_FC_BIN
+if "$(Configuration)" == "Debug_FC" goto DO_FC_BIN
+
+copy $(Configuration)\$(Platform)\bin\$(PangoDllPrefix)pango*$(PangoDllSuffix).dll $(CopyDir)\bin
+copy $(Configuration)\$(Platform)\bin\$(PangoDllPrefix)pango*$(PangoDllSuffix).pdb $(CopyDir)\bin
+copy $(Configuration)\$(Platform)\bin\pango*-$(ApiVersion).lib $(CopyDir)\lib
+goto DONE_BIN
+
+:DO_FC_BIN
+copy $(Configuration)\$(Platform)\bin\$(PangoDllPrefix)pangoft2$(PangoDllSuffix).dll $(CopyDir)\bin
+copy $(Configuration)\$(Platform)\bin\$(PangoDllPrefix)pangoft2$(PangoDllSuffix).pdb $(CopyDir)\bin
+copy $(Configuration)\$(Platform)\bin\$(PangoDllPrefix)pangocairo$(PangoDllSuffix).dll $(CopyDir)\bin
+copy $(Configuration)\$(Platform)\bin\$(PangoDllPrefix)pangocairo$(PangoDllSuffix).pdb $(CopyDir)\bin
+copy $(Configuration)\$(Platform)\bin\pangoft2-$(ApiVersion).lib $(CopyDir)\lib
+copy $(Configuration)\$(Platform)\bin\pangocairo-$(ApiVersion).lib $(CopyDir)\lib
+
+if "$(Configuration)" == "Release_FC" copy $(SolutionDir)\Release\$(Platform)\bin\$(PangoDllPrefix)pango*$(PangoDllSuffix).dll $(CopyDir)\bin
+if "$(Configuration)" == "Release_FC" copy $(SolutionDir)\Release\$(Platform)\bin\$(PangoDllPrefix)pango*$(PangoDllSuffix).pdb $(CopyDir)\bin
+if "$(Configuration)" == "Release_FC" copy $(SolutionDir)\Release\$(Platform)\bin\pango*-$(ApiVersion).lib $(CopyDir)\lib
+
+if "$(Configuration)" == "Debug_FC" copy $(SolutionDir)\Debug\$(Platform)\bin\$(PangoDllPrefix)pango*$(PangoDllSuffix).dll $(CopyDir)\bin
+if "$(Configuration)" == "Debug_FC" copy $(SolutionDir)\Debug\$(Platform)\bin\$(PangoDllPrefix)pango*$(PangoDllSuffix).pdb $(CopyDir)\bin
+if "$(Configuration)" == "Debug_FC" copy $(SolutionDir)\Debug\$(Platform)\bin\pango*-$(ApiVersion).lib $(CopyDir)\lib
+
+:DONE_BIN
+
+    </PangoDoInstallBin>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>pangoinstallbinprops</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <ItemGroup>
+    <BuildMacro Include="PangoDoInstallBin">
+      <Value>$(PangoDoInstallBin)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

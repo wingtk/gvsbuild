@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="UserMacros">
+    <PixmanEtcInstallRoot>..\..\..\..\..\..\gtk\$(PlatformName)</PixmanEtcInstallRoot>
+    <CopyDir>..\..\..\..\pixman-rel</CopyDir>
+    <DefDir>$(SolutionDir)$(Configuration)\$(PlatformName)\obj\$(ProjectName)</DefDir>
+    <ApiVersion>1</ApiVersion>
+    <GenPixmanDef>
+echo EXPORTS &gt; $(DefDir)\pixman.def
+
+cl /EP /nologo ..\..\..\pixman\pixman.symbols &gt;&gt; $(DefDir)\pixman.def
+    </GenPixmanDef>
+    <PixmanDoInstall>
+mkdir $(CopyDir)
+
+mkdir $(CopyDir)\bin
+
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*.dll $(CopyDir)\bin
+
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*.exe $(CopyDir)\bin
+
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*.pdb $(CopyDir)\bin
+
+mkdir $(CopyDir)\include\pixman-$(ApiVersion)
+
+copy ..\..\..\pixman\pixman.h $(CopyDir)\include\pixman-$(ApiVersion)
+
+copy ..\..\..\pixman\pixman-version.h $(CopyDir)\include\pixman-$(ApiVersion)
+
+
+mkdir $(CopyDir)\lib
+
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*-$(ApiVersion).lib $(CopyDir)\lib
+
+</PixmanDoInstall>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>pixmanprops</_PropertySheetDisplayName>
+    <OutDir>$(SolutionDir)$(Configuration)\$(PlatformName)\bin\</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)\$(PlatformName)\obj\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..;..\..\..\pixman;$(PixmanEtcInstallRoot)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;PACKAGE=pixman-1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(PixmanEtcInstallRoot)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <BuildMacro Include="GenPixmanDef">
+      <Value>$(GenPixmanDef)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PixmanEtcInstallRoot">
+      <Value>$(PixmanEtcInstallRoot)</Value>
+    </BuildMacro>
+    <BuildMacro Include="CopyDir">
+      <Value>$(CopyDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="DefDir">
+      <Value>$(DefDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="ApiVersion">
+      <Value>$(ApiVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PixmanDoInstall">
+      <Value>$(PixmanDoInstall)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>
