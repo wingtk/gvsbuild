@@ -64,3 +64,10 @@
     </Link>
   </ItemDefinitionGroup>
 `
+ * In `projects`:
+  * Copy `vc12` directory and rename to `vc14`
+ * In `projects\vc14` all `*.vcxproj` files, replace:
+  * `<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">` with
+    `<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">`
+  * `<PlatformToolset>v120</PlatformToolset>` with
+    `<PlatformToolset>v140</PlatformToolset>`

@@ -19,3 +19,18 @@ copy "$(BinDir)\libwimp.pdb" $(CopyDir)\bin
 	* `<GtkSeparateVSDllSuffix>-2-vs$(VSVer)</GtkSeparateVSDllSuffix>` with
 `<GtkSeparateVSDllSuffix>-2.0</GtkSeparateVSDllSuffix>`
  * Delete `<Optimization>` lines in all `*.vcxproj` files
+ * In `build\win32`:
+  * Copy `vs12` directory and rename to `vs14`
+ * In `build\win32\vs14\gtk+.sln`, replace:
+  * `Microsoft Visual Studio Solution File, Format Version 13.00` with
+    `Microsoft Visual Studio Solution File, Format Version 14.00`
+  * `# Visual Studio 2013` with
+    `# Visual Studio 14`
+ * In `build\win32\vs14` all `*.vcxproj` files, replace:
+  * `<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">` with
+    `<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">`
+  * `<PlatformToolset>v120</PlatformToolset>` with
+    `<PlatformToolset>v140</PlatformToolset>`
+ * In `build\win32\vs14\gtk-version-paths.props`, replace:
+  * `<VSVer>10</VSVer>` with
+    `<VSVer>14</VSVer>`

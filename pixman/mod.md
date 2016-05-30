@@ -8,3 +8,10 @@
 `copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*.exe $(CopyDir)\bin`
 `copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*.pdb $(CopyDir)\bin`
  * Build `build\win32\vc12\pixman.vcxproj` and `build\win32\vc12\install.vcxproj`
+ * In `build\win32`:
+  * Copy `vc12` directory and rename to `vc14`
+ * In `build\win32\vc14` all `*.vcxproj` files, replace:
+  * `<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">` with
+    `<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">`
+  * `<PlatformToolset>v120</PlatformToolset>` with
+    `<PlatformToolset>v140</PlatformToolset>`

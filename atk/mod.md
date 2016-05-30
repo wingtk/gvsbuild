@@ -5,3 +5,4 @@
 `<CopyDir>..\..\..\..\atk-rel</CopyDir>`
 	* `<AtkSeparateVSDllSuffix>-1-vs$(VSVer)</AtkSeparateVSDllSuffix>` with
 `<AtkSeparateVSDllSuffix>-1.0</AtkSeparateVSDllSuffix>`
+ * Add to `build\win32\vs14` directory

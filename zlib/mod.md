@@ -20,3 +20,18 @@
 		* Replace `zlibwapi.pdb` with `zlib1.pdb`
 		* Replace `zlibwapi.map` with `zlib1.map`
 	* Select `miniunz` and `minizip` not to be built
+ * In `build\win32`:
+  * Copy `vs12` directory and rename to `vs14`
+ * In `build\win32\vs14\zlib.sln`, replace:
+  * `Microsoft Visual Studio Solution File, Format Version 13.00` with
+    `Microsoft Visual Studio Solution File, Format Version 14.00`
+  * `# Visual Studio 2013` with
+    `# Visual Studio 14`
+ * In `build\win32\vs14` all `*.vcxproj` files, replace:
+  * `<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">` with
+    `<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">`
+  * `<PlatformToolset>v120</PlatformToolset>` with
+    `<PlatformToolset>v140</PlatformToolset>`
+ * In `build\win32\vs14\zlib-version-paths.props`, replace:
+  * `<VSVer>12</VSVer>` with
+    `<VSVer>14</VSVer>`
