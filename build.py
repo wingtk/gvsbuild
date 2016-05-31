@@ -93,6 +93,7 @@ class Project(object):
         self.dependencies = []
         self.patches = []
         self.archive_url = None
+        self.tarbomb = False
         for k in kwargs:
             setattr(self, k, kwargs[k])
         self.__working_dir = None
