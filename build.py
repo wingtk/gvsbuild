@@ -96,7 +96,6 @@ class Project(object):
         for k in kwargs:
             setattr(self, k, kwargs[k])
         self.__working_dir = None
-        self.tarbomb = False
 
     _projects = []
     _names = []
