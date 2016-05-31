@@ -1406,7 +1406,7 @@ Examples:
     p_build.add_argument('--patches-root-dir',
                          help="The directory where you checked out https://github.com/wingtk/gtk-win32.git. Default is $(build-dir)\\github\\gtk-win32.")
     p_build.add_argument('--vs-ver', default='12',
-                         help="Visual Studio version 10,12, etc. Default is 12.")
+                         help="Visual Studio version 10,12,14, etc. Default is 12.")
     p_build.add_argument('--vs-install-path',
                          help=r"The directory where you installed Visual Studio. Default is 'C:\Program Files (x86)\Microsoft Visual Studio $(build-ver).0'")
     p_build.add_argument('--cmake-path', default=r'C:\Program Files (x86)\CMake\bin',
