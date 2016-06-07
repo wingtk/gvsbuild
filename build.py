@@ -1075,8 +1075,8 @@ class Builder(object):
         self.__check_tools(opts)
         self.__check_vs(opts)
 
-        self.working_dir = os.path.join(opts.build_dir, 'build', opts.platform)
-        self.gtk_dir = os.path.join(opts.build_dir, 'gtk', opts.platform)
+        self.working_dir = os.path.join(opts.build_dir, 'build', opts.platform, opts.configuration)
+        self.gtk_dir = os.path.join(opts.build_dir, 'gtk', opts.platform, opts.configuration)
 
         self.x86 = opts.platform == 'Win32'
         self.x64 = not self.x86
@@ -1190,7 +1190,7 @@ class Builder(object):
 
         #Remove-Item $logDirectory\*.log
 
-        build_dir = os.path.join(self.working_dir, '..', '..', 'gtk', self.opts.platform)
+        build_dir = os.path.join(self.working_dir, '..', '..', '..', 'gtk', self.opts.platform)
         if not os.path.exists(build_dir):
             print_log("Creating directory %s" % (build_dir,))
             os.makedirs(build_dir)
@@ -1440,8 +1440,8 @@ Examples:
 
     p_build.add_argument('-p', '--platform', default='x86', choices=['x86', 'x64'],
                          help='Platform to build for, x86 or x64. Default is x86.')
-    #p_build.add_argument('-c', '--configuration', default='release', choices=['release', 'debug'],
-    #                     help='Configuration to build, release or debug. Default is release.')
+    p_build.add_argument('-c', '--configuration', default='release', choices=['release', 'debug'],
+                         help='Configuration to build, release or debug. Default is release.')
     p_build.add_argument('--build-dir', default=r'C:\gtk-build',
                          help='The directory where the sources will be downloaded and built.')
     p_build.add_argument('--msys-dir', default=r'C:\Msys64',
