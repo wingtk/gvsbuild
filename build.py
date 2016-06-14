@@ -881,7 +881,7 @@ class Project_protobuf_c(Tarball, Project):
             )
 
     def build(self):
-        cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
+        cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'Release'
         self.exec_vs(r'cmake .\build-cmake\ -G "NMake Makefiles" -DPROTOBUF_ROOT="%(gtk_dir)s" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config,add_path=self.builder.opts.cmake_path)
         self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
         self.exec_vs(r'nmake /nologo install', add_path=self.builder.opts.cmake_path)
