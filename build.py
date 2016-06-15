@@ -449,7 +449,7 @@ class Project_glib(Tarball, Project):
     def build(self):
         configuration = 'Release_BundledPCRE'
         if self.builder.opts.configuration == 'debug':
-            configuation = 'Debug_BundledPCRE'
+            configuration = 'Debug_BundledPCRE'
 
         self.exec_msbuild(r'build\win32\vs%(vs_ver)s\glib.sln /p:PythonPath=%(python_dir)s', configuration=configuration)
         self.install(r'.\COPYING share\doc\glib')

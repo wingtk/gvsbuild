@@ -2,9 +2,11 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
     <VSVer>12</VSVer>
-    <GlibVersion>2.48.0</GlibVersion>
+    <GlibVersion>2.48.1</GlibVersion>
     <ApiVersion>2.0</ApiVersion>
-    <GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
+    <GlibEtcInstallRoot>..\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
+    <GlibEtcInstallRoot Condition="'$(Configuration)'=='Release_BundledPCRE'">..\..\..\..\..\..\..\gtk\$(Platform)\Release</GlibEtcInstallRoot>
+    <GlibEtcInstallRoot Condition="'$(Configuration)'=='Debug_BundledPCRE'">..\..\..\..\..\..\..\gtk\$(Platform)\Debug</GlibEtcInstallRoot>
     <CopyDir>..\..\..\..\glib-rel</CopyDir>
     <GlibLibtoolCompatibleDllPrefix>lib</GlibLibtoolCompatibleDllPrefix>
     <GlibLibtoolCompatibleDllSuffix>-$(ApiVersion)-0</GlibLibtoolCompatibleDllSuffix>
