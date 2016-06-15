@@ -4,7 +4,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros">
     <VSVer>14</VSVer>
-    <GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
+    <GlibEtcInstallRoot>..\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
     <CopyDir>..\..\..\..\glib-networking-rel</CopyDir>
   </PropertyGroup>
   <PropertyGroup>
