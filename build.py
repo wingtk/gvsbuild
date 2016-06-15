@@ -878,7 +878,11 @@ class Project_pango(Tarball, Project):
             )
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\pango.sln', configuration='Release_FC')
+        configuration = 'Release_FC'
+        if self.builder.opts.configuration == 'debug':
+            configuration = 'Debug_FC'
+
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\pango.sln', configuration=configuration)
         self.install(r'COPYING share\doc\pango')
 
 Project.add(Project_pango())
