@@ -2,7 +2,9 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
     <VSVer>14</VSVer>
-    <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
+    <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
+    <GlibEtcInstallRoot Condition="'$(Configuration)'=='Release_GDI+'">$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\Release</GlibEtcInstallRoot>
+    <GlibEtcInstallRoot Condition="'$(Configuration)'=='Debug_GDI+'">$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\Debug</GlibEtcInstallRoot>
     <CopyDir>..\..\..\..\gdk-pixbuf-rel</CopyDir>
     <ApiVersion>2.0</ApiVersion>
     <GdkPixbufLibtoolCompatibleDllPrefix>lib</GdkPixbufLibtoolCompatibleDllPrefix>

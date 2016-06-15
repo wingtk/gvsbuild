@@ -407,7 +407,11 @@ class Project_gdk_pixbuf(Tarball, Project):
             )
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gdk-pixbuf.sln', configuration='Release_GDI+')
+        configuration = 'Release_GDI+'
+        if self.builder.opts.configuration == 'debug':
+            configuration = 'Debug_GDI+'
+
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gdk-pixbuf.sln', configuration=configuration)
         self.install(r'.\COPYING share\doc\gdk-pixbuf')
 
 Project.add(Project_gdk_pixbuf())
