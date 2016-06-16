@@ -760,6 +760,24 @@ class Project_lmdb(Tarball, Project):
 
 Project.add(Project_lmdb())
 
+class Project_lz4(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'lz4',
+            archive_url = 'https://github.com/Cyan4973/lz4/archive/r131.tar.gz',
+            )
+
+    def build(self):
+        self.exec_msbuild(r'projects\vs12\lz4-dll.sln')
+
+        self.install(r'projects\vs12\bin\%(configuration)s\%(platform)s\lz4.dll projects\vs12\bin\%(configuration)s\%(platform)s\lz4.pdb bin')
+        self.install(r'.\lib\lz4.h .\lib\lz4hc.h include')
+        self.install(r'projects\vs12\bin\%(configuration)s\%(platform)s\lz4.lib lib')
+
+        self.install(r'.\lib\LICENSE share\doc\lz4')
+
+Project.add(Project_lz4())
+
 class Project_openssl(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
