@@ -657,6 +657,26 @@ class Project_libffi(Tarball, Project):
 
 Project.add(Project_libffi())
 
+class Project_libjpeg_turbo(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'libjpeg-turbo',
+            archive_url = 'https://sourceforge.net/projects/libjpeg-turbo/files/1.5.0/libjpeg-turbo-1.5.0.tar.gz',
+            )
+
+    def build(self):
+        cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
+        add_path = ';'.join([self.builder.opts.cmake_path,
+                             os.path.join(self.builder.opts.msys_dir, 'usr', 'bin')])
+
+        self.exec_vs(r'cmake . -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=%(configuration)s', add_path=add_path)
+        self.exec_vs(r'nmake /nologo', add_path=add_path)
+        self.exec_vs(r'nmake /nologo install', add_path=add_path)
+
+        self.install(r'.\LICENSE.md share\doc\libjpeg-turbo')
+
+Project.add(Project_libjpeg_turbo())
+
 class Project_libpng(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
