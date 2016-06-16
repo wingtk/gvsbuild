@@ -818,60 +818,15 @@ class Project_pixman(Tarball, Project):
         Project.__init__(self,
             'pixman',
             archive_url = 'http://cairographics.org/releases/pixman-0.34.0.tar.gz',
-            dependencies = ['libpng'],
             )
 
-    def __get_symbol(self, code, exports):
-        # PIXMAN_EXPORT pixman_implementation_t *
-        # _pixman_internal_only_get_implementation (void)
-        
-        # PIXMAN_EXPORT pixman_bool_t
-        # PREFIX (_copy) (region_type_t *dst, region_type_t *src)
-
-        sym = None
-        m = re.match(r'PIXMAN_EXPORT\s+.*(\s|\*)(PREFIX\s*\(([a-zA-Z0-9_]+)\))\s*\(', code)
-        if m:
-            sym = m.group(3)
-            exports.add('pixman_region32' + sym)
-            exports.add('pixman_region' + sym)
-        else:
-            m = re.match(r'PIXMAN_EXPORT\s+.*(\s|\*)([a-zA-Z0-9_]+)\s*\(', code)
-            if m:
-                sym = m.group(2)
-                if not sym.startswith('_pixman'):
-                    exports.add(sym)
-
-    def __get_exports(self, srcfile, exports):
-        lines = open(srcfile, 'r').readlines()
-        for i in xrange(len(lines)):
-            if lines[i].find('PIXMAN_EXPORT') >= 0:
-                self.__get_symbol(lines[i].strip() + ' ' + lines[i+1].strip(), exports)
-
-    def __generate_sym_file(self):
-        sym_file = os.path.join(self.build_dir, 'pixman', 'pixman.symbols')
-        if os.path.exists(sym_file):
-            print_debug('symbol file %s already exists' % (sym_file,))
-            return
-
-        print_log('Generating symbol file %s' % (sym_file,))
-
-        exports = set(['prng_srand_r', 'prng_randmemset_r'])
-
-        for root, dirs, files in os.walk(self.build_dir):
-            for f in files:
-                f = f.lower()
-                if f.endswith('.c') or f.endswith('.h'):
-                    self.__get_exports(os.path.join(root, f), exports)
-
-        with open(sym_file + '.tmp', 'w') as out:
-            out.write('\n'.join(sorted(exports)))
-        shutil.move(sym_file + '.tmp', sym_file)
-
     def build(self):
-        self.__generate_sym_file()
+        self.exec_vs(r'make -f Makefile.win32 pixman CFG=%(configuration)s', add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
 
-        self.exec_msbuild(r'build\win32\vc%(vs_ver)s\pixman.vcxproj /p:SolutionDir=%(build_dir)s\build\win32\vc%(vs_ver)s\ ')
-        self.exec_msbuild(r'build\win32\vc%(vs_ver)s\install.vcxproj /p:SolutionDir=%(build_dir)s\build\win32\vc%(vs_ver)s\ ')
+        self.install(r'.\pixman\%(configuration)s\pixman-1.lib lib')
+
+        self.install(r'.\pixman\pixman.h include\pixman-1')
+        self.install(r'.\pixman\pixman-version.h include\pixman-1')
 
         self.install(r'.\COPYING share\doc\pixman')
 
