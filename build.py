@@ -218,7 +218,31 @@ class Project_cairo(Tarball, Project):
             )
 
     def build(self):
-        self.exec_msbuild(r'msvc\vc%(vs_ver)s\cairo.sln', configuration='Release_FC')
+        self.exec_vs(r'make -f Makefile.win32 CFG=%(configuration)s ARCH=%(platform)s', add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
+        self.push_location(r'.\util\cairo-gobject')
+        self.exec_vs(r'make -f Makefile.win32 CFG=%(configuration)s ARCH=%(platform)s', add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
+        self.pop_location()
+
+        self.install(r'.\src\%(configuration)s\cairo.dll bin')
+        self.install(r'.\util\cairo-gobject\%(configuration)s\cairo-gobject.dll bin')
+
+        self.install(r'.\src\%(configuration)s\cairo.lib lib')
+        self.install(r'.\util\cairo-gobject\%(configuration)s\cairo-gobject.lib lib')
+
+        self.install(r'.\src\cairo.h include\cairo')
+        self.install(r'.\src\cairo-deprecated.h include\cairo')
+        self.install(r'.\src\cairo-pdf.h include\cairo')
+        self.install(r'.\src\cairo-ps.h include\cairo')
+        self.install(r'.\src\cairo-script.h include\cairo')
+        self.install(r'.\src\cairo-svg.h include\cairo')
+        self.install(r'.\src\cairo-tee.h include\cairo')
+        self.install(r'.\src\cairo-win32.h include\cairo')
+        self.install(r'.\src\cairo-xml.h include\cairo')
+        self.install(r'.\src\cairo-ft.h include\cairo')
+        self.install(r'.\src\cairo-features.h include\cairo')
+        self.install(r'.\util\cairo-gobject\cairo-gobject.h include\cairo')
+        self.install(r'.\cairo-version.h include\cairo')
+
         self.install(r'.\COPYING share\doc\cairo')
 
 Project.add(Project_cairo())
