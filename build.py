@@ -661,24 +661,15 @@ class Project_libpng(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libpng',
-            archive_url = 'http://dl.hexchat.net/gtk-win32/src/libpng-1.6.21.tar.xz',
+            archive_url = 'http://prdownloads.sourceforge.net/libpng/libpng-1.6.23.tar.xz',
             dependencies = ['zlib'],
             )
 
     def build(self):
-        self.exec_msbuild(r'projects\vc%(vs_ver)s\pnglibconf\pnglibconf.vcxproj /p:SolutionDir=%(build_dir)s\projects\vc%(vs_ver)s\ ')
-        self.exec_msbuild(r'projects\vc%(vs_ver)s\libpng\libpng.vcxproj /p:SolutionDir=%(build_dir)s\projects\vc%(vs_ver)s\ ')
+        self.exec_vs(r'cmake . -G "NMake Makefiles" -DZLIB_ROOT="%(gtk_dir)s" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=%(configuration)s', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo install', add_path=self.builder.opts.cmake_path)
 
-        if self.builder.x86:
-            rel_dir = r'.\projects\vc%(vs_ver)s\%(configuration)s'
-        else:
-            rel_dir = r'.\projects\vc%(vs_ver)s\x64\%(configuration)s'
-
-        self.push_location(rel_dir)
-        self.install('libpng16.dll libpng16.pdb bin')
-        self.install('libpng16.lib lib')
-        self.pop_location()
-        self.install(r'.\png.h .\pngconf.h .\pnglibconf.h .\pngpriv.h include')
         self.install('LICENSE share\doc\libpng')
 
 Project.add(Project_libpng())
