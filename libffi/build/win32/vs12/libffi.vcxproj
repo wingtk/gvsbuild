@@ -1,6 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
@@ -23,29 +31,64 @@
     <PlatformToolset>v120</PlatformToolset>
     <OutDir>..\..\..\..\libffi-rel\lib\</OutDir>
   </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>HAVE_CONFIG_H;DLL_EXPORT;PIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\i686-pc-mingw32;..\..\..\i686-pc-mingw32\include;..\..\..\src\x86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+    </ClCompile>
+    <PreBuildEvent>
+      <Command><![CDATA[cl /nologo /EP /DHAVE_CONFIG_H /DDLL_EXPORT /DPIC /I..\..\..\include /I..\..\..\i686-pc-mingw32 /I..\..\..\i686-pc-mingw32\include /I..\..\..\src\x86 ..\..\..\src\x86\win32.S > $(IntDir)\win32.asm]]></Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>HAVE_CONFIG_H;DLL_EXPORT;PIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\x86_64-w64-mingw32;..\..\..\x86_64-w64-mingw32\include;..\..\..\src\x86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+    </ClCompile>
+    <PreBuildEvent>
+      <Command><![CDATA[cl /nologo /EP /DHAVE_CONFIG_H /DDLL_EXPORT /DPIC /I..\..\..\include /I..\..\..\x86_64-w64-mingw32 /I..\..\..\x86_64-w64-mingw32\include /I..\..\..\src\x86 ..\..\..\src\x86\win64.S > $(IntDir)\win64.asm]]></Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>_DEBUG;HAVE_CONFIG_H;DLL_EXPORT;PIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\i686-pc-mingw32;..\..\..\i686-pc-mingw32\include;..\..\..\src\x86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+    </ClCompile>
+    <PreBuildEvent>
+      <Command><![CDATA[cl /nologo /EP /DHAVE_CONFIG_H /DDLL_EXPORT /DPIC /I..\..\..\include /I..\..\..\i686-pc-mingw32 /I..\..\..\i686-pc-mingw32\include /I..\..\..\src\x86 ..\..\..\src\x86\win32.S > $(IntDir)\win32.asm]]></Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>_DEBUG;HAVE_CONFIG_H;DLL_EXPORT;PIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\x86_64-w64-mingw32;..\..\..\x86_64-w64-mingw32\include;..\..\..\src\x86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+    </ClCompile>
+    <PreBuildEvent>
+      <Command><![CDATA[cl /nologo /EP /DHAVE_CONFIG_H /DDLL_EXPORT /DPIC /I..\..\..\include /I..\..\..\x86_64-w64-mingw32 /I..\..\..\x86_64-w64-mingw32\include /I..\..\..\src\x86 ..\..\..\src\x86\win64.S > $(IntDir)\win64.asm]]></Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
     <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
   </ImportGroup>
   <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   <Import Project="..\..\..\..\stack.props" />
-  <ItemDefinitionGroup>
-    <ClCompile>
-      <PreprocessorDefinitions>HAVE_CONFIG_H;DLL_EXPORT;PIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\include;..\..\..\i686-pc-mingw32;..\..\..\i686-pc-mingw32\include;..\..\..\src\x86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\..\include;..\..\..\x86_64-w64-mingw32;..\..\..\x86_64-w64-mingw32\include;..\..\..\src\x86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <CompileAs>CompileAsC</CompileAs>
-    </ClCompile>
-    <PreBuildEvent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      <Command><![CDATA[cl /nologo /EP /DHAVE_CONFIG_H /DDLL_EXPORT /DPIC /I..\..\..\include /I..\..\..\i686-pc-mingw32 /I..\..\..\i686-pc-mingw32\include /I..\..\..\src\x86 ..\..\..\src\x86\win32.S > $(IntDir)\win32.asm]]></Command>
-    </PreBuildEvent>
-    <PreBuildEvent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      <Command><![CDATA[cl /nologo /EP /DHAVE_CONFIG_H /DDLL_EXPORT /DPIC /I..\..\..\include /I..\..\..\x86_64-w64-mingw32 /I..\..\..\x86_64-w64-mingw32\include /I..\..\..\src\x86 ..\..\..\src\x86\win64.S > $(IntDir)\win64.asm]]></Command>
-    </PreBuildEvent>
-  </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\prep_cif.c" />
     <ClCompile Include="..\..\..\src\types.c" />
@@ -62,7 +105,22 @@
       <DependentUpon>..\..\..\src\x86\win32.S</DependentUpon>
     </MASM>
   </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <None Include="..\..\..\src\x86\win32.S" />
+    <MASM Include="$(IntDir)win32.asm">
+      <WarningLevel>2</WarningLevel>
+      <UseSafeExceptionHandlers>true</UseSafeExceptionHandlers>
+      <DependentUpon>..\..\..\src\x86\win32.S</DependentUpon>
+    </MASM>
+  </ItemGroup>
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <None Include="..\..\..\src\x86\win64.S" />
+    <MASM Include="$(IntDir)win64.asm">
+      <WarningLevel>2</WarningLevel>
+      <DependentUpon>..\..\..\src\x86\win64.S</DependentUpon>
+    </MASM>
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <None Include="..\..\..\src\x86\win64.S" />
     <MASM Include="$(IntDir)win64.asm">
       <WarningLevel>2</WarningLevel>
