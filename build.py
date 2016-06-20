@@ -756,16 +756,23 @@ class Project_libxml2(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libxml2',
-            archive_url = 'http://dl.hexchat.net/gtk-win32/src/libxml2-2.9.3.tar.gz',
+            archive_url = 'ftp://xmlsoft.org/libxml2/libxml2-2.9.4.tar.gz',
             dependencies = ['win-iconv'],
             )
 
     def build(self):
-        self.exec_msbuild(r'win32\vc%(vs_ver)s\libxml2.sln')
+        shutil.copy(os.path.join(self._get_working_dir(), 'include', 'win32config.h'),
+                    os.path.join(self._get_working_dir(), 'config.h'))
 
-        self.install(r'.\lib\libxml2.dll .\lib\libxml2.pdb .\lib\runsuite.exe .\lib\runsuite.pdb bin')
-        self.install(r'.\win32\VC12\config.h .\include\wsockcompat.h .\include\libxml\*.h include\libxml')
-        self.install(r'.\lib\libxml2.lib lib')
+        lib = ';'.join([self.builder.vs_env['LIB'],
+                        os.path.join(self.builder.gtk_dir, 'lib')])
+
+        nmake_config = 'DEBUG=1' if self.builder.opts.configuration == 'debug' else 'DEBUG=0'
+        self.push_location(r'.\win32')
+        self.exec_vs(r'nmake /nologo /f Makefile.msvc WITH_ICONV=1 LIB="%s" PREFIX="%s" %s' % (lib, self.builder.gtk_dir, nmake_config))
+        self.exec_vs(r'nmake /nologo /f Makefile.msvc install LIB="%s" PREFIX="%s" %s' % (lib, self.builder.gtk_dir, nmake_config))
+        self.pop_location()
+
         self.install(r'.\COPYING share\doc\libxml2')
 
 Project.add(Project_libxml2())
