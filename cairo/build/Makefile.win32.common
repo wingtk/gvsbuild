@@ -28,7 +28,7 @@ ARCH=Win32
 endif
 
 ifeq ($(INSTALL_DIR),)
-INSTALL_DIR=$(top_srcdir)/../../../gtk/$(ARCH)
+INSTALL_DIR=$(top_srcdir)/../../../../gtk/$(ARCH)/$(CFG)
 endif
 
 ifeq ($(PIXMAN_PATH),)
