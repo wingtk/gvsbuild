@@ -13,5 +13,3 @@
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">freetype</TargetName>
 `
 	* Add `<ClCompile Include="..\..\..\src\base\ftbdf.c" />`
-	* Add `<Import Project="..\..\..\..\stack.props" />` at the end
-	* Delete `<Optimization>` lines
