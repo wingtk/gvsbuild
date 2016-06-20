@@ -72,9 +72,6 @@ set(DFA_XTRA "" CACHE FILEPATH "File containing extra configuration settings")
 # SET LIBNAME
 set(PNG_LIB_NAME png${PNGLIB_MAJOR}${PNGLIB_MINOR})
 
-# to distinguish between debug and release lib
-set(CMAKE_DEBUG_POSTFIX "d")
-
 include(CheckCSourceCompiles)
 option(ld-version-script "Enable linker version script" ON)
 if(ld-version-script AND NOT APPLE)
