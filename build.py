@@ -111,6 +111,9 @@ class Project(object):
     def build(self):
         raise NotImplementedError()
 
+    def post_install(self):
+        pass
+
     def exec_cmd(self, cmd, working_dir=None, add_path=None):
         self.builder.exec_cmd(cmd, working_dir=working_dir, add_path=add_path)
 
@@ -582,6 +585,10 @@ class Project_gtk3(Project_gtk_base):
         self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtk+.sln /p:GtkPostInstall=rem')
 
         super(Project_gtk3, self).build()
+
+    def post_install(self):
+        self.exec_cmd(r'%(gtk_dir)s\bin\glib-compile-schemas.exe %(gtk_dir)s\share\glib-2.0\schemas')
+        self.exec_cmd(r'%(gtk_dir)s\bin\gtk-update-icon-cache.exe --ignore-theme-index --force "%(gtk_dir)s\share\icons\hicolor"')
 
 Project.add(Project_gtk3())
 
@@ -1206,12 +1213,14 @@ class Builder(object):
         proj.patch()
         proj.build()
 
-        proj.builder = None
-        self.__project = None
-
         print_debug("copying %s to %s" % (proj.pkg_dir, self.gtk_dir))
         self.copy_all(proj.pkg_dir, self.gtk_dir)
         shutil.rmtree(proj.pkg_dir, ignore_errors=True)
+
+        proj.post_install()
+
+        proj.builder = None
+        self.__project = None
 
     def make_dir(self, path):
         if not os.path.exists(path):
@@ -1277,8 +1286,8 @@ class Builder(object):
     def exec_vs(self, cmd, working_dir=None, add_path=None):
         self.__execute(self.__sub_vars(cmd), working_dir=working_dir, add_path=add_path, env=self.vs_env)
 
-    def exec_cmd(self, args, working_dir=None, add_path=None):
-        self.__execute(args, working_dir=working_dir, add_path=add_path)
+    def exec_cmd(self, cmd, working_dir=None, add_path=None):
+        self.__execute(self.__sub_vars(cmd), working_dir=working_dir, add_path=add_path)
 
     def install(self, build_dir, pkg_dir, *args):
         if len(args) == 1:
