@@ -577,6 +577,21 @@ class Project_gtk3(Project_gtk_base):
 
 Project.add(Project_gtk3())
 
+class Project_gtksourceview3(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'gtksourceview3',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtksourceview/3.20/gtksourceview-3.20.3.tar.xz',
+            dependencies = ['gtk3'],
+            )
+
+    def build(self):
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtksourceview.sln')
+
+        self.install(r'.\COPYING share\doc\gtksourceview3')
+
+Project.add(Project_gtksourceview3())
+
 class Project_harfbuzz(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
