@@ -895,7 +895,16 @@ class Project_pixman(Tarball, Project):
             )
 
     def build(self):
-        self.exec_vs(r'make -f Makefile.win32 pixman CFG=%(configuration)s', add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
+        optimizations = 'SSE2=on SSSE3=on'
+        if self.builder.x64:
+            # FIXME: cairo fails to build due to missing symbols if I enable MMX on 64bit
+            optimizations += ' MMX=off'
+        else:
+            optimizations += ' MMX=on'
+
+        add_path = os.path.join(self.builder.opts.msys_dir, 'usr', 'bin')
+
+        self.exec_vs(r'make -f Makefile.win32 pixman CFG=%(configuration)s ' + optimizations, add_path=add_path)
 
         self.install(r'.\pixman\%(configuration)s\pixman-1.lib lib')
 
