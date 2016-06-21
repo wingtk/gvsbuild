@@ -93,7 +93,10 @@
     <ClCompile Include="src\fcobjs.c">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\fchash.c">
+    <ClCompile Include="src\fcrange.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fcweight.c">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>

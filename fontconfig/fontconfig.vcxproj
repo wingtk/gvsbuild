@@ -232,7 +232,6 @@
     <ClCompile Include="src\fcformat.c" />
     <ClCompile Include="src\fcfreetype.c" />
     <ClCompile Include="src\fcfs.c" />
-    <ClCompile Include="src\fchash.c" />
     <ClCompile Include="src\fcinit.c" />
     <ClCompile Include="src\fclang.c" />
     <ClCompile Include="src\fclist.c" />
@@ -246,6 +245,8 @@
     <ClCompile Include="src\fcstr.c" />
     <ClCompile Include="src\fcxml.c" />
     <ClCompile Include="src\ftglue.c" />
+    <ClCompile Include="src\fcrange.c" />
+    <ClCompile Include="src\fcweight.c" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="fc-arch.vcxproj">
