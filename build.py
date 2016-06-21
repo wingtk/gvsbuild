@@ -536,8 +536,8 @@ class Project_gsettings_desktop_schemas(Tarball, Project):
     def build(self):
         self.push_location(r'.\build\win32')
         #Exec nmake /f gsettings-desktop-schemas-msvc.mak clean
-        self.exec_vs(r'nmake /nologo /f gsettings-desktop-schemas-msvc.mak PYTHON="%(python_dir)s\python.exe" PYTHON2="%(python_dir)s\python.exe" PERL="%(perl_dir)s\bin\perl.exe" PREFIX="%(gtk_dir)s"')
-        self.exec_vs(r'nmake /nologo /f gsettings-desktop-schemas-msvc.mak install PREFIX="%(gtk_dir)s"')
+        self.exec_vs(r'nmake /nologo /f gsettings-desktop-schemas-msvc.mak CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PYTHON2="%(python_dir)s\python.exe" PERL="%(perl_dir)s\bin\perl.exe" PREFIX="%(gtk_dir)s"')
+        self.exec_vs(r'nmake /nologo /f gsettings-desktop-schemas-msvc.mak install CFG=%(configuration)s PREFIX="%(gtk_dir)s"')
         self.pop_location()
 
         self.install(r'.\COPYING share\doc\gsettings-desktop-schemas')
