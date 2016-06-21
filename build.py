@@ -542,8 +542,6 @@ class Project_gtk_base(Tarball, Project):
         Project.__init__(self, name, **kwargs)
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtk+.sln')
-
         mo = 'gtk20.mo' if self.name == 'gtk' else 'gtk30.mo'
 
         localedir = os.path.join(self.pkg_dir, 'share', 'locale')
@@ -565,15 +563,25 @@ class Project_gtk(Project_gtk_base):
             patches = ['gtk-revert-scrolldc-commit.patch', 'gtk-bgimg.patch', 'gtk-accel.patch', 'gtk-multimonitor.patch'],
             )
 
+    def build(self):
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtk+.sln')
+
+        super(Project_gtk, self).build()
+
 Project.add(Project_gtk())
 
 class Project_gtk3(Project_gtk_base):
     def __init__(self):
         Project_gtk_base.__init__(self,
             'gtk3',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.20/gtk+-3.20.4.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.20/gtk+-3.20.6.tar.xz',
             dependencies = ['atk', 'gdk-pixbuf', 'pango', 'libepoxy'],
             )
+
+    def build(self):
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtk+.sln /p:GtkPostInstall=rem')
+
+        super(Project_gtk3, self).build()
 
 Project.add(Project_gtk3())
 
