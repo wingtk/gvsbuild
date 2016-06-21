@@ -713,7 +713,7 @@ class Project_librsvg(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'librsvg',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/librsvg/2.40/librsvg-2.40.12.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/librsvg/2.40/librsvg-2.40.16.tar.xz',
             dependencies = ['libcroco', 'cairo', 'pango', 'gdk-pixbuf', 'gtk3'],
             )
 
