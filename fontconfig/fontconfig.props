@@ -5,7 +5,7 @@
 	</PropertyGroup>
 	<ItemDefinitionGroup>
 		<ClCompile>
-			<AdditionalIncludeDirectories>..\..\..\gtk\$(Platform)\include</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>..\..\..\gtk\$(Platform)\include;..\..\..\gtk\$(Platform)\include\libxml2</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 		</ClCompile>
 		<Link>
