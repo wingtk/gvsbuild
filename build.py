@@ -750,7 +750,8 @@ class Project_sqlite(Tarball, Project):
             )
 
     def build(self):
-        self.exec_vs(r'nmake /f Makefile.msc DYNAMIC_SHELL=1 sqlite3.dll')
+        nmake_debug = 'DEBUG=2' if self.builder.opts.configuration == 'debug' else 'DEBUG=0'
+        self.exec_vs(r'nmake /f Makefile.msc sqlite3.dll DYNAMIC_SHELL=1 ' + nmake_debug)
 
         self.install('sqlite3.h include')
         self.install('sqlite3.dll sqlite3.pdb bin')
