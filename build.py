@@ -214,7 +214,7 @@ class Project_cairo(Tarball, Project):
         Project.__init__(self,
             'cairo',
             archive_url = 'http://cairographics.org/snapshots/cairo-1.15.2.tar.xz',
-            dependencies = ['fontconfig', 'glib', 'pixman'],
+            dependencies = ['fontconfig', 'glib', 'pixman', 'libpng'],
             )
 
     def build(self):
