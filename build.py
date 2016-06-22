@@ -581,7 +581,7 @@ class Project_gtksourceview3(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'gtksourceview3',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtksourceview/3.20/gtksourceview-3.20.3.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtksourceview/3.20/gtksourceview-3.20.4.tar.xz',
             dependencies = ['gtk3'],
             )
 
