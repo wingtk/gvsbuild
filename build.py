@@ -326,7 +326,7 @@ class Project_ffmpeg(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'ffmpeg',
-            archive_url = 'http://ffmpeg.org/releases/ffmpeg-2.8.4.tar.bz2',
+            archive_url = 'http://ffmpeg.org/releases/ffmpeg-2.8.7.tar.bz2',
             dependencies = [ 'x264' ]
         )
 
