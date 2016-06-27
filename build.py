@@ -1006,7 +1006,7 @@ class Project_x264(Tarball, Project):
                         '0002-configure-recognize-the-msys-shell.patch' ]
             )
     def build(self):
-        self.exec_vs(r'bash build\build.sh %s' % (convert_to_msys(self.builder.gtk_dir)),
+        self.exec_vs(r'bash build\build.sh %s %s' % (convert_to_msys(self.builder.gtk_dir), self.builder.opts.configuration),
                      add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
 
         # use the path expected when building with a dependent project
