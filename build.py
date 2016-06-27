@@ -331,7 +331,8 @@ class Project_ffmpeg(Tarball, Project):
         )
 
     def build(self):
-        self.exec_vs(r'bash build\build.sh %(pkg_dir)s %(gtk_dir)s', add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
+        self.exec_vs(r'bash build\build.sh %s %s %s' % (self.pkg_dir, self.builder.gtk_dir, self.builder.opts.configuration),
+                     add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
 
         self.install(r'.\COPYING.LGPLv2.1 ' \
                      r'.\COPYING.LGPLv3 ' \

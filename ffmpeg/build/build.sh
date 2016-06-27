@@ -1,5 +1,16 @@
 prefix="$1"
 gtk_dir="$2"
+build_type="$3"
+
+extra_cflags=""
+extra_flags=""
+
+if [ "$build_type" = "debug" ]; then
+    extra_flags="--enable-debug $extra_flags"
+    # FIXME: the -Od and -Zi instructions are overriden in the compilation command
+    extra_cflags="-Od -Zi -MDd $extra_cflags"
+fi
+
 export PKG_CONFIG_PATH=$gtk_dir/lib/pkgconfig:$PKG_CONFIG_PATH
 
 ./configure \
@@ -18,6 +29,8 @@ export PKG_CONFIG_PATH=$gtk_dir/lib/pkgconfig:$PKG_CONFIG_PATH
     --disable-avfilter \
     --disable-avdevice \
     --disable-swresample \
+    --extra-cflags="$extra_cflags" \
+    $extra_flags
 
 make
 make install
