@@ -946,7 +946,8 @@ class Project_protobuf_c(Tarball, Project):
             'protobuf-c',
             archive_url = 'https://github.com/protobuf-c/protobuf-c/releases/download/v1.2.1/protobuf-c-1.2.1.tar.gz',
             dependencies = ['protobuf'],
-            patches = ['0001-Declare-variables-at-the-beginning-of-the-block.patch'],
+            patches = ['0001-Declare-variables-at-the-beginning-of-the-block.patch',
+                       '0001-Do-not-build-tests.patch'],
             )
 
     def build(self):
