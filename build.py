@@ -799,6 +799,24 @@ class Project_libxml2(Tarball, Project):
 
 Project.add(Project_libxml2())
 
+class Project_libyuv(GitRepo, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'libyuv',
+            repo_url = 'https://chromium.googlesource.com/libyuv/libyuv',
+            fetch_submodules = False,
+            tag = None,
+            )
+
+    def build(self):
+        self.exec_vs(r'cmake . -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=%(configuration)s', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo install', add_path=self.builder.opts.cmake_path)
+
+        self.install(r'.\LICENSE share\doc\libyuv')
+
+Project.add(Project_libyuv())
+
 class Project_lmdb(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
