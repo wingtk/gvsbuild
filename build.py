@@ -645,6 +645,21 @@ class Project_hicolor_icon_theme(Tarball, Project):
 
 Project.add(Project_hicolor_icon_theme())
 
+class Project_json_glib(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'json-glib',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/json-glib/1.2/json-glib-1.2.2.tar.xz',
+            dependencies = ['glib'],
+            )
+
+    def build(self):
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\json-glib.sln')
+
+        self.install(r'.\COPYING share\doc\json-glib')
+
+Project.add(Project_json_glib())
+
 class Project_libcroco(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
