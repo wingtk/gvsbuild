@@ -772,6 +772,8 @@ class Project_libsoup(Tarball, Project):
     def build(self):
         self.exec_msbuild(r'build\win32\vs%(vs_ver)s\libsoup.sln')
 
+        self.install(r'.\COPYING share\doc\libsoup')
+
 Project.add(Project_libsoup())
 
 class Project_libxml2(Tarball, Project):
