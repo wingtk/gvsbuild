@@ -120,10 +120,10 @@ class Project(object):
     def exec_vs(self, cmd, add_path=None):
         self.builder.exec_vs(cmd, working_dir=self._get_working_dir(), add_path=add_path)
 
-    def exec_msbuild(self, cmd, configuration=None):
+    def exec_msbuild(self, cmd, configuration=None, add_path=None):
         if not configuration:
             configuration = '%(configuration)s'
-        self.exec_vs('msbuild ' + cmd + ' /p:Configuration=' + configuration + ' %(msbuild_opts)s')
+        self.exec_vs('msbuild ' + cmd + ' /p:Configuration=' + configuration + ' %(msbuild_opts)s', add_path=add_path)
 
     def install(self, *args):
         self.builder.install(self._get_working_dir(), self.pkg_dir, *args)
@@ -607,7 +607,8 @@ class Project_gtksourceview3(Tarball, Project):
             )
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtksourceview.sln')
+        add_path = os.path.join(self.builder.opts.perl_dir, 'bin')
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtksourceview.sln', add_path=add_path)
 
         self.install(r'.\COPYING share\doc\gtksourceview3')
 
@@ -866,17 +867,17 @@ class Project_openssl(Tarball, Project):
         if self.builder.opts.configuration == 'debug':
             debug_option = 'debug-'
 
+        # Note that we want to give priority to the system perl version.
+        # Using the msys2 one might endup giving us a broken build
+        add_path = ';'.join([os.path.join(self.builder.opts.perl_dir, 'bin'),
+                             os.path.join(self.builder.opts.msys_dir, 'usr', 'bin')])
+
         if self.builder.x86:
             self.exec_vs(r'%(perl_dir)s\bin\perl.exe Configure ' + debug_option + 'VC-WIN32 ' + common_options)
-
-            # Note that we want to give priority to the system perl version.
-            # Using the msys2 one might endup giving us a broken build
-            add_path = ';'.join([os.path.join(self.builder.opts.perl_dir, 'bin'),
-                                 os.path.join(self.builder.opts.msys_dir, 'usr', 'bin')])
             self.exec_vs(r'ms\do_nasm', add_path=add_path)
         else:
             self.exec_vs(r'%(perl_dir)s\bin\perl.exe Configure ' + debug_option + 'VC-WIN64A ' + common_options)
-            self.exec_vs(r'ms\do_win64a')
+            self.exec_vs(r'ms\do_win64a', add_path=add_path)
 
         try:
             self.exec_vs(r'nmake /nologo -f ms\ntdll.mak vclean', add_path=add_path)
