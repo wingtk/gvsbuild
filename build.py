@@ -915,7 +915,13 @@ class Project_pango(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'pango',
+<<<<<<< HEAD
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.40/pango-1.40.1.tar.xz',
+=======
+			'pango-1.40.1',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.40/pango-1.40.1.tar.xz',
+            patches = ['read-pango-aliases-file.patch'],
+>>>>>>> 8b0a0d7... pango: apply patch for read 'pango.aliases' file
             dependencies = ['cairo', 'harfbuzz'],
             )
 
