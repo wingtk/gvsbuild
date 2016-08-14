@@ -589,7 +589,7 @@ class Project_gtk3(Project_gtk_base):
             )
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtk+.sln /p:GtkPostInstall=rem')
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtk+.sln /p:GtkPostInstall=rem /p:PythonPath=%(python_dir)s')
 
         super(Project_gtk3, self).build()
 
@@ -685,7 +685,7 @@ class Project_libepoxy(Tarball, Project):
             )
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\epoxy.sln')
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\epoxy.sln /p:PythonPath=%(python_dir)s')
 
 Project.add(Project_libepoxy())
 
