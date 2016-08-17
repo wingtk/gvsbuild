@@ -4,6 +4,7 @@
     <VSVer>14</VSVer>
     <GlibVersion>2.48.1</GlibVersion>
     <ApiVersion>2.0</ApiVersion>
+    <GlibEtcInstallRoot>..\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
     <GlibEtcInstallRoot Condition="'$(Configuration)'=='Release_BundledPCRE'">..\..\..\..\..\..\..\gtk\$(Platform)\Release</GlibEtcInstallRoot>
     <GlibEtcInstallRoot Condition="'$(Configuration)'=='Debug_BundledPCRE'">..\..\..\..\..\..\..\gtk\$(Platform)\Debug</GlibEtcInstallRoot>
     <CopyDir>..\..\..\..\glib-rel</CopyDir>
