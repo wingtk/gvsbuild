@@ -445,11 +445,10 @@ class Project_glib(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'glib',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.48/glib-2.48.1.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.48/glib-2.48.2.tar.xz',
             dependencies = ['gettext-runtime', 'libffi', 'zlib'],
             patches = ['glib-if_nametoindex.patch',
-                       'glib-package-installation-directory.patch',
-                       '0001-config.h.win32.in-Always-define-HAVE_LONG_LONG.patch'],
+                       'glib-package-installation-directory.patch'],
             )
 
     def build(self):
