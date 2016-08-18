@@ -457,7 +457,7 @@ class Project_glib(Tarball, Project):
         if self.builder.opts.configuration == 'debug':
             configuration = 'Debug_BundledPCRE'
 
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\glib.sln /p:PythonPath=%(python_dir)s', configuration=configuration)
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\glib.sln', configuration=configuration)
         self.install(r'.\COPYING share\doc\glib')
 
 Project.add(Project_glib())
@@ -1143,8 +1143,8 @@ class Builder(object):
         self.x86 = opts.platform == 'Win32'
         self.x64 = not self.x86
 
-        self.msbuild_opts = '/nologo /p:Platform=%(platform)s %(msbuild_opts)s ' % \
-            dict(platform=opts.platform, configuration=opts.configuration, msbuild_opts=opts.msbuild_opts)
+        self.msbuild_opts = '/nologo /p:Platform=%(platform)s /p:PythonPath=%(python_dir)s %(msbuild_opts)s ' % \
+            dict(platform=opts.platform, python_dir=opts.python_dir, configuration=opts.configuration, msbuild_opts=opts.msbuild_opts)
 
         if global_verbose:
             self.msbuild_opts += ' /v:normal'
