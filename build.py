@@ -1525,7 +1525,7 @@ Examples:
                               "Default is $(build-dir)\\nuget\\nuget.exe")
     p_build.add_argument('--perl-dir', default=r'C:\Perl',
                          help="The directory where you installed perl.")
-    p_build.add_argument('--python-dir', default=r'c:\Python27',
+    p_build.add_argument('--python-dir', default=os.path.dirname(sys.executable),
                          help="The directory where you installed python.")
 
     p_build.add_argument('--clean', default=False, action='store_true',
