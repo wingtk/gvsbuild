@@ -1019,7 +1019,7 @@ class Project_wing(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'wing',
-            archive_url = 'https://git.gnome.org/browse/wing/snapshot/wing-11c2317cc00c7c0503442c336ca79074cdf10254.tar.xz',
+            archive_url = 'https://git.gnome.org/browse/wing/snapshot/wing-761363e12b0966d1e1bbd19e608fd409ca183f34.tar.xz',
             dependencies = ['glib'],
             )
 
