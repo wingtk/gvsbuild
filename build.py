@@ -260,6 +260,7 @@ class Project_clutter(Tarball, Project):
 
     def build(self):
         self.exec_msbuild(r'build\win32\vs%(vs_ver)s\clutter.sln')
+        self.install(r'.\COPYING share\doc\clutter')
 
 Project.add(Project_clutter())
 
@@ -274,6 +275,7 @@ class Project_cogl(Tarball, Project):
 
     def build(self):
         self.exec_msbuild(r'build\win32\vs%(vs_ver)s\cogl.sln')
+        self.install(r'.\COPYING share\doc\cogl')
 
 Project.add(Project_cogl())
 
