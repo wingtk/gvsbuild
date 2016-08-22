@@ -1,0 +1,129 @@
+diff --git a/pango/pango-utils.c b/pango/pango-utils.c
+index c7c7d65..7143f7b 100644
+--- a/pango/pango-utils.c
++++ b/pango/pango-utils.c
+@@ -586,6 +586,29 @@ pango_config_key_get (const char *key)
+   return NULL;
+ }
+ 
++#ifdef G_OS_WIN32
++
++/* DllMain function needed to tuck away the DLL handle */
++
++static HMODULE pango_dll; /* MT-safe */
++
++BOOL WINAPI
++DllMain (HINSTANCE hinstDLL,
++   DWORD     fdwReason,
++   LPVOID    lpvReserved)
++{
++  switch (fdwReason)
++    {
++    case DLL_PROCESS_ATTACH:
++      pango_dll = (HMODULE) hinstDLL;
++      break;
++    }
++
++  return TRUE;
++}
++
++#endif
++
+ /**
+  * pango_get_sysconf_subdirectory:
+  *
+@@ -605,11 +628,17 @@ pango_get_sysconf_subdirectory (void)
+   if (g_once_init_enter (&result))
+     {
+       const char *tmp_result = NULL;
++#ifdef G_OS_WIN32
++      gchar *root = g_win32_get_package_installation_directory_of_module (pango_dll);
++      tmp_result = g_build_filename (root, "etc\\pango", NULL);
++      g_free (root);
++#else
+       const char *sysconfdir = g_getenv ("PANGO_SYSCONFDIR");
+       if (sysconfdir != NULL)
+-	tmp_result = g_build_filename (sysconfdir, "pango", NULL);
++        tmp_result = g_build_filename (sysconfdir, "pango", NULL);
+       else
+-	tmp_result = SYSCONFDIR "/pango";
++        tmp_result = SYSCONFDIR "/pango";
++#endif
+       g_once_init_leave(&result, tmp_result);
+     }
+   return result;
+diff --git a/pango/pangowin32-fontmap.c b/pango/pangowin32-fontmap.c
+index b0abe02..ba1ab4a 100644
+--- a/pango/pangowin32-fontmap.c
++++ b/pango/pangowin32-fontmap.c
+@@ -491,9 +491,48 @@ read_builtin_aliases (GHashTable *ht_aliases)
+ }
+ #endif
+ 
++static void
++read_alias_file (const char *filename, GHashTable *ht_aliases)
++{
++  FILE *file;
++
++  GString *line_buffer;
++  char *errstring = NULL;
++  int line = 0;
++
++  file = g_fopen (filename, "r");
++  if (!file)
++    return;
++
++  line_buffer = g_string_new (NULL);
++
++  while (pango_read_line (file, line_buffer) &&
++         errstring == NULL)
++    {
++      line++;
++      handle_alias_line (line_buffer, &errstring, ht_aliases);
++    }
++
++  if (errstring == NULL && ferror (file))
++    errstring = g_strdup (g_strerror(errno));
++
++  if (errstring)
++    {
++      g_warning ("error reading alias file: %s:%d: %s\n", filename, line, errstring);
++      g_free (errstring);
++    }
++
++  g_string_free (line_buffer, TRUE);
++
++  fclose (file);
++}
++
+ static GHashTable *
+ load_aliases (void)
+ {
++  char *filename;
++  const char *home;
++
+   GHashTable *ht_aliases = g_hash_table_new_full ((GHashFunc)alias_hash,
+                                                   (GEqualFunc)alias_equal,
+                                                   (GDestroyNotify)alias_free,
+@@ -503,6 +542,21 @@ load_aliases (void)
+   read_builtin_aliases (ht_aliases);
+ #endif
+ 
++  filename = g_strconcat (pango_get_sysconf_subdirectory (),
++                          G_DIR_SEPARATOR_S "pango.aliases",
++                          NULL);
++  read_alias_file (filename, ht_aliases);
++  g_free (filename);
++
++  home = g_get_home_dir ();
++  if (home && *home)
++    {
++      filename = g_strconcat (home,
++                              G_DIR_SEPARATOR_S ".pango.aliases",
++                              NULL);
++      read_alias_file (filename, ht_aliases);
++      g_free (filename);
++    }
+   return ht_aliases;
+ }
+ 
