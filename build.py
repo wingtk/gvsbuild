@@ -250,6 +250,19 @@ class Project_cairo(Tarball, Project):
 
 Project.add(Project_cairo())
 
+class Project_clutter(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'clutter',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/clutter/1.26/clutter-1.26.0.tar.xz',
+            dependencies = ['atk','cogl','json-glib'],
+            )
+
+    def build(self):
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\clutter.sln')
+
+Project.add(Project_clutter())
+
 class Project_cogl(Tarball, Project):
     def __init__(self):
         Project.__init__(self,

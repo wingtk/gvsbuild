@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\tests\interactive\test-main.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-texture-slicing.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-texture-async.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-texture-material.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-events.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-scale.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-actors.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-shader-effects.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-script.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-grab.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-cogl-shader-arbfp.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-cogl-shader-glsl.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-animator.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-state.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-state-animator.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-fbo.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-multistage.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-cogl-primitives.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-cogl-tex-tile.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-cogl-tex-convert.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-cogl-tex-foreign.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-cogl-tex-getset.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-cogl-offscreen.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-cogl-tex-polygon.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-cogl-multitexture.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-stage-read-pixels.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-clip.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-paint-wrapper.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-texture-quality.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-layout.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-animation.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-easing.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-binding-pool.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-text.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-text-field.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-cairo-clock.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-cairo-flowers.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-cogl-vertex-buffer.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-stage-sizing.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-scrolling.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-swipe-action.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-cogl-point-sprites.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-table-layout.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-path-constraint.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-state-script.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-content.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-keyframe-transition.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-bind-constraint.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-touch-events.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-rotate-zoom.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\interactive\test-image.c"><Filter>Sources</Filter></ClCompile>
+  </ItemGroup>
+</Project>
