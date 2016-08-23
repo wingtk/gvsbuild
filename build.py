@@ -728,6 +728,42 @@ class Project_libjpeg_turbo(Tarball, Project):
 
 Project.add(Project_libjpeg_turbo())
 
+class Project_libmicrohttpd(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'libmicrohttpd',
+             archive_url = 'http://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-0.9.48.tar.gz',
+             patches = ['001-disable-w32_SetThreadName.patch'],
+            )
+
+    def build(self):
+        configuration = 'release-dll'
+        if self.builder.opts.configuration == 'debug':
+            configuration = 'debug-dll'
+
+        self.exec_msbuild(r'w32\VS2013\libmicrohttpd.sln', configuration=configuration)
+
+        debug_option = ''
+        if self.builder.opts.configuration == 'debug':
+            debug_option = '_d'
+
+        if self.builder.x86:
+            rel_dir = r'w32\VS2013\Output'
+        else:
+            rel_dir = r'w32\VS2013\Output\x64'
+
+        self.push_location(rel_dir)
+        self.install(r'microhttpd.h include')
+        self.install(r'libmicrohttpd-dll' + debug_option + '.lib' + ' lib')
+        self.install(r'libmicrohttpd-dll' + debug_option + '.dll' + ' bin')
+        self.install(r'libmicrohttpd-dll' + debug_option + '.pdb' + ' bin')
+        self.install(r'hellobrowser-dll' + debug_option + '.exe' + ' bin')
+        self.pop_location()
+
+        self.install(r'.\COPYING share\doc\libmicrohttpd')
+
+Project.add(Project_libmicrohttpd())
+
 class Project_libpng(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
