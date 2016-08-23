@@ -1,0 +1,7 @@
+--- cogl-1.22.0.orig/cogl-pango/cogl-pango.symbols	2013-09-23 02:15:55.000000000 +0900
++++ cogl-1.22.0/cogl-pango/cogl-pango.symbols	2016-08-22 15:58:02.279123500 +0900
+@@ -10,3 +10,4 @@ cogl_pango_renderer_get_type
+ cogl_pango_render_layout
+ cogl_pango_render_layout_line
+ cogl_pango_render_layout_subpixel
++cogl_pango_show_layout
