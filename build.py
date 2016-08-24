@@ -834,6 +834,24 @@ class Project_libyuv(GitRepo, Project):
 
 Project.add(Project_libyuv())
 
+class Project_libzip(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'libzip',
+            archive_url = 'http://nih.at/libzip/libzip-1.1.3.tar.gz',
+            dependencies = ['zlib'],
+            )
+
+    def build(self):
+        cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
+        self.exec_vs(r'cmake -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DGTK_DIR="%(pkg_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config, add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo install', add_path=self.builder.opts.cmake_path)
+
+        self.install(r'.\LICENSE share\doc\libzip')
+
+Project.add(Project_libzip())
+
 class Project_lmdb(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
