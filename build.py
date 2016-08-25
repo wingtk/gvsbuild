@@ -250,6 +250,39 @@ class Project_cairo(Tarball, Project):
 
 Project.add(Project_cairo())
 
+class Project_clutter(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'clutter',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/clutter/1.26/clutter-1.26.0.tar.xz',
+            dependencies = ['atk','cogl','json-glib'],
+            )
+
+    def build(self):
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\clutter.sln')
+
+        self.install(r'.\COPYING share\doc\clutter')
+
+Project.add(Project_clutter())
+
+class Project_cogl(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'cogl',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/cogl/1.22/cogl-1.22.0.tar.xz',
+            dependencies = ['glib','cairo','pango','gdk-pixbuf'],
+            patches = ['001-cogl-missing-symbols.patch',
+                       '002-cogl-pango-missing-symbols.patch',
+                       '003-cogl-framebuffer-missing-debug-return.patch'],
+            )
+
+    def build(self):
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\cogl.sln')
+
+        self.install(r'.\COPYING share\doc\cogl')
+
+Project.add(Project_cogl())
+
 class Project_cyrus_sasl(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
