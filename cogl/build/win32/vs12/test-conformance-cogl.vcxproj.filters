@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\tests\conform\test-conform-main.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-atlas-migration.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-blend-strings.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-blend.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-depth-test.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-color-hsl.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-color-mask.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-backface-culling.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-just-vertex-shader.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-pipeline-user-matrix.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-pipeline-uniforms.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-pixel-buffer.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-premult.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-snippets.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-wrap-modes.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-sub-texture.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-custom-attributes.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-offscreen.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-primitive.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-texture-3d.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-sparse-pipeline.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-read-texture-formats.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-write-texture-formats.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-point-size.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-point-size-attribute.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-point-sprite.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-no-gl-header.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-version.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-gles2-context.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-euler-quaternion.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-layer-remove.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-alpha-test.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-map-buffer-range.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-npot-texture.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-alpha-textures.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-wrap-rectangle-textures.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-texture-get-set-data.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-framebuffer-get-bits.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-primitive-and-journal.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-copy-replace-texture.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-pipeline-cache-unrefs-texture.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-texture-no-allocate.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-pipeline-shader-state.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-texture-rg.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-fence.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-path.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\tests\conform\test-path-clip.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\test-fixtures\test-utils.c"><Filter>Sources</Filter></ClCompile>
+  </ItemGroup>
+</Project>
