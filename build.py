@@ -791,6 +791,49 @@ class Project_libsoup(Tarball, Project):
 
 Project.add(Project_libsoup())
 
+class Project_libuv(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'libuv',
+            archive_url = 'https://github.com/libuv/libuv/archive/v1.9.1.tar.gz',
+            )
+
+    def build(self):
+        rel_dir = r'Release'
+        if self.builder.opts.configuration == 'debug':
+            rel_dir = r'Debug'
+
+        platform = r'x86'
+        if self.builder.x64:
+            platform = r'x64'
+
+        os.system(r'%s\vcbuild.bat build static %s %s' % (self._get_working_dir(), self.builder.opts.configuration, platform))
+
+        self.install(r'include\pthread-barrier.h include\libuv')
+        self.install(r'include\stdint-msvc2008.h include\libuv')
+        self.install(r'include\tree.h include\libuv')
+        self.install(r'include\uv.h include\libuv')
+        self.install(r'include\uv-aix.h include\libuv')
+        self.install(r'include\uv-bsd.h include\libuv')
+        self.install(r'include\uv-darwin.h include\libuv')
+        self.install(r'include\uv-errno.h include\libuv')
+        self.install(r'include\uv-linux.h include\libuv')
+        self.install(r'include\uv-sunos.h include\libuv')
+        self.install(r'include\uv-threadpool.h include\libuv')
+        self.install(r'include\uv-unix.h include\libuv')
+        self.install(r'include\uv-version.h include\libuv')
+        self.install(r'include\uv-win.h include\libuv')
+
+        self.push_location(rel_dir)
+        self.install(r'run-benchmarks' + '.exe' + ' bin')
+        self.install(r'run-tests' + '.exe' + ' bin')
+        self.install(r'lib\libuv' + '.lib' + ' lib')
+        self.pop_location()
+
+        self.install(r'.\LICENSE share\doc\libuv')
+
+Project.add(Project_libuv())
+
 class Project_libxml2(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
