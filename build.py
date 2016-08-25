@@ -878,6 +878,38 @@ class Project_libsoup(Tarball, Project):
 
 Project.add(Project_libsoup())
 
+class Project_libssh(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'libssh',
+            archive_url = 'https://red.libssh.org/attachments/download/177/libssh-0.7.2.tar.xz',
+            dependencies = ['zlib','openssl'],
+            )
+
+    def build(self):
+        self.exec_msbuild(r'build\vs%(vs_ver)s\libssh-library.sln')
+
+        self.install(r'.\COPYING share\doc\libssh')
+
+Project.add(Project_libssh())
+
+class Project_libssh2(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'libssh2',
+            archive_url = 'https://www.libssh2.org/download/libssh2-1.7.0.tar.gz',
+            )
+
+    def build(self):
+        cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
+        self.exec_vs(r'cmake -G"NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DGTK_DIR="%(pkg_dir)s" -DWITH_ZLIB=ON -DCMAKE_BUILD_TYPE=' + cmake_config, add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo install', add_path=self.builder.opts.cmake_path)
+
+        self.install(r'.\COPYING share\doc\libssh2')
+
+Project.add(Project_libssh2())
+
 class Project_libuv(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
