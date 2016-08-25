@@ -791,6 +791,23 @@ class Project_libsoup(Tarball, Project):
 
 Project.add(Project_libsoup())
 
+class Project_libssh2(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'libssh2',
+            archive_url = 'https://www.libssh2.org/download/libssh2-1.7.0.tar.gz',
+            )
+
+    def build(self):
+        cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
+        self.exec_vs(r'cmake -G"NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DGTK_DIR="%(pkg_dir)s" -DWITH_ZLIB=ON -DCMAKE_BUILD_TYPE=' + cmake_config, add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo install', add_path=self.builder.opts.cmake_path)
+
+        self.install(r'.\COPYING share\doc\libssh2')
+
+Project.add(Project_libssh2())
+
 class Project_libxml2(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
