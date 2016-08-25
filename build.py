@@ -776,6 +776,21 @@ class Project_sqlite(Tarball, Project):
 
 Project.add(Project_sqlite())
 
+class Project_libssh(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'libssh',
+            archive_url = 'https://red.libssh.org/attachments/download/177/libssh-0.7.2.tar.xz',
+            dependencies = ['zlib','openssl'],
+            )
+
+    def build(self):
+        self.exec_msbuild(r'build\vs%(vs_ver)s\libssh-library.sln')
+
+        self.install(r'.\COPYING share\doc\libssh')
+
+Project.add(Project_libssh())
+
 class Project_libsoup(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
