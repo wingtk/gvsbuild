@@ -869,6 +869,7 @@ class Project_libsoup(Tarball, Project):
             'libsoup',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.54/libsoup-2.54.1.tar.xz',
             dependencies = ['libxml2', 'glib-networking', 'sqlite'],
+            patches = ['0001-Add-max-incoming-payload-size-property-to-the-websoc.patch']
             )
 
     def build(self):
