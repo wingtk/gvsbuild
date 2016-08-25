@@ -776,6 +776,24 @@ class Project_sqlite(Tarball, Project):
 
 Project.add(Project_sqlite())
 
+class Project_libcurl(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'libcurl',
+            archive_url = 'https://github.com/curl/curl/archive/curl-7_48_0.tar.gz',
+            dependencies = [],
+            )
+
+    def build(self):
+        cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
+        self.exec_vs(r'cmake -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DGTK_DIR="%(pkg_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config, add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo install', add_path=self.builder.opts.cmake_path)
+
+        self.install(r'.\COPYING share\doc\libcurl')
+
+Project.add(Project_libcurl())
+
 class Project_libsoup(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
