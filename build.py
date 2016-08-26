@@ -842,6 +842,7 @@ class Project_librsvg(Tarball, Project):
 
     def build(self):
         self.exec_msbuild(r'build\win32\vs%(vs_ver)s\librsvg.sln')
+        self.exec_cmd(r'%(gtk_dir)s\bin\gdk-pixbuf-query-loaders.exe --update-cache')
         self.install(r'.\COPYING share\doc\librsvg')
 
 Project.add(Project_librsvg())
