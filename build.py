@@ -198,6 +198,24 @@ class Project(object):
     def get_dict():
         return dict(Project._dict)
 
+class Project_adwaita_icon_theme(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'adwaita-icon-theme',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/adwaita-icon-theme/3.20/adwaita-icon-theme-3.20.tar.xz',
+            dependencies = ['librsvg'],
+            )
+
+    def build(self):
+        self.push_location(r'.\build\win32')
+        self.exec_vs(r'nmake /nologo /f adwaita-msvc.mak CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PREFIX="%(gtk_dir)s"', add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
+        self.exec_vs(r'nmake /nologo /f adwaita-msvc.mak install CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PREFIX="%(gtk_dir)s"', add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
+        self.pop_location()
+
+        self.install(r'.\COPYING_CCBYSA3 share\doc\adwaita-icon-theme')
+
+Project.add(Project_adwaita_icon_theme())
+
 class Project_atk(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
