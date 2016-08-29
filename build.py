@@ -726,6 +726,20 @@ class Project_json_glib(Tarball, Project):
 
 Project.add(Project_json_glib())
 
+class Project_leveldb(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'leveldb',
+            archive_url = 'http://github.com/google/leveldb/archive/v1.18.tar.gz',
+            )
+
+    def build(self):
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\leveldb.sln')
+
+        self.install(r'.\LICENSE share\doc\leveldb')
+
+Project.add(Project_leveldb())
+
 class Project_libcroco(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
