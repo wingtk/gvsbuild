@@ -696,6 +696,21 @@ class Project_hicolor_icon_theme(Tarball, Project):
 
 Project.add(Project_hicolor_icon_theme())
 
+class Project_jsonc(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'json-c',
+            archive_url = 'https://github.com/json-c/json-c/archive/json-c-0.12.1-20160607.tar.gz',
+            patches = ['json-c-0.12.1-20160607.patch'],
+            )
+
+    def build(self):
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\json-c.sln')
+
+        self.install(r'.\COPYING share\doc\json-c')
+
+Project.add(Project_jsonc())
+
 class Project_json_glib(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
