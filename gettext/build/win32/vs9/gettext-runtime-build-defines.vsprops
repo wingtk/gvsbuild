@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="gettextbuilddefinesprops"
+	OutputDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin"
+	IntermediateDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\obj\$(ProjectName)\"
+	InheritedPropertySheets=".\gettext-version-paths.vsprops"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="..\..\..\gettext-runtime\intl\msvc;..\..\..\gettext-runtime\intl;..\..\..\gettext-runtime;..\..\..\gettext-runtime\msvc;$(GlibEtcInstallRoot)\include"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="iconv.lib"
+		AdditionalLibraryDirectories="$(GlibEtcInstallRoot)\lib"
+	/>
+	<UserMacro
+		Name="BaseDefines"
+		Value="INSTALLDIR=\&quot;$(InstallRoot)\&quot;;LOCALEDIR=\&quot;$(DataDir)/locale\&quot;;LIBDIR=\&quot;$(LibDir)\&quot;;ENABLE_RELOCATABLE=1;DEPENDS_ON_LIBICONV=1"
+	/>
+	<UserMacro
+		Name="GettextIntlDefines"
+		Value="$(BaseDefines);LOCALE_ALIAS_PATH=\&quot;\&quot;;BUILDING_LIBINTL;BUILDING_DLL;IN_LIBINTL;IN_LIBRARY;NO_XMALLOC;set_relocation_prefix=libintl_set_relocation_prefix;relocate=libintl_relocate"
+	/>
+	<UserMacro
+		Name="GettextRuntimeToolsBaseDefines"
+		Value="$(BaseDefines);LOCALE_ALIAS_PATH=\&quot;$(DataDir)/locale\&quot;;GETTEXTJEXEDIR=\&quot;$(LibDir)/gettext\&quot;;BISON_LOCALEDIR=\&quot;$(DataDir)/locale\&quot;;GETTEXTDATADIR=\&quot;$(DataDir)\&quot;;GETTEXTJAR=\&quot;$(DataDir)/gettext/gettext.jar\&quot;;GETTEXTDATADIR=\&quot;$(DataDir)/gettext\&quot;;PROJECTSDIR=\&quot;$(DataDir)/gettext\&quot;;PKGDATADIR=\&quot;$(DataDir)/gettext\&quot;"
+	/>
+	<UserMacro
+		Name="GettextRuntimeGnulibIncludeDirs"
+		Value="..\..\..\gettext-runtime\gnulib-lib\msvc;..\..\..\gettext-runtime\gnulib-lib"
+	/>
+	<UserMacro
+		Name="GettextRuntimeToolsDefines"
+		Value="$(GettextRuntimeToolsBaseDefines);EXEEXT=\&quot;.exe\&quot;;GETTEXT_STATIC_ITEM"
+	/>
+</VisualStudioPropertySheet>

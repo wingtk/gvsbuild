@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="9.00"
+	Name="xgettext"
+	ProjectGUID="{93C6ABA2-B4D6-4649-9FFE-22D36CA97162}"
+	RootNamespace="xgettext"
+	Keyword="Win32Proj"
+	TargetFrameworkVersion="196613"
+	>
+	<Platforms>
+		<Platform
+			Name="Win32"
+		/>
+		<Platform
+			Name="x64"
+		/>
+	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			ConfigurationType="1"
+			InheritedPropertySheets=".\gettext-tools-build-defines.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="$(GettextSrcIncludeDirs)"
+				PreprocessorDefinitions="_DEBUG;$(BaseDefines)"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="4"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="2"
+				GenerateDebugInformation="true"
+				SubSystem="1"
+				TargetMachine="1"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			ConfigurationType="1"
+			InheritedPropertySheets=".\gettext-tools-build-defines.vsprops"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="$(GettextSrcIncludeDirs)"
+				PreprocessorDefinitions="$(BaseDefines)"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="1"
+				GenerateDebugInformation="true"
+				SubSystem="1"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				TargetMachine="1"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|x64"
+			ConfigurationType="1"
+			InheritedPropertySheets=".\gettext-tools-build-defines.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="$(GettextSrcIncludeDirs)"
+				PreprocessorDefinitions="_DEBUG;$(BaseDefines)"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="2"
+				GenerateDebugInformation="true"
+				SubSystem="1"
+				TargetMachine="17"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|x64"
+			ConfigurationType="1"
+			InheritedPropertySheets=".\gettext-tools-build-defines.vsprops"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="$(GettextSrcIncludeDirs)"
+				PreprocessorDefinitions="$(BaseDefines)"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="1"
+				GenerateDebugInformation="true"
+				SubSystem="1"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				TargetMachine="17"
+			/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+		<Filter
+			Name="Sources"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			>
+			<File RelativePath="..\..\..\gettext-tools\src\x-awk.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\x-c.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\x-csharp.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\x-desktop.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\x-elisp.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\x-java.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\x-javascript.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\x-librep.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\x-lisp.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\x-lua.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\x-perl.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\x-php.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\x-po.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\x-python.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\x-rst.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\x-scheme.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\x-sh.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\x-smalltalk.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\x-tcl.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\x-vala.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\x-ycp.c" />
+			<File RelativePath="..\..\..\gettext-tools\woe32dll\c++xgettext.cc" />
+		</Filter>
+		<Filter
+			Name="Headers"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+			>
+			<File RelativePath="..\..\..\windows\gettext.rc" />
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

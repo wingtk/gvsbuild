@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="9.00"
+	Name="intl"
+	ProjectGUID="{C04F90E5-5865-4159-A5AF-6FF9FF089B0F}"
+	RootNamespace="intl"
+	Keyword="Win32Proj"
+	TargetFrameworkVersion="196613"
+	>
+	<Platforms>
+		<Platform
+			Name="Win32"
+		/>
+		<Platform
+			Name="x64"
+		/>
+	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			ConfigurationType="2"
+			InheritedPropertySheets=".\gettext-runtime-build-defines.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories=""
+				PreprocessorDefinitions="_DEBUG;$(GettextIntlDefines)"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="4"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="2"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				TargetMachine="1"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			ConfigurationType="2"
+			InheritedPropertySheets=".\gettext-runtime-build-defines.vsprops"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories=""
+				PreprocessorDefinitions="$(GettextIntlDefines)"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="1"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				TargetMachine="1"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|x64"
+			ConfigurationType="2"
+			InheritedPropertySheets=".\gettext-runtime-build-defines.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories=""
+				PreprocessorDefinitions="_DEBUG;$(GettextIntlDefines)"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="2"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				TargetMachine="17"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|x64"
+			ConfigurationType="2"
+			InheritedPropertySheets=".\gettext-runtime-build-defines.vsprops"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories=""
+				PreprocessorDefinitions="$(GettextIntlDefines)"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="1"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				TargetMachine="17"
+			/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+		<Filter
+			Name="Sources"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			>
+			<File RelativePath="..\..\..\gettext-runtime\intl\bindtextdom.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\dcgettext.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\dcigettext.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\dcngettext.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\dgettext.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\dngettext.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\explodename.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\finddomain.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\gettext.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\hash-string.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\intl-compat.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\l10nflist.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\langprefs.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\loadmsgcat.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\localcharset.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\localealias.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\localename.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\lock.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\log.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\ngettext.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\osdep.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\plural-exp.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\plural.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\printf-args.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\printf-parse.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\printf.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\relocatable.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\setlocale.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\textdomain.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\threadlib.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\tsearch.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\version.c" />
+			<File RelativePath="..\..\..\gettext-runtime\intl\xsize.c" />
+		</Filter>
+		<Filter
+			Name="Headers"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+			>
+			<File RelativePath="..\..\..\gettext-runtime\intl\libintl.rc" />
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

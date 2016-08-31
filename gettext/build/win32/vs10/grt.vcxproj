@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{BA6DCB6C-F80E-46C5-8F7E-C03FF251A74F}</ProjectGuid>
+    <RootNamespace>grt</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v100</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v100</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v100</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v100</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="gettext-runtime-build-defines.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="gettext-runtime-build-defines.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="gettext-runtime-build-defines.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="gettext-runtime-build-defines.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(GettextRuntimeGnulibIncludeDirs);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;$(GettextRuntimeToolsDefines);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(GettextRuntimeGnulibIncludeDirs);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>$(GettextRuntimeToolsDefines);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(GettextRuntimeGnulibIncludeDirs);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;$(GettextRuntimeToolsDefines);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(GettextRuntimeGnulibIncludeDirs);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>$(GettextRuntimeToolsDefines);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\allocator.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\areadlink.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\basename.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\c-ctype.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\c-strcasecmp.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\c-strncasecmp.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\canonicalize-lgpl.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\careadlinkat.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\closeout.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\error.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\fwriteerror.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\getopt.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\getopt1.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\gettimeofday.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\glthread\lock.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\glthread\threadlib.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\iconv.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\iconv_close.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\iconv_open.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\iswblank.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\localcharset.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\localename.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\lstat.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\malloca.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\mbchar.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\mbiter.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\mbrtowc.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\mbsinit.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\mbslen.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\mbsstr.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\mbuiter.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\memchr.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\memmove.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\msvc-inval.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\msvc-nothrow.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\progname.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\progreloc.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\propername.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\raise.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\readlink.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\relocatable.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\sigprocmask.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\setenv.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\setlocale.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\stat.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\stdio-write.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\strerror-override.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\strerror.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\striconv.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\strnlen.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\strnlen1.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\strtol.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\strtoul.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\trim.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\unistd.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\unistr\u8-mbtoucr.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\unistr\u8-uctomb-aux.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\unistr\u8-uctomb.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\uniwidth\width.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\wctype-h.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\wcwidth.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\xmalloc.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\xreadlink.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\xstrdup.c" />
+    <ClCompile Include="..\..\..\gettext-runtime\gnulib-lib\xstriconv.c" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

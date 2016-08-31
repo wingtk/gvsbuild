@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="9.00"
+	Name="gnu"
+	ProjectGUID="{49313111-C26E-469F-9CCF-387AE306ABCD}"
+	RootNamespace="gnu"
+	Keyword="Win32Proj"
+	TargetFrameworkVersion="196613"
+	>
+	<Platforms>
+		<Platform
+			Name="Win32"
+		/>
+		<Platform
+			Name="x64"
+		/>
+	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			ConfigurationType="4"
+			InheritedPropertySheets=".\gettext-tools-build-defines.vsprops"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="$(GettextPoBaseIncludeDirs)"
+				PreprocessorDefinitions="_DEBUG;$(GettextToolsDefines)"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="4"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			ConfigurationType="4"
+			InheritedPropertySheets=".\gettext-tools-build-defines.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="$(GettextPoBaseIncludeDirs)"
+				PreprocessorDefinitions="$(GettextToolsDefines)"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|x64"
+			ConfigurationType="4"
+			InheritedPropertySheets=".\gettext-tools-build-defines.vsprops"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="$(GettextPoBaseIncludeDirs)"
+				PreprocessorDefinitions="_DEBUG;$(GettextToolsDefines)"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|x64"
+			ConfigurationType="4"
+			InheritedPropertySheets=".\gettext-tools-build-defines.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="$(GettextPoBaseIncludeDirs)"
+				PreprocessorDefinitions="$(GettextToolsDefines)"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+		<Filter
+			Name="Sources"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			>
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\asnprintf.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\asprintf.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\basename.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\c-ctype.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\c-strcasecmp.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\c-strncasecmp.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\c-strstr.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\close.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\concat-filename.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\error-progname.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\error.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\exitfail.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\fd-hook.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\file-ostream.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\float.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\fopen.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\fstat.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\fstrcmp.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\fwriteerror.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\gcd.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\getdelim.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\getline.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\gettimeofday.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\hash.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\iconv.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\iconv_close.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\iconv_open.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\itold.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\unilbrk\lbrktables.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\localcharset.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\glthread\lock.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\malloc.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\malloca.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\mbrtowc.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\mbsinit.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\mbswidth.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\memchr.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\msvc-inval.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\msvc-nothrow.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\obstack.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\open.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\ostream.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\printf-args.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\printf-parse.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\progname.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\raise.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\rawmemchr.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\realloc.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\relocatable.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\sigprocmask.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\stat.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\stdio-write.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\stpcpy.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\stpncpy.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\strchrnul.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\strerror-override.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\strerror.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\striconv.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\striconveh.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\striconveha.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\strstr.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\glthread\threadlib.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\glthread\tls.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\unictype\ctype_space.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\unistr\u16-mbtouc-aux.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\unistr\u16-mbtouc.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\unistr\u8-check.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\uniconv\u8-conv-from-enc.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\unistr\u8-mblen.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\unistr\u8-mbtouc-aux.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\unistr\u8-mbtouc-unsafe-aux.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\unistr\u8-mbtouc-unsafe.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\unistr\u8-mbtouc.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\unistr\u8-mbtoucr.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\unilbrk\u8-possible-linebreaks.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\unistr\u8-prev.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\unistr\u8-uctomb-aux.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\unistr\u8-uctomb.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\unilbrk\u8-width-linebreaks.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\unilbrk\ulc-common.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\unilbrk\ulc-width-linebreaks.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\unistd.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\vasnprintf.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\vasprintf.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\wctype-h.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\wcwidth.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\uniwidth\width.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\xasprintf.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\xconcat-filename.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\xerror.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\xmalloc.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\xmalloca.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\xsize.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\xstrdup.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\xstriconv.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgettextpo\xvasprintf.c" />
+		</Filter>
+		<Filter
+			Name="Headers"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+			>
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

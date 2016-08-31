@@ -471,22 +471,21 @@ Project.add(Project_gdk_pixbuf())
 class Project_gettext(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
-            'gettext-runtime',
-            archive_url = 'http://dl.hexchat.net/gtk-win32/src/gettext-vc100-0.18-src.tar.bz2',
+            'gettext',
+            archive_url = 'http://ftp.gnu.org/pub/gnu/gettext/gettext-0.19.7.tar.gz',
             dependencies = ['win-iconv'],
-            patches = ['gettext-runtime.patch', 'gettext-lib-prexif.patch'],
-            tarbomb = True,
+            patches = ['0001-gettext-runtime-Add-pre-configured-headers-for-MSVC-.patch',
+                       '0001-gettext-tools-Add-pre-configured-headers-and-sources.patch',
+                       '0001-gettext-tools-gnulib-lib-libxml-Check-for-_WIN32-as-.patch',
+                       '0001-gettext-tools-Make-private-headers-C-friendly.patch',
+                       '0001-gettext-tools-src-x-lua.c-Fix-C99ism.patch',
+                       '0002-gettext-tools-gnulib-lib-Declare-items-at-top-of-blo.patch',
+                       '0004-gettext-runtime-intl-plural-exp.h-Match-up-declarati.patch',
+                       '0005-gettext-runtime-intl-printf-parse.c-Fix-build-on-Vis.patch'],
             )
 
     def build(self):
-        #Remove-Item -Recurse CMakeCache.txt, CMakeFiles -ErrorAction Ignore
-
-        self.exec_vs(r'cmake -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(pkg_dir)s" -DCMAKE_BUILD_TYPE=%(configuration)s ' +
-                        r'-DICONV_INCLUDE_DIR="%(gtk_dir)s\include" -DICONV_LIBRARIES="%(gtk_dir)s\lib\iconv.lib"', add_path=self.builder.opts.cmake_path)
-        #Exec nmake clean
-        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
-        self.exec_vs(r'nmake /nologo install', add_path=self.builder.opts.cmake_path)
-        #Exec nmake clean
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gettext.sln')
 
         self.install(r'.\COPYING share\doc\gettext')
 
@@ -497,7 +496,7 @@ class Project_glib(Tarball, Project):
         Project.__init__(self,
             'glib',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.48/glib-2.48.2.tar.xz',
-            dependencies = ['gettext-runtime', 'libffi', 'zlib'],
+            dependencies = ['gettext', 'libffi', 'zlib'],
             patches = ['glib-if_nametoindex.patch',
                        'glib-package-installation-directory.patch'],
             )

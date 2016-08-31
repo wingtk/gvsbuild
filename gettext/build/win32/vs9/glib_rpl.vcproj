@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="9.00"
+	Name="glib_rpl"
+	ProjectGUID="{B8A2CA14-FFBA-4C52-BF3F-DCD77D57C8DE}"
+	RootNamespace="glib_rpl"
+	Keyword="Win32Proj"
+	TargetFrameworkVersion="196613"
+	>
+	<Platforms>
+		<Platform
+			Name="Win32"
+		/>
+		<Platform
+			Name="x64"
+		/>
+	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			ConfigurationType="4"
+			InheritedPropertySheets=".\gettext-tools-copy-glibh.vsprops"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="$(GettextLibBaseIncludeDirs)"
+				PreprocessorDefinitions="_DEBUG"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="4"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			ConfigurationType="4"
+			InheritedPropertySheets=".\gettext-tools-copy-glibh.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="$(GettextLibBaseIncludeDirs)"
+				PreprocessorDefinitions=""
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|x64"
+			ConfigurationType="4"
+			InheritedPropertySheets=".\gettext-tools-copy-glibh.vsprops"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="$(GettextLibBaseIncludeDirs)"
+				PreprocessorDefinitions="_DEBUG"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|x64"
+			ConfigurationType="4"
+			InheritedPropertySheets=".\gettext-tools-copy-glibh.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="$(GettextLibBaseIncludeDirs)"
+				PreprocessorDefinitions=""
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+		<Filter
+			Name="Sources"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			>
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\glib\ghash.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\glib\glist.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\glib\gmessages.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\glib\gprimes.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\glib\gstrfuncs.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\glib\gstring.c" />
+		</Filter>
+		<Filter
+			Name="Headers"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+			>
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\glib\ghash.in.h">
+				<FileConfiguration Name="Debug|Win32"><Tool Name="VCCustomBuildTool" Description="Copying ghash.h from ghash.in.h..." CommandLine="$(CopyGHashH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib\ghash.h" /></FileConfiguration>
+				<FileConfiguration Name="Release|Win32"><Tool Name="VCCustomBuildTool" Description="Copying ghash.h from ghash.in.h..." CommandLine="$(CopyGHashH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib\ghash.h" /></FileConfiguration>
+				<FileConfiguration Name="Debug|x64"><Tool Name="VCCustomBuildTool" Description="Copying ghash.h from ghash.in.h..." CommandLine="$(CopyGHashH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib\ghash.h" /></FileConfiguration>
+				<FileConfiguration Name="Release|x64"><Tool Name="VCCustomBuildTool" Description="Copying ghash.h from ghash.in.h..." CommandLine="$(CopyGHashH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib\ghash.h" /></FileConfiguration>
+			</File>
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\glib.in.h">
+				<FileConfiguration Name="Debug|Win32"><Tool Name="VCCustomBuildTool" Description="Copying glib.h from glib.in.h..." CommandLine="$(CopyGLibH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib.h" /></FileConfiguration>
+				<FileConfiguration Name="Release|Win32"><Tool Name="VCCustomBuildTool" Description="Copying glib.h from glib.in.h..." CommandLine="$(CopyGLibH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib.h" /></FileConfiguration>
+				<FileConfiguration Name="Debug|x64"><Tool Name="VCCustomBuildTool" Description="Copying glib.h from glib.in.h..." CommandLine="$(CopyGLibH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib.h" /></FileConfiguration>
+				<FileConfiguration Name="Release|x64"><Tool Name="VCCustomBuildTool" Description="Copying glib.h from glib.in.h..." CommandLine="$(CopyGLibH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib.h" /></FileConfiguration>
+			</File>
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\glibconfig.in.h">
+				<FileConfiguration Name="Debug|Win32"><Tool Name="VCCustomBuildTool" Description="Copying glibconfig.h from glibconfig.in.h..." CommandLine="$(CopyGLibConfigH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glibconfig.h" /></FileConfiguration>
+				<FileConfiguration Name="Release|Win32"><Tool Name="VCCustomBuildTool" Description="Copying glibconfig.h from glibconfig.in.h..." CommandLine="$(CopyGLibConfigH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glibconfig.h" /></FileConfiguration>
+				<FileConfiguration Name="Debug|x64"><Tool Name="VCCustomBuildTool" Description="Copying glibconfig.h from glibconfig.in.h..." CommandLine="$(CopyGLibConfigH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glibconfig.h" /></FileConfiguration>
+				<FileConfiguration Name="Release|x64"><Tool Name="VCCustomBuildTool" Description="Copying glibconfig.h from glibconfig.in.h..." CommandLine="$(CopyGLibConfigH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glibconfig.h" /></FileConfiguration>
+			</File>
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\glib\glist.in.h">
+				<FileConfiguration Name="Debug|Win32"><Tool Name="VCCustomBuildTool" Description="Copying glist.h from glist.in.h..." CommandLine="$(CopyGListH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib\glist.h" /></FileConfiguration>
+				<FileConfiguration Name="Release|Win32"><Tool Name="VCCustomBuildTool" Description="Copying glist.h from glist.in.h..." CommandLine="$(CopyGListH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib\glist.h" /></FileConfiguration>
+				<FileConfiguration Name="Debug|x64"><Tool Name="VCCustomBuildTool" Description="Copying glist.h from glist.in.h..." CommandLine="$(CopyGListH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib\glist.h" /></FileConfiguration>
+				<FileConfiguration Name="Release|x64"><Tool Name="VCCustomBuildTool" Description="Copying glist.h from glist.in.h..." CommandLine="$(CopyGListH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib\glist.h" /></FileConfiguration>
+			</File>
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\glib\gprimes.in.h">
+				<FileConfiguration Name="Debug|Win32"><Tool Name="VCCustomBuildTool" Description="Copying gprimes.h from gprimes.in.h..." CommandLine="$(CopyGPrimesH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib\gprimes.h" /></FileConfiguration>
+				<FileConfiguration Name="Release|Win32"><Tool Name="VCCustomBuildTool" Description="Copying gprimes.h from gprimes.in.h..." CommandLine="$(CopyGPrimesH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib\gprimes.h" /></FileConfiguration>
+				<FileConfiguration Name="Debug|x64"><Tool Name="VCCustomBuildTool" Description="Copying gprimes.h from gprimes.in.h..." CommandLine="$(CopyGPrimesH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib\gprimes.h" /></FileConfiguration>
+				<FileConfiguration Name="Release|x64"><Tool Name="VCCustomBuildTool" Description="Copying gprimes.h from gprimes.in.h..." CommandLine="$(CopyGPrimesH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib\gprimes.h" /></FileConfiguration>
+			</File>
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\glib\gstrfuncs.in.h">
+				<FileConfiguration Name="Debug|Win32"><Tool Name="VCCustomBuildTool" Description="Copying gstrfuncs.h from gstrfuncs.in.h..." CommandLine="$(CopyGStrfuncsH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib\gstrfuncs.h" /></FileConfiguration>
+				<FileConfiguration Name="Release|Win32"><Tool Name="VCCustomBuildTool" Description="Copying gstrfuncs.h from gstrfuncs.in.h..." CommandLine="$(CopyGStrfuncsH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib\gstrfuncs.h" /></FileConfiguration>
+				<FileConfiguration Name="Debug|x64"><Tool Name="VCCustomBuildTool" Description="Copying gstrfuncs.h from gstrfuncs.in.h..." CommandLine="$(CopyGStrfuncsH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib\gstrfuncs.h" /></FileConfiguration>
+				<FileConfiguration Name="Release|x64"><Tool Name="VCCustomBuildTool" Description="Copying gstrfuncs.h from gstrfuncs.in.h..." CommandLine="$(CopyGStrfuncsH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib\gstrfuncs.h" /></FileConfiguration>
+			</File>
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\glib\gstring.in.h">
+				<FileConfiguration Name="Debug|Win32"><Tool Name="VCCustomBuildTool" Description="Copying gstring.h from gstring.in.h..." CommandLine="$(CopyGStringH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib\gstring.h" /></FileConfiguration>
+				<FileConfiguration Name="Release|Win32"><Tool Name="VCCustomBuildTool" Description="Copying gstring.h from gstring.in.h..." CommandLine="$(CopyGStringH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib\gstring.h" /></FileConfiguration>
+				<FileConfiguration Name="Debug|x64"><Tool Name="VCCustomBuildTool" Description="Copying gstring.h from gstring.in.h..." CommandLine="$(CopyGStringH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib\gstring.h" /></FileConfiguration>
+				<FileConfiguration Name="Release|x64"><Tool Name="VCCustomBuildTool" Description="Copying gstring.h from gstring.in.h..." CommandLine="$(CopyGStringH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib\gstring.h" /></FileConfiguration>
+			</File>
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\glib\gtypes.in.h">
+				<FileConfiguration Name="Debug|Win32"><Tool Name="VCCustomBuildTool" Description="Copying gtypes.h from gtypes.in.h..." CommandLine="$(CopyGTypesH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib\gtypes.h" /></FileConfiguration>
+				<FileConfiguration Name="Release|Win32"><Tool Name="VCCustomBuildTool" Description="Copying gtypes.h from gtypes.in.h..." CommandLine="$(CopyGTypesH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib\gtypes.h" /></FileConfiguration>
+				<FileConfiguration Name="Debug|x64"><Tool Name="VCCustomBuildTool" Description="Copying gtypes.h from gtypes.in.h..." CommandLine="$(CopyGTypesH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib\gtypes.h" /></FileConfiguration>
+				<FileConfiguration Name="Release|x64"><Tool Name="VCCustomBuildTool" Description="Copying gtypes.h from gtypes.in.h..." CommandLine="$(CopyGTypesH)" Outputs="..\..\..\gettext-tools\gnulib-lib\glib\gtypes.h" /></FileConfiguration>
+			</File>
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\asnprintf.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\asprintf.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\basename.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\c-ctype.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\c-strcasecmp.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\c-strncasecmp.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\c-strstr.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\close.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\concat-filename.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\error-progname.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\error.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\exitfail.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\fd-hook.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\file-ostream.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\float.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\fopen.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\fstat.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\fstrcmp.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\fwriteerror.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\gcd.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\getdelim.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\getline.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\gettimeofday.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\hash.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\iconv.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\iconv_close.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\iconv_open.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\itold.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\unilbrk\lbrktables.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\localcharset.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\glthread\lock.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\malloc.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\malloca.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\mbrtowc.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\mbsinit.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\mbswidth.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\memchr.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\msvc-inval.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\msvc-nothrow.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\obstack.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\open.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\ostream.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\printf-args.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\printf-parse.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\progname.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\raise.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\rawmemchr.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\realloc.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\relocatable.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\sigprocmask.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\stat.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\stdio-write.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\stpcpy.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\stpncpy.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\strchrnul.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\strerror-override.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\strerror.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\striconv.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\striconveh.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\striconveha.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\strstr.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\glthread\threadlib.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\glthread\tls.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\unictype\ctype_space.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\uniconv\u8-conv-from-enc.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\unistr\u16-mbtouc-aux.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\unistr\u16-mbtouc.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\unistr\u8-check.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\unistr\u8-mblen.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\unistr\u8-mbtouc-aux.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\unistr\u8-mbtouc-unsafe-aux.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\unistr\u8-mbtouc-unsafe.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\unistr\u8-mbtouc.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\unistr\u8-mbtoucr.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\unilbrk\u8-possible-linebreaks.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\unistr\u8-prev.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\unistr\u8-uctomb-aux.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\unistr\u8-uctomb.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\unilbrk\u8-width-linebreaks.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\unilbrk\ulc-common.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\unilbrk\ulc-width-linebreaks.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\unistd.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\vasnprintf.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\vasprintf.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\wctype-h.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\wcwidth.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\uniwidth\width.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\xasprintf.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\xconcat-filename.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\xerror.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\xmalloc.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\xmalloca.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\xsize.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\xstrdup.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\xstriconv.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\libgettextpo\xvasprintf.c"><Filter>Sources</Filter></ClCompile>
+  </ItemGroup>
+</Project>
