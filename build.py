@@ -1066,7 +1066,7 @@ class Project_lmdb(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'lmdb',
-            archive_url = 'https://github.com/wingtk/lmdb/archive/LMDB_MSVC_0.9.15.tar.gz',
+            archive_url = 'https://github.com/LMDB/lmdb/archive/LMDB_0.9.15.tar.gz',
             )
 
     def build(self):
