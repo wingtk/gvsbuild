@@ -739,6 +739,25 @@ class Project_leveldb(Tarball, Project):
 
 Project.add(Project_leveldb())
 
+class Project_libarchive(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'libarchive',
+            archive_url = 'http://www.libarchive.org/downloads/libarchive-3.2.1.tar.gz',
+            dependencies = ['win-iconv', 'zlib', 'lz4', 'openssl', 'libxml2'],
+            patches = ['0001-test_write_format_gnutar_filenames-use-AE_IFLNK-inst.patch'],
+            )
+
+    def build(self):
+        cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'Release'
+        self.exec_vs(r'cmake . -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config, add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo install', add_path=self.builder.opts.cmake_path)
+
+        self.install(r'.\COPYING share\doc\libarchive')
+
+Project.add(Project_libarchive())
+
 class Project_libcroco(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
