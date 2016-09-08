@@ -2,17 +2,22 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
     <VSVer>14</VSVer>
+    <PangoMajorVersion>1</PangoMajorVersion>
+    <PangoMinorVersion>40</PangoMinorVersion>
+    <PangoMicroVersion>2</PangoMicroVersion>
+    <ApiVersion>1.0</ApiVersion>
     <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
     <GlibEtcInstallRoot Condition="'$(Configuration)'=='Release_FC'">$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\Release</GlibEtcInstallRoot>
     <GlibEtcInstallRoot Condition="'$(Configuration)'=='Debug_FC'">$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\Debug</GlibEtcInstallRoot>
     <CopyDir>..\..\..\..\pango-rel</CopyDir>
-    <ApiVersion>1.0</ApiVersion>
     <PangoLibtoolCompatibleDllPrefix>lib</PangoLibtoolCompatibleDllPrefix>
     <PangoLibtoolCompatibleDllSuffix>-$(ApiVersion)-0</PangoLibtoolCompatibleDllSuffix>
     <PangoSeparateVSDllPrefix />
     <PangoSeparateVSDllSuffix>-1.0</PangoSeparateVSDllSuffix>
     <PangoDllPrefix>$(PangoSeparateVSDllPrefix)</PangoDllPrefix>
     <PangoDllSuffix>$(PangoSeparateVSDllSuffix)</PangoDllSuffix>
+    <PythonPath>c:\python27</PythonPath>
+    <PythonPathX64>$(PythonPath)</PythonPathX64>
   </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>pangoversionpathsprops</_PropertySheetDisplayName>
@@ -21,17 +26,23 @@
     <BuildMacro Include="VSVer">
       <Value>$(VSVer)</Value>
     </BuildMacro>
-    <BuildMacro Include="GlibEtcInstallRoot">
-      <Value>$(GlibEtcInstallRoot)</Value>
+    <BuildMacro Include="PangoMajorVersion">
+      <Value>$(PangoMajorVersion)</Value>
     </BuildMacro>
-    <BuildMacro Include="GlibEtcInstallRootFromBuildWin32">
-      <Value>$(GlibEtcInstallRootFromBuildWin32)</Value>
+    <BuildMacro Include="PangoMinorVersion">
+      <Value>$(PangoMinorVersion)</Value>
     </BuildMacro>
-    <BuildMacro Include="CopyDir">
-      <Value>$(CopyDir)</Value>
+    <BuildMacro Include="PangoMicroVersion">
+      <Value>$(PangoMicroVersion)</Value>
     </BuildMacro>
     <BuildMacro Include="ApiVersion">
       <Value>$(ApiVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GlibEtcInstallRoot">
+      <Value>$(GlibEtcInstallRoot)</Value>
+    </BuildMacro>
+    <BuildMacro Include="CopyDir">
+      <Value>$(CopyDir)</Value>
     </BuildMacro>
     <BuildMacro Include="PangoLibtoolCompatibleDllPrefix">
       <Value>$(PangoLibtoolCompatibleDllPrefix)</Value>
@@ -50,6 +61,12 @@
     </BuildMacro>
     <BuildMacro Include="PangoDllSuffix">
       <Value>$(PangoDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PythonPath">
+      <Value>$(PythonPath)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PythonPathX64">
+      <Value>$(PythonPathX64)</Value>
     </BuildMacro>
   </ItemGroup>
 </Project>
