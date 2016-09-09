@@ -806,6 +806,24 @@ class Project_libffi(Tarball, Project):
 
 Project.add(Project_libffi())
 
+class Project_libgxps(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'libgxps',
+            archive_url = 'https://git.gnome.org/browse/libgxps/snapshot/libgxps-4709da90210839ca8fdd424caa7be897f3be91bb.tar.xz',
+            dependencies = ['glib', 'libarchive', 'cairo', 'libpng'],
+            )
+
+    def build(self):
+        self.push_location(r'.\nmake')
+        self.exec_vs(r'nmake /nologo /f Makefile.vc CFG=%(configuration)s PREFIX="%(gtk_dir)s" LIBPNG=1 CAIRO_PDF=1 CAIRO_PS=1 CAIRO_SVG=1')
+        self.exec_vs(r'nmake /nologo /f Makefile.vc install CFG=%(configuration)s PREFIX="%(gtk_dir)s" LIBPNG=1 CAIRO_PDF=1 CAIRO_PS=1 CAIRO_SVG=1')
+        self.pop_location()
+
+        self.install(r'.\COPYING share\doc\libgxps')
+
+Project.add(Project_libgxps())
+
 class Project_libjpeg_turbo(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
