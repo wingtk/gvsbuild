@@ -1089,10 +1089,10 @@ class Project_lmdb(Tarball, Project):
             )
 
     def build(self):
-        self.exec_msbuild(r'libraries\liblmdb\lmdb.sln')
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\lmdb.sln')
 
         self.install(r'.\libraries\liblmdb\lmdb.h include')
-        self.install(r'.\libraries\liblmdb\%(platform)s\%(configuration)s\lmdb.lib lib')
+        self.install(r'.\build\win32\vs%(vs_ver)s\%(platform)s\%(configuration)s\lmdb.lib lib')
         self.install(r'.\libraries\liblmdb\LICENSE share\doc\lmdb')
 
 Project.add(Project_lmdb())
