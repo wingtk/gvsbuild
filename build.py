@@ -1105,11 +1105,11 @@ class Project_lz4(Tarball, Project):
             )
 
     def build(self):
-        self.exec_msbuild(r'projects\vs12\lz4-dll.sln')
+        self.exec_msbuild(r'projects\vs%(vs_ver)s\lz4-dll.sln')
 
-        self.install(r'projects\vs12\bin\%(configuration)s\%(platform)s\lz4.dll projects\vs12\bin\%(configuration)s\%(platform)s\lz4.pdb bin')
+        self.install(r'projects\vs%(vs_ver)s\bin\%(configuration)s\%(platform)s\lz4.dll projects\vs%(vs_ver)s\bin\%(configuration)s\%(platform)s\lz4.pdb bin')
         self.install(r'.\lib\lz4.h .\lib\lz4hc.h include')
-        self.install(r'projects\vs12\bin\%(configuration)s\%(platform)s\lz4.lib lib')
+        self.install(r'projects\vs%(vs_ver)s\bin\%(configuration)s\%(platform)s\lz4.lib lib')
 
         self.install(r'.\lib\LICENSE share\doc\lz4')
 
