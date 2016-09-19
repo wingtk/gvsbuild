@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{015D69D0-8B42-438A-ADAE-052AC036E065}</ProjectGuid>
-    <RootNamespace>glibcompileschemas</RootNamespace>
+    <ProjectGuid>{D0403E9A-2B00-4FD3-B3DD-3C8F9CB9A338}</ProjectGuid>
+    <RootNamespace>glibtool</RootNamespace>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -75,8 +75,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\gmodule;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\gio;..\..\..\gmodule;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;$(GioInBuildMacro);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -86,16 +86,18 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
+      <OutputFile>$(OutDir)gio.exe</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
+      <ProgramDatabaseFile>$(OutDir)gio.pdb</ProgramDatabaseFile>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\gmodule;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\gio;..\..\..\gmodule;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;$(GioInBuildMacro);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -106,11 +108,13 @@
       <CompileAs>CompileAsC</CompileAs>
     </ClCompile>
     <Link>
+      <OutputFile>$(OutDir)gio.exe</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
+      <ProgramDatabaseFile>$(OutDir)gio.pdb</ProgramDatabaseFile>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -118,8 +122,8 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\gmodule;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\gio;..\..\..\gmodule;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>$(GioInBuildMacro);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>
@@ -128,17 +132,19 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
+      <OutputFile>$(OutDir)gio.exe</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <ProgramDatabaseFile>$(OutDir)gio.pdb</ProgramDatabaseFile>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\gmodule;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\gio;..\..\..\gmodule;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>$(GioInBuildMacro);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
@@ -147,6 +153,7 @@
       <CompileAs>CompileAsC</CompileAs>
     </ClCompile>
     <Link>
+      <OutputFile>$(OutDir)gio.exe</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -154,24 +161,40 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
+      <ProgramDatabaseFile>$(OutDir)gio.pdb</ProgramDatabaseFile>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-   <ClCompile Include="..\..\..\gio\gvdb\gvdb-builder.c" />
-   <ClCompile Include="..\..\..\gio\glib-compile-schemas.c" />
+   <ClCompile Include="..\..\..\gio\gio-tool.c" />
+   <ClCompile Include="..\..\..\gio\gio-tool-cat.c" />
+   <ClCompile Include="..\..\..\gio\gio-tool-copy.c" />
+   <ClCompile Include="..\..\..\gio\gio-tool-info.c" />
+   <ClCompile Include="..\..\..\gio\gio-tool-list.c" />
+   <ClCompile Include="..\..\..\gio\gio-tool-mime.c" />
+   <ClCompile Include="..\..\..\gio\gio-tool-mkdir.c" />
+   <ClCompile Include="..\..\..\gio\gio-tool-monitor.c" />
+   <ClCompile Include="..\..\..\gio\gio-tool-mount.c" />
+   <ClCompile Include="..\..\..\gio\gio-tool-move.c" />
+   <ClCompile Include="..\..\..\gio\gio-tool-open.c" />
+   <ClCompile Include="..\..\..\gio\gio-tool-rename.c" />
+   <ClCompile Include="..\..\..\gio\gio-tool-remove.c" />
+   <ClCompile Include="..\..\..\gio\gio-tool-save.c" />
+   <ClCompile Include="..\..\..\gio\gio-tool-set.c" />
+   <ClCompile Include="..\..\..\gio\gio-tool-trash.c" />
+   <ClCompile Include="..\..\..\gio\gio-tool-tree.c" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="gio.vcxproj">
+      <Project>{f3d1583c-5613-4809-bd98-7cc1c1276f92}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
     <ProjectReference Include="glib.vcxproj">
       <Project>{12bca020-eabf-429e-876a-a476bc9c10c0}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="gobject.vcxproj">
       <Project>{f172effc-e30f-4593-809e-db2024b1e753}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="gio.vcxproj">
-      <Project>{f3d1583c-5613-4809-bd98-7cc1c1276f92}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
