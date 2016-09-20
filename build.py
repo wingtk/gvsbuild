@@ -515,7 +515,7 @@ class Project_glib_networking(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'glib-networking',
-            archive_url = 'https://github.com/wingtk/glib-networking/releases/download/2.48.3-openssl/glib-networking-2.48.3.tar.xz',
+            archive_url = 'https://github.com/wingtk/glib-networking/releases/download/2.50.0-openssl/glib-networking-2.50.0.tar.xz',
             dependencies = ['gsettings-desktop-schemas', 'openssl'],
             )
 
