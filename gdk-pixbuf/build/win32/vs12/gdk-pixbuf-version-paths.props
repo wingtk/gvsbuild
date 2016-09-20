@@ -2,18 +2,23 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
     <VSVer>12</VSVer>
+    <GdkPixbufMajorVersion>2</GdkPixbufMajorVersion>
+    <GdkPixbufMinorVersion>36</GdkPixbufMinorVersion>
+    <GdkPixbufMicroVersion>0</GdkPixbufMicroVersion>
+    <ApiVersion>2.0</ApiVersion>
     <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
     <GlibEtcInstallRoot Condition="'$(Configuration)'=='Release_GDI+'">$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\Release</GlibEtcInstallRoot>
     <GlibEtcInstallRoot Condition="'$(Configuration)'=='Debug_GDI+'">$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\Debug</GlibEtcInstallRoot>
     <CopyDir>..\..\..\..\gdk-pixbuf-rel</CopyDir>
-    <ApiVersion>2.0</ApiVersion>
+    <DefDir>$(SolutionDir)$(Configuration)\$(PlatformName)\obj\$(ProjectName)\</DefDir>
     <GdkPixbufLibtoolCompatibleDllPrefix>lib</GdkPixbufLibtoolCompatibleDllPrefix>
     <GdkPixbufLibtoolCompatibleDllSuffix>-$(ApiVersion)-0</GdkPixbufLibtoolCompatibleDllSuffix>
     <GdkPixbufSeparateVSDllPrefix />
     <GdkPixbufSeparateVSDllSuffix>-2.0</GdkPixbufSeparateVSDllSuffix>
     <GdkPixbufDllPrefix>$(GdkPixbufSeparateVSDllPrefix)</GdkPixbufDllPrefix>
     <GdkPixbufDllSuffix>$(GdkPixbufSeparateVSDllSuffix)</GdkPixbufDllSuffix>
-    <DefDir>$(SolutionDir)$(Configuration)\$(PlatformName)\obj\$(ProjectName)\</DefDir>
+    <PythonPath>c:\python34</PythonPath>
+    <PythonPathX64>$(PythonPath).x64</PythonPathX64>
   </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>gdk-versionpathsprops</_PropertySheetDisplayName>
@@ -22,14 +27,26 @@
     <BuildMacro Include="VSVer">
       <Value>$(VSVer)</Value>
     </BuildMacro>
+    <BuildMacro Include="GdkPixbufMajorVersion">
+      <Value>$(GdkPixbufMajorVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GdkPixbufMinorVersion">
+      <Value>$(GdkPixbufMinorVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GdkPixbufMicroVersion">
+      <Value>$(GdkPixbufMicroVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="ApiVersion">
+      <Value>$(ApiVersion)</Value>
+    </BuildMacro>
     <BuildMacro Include="GlibEtcInstallRoot">
       <Value>$(GlibEtcInstallRoot)</Value>
     </BuildMacro>
     <BuildMacro Include="CopyDir">
       <Value>$(CopyDir)</Value>
     </BuildMacro>
-    <BuildMacro Include="ApiVersion">
-      <Value>$(ApiVersion)</Value>
+    <BuildMacro Include="DefDir">
+      <Value>$(DefDir)</Value>
     </BuildMacro>
     <BuildMacro Include="GdkPixbufLibtoolCompatibleDllPrefix">
       <Value>$(GdkPixbufLibtoolCompatibleDllPrefix)</Value>
@@ -49,8 +66,11 @@
     <BuildMacro Include="GdkPixbufDllSuffix">
       <Value>$(GdkPixbufDllSuffix)</Value>
     </BuildMacro>
-    <BuildMacro Include="DefDir">
-      <Value>$(DefDir)</Value>
+    <BuildMacro Include="PythonPath">
+      <Value>$(PythonPath)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PythonPathX64">
+      <Value>$(PythonPathX64)</Value>
     </BuildMacro>
   </ItemGroup>
 </Project>
