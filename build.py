@@ -1224,7 +1224,7 @@ class Project_protobuf(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'protobuf',
-            archive_url = 'https://github.com/google/protobuf/archive/v3.0.0-beta-3.tar.gz',
+            archive_url = 'https://github.com/google/protobuf/archive/v3.0.2.tar.gz',
             )
 
     def build(self):
