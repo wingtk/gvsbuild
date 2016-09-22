@@ -1176,6 +1176,37 @@ class Project_openssl(Tarball, Project):
 
 Project.add(Project_openssl())
 
+class Project_opus(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'opus',
+            archive_url = 'http://downloads.xiph.org/releases/opus/opus-1.1.3.tar.gz',
+            )
+
+    def build(self):
+        version = '13'
+        if self.builder.opts.vs_ver == '14':
+            version = '15'
+
+        configuration = 'ReleaseDLL'
+        if self.builder.opts.configuration == 'debug':
+            configuration = 'DebugDLL'
+
+        self.exec_msbuild(r'.\win32\VS20' + version + '\opus.sln', configuration=configuration)
+
+        bin_dir = r'.\win32\VS20' + version + '\%s\%s' % (self.builder.opts.platform, configuration, )
+
+        self.install(bin_dir + r'\opus.dll bin')
+        self.install(bin_dir + r'\opus.pdb bin')
+
+        self.install(bin_dir + r'\opus.lib lib')
+
+        self.install(r'include\* include')
+
+        self.install(r'COPYING share\doc\opus')
+
+Project.add(Project_opus())
+
 class Project_pango(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
