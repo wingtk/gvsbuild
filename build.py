@@ -1222,6 +1222,31 @@ class Project_pixman(Tarball, Project):
 
 Project.add(Project_pixman())
 
+class Project_portaudio(GitRepo, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'portaudio',
+            repo_url = 'git://git.assembla.com/portaudio.git',
+            fetch_submodules = False,
+            tag = '52bd2afb1ddca18ba76bb35c4088c1208edf3f6f',
+            patches = [ '0001-Do-not-add-suffice-to-the-library-name.patch' ]
+            )
+
+    def build(self):
+        cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'Release'
+        self.exec_vs(r'cmake . -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DPA_DLL_LINK_WITH_STATIC_RUNTIME=off -DCMAKE_BUILD_TYPE=' + cmake_config, add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
+
+        self.install(r'portaudio.dll bin')
+        self.install(r'portaudio.pdb bin')
+        self.install(r'portaudio.lib lib')
+
+        self.install(r'.\include\* include')
+
+        self.install(r'.\LICENSE.txt share\doc\portaudio')
+
+Project.add(Project_portaudio())
+
 class Project_protobuf(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
