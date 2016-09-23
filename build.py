@@ -531,7 +531,7 @@ class Project_grpc(GitRepo, Project):
             'grpc',
             repo_url = 'https://github.com/grpc/grpc.git',
             fetch_submodules = True,
-            tag = 'release-0_14_1',
+            tag = 'v1.0.0',
             dependencies = ['protobuf'],
             patches = ['0001-Remove-RuntimeLibrary-setting-from-the-projects.patch'],
             )
