@@ -827,7 +827,7 @@ class Project_libjpeg_turbo(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libjpeg-turbo',
-            archive_url = 'https://sourceforge.net/projects/libjpeg-turbo/files/1.5.0/libjpeg-turbo-1.5.0.tar.gz',
+            archive_url = 'https://sourceforge.net/projects/libjpeg-turbo/files/1.5.1/libjpeg-turbo-1.5.1.tar.gz',
             )
 
     def build(self):
