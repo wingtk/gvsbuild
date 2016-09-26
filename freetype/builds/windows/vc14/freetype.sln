@@ -1,6 +1,5 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 14.00
-# Visual Studio 14
+# Visual Studio Express 2014 for Windows Desktop
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "freetype", "freetype.vcxproj", "{78B079BD-9FC7-4B9E-B4A6-96DA0F00248B}"
 EndProject
 Global
