@@ -525,6 +525,21 @@ class Project_glib_networking(Tarball, Project):
 
 Project.add(Project_glib_networking())
 
+class Project_glib_openssl(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'glib-openssl',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib-openssl/2.50/glib-openssl-2.50.0.tar.xz',
+            dependencies = ['glib', 'openssl'],
+            )
+
+    def build(self):
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\glib-openssl.sln')
+        self.install(r'.\COPYING share\doc\glib-openssl')
+        self.install(r'.\LICENSE_EXCEPTION share\doc\glib-openssl')
+
+Project.add(Project_glib_openssl())
+
 class Project_grpc(GitRepo, Project):
     def __init__(self):
         Project.__init__(self,
@@ -953,7 +968,7 @@ class Project_libsoup(Tarball, Project):
         Project.__init__(self,
             'libsoup',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.56/libsoup-2.56.0.tar.xz',
-            dependencies = ['libxml2', 'glib-networking', 'sqlite'],
+            dependencies = ['libxml2', 'glib-openssl', 'sqlite'],
             )
 
     def build(self):
