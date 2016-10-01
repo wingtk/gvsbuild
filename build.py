@@ -1,3 +1,20 @@
+#  Copyright (C) 2016 - Yevgen Muntyan
+#  Copyright (C) 2016 - Ignacio Casal Quinteiro
+#  Copyright (C) 2016 - Arnavion
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, see <http://www.gnu.org/licenses/>.
+
 import argparse
 import glob
 import os
@@ -7,30 +24,21 @@ import subprocess
 import sys
 import traceback
 
+def convert_to_msys(path):
+    path = path
+    if path[1] != ':':
+        raise Exception('oops')
+    path = '/' + path[0] + path[2:].replace('\\', '/')
+    return path
+
 class Tarball(object):
     def unpack(self):
         print_log('Extracting %s to %s' % (self.archive_file, self.builder.working_dir))
 
-        if self.name != 'gettext-runtime':
-            self.builder.exec_msys([self.builder.tar, 'ixf', self.__convert_to_msys(self.archive_file), '-C', self.__convert_to_msys(self.builder.working_dir)])
-            archive_name = os.path.basename(self.archive_file)
-            out_dir = re.match(r'(.*)\.tar', archive_name).group(1)
-            if not os.path.exists(os.path.join(self.builder.working_dir, out_dir)):
-                out_dir = self.name + '-' + out_dir
-            shutil.move(os.path.join(self.builder.working_dir, out_dir), self.build_dir)
-	else:
-            # gettext-runtime is a tarbomb
-            os.makedirs(self.build_dir)
-            self.builder.exec_msys([self.builder.tar, 'ixf', self.__convert_to_msys(self.archive_file), '-C', self.__convert_to_msys(self.build_dir)])
+        os.makedirs(self.build_dir)
+        self.builder.exec_msys([self.builder.tar, 'ixf', convert_to_msys(self.archive_file), '-C', convert_to_msys(self.build_dir), '' if self.tarbomb else '--strip-components=1'])
 
         print_log('Extracted %s' % (self.archive_file,))
-
-    def __convert_to_msys(self, path):
-        path = path
-        if path[1] != ':':
-            raise Exception('oops')
-        path = '/' + path[0] + path[2:].replace('\\', '/')
-        return path
 
 class MercurialRepo(object):
     def unpack(self):
@@ -43,6 +51,41 @@ class MercurialRepo(object):
         print_log('Updating directory %s' % (self.build_dir,))
         self.exec_cmd('hg pull -u', working_dir=self.build_dir)
 
+class GitRepo(object):
+    def unpack(self):
+        print_log('Cloning %s to %s' % (self.repo_url, self.build_dir))
+
+        self.builder.exec_msys('git clone %s %s-tmp' % (self.repo_url, self.build_dir))
+        shutil.move(self.build_dir + '-tmp', self.build_dir)
+
+        if self.fetch_submodules:
+            self.builder.exec_msys('git submodule update --init',  working_dir=self.build_dir)
+
+        if self.tag:
+            self.builder.exec_msys('git checkout -f %s' % self.tag, working_dir=self.build_dir)
+
+        print_log('Cloned %s to %s' % (self.repo_url, self.build_dir))
+
+    def update_build_dir(self):
+        print_log('Updating directory %s' % (self.build_dir,))
+
+        # I don't like too much this, but at least we ensured it is properly cleaned up
+        self.builder.exec_msys('git clean -xdf', working_dir=self.build_dir)
+
+        if self.tag:
+            self.builder.exec_msys('git fetch origin', working_dir=self.build_dir)
+            self.builder.exec_msys('git checkout -f %s' % self.tag, working_dir=self.build_dir)
+        else:
+            self.builder.exec_msys('git checkout -f', working_dir=self.build_dir)
+            self.builder.exec_msys('git pull --rebase', working_dir=self.build_dir)
+
+        if self.fetch_submodules:
+            self.builder.exec_msys('git submodule update --init', working_dir=self.build_dir)
+
+        if os.path.exists(self.patch_dir):
+            print_log("Copying files from %s to %s" % (self.patch_dir, self.build_dir))
+            self.builder.copy_all(self.patch_dir, self.build_dir)
+
 class Project(object):
     def __init__(self, name, **kwargs):
         object.__init__(self)
@@ -50,6 +93,7 @@ class Project(object):
         self.dependencies = []
         self.patches = []
         self.archive_url = None
+        self.tarbomb = False
         for k in kwargs:
             setattr(self, k, kwargs[k])
         self.__working_dir = None
@@ -67,16 +111,19 @@ class Project(object):
     def build(self):
         raise NotImplementedError()
 
+    def post_install(self):
+        pass
+
     def exec_cmd(self, cmd, working_dir=None, add_path=None):
         self.builder.exec_cmd(cmd, working_dir=working_dir, add_path=add_path)
 
     def exec_vs(self, cmd, add_path=None):
         self.builder.exec_vs(cmd, working_dir=self._get_working_dir(), add_path=add_path)
 
-    def exec_msbuild(self, cmd, configuration=None):
+    def exec_msbuild(self, cmd, configuration=None, add_path=None):
         if not configuration:
             configuration = '%(configuration)s'
-        self.exec_vs('msbuild ' + cmd + ' /p:Configuration=' + configuration + ' %(msbuild_opts)s')
+        self.exec_vs('msbuild ' + cmd + ' /p:Configuration=' + configuration + ' %(msbuild_opts)s', add_path=add_path)
 
     def install(self, *args):
         self.builder.install(self._get_working_dir(), self.pkg_dir, *args)
@@ -154,11 +201,29 @@ class Project(object):
     def get_dict():
         return dict(Project._dict)
 
+class Project_adwaita_icon_theme(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'adwaita-icon-theme',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/adwaita-icon-theme/3.22/adwaita-icon-theme-3.22.0.tar.xz',
+            dependencies = ['librsvg'],
+            )
+
+    def build(self):
+        self.push_location(r'.\build\win32')
+        self.exec_vs(r'nmake /nologo /f adwaita-msvc.mak CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PREFIX="%(gtk_dir)s"', add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
+        self.exec_vs(r'nmake /nologo /f adwaita-msvc.mak install CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PREFIX="%(gtk_dir)s"', add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
+        self.pop_location()
+
+        self.install(r'.\COPYING_CCBYSA3 share\doc\adwaita-icon-theme')
+
+Project.add(Project_adwaita_icon_theme())
+
 class Project_atk(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'atk',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/atk/2.18/atk-2.18.0.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/atk/2.22/atk-2.22.0.tar.xz',
             dependencies = ['glib'],
             )
 
@@ -173,29 +238,88 @@ class Project_cairo(Tarball, Project):
         Project.__init__(self,
             'cairo',
             archive_url = 'http://cairographics.org/snapshots/cairo-1.15.2.tar.xz',
-            dependencies = ['fontconfig', 'glib', 'pixman'],
+            dependencies = ['fontconfig', 'glib', 'pixman', 'libpng'],
             )
 
     def build(self):
-        self.exec_msbuild(r'msvc\vc%(vs_ver)s\cairo.sln', configuration='Release_FC')
+        self.exec_vs(r'make -f Makefile.win32 CFG=%(configuration)s ARCH=%(platform)s', add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
+        self.push_location(r'.\util\cairo-gobject')
+        self.exec_vs(r'make -f Makefile.win32 CFG=%(configuration)s ARCH=%(platform)s', add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
+        self.pop_location()
+
+        self.install(r'.\src\%(configuration)s\cairo.dll bin')
+        self.install(r'.\util\cairo-gobject\%(configuration)s\cairo-gobject.dll bin')
+
+        self.install(r'.\src\%(configuration)s\cairo.lib lib')
+        self.install(r'.\util\cairo-gobject\%(configuration)s\cairo-gobject.lib lib')
+
+        self.install(r'.\src\cairo.h include\cairo')
+        self.install(r'.\src\cairo-deprecated.h include\cairo')
+        self.install(r'.\src\cairo-pdf.h include\cairo')
+        self.install(r'.\src\cairo-ps.h include\cairo')
+        self.install(r'.\src\cairo-script.h include\cairo')
+        self.install(r'.\src\cairo-svg.h include\cairo')
+        self.install(r'.\src\cairo-tee.h include\cairo')
+        self.install(r'.\src\cairo-win32.h include\cairo')
+        self.install(r'.\src\cairo-xml.h include\cairo')
+        self.install(r'.\src\cairo-ft.h include\cairo')
+        self.install(r'.\src\cairo-features.h include\cairo')
+        self.install(r'.\util\cairo-gobject\cairo-gobject.h include\cairo')
+        self.install(r'.\cairo-version.h include\cairo')
+
         self.install(r'.\COPYING share\doc\cairo')
 
 Project.add(Project_cairo())
+
+class Project_clutter(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'clutter',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/clutter/1.26/clutter-1.26.0.tar.xz',
+            dependencies = ['atk','cogl','json-glib'],
+            )
+
+    def build(self):
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\clutter.sln')
+
+        self.install(r'.\COPYING share\doc\clutter')
+
+Project.add(Project_clutter())
+
+class Project_cogl(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'cogl',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/cogl/1.22/cogl-1.22.0.tar.xz',
+            dependencies = ['glib','cairo','pango','gdk-pixbuf'],
+            patches = ['001-cogl-missing-symbols.patch',
+                       '002-cogl-pango-missing-symbols.patch',
+                       '003-cogl-framebuffer-missing-debug-return.patch'],
+            )
+
+    def build(self):
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\cogl.sln')
+
+        self.install(r'.\COPYING share\doc\cogl')
+
+Project.add(Project_cogl())
 
 class Project_cyrus_sasl(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'cyrus-sasl',
-            archive_url = 'https://github.com/wingtk/cyrus-sasl/releases/download/cyrus-sasl-lmdb-2.1.27/cyrus-sasl-2.1.27.tar.gz',
+            archive_url = 'https://github.com/wingtk/cyrus-sasl/releases/download/cyrus-sasl-lmdb-2.1.28/cyrus-sasl-2.1.28.tar.xz',
             dependencies = ['lmdb', 'openssl'],
             )
 
     def build(self):
-        #Exec nmake /nologo /f NTMakefile clean
+        configuration = 'Debug' if self.builder.opts.configuration == 'debug' else 'Release'
         self.exec_vs(r'nmake /nologo /f NTMakefile SASLDB="LMDB" LMDB_INCLUDE="%(gtk_dir)s\include" LMDB_LIBPATH="%(gtk_dir)s\lib" ' +
-                     r'OPENSSL_INCLUDE="%(gtk_dir)s\include" OPENSSL_LIBPATH="%(gtk_dir)s\lib" prefix="%(pkg_dir)s"')
-        self.exec_vs(r'nmake /nologo /f NTMakefile install SASLDB="LMDB" LMDB_INCLUDE="%(gtk_dir)s\include" LMDB_LIBPATH="%(gtk_dir)s\lib" ' +
-                     r'OPENSSL_INCLUDE="%(gtk_dir)s\include" OPENSSL_LIBPATH="%(gtk_dir)s\lib" prefix="%(pkg_dir)s"')
+                     r'OPENSSL_INCLUDE="%(gtk_dir)s\include" OPENSSL_LIBPATH="%(gtk_dir)s\lib" prefix="%(pkg_dir)s" CFG=' + configuration)
+        self.exec_vs(r'nmake /nologo /f NTMakefile install SASLDB="LMDB" LMDB_INCLUDE="%(gtk_dir)s\include" ' +
+                     r'LMDB_LIBPATH="%(gtk_dir)s\lib" OPENSSL_INCLUDE="%(gtk_dir)s\include" OPENSSL_LIBPATH="%(gtk_dir)s\lib" prefix="%(pkg_dir)s" CFG=' + configuration)
+
+        self.install(r'.\COPYING share\doc\cyrus-sasl')
 
 Project.add(Project_cyrus_sasl())
 
@@ -208,66 +332,47 @@ class Project_enchant(Tarball, Project):
             )
 
     def build(self):
-        raise NotImplementedError()
-        comment = """
-        $packageDestination = "$PWD-$filenameArch"
-        Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+        x64_param = ''
+        if self.builder.x64:
+            x64_param = 'X64=1'
 
-        Push-Location .\src
-
-        $originalEnvironment = Swap-Environment $vcvarsEnvironment
+        self.push_location(r'.\src')
 
         #Exec nmake /nologo -f makefile.mak clean
-        Exec nmake /nologo -f makefile.mak DLL=1 $(if ($filenameArch -eq 'x64') { 'X64=1' }) MFLAGS=-MD GLIBDIR=..\..\..\..\gtk\%(platform)s\include\glib-2.0
+        self.exec_vs(r'nmake /nologo -f makefile.mak DLL=1 ' + x64_param + ' MFLAGS=-MD GLIBDIR=%(gtk_dir)s\include\glib-2.0')
 
-        [void] (Swap-Environment $originalEnvironment)
+        self.pop_location()
 
-        Pop-Location
+        self.install(r'.\bin\release\enchant.exe ' \
+                     r'.\bin\release\pdb\enchant.pdb ' \
+                     r'.\bin\release\enchant-lsmod.exe ' \
+                     r'.\bin\release\pdb\enchant-lsmod.pdb ' \
+                     r'.\bin\release\test-enchant.exe ' \
+                     r'.\bin\release\pdb\test-enchant.pdb ' \
+                     r'.\bin\release\libenchant.dll ' \
+                     r'.\bin\release\pdb\libenchant.pdb '\
+                     r'bin')
 
-        write-host $packageDestination\bin
-        New-Item -Type Directory $packageDestination\bin
-        Copy-Item `
-                .\bin\%(configuration)s\enchant.exe, `
-                .\bin\%(configuration)s\pdb\enchant.pdb, `
-                .\bin\%(configuration)s\enchant-lsmod.exe, `
-                .\bin\%(configuration)s\pdb\enchant-lsmod.pdb, `
-                .\bin\%(configuration)s\test-enchant.exe, `
-                .\bin\%(configuration)s\pdb\test-enchant.pdb, `
-                .\bin\%(configuration)s\libenchant.dll, `
-                .\bin\%(configuration)s\pdb\libenchant.pdb `
-                $packageDestination\bin
+        self.install(r'.\fonts.conf ' \
+                     r'.\fonts.dtd ' \
+                     r'etc\fonts')
 
-        New-Item -Type Directory $packageDestination\etc\fonts
-        Copy-Item `
-                .\fonts.conf, `
-                .\fonts.dtd `
-                $packageDestination\etc\fonts
+        self.install(r'.\src\enchant.h ' \
+                     r'.\src\enchant++.h ' \
+                     r'.\src\enchant-provider.h ' \
+                     r'include\enchant')
 
-        New-Item -Type Directory $packageDestination\include\enchant
-        Copy-Item `
-                .\src\enchant.h, `
-                .\src\enchant++.h, `
-                .\src\enchant-provider.h `
-                $packageDestination\include\enchant
+        self.install(r'.\bin\release\libenchant.lib lib')
 
-        New-Item -Type Directory $packageDestination\lib\enchant
-        Copy-Item `
-                .\bin\%(configuration)s\libenchant.lib `
-                $packageDestination\lib
-        Copy-Item `
-                .\bin\%(configuration)s\libenchant_ispell.dll, `
-                .\bin\%(configuration)s\libenchant_ispell.lib, `
-                .\bin\%(configuration)s\pdb\libenchant_ispell.pdb, `
-                .\bin\%(configuration)s\libenchant_myspell.dll, `
-                .\bin\%(configuration)s\libenchant_myspell.lib, `
-                .\bin\%(configuration)s\pdb\libenchant_myspell.pdb `
-                $packageDestination\lib\enchant
+        self.install(r'.\bin\release\libenchant_ispell.dll ' \
+                     r'.\bin\release\libenchant_ispell.lib ' \
+                     r'.\bin\release\pdb\libenchant_ispell.pdb ' \
+                     r'.\bin\release\libenchant_myspell.dll ' \
+                     r'.\bin\release\libenchant_myspell.lib ' \
+                     r'.\bin\release\pdb\libenchant_myspell.pdb ' \
+                     r'lib\enchant')
 
-        New-Item -Type Directory $packageDestination\share\doc\enchant
-        Copy-Item .\COPYING.LIB $packageDestination\share\doc\enchant\COPYING
-
-        Package $packageDestination
-        """
+        self.install(r'.\COPYING.LIB share\doc\enchant')
 
 Project.add(Project_enchant())
 
@@ -275,50 +380,18 @@ class Project_ffmpeg(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'ffmpeg',
-            archive_url = 'http://ffmpeg.org/releases/ffmpeg-2.8.4.tar.bz2',
-            )
+            archive_url = 'http://ffmpeg.org/releases/ffmpeg-2.8.7.tar.bz2',
+            dependencies = [ 'x264' ]
+        )
 
     def build(self):
-        raise NotImplementedError()
-        comment = """
-        $packageDestination = "$PWD-$filenameArch"
-        Remove-Item -Recurse $packageDestination -ErrorAction Ignore
-        New-Item -Type Directory $packageDestination
+        self.exec_vs(r'bash build\build.sh %s %s %s' % (self.pkg_dir, self.builder.gtk_dir, self.builder.opts.configuration),
+                     add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
 
-        Remove-Item -Recurse build\install -ErrorAction Ignore
-        New-Item -Type Directory build\install
-
-        $originalEnvironment = Swap-Environment $vcvarsEnvironment
-
-        $env:PATH += ";$Msys2Directory\usr\bin"
-
-        Exec $Msys2Directory\usr\bin\bash build\build.sh build\install
-
-        [void] (Swap-Environment $originalEnvironment)
-
-        Copy-Item `
-                build\install\include `
-                $packageDestination `
-                -Recurse
-
-        New-Item -Type Directory $packageDestination\bin
-        Copy-Item `
-                build\install\bin\*.dll `
-                $packageDestination\bin
-
-        New-Item -Type Directory $packageDestination\lib
-        Copy-Item `
-                build\install\bin\*.lib `
-                $packageDestination\lib
-
-        New-Item -Type Directory $packageDestination\share\doc\ffmpeg
-        Copy-Item `
-                COPYING.LGPLv2.1, `
-                COPYING.LGPLv3 `
-                $packageDestination\share\doc\ffmpeg
-
-        Package $packageDestination
-        """
+        self.install(r'.\COPYING.LGPLv2.1 ' \
+                     r'.\COPYING.LGPLv3 ' \
+                     r'.\COPYING.GPLv2 ' \
+                     r'share\doc\ffmpeg')
 
 Project.add(Project_ffmpeg())
 
@@ -326,7 +399,7 @@ class Project_fontconfig(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'fontconfig',
-            archive_url = 'https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.11.1.tar.gz',
+            archive_url = 'https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.12.0.tar.gz',
             dependencies = ['freetype', 'libxml2'],
             patches = ['fontconfig.patch'],
             )
@@ -369,7 +442,7 @@ class Project_freetype(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'freetype',
-            archive_url = 'http://dl.hexchat.net/gtk-win32/src/freetype-2.6.tar.bz2',
+            archive_url = 'http://download.savannah.gnu.org/releases/freetype/freetype-2.7.tar.gz',
             )
 
     def build(self):
@@ -384,12 +457,16 @@ class Project_gdk_pixbuf(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'gdk-pixbuf',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.32/gdk-pixbuf-2.32.3.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.36/gdk-pixbuf-2.36.0.tar.xz',
             dependencies = ['glib', 'libpng'],
             )
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gdk-pixbuf.sln', configuration='Release_GDI+')
+        configuration = 'Release_GDI+'
+        if self.builder.opts.configuration == 'debug':
+            configuration = 'Debug_GDI+'
+
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gdk-pixbuf.sln', configuration=configuration)
         self.install(r'.\COPYING share\doc\gdk-pixbuf')
 
 Project.add(Project_gdk_pixbuf())
@@ -397,21 +474,21 @@ Project.add(Project_gdk_pixbuf())
 class Project_gettext(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
-            'gettext-runtime',
-            archive_url = 'http://dl.hexchat.net/gtk-win32/src/gettext-vc100-0.18-src.tar.bz2',
+            'gettext',
+            archive_url = 'http://ftp.gnu.org/pub/gnu/gettext/gettext-0.19.7.tar.gz',
             dependencies = ['win-iconv'],
-            patches = ['gettext-runtime.patch', 'gettext-lib-prexif.patch'],
+            patches = ['0001-gettext-runtime-Add-pre-configured-headers-for-MSVC-.patch',
+                       '0001-gettext-tools-Add-pre-configured-headers-and-sources.patch',
+                       '0001-gettext-tools-gnulib-lib-libxml-Check-for-_WIN32-as-.patch',
+                       '0001-gettext-tools-Make-private-headers-C-friendly.patch',
+                       '0001-gettext-tools-src-x-lua.c-Fix-C99ism.patch',
+                       '0002-gettext-tools-gnulib-lib-Declare-items-at-top-of-blo.patch',
+                       '0004-gettext-runtime-intl-plural-exp.h-Match-up-declarati.patch',
+                       '0005-gettext-runtime-intl-printf-parse.c-Fix-build-on-Vis.patch'],
             )
 
     def build(self):
-        #Remove-Item -Recurse CMakeCache.txt, CMakeFiles -ErrorAction Ignore
-
-        self.exec_vs(r'cmake -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(pkg_dir)s" -DCMAKE_BUILD_TYPE=%(configuration)s ' +
-                        r'-DICONV_INCLUDE_DIR="%(gtk_dir)s\include" -DICONV_LIBRARIES="%(gtk_dir)s\lib\iconv.lib"', add_path=self.builder.opts.cmake_path)
-        #Exec nmake clean
-        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
-        self.exec_vs(r'nmake /nologo install', add_path=self.builder.opts.cmake_path)
-        #Exec nmake clean
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gettext.sln')
 
         self.install(r'.\COPYING share\doc\gettext')
 
@@ -421,16 +498,18 @@ class Project_glib(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'glib',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.46/glib-2.46.2.tar.xz',
-            dependencies = ['gettext-runtime', 'libffi', 'zlib'],
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.50/glib-2.50.0.tar.xz',
+            dependencies = ['gettext', 'libffi', 'zlib'],
             patches = ['glib-if_nametoindex.patch',
-                       'glib-package-installation-directory.patch',
-                       '0001-Change-message-system-to-use-fputs-instead-of-write.patch',
-                       'Add-gsystemthreadsetname-implementation-for-W32-th.patch'],
+                       'glib-package-installation-directory.patch'],
             )
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\glib.sln')
+        configuration = 'Release_BundledPCRE'
+        if self.builder.opts.configuration == 'debug':
+            configuration = 'Debug_BundledPCRE'
+
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\glib.sln', configuration=configuration)
         self.install(r'.\COPYING share\doc\glib')
 
 Project.add(Project_glib())
@@ -439,29 +518,97 @@ class Project_glib_networking(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'glib-networking',
-            archive_url = 'https://github.com/wingtk/glib-networking/releases/download/2.46.3-openssl/glib-networking-2.46.3.tar.xz',
+            archive_url = 'https://github.com/wingtk/glib-networking/releases/download/2.50.0-openssl/glib-networking-2.50.0.tar.xz',
             dependencies = ['gsettings-desktop-schemas', 'openssl'],
             )
 
     def build(self):
         self.exec_msbuild(r'build\win32\vs%(vs_ver)s\glib-networking.sln')
+        self.install(r'.\COPYING share\doc\glib-networking')
 
 Project.add(Project_glib_networking())
+
+class Project_glib_openssl(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'glib-openssl',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib-openssl/2.50/glib-openssl-2.50.0.tar.xz',
+            dependencies = ['glib', 'openssl'],
+            )
+
+    def build(self):
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\glib-openssl.sln')
+        self.install(r'.\COPYING share\doc\glib-openssl')
+        self.install(r'.\LICENSE_EXCEPTION share\doc\glib-openssl')
+
+Project.add(Project_glib_openssl())
+
+class Project_grpc(GitRepo, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'grpc',
+            repo_url = 'https://github.com/grpc/grpc.git',
+            fetch_submodules = True,
+            tag = 'v1.0.0',
+            dependencies = ['protobuf'],
+            patches = ['0001-Remove-RuntimeLibrary-setting-from-the-projects.patch'],
+            )
+
+    def build(self):
+        self.exec_cmd(self.builder.nuget + ' restore ' + os.path.join(self.build_dir, 'vsprojects', 'grpc.sln'))
+        self.exec_msbuild(r'vsprojects\grpc.sln /t:grpc++')
+        self.exec_msbuild(r'vsprojects\grpc_protoc_plugins.sln')
+
+        self.install(r'.\include\grpc include\google')
+        self.install(r'.\include\grpc++ include\google')
+
+        platform = ''
+        if self.builder.x64:
+            platform = 'x64\\'
+
+        bin_dir = r'.\vsprojects\%s%s' % (platform, self.builder.opts.configuration, )
+
+        self.install(bin_dir + r'\gpr.lib lib')
+        self.install(bin_dir + r'\grpc.lib lib')
+        self.install(bin_dir + r'\grpc++.lib lib')
+
+        self.install(bin_dir + r'\grpc_cpp_plugin.exe bin')
+        self.install(bin_dir + r'\grpc_cpp_plugin.pdb bin')
+
+        self.install(bin_dir + r'\grpc_csharp_plugin.exe bin')
+        self.install(bin_dir + r'\grpc_csharp_plugin.pdb bin')
+
+        self.install(bin_dir + r'\grpc_node_plugin.exe bin')
+        self.install(bin_dir + r'\grpc_node_plugin.pdb bin')
+
+        self.install(bin_dir + r'\grpc_objective_c_plugin.exe bin')
+        self.install(bin_dir + r'\grpc_objective_c_plugin.pdb bin')
+
+        self.install(bin_dir + r'\grpc_python_plugin.exe bin')
+        self.install(bin_dir + r'\grpc_python_plugin.pdb bin')
+
+        self.install(bin_dir + r'\grpc_ruby_plugin.exe bin')
+        self.install(bin_dir + r'\grpc_ruby_plugin.pdb bin')
+
+        self.install(r'.\LICENSE share\doc\grpc')
+
+Project.add(Project_grpc())
 
 class Project_gsettings_desktop_schemas(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'gsettings-desktop-schemas',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.18/gsettings-desktop-schemas-3.18.1.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.22/gsettings-desktop-schemas-3.22.0.tar.xz',
             dependencies = ['glib'],
             )
 
     def build(self):
         self.push_location(r'.\build\win32')
-        #Exec nmake /f gsettings-desktop-schemas-msvc.mak clean
-        self.exec_vs(r'nmake /nologo /f gsettings-desktop-schemas-msvc.mak PYTHON="%(python_dir)s\python.exe" PYTHON2="%(python_dir)s\python.exe" PERL="%(perl_dir)s\bin\perl.exe" PREFIX="%(gtk_dir)s"')
-        self.exec_vs(r'nmake /nologo /f gsettings-desktop-schemas-msvc.mak install PREFIX="%(gtk_dir)s"')
+        self.exec_vs(r'nmake /nologo /f gsettings-desktop-schemas-msvc.mak CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PERL="%(perl_dir)s\bin\perl.exe" PREFIX="%(gtk_dir)s"')
+        self.exec_vs(r'nmake /nologo /f gsettings-desktop-schemas-msvc.mak install CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PREFIX="%(gtk_dir)s"')
         self.pop_location()
+
+        self.install(r'.\COPYING share\doc\gsettings-desktop-schemas')
 
 Project.add(Project_gsettings_desktop_schemas())
 
@@ -470,8 +617,6 @@ class Project_gtk_base(Tarball, Project):
         Project.__init__(self, name, **kwargs)
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtk+.sln')
-
         mo = 'gtk20.mo' if self.name == 'gtk' else 'gtk30.mo'
 
         localedir = os.path.join(self.pkg_dir, 'share', 'locale')
@@ -482,16 +627,21 @@ class Project_gtk_base(Tarball, Project):
             self.builder.exec_msys(['msgfmt', '-co', os.path.join(lcmsgdir, mo), f], working_dir=self._get_working_dir())
         self.pop_location()
 
-        self.install(r'.\COPYING share\doc\gtk')
+        self.install(r'.\COPYING share\doc\%s' % self.name)
 
 class Project_gtk(Project_gtk_base):
     def __init__(self):
         Project_gtk_base.__init__(self,
             'gtk', 
-            archive_url = 'http://dl.hexchat.net/gtk-win32/src/gtk+-2.24.29.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/2.24/gtk+-2.24.30.tar.xz',
             dependencies = ['atk', 'gdk-pixbuf', 'pango'],
-            patches = ['gtk-revert-scrolldc-commit.patch', 'gtk-bgimg.patch', 'gtk-accel.patch', 'gtk-multimonitor.patch', 'gdk-window.patch'],
+            patches = ['gtk-revert-scrolldc-commit.patch', 'gtk-bgimg.patch', 'gtk-accel.patch', 'gtk-multimonitor.patch'],
             )
+
+    def build(self):
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtk+.sln')
+
+        super(Project_gtk, self).build()
 
 Project.add(Project_gtk())
 
@@ -499,27 +649,54 @@ class Project_gtk3(Project_gtk_base):
     def __init__(self):
         Project_gtk_base.__init__(self,
             'gtk3',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.18/gtk+-3.18.6.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.22/gtk+-3.22.0.tar.xz',
             dependencies = ['atk', 'gdk-pixbuf', 'pango', 'libepoxy'],
             )
 
+    def build(self):
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtk+.sln /p:GtkPostInstall=rem')
+
+        super(Project_gtk3, self).build()
+
+    def post_install(self):
+        self.exec_cmd(r'%(gtk_dir)s\bin\glib-compile-schemas.exe %(gtk_dir)s\share\glib-2.0\schemas')
+        self.exec_cmd(r'%(gtk_dir)s\bin\gtk-update-icon-cache.exe --ignore-theme-index --force "%(gtk_dir)s\share\icons\hicolor"')
+
 Project.add(Project_gtk3())
+
+class Project_gtksourceview3(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'gtksourceview3',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtksourceview/3.20/gtksourceview-3.20.4.tar.xz',
+            dependencies = ['gtk3'],
+            )
+
+    def build(self):
+        add_path = os.path.join(self.builder.opts.perl_dir, 'bin')
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtksourceview.sln', add_path=add_path)
+
+        self.install(r'.\COPYING share\doc\gtksourceview3')
+
+Project.add(Project_gtksourceview3())
 
 class Project_harfbuzz(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'harfbuzz',
-            archive_url = 'https://github.com/wingtk/harfbuzz/releases/download/1.1.2.msvc/harfbuzz-1.1.2.tar.bz2',
+            archive_url = 'https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.3.1.tar.bz2',
             dependencies = ['freetype', 'glib'],
             )
 
     def build(self):
-        self.push_location(r'.\build\win32')
+        self.push_location(r'.\win32')
         self.builder.make_dir(os.path.join(self.build_dir, 'build', 'win32', self.builder.opts.configuration, 'win32'))
         #Exec nmake /f Makefile.vc clean CFG=%(configuration)s
         self.exec_vs(r'nmake /nologo /f Makefile.vc CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PERL="%(perl_dir)s\bin\perl.exe" PREFIX="%(gtk_dir)s" FREETYPE=1 GOBJECT=1')
         self.exec_vs(r'nmake /nologo /f Makefile.vc install CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PERL="%(perl_dir)s\bin\perl.exe" PREFIX="%(gtk_dir)s" FREETYPE=1 GOBJECT=1')
         self.pop_location()
+
+        self.install(r'.\COPYING share\doc\harfbuzz')
 
 Project.add(Project_harfbuzz())
 
@@ -534,6 +711,69 @@ class Project_hicolor_icon_theme(Tarball, Project):
         self.install(r'.\index.theme share\icons\hicolor')
 
 Project.add(Project_hicolor_icon_theme())
+
+class Project_jsonc(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'json-c',
+            archive_url = 'https://github.com/json-c/json-c/archive/json-c-0.12.1-20160607.tar.gz',
+            patches = ['json-c-0.12.1-20160607.patch'],
+            )
+
+    def build(self):
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\json-c.sln')
+
+        self.install(r'.\COPYING share\doc\json-c')
+
+Project.add(Project_jsonc())
+
+class Project_json_glib(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'json-glib',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/json-glib/1.2/json-glib-1.2.2.tar.xz',
+            dependencies = ['glib'],
+            )
+
+    def build(self):
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\json-glib.sln')
+
+        self.install(r'.\COPYING share\doc\json-glib')
+
+Project.add(Project_json_glib())
+
+class Project_leveldb(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'leveldb',
+            archive_url = 'http://github.com/google/leveldb/archive/v1.18.tar.gz',
+            )
+
+    def build(self):
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\leveldb.sln')
+
+        self.install(r'.\LICENSE share\doc\leveldb')
+
+Project.add(Project_leveldb())
+
+class Project_libarchive(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'libarchive',
+            archive_url = 'http://www.libarchive.org/downloads/libarchive-3.2.1.tar.gz',
+            dependencies = ['win-iconv', 'zlib', 'lz4', 'openssl', 'libxml2'],
+            patches = ['0001-test_write_format_gnutar_filenames-use-AE_IFLNK-inst.patch'],
+            )
+
+    def build(self):
+        cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'Release'
+        self.exec_vs(r'cmake . -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config, add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo install', add_path=self.builder.opts.cmake_path)
+
+        self.install(r'.\COPYING share\doc\libarchive')
+
+Project.add(Project_libarchive())
 
 class Project_libcroco(Tarball, Project):
     def __init__(self):
@@ -583,28 +823,93 @@ class Project_libffi(Tarball, Project):
 
 Project.add(Project_libffi())
 
+class Project_libgxps(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'libgxps',
+            archive_url = 'https://git.gnome.org/browse/libgxps/snapshot/libgxps-4709da90210839ca8fdd424caa7be897f3be91bb.tar.xz',
+            dependencies = ['glib', 'libarchive', 'cairo', 'libpng'],
+            )
+
+    def build(self):
+        self.push_location(r'.\nmake')
+        self.exec_vs(r'nmake /nologo /f Makefile.vc CFG=%(configuration)s PREFIX="%(gtk_dir)s" LIBPNG=1 CAIRO_PDF=1 CAIRO_PS=1 CAIRO_SVG=1')
+        self.exec_vs(r'nmake /nologo /f Makefile.vc install CFG=%(configuration)s PREFIX="%(gtk_dir)s" LIBPNG=1 CAIRO_PDF=1 CAIRO_PS=1 CAIRO_SVG=1')
+        self.pop_location()
+
+        self.install(r'.\COPYING share\doc\libgxps')
+
+Project.add(Project_libgxps())
+
+class Project_libjpeg_turbo(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'libjpeg-turbo',
+            archive_url = 'https://sourceforge.net/projects/libjpeg-turbo/files/1.5.1/libjpeg-turbo-1.5.1.tar.gz',
+            )
+
+    def build(self):
+        cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
+        add_path = ';'.join([self.builder.opts.cmake_path,
+                             os.path.join(self.builder.opts.msys_dir, 'usr', 'bin')])
+
+        self.exec_vs(r'cmake . -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=%(configuration)s', add_path=add_path)
+        self.exec_vs(r'nmake /nologo', add_path=add_path)
+        self.exec_vs(r'nmake /nologo install', add_path=add_path)
+
+        self.install(r'.\LICENSE.md share\doc\libjpeg-turbo')
+
+Project.add(Project_libjpeg_turbo())
+
+class Project_libmicrohttpd(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'libmicrohttpd',
+             archive_url = 'http://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-0.9.48.tar.gz',
+             patches = ['001-disable-w32_SetThreadName.patch'],
+            )
+
+    def build(self):
+        configuration = 'release-dll'
+        if self.builder.opts.configuration == 'debug':
+            configuration = 'debug-dll'
+
+        self.exec_msbuild(r'w32\VS2013\libmicrohttpd.sln', configuration=configuration)
+
+        debug_option = ''
+        if self.builder.opts.configuration == 'debug':
+            debug_option = '_d'
+
+        if self.builder.x86:
+            rel_dir = r'w32\VS2013\Output'
+        else:
+            rel_dir = r'w32\VS2013\Output\x64'
+
+        self.push_location(rel_dir)
+        self.install(r'microhttpd.h include')
+        self.install(r'libmicrohttpd-dll' + debug_option + '.lib' + ' lib')
+        self.install(r'libmicrohttpd-dll' + debug_option + '.dll' + ' bin')
+        self.install(r'libmicrohttpd-dll' + debug_option + '.pdb' + ' bin')
+        self.install(r'hellobrowser-dll' + debug_option + '.exe' + ' bin')
+        self.pop_location()
+
+        self.install(r'.\COPYING share\doc\libmicrohttpd')
+
+Project.add(Project_libmicrohttpd())
+
 class Project_libpng(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libpng',
-            archive_url = 'http://dl.hexchat.net/gtk-win32/src/libpng-1.6.21.tar.xz',
+            archive_url = 'http://prdownloads.sourceforge.net/libpng/libpng-1.6.25.tar.xz',
             dependencies = ['zlib'],
             )
 
     def build(self):
-        self.exec_msbuild(r'projects\vc%(vs_ver)s\pnglibconf\pnglibconf.vcxproj /p:SolutionDir=%(build_dir)s\projects\vc%(vs_ver)s\ ')
-        self.exec_msbuild(r'projects\vc%(vs_ver)s\libpng\libpng.vcxproj /p:SolutionDir=%(build_dir)s\projects\vc%(vs_ver)s\ ')
+        self.exec_vs(r'cmake . -G "NMake Makefiles" -DZLIB_ROOT="%(gtk_dir)s" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=%(configuration)s', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo install', add_path=self.builder.opts.cmake_path)
 
-        if self.builder.x86:
-            rel_dir = r'.\projects\vc%(vs_ver)s\%(configuration)s'
-        else:
-            rel_dir = r'.\projects\vc%(vs_ver)s\x64\%(configuration)s'
-
-        self.push_location(rel_dir)
-        self.install('libpng16.dll libpng16.pdb bin')
-        self.install('libpng16.lib lib')
-        self.pop_location()
-        self.install(r'.\png.h .\pngconf.h .\pnglibconf.h .\pngpriv.h include')
         self.install('LICENSE share\doc\libpng')
 
 Project.add(Project_libpng())
@@ -613,7 +918,7 @@ class Project_librsvg(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'librsvg',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/librsvg/2.40/librsvg-2.40.12.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/librsvg/2.40/librsvg-2.40.16.tar.xz',
             dependencies = ['libcroco', 'cairo', 'pango', 'gdk-pixbuf', 'gtk3'],
             )
 
@@ -621,150 +926,319 @@ class Project_librsvg(Tarball, Project):
         self.exec_msbuild(r'build\win32\vs%(vs_ver)s\librsvg.sln')
         self.install(r'.\COPYING share\doc\librsvg')
 
+    def post_install(self):
+        self.exec_cmd(r'%(gtk_dir)s\bin\gdk-pixbuf-query-loaders.exe --update-cache')
+
 Project.add(Project_librsvg())
+
+class Project_sqlite(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'sqlite',
+            archive_url = 'https://www.sqlite.org/2016/sqlite-autoconf-3120200.tar.gz',
+            )
+
+    def build(self):
+        nmake_debug = 'DEBUG=2' if self.builder.opts.configuration == 'debug' else 'DEBUG=0'
+        self.exec_vs(r'nmake /f Makefile.msc sqlite3.dll DYNAMIC_SHELL=1 ' + nmake_debug)
+
+        self.install('sqlite3.h include')
+        self.install('sqlite3.dll sqlite3.pdb bin')
+        self.install('sqlite3.lib lib')
+
+Project.add(Project_sqlite())
+
+class Project_libcurl(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'libcurl',
+            archive_url = 'https://github.com/curl/curl/archive/curl-7_48_0.tar.gz',
+            dependencies = [],
+            )
+
+    def build(self):
+        cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
+        self.exec_vs(r'cmake -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DGTK_DIR="%(pkg_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config, add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo install', add_path=self.builder.opts.cmake_path)
+
+        self.install(r'.\COPYING share\doc\libcurl')
+
+Project.add(Project_libcurl())
 
 class Project_libsoup(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libsoup',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.52/libsoup-2.52.1.tar.xz',
-            dependencies = ['libxml2', 'glib-networking'],
-            patches = ['0001-Provide-a-_SOUP_EXTERN-so-we-ensure-the-methods-get-.patch',
-                       '0002-Mark-externalized-methods-with-SOUP_AVAILABLE_IN_2_4.patch',
-                       '0003-Properly-handle-the-visibility-of-the-methods.patch',
-                       '0001-Declare-a-SOUP_VAR-to-externalize-variables.patch'],
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.56/libsoup-2.56.0.tar.xz',
+            dependencies = ['libxml2', 'glib-openssl', 'sqlite'],
             )
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\soup.sln')
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\libsoup.sln')
+
+        self.install(r'.\COPYING share\doc\libsoup')
 
 Project.add(Project_libsoup())
+
+class Project_libssh(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'libssh',
+            archive_url = 'https://red.libssh.org/attachments/download/177/libssh-0.7.2.tar.xz',
+            dependencies = ['zlib','openssl'],
+            )
+
+    def build(self):
+        self.exec_msbuild(r'build\vs%(vs_ver)s\libssh-library.sln')
+
+        self.install(r'.\COPYING share\doc\libssh')
+
+Project.add(Project_libssh())
+
+class Project_libssh2(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'libssh2',
+            archive_url = 'https://www.libssh2.org/download/libssh2-1.7.0.tar.gz',
+            )
+
+    def build(self):
+        cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
+        self.exec_vs(r'cmake -G"NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DGTK_DIR="%(pkg_dir)s" -DWITH_ZLIB=ON -DCMAKE_BUILD_TYPE=' + cmake_config, add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo install', add_path=self.builder.opts.cmake_path)
+
+        self.install(r'.\COPYING share\doc\libssh2')
+
+Project.add(Project_libssh2())
+
+class Project_libuv(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'libuv',
+            archive_url = 'https://github.com/libuv/libuv/archive/v1.9.1.tar.gz',
+            )
+
+    def build(self):
+        rel_dir = r'Release'
+        if self.builder.opts.configuration == 'debug':
+            rel_dir = r'Debug'
+
+        platform = r'x86'
+        if self.builder.x64:
+            platform = r'x64'
+
+        os.system(r'%s\vcbuild.bat build static %s %s' % (self._get_working_dir(), self.builder.opts.configuration, platform))
+
+        self.install(r'include\pthread-barrier.h include\libuv')
+        self.install(r'include\stdint-msvc2008.h include\libuv')
+        self.install(r'include\tree.h include\libuv')
+        self.install(r'include\uv.h include\libuv')
+        self.install(r'include\uv-aix.h include\libuv')
+        self.install(r'include\uv-bsd.h include\libuv')
+        self.install(r'include\uv-darwin.h include\libuv')
+        self.install(r'include\uv-errno.h include\libuv')
+        self.install(r'include\uv-linux.h include\libuv')
+        self.install(r'include\uv-sunos.h include\libuv')
+        self.install(r'include\uv-threadpool.h include\libuv')
+        self.install(r'include\uv-unix.h include\libuv')
+        self.install(r'include\uv-version.h include\libuv')
+        self.install(r'include\uv-win.h include\libuv')
+
+        self.push_location(rel_dir)
+        self.install(r'run-benchmarks' + '.exe' + ' bin')
+        self.install(r'run-tests' + '.exe' + ' bin')
+        self.install(r'lib\libuv' + '.lib' + ' lib')
+        self.pop_location()
+
+        self.install(r'.\LICENSE share\doc\libuv')
+
+Project.add(Project_libuv())
 
 class Project_libxml2(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libxml2',
-            archive_url = 'http://dl.hexchat.net/gtk-win32/src/libxml2-2.9.3.tar.gz',
+            archive_url = 'ftp://xmlsoft.org/libxml2/libxml2-2.9.4.tar.gz',
             dependencies = ['win-iconv'],
             )
 
     def build(self):
-        self.exec_msbuild(r'win32\vc%(vs_ver)s\libxml2.sln')
+        shutil.copy(os.path.join(self._get_working_dir(), 'include', 'win32config.h'),
+                    os.path.join(self._get_working_dir(), 'config.h'))
 
-        self.install(r'.\lib\libxml2.dll .\lib\libxml2.pdb .\lib\runsuite.exe .\lib\runsuite.pdb bin')
-        self.install(r'.\win32\VC12\config.h .\include\wsockcompat.h .\include\libxml\*.h include\libxml')
-        self.install(r'.\lib\libxml2.lib lib')
+        lib = ';'.join([self.builder.vs_env['LIB'],
+                        os.path.join(self.builder.gtk_dir, 'lib')])
+
+        nmake_config = 'DEBUG=1' if self.builder.opts.configuration == 'debug' else 'DEBUG=0'
+        self.push_location(r'.\win32')
+        self.exec_vs(r'nmake /nologo /f Makefile.msvc WITH_ICONV=1 LIB="%s" PREFIX="%s" %s' % (lib, self.builder.gtk_dir, nmake_config))
+        self.exec_vs(r'nmake /nologo /f Makefile.msvc install LIB="%s" PREFIX="%s" %s' % (lib, self.builder.gtk_dir, nmake_config))
+        self.pop_location()
+
         self.install(r'.\COPYING share\doc\libxml2')
 
 Project.add(Project_libxml2())
+
+class Project_libyuv(GitRepo, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'libyuv',
+            repo_url = 'https://chromium.googlesource.com/libyuv/libyuv',
+            fetch_submodules = False,
+            tag = None,
+            )
+
+    def build(self):
+        self.exec_vs(r'cmake . -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=%(configuration)s', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo install', add_path=self.builder.opts.cmake_path)
+
+        self.install(r'.\LICENSE share\doc\libyuv')
+
+Project.add(Project_libyuv())
+
+class Project_libzip(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'libzip',
+            archive_url = 'http://nih.at/libzip/libzip-1.1.3.tar.gz',
+            dependencies = ['zlib'],
+            )
+
+    def build(self):
+        cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
+        self.exec_vs(r'cmake -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DGTK_DIR="%(pkg_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config, add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo install', add_path=self.builder.opts.cmake_path)
+
+        self.install(r'.\LICENSE share\doc\libzip')
+
+Project.add(Project_libzip())
 
 class Project_lmdb(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'lmdb',
-            archive_url = 'https://github.com/wingtk/lmdb/archive/LMDB_MSVC_0.9.15.tar.gz',
+            archive_url = 'https://github.com/LMDB/lmdb/archive/LMDB_0.9.18.tar.gz',
             )
 
     def build(self):
-        self.exec_msbuild(r'libraries\liblmdb\lmdb.sln')
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\lmdb.sln')
 
         self.install(r'.\libraries\liblmdb\lmdb.h include')
-        self.install(r'.\libraries\liblmdb\%(platform)s\%(configuration)s\lmdb.lib lib')
+        self.install(r'.\build\win32\vs%(vs_ver)s\%(platform)s\%(configuration)s\lmdb.lib lib')
         self.install(r'.\libraries\liblmdb\LICENSE share\doc\lmdb')
 
 Project.add(Project_lmdb())
+
+class Project_lz4(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'lz4',
+            archive_url = 'https://github.com/Cyan4973/lz4/archive/r131.tar.gz',
+            )
+
+    def build(self):
+        self.exec_msbuild(r'projects\vs%(vs_ver)s\lz4-dll.sln')
+
+        self.install(r'projects\vs%(vs_ver)s\bin\%(configuration)s\%(platform)s\lz4.dll projects\vs%(vs_ver)s\bin\%(configuration)s\%(platform)s\lz4.pdb bin')
+        self.install(r'.\lib\lz4.h .\lib\lz4hc.h include')
+        self.install(r'projects\vs%(vs_ver)s\bin\%(configuration)s\%(platform)s\lz4.lib lib')
+
+        self.install(r'.\lib\LICENSE share\doc\lz4')
+
+Project.add(Project_lz4())
 
 class Project_openssl(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'openssl',
-            archive_url = 'ftp://ftp.openssl.org/source/openssl-1.0.2f.tar.gz',
+            archive_url = 'ftp://ftp.openssl.org/source/openssl-1.0.2j.tar.gz',
             )
 
     def build(self):
-        raise NotImplementedError()
-        comment = """
-        $packageDestination = "$PWD-$filenameArch"
-        Remove-Item -Recurse $packageDestination -ErrorAction Ignore
+        common_options = r'no-ssl2 no-ssl3 no-comp --prefix="%(pkg_dir)s"'
+        add_path = None
 
-        $originalEnvironment = Swap-Environment $vcvarsEnvironment
+        debug_option = ''
+        if self.builder.opts.configuration == 'debug':
+            debug_option = 'debug-'
 
-        $env:PATH += ";$PerlDirectory\bin;$Msys2Directory\usr\bin"
+        # Note that we want to give priority to the system perl version.
+        # Using the msys2 one might endup giving us a broken build
+        add_path = ';'.join([os.path.join(self.builder.opts.perl_dir, 'bin'),
+                             os.path.join(self.builder.opts.msys_dir, 'usr', 'bin')])
 
-        switch ($filenameArch) {
-                'x86' {
-                        Exec perl Configure VC-WIN32 no-ssl2 no-ssl3 no-comp --openssldir=./
-                        Exec ms\do_nasm
-                }
+        if self.builder.x86:
+            self.exec_vs(r'%(perl_dir)s\bin\perl.exe Configure ' + debug_option + 'VC-WIN32 ' + common_options)
+            self.exec_vs(r'ms\do_nasm', add_path=add_path)
+        else:
+            self.exec_vs(r'%(perl_dir)s\bin\perl.exe Configure ' + debug_option + 'VC-WIN64A ' + common_options)
+            self.exec_vs(r'ms\do_win64a', add_path=add_path)
 
-                'x64' {
-                        Exec perl Configure VC-WIN64A no-ssl2 no-ssl3 no-comp --openssldir=./
-                        Exec ms\do_win64a
-                }
-        }
+        try:
+            self.exec_vs(r'nmake /nologo -f ms\ntdll.mak vclean', add_path=add_path)
+        except:
+            pass
 
-        # nmake returns error code 2 because it fails to find build outputs to delete
-        try { Exec nmake /nologo -f ms\ntdll.mak vclean } catch { }
+        self.exec_vs(r'nmake /nologo -f ms\ntdll.mak', add_path=add_path)
+        self.exec_vs(r'nmake /nologo -f ms\ntdll.mak test', add_path=add_path)
+        self.exec_vs(r'%(perl_dir)s\bin\perl.exe mk-ca-bundle.pl -n cert.pem')
+        self.exec_vs(r'nmake /nologo -f ms\ntdll.mak install', add_path=add_path)
 
-        Exec nmake /nologo -f ms\ntdll.mak
-
-        Exec nmake /nologo -f ms\ntdll.mak test
-
-        Exec perl mk-ca-bundle.pl -n cert.pem
-        Move-Item .\include .\include-orig
-
-        Exec nmake /nologo -f ms\ntdll.mak install
-
-        [void] (Swap-Environment $originalEnvironment)
-
-        New-Item -Type Directory $packageDestination
-
-        Move-Item .\bin $packageDestination
-        Copy-Item `
-                .\out32dll\libeay32.pdb, `
-                .\out32dll\openssl.pdb, `
-                .\out32dll\ssleay32.pdb `
-                $packageDestination\bin
-        Move-Item .\cert.pem $packageDestination\bin
-
-        Move-Item .\include $packageDestination
-        Move-Item .\include-orig .\include
-
-        Move-Item .\lib $packageDestination
-        Copy-Item `
-                .\out32dll\4758cca.pdb, `
-                .\out32dll\aep.pdb, `
-                .\out32dll\atalla.pdb, `
-                .\out32dll\capi.pdb, `
-                .\out32dll\chil.pdb, `
-                .\out32dll\cswift.pdb, `
-                .\out32dll\gmp.pdb, `
-                .\out32dll\gost.pdb, `
-                .\out32dll\nuron.pdb, `
-                .\out32dll\padlock.pdb, `
-                .\out32dll\sureware.pdb, `
-                .\out32dll\ubsec.pdb `
-                $packageDestination\lib\engines
-
-        New-Item -Type Directory $packageDestination\share\doc\openssl
-        Move-Item .\openssl.cnf $packageDestination\share\openssl.cnf.example
-        Copy-Item .\LICENSE $packageDestination\share\doc\openssl\COPYING
-
-        Package $packageDestination
-        """
+        self.install(r'.\cert.pem bin')
+        self.install(r'.\openssl.cnf share')
+        self.install(r'.\LICENSE share\doc\openssl\COPYING')
 
 Project.add(Project_openssl())
+
+class Project_opus(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'opus',
+            archive_url = 'http://downloads.xiph.org/releases/opus/opus-1.1.3.tar.gz',
+            )
+
+    def build(self):
+        version = '13'
+        if self.builder.opts.vs_ver == '14':
+            version = '15'
+
+        configuration = 'ReleaseDLL'
+        if self.builder.opts.configuration == 'debug':
+            configuration = 'DebugDLL'
+
+        self.exec_msbuild(r'.\win32\VS20' + version + '\opus.sln', configuration=configuration)
+
+        bin_dir = r'.\win32\VS20' + version + '\%s\%s' % (self.builder.opts.platform, configuration, )
+
+        self.install(bin_dir + r'\opus.dll bin')
+        self.install(bin_dir + r'\opus.pdb bin')
+
+        self.install(bin_dir + r'\opus.lib lib')
+
+        self.install(r'include\* include')
+
+        self.install(r'COPYING share\doc\opus')
+
+Project.add(Project_opus())
 
 class Project_pango(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'pango',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.38/pango-1.38.1.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.40/pango-1.40.3.tar.xz',
             dependencies = ['cairo', 'harfbuzz'],
             )
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\pango.sln', configuration='Release_FC')
+        configuration = 'Release_FC'
+        if self.builder.opts.configuration == 'debug':
+            configuration = 'Debug_FC'
+
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\pango.sln', configuration=configuration)
         self.install(r'COPYING share\doc\pango')
 
 Project.add(Project_pango())
@@ -773,72 +1247,98 @@ class Project_pixman(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'pixman',
-            archive_url = 'http://dl.hexchat.net/gtk-win32/src/pixman-0.32.6.tar.gz',
-            dependencies = ['libpng'],
+            archive_url = 'http://cairographics.org/releases/pixman-0.34.0.tar.gz',
             )
 
-    def __get_symbol(self, code, exports):
-        # PIXMAN_EXPORT pixman_implementation_t *
-        # _pixman_internal_only_get_implementation (void)
-        
-        # PIXMAN_EXPORT pixman_bool_t
-        # PREFIX (_copy) (region_type_t *dst, region_type_t *src)
-
-        sym = None
-        m = re.match(r'PIXMAN_EXPORT\s+.*(\s|\*)(PREFIX\s*\(([a-zA-Z0-9_]+)\))\s*\(', code)
-        if m:
-            sym = m.group(3)
-            exports.add('pixman_region32' + sym)
-            exports.add('pixman_region' + sym)
-        else:
-            m = re.match(r'PIXMAN_EXPORT\s+.*(\s|\*)([a-zA-Z0-9_]+)\s*\(', code)
-            if m:
-                sym = m.group(2)
-                if not sym.startswith('_pixman'):
-                    exports.add(sym)
-
-    def __get_exports(self, srcfile, exports):
-        lines = open(srcfile, 'r').readlines()
-        for i in xrange(len(lines)):
-            if lines[i].find('PIXMAN_EXPORT') >= 0:
-                self.__get_symbol(lines[i].strip() + ' ' + lines[i+1].strip(), exports)
-
-    def __generate_sym_file(self):
-        sym_file = os.path.join(self.build_dir, 'pixman', 'pixman.symbols')
-        if os.path.exists(sym_file):
-            print_debug('symbol file %s already exists' % (sym_file,))
-            return
-
-        print_log('Generating symbol file %s' % (sym_file,))
-
-        exports = set(['prng_srand_r', 'prng_randmemset_r'])
-
-        for root, dirs, files in os.walk(self.build_dir):
-            for f in files:
-                f = f.lower()
-                if f.endswith('.c') or f.endswith('.h'):
-                    self.__get_exports(os.path.join(root, f), exports)
-
-        with open(sym_file + '.tmp', 'w') as out:
-            out.write('\n'.join(sorted(exports)))
-        shutil.move(sym_file + '.tmp', sym_file)
-
     def build(self):
-        self.__generate_sym_file()
+        optimizations = 'SSE2=on SSSE3=on'
+        if self.builder.x64:
+            # FIXME: cairo fails to build due to missing symbols if I enable MMX on 64bit
+            optimizations += ' MMX=off'
+        else:
+            optimizations += ' MMX=on'
 
-        self.exec_msbuild(r'build\win32\vc%(vs_ver)s\pixman.vcxproj /p:SolutionDir=%(build_dir)s\build\win32\vc%(vs_ver)s\ ')
-        self.exec_msbuild(r'build\win32\vc%(vs_ver)s\install.vcxproj /p:SolutionDir=%(build_dir)s\build\win32\vc%(vs_ver)s\ ')
+        add_path = os.path.join(self.builder.opts.msys_dir, 'usr', 'bin')
+
+        self.exec_vs(r'make -f Makefile.win32 pixman CFG=%(configuration)s ' + optimizations, add_path=add_path)
+
+        self.install(r'.\pixman\%(configuration)s\pixman-1.lib lib')
+
+        self.install(r'.\pixman\pixman.h include\pixman-1')
+        self.install(r'.\pixman\pixman-version.h include\pixman-1')
 
         self.install(r'.\COPYING share\doc\pixman')
 
 Project.add(Project_pixman())
 
+class Project_portaudio(GitRepo, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'portaudio',
+            repo_url = 'git://git.assembla.com/portaudio.git',
+            fetch_submodules = False,
+            tag = '52bd2afb1ddca18ba76bb35c4088c1208edf3f6f',
+            patches = [ '0001-Do-not-add-suffice-to-the-library-name.patch' ]
+            )
+
+    def build(self):
+        cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'Release'
+        self.exec_vs(r'cmake . -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DPA_DLL_LINK_WITH_STATIC_RUNTIME=off -DCMAKE_BUILD_TYPE=' + cmake_config, add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
+
+        self.install(r'portaudio.dll bin')
+        self.install(r'portaudio.pdb bin')
+        self.install(r'portaudio.lib lib')
+
+        self.install(r'.\include\* include')
+
+        self.install(r'.\LICENSE.txt share\doc\portaudio')
+
+Project.add(Project_portaudio())
+
+class Project_protobuf(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'protobuf',
+            archive_url = 'https://github.com/google/protobuf/archive/v3.0.2.tar.gz',
+            )
+
+    def build(self):
+        cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'Release'
+        # We need to compile with STATIC_RUNTIME off since protobuf-c also compiles with it OFF
+        self.exec_vs('cmake .\cmake\ -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(pkg_dir)s" -Dprotobuf_DEBUG_POSTFIX="" -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_MSVC_STATIC_RUNTIME=OFF -DCMAKE_BUILD_TYPE=' + cmake_config, add_path=self.builder.opts.cmake_path)
+        self.exec_vs('nmake /nologo', add_path=self.builder.opts.cmake_path)
+        self.exec_vs('nmake /nologo install', add_path=self.builder.opts.cmake_path)
+
+        self.install(r'.\LICENSE share\doc\protobuf')
+
+Project.add(Project_protobuf())
+
+class Project_protobuf_c(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'protobuf-c',
+            archive_url = 'https://github.com/protobuf-c/protobuf-c/releases/download/v1.2.1/protobuf-c-1.2.1.tar.gz',
+            dependencies = ['protobuf'],
+            patches = ['0001-Declare-variables-at-the-beginning-of-the-block.patch',
+                       '0001-Do-not-build-tests.patch'],
+            )
+
+    def build(self):
+        cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
+        self.exec_vs(r'cmake .\build-cmake\ -G "NMake Makefiles" -DPROTOBUF_ROOT="%(gtk_dir)s" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config,add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'nmake /nologo install', add_path=self.builder.opts.cmake_path)
+
+        self.install(r'.\LICENSE share\doc\protobuf-c')
+
+Project.add(Project_protobuf_c())
+
 class Project_win_iconv(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'win-iconv',
-            archive_url = 'http://dl.hexchat.net/gtk-win32/src/win-iconv-0.0.7.tar.gz',
-            patches = ['missing-endif.patch'],
+            archive_url = 'http://dl.hexchat.net/gtk-win32/src/win-iconv-0.0.8.tar.gz',
             )
 
     def build(self):
@@ -853,6 +1353,44 @@ class Project_win_iconv(Tarball, Project):
         self.install(r'.\COPYING share\doc\win-iconv')
 
 Project.add(Project_win_iconv())
+
+class Project_wing(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'wing',
+            archive_url = 'https://git.gnome.org/browse/wing/snapshot/wing-3700576e6e7a80cc2e02bd04582596bc98a9fa79.tar.xz',
+            dependencies = ['glib'],
+            )
+
+    def build(self):
+        self.push_location(r'.\nmake')
+        self.exec_vs(r'nmake /nologo /f Makefile.vc CFG=%(configuration)s PREFIX="%(gtk_dir)s"')
+        self.exec_vs(r'nmake /nologo /f Makefile.vc install CFG=%(configuration)s PREFIX="%(gtk_dir)s"')
+        self.pop_location()
+
+        self.install(r'.\COPYING share\doc\wing')
+
+Project.add(Project_wing())
+
+class Project_x264(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'x264',
+            wget_opts = [ '--no-passive-ftp'],
+            archive_url = 'ftp://ftp.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20160313-2245.tar.bz2',
+            patches = [ '0001-use-more-recent-version-of-config.guess.patch',
+                        '0002-configure-recognize-the-msys-shell.patch' ]
+            )
+    def build(self):
+        self.exec_vs(r'bash build\build.sh %s %s' % (convert_to_msys(self.builder.gtk_dir), self.builder.opts.configuration),
+                     add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
+
+        # use the path expected when building with a dependent project
+        self.builder.exec_msys(['cp', 'libx264.lib', 'x264.lib'], working_dir=os.path.join(self.builder.gtk_dir, 'lib') )
+
+        self.install(r'.\COPYING share\doc\x264')
+
+Project.add(Project_x264())
 
 class Project_zlib(Tarball, Project):
     def __init__(self):
@@ -906,15 +1444,15 @@ global_verbose = False
 global_debug = False
 
 def print_message(msg):
-    print msg
+    print(msg)
 
 def print_log(msg):
     if global_verbose:
-        print msg
+        print(msg)
 
 def print_debug(msg):
     if global_debug:
-        print "Debug:", msg
+        print("Debug:", msg)
 
 def error_exit(msg):
     print>>sys.stderr, "Error:", msg
@@ -940,14 +1478,14 @@ class Builder(object):
         self.__check_tools(opts)
         self.__check_vs(opts)
 
-        self.working_dir = os.path.join(opts.build_dir, 'build', opts.platform)
-        self.gtk_dir = os.path.join(opts.build_dir, 'gtk', opts.platform)
+        self.working_dir = os.path.join(opts.build_dir, 'build', opts.platform, opts.configuration)
+        self.gtk_dir = os.path.join(opts.build_dir, 'gtk', opts.platform, opts.configuration)
 
         self.x86 = opts.platform == 'Win32'
         self.x64 = not self.x86
 
         self.msbuild_opts = '/nologo /p:Platform=%(platform)s /p:PythonPath=%(python_dir)s %(msbuild_opts)s ' % \
-            dict(platform=opts.platform, configuration=opts.configuration, msbuild_opts=opts.msbuild_opts, python_dir=self.opts.python_dir)
+            dict(platform=opts.platform, python_dir=opts.python_dir, configuration=opts.configuration, msbuild_opts=opts.msbuild_opts)
 
         if global_verbose:
             self.msbuild_opts += ' /v:normal'
@@ -975,6 +1513,10 @@ class Builder(object):
             error_exit("%s not found. Please check that you installed wget in msys2 using ``pacman -S wget``" % (self.wget,))
         print_debug("wget: %s" % (self.wget,))
 
+        self.nuget = opts.nuget_path
+        if not os.path.exists(self.nuget):
+            print_log("Could not find nuget: %s" % (self.nuget,))
+
     def __check_vs(self, opts):
         # Verify VS exists at the indicated location, and that it supports the required target
         if opts.platform in ('Win32', 'win32', 'x86'):
@@ -992,7 +1534,7 @@ class Builder(object):
             raise Exception("Invalid target platform '%s'" % (opts.platform,))
 
         if not os.path.exists(vcvars_bat):
-            raise Exception("'%s' could not be found. Please check you have Visual Studio installed at '%s' and that it supports the target platform '%s'." % (vsvars_bat, opts.vs_install_path, opts.platform))
+            raise Exception("'%s' could not be found. Please check you have Visual Studio installed at '%s' and that it supports the target platform '%s'." % (vcvars_bat, opts.vs_install_path, opts.platform))
 
         output = subprocess.check_output('cmd.exe /c ""%s" && set"' % (vcvars_bat,), shell=True)
         self.vs_env = {}
@@ -1051,7 +1593,7 @@ class Builder(object):
 
         #Remove-Item $logDirectory\*.log
 
-        build_dir = os.path.join(self.working_dir, '..', '..', 'gtk', self.opts.platform)
+        build_dir = os.path.join(self.working_dir, '..', '..', '..', 'gtk', self.opts.platform)
         if not os.path.exists(build_dir):
             print_log("Creating directory %s" % (build_dir,))
             os.makedirs(build_dir)
@@ -1074,12 +1616,14 @@ class Builder(object):
         proj.patch()
         proj.build()
 
-        proj.builder = None
-        self.__project = None
-
         print_debug("copying %s to %s" % (proj.pkg_dir, self.gtk_dir))
         self.copy_all(proj.pkg_dir, self.gtk_dir, changed_only=True)
         shutil.rmtree(proj.pkg_dir, ignore_errors=True)
+
+        proj.post_install()
+
+        proj.builder = None
+        self.__project = None
 
     def make_dir(self, path):
         if not os.path.exists(path):
@@ -1137,7 +1681,10 @@ class Builder(object):
             os.makedirs(self.opts.archives_download_dir)
 
         print_log("downloading %s" % (proj.archive_file,))
-        self.__execute([self.wget, proj.archive_url], self.opts.archives_download_dir)
+        wget_opts = [self.wget];
+        if hasattr(proj, 'wget_opts'):
+            wget_opts += proj.wget_opts;
+        self.__execute(wget_opts + [proj.archive_url], self.opts.archives_download_dir)
 
     def __sub_vars(self, s):
         if '%' in s:
@@ -1153,8 +1700,8 @@ class Builder(object):
     def exec_vs(self, cmd, working_dir=None, add_path=None):
         self.__execute(self.__sub_vars(cmd), working_dir=working_dir, add_path=add_path, env=self.vs_env)
 
-    def exec_cmd(self, args, working_dir=None, add_path=None):
-        self.__execute(args, working_dir=working_dir, add_path=add_path)
+    def exec_cmd(self, cmd, working_dir=None, add_path=None):
+        self.__execute(self.__sub_vars(cmd), working_dir=working_dir, add_path=add_path)
 
     def install(self, build_dir, pkg_dir, *args):
         if len(args) == 1:
@@ -1191,7 +1738,7 @@ class Builder(object):
             if k.lower() == 'path':
                 key = k
                 break
-        env[key] = folder + ';' + env[key]
+        env[key] = env[key] + ';' + folder
 
 class Options(object):
     pass
@@ -1207,6 +1754,7 @@ def get_options(args):
     opts.vs_ver = args.vs_ver
     opts.vs_install_path = args.vs_install_path
     opts.cmake_path = args.cmake_path
+    opts.nuget_path = args.nuget_path
     opts.perl_dir = args.perl_dir
     opts.python_dir = args.python_dir
     opts.msys_dir = args.msys_dir
@@ -1216,6 +1764,8 @@ def get_options(args):
 
     if not opts.archives_download_dir:
         opts.archives_download_dir = os.path.join(args.build_dir, 'src')
+    if not opts.nuget_path:
+        opts.nuget_path = os.path.join(args.build_dir, 'nuget', 'nuget.exe')
     if not opts.patches_root_dir:
         opts.patches_root_dir = os.path.join(args.build_dir, 'github', 'gtk-win32')
     if not opts.vs_install_path:
@@ -1254,7 +1804,7 @@ def do_build(args):
     builder.build(to_build)
 
 def do_list(args):
-    print "Available projects:\n\t" + "\n\t".join(Project.get_names())
+    print("Available projects:\n\t" + "\n\t".join(Project.get_names()))
     sys.exit(0)
 
 def handle_global_options(args):
@@ -1273,7 +1823,7 @@ def handle_global_options(args):
 def create_parser():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        description='Jhbuild for poor, build Gtk and friends',
+        description='Jhbuild-like system for Windows to build Gtk and friends',
         epilog=
     """
 Examples:
@@ -1304,8 +1854,8 @@ Examples:
 
     p_build.add_argument('-p', '--platform', default='x86', choices=['x86', 'x64'],
                          help='Platform to build for, x86 or x64. Default is x86.')
-    #p_build.add_argument('-c', '--configuration', default='release', choices=['release', 'debug'],
-    #                     help='Configuration to build, release or debug. Default is release.')
+    p_build.add_argument('-c', '--configuration', default='release', choices=['release', 'debug'],
+                         help='Configuration to build, release or debug. Default is release.')
     p_build.add_argument('--build-dir', default=r'C:\gtk-build',
                          help='The directory where the sources will be downloaded and built.')
     p_build.add_argument('--msys-dir', default=r'C:\Msys64',
@@ -1317,14 +1867,17 @@ Examples:
     p_build.add_argument('--patches-root-dir',
                          help="The directory where you checked out https://github.com/wingtk/gtk-win32.git. Default is $(build-dir)\\github\\gtk-win32.")
     p_build.add_argument('--vs-ver', default='12',
-                         help="Visual Studio version 10,12, etc. Default is 12.")
+                         help="Visual Studio version 10,12,14, etc. Default is 12.")
     p_build.add_argument('--vs-install-path',
                          help=r"The directory where you installed Visual Studio. Default is 'C:\Program Files (x86)\Microsoft Visual Studio $(build-ver).0'")
     p_build.add_argument('--cmake-path', default=r'C:\Program Files (x86)\CMake\bin',
                          help="The directory where you installed cmake.")
+    p_build.add_argument('--nuget-path',
+                         help="The directory where you installed nuget. " +
+                              "Default is $(build-dir)\\nuget\\nuget.exe")
     p_build.add_argument('--perl-dir', default=r'C:\Perl',
                          help="The directory where you installed perl.")
-    p_build.add_argument('--python-dir', default=r'c:\Python27',
+    p_build.add_argument('--python-dir', default=os.path.dirname(sys.executable),
                          help="The directory where you installed python.")
 
     p_build.add_argument('--clean', default=False, action='store_true',

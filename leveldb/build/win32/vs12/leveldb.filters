@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="leveldb">
+      <UniqueIdentifier>{af757a90-f702-4a23-8a32-f34bd9ac7d55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="func_def">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\db\builder.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\db\c.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\db\dbformat.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\db\db_impl.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\db\db_iter.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\db\filename.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\db\log_reader.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\db\log_writer.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\db\memtable.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\db\repair.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\db\table_cache.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\db\version_edit.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\db\version_set.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\db\write_batch.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\helpers\memenv\memenv.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\port\port_win.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\table\block.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\table\block_builder.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\table\filter_block.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\table\format.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\table\iterator.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\table\merger.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\table\table.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\table\table_builder.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\table\two_level_iterator.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\util\arena.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\util\bloom.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\util\cache.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\util\coding.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\util\comparator.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\util\crc32c.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\util\env.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\util\env_win.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\util\filter_policy.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\util\hash.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\util\logging.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\util\options.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\util\status.cc">
+      <Filter>func_def</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\win32_impl_src\leveldb.def">
+      <Filter>func_def</Filter>
+    </None>
+  </ItemGroup>
+</Project>

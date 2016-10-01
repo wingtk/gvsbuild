@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets">
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+    <VSVer>14</VSVer>
+    <GLibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\gtk\$(Platform)</GLibEtcInstallRoot>
+    <CopyDir>..\..\..\..\libepoxy-rel</CopyDir>
+    <EpoxyLibtoolCompatibleDllPrefix>lib</EpoxyLibtoolCompatibleDllPrefix>
+    <EpoxyLibtoolCompatibleDllSuffix />
+    <EpoxySeparateVSDllPrefix />
+    <EpoxySeparateVSDllSuffix>-0</EpoxySeparateVSDllSuffix>
+    <EpoxyDllPrefix>$(EpoxySeparateVSDllPrefix)</EpoxyDllPrefix>
+    <EpoxyDllSuffix>$(EpoxySeparateVSDllSuffix)</EpoxyDllSuffix>
+    <PythonPath>c:\python27</PythonPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>epoxyversionpathsprops</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <ItemDefinitionGroup />
+  <ItemGroup>
+    <BuildMacro Include="VSVer">
+      <Value>$(VSVer)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GLibEtcInstallRoot">
+      <Value>$(GLibEtcInstallRoot)</Value>
+    </BuildMacro>
+    <BuildMacro Include="CopyDir">
+      <Value>$(CopyDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="EpoxyLibtoolCompatibleDllPrefix">
+      <Value>$(EpoxyLibtoolCompatibleDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="EpoxyLibtoolCompatibleDllSuffix">
+      <Value>$(EpoxyLibtoolCompatibleDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="EpoxySeparateVSDllPrefix">
+      <Value>$(EpoxySeparateVSDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="EpoxySeparateVSDllSuffix">
+      <Value>$(EpoxySeparateVSDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="EpoxyDllPrefix">
+      <Value>$(EpoxyDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="EpoxyDllSuffix">
+      <Value>$(EpoxyDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PythonPath">
+      <Value>$(PythonPath)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

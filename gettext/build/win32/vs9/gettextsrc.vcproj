@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="9.00"
+	Name="gettextsrc"
+	ProjectGUID="{38D95DA9-249E-4E67-BA61-AA56CD569E11}"
+	RootNamespace="gettextsrc"
+	Keyword="Win32Proj"
+	TargetFrameworkVersion="196613"
+	>
+	<Platforms>
+		<Platform
+			Name="Win32"
+		/>
+		<Platform
+			Name="x64"
+		/>
+	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			ConfigurationType="2"
+			InheritedPropertySheets=".\gettext-tools-build-defines.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="$(GettextSrcIncludeDirs)"
+				PreprocessorDefinitions="_DEBUG;$(GettextSrcDefines)"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="4"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="2"
+				ModuleDefinitionFile="..\gettextsrc.def"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				TargetMachine="1"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			ConfigurationType="2"
+			InheritedPropertySheets=".\gettext-tools-build-defines.vsprops"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="$(GettextSrcIncludeDirs)"
+				PreprocessorDefinitions="$(GettextSrcDefines)"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="1"
+				ModuleDefinitionFile="..\gettextsrc.def"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				TargetMachine="1"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|x64"
+			ConfigurationType="2"
+			InheritedPropertySheets=".\gettext-tools-build-defines.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="$(GettextSrcIncludeDirs)"
+				PreprocessorDefinitions="_DEBUG;$(GettextSrcDefines)"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="2"
+				ModuleDefinitionFile="..\gettextsrc.def"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				TargetMachine="17"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|x64"
+			ConfigurationType="2"
+			InheritedPropertySheets=".\gettext-tools-build-defines.vsprops"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="$(GettextSrcIncludeDirs)"
+				PreprocessorDefinitions="$(GettextSrcDefines)"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="1"
+				ModuleDefinitionFile="..\gettextsrc.def"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				TargetMachine="17"
+			/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+		<Filter
+			Name="Sources"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			>
+			<File RelativePath="..\..\..\gettext-tools\src\color.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\dir-list.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\file-list.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\format-awk.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\format-boost.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\format-c.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\format-csharp.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\format-elisp.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\format-gcc-internal.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\format-gfc-internal.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\format-java.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\format-javascript.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\format-kde.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\format-kde-kuit.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\format-librep.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\format-lisp.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\format-lua.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\format-pascal.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\format-perl-brace.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\format-perl.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\format-php.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\format-python-brace.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\format-python.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\format-qt-plural.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\format-qt.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\format-scheme.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\format-sh.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\format-tcl.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\format-ycp.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\its.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\locating-rule.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\message.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\msgl-ascii.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\msgl-cat.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\msgl-charset.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\msgl-check.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\msgl-english.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\msgl-equal.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\msgl-header.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\msgl-iconv.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\open-catalog.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\plural-eval.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\plural-exp.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\plural-table.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\po-charset.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\po-error.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\po-gram-gen.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\po-lex.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\po-time.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\po-xerror.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\read-catalog-abstract.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\read-catalog.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\read-desktop.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\read-po.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\read-properties.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\read-stringtable.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\sentence.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\str-list.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\write-catalog.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\write-po.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\write-properties.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\write-stringtable.c" />
+			<File RelativePath="..\..\..\gettext-tools\src\write-xml.c" />
+			<File RelativePath="..\..\..\gettext-tools\woe32dll\c++format.cc" />
+		</Filter>
+		<Filter
+			Name="Headers"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+			>
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

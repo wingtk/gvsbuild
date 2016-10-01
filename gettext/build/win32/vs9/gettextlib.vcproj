@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="9.00"
+	Name="gettextlib"
+	ProjectGUID="{C95B3A8E-C58B-4C74-96EA-2016127EB1EC}"
+	RootNamespace="gettextlib"
+	Keyword="Win32Proj"
+	TargetFrameworkVersion="196613"
+	>
+	<Platforms>
+		<Platform
+			Name="Win32"
+		/>
+		<Platform
+			Name="x64"
+		/>
+	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			ConfigurationType="2"
+			InheritedPropertySheets=".\gettext-tools-build-defines.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="$(GettextLibIncludeDirs)"
+				PreprocessorDefinitions="_DEBUG;$(GettextLibDefines)"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="4"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="2"
+				ModuleDefinitionFile="..\gettextlib.def"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				TargetMachine="1"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			ConfigurationType="2"
+			InheritedPropertySheets=".\gettext-tools-build-defines.vsprops"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="$(GettextLibIncludeDirs)"
+				PreprocessorDefinitions="$(GettextLibDefines)"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="1"
+				ModuleDefinitionFile="..\gettextlib.def"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				TargetMachine="1"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|x64"
+			ConfigurationType="2"
+			InheritedPropertySheets=".\gettext-tools-build-defines.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="$(GettextLibIncludeDirs)"
+				PreprocessorDefinitions="_DEBUG;$(GettextLibDefines)"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="2"
+				ModuleDefinitionFile="..\gettextlib.def"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				TargetMachine="17"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|x64"
+			ConfigurationType="2"
+			InheritedPropertySheets=".\gettext-tools-build-defines.vsprops"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="$(GettextLibIncludeDirs)"
+				PreprocessorDefinitions="$(GettextLibDefines)"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="1"
+				ModuleDefinitionFile="..\gettextlib.def"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				TargetMachine="17"
+			/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+		<Filter
+			Name="Sources"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			>
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\addext.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\argmatch.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\backupfile.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\basename.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\c-ctype.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\c-strcasecmp.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\c-strncasecmp.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\c-strstr.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\classpath.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\clean-temp.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\cloexec.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\close.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\closeout.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\concat-filename.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\copy-file.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\csharpcomp.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\csharpexec.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\dup-safer-flag.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\dup-safer.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\dup2.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\error-progname.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\error.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\execute.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\exitfail.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\fatal-signal.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\fcntl.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\fd-ostream.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\fd-safer-flag.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\fd-safer.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\file-ostream.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\findprog.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\fnmatch.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\fopen.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\fstat.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\fstrcmp.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\full-write.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\fwriteerror.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\gcd.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\getdelim.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\getdtablesize.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\getline.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\getopt.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\getopt1.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\gettimeofday.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\gl_array_list.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\gl_linkedhash_list.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\hash.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\html-ostream.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\isinf.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\isnanl.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\itold.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\javacomp.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\javaexec.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\javaversion.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\unilbrk\lbrktables.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\localcharset.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\localename.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\glthread\lock.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\malloc.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\malloca.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\mbchar.c" />
+			<File RelativePath="..\..\..\gettext-tools\libgrep\mbrlen.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\mbrtowc.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\mbsinit.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\mbslen.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\mbsstr.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\mbswidth.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\mkdtemp.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\msvc-inval.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\msvc-nothrow.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\obstack.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\open.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\ostream.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\pipe-filter-aux.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\pipe-filter-ii.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\pipe2-safer.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\pipe2.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\printf-args.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\printf-parse.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\progname.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\progreloc.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\propername.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\quotearg.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\raise.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\rawmemchr.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\read.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\realloc.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\relocatable.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\rmdir.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\safe-read.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\safe-write.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\secure_getenv.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\setenv.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\setlocale.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\sh-quote.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\sigaction.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\signbitl.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\sigprocmask.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\snprintf.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\spawn-pipe.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\stat.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\stdio-write.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\stpcpy.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\stpncpy.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\strchrnul.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\strerror-override.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\strerror.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\striconv.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\striconveh.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\striconveha.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\strnlen1.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\strstr.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\styled-ostream.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\tempname.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\term-ostream.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\glthread\threadlib.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\glthread\tls.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\tmpdir.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\tparm.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\tputs.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\trim.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\unictype\ctype_space.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\unistr\u16-mbtouc-aux.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\unistr\u16-mbtouc.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\unistr\u8-check.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\uniconv\u8-conv-from-enc.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\unistr\u8-mblen.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\unistr\u8-mbtouc-aux.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\unistr\u8-mbtouc-unsafe-aux.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\unistr\u8-mbtouc-unsafe.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\unistr\u8-mbtouc.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\unistr\u8-mbtoucr.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\unilbrk\u8-possible-linebreaks.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\unistr\u8-prev.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\unistr\u8-uctomb-aux.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\unistr\u8-uctomb.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\unilbrk\u8-width-linebreaks.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\unilbrk\ulc-common.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\unilbrk\ulc-width-linebreaks.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\uniname\uniname.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\uniwidth\width.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\unsetenv.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\vasnprintf.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\vasprintf.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\vsnprintf.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\wait-process.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\waitpid.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\wcwidth.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\write.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\xasprintf.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\xconcat-filename.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\xerror.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\xmalloc.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\xmalloca.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\xsetenv.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\xstrdup.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\xstriconv.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\xstriconveh.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\xvasprintf.c" />
+			<File RelativePath="..\..\..\gettext-tools\woe32dll\c++html-styled-ostream.cc" />
+			<File RelativePath="..\..\..\gettext-tools\woe32dll\c++term-styled-ostream.cc" />
+		</Filter>
+		<Filter
+			Name="Headers"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+			>
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

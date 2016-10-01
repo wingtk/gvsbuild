@@ -1,13 +1,10 @@
- * Download [GLib 2.46.2](http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.46/glib-2.46.2.tar.xz)
- * In all vcxproj files,
-	* add `<Import Project="..\..\..\..\stack.props" />`
-	* remove all `<Optimization>` lines
  * In `build\win32\vs12\glib-version-paths.props`, replace:
 	* `<GlibEtcInstallRoot>..\..\..\..\vs$(VSVer)\$(Platform)</GlibEtcInstallRoot>` with
-`<GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>`
+`<GlibEtcInstallRoot Condition="'$(Configuration)'=='Release_BundledPCRE'">..\..\..\..\..\..\..\gtk\$(Platform)\Release</GlibEtcInstallRoot>`
+`<GlibEtcInstallRoot Condition="'$(Configuration)'=='Debug_BundledPCRE'">..\..\..\..\..\..\..\gtk\$(Platform)\Debug</GlibEtcInstallRoot>`
 	* `<CopyDir>$(GlibEtcInstallRoot)</CopyDir>` with
 `<CopyDir>..\..\..\..\glib-rel</CopyDir>`
 	* `<GlibSeparateVSDllSuffix>-2-vs$(VSVer)</GlibSeparateVSDllSuffix>` with
 `<GlibSeparateVSDllSuffix>-2.0</GlibSeparateVSDllSuffix>`
-	* `<PythonPath>c:\python27</PythonPath>` with
-`<PythonPath>..\..\..\..\..\....\..\python-2.7\$(Platform)</PythonPath>`
+ * In `build\win32\vs14\glib-version-paths.props`, replace:
+  * Add `<GlibEtcInstallRoot>..\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>` to `<PropertyGroup Label="UserMacros">` section

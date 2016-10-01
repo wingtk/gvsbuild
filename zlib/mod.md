@@ -1,9 +1,7 @@
  * Download [zlib 1.2.8](http://zlib.net/zlib128.zip)
- * Remove `Optimization` settings in `contrib\vc12\*.vcxproj`
  * In `contrib\vstudio\vc12\zlibvc.sln`:
 	* Remove `Itanium` platform
 	* Change `Configuration` to `ReleaseWithoutAsm`
-	* Add `stack.props` to each project
 	* Select all projects to be built
 	* For `zlibstat` and `zlibvc` remove any files that belong to `minizip`
 	* Replace `contrib\vstudio\vc12\zlibvc.def` with `win32\zlib.def`

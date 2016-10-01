@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\buf.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\c14n.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\catalog.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\chvalid.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\debugXML.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\dict.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\DOCBparser.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\encoding.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\entities.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\error.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\globals.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\hash.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\HTMLparser.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\HTMLtree.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\legacy.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\list.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\nanoftp.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\nanohttp.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\parser.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\parserInternals.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\pattern.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\relaxng.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\SAX.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\SAX2.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\schematron.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\threads.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\tree.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\uri.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\valid.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\xinclude.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\xlink.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\xmlIO.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\xmlmemory.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\xmlmodule.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\xmlreader.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\xmlregexp.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\xmlsave.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\xmlschemas.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\xmlschemastypes.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\xmlstring.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\xmlunicode.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\xmlwriter.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\xpath.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\gettext-tools\gnulib-lib\libxml\xpointer.c"><Filter>Sources</Filter></ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\c14n.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\catalog.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\chvalid.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\debugXML.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\dict.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\DOCBparser.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\encoding.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\entities.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\globals.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\hash.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\HTMLparser.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\HTMLtree.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\list.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\nanoftp.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\nanohttp.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\parser.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\parserInternals.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\pattern.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\relaxng.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\SAX.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\SAX2.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\schemasInternals.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\schematron.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\threads.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\tree.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\uri.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\valid.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\xinclude.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\xlink.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\xmlautomata.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\xmlerror.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\xmlexports.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\xmlIO.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\xmlmemory.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\xmlmodule.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\xmlreader.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\xmlregexp.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\xmlsave.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\xmlschemas.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\xmlschemastypes.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\xmlstring.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\xmlunicode.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\xmlversion.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\xmlwriter.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\xpath.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\xpathInternals.in.h"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gettext-tools\gnulib-lib\libxml\xpointer.in.h"><Filter>Resource Files</Filter></CustomBuild>
+  </ItemGroup>
+</Project>

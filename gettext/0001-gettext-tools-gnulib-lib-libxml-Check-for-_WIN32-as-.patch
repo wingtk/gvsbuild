@@ -1,0 +1,41 @@
+From 716ec6bca43d832374c5c4af715a0445f117d1dd Mon Sep 17 00:00:00 2001
+From: Chun-wei Fan <fanchunwei@src.gnome.org>
+Date: Mon, 28 Mar 2016 13:26:16 +0800
+Subject: [PATCH 1/5] gettext tools: gnulib-lib/libxml: Check for _WIN32 as
+ well
+
+This is necessary when building with Visual Studio 2008
+---
+ gettext-tools/gnulib-lib/libxml/dict.c    | 2 +-
+ gettext-tools/gnulib-lib/libxml/timsort.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/gettext-tools/gnulib-lib/libxml/dict.c b/gettext-tools/gnulib-lib/libxml/dict.c
+index 8c8f931..68f1028 100644
+--- a/gettext-tools/gnulib-lib/libxml/dict.c
++++ b/gettext-tools/gnulib-lib/libxml/dict.c
+@@ -48,7 +48,7 @@
+ #else
+ #ifdef HAVE_INTTYPES_H
+ #include <inttypes.h>
+-#elif defined(WIN32)
++#elif defined(WIN32) || defined (_WIN32)
+ typedef unsigned __int32 uint32_t;
+ #endif
+ #endif
+diff --git a/gettext-tools/gnulib-lib/libxml/timsort.h b/gettext-tools/gnulib-lib/libxml/timsort.h
+index 795f272..ab12980 100644
+--- a/gettext-tools/gnulib-lib/libxml/timsort.h
++++ b/gettext-tools/gnulib-lib/libxml/timsort.h
+@@ -24,7 +24,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
+ #else
+ #ifdef HAVE_INTTYPES_H
+ #include <inttypes.h>
+-#elif defined(WIN32)
++#elif defined(WIN32) || defined (_WIN32)
+ typedef __int64 int64_t;
+ typedef unsigned __int64 uint64_t;
+ #endif
+-- 
+2.7.1.windows.2
+

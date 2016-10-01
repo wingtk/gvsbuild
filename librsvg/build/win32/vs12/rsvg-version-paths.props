@@ -5,7 +5,7 @@
   <PropertyGroup Label="UserMacros">
     <ApiVersion>2.0</ApiVersion>
     <VSVer>12</VSVer>
-    <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>
+    <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
     <CopyDir>..\..\..\..\librsvg-rel</CopyDir>
     <DefDir>$(SolutionDir)$(Configuration)\$(Platform)\obj\$(ProjectName)</DefDir>
     <RsvgLibtoolCompatibleDllPrefix>lib</RsvgLibtoolCompatibleDllPrefix>

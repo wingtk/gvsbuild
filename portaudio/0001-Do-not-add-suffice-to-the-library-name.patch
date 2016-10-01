@@ -1,0 +1,28 @@
+From 9d46160420f48d75fbf4fa36c8f90d8b3090ee5d Mon Sep 17 00:00:00 2001
+From: Ignacio Casal Quinteiro <icq@gnome.org>
+Date: Thu, 22 Sep 2016 10:59:37 +0200
+Subject: [PATCH] Do not add suffice to the library name
+
+---
+ CMakeLists.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 21c7b66..a2e9c2a 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -330,9 +330,9 @@ IF(PA_USE_WDMKS)
+ TARGET_LINK_LIBRARIES(portaudio setupapi)
+ ENDIF(PA_USE_WDMKS)
+ 
+-SET_TARGET_PROPERTIES(portaudio PROPERTIES OUTPUT_NAME portaudio_${TARGET_POSTFIX}
++SET_TARGET_PROPERTIES(portaudio PROPERTIES
+                                 FOLDER "Portaudio")
+-SET_TARGET_PROPERTIES(portaudio_static PROPERTIES OUTPUT_NAME portaudio_static_${TARGET_POSTFIX}
++SET_TARGET_PROPERTIES(portaudio_static PROPERTIES
+                                 FOLDER "Portaudio")
+ ENDIF(WIN32)
+ 
+-- 
+2.9.3
+

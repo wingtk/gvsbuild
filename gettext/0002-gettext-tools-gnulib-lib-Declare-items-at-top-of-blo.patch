@@ -1,0 +1,36 @@
+From ee01da5fa6af53236e10461f431a52f2cfd4ab1d Mon Sep 17 00:00:00 2001
+From: Chun-wei Fan <fanchunwei@src.gnome.org>
+Date: Mon, 28 Mar 2016 13:28:15 +0800
+Subject: [PATCH 2/5] gettext-tools: gnulib-lib: Declare items at top of block
+
+---
+ gettext-tools/gnulib-lib/uniname/uniname.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/gettext-tools/gnulib-lib/uniname/uniname.c b/gettext-tools/gnulib-lib/uniname/uniname.c
+index 8f9f1b4..97a0ec2 100644
+--- a/gettext-tools/gnulib-lib/uniname/uniname.c
++++ b/gettext-tools/gnulib-lib/uniname/uniname.c
+@@ -375,6 +375,9 @@ unicode_name_character (const char *name)
+       if (false)
+       filled_buf:
+         {
++          /* Convert the constituents to uint16_t words.  */
++          uint16_t words[UNICODE_CHARNAME_MAX_WORDS];
++          uint16_t *wordptr = words;
+           {
+             /* Special case for variation selector aliases. Keeps the
+                tables small.  */
+@@ -406,9 +409,6 @@ unicode_name_character (const char *name)
+                   }
+               }
+           }
+-          /* Convert the constituents to uint16_t words.  */
+-          uint16_t words[UNICODE_CHARNAME_MAX_WORDS];
+-          uint16_t *wordptr = words;
+           {
+             const char *p1 = buf;
+             for (;;)
+-- 
+2.7.1.windows.2
+
