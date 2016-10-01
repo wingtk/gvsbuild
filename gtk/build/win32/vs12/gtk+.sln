@@ -16,6 +16,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libpixmap", "libpixmap.vcxp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gtk-install", "gtk-install.vcxproj", "{FC5AADB5-95CD-4BF0-BA8B-0C16FE8073FB}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gtk-update-icon-cache", "gtk-update-icon-cache.vcxproj", "{FAB0AD6F-AEBF-4AF8-A1CC-6890A9090945}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -88,6 +90,14 @@ Global
 		{59FD5E4C-2E79-47D9-B485-A41143D39B13}.Release|Win32.Build.0 = Release|Win32
 		{59FD5E4C-2E79-47D9-B485-A41143D39B13}.Release|x64.ActiveCfg = Release|x64
 		{59FD5E4C-2E79-47D9-B485-A41143D39B13}.Release|x64.Build.0 = Release|x64
+		{FAB0AD6F-AEBF-4AF8-A1CC-6890A9090945}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FAB0AD6F-AEBF-4AF8-A1CC-6890A9090945}.Debug|Win32.Build.0 = Debug|Win32
+		{FAB0AD6F-AEBF-4AF8-A1CC-6890A9090945}.Debug|x64.ActiveCfg = Debug|x64
+		{FAB0AD6F-AEBF-4AF8-A1CC-6890A9090945}.Debug|x64.Build.0 = Debug|x64
+		{FAB0AD6F-AEBF-4AF8-A1CC-6890A9090945}.Release|Win32.ActiveCfg = Release|Win32
+		{FAB0AD6F-AEBF-4AF8-A1CC-6890A9090945}.Release|Win32.Build.0 = Release|Win32
+		{FAB0AD6F-AEBF-4AF8-A1CC-6890A9090945}.Release|x64.ActiveCfg = Release|x64
+		{FAB0AD6F-AEBF-4AF8-A1CC-6890A9090945}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
