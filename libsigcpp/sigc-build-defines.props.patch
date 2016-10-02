@@ -1,0 +1,12 @@
+diff --git a/MSVC_Net2013/sigc-build-defines.props b/MSVC_Net2013/sigc-build-defines.props
+--- a/MSVC_Net2013/sigc-build-defines.props
++++ b/MSVC_Net2013/sigc-build-defines.props
+@@ -13,7 +13,7 @@
+   </PropertyGroup>
+   <ItemDefinitionGroup>
+     <ClCompile>
+-      <AdditionalIncludeDirectories>.\;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <AdditionalIncludeDirectories>.\;..;$(GTK_DIR)\include\glib-2.0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       <ForcedIncludeFiles>msvc_recommended_pragmas.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+       <AdditionalOptions>/d2Zi+ %(AdditionalOptions)</AdditionalOptions>

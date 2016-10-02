@@ -931,6 +931,19 @@ class Project_librsvg(Tarball, Project):
 
 Project.add(Project_librsvg())
 
+class Project_libsigcpp(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'libsigcpp',
+            archive_url = 'https://download.gnome.org/sources/libsigc++/2.10/libsigc++-2.10.0.tar.xz',
+            patches = ['sigc-build-defines.props.patch'],
+            )
+
+    def build(self):
+        self.exec_msbuild(r'MSVC_Net2013\libsigc++2.sln /p:GTK_DIR="%(gtk_dir)s"')
+
+Project.add(Project_libsigcpp())
+
 class Project_sqlite(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
