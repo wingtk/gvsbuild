@@ -4,13 +4,13 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros">
     <VSVer>14</VSVer>
-    <GlibEtcInstallRoot>$(SolutionDir)\..\..\vs$(VSVer)\$(Configuration)\$(Platform)</GlibEtcInstallRoot>
-    <CopyDir>$(GlibEtcInstallRoot)</CopyDir>
+    <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
+    <CopyDir>..\..\..\..\gettext-rel</CopyDir>
     <PackageVersionMajor>0</PackageVersionMajor>
     <PackageVersionMinor>19</PackageVersionMinor>
     <PackageVersionMicro>7</PackageVersionMicro>
     <PackageVersionString>$(PackageVersionMajor).$(PackageVersionMinor).$(PackageVersionMicro)</PackageVersionString>
-    <InstallRoot>c:/win32_bin_vc$(VSVer).0</InstallRoot>
+    <InstallRoot>$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</InstallRoot>
     <DataDir>$(InstallRoot)/share</DataDir>
     <LibDir>$(InstallRoot)/share</LibDir>
   </PropertyGroup>
@@ -40,6 +40,9 @@
     <BuildMacro Include="CopyDir">
       <Value>$(CopyDir)</Value>
     </BuildMacro>
+    <BuildMacro Include="PackageVersionMajor">
+      <Value>$(PackageVersionMajor)</Value>
+    </BuildMacro>
     <BuildMacro Include="PackageVersionMinor">
       <Value>$(PackageVersionMinor)</Value>
     </BuildMacro>
@@ -48,9 +51,6 @@
     </BuildMacro>
     <BuildMacro Include="PackageVersionString">
       <Value>$(PackageVersionString)</Value>
-    </BuildMacro>
-    <BuildMacro Include="PackageVersionMajor">
-      <Value>$(PackageVersionMajor)</Value>
     </BuildMacro>
     <BuildMacro Include="InstallRoot">
       <Value>$(InstallRoot)</Value>
