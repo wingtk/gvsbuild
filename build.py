@@ -164,6 +164,9 @@ class Project(object):
         if os.path.exists(self.build_dir):
             print_debug("directory %s already exists" % (self.build_dir,))
             self.update_build_dir()
+            if os.path.exists(self.patch_dir):
+                print_log("Copying modified and new files from %s to %s" % (self.patch_dir, self.build_dir))
+                self.builder.copy_all(self.patch_dir, self.build_dir, changed_only=True)
         else:
             self.unpack()
             if os.path.exists(self.patch_dir):
@@ -928,6 +931,48 @@ class Project_librsvg(Tarball, Project):
 
 Project.add(Project_librsvg())
 
+class Project_libsigcpp(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'libsigcpp',
+            archive_url = 'https://download.gnome.org/sources/libsigc++/2.10/libsigc++-2.10.0.tar.xz',
+            dependencies = ['glib'],
+            patches = ['props.patch'],
+            )
+
+    def build(self):
+        self.exec_msbuild(r'MSVC_Net2013\libsigc++2.sln')
+
+Project.add(Project_libsigcpp())
+
+class Project_glibmm(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'glibmm',
+            archive_url = 'http://ftp.gnome.org/pub/GNOME/sources/glibmm/2.50/glibmm-2.50.0.tar.xz',
+            dependencies = ['glib', 'libsigcpp'],
+            patches = ['props.patch'],
+            )
+
+    def build(self):
+        self.exec_msbuild(r'MSVC_Net2013\glibmm.sln')
+
+Project.add(Project_glibmm())
+
+class Project_atkmm(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'atkmm',
+            archive_url = 'http://ftp.gnome.org/pub/GNOME/sources/atkmm/2.24/atkmm-2.24.2.tar.xz',
+            dependencies = ['glibmm', 'atk'],
+            patches = ['props.patch'],
+            )
+
+    def build(self):
+        self.exec_msbuild(r'MSVC_Net2013\atkmm.sln')
+
+Project.add(Project_atkmm())
+
 class Project_sqlite(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -1430,7 +1475,6 @@ Project.add(MercurialCmakeProject('pycairo', repo_url='git+ssh://git@github.com:
 Project.add(MercurialCmakeProject('pygobject', repo_url='git+ssh://git@github.com:muntyan/pygobject-gtk-win32.git', dependencies = ['glib']))
 Project.add(MercurialCmakeProject('pygtk', repo_url='git+ssh://git@github.com:muntyan/pygtk-gtk-win32.git', dependencies = ['gtk', 'pycairo', 'pygobject']))
 
-
 #========================================================================================================================================================
 
 global_verbose = False
@@ -1610,7 +1654,7 @@ class Builder(object):
         proj.build()
 
         print_debug("copying %s to %s" % (proj.pkg_dir, self.gtk_dir))
-        self.copy_all(proj.pkg_dir, self.gtk_dir)
+        self.copy_all(proj.pkg_dir, self.gtk_dir, changed_only=True)
         shutil.rmtree(proj.pkg_dir, ignore_errors=True)
 
         proj.post_install()
@@ -1622,13 +1666,22 @@ class Builder(object):
         if not os.path.exists(path):
             os.makedirs(path)
 
-    def copy_all(self, srcdir, destdir):
+    def copy_all(self, srcdir, destdir, changed_only=False):
         self.make_dir(destdir)
         for f in glob.glob('%s\\*' % (srcdir,)):
-            self.__copy_to(f, destdir)
+            self.__copy_to(f, destdir, changed_only=changed_only)
 
-    def __copy_to(self, src, destdir):
-        #print_debug("__copy_to %s %s" % (src, destdir))
+    def __is_file_different(self, src, dst):
+        try:
+            s1 = os.stat(src)
+            s2 = os.stat(dst)
+            #print src, s1
+            #print dst, s2
+            return s1.st_size != s2.st_size or s1.st_mtime != s2.st_mtime
+        except:
+            return True
+
+    def __copy_to(self, src, destdir, changed_only=False):
         self.make_dir(destdir)
         for f in glob.glob(src):
             if os.path.isdir(f):
@@ -1636,9 +1689,11 @@ class Builder(object):
                 dest_subdir = os.path.join(destdir, name)
                 self.make_dir(dest_subdir)
                 for item in os.listdir(f):
-                    self.__copy_to(os.path.join(f, item), dest_subdir)
+                    self.__copy_to(os.path.join(f, item), dest_subdir, changed_only=changed_only)
             else:
-                shutil.copy2(f, destdir)
+                if not changed_only or self.__is_file_different(f, os.path.join(destdir, os.path.basename(f))):
+                    print_debug("__copy_to: copying %s %s" % (f, destdir))
+                    shutil.copy2(f, destdir)
 
     def __copy(self, src, destdir):
         if os.path.isdir(src):
@@ -1693,13 +1748,13 @@ class Builder(object):
         for f in args[:-1]:
             src = os.path.join(self.__sub_vars(build_dir), self.__sub_vars(f))
             print_debug("copying %s to %s" % (src, dest))
-            self.__copy_to(src, dest)
+            self.__copy_to(src, dest, changed_only=True)
 
     def install_dir(self, build_dir, pkg_dir, src, dest):
         src = os.path.join(build_dir, self.__sub_vars(src))
         dest = os.path.join(pkg_dir, self.__sub_vars(dest))
         print_debug("copying %s content to %s" % (src, dest))
-        self.copy_all(src, dest)
+        self.copy_all(src, dest, changed_only=True)
 
     def exec_msys(self, args, working_dir=None):
         self.__execute(args, working_dir=working_dir, add_path=os.path.join(self.opts.msys_dir, 'usr', 'bin'))
