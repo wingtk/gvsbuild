@@ -1,0 +1,12 @@
+diff --git a/MSVC_Net2013/glibmm-version-paths.props b/MSVC_Net2013/glibmm-version-paths.props
+--- a/MSVC_Net2013/glibmm-version-paths.props
++++ b/MSVC_Net2013/glibmm-version-paths.props
+@@ -2,7 +2,7 @@
+ <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+   <PropertyGroup Label="UserMacros">
+     <VSVer>12</VSVer>
+-    <GlibEtcInstallRoot>$(SolutionDir)\..\..\vs$(VSVer)\$(Platform)</GlibEtcInstallRoot>
++    <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
+     <CopyDir>$(GlibEtcInstallRoot)</CopyDir>
+     <DefDir>$(SolutionDir)$(Configuration)\$(Platform)\obj\$(ProjectName)\</DefDir>
+     <ApiMajorVersion>2</ApiMajorVersion>

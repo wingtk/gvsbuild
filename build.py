@@ -936,13 +936,42 @@ class Project_libsigcpp(Tarball, Project):
         Project.__init__(self,
             'libsigcpp',
             archive_url = 'https://download.gnome.org/sources/libsigc++/2.10/libsigc++-2.10.0.tar.xz',
-            patches = ['sigc-build-defines.props.patch'],
+            dependencies = ['glib'],
+            patches = ['props.patch'],
             )
 
     def build(self):
-        self.exec_msbuild(r'MSVC_Net2013\libsigc++2.sln /p:GTK_DIR="%(gtk_dir)s"')
+        self.exec_msbuild(r'MSVC_Net2013\libsigc++2.sln')
 
 Project.add(Project_libsigcpp())
+
+class Project_glibmm(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'glibmm',
+            archive_url = 'http://ftp.gnome.org/pub/GNOME/sources/glibmm/2.50/glibmm-2.50.0.tar.xz',
+            dependencies = ['glib', 'libsigcpp'],
+            patches = ['props.patch'],
+            )
+
+    def build(self):
+        self.exec_msbuild(r'MSVC_Net2013\glibmm.sln')
+
+Project.add(Project_glibmm())
+
+class Project_atkmm(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'atkmm',
+            archive_url = 'http://ftp.gnome.org/pub/GNOME/sources/atkmm/2.24/atkmm-2.24.2.tar.xz',
+            dependencies = ['glibmm', 'atk'],
+            patches = ['props.patch'],
+            )
+
+    def build(self):
+        self.exec_msbuild(r'MSVC_Net2013\atkmm.sln')
+
+Project.add(Project_atkmm())
 
 class Project_sqlite(Tarball, Project):
     def __init__(self):
@@ -1445,11 +1474,6 @@ class MercurialCmakeProject(MercurialRepo, CmakeProject):
 Project.add(MercurialCmakeProject('pycairo', repo_url='git+ssh://git@github.com:muntyan/pycairo-gtk-win32.git', dependencies = ['cairo']))
 Project.add(MercurialCmakeProject('pygobject', repo_url='git+ssh://git@github.com:muntyan/pygobject-gtk-win32.git', dependencies = ['glib']))
 Project.add(MercurialCmakeProject('pygtk', repo_url='git+ssh://git@github.com:muntyan/pygtk-gtk-win32.git', dependencies = ['gtk', 'pycairo', 'pygobject']))
-
-
-Project.add(CmakeProject('libsigc++', archive_url = 'https://download.gnome.org/sources/libsigc++/2.8/libsigc++-2.8.0.tar.xz'))
-Project.add(CmakeProject('glibmm', archive_url = 'http://ftp.gnome.org/pub/GNOME/sources/glibmm/2.46/glibmm-2.46.3.tar.xz', dependencies = ['libsigc++', 'glib']))
-
 
 #========================================================================================================================================================
 
