@@ -495,10 +495,11 @@ class Project_glib(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'glib',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.50/glib-2.50.0.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.50/glib-2.50.1.tar.xz',
             dependencies = ['gettext', 'libffi', 'zlib'],
             patches = ['glib-if_nametoindex.patch',
-                       'glib-package-installation-directory.patch'],
+                       'glib-package-installation-directory.patch',
+                       '0001-W32-pass-correct-with-offset-argc-to-protect_wargv.patch'],
             )
 
     def build(self):
