@@ -1750,7 +1750,7 @@ def get_options(args):
     if not opts.nuget_path:
         opts.nuget_path = os.path.join(args.build_dir, 'nuget', 'nuget.exe')
     if not opts.patches_root_dir:
-        opts.patches_root_dir = os.path.join(args.build_dir, 'github', 'gtk-win32')
+        opts.patches_root_dir = sys.path[0]
     if not opts.vs_install_path:
         opts.vs_install_path = r'C:\Program Files (x86)\Microsoft Visual Studio %s.0' % (opts.vs_ver,)
 
