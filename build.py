@@ -1272,13 +1272,11 @@ class Project_pixman(Tarball, Project):
 
 Project.add(Project_pixman())
 
-class Project_portaudio(GitRepo, Project):
+class Project_portaudio(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'portaudio',
-            repo_url = 'git://git.assembla.com/portaudio.git',
-            fetch_submodules = False,
-            tag = '52bd2afb1ddca18ba76bb35c4088c1208edf3f6f',
+            archive_url = 'http://www.portaudio.com/archives/pa_stable_v190600_20161030.tgz',
             patches = [ '0001-Do-not-add-suffice-to-the-library-name.patch' ]
             )
 
