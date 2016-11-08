@@ -899,7 +899,7 @@ class Project_libpng(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libpng',
-            archive_url = 'http://prdownloads.sourceforge.net/libpng/libpng-1.6.25.tar.xz',
+            archive_url = 'http://prdownloads.sourceforge.net/libpng/libpng-1.6.26.tar.xz',
             dependencies = ['zlib'],
             )
 
