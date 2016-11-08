@@ -646,7 +646,7 @@ class Project_gtk3(Project_gtk_base):
     def __init__(self):
         Project_gtk_base.__init__(self,
             'gtk3',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.22/gtk+-3.22.2.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.22/gtk+-3.22.3.tar.xz',
             dependencies = ['atk', 'gdk-pixbuf', 'pango', 'libepoxy'],
             patches = ['gtk3-clip-retry-if-opened-by-others.patch'],
             )

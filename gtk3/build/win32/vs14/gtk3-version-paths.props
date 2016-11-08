@@ -5,7 +5,7 @@
     <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
     <CopyDir>..\..\..\..\gtk3-rel</CopyDir>
     <ApiVersion>3.0</ApiVersion>
-    <GtkVersion>3.22.2</GtkVersion>
+    <GtkVersion>3.22.3</GtkVersion>
     <GtkLibtoolCompatibleDllPrefix>lib</GtkLibtoolCompatibleDllPrefix>
     <GtkLibtoolCompatibleDllSuffix>.0-0</GtkLibtoolCompatibleDllSuffix>
     <GtkSeparateVSDllPrefix />
