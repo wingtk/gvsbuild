@@ -1276,7 +1276,8 @@ class Project_portaudio(Tarball, Project):
         Project.__init__(self,
             'portaudio',
             archive_url = 'http://www.portaudio.com/archives/pa_stable_v190600_20161030.tgz',
-            patches = [ '0001-Do-not-add-suffice-to-the-library-name.patch' ]
+            patches = [ '0001-Do-not-add-suffice-to-the-library-name.patch',
+                        '0001-Fix-MSVC-check.patch' ]
             )
 
     def build(self):
