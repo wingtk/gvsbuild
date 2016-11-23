@@ -971,7 +971,8 @@ class Project_libsoup(Tarball, Project):
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.56/libsoup-2.56.0.tar.xz',
             dependencies = ['libxml2', 'glib-openssl', 'sqlite'],
             patches = ['0001-websocket-connection-log-when-getting-a-pong-message.patch',
-                       '0001-websocket-add-api-to-add-a-keepalive-interval.patch']
+                       '0001-websocket-add-api-to-add-a-keepalive-interval.patch',
+                       '0001-websocket-connection-avoid-sending-data-if-we-are-cl.patch']
             )
 
     def build(self):
