@@ -1,0 +1,58 @@
+From 463a8636059864c3120f496bfd578fb65e998394 Mon Sep 17 00:00:00 2001
+From: Ignacio Casal Quinteiro <icq@gnome.org>
+Date: Tue, 29 Nov 2016 13:12:47 +0100
+Subject: [PATCH] gdbusauth: fix crash when server data send returns NULL
+
+_g_dbus_auth_mechanism_server_data_send may fail in which case
+we would endup getting a NULL data. In this case we should not
+try to encode the data and simply let the state machine to continue.
+The auth mechanism will change internally to REJECTED so we just
+need to continue the iteration.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=775309
+---
+ gio/gdbusauth.c | 24 +++++++++++++++---------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
+
+diff --git a/gio/gdbusauth.c b/gio/gdbusauth.c
+index 4036d77..a870e86 100644
+--- a/gio/gdbusauth.c
++++ b/gio/gdbusauth.c
+@@ -1207,19 +1207,25 @@ _g_dbus_auth_run_server (GDBusAuth              *auth,
+                       {
+                         gchar *data;
+                         gsize data_len;
+-                        gchar *encoded_data;
++
+                         data = _g_dbus_auth_mechanism_server_data_send (mech, &data_len);
+-                        encoded_data = hexencode (data);
+-                        s = g_strdup_printf ("DATA %s\r\n", encoded_data);
+-                        g_free (encoded_data);
+-                        g_free (data);
+-                        debug_print ("SERVER: writing '%s'", s);
+-                        if (!g_data_output_stream_put_string (dos, s, cancellable, error))
++                        if (data != NULL)
+                           {
++                            gchar *encoded_data;
++
++                            encoded_data = hexencode (data);
++                            s = g_strdup_printf ("DATA %s\r\n", encoded_data);
++                            g_free (encoded_data);
++                            g_free (data);
++
++                            debug_print ("SERVER: writing '%s'", s);
++                            if (!g_data_output_stream_put_string (dos, s, cancellable, error))
++                              {
++                                g_free (s);
++                                goto out;
++                              }
+                             g_free (s);
+-                            goto out;
+                           }
+-                        g_free (s);
+                       }
+                       goto change_state;
+                       break;
+-- 
+2.9.3
+

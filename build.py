@@ -498,7 +498,8 @@ class Project_glib(Tarball, Project):
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.50/glib-2.50.2.tar.xz',
             dependencies = ['gettext', 'libffi', 'zlib'],
             patches = ['glib-if_nametoindex.patch',
-                       'glib-package-installation-directory.patch'],
+                       'glib-package-installation-directory.patch',
+                       '0001-gdbusauth-fix-crash-when-server-data-send-returns-NU.patch'],
             )
 
     def build(self):
