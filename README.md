@@ -20,7 +20,7 @@ HexChat developers decided that their script should focus on their specific need
     * [CMake 3.0.2](http://www.cmake.org/download/) (also works with CMake 2.8.x)
     * [msys2](https://msys2.github.io/)
     * Perl 5.20 [x86](https://dl.hexchat.net/misc/perl/perl-5.20.0-x86.7z) or [x64](https://dl.hexchat.net/misc/perl/perl-5.20.0-x64.7z) (extract to _C:\perl_)
-    * [Python 2.7](https://www.python.org/ftp/python/2.7.9/python-2.7.9.amd64.msi) (install in C:\Python27), or other package like [Miniconda 2.7](https://repo.continuum.io/miniconda/Miniconda2-latest-Windows-x86_64.exe)
+    * [Python 2.7](https://www.python.org/ftp/python/2.7.9/python-2.7.9.amd64.msi) (install in C:\Python34), or other package like [Miniconda 3.4](https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86_64.exe)
     * [nuget](https://dist.nuget.org/win-x86-commandline/latest/nuget.exe) (install in C:\gtk-build\nuget)
 
 1. Follow the instructions on the msys2 page to update the core packages.

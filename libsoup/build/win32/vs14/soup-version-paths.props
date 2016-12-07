@@ -13,7 +13,7 @@
     <SoupSeparateVSDllSuffix>-$(ApiVersion)</SoupSeparateVSDllSuffix>
     <SoupDllPrefix>$(SoupSeparateVSDllPrefix)</SoupDllPrefix>
     <SoupDllSuffix>$(SoupSeparateVSDllSuffix)</SoupDllSuffix>
-    <PythonPath>c:\python27</PythonPath>
+    <PythonPath>c:\python34</PythonPath>
   </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>soupversionpathsprops</_PropertySheetDisplayName>

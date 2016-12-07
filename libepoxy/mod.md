@@ -7,7 +7,7 @@
 	* `<EpoxySeparateVSDllSuffix>-vs$(VSVer)</EpoxySeparateVSDllSuffix>` with
 <EpoxySeparateVSDllSuffix>-0</EpoxySeparateVSDllSuffix>
 	* `<PythonPath>c:\python34</PythonPath>` with
-<PythonPath>c:\python27</PythonPath>
+<PythonPath>c:\python34</PythonPath>
  * In `build/win32/vs12/wgl_core_and_exts.vcxproj`, remove:
 	* `<Command>$(TargetPath)</Command>`
  * In `build/win32/vs12/wgl_per_context_funcptrs.vcxproj`, remove:

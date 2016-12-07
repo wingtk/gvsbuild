@@ -12,7 +12,7 @@
     <EpoxySeparateVSDllSuffix>-0</EpoxySeparateVSDllSuffix>
     <EpoxyDllPrefix>$(EpoxySeparateVSDllPrefix)</EpoxyDllPrefix>
     <EpoxyDllSuffix>$(EpoxySeparateVSDllSuffix)</EpoxyDllSuffix>
-    <PythonPath>c:\python27</PythonPath>
+    <PythonPath>c:\python34</PythonPath>
   </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>epoxyversionpathsprops</_PropertySheetDisplayName>

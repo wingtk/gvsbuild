@@ -1536,7 +1536,7 @@ class Builder(object):
         output = subprocess.check_output('cmd.exe /c ""%s" && set"' % (vcvars_bat,), shell=True)
         self.vs_env = {}
         for l in output.splitlines():
-            k, v = l.split("=", 1)
+            k, v = l.decode('utf-8').split("=", 1)
             self.vs_env[k] = v
 
     def preprocess(self):

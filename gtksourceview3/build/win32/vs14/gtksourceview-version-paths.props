@@ -12,7 +12,7 @@
     <GtkSourceviewSeparateVSDllSuffix>-3.0</GtkSourceviewSeparateVSDllSuffix>
     <GtkSourceviewDllPrefix>$(GtkSourceviewSeparateVSDllPrefix)</GtkSourceviewDllPrefix>
     <GtkSourceviewDllSuffix>$(GtkSourceviewSeparateVSDllSuffix)</GtkSourceviewDllSuffix>
-    <PythonPath>c:\python27</PythonPath>
+    <PythonPath>c:\python34</PythonPath>
   </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>gtksourceviewversionpathsprops</_PropertySheetDisplayName>
