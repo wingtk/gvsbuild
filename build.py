@@ -454,7 +454,7 @@ class Project_gdk_pixbuf(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'gdk-pixbuf',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.36/gdk-pixbuf-2.36.0.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.36/gdk-pixbuf-2.36.1.tar.xz',
             dependencies = ['glib', 'libpng'],
             )
 
