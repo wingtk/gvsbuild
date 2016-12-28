@@ -198,6 +198,50 @@ class Project(object):
     def get_dict():
         return dict(Project._dict)
 
+    @staticmethod
+    def dump_deps(flatten = False):
+        done = []
+
+        def dump_single_dep(st, name, flatten):
+            if flatten:
+                if not st:
+                    done.append(name)
+            else:
+                if st:
+                    # dependency
+                    print("%s%s" % (st, name, ))
+                else:
+                    print("  > %s" % (name, ))
+                    st = "   "
+                done.append(name)
+
+            p = Project._dict[name]
+            if p.dependencies:
+                for d in p.dependencies:
+                    if d in done:
+                        if not flatten:
+                            print("%s    %s *" % (st, d, ))
+                    else:
+                        done.append(d)
+                        dump_single_dep(st + "    ", d, flatten)
+                return 1
+            else:
+                return 0
+
+        print("Projects dependencies:")
+        for n in Project._names:
+            done = []
+            if flatten:
+                print("> %s" % (n, ))
+            if dump_single_dep("", n, flatten):
+                if flatten:
+                    done.remove(n)
+                    for t in sorted(done):
+                        print("    %s" % (t, ))
+
+                else:
+                    print('')
+
 class Project_adwaita_icon_theme(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -1790,7 +1834,10 @@ def do_build(args):
     builder.build(to_build)
 
 def do_list(args):
-    print("Available projects:\n\t" + "\n\t".join(Project.get_names()))
+    if args.deps:
+        Project.dump_deps(args.flatten)
+    else:
+        print("Available projects:\n\t" + "\n\t".join(Project.get_names()))
     sys.exit(0)
 
 def handle_global_options(args):
@@ -1883,6 +1930,12 @@ Examples:
 
     p_list = subparsers.add_parser('list', help='list available projects')
     p_list.set_defaults(func=do_list)
+    # Dependencies dump
+    p_list.add_argument('-d', '--deps', default=False, action='store_true',
+                         help='Dump dependencies.')
+    p_list.add_argument('-f', '--flatten', default=False, action='store_true',
+                         help='Flatten (and sort) the dependencies dump of the single project.')
+
 
     return parser
 
