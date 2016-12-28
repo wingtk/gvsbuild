@@ -1452,7 +1452,7 @@ def print_debug(msg):
         print("Debug:", msg)
 
 def error_exit(msg):
-    print>>sys.stderr, "Error:", msg
+    print("Error:", msg, file=sys.stderr)
     sys.exit(1)
 
 class ordered_set(set):
