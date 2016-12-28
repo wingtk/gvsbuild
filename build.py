@@ -1890,4 +1890,8 @@ if __name__ == '__main__':
     parser = create_parser()
     args = parser.parse_args()
     handle_global_options(args)
-    args.func(args)
+    if hasattr(args, 'func'):
+        args.func(args)
+    else:
+        parser.print_help()
+        
