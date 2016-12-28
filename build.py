@@ -242,6 +242,37 @@ class Project(object):
                 else:
                     print('')
 
+    @staticmethod
+    def make_graph(out_file, put_all = 0):
+        gr_colors = [
+            0x000080,   0x008000,   0x008080,   0x800000,
+            0x800080,   0x808000,   0x808080,   0x0000f0,
+            0x00f000,   0x00f0f0,   0xf00000,   0xf000f0,
+            0xf0f000,   0xf00080,   0xf08000,   0xf08080,
+            0x80f000,   0x80f080,   0x00f080,   0x0080f0,
+            0x8000f0,   0x8080f0 ]
+        gr_index = 0
+
+        with open(out_file, "wt") as fo:
+            used = set()
+            fo.write('digraph gtk3dep {\n')
+            for n in Project._names:
+                t = Project._dict[n]
+                if t.dependencies:
+                    gr_index += 1
+                    gr_index %= len(gr_colors)
+                    for d in t.dependencies:
+                        fo.write('    "%s" -> "%s" [color="#%06x"];\n' % (n, d, gr_colors[gr_index]))
+                        used.add(d)
+
+            if put_all:
+                # Puts all projects that are not referenced from others
+                for n in Project._names:
+                    if n not in used:
+                        fo.write('    "%s" -> "%s" [color="#c00080"];\n' % ('BUILD', n, ))
+
+            fo.write('};\n')
+
 class Project_adwaita_icon_theme(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -1834,6 +1865,9 @@ def do_build(args):
     builder.build(to_build)
 
 def do_list(args):
+    if args.graph:
+        Project.make_graph(args.gv_file, args.all)
+
     if args.deps:
         Project.dump_deps(args.flatten)
     else:
@@ -1936,6 +1970,13 @@ Examples:
     p_list.add_argument('-f', '--flatten', default=False, action='store_true',
                          help='Flatten (and sort) the dependencies dump of the single project.')
 
+    # .gv (dot) graph of dempendencies
+    p_list.add_argument('-g', '--graph', default=False, action='store_true',
+                         help='Create a .gv graph of the dependencies.')
+    p_list.add_argument('-a', '--all', default=False, action='store_true',
+                         help='Add also all unreferenced projects to the graph.')
+    p_list.add_argument('-o', '--gv-file', default='wingtk.gv',
+                        help='Output file name for -g oprion.')
 
     return parser
 
