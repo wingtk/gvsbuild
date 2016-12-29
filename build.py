@@ -1657,8 +1657,8 @@ class Builder(object):
 
         for p in projects:
             if self.__download_one(p):
-                return 1
-        return 0
+                return True
+        return False
 
     def __build_one(self, proj):
         print_message("Building project %s" % (proj.name,))
@@ -1727,18 +1727,18 @@ class Builder(object):
             hc = self.__hashfile(proj.archive_file)
             if hc != proj.hash:
                 print_message("Hash mismatch on %s:\n  Calculated '%s'\n  Expected   '%s'\n" % (proj.archive_file, hc, proj.hash, ))
-                return 1
+                return True
             else:
                 if self.opts.check_hash:
                     print_message("Hash ok on %s (%s)" % (proj.archive_file, hc, ))
                 else:
                     print_debug("Hash ok on %s (%s)" % (proj.archive_file, hc, ))
-        return 0
+        return False
 
     def __download_one(self, proj):
         if not proj.archive_file:
             print_debug("archive file is not specified for project %s, skipping" % (proj.name,))
-            return 0
+            return False
 
         if os.path.exists(proj.archive_file):
             print_debug("archive %s already exists" % (proj.archive_file,))
