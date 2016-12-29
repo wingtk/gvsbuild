@@ -630,7 +630,7 @@ class Project_gtk_base(Tarball, Project):
 class Project_gtk(Project_gtk_base):
     def __init__(self):
         Project_gtk_base.__init__(self,
-            'gtk', 
+            'gtk',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/2.24/gtk+-2.24.31.tar.xz',
             dependencies = ['atk', 'gdk-pixbuf', 'pango'],
             patches = ['gtk-revert-scrolldc-commit.patch', 'gtk-bgimg.patch', 'gtk-accel.patch', 'gtk-multimonitor.patch'],
@@ -1452,7 +1452,7 @@ def print_debug(msg):
         print("Debug:", msg)
 
 def error_exit(msg):
-    print>>sys.stderr, "Error:", msg
+    print("Error:", msg, file=sys.stderr)
     sys.exit(1)
 
 class ordered_set(set):
@@ -1471,7 +1471,7 @@ class ordered_set(set):
 class Builder(object):
     def __init__(self, opts):
         self.opts = opts
-        
+
         self.__check_tools(opts)
         self.__check_vs(opts)
 
