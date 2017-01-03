@@ -1728,11 +1728,12 @@ class Builder(object):
             if hc != proj.hash:
                 print_message("Hash mismatch on %s:\n  Calculated '%s'\n  Expected   '%s'\n" % (proj.archive_file, hc, proj.hash, ))
                 return True
+
+            # Print the correct hash
+            if self.opts.check_hash:
+                print_message("Hash ok on %s (%s)" % (proj.archive_file, hc, ))
             else:
-                if self.opts.check_hash:
-                    print_message("Hash ok on %s (%s)" % (proj.archive_file, hc, ))
-                else:
-                    print_debug("Hash ok on %s (%s)" % (proj.archive_file, hc, ))
+                print_debug("Hash ok on %s (%s)" % (proj.archive_file, hc, ))
         return False
 
     def __download_one(self, proj):
