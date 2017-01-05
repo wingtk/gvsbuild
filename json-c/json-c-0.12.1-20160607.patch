@@ -91,3 +91,15 @@ diff -urpN json-c-0.12.1-20160607.orig/random_seed.c json-c-0.12.1-20160607/rand
  
  #define DEBUG_SEED(s)
  
+ diff -urpN json-c-0.12.1-20160607.orig/json_object.c json-c-0.12.1-20160607/json_object.c
+--- json-c-0.12.1-20160607.orig/json_object.c 2016-12-23 13:28:52.030112700 +0900
++++ json-c-0.12.1-20160607/json_object.c  2016-12-23 13:27:45.452742400 +0900
+@@ -478,7 +478,7 @@ static int json_object_int_to_json_strin
+            int level,
+            int flags)
+ {
+-  return sprintbuf(pb, "%"PRId64, jso->o.c_int64);
++  return sprintbuf(pb, "%" PRId64, jso->o.c_int64);
+ }
+ 
+ struct json_object* json_object_new_int(int32_t i)

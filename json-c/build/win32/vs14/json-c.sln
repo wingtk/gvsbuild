@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "json-c", "json-c.vcxproj", "{04D8CDBE-FB3E-4362-87E6-07DC3C0083B2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "json-c-install", "json-c-install.vcxproj", "{ECBD0597-01A2-4AFC-90DF-EE8CCD59B811}"
+	ProjectSection(ProjectDependencies) = postProject
+		{04D8CDBE-FB3E-4362-87E6-07DC3C0083B2} = {04D8CDBE-FB3E-4362-87E6-07DC3C0083B2}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{04D8CDBE-FB3E-4362-87E6-07DC3C0083B2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{04D8CDBE-FB3E-4362-87E6-07DC3C0083B2}.Debug|Win32.Build.0 = Debug|Win32
+		{04D8CDBE-FB3E-4362-87E6-07DC3C0083B2}.Debug|x64.ActiveCfg = Debug|x64
+		{04D8CDBE-FB3E-4362-87E6-07DC3C0083B2}.Debug|x64.Build.0 = Debug|x64
+		{04D8CDBE-FB3E-4362-87E6-07DC3C0083B2}.Release|Win32.ActiveCfg = Release|Win32
+		{04D8CDBE-FB3E-4362-87E6-07DC3C0083B2}.Release|Win32.Build.0 = Release|Win32
+		{04D8CDBE-FB3E-4362-87E6-07DC3C0083B2}.Release|x64.ActiveCfg = Release|x64
+		{04D8CDBE-FB3E-4362-87E6-07DC3C0083B2}.Release|x64.Build.0 = Release|x64
+		{ECBD0597-01A2-4AFC-90DF-EE8CCD59B811}.Debug|Win32.ActiveCfg = Debug|Win32
+		{ECBD0597-01A2-4AFC-90DF-EE8CCD59B811}.Debug|Win32.Build.0 = Debug|Win32
+		{ECBD0597-01A2-4AFC-90DF-EE8CCD59B811}.Debug|x64.ActiveCfg = Debug|x64
+		{ECBD0597-01A2-4AFC-90DF-EE8CCD59B811}.Debug|x64.Build.0 = Debug|x64
+		{ECBD0597-01A2-4AFC-90DF-EE8CCD59B811}.Release|Win32.ActiveCfg = Release|Win32
+		{ECBD0597-01A2-4AFC-90DF-EE8CCD59B811}.Release|Win32.Build.0 = Release|Win32
+		{ECBD0597-01A2-4AFC-90DF-EE8CCD59B811}.Release|x64.ActiveCfg = Release|x64
+		{ECBD0597-01A2-4AFC-90DF-EE8CCD59B811}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
