@@ -873,16 +873,20 @@ class Project_libmicrohttpd(Tarball, Project):
         if self.builder.opts.configuration == 'debug':
             configuration = 'debug-dll'
 
-        self.exec_msbuild(r'w32\VS2013\libmicrohttpd.sln', configuration=configuration)
+        version = '13'
+        if self.builder.opts.vs_ver == '14':
+            version = '15'
+
+        self.exec_msbuild(r'w32\VS20' + version + '\libmicrohttpd.sln', configuration=configuration)
 
         debug_option = ''
         if self.builder.opts.configuration == 'debug':
             debug_option = '_d'
 
         if self.builder.x86:
-            rel_dir = r'w32\VS2013\Output'
+            rel_dir = r'w32\VS20' + version + '\Output'
         else:
-            rel_dir = r'w32\VS2013\Output\x64'
+            rel_dir = r'w32\VS20' + version + '\Output\x64'
 
         self.push_location(rel_dir)
         self.install(r'microhttpd.h include')
