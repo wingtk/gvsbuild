@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{75F9E5AF-040C-448E-96BE-C282EFFFE2D9}</ProjectGuid>
+    <RootNamespace>testinteractiveclutter</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="clutter-build-defines.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="clutter-build-defines.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="clutter-build-defines.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="clutter-build-defines.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..;$(GlibEtcInstallRoot)\include\gdk-pixbuf-2.0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;$(TestProgDef);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>gdk_pixbuf-2.0.lib;pango-1.0.lib;cairo.lib;gmodule-2.0.lib;gthread-2.0.lib;OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..;$(GlibEtcInstallRoot)\include\gdk-pixbuf-2.0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;$(TestProgDef);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>gdk_pixbuf-2.0.lib;pango-1.0.lib;cairo.lib;gmodule-2.0.lib;gthread-2.0.lib;OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories>..;$(GlibEtcInstallRoot)\include\gdk-pixbuf-2.0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>$(TestProgDef);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>gdk_pixbuf-2.0.lib;pango-1.0.lib;cairo.lib;gmodule-2.0.lib;gthread-2.0.lib;OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..;$(GlibEtcInstallRoot)\include\gdk-pixbuf-2.0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>$(TestProgDef);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>gdk_pixbuf-2.0.lib;pango-1.0.lib;cairo.lib;gmodule-2.0.lib;gthread-2.0.lib;OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\tests\interactive\test-main.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-texture-slicing.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-texture-async.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-texture-material.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-events.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-scale.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-actors.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-shader-effects.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-script.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-grab.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-cogl-shader-arbfp.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-cogl-shader-glsl.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-animator.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-state.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-state-animator.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-fbo.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-multistage.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-cogl-primitives.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-cogl-tex-tile.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-cogl-tex-convert.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-cogl-tex-foreign.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-cogl-tex-getset.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-cogl-offscreen.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-cogl-tex-polygon.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-cogl-multitexture.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-stage-read-pixels.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-clip.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-paint-wrapper.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-texture-quality.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-layout.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-animation.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-easing.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-binding-pool.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-text.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-text-field.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-cairo-clock.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-cairo-flowers.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-cogl-vertex-buffer.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-stage-sizing.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-scrolling.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-swipe-action.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-cogl-point-sprites.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-table-layout.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-path-constraint.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-state-script.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-content.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-keyframe-transition.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-bind-constraint.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-touch-events.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-rotate-zoom.c" />
+    <ClCompile Include="..\..\..\tests\interactive\test-image.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="clutter.vcxproj">
+      <Project>{ea036190-0950-4640-84f9-d459a33b33a8}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
