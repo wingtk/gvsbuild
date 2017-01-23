@@ -525,7 +525,7 @@ class Project_freetype(Tarball, Project):
         Project.__init__(self,
             'freetype',
             archive_url = 'http://download.savannah.gnu.org/releases/freetype/freetype-2.7.1.tar.gz',
-            hash = '7b657d5f872b0ab56461f3bd310bd1c5ec64619bd15f0d8e08282d494d9cfea4',
+            hash = '162ef25aa64480b1189cdb261228e6c5c44f212aac4b4621e28cf2157efb59f5',
             )
 
     def build(self):
@@ -741,7 +741,7 @@ class Project_gtk3(Project_gtk_base):
         Project_gtk_base.__init__(self,
             'gtk3',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.22/gtk+-3.22.6.tar.xz',
-            hash = '693fa0ac643c59ccd51db99cabe476b4e0a41fd4f0c3c8b3e3ef38f94b2e7334',
+            hash = 'eba75a216a117f4391beb2971ba20ff8a1823f109893f0ab6c2eac2210ea172f',
             dependencies = ['atk', 'gdk-pixbuf', 'pango', 'libepoxy'],
             patches = ['gtk3-clip-retry-if-opened-by-others.patch'],
             )
@@ -860,7 +860,7 @@ class Project_libarchive(Tarball, Project):
         Project.__init__(self,
             'libarchive',
             archive_url = 'http://www.libarchive.org/downloads/libarchive-3.2.2.tar.gz',
-            hash = '72ee1a4e3fd534525f13a0ba1aa7b05b203d186e0c6072a8a4738649d0b3cfd2',
+            hash = '691c194ee132d1f0f7a42541f091db811bc2e56f7107e9121be2bc8c04f1060f',
             dependencies = ['win-iconv', 'zlib', 'lz4', 'openssl', 'libxml2'],
             patches = ['0001-test_write_format_gnutar_filenames-use-AE_IFLNK-inst.patch'],
             )
@@ -931,7 +931,7 @@ class Project_libgxps(Tarball, Project):
         Project.__init__(self,
             'libgxps',
             archive_url = 'https://git.gnome.org/browse/libgxps/snapshot/libgxps-84e11c4f93829a762273b7cc362d6bc9a7582ed7.tar.xz',
-            hash = '9d4e5db51741ac593efef3054a872b8a09a6bfc70bd8b11779ed533d6ae9a723',
+            hash = '1618845a59f665acfc1eeccee893b3cf27ff52588f90b9ba2c678630aeca5cf8',
             dependencies = ['glib', 'libarchive', 'cairo', 'libpng', 'libjpeg-turbo'],
             )
 
@@ -1807,11 +1807,12 @@ class Builder(object):
             if hc != proj.hash:
                 print_message("Hash mismatch on %s:\n  Calculated '%s'\n  Expected   '%s'\n" % (proj.archive_file, hc, proj.hash, ))
                 return True
+
+            # Print the correct hash
+            if self.opts.check_hash:
+                print_message("Hash ok on %s (%s)" % (proj.archive_file, hc, ))
             else:
-                if self.opts.check_hash:
-                    print_message("Hash ok on %s (%s)" % (proj.archive_file, hc, ))
-                else:
-                    print_debug("Hash ok on %s (%s)" % (proj.archive_file, hc, ))
+                print_debug("Hash ok on %s (%s)" % (proj.archive_file, hc, ))
         return False
 
     def __download_one(self, proj):
