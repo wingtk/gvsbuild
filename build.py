@@ -524,7 +524,7 @@ class Project_freetype(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'freetype',
-            archive_url = 'http://download.savannah.gnu.org/releases/freetype/freetype-2.7.tar.gz',
+            archive_url = 'http://download.savannah.gnu.org/releases/freetype/freetype-2.7.1.tar.gz',
             hash = '7b657d5f872b0ab56461f3bd310bd1c5ec64619bd15f0d8e08282d494d9cfea4',
             )
 
@@ -740,7 +740,7 @@ class Project_gtk3(Project_gtk_base):
     def __init__(self):
         Project_gtk_base.__init__(self,
             'gtk3',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.22/gtk+-3.22.5.tar.xz',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.22/gtk+-3.22.6.tar.xz',
             hash = '693fa0ac643c59ccd51db99cabe476b4e0a41fd4f0c3c8b3e3ef38f94b2e7334',
             dependencies = ['atk', 'gdk-pixbuf', 'pango', 'libepoxy'],
             patches = ['gtk3-clip-retry-if-opened-by-others.patch'],
@@ -859,7 +859,7 @@ class Project_libarchive(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libarchive',
-            archive_url = 'http://www.libarchive.org/downloads/libarchive-3.2.1.tar.gz',
+            archive_url = 'http://www.libarchive.org/downloads/libarchive-3.2.2.tar.gz',
             hash = '72ee1a4e3fd534525f13a0ba1aa7b05b203d186e0c6072a8a4738649d0b3cfd2',
             dependencies = ['win-iconv', 'zlib', 'lz4', 'openssl', 'libxml2'],
             patches = ['0001-test_write_format_gnutar_filenames-use-AE_IFLNK-inst.patch'],
@@ -930,15 +930,15 @@ class Project_libgxps(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libgxps',
-            archive_url = 'https://git.gnome.org/browse/libgxps/snapshot/libgxps-4709da90210839ca8fdd424caa7be897f3be91bb.tar.xz',
+            archive_url = 'https://git.gnome.org/browse/libgxps/snapshot/libgxps-84e11c4f93829a762273b7cc362d6bc9a7582ed7.tar.xz',
             hash = '9d4e5db51741ac593efef3054a872b8a09a6bfc70bd8b11779ed533d6ae9a723',
-            dependencies = ['glib', 'libarchive', 'cairo', 'libpng'],
+            dependencies = ['glib', 'libarchive', 'cairo', 'libpng', 'libjpeg-turbo'],
             )
 
     def build(self):
         self.push_location(r'.\nmake')
-        self.exec_vs(r'nmake /nologo /f Makefile.vc CFG=%(configuration)s PREFIX="%(gtk_dir)s" LIBPNG=1 CAIRO_PDF=1 CAIRO_PS=1 CAIRO_SVG=1')
-        self.exec_vs(r'nmake /nologo /f Makefile.vc install CFG=%(configuration)s PREFIX="%(gtk_dir)s" LIBPNG=1 CAIRO_PDF=1 CAIRO_PS=1 CAIRO_SVG=1')
+        self.exec_vs(r'nmake /nologo /f Makefile.vc CFG=%(configuration)s PREFIX="%(gtk_dir)s" LIBPNG=1 LIBJPEG=1 CAIRO_PDF=1 CAIRO_PS=1 CAIRO_SVG=1')
+        self.exec_vs(r'nmake /nologo /f Makefile.vc install CFG=%(configuration)s PREFIX="%(gtk_dir)s" LIBPNG=1 LIBJPEG=1 CAIRO_PDF=1 CAIRO_PS=1 CAIRO_SVG=1')
         self.pop_location()
 
         self.install(r'.\COPYING share\doc\libgxps')
@@ -980,16 +980,20 @@ class Project_libmicrohttpd(Tarball, Project):
         if self.builder.opts.configuration == 'debug':
             configuration = 'debug-dll'
 
-        self.exec_msbuild(r'w32\VS2013\libmicrohttpd.sln', configuration=configuration)
+        version = '13'
+        if self.builder.opts.vs_ver == '14':
+            version = '15'
+
+        self.exec_msbuild(r'w32\VS20' + version + '\libmicrohttpd.sln', configuration=configuration)
 
         debug_option = ''
         if self.builder.opts.configuration == 'debug':
             debug_option = '_d'
 
         if self.builder.x86:
-            rel_dir = r'w32\VS2013\Output'
+            rel_dir = r'w32\VS20' + version + '\Output'
         else:
-            rel_dir = r'w32\VS2013\Output\x64'
+            rel_dir = r'w32\VS20' + version + '\Output\x64'
 
         self.push_location(rel_dir)
         self.install(r'microhttpd.h include')
@@ -2087,4 +2091,8 @@ if __name__ == '__main__':
     parser = create_parser()
     args = parser.parse_args()
     handle_global_options(args)
-    args.func(args)
+    if hasattr(args, 'func'):
+        args.func(args)
+    else:
+        parser.print_help()
+
