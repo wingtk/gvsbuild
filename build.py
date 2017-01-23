@@ -1492,6 +1492,31 @@ Project.add(MercurialCmakeProject('pygobject', repo_url='git+ssh://git@github.co
 Project.add(MercurialCmakeProject('pygtk', repo_url='git+ssh://git@github.com:muntyan/pygtk-gtk-win32.git', dependencies = ['gtk', 'pycairo', 'pygobject']))
 
 
+class Project_pkg_config(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'pkg-config',
+            archive_url = 'https://pkg-config.freedesktop.org/releases/pkg-config-0.29.1.tar.gz',
+            hash = 'beb43c9e064555469bd4390dcfd8030b1536e0aa103f08d7abf7ae8cac0cb001',
+            dependencies = ['glib', ],
+            patches = ['001-pkg-config-set-glib-prefix.patch',
+                      ],
+            )
+
+    def build(self):
+        ## self.push_location(r'.')
+        self.exec_vs(r'nmake /nologo /f Makefile.vc CFG=%(configuration)s GLIB_PREFIX="%(gtk_dir)s"')
+        ## self.pop_location()
+
+        bin_dir = r'.\%s\%s' % (self.builder.opts.configuration, self.builder.opts.platform, )
+        self.install(bin_dir + r'\pkg-config.exe bin')
+        self.install(bin_dir + r'\pkg-config.pdb bin')
+
+        self.install(r'.\COPYING share\doc\pkg-config')
+
+Project.add(Project_pkg_config())
+
+
 #========================================================================================================================================================
 
 global_verbose = False
