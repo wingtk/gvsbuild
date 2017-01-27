@@ -1143,7 +1143,7 @@ class Project_lz4(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'lz4',
-            archive_url = 'https://github.com/lz4/lz4/archive/v1.7.4.2.tar.gz',
+            archive_url = 'https://github.com/lz4/lz4/archive/v1.7.5.tar.gz',
             )
 
     def build(self):
