@@ -23,6 +23,7 @@ import shutil
 import subprocess
 import sys
 import traceback
+import hashlib
 
 def convert_to_msys(path):
     path = path
@@ -203,6 +204,7 @@ class Project_adwaita_icon_theme(Tarball, Project):
         Project.__init__(self,
             'adwaita-icon-theme',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/adwaita-icon-theme/3.22/adwaita-icon-theme-3.22.0.tar.xz',
+            hash = 'c18bf6e26087d9819a962c77288b291efab25d0419b73d909dd771716a45dcb7',
             dependencies = ['librsvg'],
             )
 
@@ -221,6 +223,7 @@ class Project_atk(Tarball, Project):
         Project.__init__(self,
             'atk',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/atk/2.22/atk-2.22.0.tar.xz',
+            hash = 'd349f5ca4974c9c76a4963e5b254720523b0c78672cbc0e1a3475dbd9b3d44b6',
             dependencies = ['glib'],
             )
 
@@ -235,6 +238,7 @@ class Project_cairo(Tarball, Project):
         Project.__init__(self,
             'cairo',
             archive_url = 'http://cairographics.org/snapshots/cairo-1.15.2.tar.xz',
+            hash = '268cc265a7f807403582f440643064bf52896556766890c8df7bad02d230f6c9',
             dependencies = ['fontconfig', 'glib', 'pixman', 'libpng'],
             )
 
@@ -273,6 +277,7 @@ class Project_clutter(Tarball, Project):
         Project.__init__(self,
             'clutter',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/clutter/1.26/clutter-1.26.0.tar.xz',
+            hash = '67514e7824b3feb4723164084b36d6ce1ae41cb3a9897e9f1a56c8334993ce06',
             dependencies = ['atk','cogl','json-glib'],
             )
 
@@ -288,6 +293,7 @@ class Project_cogl(Tarball, Project):
         Project.__init__(self,
             'cogl',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/cogl/1.22/cogl-1.22.0.tar.xz',
+            hash = '689dfb5d14fc1106e9d2ded0f7930dcf7265d0bc84fa846b4f03941633eeaa91',
             dependencies = ['glib','cairo','pango','gdk-pixbuf'],
             patches = ['001-cogl-missing-symbols.patch',
                        '002-cogl-pango-missing-symbols.patch',
@@ -305,6 +311,7 @@ class Project_cyrus_sasl(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'cyrus-sasl',
+            hash = '9e8035c12d419209ea60584d5efa51d042c3ed44b450b9d173d5504b222df9f1',
             archive_url = 'https://github.com/wingtk/cyrus-sasl/releases/download/cyrus-sasl-lmdb-2.1.28/cyrus-sasl-2.1.28.tar.xz',
             dependencies = ['lmdb', 'openssl'],
             )
@@ -325,6 +332,7 @@ class Project_enchant(Tarball, Project):
         Project.__init__(self,
             'enchant',
             archive_url = 'http://dl.hexchat.net/gtk-win32/src/enchant-1.6.0.tar.gz',
+            hash = '2fac9e7be7e9424b2c5570d8affe568db39f7572c10ed48d4e13cddf03f7097f',
             dependencies = ['glib'],
             )
 
@@ -378,6 +386,7 @@ class Project_ffmpeg(Tarball, Project):
         Project.__init__(self,
             'ffmpeg',
             archive_url = 'http://ffmpeg.org/releases/ffmpeg-2.8.7.tar.bz2',
+            hash = '8777ce4a335640fdd13680ba423ef6da330ff5071bfbe27cdbb452379167efe5',
             dependencies = [ 'x264' ]
         )
 
@@ -397,6 +406,7 @@ class Project_fontconfig(Tarball, Project):
         Project.__init__(self,
             'fontconfig',
             archive_url = 'https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.12.1.tar.gz',
+            hash = 'a9f42d03949f948a3a4f762287dbc16e53a927c91a07ee64207ebd90a9e5e292',
             dependencies = ['freetype', 'libxml2'],
             patches = ['fontconfig.patch'],
             )
@@ -440,6 +450,7 @@ class Project_freetype(Tarball, Project):
         Project.__init__(self,
             'freetype',
             archive_url = 'http://download.savannah.gnu.org/releases/freetype/freetype-2.7.1.tar.gz',
+            hash = '162ef25aa64480b1189cdb261228e6c5c44f212aac4b4621e28cf2157efb59f5',
             )
 
     def build(self):
@@ -455,6 +466,7 @@ class Project_gdk_pixbuf(Tarball, Project):
         Project.__init__(self,
             'gdk-pixbuf',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.36/gdk-pixbuf-2.36.1.tar.xz',
+            hash = '9d5ba72070460c1b5b74115d395a3e33daeb7b7b67fb256cdccc9d7187c42a38',
             dependencies = ['glib', 'libpng'],
             )
 
@@ -473,6 +485,7 @@ class Project_gettext(Tarball, Project):
         Project.__init__(self,
             'gettext',
             archive_url = 'http://ftp.gnu.org/pub/gnu/gettext/gettext-0.19.7.tar.gz',
+            hash = '5386d2a40500295783c6a52121adcf42a25519e2d23675950619c9e69558c23f',
             dependencies = ['win-iconv'],
             patches = ['0001-gettext-runtime-Add-pre-configured-headers-for-MSVC-.patch',
                        '0001-gettext-tools-Add-pre-configured-headers-and-sources.patch',
@@ -496,6 +509,7 @@ class Project_glib(Tarball, Project):
         Project.__init__(self,
             'glib',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.50/glib-2.50.2.tar.xz',
+            hash = 'be68737c1f268c05493e503b3b654d2b7f43d7d0b8c5556f7e4651b870acfbf5',
             dependencies = ['gettext', 'libffi', 'zlib'],
             patches = ['glib-if_nametoindex.patch',
                        'glib-package-installation-directory.patch',
@@ -517,6 +531,7 @@ class Project_glib_networking(Tarball, Project):
         Project.__init__(self,
             'glib-networking',
             archive_url = 'https://github.com/wingtk/glib-networking/releases/download/2.50.0-openssl/glib-networking-2.50.0.tar.xz',
+            hash = 'ca116a5b9435001d0dd8cfab3743f9a5d0003dbdc99a407c66858b183f07192b',
             dependencies = ['gsettings-desktop-schemas', 'openssl'],
             )
 
@@ -531,6 +546,7 @@ class Project_glib_openssl(Tarball, Project):
         Project.__init__(self,
             'glib-openssl',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib-openssl/2.50/glib-openssl-2.50.0.tar.xz',
+            hash = '359ef30cb908d910aa06ab11038dd667d6e821819c0211ead8f210e3503d3974',
             dependencies = ['glib', 'openssl'],
             )
 
@@ -597,6 +613,7 @@ class Project_gsettings_desktop_schemas(Tarball, Project):
         Project.__init__(self,
             'gsettings-desktop-schemas',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.22/gsettings-desktop-schemas-3.22.0.tar.xz',
+            hash = '0f06c7ba34c3a99e4d58b10889496133c9aaad6698ea2d8405d481c7f1a7eae1',
             dependencies = ['glib'],
             )
 
@@ -632,6 +649,7 @@ class Project_gtk(Project_gtk_base):
         Project_gtk_base.__init__(self,
             'gtk',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/2.24/gtk+-2.24.31.tar.xz',
+            hash = '68c1922732c7efc08df4656a5366dcc3afdc8791513400dac276009b40954658',
             dependencies = ['atk', 'gdk-pixbuf', 'pango'],
             patches = ['gtk-revert-scrolldc-commit.patch', 'gtk-bgimg.patch', 'gtk-accel.patch', 'gtk-multimonitor.patch'],
             )
@@ -648,6 +666,7 @@ class Project_gtk3(Project_gtk_base):
         Project_gtk_base.__init__(self,
             'gtk3',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.22/gtk+-3.22.6.tar.xz',
+            hash = 'eba75a216a117f4391beb2971ba20ff8a1823f109893f0ab6c2eac2210ea172f',
             dependencies = ['atk', 'gdk-pixbuf', 'pango', 'libepoxy'],
             patches = ['gtk3-clip-retry-if-opened-by-others.patch'],
             )
@@ -668,6 +687,7 @@ class Project_gtksourceview3(Tarball, Project):
         Project.__init__(self,
             'gtksourceview3',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtksourceview/3.22/gtksourceview-3.22.2.tar.xz',
+            hash = '6ce84231dd0931cc747708434ca2f344c65a092dd6e1a800283fe0748773af5e',
             dependencies = ['gtk3'],
             )
 
@@ -684,6 +704,7 @@ class Project_harfbuzz(Tarball, Project):
         Project.__init__(self,
             'harfbuzz',
             archive_url = 'https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.3.3.tar.bz2',
+            hash = '2620987115a4122b47321610dccbcc18f7f121115fd7b88dc8a695c8b66cb3c9',
             dependencies = ['freetype', 'glib'],
             )
 
@@ -704,6 +725,7 @@ class Project_hicolor_icon_theme(Tarball, Project):
         Project.__init__(self,
             'hicolor-icon-theme',
             archive_url = 'http://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.15.tar.xz',
+            hash = '9cc45ac3318c31212ea2d8cb99e64020732393ee7630fa6c1810af5f987033cc',
             )
 
     def build(self):
@@ -716,6 +738,7 @@ class Project_jsonc(Tarball, Project):
         Project.__init__(self,
             'json-c',
             archive_url = 'https://github.com/json-c/json-c/archive/json-c-0.12.1-20160607.tar.gz',
+            hash = '989e09b99ded277a0a651cd18b81fcb76885fea08769d7a21b6da39fb8a34816',
             patches = ['json-c-0.12.1-20160607.patch'],
             )
 
@@ -731,6 +754,7 @@ class Project_json_glib(Tarball, Project):
         Project.__init__(self,
             'json-glib',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/json-glib/1.2/json-glib-1.2.2.tar.xz',
+            hash = 'ea128ab52a824fcd06e5448fbb2bd8d9a13740d51c66d445828edba71321a621',
             dependencies = ['glib'],
             )
 
@@ -746,6 +770,7 @@ class Project_leveldb(Tarball, Project):
         Project.__init__(self,
             'leveldb',
             archive_url = 'http://github.com/google/leveldb/archive/v1.18.tar.gz',
+            hash = '4aa1a7479bc567b95a59ac6fb79eba49f61884d6fd400f20b7af147d54c5cee5',
             )
 
     def build(self):
@@ -760,6 +785,7 @@ class Project_libarchive(Tarball, Project):
         Project.__init__(self,
             'libarchive',
             archive_url = 'http://www.libarchive.org/downloads/libarchive-3.2.2.tar.gz',
+            hash = '691c194ee132d1f0f7a42541f091db811bc2e56f7107e9121be2bc8c04f1060f',
             dependencies = ['win-iconv', 'zlib', 'lz4', 'openssl', 'libxml2'],
             patches = ['0001-test_write_format_gnutar_filenames-use-AE_IFLNK-inst.patch'],
             )
@@ -779,6 +805,7 @@ class Project_libcroco(Tarball, Project):
         Project.__init__(self,
             'libcroco',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libcroco/0.6/libcroco-0.6.11.tar.xz',
+            hash = '132b528a948586b0dfa05d7e9e059901bca5a3be675b6071a90a90b81ae5a056',
             dependencies = ['glib', 'libxml2'],
             )
 
@@ -793,6 +820,7 @@ class Project_libepoxy(Tarball, Project):
         Project.__init__(self,
             'libepoxy',
             archive_url = 'https://github.com/anholt/libepoxy/releases/download/v1.3.1/libepoxy-1.3.1.tar.bz2',
+            hash = '1d8668b0a259c709899e1c4bab62d756d9002d546ce4f59c9665e2fc5f001a64',
             patches = ['0001-MSVC-Builds-Support-PACKED.patch'],
             )
 
@@ -806,6 +834,7 @@ class Project_libffi(Tarball, Project):
         Project.__init__(self,
             'libffi',
             archive_url = 'http://dl.hexchat.net/gtk-win32/src/libffi-3.2.1.tar.gz',
+            hash = 'd06ebb8e1d9a22d19e38d63fdb83954253f39bedc5d46232a05645685722ca37',
             patches = ['libffi-msvc-complex.patch', 'libffi-win64-jmp.patch', '0001-Fix-build-on-windows.patch'],
             )
 
@@ -827,6 +856,7 @@ class Project_libgxps(Tarball, Project):
         Project.__init__(self,
             'libgxps',
             archive_url = 'https://git.gnome.org/browse/libgxps/snapshot/libgxps-84e11c4f93829a762273b7cc362d6bc9a7582ed7.tar.xz',
+            hash = '1618845a59f665acfc1eeccee893b3cf27ff52588f90b9ba2c678630aeca5cf8',
             dependencies = ['glib', 'libarchive', 'cairo', 'libpng', 'libjpeg-turbo'],
             )
 
@@ -845,6 +875,7 @@ class Project_libjpeg_turbo(Tarball, Project):
         Project.__init__(self,
             'libjpeg-turbo',
             archive_url = 'https://sourceforge.net/projects/libjpeg-turbo/files/1.5.1/libjpeg-turbo-1.5.1.tar.gz',
+            hash = '41429d3d253017433f66e3d472b8c7d998491d2f41caa7306b8d9a6f2a2c666c',
             )
 
     def build(self):
@@ -865,6 +896,7 @@ class Project_libmicrohttpd(Tarball, Project):
         Project.__init__(self,
             'libmicrohttpd',
              archive_url = 'http://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-0.9.48.tar.gz',
+             hash = '87667e158f2bf8c691a002e256ffe30885d4121a9ee4143af0320c47cdf8a2a4',
              patches = ['001-disable-w32_SetThreadName.patch'],
             )
 
@@ -905,6 +937,7 @@ class Project_libpng(Tarball, Project):
         Project.__init__(self,
             'libpng',
             archive_url = 'http://prdownloads.sourceforge.net/libpng/libpng-1.6.26.tar.xz',
+            hash = '266743a326986c3dbcee9d89b640595f6b16a293fd02b37d8c91348d317b73f9',
             dependencies = ['zlib'],
             )
 
@@ -922,6 +955,7 @@ class Project_librsvg(Tarball, Project):
         Project.__init__(self,
             'librsvg',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/librsvg/2.40/librsvg-2.40.16.tar.xz',
+            hash = 'd48bcf6b03fa98f07df10332fb49d8c010786ddca6ab34cbba217684f533ff2e',
             dependencies = ['libcroco', 'cairo', 'pango', 'gdk-pixbuf', 'gtk3'],
             )
 
@@ -939,6 +973,7 @@ class Project_sqlite(Tarball, Project):
         Project.__init__(self,
             'sqlite',
             archive_url = 'https://www.sqlite.org/2016/sqlite-autoconf-3120200.tar.gz',
+            hash = 'fd00770c9afd39db555c78400e52f55e8bd6568c78be23561abb472a22d09abb',
             )
 
     def build(self):
@@ -956,6 +991,7 @@ class Project_libcurl(Tarball, Project):
         Project.__init__(self,
             'libcurl',
             archive_url = 'https://github.com/curl/curl/archive/curl-7_48_0.tar.gz',
+            hash = '401043087d326edc74021597b9b8a60d6b5c9245fe224beaf89fa6d6c2d9178a',
             dependencies = [],
             )
 
@@ -974,6 +1010,7 @@ class Project_libsoup(Tarball, Project):
         Project.__init__(self,
             'libsoup',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.56/libsoup-2.56.0.tar.xz',
+            hash = 'd8216b71de8247bc6f274ec054c08547b2e04369c1f8add713e9350c8ef81fe5',
             dependencies = ['libxml2', 'glib-openssl', 'sqlite'],
             patches = ['0001-websocket-connection-log-when-getting-a-pong-message.patch',
                        '0001-websocket-add-api-to-add-a-keepalive-interval.patch',
@@ -992,6 +1029,7 @@ class Project_libssh(Tarball, Project):
         Project.__init__(self,
             'libssh',
             archive_url = 'https://red.libssh.org/attachments/download/177/libssh-0.7.2.tar.xz',
+            hash = 'a32c45b9674141cab4bde84ded7d53e931076c6b0f10b8fd627f3584faebae62',
             dependencies = ['zlib','openssl'],
             )
 
@@ -1007,6 +1045,7 @@ class Project_libssh2(Tarball, Project):
         Project.__init__(self,
             'libssh2',
             archive_url = 'https://www.libssh2.org/download/libssh2-1.7.0.tar.gz',
+            hash = 'e4561fd43a50539a8c2ceb37841691baf03ecb7daf043766da1b112e4280d584',
             )
 
     def build(self):
@@ -1024,6 +1063,7 @@ class Project_libuv(Tarball, Project):
         Project.__init__(self,
             'libuv',
             archive_url = 'https://github.com/libuv/libuv/archive/v1.9.1.tar.gz',
+            hash = 'a6ca9f0648973d1463f46b495ce546ddcbe7cce2f04b32e802a15539e46c57ad',
             )
 
     def build(self):
@@ -1067,6 +1107,7 @@ class Project_libxml2(Tarball, Project):
         Project.__init__(self,
             'libxml2',
             archive_url = 'ftp://xmlsoft.org/libxml2/libxml2-2.9.4.tar.gz',
+            hash = 'ffb911191e509b966deb55de705387f14156e1a56b21824357cdf0053233633c',
             dependencies = ['win-iconv'],
             )
 
@@ -1110,6 +1151,7 @@ class Project_libzip(Tarball, Project):
         Project.__init__(self,
             'libzip',
             archive_url = 'http://nih.at/libzip/libzip-1.1.3.tar.gz',
+            hash = '1faa5a524dd4a12c43b6344e618edce1bf8050dfdb9d0f73f3cc826929a002b0',
             dependencies = ['zlib'],
             )
 
@@ -1128,6 +1170,7 @@ class Project_lmdb(Tarball, Project):
         Project.__init__(self,
             'lmdb',
             archive_url = 'https://github.com/LMDB/lmdb/archive/LMDB_0.9.18.tar.gz',
+            hash = 'dd35b471d6eea84f48f2feece13d121abf59ef255308b8624a36223ffbdf9989',
             )
 
     def build(self):
@@ -1144,6 +1187,7 @@ class Project_lz4(Tarball, Project):
         Project.__init__(self,
             'lz4',
             archive_url = 'https://github.com/lz4/lz4/archive/v1.7.5.tar.gz',
+            hash = '0190cacd63022ccb86f44fa5041dc6c3804407ad61550ca21c382827319e7e7e',
             )
 
     def build(self):
@@ -1162,6 +1206,7 @@ class Project_openssl(Tarball, Project):
         Project.__init__(self,
             'openssl',
             archive_url = 'ftp://ftp.openssl.org/source/openssl-1.0.2j.tar.gz',
+            hash = 'e7aff292be21c259c6af26469c7a9b3ba26e9abaaffd325e3dccc9785256c431',
             )
 
     def build(self):
@@ -1205,6 +1250,7 @@ class Project_opus(Tarball, Project):
         Project.__init__(self,
             'opus',
             archive_url = 'http://downloads.xiph.org/releases/opus/opus-1.1.3.tar.gz',
+            hash = '58b6fe802e7e30182e95d0cde890c0ace40b6f125cffc50635f0ad2eef69b633',
             )
 
     def build(self):
@@ -1236,6 +1282,7 @@ class Project_pango(Tarball, Project):
         Project.__init__(self,
             'pango',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.40/pango-1.40.3.tar.xz',
+            hash = 'abba8b5ce728520c3a0f1535eab19eac3c14aeef7faa5aded90017ceac2711d3',
             dependencies = ['cairo', 'harfbuzz'],
             )
 
@@ -1254,6 +1301,7 @@ class Project_pixman(Tarball, Project):
         Project.__init__(self,
             'pixman',
             archive_url = 'http://cairographics.org/releases/pixman-0.34.0.tar.gz',
+            hash = '21b6b249b51c6800dc9553b65106e1e37d0e25df942c90531d4c3997aa20a88e',
             )
 
     def build(self):
@@ -1306,6 +1354,7 @@ class Project_protobuf(Tarball, Project):
         Project.__init__(self,
             'protobuf',
             archive_url = 'https://github.com/google/protobuf/archive/v3.1.0.tar.gz',
+            hash = '0a0ae63cbffc274efb573bdde9a253e3f32e458c41261df51c5dbc5ad541e8f7',
             )
 
     def build(self):
@@ -1324,6 +1373,7 @@ class Project_protobuf_c(Tarball, Project):
         Project.__init__(self,
             'protobuf-c',
             archive_url = 'https://github.com/protobuf-c/protobuf-c/releases/download/v1.2.1/protobuf-c-1.2.1.tar.gz',
+            hash = '846eb4846f19598affdc349d817a8c4c0c68fd940303e6934725c889f16f00bd',
             dependencies = ['protobuf'],
             patches = ['0001-Declare-variables-at-the-beginning-of-the-block.patch',
                        '0001-Do-not-build-tests.patch'],
@@ -1344,6 +1394,7 @@ class Project_win_iconv(Tarball, Project):
         Project.__init__(self,
             'win-iconv',
             archive_url = 'http://dl.hexchat.net/gtk-win32/src/win-iconv-0.0.8.tar.gz',
+            hash = '23adea990a8303c6e69e32a64a30171efcb1b73824a1c2da1bbf576b0ae7c520',
             )
 
     def build(self):
@@ -1364,6 +1415,7 @@ class Project_wing(Tarball, Project):
         Project.__init__(self,
             'wing',
             archive_url = 'https://git.gnome.org/browse/wing/snapshot/wing-8c8ff6da28c4921f7306d7cc84ce0566a9f66e31.tar.xz',
+            hash = 'cd4f5f28c5730a5512e497f326230c8d7eb74c654dce32754b493b41d010cab6',
             dependencies = ['glib'],
             )
 
@@ -1383,6 +1435,7 @@ class Project_x264(Tarball, Project):
             'x264',
             wget_opts = [ '--no-passive-ftp'],
             archive_url = 'ftp://ftp.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20160313-2245.tar.bz2',
+            hash = '65cc10e063cb38a664fbf66f536fe7c92631b7764bf6866786d3a0e702226b86',
             patches = [ '0001-use-more-recent-version-of-config.guess.patch',
                         '0002-configure-recognize-the-msys-shell.patch' ]
             )
@@ -1402,6 +1455,7 @@ class Project_zlib(Tarball, Project):
         Project.__init__(self,
             'zlib',
             archive_url = 'http://dl.hexchat.net/gtk-win32/src/zlib-1.2.8.tar.xz',
+            hash = '831df043236df8e9a7667b9e3bb37e1fcb1220a0f163b6de2626774b9590d057',
             )
 
     def build(self):
@@ -1572,7 +1626,12 @@ class Builder(object):
         proj.all_dependencies = deps
 
     def build(self, projects):
-        self.__prepare_build(projects)
+        if self.__prepare_build(projects):
+            return
+
+        if self.opts.check_hash:
+            return
+
         for p in projects:
             try:
                 self.__build_one(p)
@@ -1600,7 +1659,9 @@ class Builder(object):
             os.makedirs(build_dir)
 
         for p in projects:
-            self.__download_one(p)
+            if self.__download_one(p):
+                return True
+        return False
 
     def __build_one(self, proj):
         print_message("Building project %s" % (proj.name,))
@@ -1657,14 +1718,35 @@ class Builder(object):
             print_debug("copying '%s' to '%s'" % (src, destdir))
             shutil.copy(src, destdir)
 
+    def __hashfile(self, file_name):
+        hash_calc = hashlib.sha256()
+        with open(file_name, 'rb') as fi:
+            for chunk in iter(lambda: fi.read(4096), b""):
+                hash_calc.update(chunk)
+        return hash_calc.hexdigest()
+
+    def __check_hash(self, proj):
+        if hasattr(proj, 'hash'):
+            hc = self.__hashfile(proj.archive_file)
+            if hc != proj.hash:
+                print_message("Hash mismatch on %s:\n  Calculated '%s'\n  Expected   '%s'\n" % (proj.archive_file, hc, proj.hash, ))
+                return True
+
+            # Print the correct hash
+            if self.opts.check_hash:
+                print_message("Hash ok on %s (%s)" % (proj.archive_file, hc, ))
+            else:
+                print_debug("Hash ok on %s (%s)" % (proj.archive_file, hc, ))
+        return False
+
     def __download_one(self, proj):
         if not proj.archive_file:
             print_debug("archive file is not specified for project %s, skipping" % (proj.name,))
-            return
+            return False
 
         if os.path.exists(proj.archive_file):
             print_debug("archive %s already exists" % (proj.archive_file,))
-            return
+            return self.__check_hash(proj)
 
         if not os.path.exists(self.opts.archives_download_dir):
             print_log("Creating archives download directory %s" % (self.opts.archives_download_dir,))
@@ -1675,6 +1757,7 @@ class Builder(object):
         if hasattr(proj, 'wget_opts'):
             wget_opts += proj.wget_opts;
         self.__execute(wget_opts + [proj.archive_url], self.opts.archives_download_dir)
+        return self.__check_hash(proj)
 
     def __sub_vars(self, s):
         if '%' in s:
@@ -1751,6 +1834,7 @@ def get_options(args):
     opts.clean = args.clean
     opts.msbuild_opts = args.msbuild_opts
     opts.no_deps = args.no_deps
+    opts.check_hash = args.check_hash
 
     if not opts.archives_download_dir:
         opts.archives_download_dir = os.path.join(args.build_dir, 'src')
@@ -1870,6 +1954,8 @@ Examples:
     p_build.add_argument('--python-dir', default=os.path.dirname(sys.executable),
                          help="The directory where you installed python.")
 
+    p_build.add_argument('--check-hash', default=False, action='store_true',
+                         help='Only check hashes of downloaded archive(s), no build')
     p_build.add_argument('--clean', default=False, action='store_true',
                          help='Build the project(s) from scratch')
     p_build.add_argument('--no-deps', default=False, action='store_true',
