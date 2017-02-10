@@ -1330,8 +1330,8 @@ class Project_pkg_config(Tarball, Project):
             'pkg-config',
             archive_url = 'https://pkg-config.freedesktop.org/releases/pkg-config-0.29.1.tar.gz',
             hash = 'beb43c9e064555469bd4390dcfd8030b1536e0aa103f08d7abf7ae8cac0cb001',
-            dependencies = ['glib', ],
-            patches = ['001-pkg-config-set-glib-prefix.patch' ],
+            dependencies = [ 'glib', ],
+            patches = [ '001-pkg-config-set-glib-prefix.patch' ],
             )
 
     def build(self):
