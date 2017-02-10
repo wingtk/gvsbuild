@@ -1324,6 +1324,27 @@ class Project_pixman(Tarball, Project):
 
 Project.add(Project_pixman())
 
+class Project_pkg_config(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'pkg-config',
+            archive_url = 'https://pkg-config.freedesktop.org/releases/pkg-config-0.29.1.tar.gz',
+            hash = 'beb43c9e064555469bd4390dcfd8030b1536e0aa103f08d7abf7ae8cac0cb001',
+            dependencies = [ 'glib', ],
+            patches = [ '001-pkg-config-set-glib-prefix.patch' ],
+            )
+
+    def build(self):
+        self.exec_vs(r'nmake /nologo /f Makefile.vc CFG=%(configuration)s GLIB_PREFIX="%(gtk_dir)s"')
+
+        bin_dir = r'.\%s\%s' % (self.builder.opts.configuration, self.builder.opts.platform, )
+        self.install(bin_dir + r'\pkg-config.exe bin')
+        self.install(bin_dir + r'\pkg-config.pdb bin')
+
+        self.install(r'.\COPYING share\doc\pkg-config')
+
+Project.add(Project_pkg_config())
+
 class Project_portaudio(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
