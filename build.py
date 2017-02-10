@@ -862,7 +862,6 @@ class Project_libarchive(Tarball, Project):
             archive_url = 'http://www.libarchive.org/downloads/libarchive-3.2.2.tar.gz',
             hash = '691c194ee132d1f0f7a42541f091db811bc2e56f7107e9121be2bc8c04f1060f',
             dependencies = ['win-iconv', 'zlib', 'lz4', 'openssl', 'libxml2'],
-            patches = ['0001-test_write_format_gnutar_filenames-use-AE_IFLNK-inst.patch'],
             )
 
     def build(self):
