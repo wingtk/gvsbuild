@@ -199,6 +199,81 @@ class Project(object):
     def get_dict():
         return dict(Project._dict)
 
+    @staticmethod
+    def dump_deps(flatten = False):
+        done = []
+
+        def dump_single_dep(st, name, flatten):
+            if flatten:
+                if not st:
+                    done.append(name)
+            else:
+                if st:
+                    # dependency
+                    print("%s%s" % (st, name, ))
+                else:
+                    print("  > %s" % (name, ))
+                    st = "   "
+                done.append(name)
+
+            p = Project._dict[name]
+            if p.dependencies:
+                for d in p.dependencies:
+                    if d in done:
+                        if not flatten:
+                            print("%s    %s *" % (st, d, ))
+                    else:
+                        done.append(d)
+                        dump_single_dep(st + "    ", d, flatten)
+                return 1
+            else:
+                return 0
+
+        print("Projects dependencies:")
+        for n in Project._names:
+            done = []
+            if flatten:
+                print("> %s" % (n, ))
+            if dump_single_dep("", n, flatten):
+                if flatten:
+                    done.remove(n)
+                    for t in sorted(done):
+                        print("    %s" % (t, ))
+
+                else:
+                    print('')
+
+    @staticmethod
+    def make_graph(out_file, put_all = 0):
+        gr_colors = [
+            0x000080,   0x008000,   0x008080,   0x800000,
+            0x800080,   0x808000,   0x808080,   0x0000f0,
+            0x00f000,   0x00f0f0,   0xf00000,   0xf000f0,
+            0xf0f000,   0xf00080,   0xf08000,   0xf08080,
+            0x80f000,   0x80f080,   0x00f080,   0x0080f0,
+            0x8000f0,   0x8080f0 ]
+        gr_index = 0
+
+        with open(out_file, "wt") as fo:
+            used = set()
+            fo.write('digraph gtk3dep {\n')
+            for n in Project._names:
+                t = Project._dict[n]
+                if t.dependencies:
+                    gr_index += 1
+                    gr_index %= len(gr_colors)
+                    for d in t.dependencies:
+                        fo.write('    "%s" -> "%s" [color="#%06x"];\n' % (n, d, gr_colors[gr_index]))
+                        used.add(d)
+
+            if put_all:
+                # Puts all projects that are not referenced from others
+                for n in Project._names:
+                    if n not in used:
+                        fo.write('    "%s" -> "%s" [color="#c00080"];\n' % ('BUILD', n, ))
+
+            fo.write('};\n')
+
 class Project_adwaita_icon_theme(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -1350,6 +1425,7 @@ class Project_portaudio(Tarball, Project):
         Project.__init__(self,
             'portaudio',
             archive_url = 'http://www.portaudio.com/archives/pa_stable_v190600_20161030.tgz',
+            hash = 'f5a21d7dcd6ee84397446fa1fa1a0675bb2e8a4a6dceb4305a8404698d8d1513',
             patches = [ '0001-Do-not-add-suffice-to-the-library-name.patch',
                         '0001-Fix-MSVC-check.patch' ]
             )
@@ -1511,6 +1587,29 @@ class MercurialCmakeProject(MercurialRepo, CmakeProject):
 Project.add(MercurialCmakeProject('pycairo', repo_url='git+ssh://git@github.com:muntyan/pycairo-gtk-win32.git', dependencies = ['cairo']))
 Project.add(MercurialCmakeProject('pygobject', repo_url='git+ssh://git@github.com:muntyan/pygobject-gtk-win32.git', dependencies = ['glib']))
 Project.add(MercurialCmakeProject('pygtk', repo_url='git+ssh://git@github.com:muntyan/pygtk-gtk-win32.git', dependencies = ['gtk', 'pycairo', 'pygobject']))
+
+
+class Project_pkg_config(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'pkg-config',
+            archive_url = 'https://pkg-config.freedesktop.org/releases/pkg-config-0.29.1.tar.gz',
+            hash = 'beb43c9e064555469bd4390dcfd8030b1536e0aa103f08d7abf7ae8cac0cb001',
+            dependencies = ['glib', ],
+            )
+
+    def build(self):
+        ## self.push_location(r'.')
+        self.exec_vs(r'nmake /nologo /f Makefile.vc CFG=%(configuration)s GLIB_PREFIX="%(gtk_dir)s"')
+        ## self.pop_location()
+
+        bin_dir = r'.\%s\%s' % (self.builder.opts.configuration, self.builder.opts.platform, )
+        self.install(bin_dir + r'\pkg-config.exe bin')
+        self.install(bin_dir + r'\pkg-config.pdb bin')
+
+        self.install(r'.\COPYING share\doc\pkg-config')
+
+Project.add(Project_pkg_config())
 
 
 #========================================================================================================================================================
@@ -1865,7 +1964,21 @@ def get_options(args):
     if not opts.vs_install_path:
         opts.vs_install_path = r'C:\Program Files (x86)\Microsoft Visual Studio %s.0' % (opts.vs_ver,)
 
-    opts.projects = args.project
+    if args.project[0] == '*':
+        # all projects
+        print_debug("Building all projects")
+        opts.projects = Project.get_names()
+        drop = set(args.project[1:])
+        for p in drop:
+            try:
+                print_debug("Removing %s" % (p, ))
+                opts.projects.remove(p)
+            except KeyError:
+                error_exit(
+                    p + " is not a valid project name, available projects are:\n\t" + "\n\t".join(Project.get_names()))
+                pass
+    else:
+        opts.projects = args.project
 
     for p in opts.projects:
         if not p in Project.get_names():
@@ -1898,7 +2011,13 @@ def do_build(args):
     builder.build(to_build)
 
 def do_list(args):
-    print("Available projects:\n\t" + "\n\t".join(Project.get_names()))
+    if args.graph:
+        Project.make_graph(args.gv_file, args.all)
+
+    if args.deps:
+        Project.dump_deps(args.flatten)
+    else:
+        print("Available projects:\n\t" + "\n\t".join(Project.get_names()))
     sys.exit(0)
 
 def handle_global_options(args):
@@ -1926,6 +2045,9 @@ Examples:
 
     build.py build --no-deps glib
         Build glib only.
+
+    build.py build * cogl clutter gtk
+        Build everything except cogl, clutter and gtk.
     """)
 
     #==============================================================================
@@ -1985,7 +2107,7 @@ Examples:
                          help='Command line options to pass to msbuild.')
 
     p_build.add_argument('project', nargs='+',
-                         help='Project(s) to build.')
+                         help='Project(s) to build (* = all).')
 
     #==============================================================================
     # list
@@ -1993,6 +2115,19 @@ Examples:
 
     p_list = subparsers.add_parser('list', help='list available projects')
     p_list.set_defaults(func=do_list)
+    # Dependencies dump
+    p_list.add_argument('-d', '--deps', default=False, action='store_true',
+                         help='Dump dependencies.')
+    p_list.add_argument('-f', '--flatten', default=False, action='store_true',
+                         help='Flatten (and sort) the dependencies dump of the single project.')
+
+    # .gv (dot) graph of dempendencies
+    p_list.add_argument('-g', '--graph', default=False, action='store_true',
+                         help='Create a .gv graph of the dependencies.')
+    p_list.add_argument('-a', '--all', default=False, action='store_true',
+                         help='Add also all unreferenced projects to the graph.')
+    p_list.add_argument('-o', '--gv-file', default='wingtk.gv',
+                        help='Output file name for -g oprion.')
 
     return parser
 
@@ -2004,4 +2139,4 @@ if __name__ == '__main__':
         args.func(args)
     else:
         parser.print_help()
-        
+
