@@ -935,8 +935,8 @@ class Project_libpng(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libpng',
-            archive_url = 'http://prdownloads.sourceforge.net/libpng/libpng-1.6.26.tar.xz',
-            hash = '266743a326986c3dbcee9d89b640595f6b16a293fd02b37d8c91348d317b73f9',
+            archive_url = 'http://prdownloads.sourceforge.net/libpng/libpng-1.6.28.tar.xz',
+            hash = 'd8d3ec9de6b5db740fefac702c37ffcf96ae46cb17c18c1544635a3852f78f7a',
             dependencies = ['zlib'],
             )
 
