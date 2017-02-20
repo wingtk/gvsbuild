@@ -1473,20 +1473,20 @@ class Project_zlib(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'zlib',
-            archive_url = 'http://dl.hexchat.net/gtk-win32/src/zlib-1.2.8.tar.xz',
-            hash = '831df043236df8e9a7667b9e3bb37e1fcb1220a0f163b6de2626774b9590d057',
+            archive_url = 'http://www.zlib.net/zlib-1.2.11.tar.xz',
+            hash = '4ff941449631ace0d4d203e3483be9dbc9da454084111f97ea0a2114e19bf066',
             )
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\zlib.sln')
+        options = ''
+        if self.builder.opts.configuration == 'debug':
+            options = 'CFLAGS="-nologo -MDd -W3 -Od -Zi -Fd\\"zlib\\""'
 
-        self.push_location(r'.\build\vs%(vs_ver)s\%(configuration)s\%(platform)s')
+        self.exec_vs(r'nmake /nologo /f win32\Makefile.msc STATICLIB=zlib-static.lib IMPLIB=zlib.lib ' + options)
 
-        self.install(r'.\include\zlib.h .\include\zconf.h include')
-        self.install(r'.\bin\zlib1.dll .\bin\zlib1.pdb bin')
-        self.install(r'.\lib\zlib1.lib .\bin\zlib1.pdb lib')
-
-        self.pop_location()
+        self.install(r'.\zlib.h .\zconf.h include')
+        self.install(r'.\zlib1.dll .\zlib1.pdb bin')
+        self.install(r'.\zlib.lib lib')
 
         self.install(r'.\README share\doc\zlib')
 
