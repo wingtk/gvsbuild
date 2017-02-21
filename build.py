@@ -1168,8 +1168,8 @@ class Project_lmdb(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'lmdb',
-            archive_url = 'https://github.com/LMDB/lmdb/archive/LMDB_0.9.18.tar.gz',
-            hash = 'dd35b471d6eea84f48f2feece13d121abf59ef255308b8624a36223ffbdf9989',
+            archive_url = 'https://github.com/LMDB/lmdb/archive/LMDB_0.9.19.tar.gz',
+            hash = '108532fb94c6f227558d45be3f3347b52539f0f58290a7bb31ec06c462d05326',
             )
 
     def build(self):
