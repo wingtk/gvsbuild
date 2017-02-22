@@ -109,6 +109,9 @@ class Project(object):
     def __repr__(self):
         return repr(self.name)
 
+    def preprocess(self, builder):
+        pass 
+
     def build(self):
         raise NotImplementedError()
 
@@ -198,6 +201,44 @@ class Project(object):
     @staticmethod
     def get_dict():
         return dict(Project._dict)
+
+#==============================================================================
+# Tools used to build the various projects
+#==============================================================================
+
+class Project_nuget(Project):
+    def __init__(self):
+        Project.__init__(self,
+            'nuget',
+            archive_url = 'https://dist.nuget.org/win-x86-commandline/latest/nuget.exe',
+            hash = '399ec24c26ed54d6887cde61994bb3d1cada7956c1b19ff880f06f060c039918')
+
+    def preprocess(self, builder):
+        if builder.nuget:
+            # nuget path passed on the command line, we don't download anything
+            self.archive_file = None 
+    
+    def unpack(self):
+        # Nothing to do :)
+        pass
+
+    def build(self):
+        if not self.builder.nuget:
+            # We download directly the exe file so we copy it on the tool directory ...
+            destdir = os.path.join(self.builder.opts.tools_root_dir, 'nuget')
+            destfile = os.path.join(destdir, 'nuget.exe')
+            if not os.path.isfile(destfile):
+                print_log("Copying file to tools directory (%s)" % (destfile, ))
+                self.builder.make_dir(destdir)
+                shutil.copy2(self.archive_file, destfile)
+            # .. and set the builder object to point to the file
+            self.builder.nuget = destfile
+
+Project.add(Project_nuget())
+
+#==============================================================================
+# Projects
+#==============================================================================
 
 class Project_adwaita_icon_theme(Tarball, Project):
     def __init__(self):
@@ -563,7 +604,7 @@ class Project_grpc(GitRepo, Project):
             repo_url = 'https://github.com/grpc/grpc.git',
             fetch_submodules = True,
             tag = 'v1.0.0',
-            dependencies = ['protobuf'],
+            dependencies = ['nuget', 'protobuf'],
             patches = ['0001-Remove-RuntimeLibrary-setting-from-the-projects.patch'],
             )
 
@@ -1586,8 +1627,10 @@ class Builder(object):
         print_debug("wget: %s" % (self.wget,))
 
         self.nuget = opts.nuget_path
-        if not os.path.exists(self.nuget):
-            print_log("Could not find nuget: %s" % (self.nuget,))
+        if opts.nuget_path:
+            # if we setup the path we check it, otherwise we download & install in a default location
+            if not os.path.exists(self.nuget):
+                print_log("Could not find nuget: %s" % (self.nuget,))
 
     def __check_vs(self, opts):
         # Verify VS exists at the indicated location, and that it supports the required target
@@ -1626,6 +1669,7 @@ class Builder(object):
             proj.build_dir = os.path.join(self.working_dir, proj.name)
             proj.dependencies = [Project.get_project(dep) for dep in proj.dependencies]
             proj.dependents = []
+            proj.preprocess(self)
 
         for proj in Project.list_projects():
             self.__compute_deps(proj)
@@ -1841,6 +1885,7 @@ def get_options(args):
     opts.build_dir = args.build_dir
     opts.archives_download_dir = args.archives_download_dir
     opts.patches_root_dir = args.patches_root_dir
+    opts.tools_root_dir = args.tools_root_dir
     opts.vs_ver = args.vs_ver
     opts.vs_install_path = args.vs_install_path
     opts.cmake_path = args.cmake_path
@@ -1855,10 +1900,10 @@ def get_options(args):
 
     if not opts.archives_download_dir:
         opts.archives_download_dir = os.path.join(args.build_dir, 'src')
-    if not opts.nuget_path:
-        opts.nuget_path = os.path.join(args.build_dir, 'nuget', 'nuget.exe')
     if not opts.patches_root_dir:
         opts.patches_root_dir = sys.path[0]
+    if not opts.tools_root_dir:
+        opts.tools_root_dir = os.path.join(args.build_dir, 'tools')
     if not opts.vs_install_path:
         opts.vs_install_path = r'C:\Program Files (x86)\Microsoft Visual Studio %s.0' % (opts.vs_ver,)
 
@@ -1957,6 +2002,8 @@ Examples:
                               "Default is $(build-dir)\\src.")
     p_build.add_argument('--patches-root-dir',
                          help="The directory where you checked out https://github.com/wingtk/gtk-win32.git. Default is $(build-dir)\\github\\gtk-win32.")
+    p_build.add_argument('--tools-root-dir',
+                         help="The directory where to install the downloaded tools. Default is $(build-dir)\\tools.")
     p_build.add_argument('--vs-ver', default='12',
                          help="Visual Studio version 10,12,14, etc. Default is 12.")
     p_build.add_argument('--vs-install-path',
@@ -2001,4 +2048,4 @@ if __name__ == '__main__':
         args.func(args)
     else:
         parser.print_help()
-        
+
