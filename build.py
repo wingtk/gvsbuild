@@ -508,12 +508,11 @@ class Project_glib(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'glib',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.50/glib-2.50.2.tar.xz',
-            hash = 'be68737c1f268c05493e503b3b654d2b7f43d7d0b8c5556f7e4651b870acfbf5',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.50/glib-2.50.3.tar.xz',
+            hash = '82ee94bf4c01459b6b00cb9db0545c2237921e3060c0b74cff13fbc020cfd999',
             dependencies = ['gettext', 'libffi', 'zlib'],
             patches = ['glib-if_nametoindex.patch',
-                       'glib-package-installation-directory.patch',
-                       '0001-gdbusauth-fix-crash-when-server-data-send-returns-NU.patch'],
+                       'glib-package-installation-directory.patch'],
             )
 
     def build(self):
