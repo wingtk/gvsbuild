@@ -702,15 +702,14 @@ class Project_harfbuzz(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'harfbuzz',
-            archive_url = 'https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.3.3.tar.bz2',
-            hash = '2620987115a4122b47321610dccbcc18f7f121115fd7b88dc8a695c8b66cb3c9',
+            archive_url = 'https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.4.0.tar.bz2',
+            hash = '8497eca976f3c4cdee7f46ffc228d755d2f0651da7c253fa6ae99d5a61ddd1b5',
             dependencies = ['freetype', 'glib'],
             )
 
     def build(self):
         self.push_location(r'.\win32')
         self.builder.make_dir(os.path.join(self.build_dir, 'build', 'win32', self.builder.opts.configuration, 'win32'))
-        #Exec nmake /f Makefile.vc clean CFG=%(configuration)s
         self.exec_vs(r'nmake /nologo /f Makefile.vc CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PERL="%(perl_dir)s\bin\perl.exe" PREFIX="%(gtk_dir)s" FREETYPE=1 GOBJECT=1')
         self.exec_vs(r'nmake /nologo /f Makefile.vc install CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PERL="%(perl_dir)s\bin\perl.exe" PREFIX="%(gtk_dir)s" FREETYPE=1 GOBJECT=1')
         self.pop_location()
