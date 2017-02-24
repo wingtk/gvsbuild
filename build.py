@@ -220,7 +220,6 @@ class Project_ninja(Project):
             self.builder.exec_msys('%s -o %s -d %s' % (self.builder.unzip, self.archive_file, destdir, ))
         # .. and set the builder object to point to the file
         self.builder.ninja = destfile
-        pass
 
     def build(self):
         # Nothing to do :)
