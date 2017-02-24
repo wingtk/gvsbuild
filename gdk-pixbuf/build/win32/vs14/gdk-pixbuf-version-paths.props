@@ -4,7 +4,7 @@
     <VSVer>14</VSVer>
     <GdkPixbufMajorVersion>2</GdkPixbufMajorVersion>
     <GdkPixbufMinorVersion>36</GdkPixbufMinorVersion>
-    <GdkPixbufMicroVersion>1</GdkPixbufMicroVersion>
+    <GdkPixbufMicroVersion>4</GdkPixbufMicroVersion>
     <ApiVersion>2.0</ApiVersion>
     <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
     <GlibEtcInstallRoot Condition="'$(Configuration)'=='Release_GDI+'">$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\Release</GlibEtcInstallRoot>
