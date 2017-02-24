@@ -203,6 +203,30 @@ class Project(object):
 # Tools used to build the various projects
 #==============================================================================
 
+class Project_ninja(Project):
+    def __init__(self):
+        Project.__init__(self,
+            'ninja',
+            archive_url = 'https://github.com/ninja-build/ninja/releases/download/v1.7.2/ninja-win.zip',
+            hash = '95b36a597d33c1fe672829cfe47b5ab34b3a1a4c6bf628e5d150b6075df4ef50')
+
+    def unpack(self):
+        # We download a .zip file so we estract it in the tool directory ...
+        destdir = os.path.join(self.builder.opts.tools_root_dir, 'ninja')
+        destfile = os.path.join(destdir, 'ninja.exe')
+        if not os.path.isfile(destfile):
+            print_log("Unpacking ninja le to tools directory (%s)" % (destfile, ))
+            self.builder.make_dir(destdir)
+            self.builder.exec_msys('%s -o %s -d %s' % (self.builder.unzip, self.archive_file, destdir, ))
+        # .. and set the builder object to point to the file
+        self.builder.ninja = destfile
+
+    def build(self):
+        # Nothing to do :)
+        pass
+
+Project.add(Project_ninja())
+
 class Project_nuget(Project):
     def __init__(self):
         Project.__init__(self,
@@ -734,8 +758,8 @@ class Project_harfbuzz(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'harfbuzz',
-            archive_url = 'https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.4.0.tar.bz2',
-            hash = '8497eca976f3c4cdee7f46ffc228d755d2f0651da7c253fa6ae99d5a61ddd1b5',
+            archive_url = 'https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.4.2.tar.bz2',
+            hash = '8f234dcfab000fdec24d43674fffa2fdbdbd654eb176afbde30e8826339cb7b3',
             dependencies = ['freetype', 'glib'],
             )
 
@@ -1616,6 +1640,11 @@ class Builder(object):
         if not os.path.exists(self.wget):
             error_exit("%s not found. Please check that you installed wget in msys2 using ``pacman -S wget``" % (self.wget,))
         print_debug("wget: %s" % (self.wget,))
+
+        self.unzip = os.path.join(opts.msys_dir, 'usr', 'bin', 'unzip.exe')
+        if not os.path.exists(self.unzip):
+            error_exit("%s not found. Please check that you installed unzip in msys2 using ``pacman -S unzip``" % (self.unzip,))
+        print_debug("unzip: %s" % (self.unzip,))
 
     def __check_vs(self, opts):
         # Verify VS exists at the indicated location, and that it supports the required target
