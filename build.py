@@ -109,9 +109,6 @@ class Project(object):
     def __repr__(self):
         return repr(self.name)
 
-    def preprocess(self, builder):
-        pass 
-
     def build(self):
         raise NotImplementedError()
 
@@ -213,26 +210,20 @@ class Project_nuget(Project):
             archive_url = 'https://dist.nuget.org/win-x86-commandline/latest/nuget.exe',
             hash = '399ec24c26ed54d6887cde61994bb3d1cada7956c1b19ff880f06f060c039918')
 
-    def preprocess(self, builder):
-        if builder.nuget:
-            # nuget path passed on the command line, we don't download anything
-            self.archive_file = None 
-    
     def unpack(self):
         # Nothing to do :)
         pass
 
     def build(self):
-        if not self.builder.nuget:
-            # We download directly the exe file so we copy it on the tool directory ...
-            destdir = os.path.join(self.builder.opts.tools_root_dir, 'nuget')
-            destfile = os.path.join(destdir, 'nuget.exe')
-            if not os.path.isfile(destfile):
-                print_log("Copying file to tools directory (%s)" % (destfile, ))
-                self.builder.make_dir(destdir)
-                shutil.copy2(self.archive_file, destfile)
-            # .. and set the builder object to point to the file
-            self.builder.nuget = destfile
+        # We download directly the exe file so we copy it on the tool directory ...
+        destdir = os.path.join(self.builder.opts.tools_root_dir, 'nuget')
+        destfile = os.path.join(destdir, 'nuget.exe')
+        if not os.path.isfile(destfile):
+            print_log("Copying file to tools directory (%s)" % (destfile, ))
+            self.builder.make_dir(destdir)
+            shutil.copy2(self.archive_file, destfile)
+        # .. and set the builder object to point to the file
+        self.builder.nuget = destfile
 
 Project.add(Project_nuget())
 
@@ -1628,12 +1619,6 @@ class Builder(object):
             error_exit("%s not found. Please check that you installed wget in msys2 using ``pacman -S wget``" % (self.wget,))
         print_debug("wget: %s" % (self.wget,))
 
-        self.nuget = opts.nuget_path
-        if opts.nuget_path:
-            # if we setup the path we check it, otherwise we download & install in a default location
-            if not os.path.exists(self.nuget):
-                print_log("Could not find nuget: %s" % (self.nuget,))
-
     def __check_vs(self, opts):
         # Verify VS exists at the indicated location, and that it supports the required target
         if opts.platform in ('Win32', 'win32', 'x86'):
@@ -1671,7 +1656,6 @@ class Builder(object):
             proj.build_dir = os.path.join(self.working_dir, proj.name)
             proj.dependencies = [Project.get_project(dep) for dep in proj.dependencies]
             proj.dependents = []
-            proj.preprocess(self)
 
         for proj in Project.list_projects():
             self.__compute_deps(proj)
@@ -1891,7 +1875,6 @@ def get_options(args):
     opts.vs_ver = args.vs_ver
     opts.vs_install_path = args.vs_install_path
     opts.cmake_path = args.cmake_path
-    opts.nuget_path = args.nuget_path
     opts.perl_dir = args.perl_dir
     opts.python_dir = args.python_dir
     opts.msys_dir = args.msys_dir
@@ -2012,9 +1995,6 @@ Examples:
                          help=r"The directory where you installed Visual Studio. Default is 'C:\Program Files (x86)\Microsoft Visual Studio $(build-ver).0'")
     p_build.add_argument('--cmake-path', default=r'C:\Program Files (x86)\CMake\bin',
                          help="The directory where you installed cmake.")
-    p_build.add_argument('--nuget-path',
-                         help="The directory where you installed nuget. " +
-                              "Default is $(build-dir)\\nuget\\nuget.exe")
     p_build.add_argument('--perl-dir', default=r'C:\Perl',
                          help="The directory where you installed perl.")
     p_build.add_argument('--python-dir', default=os.path.dirname(sys.executable),
