@@ -203,6 +203,32 @@ class Project(object):
 # Tools used to build the various projects
 #==============================================================================
 
+class Project_meson(Project):
+    def __init__(self):
+        Project.__init__(self,
+            'meson',
+            archive_url = 'https://github.com/mesonbuild/meson/archive/0.38.1.zip',
+            hash = '66d90df0ae665b1cdf036dbd9531fd77e62e3ccaae76c10b0652646d4009e384',
+            dir_part = 'meson-0.38.1')
+
+    def unpack(self):
+        # We download a .zip file so we estract it in the tool directory, with the version ...
+        destdir = os.path.join(self.builder.opts.tools_root_dir, self.dir_part)
+        destfile = os.path.join(destdir, 'meson.py')
+        if not os.path.isfile(destfile):
+            print_log("Unpacking meson to tools directory (%s)" % (destfile, ))
+            self.builder.make_dir(destdir)
+            # In the zip file the dir part (meson-0.xx...) is already present
+            self.builder.exec_msys('%s -o %s -d %s' % (self.builder.unzip, self.archive_file, self.builder.opts.tools_root_dir, ))
+        # .. and set the builder object to point to the file
+        self.builder.meson = destfile
+
+    def build(self):
+        # Nothing to do :)
+        pass
+
+Project.add(Project_meson())
+
 class Project_ninja(Project):
     def __init__(self):
         Project.__init__(self,
