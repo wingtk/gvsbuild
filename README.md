@@ -27,7 +27,7 @@ HexChat developers decided that their script should focus on their specific need
 1. Install needed packages in the msys2 shell
 
     ```bash
-    pacman -S gzip nasm patch tar xz gettext make coreutils diffutils wget yasm pkg-config unzip
+    pacman -S gzip nasm patch tar xz gettext make coreutils diffutils wget yasm pkg-config
     ```
 
 1. Clone [this repository](https://github.com/wingtk/gtk-win32) to _C:\gtk-build\github\gtk-win32_ It contains the build script, project files and patches.
