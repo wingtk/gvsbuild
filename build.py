@@ -24,6 +24,7 @@ import subprocess
 import sys
 import traceback
 import hashlib
+import zipfile
 
 def convert_to_msys(path):
     path = path
@@ -218,8 +219,9 @@ class Project_meson(Project):
         if not os.path.isfile(destfile):
             print_log("Unpacking meson to tools directory (%s)" % (destfile, ))
             self.builder.make_dir(destdir)
-            # In the zip file the dir part (meson-0.xx...) is already present
-            self.builder.exec_msys('%s -o %s -d %s' % (self.builder.unzip, self.archive_file, self.builder.opts.tools_root_dir, ))
+            with zipfile.ZipFile(self.archive_file) as zf:
+                # In the zip file the dir part (meson-0.xx...) is already present
+                zf.extractall(path=self.builder.opts.tools_root_dir)
         # .. and set the builder object to point to the file
         self.builder.meson = destfile
 
@@ -243,7 +245,8 @@ class Project_ninja(Project):
         if not os.path.isfile(destfile):
             print_log("Unpacking ninja le to tools directory (%s)" % (destfile, ))
             self.builder.make_dir(destdir)
-            self.builder.exec_msys('%s -o %s -d %s' % (self.builder.unzip, self.archive_file, destdir, ))
+            with zipfile.ZipFile(self.archive_file) as zf:
+                zf.extractall(path=destdir)
         # .. and set the builder object to point to the file
         self.builder.ninja = destfile
 
@@ -1666,11 +1669,6 @@ class Builder(object):
         if not os.path.exists(self.wget):
             error_exit("%s not found. Please check that you installed wget in msys2 using ``pacman -S wget``" % (self.wget,))
         print_debug("wget: %s" % (self.wget,))
-
-        self.unzip = os.path.join(opts.msys_dir, 'usr', 'bin', 'unzip.exe')
-        if not os.path.exists(self.unzip):
-            error_exit("%s not found. Please check that you installed unzip in msys2 using ``pacman -S unzip``" % (self.unzip,))
-        print_debug("unzip: %s" % (self.unzip,))
 
     def __check_vs(self, opts):
         # Verify VS exists at the indicated location, and that it supports the required target
