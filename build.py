@@ -666,7 +666,7 @@ Project.add(Project_glib_openssl())
 
 class Project_graphene(GitRepo, Meson):
     def __init__(self):
-        Project.__init__(self,
+        Meson.__init__(self,
             'graphene',
             repo_url = 'https://github.com/ebassi/graphene',
             fetch_submodules = False,
