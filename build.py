@@ -247,9 +247,7 @@ class Project_ninja(Project):
             self.builder.make_dir(destdir)
             with zipfile.ZipFile(self.archive_file) as zf:
                 zf.extractall(path=destdir)
-        # .. and set the builder object to point to the file
-        self.builder.ninja = destfile
-        # Get also the path to use with meson
+        # .. and set the builder object to point to the ninja dir
         self.builder.ninja_path = destdir
 
     def build(self):
