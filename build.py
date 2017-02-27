@@ -661,10 +661,7 @@ class Project_graphene(GitRepo, Project):
         if not os.path.isfile(os.path.join(ninja_build, 'build.ninja')):
             self.builder.make_dir(ninja_build)
             # debug info
-            if self.builder.opts.configuration == 'release':
-                add_opts = '--buildtype release'
-            else:
-                add_opts = '--buildtype debug'
+            add_opts = '--buildtype '+ self.builder.opts.configuration
             # pyhon meson.py ninja_build_dir --prefix gtk_bin options
             cmd = '%s\\python.exe %s %s --prefix %s %s' % (self.builder.opts.python_dir, self.builder.meson, ninja_build, self.builder.gtk_dir, add_opts, )
             # ninja in front, then the gtk bin for pkg-config
