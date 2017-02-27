@@ -200,6 +200,29 @@ class Project(object):
     def get_dict():
         return dict(Project._dict)
 
+class Meson(Project):
+    def __init__(self, name, **kwargs):
+        Project.__init__(self, name, **kwargs)
+
+    def build(self):
+        # where we build, with ninja, the library
+        ninja_build = os.path.join(os.path.join(self.build_dir, '_build'))
+        # First we check if we need to generate the meson build files
+        #   Note: actually, with the git checkout, we always rebuild everything because the _build dir is deleted also on the update
+        if not os.path.isfile(os.path.join(ninja_build, 'build.ninja')):
+            self.builder.make_dir(ninja_build)
+            # debug info
+            add_opts = '--buildtype ' + self.builder.opts.configuration
+            # pyhon meson.py ninja_build_dir --prefix gtk_bin options
+            cmd = '%s\\python.exe %s %s --prefix %s %s' % (self.builder.opts.python_dir, self.builder.meson, ninja_build, self.builder.gtk_dir, add_opts, )
+            # ninja in front, then the gtk bin for pkg-config
+            add_path = ';'.join([self.builder.ninja_path,
+                                 os.path.join(self.builder.gtk_dir, 'bin')])
+            # build the ninja file to do everything (build the library, create the .pc file, install it, ...)
+            self.exec_vs(cmd, add_path=add_path)
+        # we simply run 'ninja install' that takes care of everything, running explicity from the build dir
+        self.builder.exec_vs('ninja install', add_path=self.builder.ninja_path, working_dir=ninja_build)
+        
 #==============================================================================
 # Tools used to build the various projects
 #==============================================================================
@@ -247,8 +270,8 @@ class Project_ninja(Project):
             self.builder.make_dir(destdir)
             with zipfile.ZipFile(self.archive_file) as zf:
                 zf.extractall(path=destdir)
-        # .. and set the builder object to point to the file
-        self.builder.ninja = destfile
+        # .. and set the builder object to point to the ninja dir
+        self.builder.ninja_path = destdir
 
     def build(self):
         # Nothing to do :)
@@ -640,6 +663,22 @@ class Project_glib_openssl(Tarball, Project):
         self.install(r'.\LICENSE_EXCEPTION share\doc\glib-openssl')
 
 Project.add(Project_glib_openssl())
+
+class Project_graphene(GitRepo, Meson):
+    def __init__(self):
+        Meson.__init__(self,
+            'graphene',
+            repo_url = 'https://github.com/ebassi/graphene',
+            fetch_submodules = False,
+            tag = None,
+            dependencies = ['ninja', 'meson', 'pkg-config', 'glib'],
+            )
+
+    def build(self):
+        Meson.build(self)
+        self.install(r'.\LICENSE share\doc\graphene')
+
+Project.add(Project_graphene())
 
 class Project_grpc(GitRepo, Project):
     def __init__(self):
