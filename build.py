@@ -1558,21 +1558,17 @@ class Project_win_iconv(Tarball, Project):
 
 Project.add(Project_win_iconv())
 
-class Project_wing(Tarball, Project):
+class Project_wing(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'wing',
-            archive_url = 'https://git.gnome.org/browse/wing/snapshot/wing-8c8ff6da28c4921f7306d7cc84ce0566a9f66e31.tar.xz',
-            hash = 'cd4f5f28c5730a5512e497f326230c8d7eb74c654dce32754b493b41d010cab6',
-            dependencies = ['glib'],
+            archive_url = 'https://git.gnome.org/browse/wing/snapshot/wing-510fb0b31b34014e02a37424793efb7ae81cf1a9.tar.xz',
+            hash = '71f643f784cd62f29ffe1cb5d1745c68ba946523fbff0a417da9ae29fd8c73af',
+            dependencies = ['ninja', 'meson', 'pkg-config', 'glib'],
             )
 
     def build(self):
-        self.push_location(r'.\nmake')
-        self.exec_vs(r'nmake /nologo /f Makefile.vc CFG=%(configuration)s PREFIX="%(gtk_dir)s"')
-        self.exec_vs(r'nmake /nologo /f Makefile.vc install CFG=%(configuration)s PREFIX="%(gtk_dir)s"')
-        self.pop_location()
-
+        Meson.build(self)
         self.install(r'.\COPYING share\doc\wing')
 
 Project.add(Project_wing())
