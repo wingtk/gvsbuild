@@ -110,6 +110,10 @@ class Project(object):
     def __repr__(self):
         return repr(self.name)
 
+    def load_defaults(self, builder):
+        # Used by the tools to load default paths/filenames
+        pass
+
     def build(self):
         raise NotImplementedError()
 
@@ -222,7 +226,7 @@ class Meson(Project):
             self.exec_vs(cmd, add_path=add_path)
         # we simply run 'ninja install' that takes care of everything, running explicity from the build dir
         self.builder.exec_vs('ninja install', add_path=self.builder.ninja_path, working_dir=ninja_build)
-        
+
 #==============================================================================
 # Tools used to build the various projects
 #==============================================================================
@@ -235,18 +239,19 @@ class Project_meson(Project):
             hash = '66d90df0ae665b1cdf036dbd9531fd77e62e3ccaae76c10b0652646d4009e384',
             dir_part = 'meson-0.38.1')
 
+    def load_defaults(self, builder):
+        # Set the builder object to point to the file to use
+        builder.meson = os.path.join(builder.opts.tools_root_dir, self.dir_part, 'meson.py')
+
     def unpack(self):
         # We download a .zip file so we estract it in the tool directory, with the version ...
-        destdir = os.path.join(self.builder.opts.tools_root_dir, self.dir_part)
-        destfile = os.path.join(destdir, 'meson.py')
-        if not os.path.isfile(destfile):
-            print_log("Unpacking meson to tools directory (%s)" % (destfile, ))
+        if not os.path.isfile(self.builder.meson):
+            destdir = os.path.join(self.builder.opts.tools_root_dir, self.dir_part)
+            print_log("Unpacking meson to tools directory (%s)" % (self.builder.meson, ))
             self.builder.make_dir(destdir)
             with zipfile.ZipFile(self.archive_file) as zf:
                 # In the zip file the dir part (meson-0.xx...) is already present
                 zf.extractall(path=self.builder.opts.tools_root_dir)
-        # .. and set the builder object to point to the file
-        self.builder.meson = destfile
 
     def build(self):
         # Nothing to do :)
@@ -261,17 +266,18 @@ class Project_ninja(Project):
             archive_url = 'https://github.com/ninja-build/ninja/releases/download/v1.7.2/ninja-win.zip',
             hash = '95b36a597d33c1fe672829cfe47b5ab34b3a1a4c6bf628e5d150b6075df4ef50')
 
+    def load_defaults(self, builder):
+        # Set the builder object to point to the path to use
+        builder.ninja_path = os.path.join(builder.opts.tools_root_dir, 'ninja')
+
     def unpack(self):
         # We download a .zip file so we estract it in the tool directory ...
-        destdir = os.path.join(self.builder.opts.tools_root_dir, 'ninja')
-        destfile = os.path.join(destdir, 'ninja.exe')
+        destfile = os.path.join(self.builder.ninja_path, 'ninja.exe')
         if not os.path.isfile(destfile):
-            print_log("Unpacking ninja le to tools directory (%s)" % (destfile, ))
-            self.builder.make_dir(destdir)
+            print_log("Unpacking ninja to tools directory (%s)" % (destfile, ))
+            self.builder.make_dir(self.builder.ninja_path)
             with zipfile.ZipFile(self.archive_file) as zf:
-                zf.extractall(path=destdir)
-        # .. and set the builder object to point to the ninja dir
-        self.builder.ninja_path = destdir
+                zf.extractall(path=self.builder.ninja_path)
 
     def build(self):
         # Nothing to do :)
@@ -286,20 +292,21 @@ class Project_nuget(Project):
             archive_url = 'https://dist.nuget.org/win-x86-commandline/latest/nuget.exe',
             hash = '399ec24c26ed54d6887cde61994bb3d1cada7956c1b19ff880f06f060c039918')
 
+    def load_defaults(self, builder):
+        # Set the builder object to point to the .exe file to use
+        builder.nuget = os.path.join(builder.opts.tools_root_dir, 'nuget', 'nuget.exe')
+
     def unpack(self):
         # Nothing to do :)
         pass
 
     def build(self):
         # We download directly the exe file so we copy it on the tool directory ...
-        destdir = os.path.join(self.builder.opts.tools_root_dir, 'nuget')
-        destfile = os.path.join(destdir, 'nuget.exe')
-        if not os.path.isfile(destfile):
-            print_log("Copying file to tools directory (%s)" % (destfile, ))
+        if not os.path.isfile(self.builder.nuget):
+            destdir = os.path.join(self.builder.opts.tools_root_dir, 'nuget')
+            print_log("Copying file to tools directory (%s)" % (self.builder.nuget, ))
             self.builder.make_dir(destdir)
-            shutil.copy2(self.archive_file, destfile)
-        # .. and set the builder object to point to the file
-        self.builder.nuget = destfile
+            shutil.copy2(self.archive_file, self.builder.nuget)
 
 Project.add(Project_nuget())
 
@@ -1746,6 +1753,7 @@ class Builder(object):
             proj.build_dir = os.path.join(self.working_dir, proj.name)
             proj.dependencies = [Project.get_project(dep) for dep in proj.dependencies]
             proj.dependents = []
+            proj.load_defaults(self)
 
         for proj in Project.list_projects():
             self.__compute_deps(proj)
