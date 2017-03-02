@@ -615,6 +615,8 @@ class Project_gettext(Tarball, Project):
     def build(self):
         self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gettext.sln')
 
+        self.install(r'.\gettext-tools\its\*.its share\gettext\its')
+        self.install(r'.\gettext-tools\its\*.loc share\gettext\its')
         self.install(r'.\COPYING share\doc\gettext')
 
 Project.add(Project_gettext())
