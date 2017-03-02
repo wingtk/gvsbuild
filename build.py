@@ -1678,11 +1678,22 @@ class Builder(object):
     def __init__(self, opts):
         self.opts = opts
 
-        self.__check_tools(opts)
-        self.__check_vs(opts)
+        # Check and normalize the platform
+        if opts.platform in ('Win32', 'win32', 'x86'):
+            opts.platform = 'Win32'
+            self.filename_arch = 'x86'
+        elif opts.platform in ('x64', 'amd64', 'Amd64'):
+            opts.platform = 'x64'
+            self.filename_arch = 'x64'
+        else:
+            raise Exception("Invalid target platform '%s'" % (opts.platform,))
 
+        # Setup the directory, used by check vs
         self.working_dir = os.path.join(opts.build_dir, 'build', opts.platform, opts.configuration)
         self.gtk_dir = os.path.join(opts.build_dir, 'gtk', opts.platform, opts.configuration)
+
+        self.__check_tools(opts)
+        self.__check_vs(opts)
 
         self.x86 = opts.platform == 'Win32'
         self.x64 = not self.x86
@@ -1718,19 +1729,13 @@ class Builder(object):
 
     def __check_vs(self, opts):
         # Verify VS exists at the indicated location, and that it supports the required target
-        if opts.platform in ('Win32', 'win32', 'x86'):
-            opts.platform = 'Win32'
-            self.filename_arch = 'x86'
+        if opts.platform == 'Win32':
             vcvars_bat = os.path.join(opts.vs_install_path, 'VC', 'bin', 'vcvars32.bat')
-        elif opts.platform in ('x64', 'amd64', 'Amd64'):
-            opts.platform = 'x64'
-            self.filename_arch = 'x64'
+        else:
             vcvars_bat = os.path.join(opts.vs_install_path, 'VC', 'bin', 'amd64', 'vcvars64.bat')
             # make sure it works even with VS Express
             if not os.path.exists(vcvars_bat):
                 vcvars_bat = os.path.join(opts.vs_install_path, 'VC', 'bin', 'x86_amd64', 'vcvarsx86_amd64.bat')
-        else:
-            raise Exception("Invalid target platform '%s'" % (opts.platform,))
 
         if not os.path.exists(vcvars_bat):
             raise Exception("'%s' could not be found. Please check you have Visual Studio installed at '%s' and that it supports the target platform '%s'." % (vcvars_bat, opts.vs_install_path, opts.platform))
