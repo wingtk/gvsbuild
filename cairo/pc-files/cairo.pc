@@ -1,0 +1,11 @@
+prefix=C:/
+exec_prefix=C:/
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: cairo
+Description: Multi-platform 2D graphics library
+Version: 1.15.2
+
+Libs: -L${libdir} -lcairo
+Cflags: -I${includedir}/cairo

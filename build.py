@@ -383,6 +383,8 @@ class Project_cairo(Tarball, Project):
         self.install(r'.\util\cairo-gobject\cairo-gobject.h include\cairo')
         self.install(r'.\cairo-version.h include\cairo')
 
+        self.install(r'.\pc-files\* lib\pkgconfig')
+
         self.install(r'.\COPYING share\doc\cairo')
 
 Project.add(Project_cairo())
