@@ -219,9 +219,8 @@ class Meson(Project):
             add_opts = '--buildtype ' + self.builder.opts.configuration
             # pyhon meson.py ninja_build_dir --prefix gtk_bin options
             cmd = '%s\\python.exe %s %s --prefix %s %s' % (self.builder.opts.python_dir, self.builder.meson, ninja_build, self.builder.gtk_dir, add_opts, )
-            # ninja in front, then the gtk bin for pkg-config
-            add_path = ';'.join([self.builder.ninja_path,
-                                 os.path.join(self.builder.gtk_dir, 'bin')])
+            # add ninja path, the gtk ones are in the vs environment
+            add_path = self.builder.ninja_path
             # build the ninja file to do everything (build the library, create the .pc file, install it, ...)
             self.exec_vs(cmd, add_path=add_path)
         # we simply run 'ninja install' that takes care of everything, running explicity from the build dir
@@ -1727,6 +1726,23 @@ class Builder(object):
             error_exit("%s not found. Please check that you installed wget in msys2 using ``pacman -S wget``" % (self.wget,))
         print_debug("wget: %s" % (self.wget,))
 
+        self.unzip = os.path.join(opts.msys_dir, 'usr', 'bin', 'unzip.exe')
+        if not os.path.exists(self.unzip):
+            error_exit("%s not found. Please check that you installed unzip in msys2 using ``pacman -S unzip``" % (self.unzip,))
+        print_debug("unzip: %s" % (self.unzip,))
+
+    def add_env(self, key, value, prepend=True):
+        env = os.environ
+        te = env.get(key, None)
+        if te:
+            if prepend:
+                env[key] = value + ';' + te
+            else:
+                env[key] = te + ';' + value
+        else:
+            # not set
+            env[key] = value
+
     def __check_vs(self, opts):
         # Verify VS exists at the indicated location, and that it supports the required target
         if opts.platform == 'Win32':
@@ -1740,11 +1756,18 @@ class Builder(object):
         if not os.path.exists(vcvars_bat):
             raise Exception("'%s' could not be found. Please check you have Visual Studio installed at '%s' and that it supports the target platform '%s'." % (vcvars_bat, opts.vs_install_path, opts.platform))
 
+        # Add to the environment the gtk paths so meson can find everything
+        self.add_env('INCLUDE', os.path.join(self.gtk_dir, 'include'))
+        self.add_env('LIB', os.path.join(self.gtk_dir, 'lib'))
+        self.add_env('LIBPATH', os.path.join(self.gtk_dir, 'lib'))
+        self.add_env('PATH', os.path.join(self.gtk_dir, 'bin'))
+
         output = subprocess.check_output('cmd.exe /c ""%s" && set"' % (vcvars_bat,), shell=True)
         self.vs_env = {}
         for l in output.splitlines():
             k, v = l.decode('utf-8').split("=", 1)
             self.vs_env[k] = v
+            print_debug('vs env:%s -> [%s]' % (k, v, ))
 
     def preprocess(self):
         for proj in Project.list_projects():
