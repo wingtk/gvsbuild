@@ -182,6 +182,10 @@ class Project(object):
     def unpack(self):
         raise NotImplementedError("unpack")
 
+    def get_path(self):
+        # Optional for projects
+        pass
+
     @staticmethod
     def add(proj):
         Project._projects.append(proj)
@@ -204,6 +208,14 @@ class Project(object):
     def get_dict():
         return dict(Project._dict)
 
+class Tool(Project):
+    def __init__(self, name, **kwargs):
+        Project.__init__(self, name, **kwargs)
+
+    def get_path(self):
+        # Mandatory for tools
+        raise NotImplementedError("get_path")
+
 class Meson(Project):
     def __init__(self, name, **kwargs):
         Project.__init__(self, name, **kwargs)
@@ -219,18 +231,16 @@ class Meson(Project):
             add_opts = '--buildtype ' + self.builder.opts.configuration
             # pyhon meson.py ninja_build_dir --prefix gtk_bin options
             cmd = '%s\\python.exe %s %s --prefix %s %s' % (self.builder.opts.python_dir, self.builder.meson, ninja_build, self.builder.gtk_dir, add_opts, )
-            # add ninja path, the gtk ones are in the vs environment
-            add_path = self.builder.ninja_path
             # build the ninja file to do everything (build the library, create the .pc file, install it, ...)
-            self.exec_vs(cmd, add_path=add_path)
+            self.exec_vs(cmd)
         # we simply run 'ninja install' that takes care of everything, running explicity from the build dir
-        self.builder.exec_vs('ninja install', add_path=self.builder.ninja_path, working_dir=ninja_build)
+        self.builder.exec_vs('ninja install', working_dir=ninja_build)
 
 #==============================================================================
 # Tools used to build the various projects
 #==============================================================================
 
-class Project_meson(Project):
+class Tool_meson(Tool):
     def __init__(self):
         Project.__init__(self,
             'meson',
@@ -256,37 +266,43 @@ class Project_meson(Project):
         # Nothing to do :)
         pass
 
-Project.add(Project_meson())
+    def get_path(self):
+        pass
 
-class Project_ninja(Project):
+Project.add(Tool_meson())
+
+class Tool_ninja(Tool):
     def __init__(self):
-        Project.__init__(self,
+        Tool.__init__(self,
             'ninja',
             archive_url = 'https://github.com/ninja-build/ninja/releases/download/v1.7.2/ninja-win.zip',
             hash = '95b36a597d33c1fe672829cfe47b5ab34b3a1a4c6bf628e5d150b6075df4ef50')
 
     def load_defaults(self, builder):
         # Set the builder object to point to the path to use
-        builder.ninja_path = os.path.join(builder.opts.tools_root_dir, 'ninja')
+        self.ninja_path = os.path.join(builder.opts.tools_root_dir, 'ninja')
 
     def unpack(self):
         # We download a .zip file so we estract it in the tool directory ...
-        destfile = os.path.join(self.builder.ninja_path, 'ninja.exe')
+        destfile = os.path.join(self.ninja_path, 'ninja.exe')
         if not os.path.isfile(destfile):
             print_log("Unpacking ninja to tools directory (%s)" % (destfile, ))
-            self.builder.make_dir(self.builder.ninja_path)
+            self.builder.make_dir(self.ninja_path)
             with zipfile.ZipFile(self.archive_file) as zf:
-                zf.extractall(path=self.builder.ninja_path)
+                zf.extractall(path=self.ninja_path)
 
     def build(self):
         # Nothing to do :)
         pass
 
-Project.add(Project_ninja())
+    def get_path(self):
+        return self.ninja_path
 
-class Project_nuget(Project):
+Project.add(Tool_ninja())
+
+class Tool_nuget(Tool):
     def __init__(self):
-        Project.__init__(self,
+        Tool.__init__(self,
             'nuget',
             archive_url = 'https://dist.nuget.org/win-x86-commandline/latest/nuget.exe',
             hash = '399ec24c26ed54d6887cde61994bb3d1cada7956c1b19ff880f06f060c039918')
@@ -307,7 +323,11 @@ class Project_nuget(Project):
             self.builder.make_dir(destdir)
             shutil.copy2(self.archive_file, self.builder.nuget)
 
-Project.add(Project_nuget())
+    def get_path(self):
+        # No need to add the path, we use the full file name
+        pass
+
+Project.add(Tool_nuget())
 
 #==============================================================================
 # Projects
@@ -1761,6 +1781,9 @@ class Builder(object):
         self.vs_env = {}
         for l in output.splitlines():
             k, v = l.decode('utf-8').split("=", 1)
+            # Be sure to have PATH in upper case because we need to manipulate it 
+            if k.upper() == 'PATH':
+                k = 'PATH'
             self.vs_env[k] = v
             print_debug('vs env:%s -> [%s]' % (k, v, ))
 
@@ -1843,6 +1866,20 @@ class Builder(object):
         shutil.rmtree(proj.pkg_dir, ignore_errors=True)
         os.makedirs(proj.pkg_dir)
 
+        # Get the paths to add
+        paths = []
+        for d in proj.all_dependencies:
+            t = d.get_path()
+            if t:
+                paths.append(t)
+
+        # Save base vs path
+        vs_saved_path = self.vs_env['PATH']
+        if paths:
+            # Something to add to the vs environment path, at the beginning
+            tp = ';'.join(paths)
+            self.vs_env['PATH'] = tp + ';' + vs_saved_path
+
         proj.patch()
         proj.build()
 
@@ -1854,6 +1891,9 @@ class Builder(object):
 
         proj.builder = None
         self.__project = None
+        if vs_saved_path:
+            # Restore the original vs path 
+            self.vs_env['PATH'] = vs_saved_path
 
     def make_dir(self, path):
         if not os.path.exists(path):
