@@ -240,6 +240,36 @@ class Meson(Project):
 # Tools used to build the various projects
 #==============================================================================
 
+class Tool_cmake(Tool):
+    def __init__(self):
+        Project.__init__(self,
+            'cmake',
+            archive_url = 'https://cmake.org/files/v3.7/cmake-3.7.2-win64-x64.zip',
+            hash = 'def3bb81dfd922ce1ea2a0647645eefb60e128d520c8ca707c5996c331bc8b48',
+            dir_part = 'cmake-3.7.2-win64-x64')
+
+    def load_defaults(self, builder):
+        # Set the builder object to point to the file to use
+        self.cmake_path = os.path.join(builder.opts.tools_root_dir, self.dir_part)
+
+    def unpack(self):
+        # We download a .zip file so we estract it in the tool directory, with the version ...
+        destfile = os.path.join(self.cmake_path, 'bin', 'cmake.exe')
+        if not os.path.isfile(destfile):
+            print_log("Unpacking cmake to tools directory (%s)" % (self.cmake_path, ))
+            with zipfile.ZipFile(self.archive_file) as zf:
+                # In the zip file the dir part (meson-0.xx...) is already present
+                zf.extractall(path=self.builder.opts.tools_root_dir)
+
+    def build(self):
+        # Nothing to do :)
+        pass
+
+    def get_path(self):
+        return os.path.join(self.cmake_path, 'bin')
+
+Project.add(Tool_cmake())
+
 class Tool_meson(Tool):
     def __init__(self):
         Project.__init__(self,
@@ -938,14 +968,14 @@ class Project_libarchive(Tarball, Project):
             'libarchive',
             archive_url = 'http://www.libarchive.org/downloads/libarchive-3.2.2.tar.gz',
             hash = '691c194ee132d1f0f7a42541f091db811bc2e56f7107e9121be2bc8c04f1060f',
-            dependencies = ['win-iconv', 'zlib', 'lz4', 'openssl', 'libxml2'],
+            dependencies = ['cmake', 'win-iconv', 'zlib', 'lz4', 'openssl', 'libxml2'],
             )
 
     def build(self):
         cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'Release'
-        self.exec_vs(r'cmake . -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config, add_path=self.builder.opts.cmake_path)
-        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
-        self.exec_vs(r'nmake /nologo install', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'cmake . -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config)
+        self.exec_vs(r'nmake /nologo')
+        self.exec_vs(r'nmake /nologo install')
 
         self.install(r'.\COPYING share\doc\libarchive')
 
@@ -1027,12 +1057,12 @@ class Project_libjpeg_turbo(Tarball, Project):
             'libjpeg-turbo',
             archive_url = 'https://sourceforge.net/projects/libjpeg-turbo/files/1.5.1/libjpeg-turbo-1.5.1.tar.gz',
             hash = '41429d3d253017433f66e3d472b8c7d998491d2f41caa7306b8d9a6f2a2c666c',
+            dependencies = ['cmake'],
             )
 
     def build(self):
         cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
-        add_path = ';'.join([self.builder.opts.cmake_path,
-                             os.path.join(self.builder.opts.msys_dir, 'usr', 'bin')])
+        add_path = os.path.join(self.builder.opts.msys_dir, 'usr', 'bin')
 
         self.exec_vs(r'cmake . -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=%(configuration)s', add_path=add_path)
         self.exec_vs(r'nmake /nologo', add_path=add_path)
@@ -1089,13 +1119,13 @@ class Project_libpng(Tarball, Project):
             'libpng',
             archive_url = 'http://prdownloads.sourceforge.net/libpng/libpng-1.6.28.tar.xz',
             hash = 'd8d3ec9de6b5db740fefac702c37ffcf96ae46cb17c18c1544635a3852f78f7a',
-            dependencies = ['zlib'],
+            dependencies = ['cmake', 'zlib'],
             )
 
     def build(self):
-        self.exec_vs(r'cmake . -G "NMake Makefiles" -DZLIB_ROOT="%(gtk_dir)s" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=%(configuration)s', add_path=self.builder.opts.cmake_path)
-        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
-        self.exec_vs(r'nmake /nologo install', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'cmake . -G "NMake Makefiles" -DZLIB_ROOT="%(gtk_dir)s" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=%(configuration)s')
+        self.exec_vs(r'nmake /nologo')
+        self.exec_vs(r'nmake /nologo install')
 
         self.install('LICENSE share\doc\libpng')
 
@@ -1143,14 +1173,14 @@ class Project_libcurl(Tarball, Project):
             'libcurl',
             archive_url = 'https://github.com/curl/curl/archive/curl-7_48_0.tar.gz',
             hash = '401043087d326edc74021597b9b8a60d6b5c9245fe224beaf89fa6d6c2d9178a',
-            dependencies = [],
+            dependencies = ['cmake'],
             )
 
     def build(self):
         cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
-        self.exec_vs(r'cmake -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DGTK_DIR="%(pkg_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config, add_path=self.builder.opts.cmake_path)
-        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
-        self.exec_vs(r'nmake /nologo install', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'cmake -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DGTK_DIR="%(pkg_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config)
+        self.exec_vs(r'nmake /nologo')
+        self.exec_vs(r'nmake /nologo install')
 
         self.install(r'.\COPYING share\doc\libcurl')
 
@@ -1197,13 +1227,14 @@ class Project_libssh2(Tarball, Project):
             'libssh2',
             archive_url = 'https://www.libssh2.org/download/libssh2-1.7.0.tar.gz',
             hash = 'e4561fd43a50539a8c2ceb37841691baf03ecb7daf043766da1b112e4280d584',
+            dependencies = ['cmake'],
             )
 
     def build(self):
         cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
-        self.exec_vs(r'cmake -G"NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DGTK_DIR="%(pkg_dir)s" -DWITH_ZLIB=ON -DCMAKE_BUILD_TYPE=' + cmake_config, add_path=self.builder.opts.cmake_path)
-        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
-        self.exec_vs(r'nmake /nologo install', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'cmake -G"NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DGTK_DIR="%(pkg_dir)s" -DWITH_ZLIB=ON -DCMAKE_BUILD_TYPE=' + cmake_config)
+        self.exec_vs(r'nmake /nologo')
+        self.exec_vs(r'nmake /nologo install')
 
         self.install(r'.\COPYING share\doc\libssh2')
 
@@ -1286,12 +1317,13 @@ class Project_libyuv(GitRepo, Project):
             repo_url = 'https://chromium.googlesource.com/libyuv/libyuv',
             fetch_submodules = False,
             tag = None,
+            dependencies = ['cmake'],
             )
 
     def build(self):
-        self.exec_vs(r'cmake . -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=%(configuration)s', add_path=self.builder.opts.cmake_path)
-        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
-        self.exec_vs(r'nmake /nologo install', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'cmake . -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=%(configuration)s')
+        self.exec_vs(r'nmake /nologo')
+        self.exec_vs(r'nmake /nologo install')
 
         self.install(r'.\LICENSE share\doc\libyuv')
 
@@ -1303,14 +1335,14 @@ class Project_libzip(Tarball, Project):
             'libzip',
             archive_url = 'http://nih.at/libzip/libzip-1.1.3.tar.gz',
             hash = '1faa5a524dd4a12c43b6344e618edce1bf8050dfdb9d0f73f3cc826929a002b0',
-            dependencies = ['zlib'],
+            dependencies = ['cmake', 'zlib'],
             )
 
     def build(self):
         cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
-        self.exec_vs(r'cmake -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DGTK_DIR="%(pkg_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config, add_path=self.builder.opts.cmake_path)
-        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
-        self.exec_vs(r'nmake /nologo install', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'cmake -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DGTK_DIR="%(pkg_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config)
+        self.exec_vs(r'nmake /nologo')
+        self.exec_vs(r'nmake /nologo install')
 
         self.install(r'.\LICENSE share\doc\libzip')
 
@@ -1501,14 +1533,15 @@ class Project_portaudio(Tarball, Project):
         Project.__init__(self,
             'portaudio',
             archive_url = 'http://www.portaudio.com/archives/pa_stable_v190600_20161030.tgz',
+            dependencies = ['cmake'],
             patches = [ '0001-Do-not-add-suffice-to-the-library-name.patch',
                         '0001-Fix-MSVC-check.patch' ]
             )
 
     def build(self):
         cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'Release'
-        self.exec_vs(r'cmake . -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DPA_DLL_LINK_WITH_STATIC_RUNTIME=off -DCMAKE_BUILD_TYPE=' + cmake_config, add_path=self.builder.opts.cmake_path)
-        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'cmake . -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DPA_DLL_LINK_WITH_STATIC_RUNTIME=off -DCMAKE_BUILD_TYPE=' + cmake_config)
+        self.exec_vs(r'nmake /nologo')
 
         self.install(r'portaudio.dll bin')
         self.install(r'portaudio.pdb bin')
@@ -1526,14 +1559,15 @@ class Project_protobuf(Tarball, Project):
             'protobuf',
             archive_url = 'https://github.com/google/protobuf/archive/v3.1.0.tar.gz',
             hash = '0a0ae63cbffc274efb573bdde9a253e3f32e458c41261df51c5dbc5ad541e8f7',
+            dependencies = ['cmake'],
             )
 
     def build(self):
         cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'Release'
         # We need to compile with STATIC_RUNTIME off since protobuf-c also compiles with it OFF
-        self.exec_vs('cmake .\cmake\ -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(pkg_dir)s" -Dprotobuf_DEBUG_POSTFIX="" -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_MSVC_STATIC_RUNTIME=OFF -DCMAKE_BUILD_TYPE=' + cmake_config, add_path=self.builder.opts.cmake_path)
-        self.exec_vs('nmake /nologo', add_path=self.builder.opts.cmake_path)
-        self.exec_vs('nmake /nologo install', add_path=self.builder.opts.cmake_path)
+        self.exec_vs('cmake .\cmake\ -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(pkg_dir)s" -Dprotobuf_DEBUG_POSTFIX="" -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_MSVC_STATIC_RUNTIME=OFF -DCMAKE_BUILD_TYPE=' + cmake_config)
+        self.exec_vs('nmake /nologo')
+        self.exec_vs('nmake /nologo install')
 
         self.install(r'.\LICENSE share\doc\protobuf')
 
@@ -1545,16 +1579,16 @@ class Project_protobuf_c(Tarball, Project):
             'protobuf-c',
             archive_url = 'https://github.com/protobuf-c/protobuf-c/releases/download/v1.2.1/protobuf-c-1.2.1.tar.gz',
             hash = '846eb4846f19598affdc349d817a8c4c0c68fd940303e6934725c889f16f00bd',
-            dependencies = ['protobuf'],
+            dependencies = ['cmake', 'protobuf'],
             patches = ['0001-Declare-variables-at-the-beginning-of-the-block.patch',
                        '0001-Do-not-build-tests.patch'],
             )
 
     def build(self):
         cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
-        self.exec_vs(r'cmake .\build-cmake\ -G "NMake Makefiles" -DPROTOBUF_ROOT="%(gtk_dir)s" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config,add_path=self.builder.opts.cmake_path)
-        self.exec_vs(r'nmake /nologo', add_path=self.builder.opts.cmake_path)
-        self.exec_vs(r'nmake /nologo install', add_path=self.builder.opts.cmake_path)
+        self.exec_vs(r'cmake .\build-cmake\ -G "NMake Makefiles" -DPROTOBUF_ROOT="%(gtk_dir)s" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config)
+        self.exec_vs(r'nmake /nologo')
+        self.exec_vs(r'nmake /nologo install')
 
         self.install(r'.\LICENSE share\doc\protobuf-c')
 
@@ -1566,15 +1600,16 @@ class Project_win_iconv(Tarball, Project):
             'win-iconv',
             archive_url = 'http://dl.hexchat.net/gtk-win32/src/win-iconv-0.0.8.tar.gz',
             hash = '23adea990a8303c6e69e32a64a30171efcb1b73824a1c2da1bbf576b0ae7c520',
+            dependencies = ['cmake'],
             )
 
     def build(self):
         #Remove-Item -Recurse CMakeCache.txt, CMakeFiles -ErrorAction Ignore
 
-        self.exec_vs('cmake -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(pkg_dir)s" -DCMAKE_BUILD_TYPE=%(configuration)s', add_path=self.builder.opts.cmake_path)
+        self.exec_vs('cmake -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(pkg_dir)s" -DCMAKE_BUILD_TYPE=%(configuration)s')
         #Exec nmake clean
-        self.exec_vs('nmake /nologo', add_path=self.builder.opts.cmake_path)
-        self.exec_vs('nmake /nologo install', add_path=self.builder.opts.cmake_path)
+        self.exec_vs('nmake /nologo')
+        self.exec_vs('nmake /nologo install')
         #Exec nmake clean
 
         self.install(r'.\COPYING share\doc\win-iconv')
@@ -1647,17 +1682,17 @@ class CmakeProject(Tarball, Project):
 
     def build(self):
         cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
-        self.exec_vs('cmake -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(pkg_dir)s" -DGTK_DIR="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config, add_path=self.builder.opts.cmake_path)
-        self.exec_vs('nmake /nologo', add_path=self.builder.opts.cmake_path)
-        self.exec_vs('nmake /nologo install', add_path=self.builder.opts.cmake_path)
+        self.exec_vs('cmake -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(pkg_dir)s" -DGTK_DIR="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config)
+        self.exec_vs('nmake /nologo')
+        self.exec_vs('nmake /nologo install')
 
 class MercurialCmakeProject(MercurialRepo, CmakeProject):
     def __init__(self, name, **kwargs):
         CmakeProject.__init__(self, name, **kwargs)
 
-Project.add(MercurialCmakeProject('pycairo', repo_url='git+ssh://git@github.com:muntyan/pycairo-gtk-win32.git', dependencies = ['cairo']))
-Project.add(MercurialCmakeProject('pygobject', repo_url='git+ssh://git@github.com:muntyan/pygobject-gtk-win32.git', dependencies = ['glib']))
-Project.add(MercurialCmakeProject('pygtk', repo_url='git+ssh://git@github.com:muntyan/pygtk-gtk-win32.git', dependencies = ['gtk', 'pycairo', 'pygobject']))
+Project.add(MercurialCmakeProject('pycairo', repo_url='git+ssh://git@github.com:muntyan/pycairo-gtk-win32.git', dependencies = ['cmake', 'cairo']))
+Project.add(MercurialCmakeProject('pygobject', repo_url='git+ssh://git@github.com:muntyan/pygobject-gtk-win32.git', dependencies = ['cmake', 'glib']))
+Project.add(MercurialCmakeProject('pygtk', repo_url='git+ssh://git@github.com:muntyan/pygtk-gtk-win32.git', dependencies = ['cmake', 'gtk', 'pycairo', 'pygobject']))
 
 
 #========================================================================================================================================================
@@ -2035,7 +2070,6 @@ def get_options(args):
     opts.tools_root_dir = args.tools_root_dir
     opts.vs_ver = args.vs_ver
     opts.vs_install_path = args.vs_install_path
-    opts.cmake_path = args.cmake_path
     opts.perl_dir = args.perl_dir
     opts.python_dir = args.python_dir
     opts.msys_dir = args.msys_dir
@@ -2154,8 +2188,6 @@ Examples:
                          help="Visual Studio version 10,12,14, etc. Default is 12.")
     p_build.add_argument('--vs-install-path',
                          help=r"The directory where you installed Visual Studio. Default is 'C:\Program Files (x86)\Microsoft Visual Studio $(build-ver).0'")
-    p_build.add_argument('--cmake-path', default=r'C:\Program Files (x86)\CMake\bin',
-                         help="The directory where you installed cmake.")
     p_build.add_argument('--perl-dir', default=r'C:\Perl',
                          help="The directory where you installed perl.")
     p_build.add_argument('--python-dir', default=os.path.dirname(sys.executable),
