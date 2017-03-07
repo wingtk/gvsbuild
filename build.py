@@ -274,9 +274,9 @@ class Tool_meson(Tool):
     def __init__(self):
         Project.__init__(self,
             'meson',
-            archive_url = 'https://github.com/mesonbuild/meson/archive/0.38.1.zip',
-            hash = '66d90df0ae665b1cdf036dbd9531fd77e62e3ccaae76c10b0652646d4009e384',
-            dir_part = 'meson-0.38.1')
+            archive_url = 'https://github.com/mesonbuild/meson/archive/0.39.0.zip',
+            hash = 'f8a549283dd97939d45c86a3df1079feff6dcf4944404125770b38ae2fdac41f',
+            dir_part = 'meson-0.39.0')
 
     def load_defaults(self, builder):
         # Set the builder object to point to the file to use
