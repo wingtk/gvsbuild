@@ -996,17 +996,16 @@ class Project_libcroco(Tarball, Project):
 
 Project.add(Project_libcroco())
 
-class Project_libepoxy(Tarball, Project):
+class Project_libepoxy(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'libepoxy',
-            archive_url = 'https://github.com/anholt/libepoxy/releases/download/v1.3.1/libepoxy-1.3.1.tar.bz2',
-            hash = '1d8668b0a259c709899e1c4bab62d756d9002d546ce4f59c9665e2fc5f001a64',
-            patches = ['0001-MSVC-Builds-Support-PACKED.patch'],
+            archive_url = 'https://github.com/anholt/libepoxy/archive/1.4.1.tar.gz',
+            hash = 'da8f42c355b62c2c3ff6bc534c2a24099707b249c2af6eaf8db54b94c364a504',
             )
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\epoxy.sln')
+        Meson.build(self)
 
 Project.add(Project_libepoxy())
 
