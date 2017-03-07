@@ -359,6 +359,37 @@ class Tool_nuget(Tool):
 
 Project.add(Tool_nuget())
 
+class Tool_perl(Tool):
+    def __init__(self):
+        Tool.__init__(self,
+            'perl',
+            archive_url = 'https://dl.hexchat.net/misc/perl/perl-5.20.0-x64.tar.xz',
+            hash = '05e01cf30bb47d3938db6169299ed49271f91c1615aeee5649174f48ff418c55')
+
+    def load_defaults(self, builder):
+        # Set the builder object to point to the path to use, when we need to pass directly
+        # the executable to *make
+        builder.perl_dir = os.path.join(builder.opts.tools_root_dir, 'perl', 'x64')
+        # full path, added to the environment when needed
+        self.perl_path = os.path.join(builder.perl_dir, 'bin')
+
+    def unpack(self):
+        # We download a tar.xz file so we estract it in the tool directory ...
+        destfile = os.path.join(self.perl_path, 'perl.exe')
+        if not os.path.isfile(destfile):
+            print_log("Unpacking perl to tools directory (%s)" % (destfile, ))
+            self.builder.make_dir(self.perl_path)
+            self.builder.exec_msys([self.builder.tar, 'xf', convert_to_msys(self.archive_file), '-C', convert_to_msys(os.path.join(self.builder.opts.tools_root_dir, 'perl'))])
+
+    def build(self):
+        # Nothing to do :)
+        pass
+
+    def get_path(self):
+        return self.perl_path
+
+Project.add(Tool_perl())
+
 #==============================================================================
 # Projects
 #==============================================================================
@@ -797,7 +828,7 @@ class Project_gsettings_desktop_schemas(Tarball, Project):
             'gsettings-desktop-schemas',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.22/gsettings-desktop-schemas-3.22.0.tar.xz',
             hash = '0f06c7ba34c3a99e4d58b10889496133c9aaad6698ea2d8405d481c7f1a7eae1',
-            dependencies = ['glib'],
+            dependencies = ['perl', 'glib'],
             )
 
     def build(self):
@@ -871,12 +902,11 @@ class Project_gtksourceview3(Tarball, Project):
             'gtksourceview3',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtksourceview/3.22/gtksourceview-3.22.2.tar.xz',
             hash = '6ce84231dd0931cc747708434ca2f344c65a092dd6e1a800283fe0748773af5e',
-            dependencies = ['gtk3'],
+            dependencies = ['perl', 'gtk3'],
             )
 
     def build(self):
-        add_path = os.path.join(self.builder.opts.perl_dir, 'bin')
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtksourceview.sln', add_path=add_path)
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtksourceview.sln')
 
         self.install(r'.\COPYING share\doc\gtksourceview3')
 
@@ -888,7 +918,7 @@ class Project_harfbuzz(Tarball, Project):
             'harfbuzz',
             archive_url = 'https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.4.2.tar.bz2',
             hash = '8f234dcfab000fdec24d43674fffa2fdbdbd654eb176afbde30e8826339cb7b3',
-            dependencies = ['freetype', 'glib'],
+            dependencies = ['perl', 'freetype', 'glib'],
             )
 
     def build(self):
@@ -1390,6 +1420,7 @@ class Project_openssl(Tarball, Project):
             'openssl',
             archive_url = 'ftp://ftp.openssl.org/source/openssl-1.0.2k.tar.gz',
             hash = '6b3977c61f2aedf0f96367dcfb5c6e578cf37e7b8d913b4ecb6643c3cb88d8c0',
+            dependencies = ['perl'],
             )
 
     def build(self):
@@ -1402,7 +1433,7 @@ class Project_openssl(Tarball, Project):
 
         # Note that we want to give priority to the system perl version.
         # Using the msys2 one might endup giving us a broken build
-        add_path = ';'.join([os.path.join(self.builder.opts.perl_dir, 'bin'),
+        add_path = ';'.join([os.path.join(self.builder.perl_dir, 'bin'),
                              os.path.join(self.builder.opts.msys_dir, 'usr', 'bin')])
 
         if self.builder.x86:
@@ -2005,7 +2036,7 @@ class Builder(object):
     def __sub_vars(self, s):
         if '%' in s:
             d = dict(platform=self.opts.platform, configuration=self.opts.configuration, build_dir=self.opts.build_dir, vs_ver=self.opts.vs_ver,
-                     gtk_dir=self.gtk_dir, python_dir=self.opts.python_dir, perl_dir=self.opts.perl_dir, msbuild_opts=self.msbuild_opts)
+                     gtk_dir=self.gtk_dir, python_dir=self.opts.python_dir, perl_dir=self.perl_dir, msbuild_opts=self.msbuild_opts)
             if self.__project is not None:
                 d['pkg_dir'] = self.__project.pkg_dir
                 d['build_dir'] = self.__project.build_dir
@@ -2070,7 +2101,6 @@ def get_options(args):
     opts.tools_root_dir = args.tools_root_dir
     opts.vs_ver = args.vs_ver
     opts.vs_install_path = args.vs_install_path
-    opts.perl_dir = args.perl_dir
     opts.python_dir = args.python_dir
     opts.msys_dir = args.msys_dir
     opts.clean = args.clean
@@ -2188,8 +2218,6 @@ Examples:
                          help="Visual Studio version 10,12,14, etc. Default is 12.")
     p_build.add_argument('--vs-install-path',
                          help=r"The directory where you installed Visual Studio. Default is 'C:\Program Files (x86)\Microsoft Visual Studio $(build-ver).0'")
-    p_build.add_argument('--perl-dir', default=r'C:\Perl',
-                         help="The directory where you installed perl.")
     p_build.add_argument('--python-dir', default=os.path.dirname(sys.executable),
                          help="The directory where you installed python.")
 
