@@ -1002,6 +1002,7 @@ class Project_libepoxy(Tarball, Meson):
             'libepoxy',
             archive_url = 'https://github.com/anholt/libepoxy/archive/1.4.1.tar.gz',
             hash = 'da8f42c355b62c2c3ff6bc534c2a24099707b249c2af6eaf8db54b94c364a504',
+            dependencies = ['ninja', 'meson'],
             )
 
     def build(self):
@@ -1815,7 +1816,7 @@ class Builder(object):
         self.vs_env = {}
         for l in output.splitlines():
             k, v = l.decode('utf-8').split("=", 1)
-            # Be sure to have PATH in upper case because we need to manipulate it 
+            # Be sure to have PATH in upper case because we need to manipulate it
             if k.upper() == 'PATH':
                 k = 'PATH'
             self.vs_env[k] = v
