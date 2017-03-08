@@ -1038,6 +1038,8 @@ class Project_libepoxy(Tarball, Meson):
     def build(self):
         Meson.build(self)
 
+        self.install(r'COPYING share\doc\libepoxy')
+
 Project.add(Project_libepoxy())
 
 class Project_libffi(Tarball, Project):
