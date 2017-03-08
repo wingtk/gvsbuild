@@ -363,7 +363,7 @@ class Tool_perl(Tool):
     def __init__(self):
         Tool.__init__(self,
             'perl',
-            archive_url = 'https://dl.hexchat.net/misc/perl/perl-5.20.0-x64.tar.xz',
+            archive_url = 'https://github.com/wingtk/gtk-win32/releases/download/Perl-5.20/perl-5.20.0-x64.tar.xz',
             hash = '05e01cf30bb47d3938db6169299ed49271f91c1615aeee5649174f48ff418c55')
 
     def load_defaults(self, builder):
