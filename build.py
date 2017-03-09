@@ -220,7 +220,18 @@ class Project(object):
 
 class Tool(Project):
     def __init__(self, name, **kwargs):
+        self.dir_part = None
         Project.__init__(self, name, **kwargs)
+
+    def load_defaults(self, builder):
+        if self.dir_part:
+            self.build_dir = os.path.join(builder.opts.tools_root_dir, self.dir_part)
+        else:
+            self.build_dir = os.path.join(builder.opts.tools_root_dir, self.name)
+
+    def build(self):
+        # All the work is done in the unpack
+        pass
 
     def get_path(self):
         # Mandatory for tools
@@ -252,28 +263,25 @@ class Meson(Project):
 
 class Tool_cmake(Tool):
     def __init__(self):
-        Project.__init__(self,
+        Tool.__init__(self,
             'cmake',
             archive_url = 'https://cmake.org/files/v3.7/cmake-3.7.2-win64-x64.zip',
             hash = 'def3bb81dfd922ce1ea2a0647645eefb60e128d520c8ca707c5996c331bc8b48',
             dir_part = 'cmake-3.7.2-win64-x64')
 
     def load_defaults(self, builder):
+        Tool.load_defaults(self, builder)
         # Set the builder object to point to the file to use
-        self.cmake_path = os.path.join(builder.opts.tools_root_dir, self.dir_part)
+        self.cmake_path = self.build_dir
 
     def unpack(self):
         # We download a .zip file so we estract it in the tool directory, with the version ...
         destfile = os.path.join(self.cmake_path, 'bin', 'cmake.exe')
         if not os.path.isfile(destfile):
-            print_log("Unpacking cmake to tools directory (%s)" % (self.cmake_path, ))
+            print_log("Unpacking cmake to tools directory (%s)" % (self.build_dir, ))
             with zipfile.ZipFile(self.archive_file) as zf:
-                # In the zip file the dir part (meson-0.xx...) is already present
+                # In the zip file the dir part (cmake-...) is already present
                 zf.extractall(path=self.builder.opts.tools_root_dir)
-
-    def build(self):
-        # Nothing to do :)
-        pass
 
     def get_path(self):
         return os.path.join(self.cmake_path, 'bin')
@@ -282,29 +290,26 @@ Project.add(Tool_cmake())
 
 class Tool_meson(Tool):
     def __init__(self):
-        Project.__init__(self,
+        Tool.__init__(self,
             'meson',
             archive_url = 'https://github.com/mesonbuild/meson/archive/0.39.0.zip',
             hash = 'f8a549283dd97939d45c86a3df1079feff6dcf4944404125770b38ae2fdac41f',
             dir_part = 'meson-0.39.0')
 
     def load_defaults(self, builder):
+        Tool.load_defaults(self, builder)
         # Set the builder object to point to the file to use
-        builder.meson = os.path.join(builder.opts.tools_root_dir, self.dir_part, 'meson.py')
+        builder.meson = os.path.join(self.build_dir, 'meson.py')
 
     def unpack(self):
         # We download a .zip file so we estract it in the tool directory, with the version ...
         if not os.path.isfile(self.builder.meson):
             destdir = os.path.join(self.builder.opts.tools_root_dir, self.dir_part)
-            print_log("Unpacking meson to tools directory (%s)" % (self.builder.meson, ))
+            print_log("Unpacking meson to tools directory (%s)" % (self.build_dir, ))
             self.builder.make_dir(destdir)
             with zipfile.ZipFile(self.archive_file) as zf:
                 # In the zip file the dir part (meson-0.xx...) is already present
                 zf.extractall(path=self.builder.opts.tools_root_dir)
-
-    def build(self):
-        # Nothing to do :)
-        pass
 
     def get_path(self):
         pass
@@ -319,21 +324,18 @@ class Tool_ninja(Tool):
             hash = '95b36a597d33c1fe672829cfe47b5ab34b3a1a4c6bf628e5d150b6075df4ef50')
 
     def load_defaults(self, builder):
+        Tool.load_defaults(self, builder)
         # Set the builder object to point to the path to use
-        self.ninja_path = os.path.join(builder.opts.tools_root_dir, 'ninja')
+        self.ninja_path = self.build_dir
 
     def unpack(self):
         # We download a .zip file so we estract it in the tool directory ...
         destfile = os.path.join(self.ninja_path, 'ninja.exe')
         if not os.path.isfile(destfile):
-            print_log("Unpacking ninja to tools directory (%s)" % (destfile, ))
+            print_log("Unpacking ninja to tools directory (%s)" % (self.build_dir, ))
             self.builder.make_dir(self.ninja_path)
             with zipfile.ZipFile(self.archive_file) as zf:
                 zf.extractall(path=self.ninja_path)
-
-    def build(self):
-        # Nothing to do :)
-        pass
 
     def get_path(self):
         return self.ninja_path
@@ -348,20 +350,16 @@ class Tool_nuget(Tool):
             hash = '399ec24c26ed54d6887cde61994bb3d1cada7956c1b19ff880f06f060c039918')
 
     def load_defaults(self, builder):
+        Tool.load_defaults(self, builder)
         # Set the builder object to point to the .exe file to use
-        builder.nuget = os.path.join(builder.opts.tools_root_dir, 'nuget', 'nuget.exe')
+        builder.nuget = os.path.join(self.build_dir, 'nuget.exe')
 
     def unpack(self):
-        # Nothing to do :)
-        pass
-
-    def build(self):
         # We download directly the exe file so we copy it on the tool directory ...
         if not os.path.isfile(self.builder.nuget):
-            destdir = os.path.join(self.builder.opts.tools_root_dir, 'nuget')
-            print_log("Copying file to tools directory (%s)" % (self.builder.nuget, ))
-            self.builder.make_dir(destdir)
-            shutil.copy2(self.archive_file, self.builder.nuget)
+            print_log("Copying file to tools directory (%s)" % (self.build_dir, ))
+            self.builder.make_dir(self.build_dir)
+            shutil.copy2(self.archive_file, self.build_dir)
 
     def get_path(self):
         # No need to add the path, we use the full file name
@@ -377,9 +375,10 @@ class Tool_perl(Tool):
             hash = '05e01cf30bb47d3938db6169299ed49271f91c1615aeee5649174f48ff418c55')
 
     def load_defaults(self, builder):
+        Tool.load_defaults(self, builder)
         # Set the builder object to point to the path to use, when we need to pass directly
         # the executable to *make
-        builder.perl_dir = os.path.join(builder.opts.tools_root_dir, 'perl', 'x64')
+        builder.perl_dir = os.path.join(self.build_dir, 'x64')
         # full path, added to the environment when needed
         self.perl_path = os.path.join(builder.perl_dir, 'bin')
 
@@ -387,13 +386,9 @@ class Tool_perl(Tool):
         # We download a tar.xz file so we estract it in the tool directory ...
         destfile = os.path.join(self.perl_path, 'perl.exe')
         if not os.path.isfile(destfile):
-            print_log("Unpacking perl to tools directory (%s)" % (destfile, ))
-            self.builder.make_dir(self.perl_path)
-            self.builder.exec_msys([self.builder.tar, 'xf', convert_to_msys(self.archive_file), '-C', convert_to_msys(os.path.join(self.builder.opts.tools_root_dir, 'perl'))])
-
-    def build(self):
-        # Nothing to do :)
-        pass
+            print_log("Unpacking perl to tools directory (%s)" % (self.build_dir, ))
+            self.builder.make_dir(self.build_dir)
+            self.builder.exec_msys([self.builder.tar, 'xf', convert_to_msys(self.archive_file), '-C', convert_to_msys(self.build_dir)])
 
     def get_path(self):
         return self.perl_path
