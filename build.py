@@ -25,6 +25,7 @@ import sys
 import traceback
 import hashlib
 import zipfile
+import stat
 
 def convert_to_msys(path):
     path = path
@@ -32,6 +33,15 @@ def convert_to_msys(path):
         raise Exception('oops')
     path = '/' + path[0] + path[2:].replace('\\', '/')
     return path
+
+def _rmtree_error_handler(func, path, exc_info):
+    if not os.access(path, os.W_OK):
+        # Is the error an access error ?
+        os.chmod(path, stat.S_IWUSR)
+        func(path)
+        print_debug('rmtree:read-only file/path (%s)' % (path, ))
+    else:
+        raise
 
 class Tarball(object):
     def unpack(self):
@@ -165,7 +175,7 @@ class Project(object):
 
     def prepare_build_dir(self):
         if self.builder.opts.clean and os.path.exists(self.build_dir):
-            shutil.rmtree(self.build_dir)
+            shutil.rmtree(self.build_dir, onerror=_rmtree_error_handler)
 
         if os.path.exists(self.build_dir):
             print_debug("directory %s already exists" % (self.build_dir,))
