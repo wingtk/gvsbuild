@@ -403,8 +403,8 @@ class Project_adwaita_icon_theme(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'adwaita-icon-theme',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/adwaita-icon-theme/3.22/adwaita-icon-theme-3.22.0.tar.xz',
-            hash = 'c18bf6e26087d9819a962c77288b291efab25d0419b73d909dd771716a45dcb7',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/adwaita-icon-theme/3.24/adwaita-icon-theme-3.24.0.tar.xz',
+            hash = 'ccf79ff3bd340254737ce4d28b87f0ccee4b3358cd3cd5cd11dc7b42f41b272a',
             dependencies = ['librsvg'],
             )
 
