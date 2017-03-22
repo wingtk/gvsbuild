@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
-    <VSVer>12</VSVer>
+    <VSVer>14</VSVer>
     <ApiVersion>1.0</ApiVersion>
     <AtkMajorVersion>2</AtkMajorVersion>
-    <AtkMinorVersion>22</AtkMinorVersion>
+    <AtkMinorVersion>24</AtkMinorVersion>
     <AtkMicroVersion>0</AtkMicroVersion>
-    <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
-    <CopyDir>..\..\..\..\atk-rel</CopyDir>
+    <GlibEtcInstallRoot>$(SolutionDir)..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
+    <CopyDir>..\..\..\atk-rel</CopyDir>
     <AtkLibtoolCompatibleDllPrefix>lib</AtkLibtoolCompatibleDllPrefix>
     <AtkLibtoolCompatibleDllSuffix>-$(ApiVersion)-0</AtkLibtoolCompatibleDllSuffix>
     <AtkSeparateVSDllPrefix />

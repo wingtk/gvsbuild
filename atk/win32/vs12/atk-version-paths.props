@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="UserMacros">
+    <VSVer>12</VSVer>
+    <ApiVersion>1.0</ApiVersion>
+    <AtkMajorVersion>2</AtkMajorVersion>
+    <AtkMinorVersion>24</AtkMinorVersion>
+    <AtkMicroVersion>0</AtkMicroVersion>
+    <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
+    <CopyDir>..\..\..\atk-rel</CopyDir>
+    <AtkLibtoolCompatibleDllPrefix>lib</AtkLibtoolCompatibleDllPrefix>
+    <AtkLibtoolCompatibleDllSuffix>-$(ApiVersion)-0</AtkLibtoolCompatibleDllSuffix>
+    <AtkSeparateVSDllPrefix />
+    <AtkSeparateVSDllSuffix>-1.0</AtkSeparateVSDllSuffix>
+    <AtkDllPrefix>$(AtkSeparateVSDllPrefix)</AtkDllPrefix>
+    <AtkDllSuffix>$(AtkSeparateVSDllSuffix)</AtkDllSuffix>
+    <PythonPath>c:\python34</PythonPath>
+    <PythonPathX64>$(PythonPath).x64</PythonPathX64>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>atkversionpathsprops</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <ItemGroup>
+    <BuildMacro Include="ApiVersion">
+      <Value>$(ApiVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="AtkMajorVersion">
+      <Value>$(AtkMajorVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="AtkMinorVersion">
+      <Value>$(AtkMinorVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="AtkMicroVersion">
+      <Value>$(AtkMicroVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GLibEtcInstallRoot">
+      <Value>$(GLibEtcInstallRoot)</Value>
+    </BuildMacro>
+    <BuildMacro Include="CopyDir">
+      <Value>$(CopyDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="AtkLibtoolCompatibleDllPrefix">
+      <Value>$(AtkLibtoolCompatibleDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="AtkLibtoolCompatibleDllSuffix">
+      <Value>$(AtkLibtoolCompatibleDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="AtkSeparateVSDllPrefix">
+      <Value>$(AtkSeparateVSDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="AtkSeparateVSDllSuffix">
+      <Value>$(AtkSeparateVSDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="AtkDllPrefix">
+      <Value>$(AtkDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="AtkDllSuffix">
+      <Value>$(AtkDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PythonPath">
+      <Value>$(PythonPath)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PythonPathX64">
+      <Value>$(PythonPathX64)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

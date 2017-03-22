@@ -422,13 +422,13 @@ class Project_atk(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'atk',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/atk/2.22/atk-2.22.0.tar.xz',
-            hash = 'd349f5ca4974c9c76a4963e5b254720523b0c78672cbc0e1a3475dbd9b3d44b6',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/atk/2.24/atk-2.24.0.tar.xz',
+            hash = 'bb2daa9a808c73a7a79d2983f333e0ba74be42fc51e3ba1faf2551a636487a49',
             dependencies = ['glib'],
             )
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\atk.sln')
+        self.exec_msbuild(r'win32\vs%(vs_ver)s\atk.sln')
         self.install(r'.\COPYING share\doc\atk')
 
 Project.add(Project_atk())
