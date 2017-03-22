@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
-    <VSVer>12</VSVer>
+    <VSVer>15</VSVer>
     <PangoMajorVersion>1</PangoMajorVersion>
     <PangoMinorVersion>40</PangoMinorVersion>
-    <PangoMicroVersion>2</PangoMicroVersion>
+    <PangoMicroVersion>4</PangoMicroVersion>
     <ApiVersion>1.0</ApiVersion>
-    <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
-    <GlibEtcInstallRoot Condition="'$(Configuration)'=='Release_FC'">$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\Release</GlibEtcInstallRoot>
-    <GlibEtcInstallRoot Condition="'$(Configuration)'=='Debug_FC'">$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\Debug</GlibEtcInstallRoot>
-    <CopyDir>..\..\..\..\pango-rel</CopyDir>
+    <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
+    <GlibEtcInstallRoot Condition="'$(Configuration)'=='Release_FC'">$(SolutionDir)\..\..\..\..\..\..\gtk\$(Platform)\Release</GlibEtcInstallRoot>
+    <GlibEtcInstallRoot Condition="'$(Configuration)'=='Debug_FC'">$(SolutionDir)\..\..\..\..\..\..\gtk\$(Platform)\Debug</GlibEtcInstallRoot>
+    <CopyDir>..\..\..\pango-rel</CopyDir>
     <PangoLibtoolCompatibleDllPrefix>lib</PangoLibtoolCompatibleDllPrefix>
     <PangoLibtoolCompatibleDllSuffix>-$(ApiVersion)-0</PangoLibtoolCompatibleDllSuffix>
     <PangoSeparateVSDllPrefix />

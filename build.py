@@ -1502,8 +1502,8 @@ class Project_pango(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'pango',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.40/pango-1.40.3.tar.xz',
-            hash = 'abba8b5ce728520c3a0f1535eab19eac3c14aeef7faa5aded90017ceac2711d3',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.40/pango-1.40.4.tar.xz',
+            hash = 'f8fdc5fc66356dc4edf915048cceeee065a0e0cb70b3b2598f62bda320129a3e',
             dependencies = ['cairo', 'harfbuzz'],
             )
 
@@ -1512,7 +1512,7 @@ class Project_pango(Tarball, Project):
         if self.builder.opts.configuration == 'debug':
             configuration = 'Debug_FC'
 
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\pango.sln', configuration=configuration)
+        self.exec_msbuild(r'win32\vs%(vs_ver)s\pango.sln', configuration=configuration)
         self.install(r'COPYING share\doc\pango')
 
 Project.add(Project_pango())
