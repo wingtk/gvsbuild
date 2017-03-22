@@ -5,6 +5,9 @@
     <GlibEtcInstallRoot>$(SolutionDir)..\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
     <CopyDir>..\..\..\..\json-glib-rel</CopyDir>
     <DefDir>$(SolutionDir)$(Configuration)\$(PlatformName)\obj\$(ProjectName)\</DefDir>
+    <JsonGlibMajorVersion>1</JsonGlibMajorVersion>
+    <JsonGlibMinorVersion>2</JsonGlibMinorVersion>
+    <JsonGlibMicroVersion>8</JsonGlibMicroVersion>
     <ApiVersion>1.0</ApiVersion>
     <JsonGlibLibtoolCompatibleDllPrefix>lib</JsonGlibLibtoolCompatibleDllPrefix>
     <JsonGlibLibtoolCompatibleDllSuffix>-1.0-0</JsonGlibLibtoolCompatibleDllSuffix>
@@ -12,6 +15,7 @@
     <JsonGlibSeparateVSDllSuffix>-1.0</JsonGlibSeparateVSDllSuffix>
     <JsonGlibDllPrefix>$(JsonGlibSeparateVSDllPrefix)</JsonGlibDllPrefix>
     <JsonGlibDllSuffix>$(JsonGlibSeparateVSDllSuffix)</JsonGlibDllSuffix>
+    <PythonPath>c:\python34</PythonPath>
   </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>jsonglibversionpathsprops</_PropertySheetDisplayName>
@@ -25,6 +29,15 @@
     </BuildMacro>
     <BuildMacro Include="CopyDir">
       <Value>$(CopyDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="JsonGlibMajorVersion">
+      <Value>$(JsonGlibMajorVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="JsonGlibMinorVersion">
+      <Value>$(JsonGlibMinorVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="JsonGlibMicroVersion">
+      <Value>$(JsonGlibMicroVersion)</Value>
     </BuildMacro>
     <BuildMacro Include="ApiVersion">
       <Value>$(ApiVersion)</Value>
@@ -49,6 +62,9 @@
     </BuildMacro>
     <BuildMacro Include="DefDir">
       <Value>$(DefDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PythonPath">
+      <Value>$(PythonPath)</Value>
     </BuildMacro>
   </ItemGroup>
 </Project>

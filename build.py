@@ -970,8 +970,8 @@ class Project_json_glib(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'json-glib',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/json-glib/1.2/json-glib-1.2.2.tar.xz',
-            hash = 'ea128ab52a824fcd06e5448fbb2bd8d9a13740d51c66d445828edba71321a621',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/json-glib/1.2/json-glib-1.2.8.tar.xz',
+            hash = 'fd55a9037d39e7a10f0db64309f5f0265fa32ec962bf85066087b83a2807f40a',
             dependencies = ['glib'],
             )
 
