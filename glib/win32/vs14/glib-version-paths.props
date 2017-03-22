@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
-    <VSVer>12</VSVer>
-    <GlibVersion>2.50.3</GlibVersion>
+    <VSVer>14</VSVer>
+    <GlibVersion>2.52.0</GlibVersion>
     <ApiVersion>2.0</ApiVersion>
-    <GlibEtcInstallRoot>..\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
-    <GlibEtcInstallRoot Condition="'$(Configuration)'=='Release_BundledPCRE'">..\..\..\..\..\..\..\gtk\$(Platform)\Release</GlibEtcInstallRoot>
-    <GlibEtcInstallRoot Condition="'$(Configuration)'=='Debug_BundledPCRE'">..\..\..\..\..\..\..\gtk\$(Platform)\Debug</GlibEtcInstallRoot>
-    <CopyDir>..\..\..\..\glib-rel</CopyDir>
+    <GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
+    <GlibEtcInstallRoot Condition="'$(Configuration)'=='Release_BundledPCRE'">..\..\..\..\..\..\gtk\$(Platform)\Release</GlibEtcInstallRoot>
+    <GlibEtcInstallRoot Condition="'$(Configuration)'=='Debug_BundledPCRE'">..\..\..\..\..\..\gtk\$(Platform)\Debug</GlibEtcInstallRoot>
+    <CopyDir>..\..\..\glib-rel</CopyDir>
     <GlibLibtoolCompatibleDllPrefix>lib</GlibLibtoolCompatibleDllPrefix>
     <GlibLibtoolCompatibleDllSuffix>-$(ApiVersion)-0</GlibLibtoolCompatibleDllSuffix>
     <GlibSeparateVSDllPrefix />

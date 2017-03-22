@@ -712,8 +712,8 @@ class Project_glib(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'glib',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.50/glib-2.50.3.tar.xz',
-            hash = '82ee94bf4c01459b6b00cb9db0545c2237921e3060c0b74cff13fbc020cfd999',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.52/glib-2.52.0.tar.xz',
+            hash = '4578e3e077b1b978cafeec8d28b676c680aba0c0475923874c4c993403df311a',
             dependencies = ['gettext', 'libffi', 'zlib'],
             patches = ['glib-if_nametoindex.patch',
                        'glib-package-installation-directory.patch'],
@@ -724,7 +724,7 @@ class Project_glib(Tarball, Project):
         if self.builder.opts.configuration == 'debug':
             configuration = 'Debug_BundledPCRE'
 
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\glib.sln', configuration=configuration)
+        self.exec_msbuild(r'win32\vs%(vs_ver)s\glib.sln', configuration=configuration)
         self.install(r'.\COPYING share\doc\glib')
 
 Project.add(Project_glib())
