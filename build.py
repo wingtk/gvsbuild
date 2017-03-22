@@ -831,8 +831,8 @@ class Project_gsettings_desktop_schemas(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'gsettings-desktop-schemas',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.22/gsettings-desktop-schemas-3.22.0.tar.xz',
-            hash = '0f06c7ba34c3a99e4d58b10889496133c9aaad6698ea2d8405d481c7f1a7eae1',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.24/gsettings-desktop-schemas-3.24.0.tar.xz',
+            hash = 'f6573a3f661d22ff8a001cc2421d8647717f1c0e697e342d03c6102f29bbbb90',
             dependencies = ['perl', 'glib'],
             )
 
