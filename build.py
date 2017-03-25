@@ -241,7 +241,7 @@ class Meson(Project):
     def __init__(self, name, **kwargs):
         Project.__init__(self, name, **kwargs)
 
-    def build(self):
+    def build(self, meson_params=None):
         # where we build, with ninja, the library
         ninja_build = self.build_dir + '-meson'
         # clean up and regenerate all
@@ -254,6 +254,8 @@ class Meson(Project):
             self.builder.make_dir(ninja_build)
             # debug info
             add_opts = '--buildtype ' + self.builder.opts.configuration
+            if meson_params:
+                add_opts += ' ' + meson_params
             # pyhon meson.py src_dir ninja_build_dir --prefix gtk_bin options
             cmd = '%s\\python.exe %s %s %s --prefix %s %s' % (self.builder.opts.python_dir, self.builder.meson, self.build_dir, ninja_build, self.builder.gtk_dir, add_opts, )
             # build the ninja file to do everything (build the library, create the .pc file, install it, ...)
