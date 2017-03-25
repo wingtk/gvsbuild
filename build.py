@@ -535,6 +535,22 @@ class Project_cyrus_sasl(Tarball, Project):
 
 Project.add(Project_cyrus_sasl())
 
+class Project_emeus(GitRepo, Meson):
+    def __init__(self):
+        Meson.__init__(self,
+            'emeus',
+            repo_url = 'https://github.com/ebassi/emeus.git',
+            fetch_submodules = False,
+            tag = None,
+            dependencies = ['ninja', 'meson', 'pkg-config', 'gtk3'],
+            )
+
+    def build(self):
+        Meson.build(self, meson_params='-Denable-introspection=false -Denable-gtk-doc=false')
+        self.install(r'.\COPYING.txt share\doc\emeus')
+
+Project.add(Project_emeus())
+
 class Project_enchant(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
