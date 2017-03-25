@@ -243,15 +243,19 @@ class Meson(Project):
 
     def build(self):
         # where we build, with ninja, the library
-        ninja_build = os.path.join(os.path.join(self.build_dir, '_build'))
+        ninja_build = self.build_dir + '-meson'
+        # clean up and regenerate all
+        if self.builder.opts.clean and os.path.exists(ninja_build):
+            print_debug("Removing meson build dir '%s'" % (ninja_build, ))
+            shutil.rmtree(ninja_build, onerror=_rmtree_error_handler)
+
         # First we check if we need to generate the meson build files
-        #   Note: actually, with the git checkout, we always rebuild everything because the _build dir is deleted also on the update
         if not os.path.isfile(os.path.join(ninja_build, 'build.ninja')):
             self.builder.make_dir(ninja_build)
             # debug info
             add_opts = '--buildtype ' + self.builder.opts.configuration
-            # pyhon meson.py ninja_build_dir --prefix gtk_bin options
-            cmd = '%s\\python.exe %s %s --prefix %s %s' % (self.builder.opts.python_dir, self.builder.meson, ninja_build, self.builder.gtk_dir, add_opts, )
+            # pyhon meson.py src_dir ninja_build_dir --prefix gtk_bin options
+            cmd = '%s\\python.exe %s %s %s --prefix %s %s' % (self.builder.opts.python_dir, self.builder.meson, self.build_dir, ninja_build, self.builder.gtk_dir, add_opts, )
             # build the ninja file to do everything (build the library, create the .pc file, install it, ...)
             self.exec_vs(cmd)
         # we simply run 'ninja install' that takes care of everything, running explicity from the build dir
