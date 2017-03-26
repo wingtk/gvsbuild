@@ -17,7 +17,7 @@ HexChat developers decided that their script should focus on their specific need
 
 1. Install the following build tools and dependencies:
 
-    * [Visual Studio 2013 Express for Windows Desktop](http://www.visualstudio.com/downloads/download-visual-studio-vs#d-2013-express) - Any version of VS apart from 2013 is not supported.
+    * [Visual Studio for Windows Desktop](http://www.visualstudio.com/downloads) - 2013 and 2015 are currently supported.
     * [msys2](https://msys2.github.io/)
     * [Python 3.4](https://www.python.org/ftp/python/2.7.9/python-2.7.9.amd64.msi) (install in C:\Python34), or other package like [Miniconda 3.4](https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86_64.exe)
 
