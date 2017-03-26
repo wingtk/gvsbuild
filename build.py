@@ -1024,8 +1024,8 @@ class Project_libarchive(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libarchive',
-            archive_url = 'http://www.libarchive.org/downloads/libarchive-3.2.2.tar.gz',
-            hash = '691c194ee132d1f0f7a42541f091db811bc2e56f7107e9121be2bc8c04f1060f',
+            archive_url = 'https://libarchive.org/downloads/libarchive-3.3.1.tar.gz',
+            hash = '29ca5bd1624ca5a007aa57e16080262ab4379dbf8797f5c52f7ea74a3b0424e7',
             dependencies = ['cmake', 'win-iconv', 'zlib', 'lz4', 'openssl', 'libxml2'],
             )
 
