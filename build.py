@@ -1082,7 +1082,7 @@ class Project_libepoxy(Tarball, Meson):
             'libepoxy',
             archive_url = 'https://github.com/anholt/libepoxy/archive/1.4.1.tar.gz',
             hash = 'da8f42c355b62c2c3ff6bc534c2a24099707b249c2af6eaf8db54b94c364a504',
-            dependencies = ['ninja', 'meson'],
+            dependencies = ['python', 'ninja', 'meson'],
             patches = ['0001-Fix-build-on-MSVC.patch'],
             )
 
