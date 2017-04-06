@@ -401,6 +401,28 @@ class Tool_perl(Tool):
 
 Project.add(Tool_perl())
 
+class Tool_python(Tool):
+    def __init__(self):
+        Tool.__init__(self,
+            'python')
+
+    def load_defaults(self, builder):
+        Tool.load_defaults(self, builder)
+        if builder.opts.python_dir:
+            # From the command line, hope is at least 3.4 ...
+            self.python_path = builder.opts.python_dir
+        else:
+            # We use the one that call the script
+            self.python_path = os.path.dirname(sys.executable)
+
+    def unpack(self):
+        pass
+
+    def get_path(self):
+        return self.python_path
+
+Project.add(Tool_python())
+
 #==============================================================================
 # Projects
 #==============================================================================
