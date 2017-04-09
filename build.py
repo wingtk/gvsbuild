@@ -1548,8 +1548,8 @@ class Project_pango(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'pango',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.40/pango-1.40.4.tar.xz',
-            hash = 'f8fdc5fc66356dc4edf915048cceeee065a0e0cb70b3b2598f62bda320129a3e',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.40/pango-1.40.5.tar.xz',
+            hash = '24748140456c42360b07b2c77a1a2e1216d07c056632079557cd4e815b9d01c9',
             dependencies = ['cairo', 'harfbuzz'],
             )
 
