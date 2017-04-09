@@ -756,8 +756,8 @@ class Project_glib(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'glib',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.52/glib-2.52.0.tar.xz',
-            hash = '4578e3e077b1b978cafeec8d28b676c680aba0c0475923874c4c993403df311a',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.52/glib-2.52.1.tar.xz',
+            hash = '948c26b817f2d77e2a6cdd5082c60a51bf5dea854890286a1d5d4ccde5ce586f',
             dependencies = ['gettext', 'libffi', 'zlib'],
             patches = ['glib-if_nametoindex.patch',
                        'glib-package-installation-directory.patch',
