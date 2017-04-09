@@ -793,8 +793,8 @@ class Project_glib_openssl(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'glib-openssl',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib-openssl/2.50/glib-openssl-2.50.1.tar.xz',
-            hash = '23203c8f83e9442c51aeff75959470531135eb3872b638791de6a6f7fee65a9b',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib-openssl/2.50/glib-openssl-2.50.2.tar.xz',
+            hash = '1a381fce3a932f66ff3d6acab40b6153f8fe4db7371834fae182aec7cc8b62ae',
             dependencies = ['glib', 'openssl'],
             )
 

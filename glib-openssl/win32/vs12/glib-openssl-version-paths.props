@@ -4,8 +4,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros">
     <VSVer>12</VSVer>
-    <GlibEtcInstallRoot>..\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
-    <CopyDir>..\..\..\..\glib-openssl-rel</CopyDir>
+    <GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
+    <CopyDir>..\..\..\glib-openssl-rel</CopyDir>
   </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>glibopensslversionpathsprops</_PropertySheetDisplayName>
