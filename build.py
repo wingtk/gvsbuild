@@ -631,8 +631,8 @@ class Project_ffmpeg(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'ffmpeg',
-            archive_url = 'http://ffmpeg.org/releases/ffmpeg-2.8.7.tar.bz2',
-            hash = '8777ce4a335640fdd13680ba423ef6da330ff5071bfbe27cdbb452379167efe5',
+            archive_url = 'http://ffmpeg.org/releases/ffmpeg-3.3.tar.xz',
+            hash = '599e7f7c017221c22011c4037b88bdcd1c47cd40c1e466838bc3c465f3e9569d',
             dependencies = [ 'x264' ]
         )
 
@@ -644,6 +644,12 @@ class Project_ffmpeg(Tarball, Project):
                      r'.\COPYING.LGPLv3 ' \
                      r'.\COPYING.GPLv2 ' \
                      r'share\doc\ffmpeg')
+
+    def post_install(self):
+        self.builder.exec_msys(['mv', 'avcodec.lib', '../lib/'], working_dir=os.path.join(self.builder.gtk_dir, 'bin'))
+        self.builder.exec_msys(['mv', 'avutil.lib', '../lib/'], working_dir=os.path.join(self.builder.gtk_dir, 'bin'))
+        self.builder.exec_msys(['mv', 'postproc.lib', '../lib/'], working_dir=os.path.join(self.builder.gtk_dir, 'bin'))
+        self.builder.exec_msys(['mv', 'swscale.lib', '../lib/'], working_dir=os.path.join(self.builder.gtk_dir, 'bin'))
 
 Project.add(Project_ffmpeg())
 
