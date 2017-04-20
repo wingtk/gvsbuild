@@ -1721,13 +1721,13 @@ class Project_wing(Tarball, Meson):
 
 Project.add(Project_wing())
 
-class Project_x264(Tarball, Project):
+class Project_x264(GitRepo, Project):
     def __init__(self):
         Project.__init__(self,
             'x264',
-            wget_opts = [ '--no-passive-ftp'],
-            archive_url = 'ftp://ftp.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20160313-2245.tar.bz2',
-            hash = '65cc10e063cb38a664fbf66f536fe7c92631b7764bf6866786d3a0e702226b86',
+            repo_url = 'http://git.videolan.org/git/x264.git',
+            fetch_submodules = False,
+            tag = '97eaef2ab82a46d13ea5e00270712d6475fbe42b',
             patches = [ '0001-use-more-recent-version-of-config.guess.patch',
                         '0002-configure-recognize-the-msys-shell.patch' ]
             )
@@ -1736,7 +1736,7 @@ class Project_x264(Tarball, Project):
                      add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
 
         # use the path expected when building with a dependent project
-        self.builder.exec_msys(['cp', 'libx264.lib', 'x264.lib'], working_dir=os.path.join(self.builder.gtk_dir, 'lib') )
+        self.builder.exec_msys(['mv', 'libx264.dll.lib', 'libx264.lib'], working_dir=os.path.join(self.builder.gtk_dir, 'lib'))
 
         self.install(r'.\COPYING share\doc\x264')
 

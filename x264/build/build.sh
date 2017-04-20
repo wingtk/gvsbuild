@@ -9,5 +9,5 @@ if [ "$build_type" = "debug" ]; then
     extra_cflags="-MDd -Od -Zi $extra_cflags"
 fi
 
-CC=cl ./configure --enable-static --enable-shared --prefix="$prefix" $extra_flags --extra-cflags="$extra_cflags"
+CC=cl ./configure --enable-shared --prefix="$prefix" $extra_flags --extra-cflags="$extra_cflags"
 make install
