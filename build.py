@@ -25,6 +25,7 @@ import sys
 import traceback
 import hashlib
 import zipfile
+import tarfile
 import stat
 
 def convert_to_msys(path):
@@ -44,11 +45,26 @@ def _rmtree_error_handler(func, path, exc_info):
         raise
 
 class Tarball(object):
+    @staticmethod
+    def __get_stripped_tar_members(tar):
+        for tarinfo in tar.getmembers():
+            path = tarinfo.name.split('/')
+            if len(path) == 1:
+                if tarinfo.isdir():
+                    continue
+                else:
+                    raise Exception('Cannot strip directory prefix from tar with top level files')
+            tarinfo.name = '/'.join(path[1:])
+            if tarinfo.issym() or tarinfo.islnk():
+                tarinfo.linkname = '/'.join(tarinfo.linkname.split('/')[1:])
+            yield tarinfo
+
     def unpack(self):
         print_log('Extracting %s to %s' % (self.archive_file, self.builder.working_dir))
 
         os.makedirs(self.build_dir)
-        self.builder.exec_msys([self.builder.tar, 'ixf', convert_to_msys(self.archive_file), '-C', convert_to_msys(self.build_dir), '' if self.tarbomb else '--strip-components=1'])
+        tar = tarfile.open(self.archive_file)
+        tar.extractall(self.build_dir, Tarball.__get_stripped_tar_members(tar) if not self.tarbomb else tar.getmembers())
 
         print_log('Extracted %s' % (self.archive_file,))
 
@@ -394,7 +410,8 @@ class Tool_perl(Tool):
         if not os.path.isfile(destfile):
             print_log("Unpacking perl to tools directory (%s)" % (self.build_dir, ))
             self.builder.make_dir(self.build_dir)
-            self.builder.exec_msys([self.builder.tar, 'xf', convert_to_msys(self.archive_file), '-C', convert_to_msys(self.build_dir)])
+            tar = tarfile.open(self.archive_file)
+            tar.extractall(self.build_dir)
 
     def get_path(self):
         return self.perl_path
@@ -1852,11 +1869,6 @@ class Builder(object):
         if not os.path.exists(self.patch):
             error_exit("%s not found. Please check that you installed patch in msys2 using ``pacman -S patch``" % (self.patch,))
         print_debug("patch: %s" % (self.patch,))
-
-        self.tar = os.path.join(opts.msys_dir, 'usr', 'bin', 'tar.exe')
-        if not os.path.exists(self.tar):
-            error_exit("%s not found. Please check that you installed tar and other unzipping tools in msys2 using ``pacman -S gzip tar xz``" % (self.tar,))
-        print_debug("tar: %s" % (self.tar,))
 
         self.msgfmt = os.path.join(opts.msys_dir, 'usr', 'bin', 'msgfmt.exe')
         if not os.path.exists(self.msgfmt):
