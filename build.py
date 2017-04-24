@@ -1279,16 +1279,13 @@ class Project_libsoup(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libsoup',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.56/libsoup-2.56.0.tar.xz',
-            hash = 'd8216b71de8247bc6f274ec054c08547b2e04369c1f8add713e9350c8ef81fe5',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.58/libsoup-2.58.0.tar.xz',
+            hash = 'b61567e25ed61f4b89bb23a36713c807df6b76a8451beb786d8cc362e8f097f5',
             dependencies = ['libxml2', 'glib-openssl', 'sqlite'],
-            patches = ['0001-websocket-connection-log-when-getting-a-pong-message.patch',
-                       '0001-websocket-add-api-to-add-a-keepalive-interval.patch',
-                       '0001-websocket-connection-avoid-sending-data-if-we-are-cl.patch']
             )
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\libsoup.sln')
+        self.exec_msbuild(r'win32\vs%(vs_ver)s\libsoup.sln')
 
         self.install(r'.\COPYING share\doc\libsoup')
 

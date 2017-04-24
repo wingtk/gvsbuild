@@ -4,8 +4,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros">
     <VSVer>12</VSVer>
-    <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
-    <CopyDir>..\..\..\..\libsoup-rel</CopyDir>
+    <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
+    <CopyDir>..\..\..\libsoup-rel</CopyDir>
+    <SoupMajorVersion>2</SoupMajorVersion>
+    <SoupMinorVersion>58</SoupMinorVersion>
+    <SoupMicroVersion>0</SoupMicroVersion>
     <ApiVersion>2.4</ApiVersion>
     <SoupLibtoolCompatibleDllPrefix>lib</SoupLibtoolCompatibleDllPrefix>
     <SoupLibtoolCompatibleDllSuffix>-$(ApiVersion)-0</SoupLibtoolCompatibleDllSuffix>
@@ -28,6 +31,15 @@
     </BuildMacro>
     <BuildMacro Include="CopyDir">
       <Value>$(CopyDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="SoupMajorVersion">
+      <Value>$(SoupMajorVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="SoupMinorVersion">
+      <Value>$(SoupMinorVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="SoupMicroVersion">
+      <Value>$(SoupMicroVersion)</Value>
     </BuildMacro>
     <BuildMacro Include="ApiVersion">
       <Value>$(ApiVersion)</Value>
