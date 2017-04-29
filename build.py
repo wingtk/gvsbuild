@@ -2185,7 +2185,21 @@ def get_options(args):
     if not opts.vs_install_path:
         opts.vs_install_path = r'C:\Program Files (x86)\Microsoft Visual Studio %s.0' % (opts.vs_ver,)
 
-    opts.projects = args.project
+    if args.project[0] == '*':
+        # all projects
+        print_debug("Building all projects")
+        opts.projects = Project.get_names()
+        drop = set(args.project[1:])
+        for p in drop:
+            try:
+                print_debug("Removing %s" % (p, ))
+                opts.projects.remove(p)
+            except KeyError:
+                error_exit(
+                    p + " is not a valid project name, available projects are:\n\t" + "\n\t".join(Project.get_names()))
+                pass
+    else:
+        opts.projects = args.project
 
     for p in opts.projects:
         if not p in Project.get_names():
@@ -2246,6 +2260,9 @@ Examples:
 
     build.py build --no-deps glib
         Build glib only.
+
+    build.py build * cogl clutter gtk
+        Build everything except cogl, clutter and gtk.
     """)
 
     #==============================================================================
@@ -2300,7 +2317,7 @@ Examples:
                          help='Command line options to pass to msbuild.')
 
     p_build.add_argument('project', nargs='+',
-                         help='Project(s) to build.')
+                         help='Project(s) to build (* = all).')
 
     #==============================================================================
     # list
