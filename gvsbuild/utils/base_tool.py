@@ -16,22 +16,28 @@
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 """
-Main build script
+Base tool class, from the project one
 """
 
-# Options parser
-from gvsbuild.utils.parser import create_parser
-from gvsbuild.utils.simple_ui import handle_global_options
-# All default tools ...
-import gvsbuild.tools
-# .. and projects
-import gvsbuild.projects
+import os
 
-if __name__ == '__main__':
-    parser = create_parser()
-    args = parser.parse_args()
-    handle_global_options(args)
-    if hasattr(args, 'func'):
-        args.func(args)
-    else:
-        parser.print_help()
+from .base_project import Project
+
+class Tool(Project):
+    def __init__(self, name, **kwargs):
+        self.dir_part = None
+        Project.__init__(self, name, **kwargs)
+
+    def load_defaults(self, builder):
+        if self.dir_part:
+            self.build_dir = os.path.join(builder.opts.tools_root_dir, self.dir_part)
+        else:
+            self.build_dir = os.path.join(builder.opts.tools_root_dir, self.name)
+
+    def build(self):
+        # All the work is done in the unpack
+        pass
+
+    def get_path(self):
+        # Mandatory for tools
+        raise NotImplementedError("get_path")
