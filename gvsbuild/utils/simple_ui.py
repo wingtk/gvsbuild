@@ -15,32 +15,35 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-#import argparse
-#import glob
-#import os
-#import re
-#import shutil
-#import subprocess
-#import sys
-#import traceback
-#import hashlib
-#import zipfile
-#import stat
+"""
+Simple user interface for info, log & debug messages
+"""
 
-# Options parser
-from gvsbuild.utils.parser import create_parser
-# options/printing
-import gvsbuild.utils.simple_ui as ui
-# All default tools ...
-import gvsbuild.tools
-# .. and projects
-import gvsbuild.projects
+import sys
 
-if __name__ == '__main__':
-    parser = create_parser()
-    args = parser.parse_args()
-    ui.handle_global_options(args)
-    if hasattr(args, 'func'):
-        args.func(args)
-    else:
-        parser.print_help()
+global_verbose = False
+global_debug = False
+
+def print_message(msg):
+    print(msg)
+
+def print_log(msg):
+    if global_verbose:
+        print(msg)
+
+def print_debug(msg):
+    if global_debug:
+        print("Debug:", msg)
+
+def error_exit(msg):
+    print("Error:", msg, file=sys.stderr)
+    sys.exit(1)
+
+def handle_global_options(args):
+    global global_verbose
+    global global_debug
+    if args.verbose:
+        global_verbose = True
+    if args.debug:
+        global_verbose = True
+        global_debug = True
