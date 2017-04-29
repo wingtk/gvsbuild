@@ -21,16 +21,32 @@ Various downloader / unpacker (tar, git, hg, ...)
 
 import os
 import shutil
+import tarfile
 
 from .utils import convert_to_msys
 from .simple_ui import print_log
 
 class Tarball(object):
+    @staticmethod
+    def __get_stripped_tar_members(tar):
+        for tarinfo in tar.getmembers():
+            path = tarinfo.name.split('/')
+            if len(path) == 1:
+                if tarinfo.isdir():
+                    continue
+                else:
+                    raise Exception('Cannot strip directory prefix from tar with top level files')
+            tarinfo.name = '/'.join(path[1:])
+            if tarinfo.issym() or tarinfo.islnk():
+                tarinfo.linkname = '/'.join(tarinfo.linkname.split('/')[1:])
+            yield tarinfo
+
     def unpack(self):
         print_log('Extracting %s to %s' % (self.archive_file, self.builder.working_dir))
 
         os.makedirs(self.build_dir)
-        self.builder.exec_msys([self.builder.tar, 'ixf', convert_to_msys(self.archive_file), '-C', convert_to_msys(self.build_dir), '' if self.tarbomb else '--strip-components=1'])
+        tar = tarfile.open(self.archive_file)
+        tar.extractall(self.build_dir, Tarball.__get_stripped_tar_members(tar) if not self.tarbomb else tar.getmembers())
 
         print_log('Extracted %s' % (self.archive_file,))
 

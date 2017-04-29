@@ -15,22 +15,13 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-#import argparse
-#import glob
-#import os
-#import re
-#import shutil
-#import subprocess
-#import sys
-#import traceback
-#import hashlib
-#import zipfile
-#import stat
+"""
+Main build script
+"""
 
 # Options parser
 from gvsbuild.utils.parser import create_parser
-# options/printing
-import gvsbuild.utils.simple_ui as ui
+from gvsbuild.utils.simple_ui import handle_global_options
 # All default tools ...
 import gvsbuild.tools
 # .. and projects
@@ -39,7 +30,7 @@ import gvsbuild.projects
 if __name__ == '__main__':
     parser = create_parser()
     args = parser.parse_args()
-    ui.handle_global_options(args)
+    handle_global_options(args)
     if hasattr(args, 'func'):
         args.func(args)
     else:

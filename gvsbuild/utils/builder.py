@@ -68,11 +68,6 @@ class Builder(object):
             error_exit("%s not found. Please check that you installed patch in msys2 using ``pacman -S patch``" % (self.patch,))
         print_debug("patch: %s" % (self.patch,))
 
-        self.tar = os.path.join(opts.msys_dir, 'usr', 'bin', 'tar.exe')
-        if not os.path.exists(self.tar):
-            error_exit("%s not found. Please check that you installed tar and other unzipping tools in msys2 using ``pacman -S gzip tar xz``" % (self.tar,))
-        print_debug("tar: %s" % (self.tar,))
-
         self.msgfmt = os.path.join(opts.msys_dir, 'usr', 'bin', 'msgfmt.exe')
         if not os.path.exists(self.msgfmt):
             error_exit("%s not found. Please check that you installed msgfmt in msys2 using ``pacman -S gettext``" % (self.msgfmt,))

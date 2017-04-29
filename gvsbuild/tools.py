@@ -23,6 +23,7 @@ import os
 import sys
 import shutil
 import zipfile
+import tarfile
 
 from .utils.utils import convert_to_msys
 from .utils.simple_ui import print_log
@@ -156,7 +157,8 @@ class Tool_perl(Tool):
         if not os.path.isfile(destfile):
             print_log("Unpacking perl to tools directory (%s)" % (self.build_dir, ))
             self.builder.make_dir(self.build_dir)
-            self.builder.exec_msys([self.builder.tar, 'xf', convert_to_msys(self.archive_file), '-C', convert_to_msys(self.build_dir)])
+            tar = tarfile.open(self.archive_file)
+            tar.extractall(self.build_dir)
 
     def get_path(self):
         return self.perl_path
