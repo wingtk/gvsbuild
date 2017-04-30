@@ -31,7 +31,8 @@ HexChat developers decided that their script should focus on their specific need
 
 1. Clone [this repository](https://github.com/wingtk/gvsbuild) to _C:\gtk-build\gvsbuild_ It contains the build script, project files and patches.
    
-    ```mkdir gtk-build
+    ```bash
+    mkdir gtk-build
     cd gtk-build
     git clone https://github.com/wingtk/gvsbuild
     ```
