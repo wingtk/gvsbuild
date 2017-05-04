@@ -25,6 +25,7 @@ import subprocess
 import traceback
 import glob
 import hashlib
+import urllib.request
 
 from .utils import ordered_set
 from .simple_ui import global_verbose, error_exit, print_debug, print_log, print_message
@@ -72,11 +73,6 @@ class Builder(object):
         if not os.path.exists(self.msgfmt):
             error_exit("%s not found. Please check that you installed msgfmt in msys2 using ``pacman -S gettext``" % (self.msgfmt,))
         print_debug("msgfmt: %s" % (self.msgfmt,))
-
-        self.wget = os.path.join(opts.msys_dir, 'usr', 'bin', 'wget.exe')
-        if not os.path.exists(self.wget):
-            error_exit("%s not found. Please check that you installed wget in msys2 using ``pacman -S wget``" % (self.wget,))
-        print_debug("wget: %s" % (self.wget,))
 
     def add_env(self, key, value, prepend=True):
         env = os.environ
@@ -293,10 +289,7 @@ class Builder(object):
             os.makedirs(self.opts.archives_download_dir)
 
         print_log("downloading %s" % (proj.archive_file,))
-        wget_opts = [self.wget];
-        if hasattr(proj, 'wget_opts'):
-            wget_opts += proj.wget_opts;
-        self.__execute(wget_opts + [proj.archive_url], self.opts.archives_download_dir)
+        urllib.request.urlretrieve(proj.archive_url, proj.archive_file)
         return self.__check_hash(proj)
 
     def __sub_vars(self, s):
