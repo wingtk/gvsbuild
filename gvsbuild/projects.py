@@ -1261,15 +1261,14 @@ class Project_protobuf(Tarball, Project):
 
 Project.add(Project_protobuf())
 
-class Project_protobuf_c(Tarball, Project):
+class Project_protobuf_c(GitRepo, Project):
     def __init__(self):
         Project.__init__(self,
             'protobuf-c',
-            archive_url = 'https://github.com/protobuf-c/protobuf-c/releases/download/v1.2.1/protobuf-c-1.2.1.tar.gz',
-            hash = '846eb4846f19598affdc349d817a8c4c0c68fd940303e6934725c889f16f00bd',
+            repo_url = 'https://github.com/protobuf-c/protobuf-c',
+            fetch_submodules = False,
+            tag = 'a8921fe7dc2455a20114130eacc6761d1354fa2c',
             dependencies = ['cmake', 'protobuf'],
-            patches = ['0001-Declare-variables-at-the-beginning-of-the-block.patch',
-                       '0001-Do-not-build-tests.patch'],
             )
 
     def build(self):
