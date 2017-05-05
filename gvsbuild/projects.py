@@ -1247,13 +1247,13 @@ class Project_protobuf(Tarball, Project):
             'protobuf',
             archive_url = 'https://github.com/google/protobuf/archive/v3.2.1.tar.gz',
             hash = '2eceab4cd58a73aadb7c84642838ee58c886e1f908acd45847a92b874d23c8ef',
-            dependencies = ['cmake'],
+            dependencies = ['cmake', 'zlib'],
             )
 
     def build(self):
         cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'Release'
         # We need to compile with STATIC_RUNTIME off since protobuf-c also compiles with it OFF
-        self.exec_vs('cmake .\cmake\ -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(pkg_dir)s" -Dprotobuf_DEBUG_POSTFIX="" -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_MSVC_STATIC_RUNTIME=OFF -DCMAKE_BUILD_TYPE=' + cmake_config)
+        self.exec_vs('cmake .\cmake\ -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(pkg_dir)s" -Dprotobuf_DEBUG_POSTFIX="" -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_WITH_ZLIB=ON -Dprotobuf_MSVC_STATIC_RUNTIME=OFF -DCMAKE_BUILD_TYPE=' + cmake_config)
         self.exec_vs('nmake /nologo')
         self.exec_vs('nmake /nologo install')
 
