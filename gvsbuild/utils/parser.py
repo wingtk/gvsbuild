@@ -23,7 +23,7 @@ import argparse
 import os
 import sys
 
-from .base_project import Project
+from .base_project import Project, GVSBUILD_PROJECT, GVSBUILD_TOOL, GVSBUILD_GROUP
 from .builder import Builder
 from .utils import ordered_set
 from .simple_ui import error_exit, print_debug
@@ -91,7 +91,14 @@ def do_build(args):
     builder.build(to_build)
 
 def do_list(args):
-    print("Available projects:\n\t" + "\n\t".join(Project.get_names()))
+    def do_list_type(type, desc):
+        nl = [x.name for x in Project._projects if x.type == type]
+        if nl:
+            nl.sort()
+            print("%s:\n\t" % (desc, ) + "\n\t".join(nl))
+    do_list_type(GVSBUILD_TOOL, "Available tools")
+    do_list_type(GVSBUILD_PROJECT, "Available projects")
+    do_list_type(GVSBUILD_GROUP, "Available groups")
     sys.exit(0)
 
 def create_parser():

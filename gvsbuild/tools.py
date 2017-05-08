@@ -27,7 +27,6 @@ import tarfile
 
 from .utils.simple_ui import print_log
 from .utils.base_tool import Tool
-from .utils.base_project import Project
 
 class Tool_cmake(Tool):
     def __init__(self):
@@ -54,7 +53,7 @@ class Tool_cmake(Tool):
     def get_path(self):
         return os.path.join(self.cmake_path, 'bin')
 
-Project.add(Tool_cmake())
+Tool.add(Tool_cmake())
 
 class Tool_meson(Tool):
     def __init__(self):
@@ -82,7 +81,7 @@ class Tool_meson(Tool):
     def get_path(self):
         pass
 
-Project.add(Tool_meson())
+Tool.add(Tool_meson())
 
 class Tool_ninja(Tool):
     def __init__(self):
@@ -108,7 +107,7 @@ class Tool_ninja(Tool):
     def get_path(self):
         return self.ninja_path
 
-Project.add(Tool_ninja())
+Tool.add(Tool_ninja())
 
 class Tool_nuget(Tool):
     def __init__(self):
@@ -133,7 +132,7 @@ class Tool_nuget(Tool):
         # No need to add the path, we use the full file name
         pass
 
-Project.add(Tool_nuget())
+Tool.add(Tool_nuget())
 
 class Tool_perl(Tool):
     def __init__(self):
@@ -162,7 +161,7 @@ class Tool_perl(Tool):
     def get_path(self):
         return self.perl_path
 
-Project.add(Tool_perl())
+Tool.add(Tool_perl())
 
 class Tool_python(Tool):
     def __init__(self):
@@ -184,4 +183,4 @@ class Tool_python(Tool):
     def get_path(self):
         return self.python_path
 
-Project.add(Tool_python())
+Tool.add(Tool_python())

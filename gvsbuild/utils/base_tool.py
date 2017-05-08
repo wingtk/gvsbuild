@@ -21,7 +21,7 @@ Base tool class, from the project one
 
 import os
 
-from .base_project import Project
+from .base_project import Project, GVSBUILD_TOOL
 
 class Tool(Project):
     def __init__(self, name, **kwargs):
@@ -41,3 +41,7 @@ class Tool(Project):
     def get_path(self):
         # Mandatory for tools
         raise NotImplementedError("get_path")
+
+    @staticmethod
+    def add(proj):
+        Project.add(proj, type=GVSBUILD_TOOL)

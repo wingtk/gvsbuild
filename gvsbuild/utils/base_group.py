@@ -21,7 +21,7 @@ Base group class, from the project one, as a placeholder to build more than
 one project from a single one
 """
 
-from .base_project import Project
+from .base_project import Project, GVSBUILD_GROUP
 
 class Group(Project):
     def __init__(self, name, **kwargs):
@@ -33,3 +33,7 @@ class Group(Project):
 
     def build(self):
         pass
+
+    @staticmethod
+    def add(proj):
+        Project.add(proj, type=GVSBUILD_GROUP)

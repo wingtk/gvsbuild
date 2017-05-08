@@ -25,6 +25,10 @@ import shutil
 from .utils import _rmtree_error_handler
 from .simple_ui import print_debug, print_log, error_exit
 
+GVSBUILD_PROJECT = 1
+GVSBUILD_TOOL = 2
+GVSBUILD_GROUP = 3
+
 class Project(object):
     def __init__(self, name, **kwargs):
         object.__init__(self)
@@ -33,6 +37,7 @@ class Project(object):
         self.patches = []
         self.archive_url = None
         self.tarbomb = False
+        self.type = GVSBUILD_PROJECT
         for k in kwargs:
             setattr(self, k, kwargs[k])
         self.__working_dir = None
@@ -124,12 +129,13 @@ class Project(object):
         pass
 
     @staticmethod
-    def add(proj):
+    def add(proj, type=GVSBUILD_PROJECT):
         if proj.name in Project._dict:
             error_exit("Project '%s' already present!" % (proj.name, ))
         Project._projects.append(proj)
         Project._names.append(proj.name)
         Project._dict[proj.name] = proj
+        proj.type = type
 
     @staticmethod
     def get_project(name):
