@@ -139,7 +139,7 @@ Examples:
                               "If a source archive already exists here, it won't be downloaded again. " +
                               "Default is $(build-dir)\\src.")
     p_build.add_argument('--patches-root-dir',
-                         help="The directory where you checked out https://github.com/wingtk/gtk-win32.git. Default is $(build-dir)\\github\\gtk-win32.")
+                         help="The directory where you checked out https://github.com/wingtk/gvsbuild.git. Default is $(build-dir)\\github\\gvsbuild.")
     p_build.add_argument('--tools-root-dir',
                          help="The directory where to install the downloaded tools. Default is $(build-dir)\\tools.")
     p_build.add_argument('--vs-ver', default='12',
