@@ -30,3 +30,4 @@ perl/perl-x64-cache
 perl/perl-x64-SetupFiles
 perl/perl-x86-cache
 perl/perl-x86-SetupFiles
+__pycache__
