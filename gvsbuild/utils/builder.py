@@ -275,6 +275,27 @@ class Builder(object):
                 print_debug("Hash ok on %s (%s)" % (proj.archive_file, hc, ))
         return False
 
+    def __download_progress(self, count, block_size, total_size):
+        c_size = count * block_size
+        if total_size > 0:
+            # Percentage
+            perc = (100 * c_size) // total_size
+            if perc != self._old_perc:
+                if perc > 100:
+                    perc = 100
+                self._old_perc = perc
+                sp = '%s (%u k) - %u%%' % (self._downloading_file, total_size / 1024, self._old_perc, )
+                print(sp, end='\r')
+                if len(sp) > self._old_print:
+                    # Save the len to delete the line when we change file
+                    self._old_print = len(sp)
+        else:
+            # Only the current, we don't know the size
+            sp = '%s - %u k' % (self._downloading_file, c_size / 1024, )
+            print(sp, end='\r')
+            if len(sp) > self._old_print:
+                self._old_print = len(sp)
+
     def __download_one(self, proj):
         if not proj.archive_file:
             print_debug("archive file is not specified for project %s, skipping" % (proj.name,))
@@ -289,7 +310,12 @@ class Builder(object):
             os.makedirs(self.opts.archives_download_dir)
 
         print_log("downloading %s" % (proj.archive_file,))
-        urllib.request.urlretrieve(proj.archive_url, proj.archive_file)
+        # Setup for progress show
+        self._downloading_file = proj.archive_file
+        self._old_perc = -1
+        self._old_print = 0
+        urllib.request.urlretrieve(proj.archive_url, proj.archive_file, reporthook=self.__download_progress)
+        print('%-*s' % (self._old_print, '%s - Download finished' % (proj.archive_file, )), )
         return self.__check_hash(proj)
 
     def __sub_vars(self, s):
