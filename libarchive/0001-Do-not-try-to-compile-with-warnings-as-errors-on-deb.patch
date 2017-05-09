@@ -1,0 +1,25 @@
+From e2b8dae5d38da0bdac436d5d50681438d3d247f0 Mon Sep 17 00:00:00 2001
+From: Ignacio Casal Quinteiro <qignacio@amazon.com>
+Date: Tue, 9 May 2017 09:16:12 +0200
+Subject: [PATCH] Do not try to compile with warnings as errors on debug mode
+
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1ca9d8f..522f3a5 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -166,7 +166,7 @@ IF (MSVC)
+   #                       result of an assignment.
+   SET(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} /we4706")
+   # /WX option is the same as gcc's -Werror option.
+-  SET(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} /WX")
++  # SET(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} /WX")
+   # /Oi option enables built-in functions.
+   SET(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} /Oi")
+   #################################################################
+-- 
+2.7.4
+

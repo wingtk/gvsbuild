@@ -657,6 +657,7 @@ class Project_libarchive(Tarball, Project):
             archive_url = 'https://libarchive.org/downloads/libarchive-3.3.1.tar.gz',
             hash = '29ca5bd1624ca5a007aa57e16080262ab4379dbf8797f5c52f7ea74a3b0424e7',
             dependencies = ['cmake', 'win-iconv', 'zlib', 'lz4', 'openssl', 'libxml2'],
+            patches = ['0001-Do-not-try-to-compile-with-warnings-as-errors-on-deb.patch'],
             )
 
     def build(self):
