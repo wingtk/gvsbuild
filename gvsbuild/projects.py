@@ -1121,8 +1121,8 @@ class Project_opus(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'opus',
-            archive_url = 'http://downloads.xiph.org/releases/opus/opus-1.1.3.tar.gz',
-            hash = '58b6fe802e7e30182e95d0cde890c0ace40b6f125cffc50635f0ad2eef69b633',
+            archive_url = 'http://downloads.xiph.org/releases/opus/opus-1.1.4.tar.gz',
+            hash = '9122b6b380081dd2665189f97bfd777f04f92dc3ab6698eea1dbb27ad59d8692',
             )
 
     def build(self):
