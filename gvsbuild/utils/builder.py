@@ -63,7 +63,36 @@ class Builder(object):
         else:
             self.msbuild_opts += ' /v:minimal'
 
+    def __msys_missing(self, base_dir):
+        msys_pkg = [ ('nasm',       'nasm'),
+                     ('patch',      'patch'),
+                     ('msgfmt',     'gettext'),
+                     ('make',       'make'),
+                     ('md5sum',     'coreutils'),
+                     ('diff',       'diffutils'),
+                     ('pkg-config', 'pkg-config'),
+                     ]
+        missing = []
+        for prog, pkg in msys_pkg:
+            if not os.path.isfile(os.path.join(base_dir, 'usr', 'bin', prog + '.exe')):
+                print_log('msys: missing package %s' % (pkg, )) 
+                missing.append(pkg)
+        return missing
+
     def __check_tools(self, opts):
+        # what's missing ?
+        missing = self.__msys_missing(opts.msys_dir) 
+        if missing:
+            # install using pacman 
+            cmd = os.path.join(opts.msys_dir, 'usr', 'bin', 'bash') + ' -l -c "pacman --noconfirm -S ' + ' '.join(missing) + '"'
+            print_debug("Updating msys2 with '%s'" % (cmd, ))
+            subprocess.check_call(cmd, shell=True)
+            missing = self.__msys_missing(opts.msys_dir)
+            if missing:
+                # oops
+                cmd = 'pacman -S ' + ' '.join(missing)
+                error_exit("Missing package(s) from msys2 installation, try with\n    '%s'\nin a msys2 shell." % (cmd, ))
+
         self.patch = os.path.join(opts.msys_dir, 'usr', 'bin', 'patch.exe')
         if not os.path.exists(self.patch):
             error_exit("%s not found. Please check that you installed patch in msys2 using ``pacman -S patch``" % (self.patch,))
