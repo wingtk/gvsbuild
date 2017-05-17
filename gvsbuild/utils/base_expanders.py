@@ -27,7 +27,7 @@ import tarfile
 from .simple_ui import print_log
 from .simple_ui import print_debug
 
-def extract_exec(src, dest_dir, dir_part=None, strip_one=False, check_file=None):
+def extract_exec(src, dest_dir, dir_part=None, strip_one=False, check_file=None, force_dest=None):
     """
     Extract (or copy, in case of an exe file) from src to dest_dir, 
     handling the strip of the first part of the path in case of the tarbombs.
@@ -37,6 +37,8 @@ def extract_exec(src, dest_dir, dir_part=None, strip_one=False, check_file=None)
 
     if check_file is passed and is present in the filesystem the extract is
     skipped (tool alreay installed)
+    
+    force_dest can be used only on the exe file and set the destination name
     """
 
     # Support function
@@ -68,7 +70,10 @@ def extract_exec(src, dest_dir, dir_part=None, strip_one=False, check_file=None)
     _n, ext = os.path.splitext(src.lower())
     if ext == '.exe':
         # Exe file, copy directly 
-        shutil.copy2(src, dest_dir)
+        if force_dest:
+            shutil.copy2(src, force_dest)
+        else:
+            shutil.copy2(src, dest_dir)
     elif ext == '.zip':
         # Zip file
         with zipfile.ZipFile(src) as zf:
