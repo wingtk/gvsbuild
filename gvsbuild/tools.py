@@ -21,12 +21,9 @@ Default tools used to build the various projects
 
 import os
 import sys
-import shutil
-import zipfile
-import tarfile
 
-from .utils.simple_ui import print_log
 from .utils.base_tool import Tool
+from .utils.base_expanders import extract_exec
 
 class Tool_cmake(Tool):
     def __init__(self):
@@ -42,13 +39,8 @@ class Tool_cmake(Tool):
         self.cmake_path = self.build_dir
 
     def unpack(self):
-        # We download a .zip file so we estract it in the tool directory, with the version ...
         destfile = os.path.join(self.cmake_path, 'bin', 'cmake.exe')
-        if not os.path.isfile(destfile):
-            print_log("Unpacking cmake to tools directory (%s)" % (self.build_dir, ))
-            with zipfile.ZipFile(self.archive_file) as zf:
-                # In the zip file the dir part (cmake-...) is already present
-                zf.extractall(path=self.builder.opts.tools_root_dir)
+        extract_exec(self.archive_file, self.builder.opts.tools_root_dir, dir_part = self.dir_part, check_file = destfile)
 
     def get_path(self):
         return os.path.join(self.cmake_path, 'bin')
@@ -69,14 +61,7 @@ class Tool_meson(Tool):
         builder.meson = os.path.join(self.build_dir, 'meson.py')
 
     def unpack(self):
-        # We download a .zip file so we estract it in the tool directory, with the version ...
-        if not os.path.isfile(self.builder.meson):
-            destdir = os.path.join(self.builder.opts.tools_root_dir, self.dir_part)
-            print_log("Unpacking meson to tools directory (%s)" % (self.build_dir, ))
-            self.builder.make_dir(destdir)
-            with zipfile.ZipFile(self.archive_file) as zf:
-                # In the zip file the dir part (meson-0.xx...) is already present
-                zf.extractall(path=self.builder.opts.tools_root_dir)
+        extract_exec(self.archive_file, self.builder.opts.tools_root_dir, dir_part = self.dir_part, check_file = self.builder.meson)
 
     def get_path(self):
         pass
@@ -96,13 +81,8 @@ class Tool_ninja(Tool):
         self.ninja_path = self.build_dir
 
     def unpack(self):
-        # We download a .zip file so we estract it in the tool directory ...
         destfile = os.path.join(self.ninja_path, 'ninja.exe')
-        if not os.path.isfile(destfile):
-            print_log("Unpacking ninja to tools directory (%s)" % (self.build_dir, ))
-            self.builder.make_dir(self.ninja_path)
-            with zipfile.ZipFile(self.archive_file) as zf:
-                zf.extractall(path=self.ninja_path)
+        extract_exec(self.archive_file, self.ninja_path, check_file = destfile)
 
     def get_path(self):
         return self.ninja_path
@@ -123,10 +103,7 @@ class Tool_nuget(Tool):
 
     def unpack(self):
         # We download directly the exe file so we copy it on the tool directory ...
-        if not os.path.isfile(self.builder.nuget):
-            print_log("Copying file to tools directory (%s)" % (self.build_dir, ))
-            self.builder.make_dir(self.build_dir)
-            shutil.copy2(self.archive_file, self.build_dir)
+        extract_exec(self.archive_file, self.build_dir, check_file = self.builder.nuget)
 
     def get_path(self):
         # No need to add the path, we use the full file name
@@ -150,13 +127,8 @@ class Tool_perl(Tool):
         self.perl_path = os.path.join(builder.perl_dir, 'bin')
 
     def unpack(self):
-        # We download a tar.xz file so we estract it in the tool directory ...
         destfile = os.path.join(self.perl_path, 'perl.exe')
-        if not os.path.isfile(destfile):
-            print_log("Unpacking perl to tools directory (%s)" % (self.build_dir, ))
-            self.builder.make_dir(self.build_dir)
-            tar = tarfile.open(self.archive_file)
-            tar.extractall(self.build_dir)
+        extract_exec(self.archive_file, self.build_dir, check_file = destfile)
 
     def get_path(self):
         return self.perl_path

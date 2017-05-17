@@ -38,6 +38,9 @@ class Tool(Project):
         # All the work is done in the unpack
         pass
 
+    def update_build_dir(self):
+        self.unpack()
+
     def get_path(self):
         # Mandatory for tools
         raise NotImplementedError("get_path")
