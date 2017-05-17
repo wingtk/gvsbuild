@@ -34,6 +34,7 @@ class Group_Tools(Group):
                 'nuget',
                 'perl',
                 'python',
+                'yasm',
                 ],
             )
 
@@ -60,7 +61,7 @@ Group.add(Group_Gtk3_Full())
 class Group_All(Group):
     def __init__(self):
         all_prj = [x.name for x in Project._projects if x.type == GVSBUILD_PROJECT]
-        Group.__init__(self, 
+        Group.__init__(self,
             'all',
             dependencies = all_prj
         )

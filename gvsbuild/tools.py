@@ -156,3 +156,24 @@ class Tool_python(Tool):
         return self.python_path
 
 Tool.add(Tool_python())
+
+class Tool_yasm(Tool):
+    def __init__(self):
+        Tool.__init__(self,
+            'yasm',
+            archive_url = 'http://www.tortall.net/projects/yasm/releases/yasm-1.3.0-win64.exe',
+            hash = 'd160b1d97266f3f28a71b4420a0ad2cd088a7977c2dd3b25af155652d8d8d91f')
+
+    def load_defaults(self, builder):
+        Tool.load_defaults(self, builder)
+        self.yasm_path = self.build_dir
+
+    def unpack(self):
+        # We download directly the exe file so we copy it on the tool directory ...
+        destfile = os.path.join(self.build_dir, 'yasm.exe')
+        extract_exec(self.archive_file, self.build_dir, check_file = destfile, force_dest = destfile)
+
+    def get_path(self):
+        return self.yasm_path
+
+Tool.add(Tool_yasm())

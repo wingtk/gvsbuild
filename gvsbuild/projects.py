@@ -235,7 +235,7 @@ class Project_ffmpeg(Tarball, Project):
             'ffmpeg',
             archive_url = 'http://ffmpeg.org/releases/ffmpeg-3.3.tar.xz',
             hash = '599e7f7c017221c22011c4037b88bdcd1c47cd40c1e466838bc3c465f3e9569d',
-            dependencies = [ 'x264' ]
+            dependencies = [ 'yasm', 'x264' ]
         )
 
     def build(self):
@@ -1326,6 +1326,7 @@ class Project_x264(GitRepo, Project):
             'x264',
             repo_url = 'http://git.videolan.org/git/x264.git',
             fetch_submodules = False,
+            dependencies = ['yasm', ],
             tag = '97eaef2ab82a46d13ea5e00270712d6475fbe42b',
             patches = [ '0001-use-more-recent-version-of-config.guess.patch',
                         '0002-configure-recognize-the-msys-shell.patch' ]
