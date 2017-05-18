@@ -46,5 +46,10 @@ class ordered_set(set):
             set.add(self, o)
             self.__list.append(o)
 
+    def remove(self, o):
+        if o in self:
+            set.remove(self, o)
+            self.__list.remove(o)
+
     def __iter__(self):
         return self.__list.__iter__()
