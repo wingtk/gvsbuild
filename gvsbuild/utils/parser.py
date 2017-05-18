@@ -48,6 +48,7 @@ def get_options(args):
     opts.msbuild_opts = args.msbuild_opts
     opts.no_deps = args.no_deps
     opts.check_hash = args.check_hash
+    opts.skip = args.skip
 
     if not opts.archives_download_dir:
         opts.archives_download_dir = os.path.join(args.build_dir, 'src')
@@ -75,6 +76,19 @@ def __get_projects_to_build(opts):
             for dep in p.all_dependencies:
                 to_build.add(dep)
         to_build.add(p)
+
+    # See if we need to drop some project
+    if opts.skip:
+        to_skip = opts.skip.split(',')
+        for s in to_skip:
+            if not s in Project.get_names():
+                error_exit(
+                    s + " is not a valid project name, available projects are:\n\t" + "\n\t".join(Project.get_names()))
+
+            p = Project.get_project(s)
+            if p in to_build:
+                print_debug('Dropped project %s' % (s, ))
+                to_build.remove(p)
     return to_build
 
 def do_build(args):
@@ -113,6 +127,9 @@ Examples:
 
     build.py build --no-deps glib
         Build glib only.
+
+    build.py build --skip gtk,pycairo,pygobject,pygtk all
+        Build everything except gtk, pycairo
     """)
 
     #==============================================================================
@@ -165,6 +182,9 @@ Examples:
 
     p_build.add_argument('--msbuild-opts', default='',
                          help='Command line options to pass to msbuild.')
+
+    p_build.add_argument('--skip', default='',
+                         help='A comma separated list of project(s) not to builded.')
 
     p_build.add_argument('project', nargs='+',
                          help='Project(s) to build.')
