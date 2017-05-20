@@ -68,6 +68,28 @@ class Tool_meson(Tool):
 
 Tool.add(Tool_meson())
 
+class Tool_nasm(Tool):
+    def __init__(self):
+        Tool.__init__(self,
+            'nasm',
+            archive_url = 'http://www.nasm.us/pub/nasm/releasebuilds/2.13.01/win64/nasm-2.13.01-win64.zip',
+            hash = '8b368c5ed7f9deb33be90918e8c19b2fbf004fbe74b743e515674c75943d3362',
+            dir_part = 'nasm-2.13.01')
+
+    def load_defaults(self, builder):
+        Tool.load_defaults(self, builder)
+        self.nasm_path = self.build_dir
+
+    def unpack(self):
+        # We download directly the exe file so we copy it on the tool directory ...
+        destfile = os.path.join(self.build_dir, 'nasm.exe')
+        extract_exec(self.archive_file, self.builder.opts.tools_root_dir, dir_part = self.dir_part, check_file = destfile, force_dest = destfile)
+
+    def get_path(self):
+        return self.nasm_path
+
+Tool.add(Tool_nasm())
+
 class Tool_ninja(Tool):
     def __init__(self):
         Tool.__init__(self,

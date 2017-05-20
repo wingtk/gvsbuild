@@ -30,6 +30,7 @@ class Group_Tools(Group):
             dependencies = [
                 'cmake',
                 'meson',
+                'nasm',
                 'ninja',
                 'nuget',
                 'perl',

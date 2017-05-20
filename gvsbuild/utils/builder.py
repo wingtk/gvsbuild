@@ -64,14 +64,14 @@ class Builder(object):
             self.msbuild_opts += ' /v:minimal'
 
     def __msys_missing(self, base_dir):
-        msys_pkg = [ ('nasm',       'nasm'),
-                     ('patch',      'patch'),
-                     ('msgfmt',     'gettext'),
-                     ('make',       'make'),
-                     ('md5sum',     'coreutils'),
-                     ('diff',       'diffutils'),
-                     ('pkg-config', 'pkg-config'),
-                     ]
+        msys_pkg = [ 
+            ('patch',      'patch'),
+            ('msgfmt',     'gettext'),
+            ('make',       'make'),
+            ('md5sum',     'coreutils'),
+            ('diff',       'diffutils'),
+            ('pkg-config', 'pkg-config'),
+        ]
         missing = []
         for prog, pkg in msys_pkg:
             if not os.path.isfile(os.path.join(base_dir, 'usr', 'bin', prog + '.exe')):
