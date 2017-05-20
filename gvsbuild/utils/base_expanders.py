@@ -26,8 +26,9 @@ import tarfile
 
 from .simple_ui import print_log
 from .simple_ui import print_debug
+from .utils import rmtree_full
 
-def extract_exec(src, dest_dir, dir_part=None, strip_one=False, check_file=None, force_dest=None):
+def extract_exec(src, dest_dir, dir_part=None, strip_one=False, check_file=None, force_dest=None, check_mark=False):
     """
     Extract (or copy, in case of an exe file) from src to dest_dir, 
     handling the strip of the first part of the path in case of the tarbombs.
@@ -39,6 +40,9 @@ def extract_exec(src, dest_dir, dir_part=None, strip_one=False, check_file=None,
     skipped (tool alreay installed)
     
     force_dest can be used only on the exe file and set the destination name
+    
+    with check_mark the name of the original file extracted is written in the 
+    destination dir and checked, forcing a new, clean, extraction 
     """
 
     # Support function
@@ -55,15 +59,37 @@ def extract_exec(src, dest_dir, dir_part=None, strip_one=False, check_file=None,
                 tarinfo.linkname = '/'.join(tarinfo.linkname.split('/')[1:])
             yield tarinfo
 
-    if check_file and os.path.isfile(check_file):
-        print_debug('Skipping %s handling, %s present' % (src, check_file, ))
-        return
-
     if dir_part:
         full_dest = os.path.join(dest_dir, dir_part)
     else:
         full_dest = dest_dir
 
+    if check_mark:
+        rd_file = ''
+        try:
+            with open(os.path.join(full_dest, '.wingtk-extracted-file'), 'rt') as fi:
+                rd_file = fi.readline().strip()
+        except IOError:
+            pass
+        
+        wr_file = os.path.basename(src)
+        if rd_file != wr_file:
+            print_log('Forcing extraction of %s' % (src, ))
+            rmtree_full(full_dest, retry=True)
+            check_file = None
+    
+    if check_file is not None:
+        if check_file:
+            # llok for the specific file 
+            if os.path.isfile(check_file):
+                print_debug('Skipping %s handling, %s present' % (src, check_file, ))
+                return False
+        else:
+            # If the directory exist we are ok
+            if os.path.exists(full_dest):
+                print_debug('Skipping %s handling, directory exists' % (src, ))
+                return False
+    
     print_log('Extracting %s to %s' % (src, full_dest, ))        
     os.makedirs(full_dest, exist_ok=True)
 
@@ -83,9 +109,22 @@ def extract_exec(src, dest_dir, dir_part=None, strip_one=False, check_file=None,
         with tarfile.open(src) as tar:
             tar.extractall(dest_dir, __get_stripped_tar_members(tar) if strip_one else tar.getmembers())
 
+    if check_mark:
+        # write the data
+        with open(os.path.join(full_dest, '.wingtk-extracted-file'), 'wt') as fo:
+            fo.write('%s\n' % (os.path.basename(src), ))
+    # Say that we have done the extraction
+    return True
+
 class Tarball(object):
+    def update_build_dir(self):
+        rt = extract_exec(self.archive_file, self.build_dir, strip_one=not self.tarbomb, check_mark=True)
+        if rt:
+            print_log('Extracted %s (forced)' % (self.archive_file,))
+        return rt
+        
     def unpack(self):
-        extract_exec(self.archive_file, self.build_dir, strip_one=not self.tarbomb)
+        extract_exec(self.archive_file, self.build_dir, strip_one=not self.tarbomb, check_mark=True)
         print_log('Extracted %s' % (self.archive_file,))
 
 class MercurialRepo(object):

@@ -17,6 +17,8 @@
 
 import os
 import stat
+import time
+import shutil
 
 from .simple_ui import print_debug
 
@@ -35,6 +37,18 @@ def _rmtree_error_handler(func, path, exc_info):
         print_debug('rmtree:read-only file/path (%s)' % (path, ))
     else:
         raise
+
+def rmtree_full(dest_dir, retry=False):
+    if retry:
+        for delay in [ 0.1, 0.2, 0.4, 0.8]:
+            try:
+                shutil.rmtree(dest_dir, onerror=_rmtree_error_handler)
+                break
+            except:
+                # wait a little, don't ask me why ;(
+                time.sleep(delay)
+    else:
+        shutil.rmtree(dest_dir, onerror=_rmtree_error_handler)
 
 class ordered_set(set):
     def __init__(self):
