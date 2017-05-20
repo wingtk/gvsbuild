@@ -749,7 +749,7 @@ class Project_libjpeg_turbo(Tarball, Project):
             'libjpeg-turbo',
             archive_url = 'https://sourceforge.net/projects/libjpeg-turbo/files/1.5.1/libjpeg-turbo-1.5.1.tar.gz',
             hash = '41429d3d253017433f66e3d472b8c7d998491d2f41caa7306b8d9a6f2a2c666c',
-            dependencies = ['cmake'],
+            dependencies = ['cmake', 'nasm', ],
             )
 
     def build(self):
@@ -1079,7 +1079,7 @@ class Project_openssl(Tarball, Project):
             'openssl',
             archive_url = 'ftp://ftp.openssl.org/source/openssl-1.0.2k.tar.gz',
             hash = '6b3977c61f2aedf0f96367dcfb5c6e578cf37e7b8d913b4ecb6643c3cb88d8c0',
-            dependencies = ['perl'],
+            dependencies = ['perl', 'nasm', ],
             )
 
     def build(self):
