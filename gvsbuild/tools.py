@@ -40,7 +40,7 @@ class Tool_cmake(Tool):
 
     def unpack(self):
         destfile = os.path.join(self.cmake_path, 'bin', 'cmake.exe')
-        extract_exec(self.archive_file, self.builder.opts.tools_root_dir, dir_part = self.dir_part, check_file = destfile)
+        extract_exec(self.archive_file, self.builder.opts.tools_root_dir, dir_part = self.dir_part, check_file = destfile, check_mark=True)
 
     def get_path(self):
         return os.path.join(self.cmake_path, 'bin')
@@ -61,7 +61,7 @@ class Tool_meson(Tool):
         builder.meson = os.path.join(self.build_dir, 'meson.py')
 
     def unpack(self):
-        extract_exec(self.archive_file, self.builder.opts.tools_root_dir, dir_part = self.dir_part, check_file = self.builder.meson)
+        extract_exec(self.archive_file, self.builder.opts.tools_root_dir, dir_part = self.dir_part, check_file = self.builder.meson, check_mark=True)
 
     def get_path(self):
         pass
@@ -104,7 +104,7 @@ class Tool_ninja(Tool):
 
     def unpack(self):
         destfile = os.path.join(self.ninja_path, 'ninja.exe')
-        extract_exec(self.archive_file, self.ninja_path, check_file = destfile)
+        extract_exec(self.archive_file, self.ninja_path, check_file = destfile, check_mark=True)
 
     def get_path(self):
         return self.ninja_path
@@ -125,7 +125,7 @@ class Tool_nuget(Tool):
 
     def unpack(self):
         # We download directly the exe file so we copy it on the tool directory ...
-        extract_exec(self.archive_file, self.build_dir, check_file = self.builder.nuget)
+        extract_exec(self.archive_file, self.build_dir, check_file = self.builder.nuget, check_mark=True)
 
     def get_path(self):
         # No need to add the path, we use the full file name
@@ -150,7 +150,7 @@ class Tool_perl(Tool):
 
     def unpack(self):
         destfile = os.path.join(self.perl_path, 'perl.exe')
-        extract_exec(self.archive_file, self.build_dir, check_file = destfile)
+        extract_exec(self.archive_file, self.build_dir, check_file = destfile, check_mark=True)
 
     def get_path(self):
         return self.perl_path
@@ -193,7 +193,7 @@ class Tool_yasm(Tool):
     def unpack(self):
         # We download directly the exe file so we copy it on the tool directory ...
         destfile = os.path.join(self.build_dir, 'yasm.exe')
-        extract_exec(self.archive_file, self.build_dir, check_file = destfile, force_dest = destfile)
+        extract_exec(self.archive_file, self.build_dir, check_file = destfile, force_dest = destfile, check_mark=True)
 
     def get_path(self):
         return self.yasm_path

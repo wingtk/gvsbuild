@@ -111,7 +111,10 @@ class Project(object):
 
         if os.path.exists(self.build_dir):
             print_debug("directory %s already exists" % (self.build_dir,))
-            self.update_build_dir()
+            if self.update_build_dir():
+                if os.path.exists(self.patch_dir):
+                    print_log("Copying files from %s to %s" % (self.patch_dir, self.build_dir))
+                    self.builder.copy_all(self.patch_dir, self.build_dir)
         else:
             self.unpack()
             if os.path.exists(self.patch_dir):
