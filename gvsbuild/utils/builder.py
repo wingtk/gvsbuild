@@ -64,26 +64,24 @@ class Builder(object):
             self.msbuild_opts += ' /v:minimal'
 
     def __msys_missing(self, base_dir):
-        msys_pkg = [ 
+        msys_pkg = [
             ('patch',      'patch'),
-            ('msgfmt',     'gettext'),
             ('make',       'make'),
             ('md5sum',     'coreutils'),
             ('diff',       'diffutils'),
-            ('pkg-config', 'pkg-config'),
         ]
         missing = []
         for prog, pkg in msys_pkg:
             if not os.path.isfile(os.path.join(base_dir, 'usr', 'bin', prog + '.exe')):
-                print_log('msys: missing package %s' % (pkg, )) 
+                print_log('msys: missing package %s' % (pkg, ))
                 missing.append(pkg)
         return missing
 
     def __check_tools(self, opts):
         # what's missing ?
-        missing = self.__msys_missing(opts.msys_dir) 
+        missing = self.__msys_missing(opts.msys_dir)
         if missing:
-            # install using pacman 
+            # install using pacman
             cmd = os.path.join(opts.msys_dir, 'usr', 'bin', 'bash') + ' -l -c "pacman --noconfirm -S ' + ' '.join(missing) + '"'
             print_debug("Updating msys2 with '%s'" % (cmd, ))
             subprocess.check_call(cmd, shell=True)
@@ -97,11 +95,6 @@ class Builder(object):
         if not os.path.exists(self.patch):
             error_exit("%s not found. Please check that you installed patch in msys2 using ``pacman -S patch``" % (self.patch,))
         print_debug("patch: %s" % (self.patch,))
-
-        self.msgfmt = os.path.join(opts.msys_dir, 'usr', 'bin', 'msgfmt.exe')
-        if not os.path.exists(self.msgfmt):
-            error_exit("%s not found. Please check that you installed msgfmt in msys2 using ``pacman -S gettext``" % (self.msgfmt,))
-        print_debug("msgfmt: %s" % (self.msgfmt,))
 
     def add_env(self, key, value, prepend=True):
         env = os.environ
