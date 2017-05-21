@@ -77,10 +77,13 @@ def extract_exec(src, dest_dir, dir_part=None, strip_one=False, check_file=None,
             print_log('Forcing extraction of %s' % (src, ))
             rmtree_full(full_dest, retry=True)
             check_file = None
+        else:
+            # ok, finish, we've done
+            return False
     
     if check_file is not None:
         if check_file:
-            # llok for the specific file 
+            # look for the specific file 
             if os.path.isfile(check_file):
                 print_debug('Skipping %s handling, %s present' % (src, check_file, ))
                 return False
