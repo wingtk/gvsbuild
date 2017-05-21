@@ -1202,8 +1202,8 @@ class Project_pkg_config(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'pkg-config',
-            archive_url = 'https://pkg-config.freedesktop.org/releases/pkg-config-0.29.1.tar.gz',
-            hash = 'beb43c9e064555469bd4390dcfd8030b1536e0aa103f08d7abf7ae8cac0cb001',
+            archive_url = 'https://pkg-config.freedesktop.org/releases/pkg-config-0.29.2.tar.gz',
+            hash = '6fc69c01688c9458a57eb9a1664c9aba372ccda420a02bf4429fe610e7e7d591',
             dependencies = [ 'glib', ],
             )
 
