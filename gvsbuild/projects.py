@@ -509,7 +509,8 @@ class Project_gtk_base(Tarball, Project):
 
         localedir = os.path.join(self.pkg_dir, 'share', 'locale')
         self.push_location(r'.\po')
-        for f in glob.glob('*.po'):
+        for fp in glob.glob(os.path.join(self.build_dir, 'po', '*.po')):
+            f = os.path.basename(fp)
             lcmsgdir = os.path.join(localedir, f[:-3], 'LC_MESSAGES')
             self.builder.make_dir(lcmsgdir)
             self.builder.exec_msys(['msgfmt', '-co', os.path.join(lcmsgdir, mo), f], working_dir=self._get_working_dir())
