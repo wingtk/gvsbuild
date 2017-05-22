@@ -641,8 +641,8 @@ class Project_leveldb(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'leveldb',
-            archive_url = 'http://github.com/google/leveldb/archive/v1.18.tar.gz',
-            hash = '4aa1a7479bc567b95a59ac6fb79eba49f61884d6fd400f20b7af147d54c5cee5',
+            archive_url = 'https://github.com/google/leveldb/archive/v1.20.tar.gz',
+            hash = 'f5abe8b5b209c2f36560b75f32ce61412f39a2922f7045ae764a2c23335b6664',
             )
 
     def build(self):
