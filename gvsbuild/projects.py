@@ -1249,8 +1249,8 @@ class Project_protobuf(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'protobuf',
-            archive_url = 'https://github.com/google/protobuf/archive/v3.2.1.tar.gz',
-            hash = '2eceab4cd58a73aadb7c84642838ee58c886e1f908acd45847a92b874d23c8ef',
+            archive_url = 'https://github.com/google/protobuf/releases/download/v3.3.0/protobuf-cpp-3.3.0.tar.gz',
+            hash = '5e2587dea2f9287885e3b04d3a94ed4e8b9b2d2c5dd1f0032ceef3ea1d153bd7',
             dependencies = ['cmake', 'zlib'],
             )
 
