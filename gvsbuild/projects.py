@@ -916,8 +916,8 @@ class Project_libssh2(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libssh2',
-            archive_url = 'https://www.libssh2.org/download/libssh2-1.7.0.tar.gz',
-            hash = 'e4561fd43a50539a8c2ceb37841691baf03ecb7daf043766da1b112e4280d584',
+            archive_url = 'https://www.libssh2.org/download/libssh2-1.8.0.tar.gz',
+            hash = '39f34e2f6835f4b992cafe8625073a88e5a28ba78f83e8099610a7b3af4676d4',
             dependencies = ['cmake'],
             )
 
