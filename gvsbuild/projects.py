@@ -787,12 +787,12 @@ class Project_libmicrohttpd(Tarball, Project):
 
         debug_option = ''
         if self.builder.opts.configuration == 'debug':
-            debug_option = '_d'
+            debug_option = r'_d'
 
         if self.builder.x86:
-            rel_dir = r'w32\VS20' + version + '\Output'
+            rel_dir = r'.\w32\VS20' + version + r'\Output'
         else:
-            rel_dir = r'w32\VS20' + version + '\Output\x64'
+            rel_dir = r'.\w32\VS20' + version + r'\Output\x64'
 
         self.push_location(rel_dir)
         self.install(r'microhttpd.h include')
@@ -801,6 +801,8 @@ class Project_libmicrohttpd(Tarball, Project):
         self.install(r'libmicrohttpd-dll' + debug_option + '.pdb' + ' bin')
         self.install(r'hellobrowser-dll' + debug_option + '.exe' + ' bin')
         self.pop_location()
+
+
 
         self.install(r'.\COPYING share\doc\libmicrohttpd')
 
