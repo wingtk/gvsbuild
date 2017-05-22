@@ -900,8 +900,8 @@ class Project_libssh(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libssh',
-            archive_url = 'https://red.libssh.org/attachments/download/177/libssh-0.7.2.tar.xz',
-            hash = 'a32c45b9674141cab4bde84ded7d53e931076c6b0f10b8fd627f3584faebae62',
+            archive_url = 'https://red.libssh.org/attachments/download/218/libssh-0.7.5.tar.xz',
+            hash = '54e86dd5dc20e5367e58f3caab337ce37675f863f80df85b6b1614966a337095',
             dependencies = ['zlib','openssl'],
             )
 
