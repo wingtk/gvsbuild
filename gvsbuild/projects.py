@@ -936,8 +936,9 @@ class Project_libuv(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libuv',
-            archive_url = 'https://github.com/libuv/libuv/archive/v1.9.1.tar.gz',
-            hash = 'a6ca9f0648973d1463f46b495ce546ddcbe7cce2f04b32e802a15539e46c57ad',
+            archive_url = 'https://github.com/libuv/libuv/archive/v1.11.0.tar.gz',
+            hash = '6ec7eec6ecc24b1a8ffedebedb2fe9313fffb5410de89aaf784dd01080411c7a',
+            patches = ['001-using-python27.patch'],
             )
 
     def build(self):
