@@ -1024,8 +1024,8 @@ class Project_libzip(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libzip',
-            archive_url = 'http://nih.at/libzip/libzip-1.1.3.tar.gz',
-            hash = '1faa5a524dd4a12c43b6344e618edce1bf8050dfdb9d0f73f3cc826929a002b0',
+            archive_url = 'https://nih.at/libzip/libzip-1.2.0.tar.gz',
+            hash = '6cf9840e427db96ebf3936665430bab204c9ebbd0120c326459077ed9c907d9f',
             dependencies = ['cmake', 'zlib'],
             )
 
