@@ -770,9 +770,9 @@ class Project_libmicrohttpd(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libmicrohttpd',
-             archive_url = 'http://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-0.9.48.tar.gz',
-             hash = '87667e158f2bf8c691a002e256ffe30885d4121a9ee4143af0320c47cdf8a2a4',
-             patches = ['001-disable-w32_SetThreadName.patch'],
+             archive_url = 'http://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-0.9.54.tar.gz',
+             hash = 'bcc721895d4a114b0548a39d2241c35caacb9e2e072d40e11b55c60e3d5ddcbe',
+             patches = ['001-remove-postsample.patch'],
             )
 
     def build(self):
