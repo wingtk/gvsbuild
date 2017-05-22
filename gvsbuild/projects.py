@@ -108,8 +108,8 @@ class Project_clutter(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'clutter',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/clutter/1.26/clutter-1.26.0.tar.xz',
-            hash = '67514e7824b3feb4723164084b36d6ce1ae41cb3a9897e9f1a56c8334993ce06',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/clutter/1.26/clutter-1.26.2.tar.xz',
+            hash = 'e7233314983055e9018f94f56882e29e7fc34d8d35de030789fdcd9b2d0e2e56',
             dependencies = ['atk','cogl','json-glib'],
             )
 
