@@ -865,8 +865,8 @@ class Project_libcurl(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libcurl',
-            archive_url = 'https://github.com/curl/curl/archive/curl-7_48_0.tar.gz',
-            hash = '401043087d326edc74021597b9b8a60d6b5c9245fe224beaf89fa6d6c2d9178a',
+            archive_url = 'https://github.com/curl/curl/releases/download/curl-7_54_0/curl-7.54.0.tar.gz',
+            hash = 'a84b635941c74e26cce69dd817489bec687eb1f230e7d1897fc5b5f108b59adf',
             dependencies = ['cmake'],
             )
 
