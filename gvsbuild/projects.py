@@ -124,12 +124,11 @@ class Project_cogl(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'cogl',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/cogl/1.22/cogl-1.22.0.tar.xz',
-            hash = '689dfb5d14fc1106e9d2ded0f7930dcf7265d0bc84fa846b4f03941633eeaa91',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/cogl/1.22/cogl-1.22.2.tar.xz',
+            hash = '39a718cdb64ea45225a7e94f88dddec1869ab37a21b339ad058a9d898782c00d',
             dependencies = ['glib','cairo','pango','gdk-pixbuf'],
             patches = ['001-cogl-missing-symbols.patch',
-                       '002-cogl-pango-missing-symbols.patch',
-                       '003-cogl-framebuffer-missing-debug-return.patch'],
+                       '002-cogl-pango-missing-symbols.patch'],
             )
 
     def build(self):
