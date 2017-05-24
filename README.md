@@ -23,19 +23,25 @@ HexChat developers decided that their script should focus on their specific need
 
 1. Follow the instructions on the msys2 page to update the core packages. The needed packages for the script (make, diffutils, ...) are download and installed automatically if not presents in the msys2 installation.
 
-1. Clone [this repository](https://github.com/wingtk/gtk-win32) to _C:\gtk-build\github\gtk-win32_ It contains the build script, project files and patches.
+1. Clone [this repository](https://github.com/wingtk/gvsbuild) to _C:\gtk-build\gvsbuild_ It contains the build script, project files and patches.
+   
+    ```bash
+    mkdir gtk-build
+    cd gtk-build
+    git clone https://github.com/wingtk/gvsbuild
+    ```
 
-1. Now start a command-line window as a regular user. Go to the _gtk-win32_ directory and start building with the script. For example, to build 32-bit GTK+ 3 and its dependencies, run:
+1. Now start a command-line window as a regular user. Go to the _gvsbuild_ directory and start building with the script. For example, to build 32-bit GTK+ 3 and its dependencies, run:
 
     ```
-    cd C:\gtk-build\github\gtk-win32
+    cd C:\gtk-build\gvsbuild
     python .\build.py build gtk3
     ```
 
     To build the 64-bit version, run:
 
     ```
-    cd C:\gtk-build\github\gtk-win32
+    cd C:\gtk-build\gvsbuild
     python .\build.py build -p x64 gtk3
     ```
 
