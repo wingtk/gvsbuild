@@ -117,12 +117,15 @@ class Builder(object):
             # Use output redirect will help to ignore the header part vcvars family print
             # Which make later parser more reliable
             cmd_details='cmd.exe /c ""%s" && set>%s"' % (vcvars_bat, temp_env_out_path)
-            retcode = subprocess.call(cmd_details, shell=True)
-            if retcode==0:
-                with open(temp_env_out_path) as temp_env_out_file:
-                    output=temp_env_out_file.read()
-            else:
-                raise Exception("Some error happened when try to run vcvars family, cmd: %s, cwd: %s" % (cmd_details, os.getcwd()))
+
+            try:
+                subprocess.check_call(cmd_details, shell=True)
+            except subprocess.CalledProcessError as exc:
+                print_debug("Some error happened when try to run vcvars family, cmd: %s, cwd: %s" % (cmd_details, os.getcwd()))
+                raise
+
+            with open(temp_env_out_path) as temp_env_out_file:
+                output=temp_env_out_file.read()
         finally:
             if os.path.exists(temp_env_out_path):
                 os.unlink(temp_env_out_path)
@@ -386,7 +389,7 @@ class Builder(object):
             self.__add_path(env, add_path)
         try:
             subprocess.check_call(args, cwd=working_dir, env=env, shell=True)
-        except Exception as exc:
+        except subprocess.CalledProcessError as exc:
             print_debug('Error happened when try to run:%s, cwd:%s'%(args, working_dir))
             raise
 
