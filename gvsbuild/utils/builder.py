@@ -136,7 +136,8 @@ class Builder(object):
         output = subprocess.check_output('cmd.exe /c ""%s" && set"' % (vcvars_bat,), shell=True)
         self.vs_env = {}
         for l in output.splitlines():
-            k, v = l.decode('utf-8').split("=", 1)
+            # python 3 str is not bytes and no need to decode
+            k, v = (l.decode('utf-8') if isinstance(l, bytes) else l).split("=", 1)
             # Be sure to have PATH in upper case because we need to manipulate it
             if k.upper() == 'PATH':
                 k = 'PATH'
