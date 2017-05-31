@@ -112,11 +112,17 @@ class Builder(object):
         # Verify VS exists at the indicated location, and that it supports the required target
         if opts.platform == 'Win32':
             vcvars_bat = os.path.join(opts.vs_install_path, 'VC', 'bin', 'vcvars32.bat')
+            # make sure it works with VS 2017
+            if not os.path.exists(vcvars_bat):
+                vcvars_bat=os.path.join(opts.vs_install_path, 'VC', 'Auxiliary', 'Build', 'vcvars32.bat')
         else:
             vcvars_bat = os.path.join(opts.vs_install_path, 'VC', 'bin', 'amd64', 'vcvars64.bat')
-            # make sure it works even with VS Express
+            # make sure it works with VS Express
             if not os.path.exists(vcvars_bat):
                 vcvars_bat = os.path.join(opts.vs_install_path, 'VC', 'bin', 'x86_amd64', 'vcvarsx86_amd64.bat')
+            # make sure it works with VS 2017
+            if not os.path.exists(vcvars_bat):
+                vcvars_bat=os.path.join(opts.vs_install_path, 'VC', 'Auxiliary', 'Build', 'vcvars64.bat')
 
         if not os.path.exists(vcvars_bat):
             raise Exception("'%s' could not be found. Please check you have Visual Studio installed at '%s' and that it supports the target platform '%s'." % (vcvars_bat, opts.vs_install_path, opts.platform))
