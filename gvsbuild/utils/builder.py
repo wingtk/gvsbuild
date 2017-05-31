@@ -20,6 +20,7 @@ Main builder class
 """
 
 import os
+import tempfile
 import shutil
 import subprocess
 import traceback
@@ -112,11 +113,17 @@ class Builder(object):
         # Verify VS exists at the indicated location, and that it supports the required target
         if opts.platform == 'Win32':
             vcvars_bat = os.path.join(opts.vs_install_path, 'VC', 'bin', 'vcvars32.bat')
+            # Make VS 2017 works
+            if not os.path.exists(vcvars_bat):
+                vcvars_bat=os.path.join(opts.vs_install_path, 'VC', 'Auxiliary', 'Build', 'vcvars32.bat')
         else:
             vcvars_bat = os.path.join(opts.vs_install_path, 'VC', 'bin', 'amd64', 'vcvars64.bat')
             # make sure it works even with VS Express
             if not os.path.exists(vcvars_bat):
                 vcvars_bat = os.path.join(opts.vs_install_path, 'VC', 'bin', 'x86_amd64', 'vcvarsx86_amd64.bat')
+            # Make VS 2017 works
+            if not os.path.exists(vcvars_bat):
+                vcvars_bat=os.path.join(opts.vs_install_path, 'VC', 'Auxiliary', 'Build', 'vcvars64.bat')
 
         if not os.path.exists(vcvars_bat):
             raise Exception("'%s' could not be found. Please check you have Visual Studio installed at '%s' and that it supports the target platform '%s'." % (vcvars_bat, opts.vs_install_path, opts.platform))
@@ -127,10 +134,28 @@ class Builder(object):
         self.add_env('LIBPATH', os.path.join(self.gtk_dir, 'lib'))
         self.add_env('PATH', os.path.join(self.gtk_dir, 'bin'))
 
-        output = subprocess.check_output('cmd.exe /c ""%s" && set"' % (vcvars_bat,), shell=True)
+        temp_env_out_path = tempfile.mktemp()
+        try:
+            # Use output redirect will help to ignore the header part vcvars family print
+            # Which make later parser more reliable
+            cmd_details='cmd.exe /c ""%s" && set>%s"' % (vcvars_bat, temp_env_out_path)
+
+            try:
+                subprocess.check_call(cmd_details, shell=True)
+            except subprocess.CalledProcessError as exc:
+                print_debug("Some error happened when try to run vcvars family, cmd: %s, cwd: %s" % (cmd_details, os.getcwd()))
+                raise
+
+            with open(temp_env_out_path) as temp_env_out_file:
+                output=temp_env_out_file.read()
+        finally:
+            if os.path.exists(temp_env_out_path):
+                os.unlink(temp_env_out_path)
+
         self.vs_env = {}
         for l in output.splitlines():
-            k, v = l.decode('utf-8').split("=", 1)
+            # python 3 str is not bytes and no need to decode
+            k, v = (l.decode('utf-8') if isinstance(l, bytes) else l).split("=", 1)
             # Be sure to have PATH in upper case because we need to manipulate it
             if k.upper() == 'PATH':
                 k = 'PATH'
@@ -384,7 +409,11 @@ class Builder(object):
             else:
                 env = dict(os.environ)
             self.__add_path(env, add_path)
-        subprocess.check_call(args, cwd=working_dir, env=env, shell=True)
+        try:
+            subprocess.check_call(args, cwd=working_dir, env=env, shell=True)
+        except subprocess.CalledProcessError as exc:
+            print_debug('Error happened when try to run:%s, cwd:%s'%(args, working_dir))
+            raise
 
     def __add_path(self, env, folder):
         key = None

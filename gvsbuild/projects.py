@@ -27,7 +27,8 @@ from .utils.simple_ui import print_debug
 from .utils.utils import convert_to_msys
 from .utils.base_expanders import Tarball, GitRepo
 from .utils.base_project import Project
-from .utils.base_builders import Meson, MercurialCmakeProject
+from .utils.base_builders import Meson, GitCmakeProject
+
 
 class Project_adwaita_icon_theme(Tarball, Project):
     def __init__(self):
@@ -1372,6 +1373,6 @@ class Project_zlib(Tarball, Project):
 
 Project.add(Project_zlib())
 
-Project.add(MercurialCmakeProject('pycairo', repo_url='git+ssh://git@github.com:muntyan/pycairo-gtk-win32.git', dependencies = ['cmake', 'cairo']))
-Project.add(MercurialCmakeProject('pygobject', repo_url='git+ssh://git@github.com:muntyan/pygobject-gtk-win32.git', dependencies = ['cmake', 'glib']))
-Project.add(MercurialCmakeProject('pygtk', repo_url='git+ssh://git@github.com:muntyan/pygtk-gtk-win32.git', dependencies = ['cmake', 'gtk', 'pycairo', 'pygobject']))
+Project.add(GitCmakeProject('pycairo', repo_url='git+ssh://git@github.com:muntyan/pycairo-gtk-win32.git', dependencies = ['cmake', 'cairo']))
+Project.add(GitCmakeProject('pygobject', repo_url='git+ssh://git@github.com:muntyan/pygobject-gtk-win32.git', dependencies = ['cmake', 'glib']))
+Project.add(GitCmakeProject('pygtk', repo_url='git+ssh://git@github.com:muntyan/pygtk-gtk-win32.git', dependencies = ['cmake', 'gtk', 'pycairo', 'pygobject']))

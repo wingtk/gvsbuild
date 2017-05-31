@@ -24,7 +24,7 @@ import shutil
 
 from .utils import _rmtree_error_handler
 from .simple_ui import print_debug
-from .base_expanders import Tarball, MercurialRepo
+from .base_expanders import Tarball, MercurialRepo, GitRepo
 from .base_project import Project
 
 class Meson(Project):
@@ -59,10 +59,15 @@ class CmakeProject(Tarball, Project):
 
     def build(self):
         cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
-        self.exec_vs('cmake -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(pkg_dir)s" -DGTK_DIR="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config)
+        safe_cmake_ext_cmdline=' ' + self.cmake_ext_cmdline + ' ' if hasattr(self, 'cmake_ext_cmdline') else ''
+        self.exec_vs('cmake -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(pkg_dir)s" -DGTK_DIR="%(gtk_dir)s" -DCMAKE_BUILD_TYPE='+cmake_config+safe_cmake_ext_cmdline)
         self.exec_vs('nmake /nologo')
         self.exec_vs('nmake /nologo install')
 
 class MercurialCmakeProject(MercurialRepo, CmakeProject):
+    def __init__(self, name, **kwargs):
+        CmakeProject.__init__(self, name, **kwargs)
+
+class GitCmakeProject(GitRepo, CmakeProject):
     def __init__(self, name, **kwargs):
         CmakeProject.__init__(self, name, **kwargs)
