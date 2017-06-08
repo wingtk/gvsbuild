@@ -25,7 +25,10 @@ import subprocess
 import traceback
 import glob
 import hashlib
-import urllib.request
+from urllib.request import splittype, urlopen, ContentTooShortError
+from urllib.error import URLError
+import contextlib
+import ssl
 
 from .utils import ordered_set
 from .simple_ui import global_verbose, error_exit, print_debug, print_log, print_message
@@ -325,6 +328,64 @@ class Builder(object):
             if len(sp) > self._old_print:
                 self._old_print = len(sp)
 
+    def urlretrieve(self, url, filename, reporthook, ssl_ignore_cert=False):
+        """
+        Retrieve a URL into a temporary location on disk.
+
+        Requires a URL argument. If a filename is passed, it is used as
+        the temporary file location. The reporthook argument should be
+        a callable that accepts a block number, a read size, and the
+        total file size of the URL target. The data argument should be
+        valid URL encoded data.
+
+        If a filename is passed and the URL points to a local resource,
+        the result is a copy from local file to new file.
+
+        Returns a tuple containing the path to the newly created
+        data file as well as the resulting HTTPMessage object.
+        """
+        url_type, path = splittype(url)
+
+        if ssl_ignore_cert:
+            # ignore certificate
+            ssl_ctx = ssl._create_unverified_context()
+        else:
+            # let the library does the work
+            ssl_ctx = None
+
+        msg = 'Opening %s ...' % (url, )
+        print(msg, end='\r')
+        with contextlib.closing(urlopen(url, None, context=ssl_ctx)) as fp:
+            print('%*s' % (len(msg), '', ), end = '\r')
+            headers = fp.info()
+
+            with open(filename, 'wb') as tfp:
+                result = filename, headers
+                bs = 1024*8
+                size = -1
+                read = 0
+                blocknum = 0
+                if "content-length" in headers:
+                    size = int(headers["Content-Length"])
+
+                reporthook(blocknum, bs, size)
+
+                while True:
+                    block = fp.read(bs)
+                    if not block:
+                        break
+                    read += len(block)
+                    tfp.write(block)
+                    blocknum += 1
+                    reporthook(blocknum, bs, size)
+
+        if size >= 0 and read < size:
+            raise ContentTooShortError(
+                "retrieval incomplete: got only %i out of %i bytes"
+                % (read, size), result)
+
+        return result
+
     def __download_one(self, proj):
         if not proj.archive_file:
             print_debug("archive file is not specified for project %s, skipping" % (proj.name,))
@@ -343,7 +404,17 @@ class Builder(object):
         self._downloading_file = proj.archive_file
         self._old_perc = -1
         self._old_print = 0
-        urllib.request.urlretrieve(proj.archive_url, proj.archive_file, reporthook=self.__download_progress)
+        try:
+            self.urlretrieve(proj.archive_url, proj.archive_file, self.__download_progress)
+        except (ssl.SSLError, URLError) as e:
+            print("Exception downloading file '%s'" % (proj.archive_url, ))
+            print(e)
+            print('Trying without certificate handling')
+
+            self._old_perc = -1
+            self._old_print = 0
+            self.urlretrieve(proj.archive_url, proj.archive_file, self.__download_progress, ssl_ignore_cert=True)
+            
         print('%-*s' % (self._old_print, '%s - Download finished' % (proj.archive_file, )), )
         return self.__check_hash(proj)
 
