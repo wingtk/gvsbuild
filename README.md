@@ -10,8 +10,10 @@ HexChat developers decided that their script should focus on their specific need
 1. Support multiple version of Visual Studio - at the moment we are focusing on VS 2013, but we include projects for other versions and we gladly accept patches
 1. We try to follow as much as possible the conventions of the upstream MSVC projects by Fan Chun-wei - [Compiling the GTK+ (and Clutter) stack using Visual C++ 2008 and later](https://wiki.gnome.org/action/show/Projects/GTK+/Win32/MSVCCompilationOfGTKStack).
 1. We are pretty liberal about adding more libraries to the script - at some point we will need to make the set of libraries that are built configurable and easily extensible, but right now we are ok with adding libraries that are useful to the users of this script
-1. We try to fetch tarballs from their original locations - if patches are needed we try to fork the project on github and host a patched tarball there
-1. We try to download the tools needed and using them from a local directory, without any installation. Actually we use directly, among others, cmake, meson, ninja, nuget and perl.
+1. We try to fetch tarballs from their original locations - if patches are needed we try to fork the project on github and host a patched tarball there 
+1. We check sha256 hashes of the downloaded files: if error arise check that the download is not been interrupted: a partial file is likely to miss the hash check. Delete the file and try again. 
+1. The download is done using the ssl certificate (handled by the system), in case of error the download is tried again without the certificate. 
+1. We try to download also the tools needed and using them from a local directory, without any installation. Actually we use directly, among others, cmake, meson, ninja, nuget and perl.
 
 ## Building
 
