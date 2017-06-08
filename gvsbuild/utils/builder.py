@@ -409,12 +409,14 @@ class Builder(object):
         except (ssl.SSLError, URLError) as e:
             print("Exception downloading file '%s'" % (proj.archive_url, ))
             print(e)
-            print('Trying without certificate handling')
+            if hasattr(proj, 'hash'):
+                self._old_perc = -1
+                self._old_print = 0
+                self.urlretrieve(proj.archive_url, proj.archive_file, self.__download_progress, ssl_ignore_cert=True)
+            else:
+                print('Hash not present, bailing out ;(')
+                raise
 
-            self._old_perc = -1
-            self._old_print = 0
-            self.urlretrieve(proj.archive_url, proj.archive_file, self.__download_progress, ssl_ignore_cert=True)
-            
         print('%-*s' % (self._old_print, '%s - Download finished' % (proj.archive_file, )), )
         return self.__check_hash(proj)
 
