@@ -1129,14 +1129,16 @@ class Project_opus(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'opus',
-            archive_url = 'http://downloads.xiph.org/releases/opus/opus-1.1.4.tar.gz',
-            hash = '9122b6b380081dd2665189f97bfd777f04f92dc3ab6698eea1dbb27ad59d8692',
+            archive_url = 'https://archive.mozilla.org/pub/opus/opus-1.2.tar.gz',
+            hash = '77db45a87b51578fbc49555ef1b10926179861d854eb2613207dc79d9ec0a9a9',
             )
 
     def build(self):
         version = '13'
         if self.builder.opts.vs_ver == '14':
             version = '15'
+        elif self.builder.opts.vs_ver == '15':
+            version = '17'
 
         configuration = 'ReleaseDLL'
         if self.builder.opts.configuration == 'debug':
