@@ -234,7 +234,8 @@ class Project_ffmpeg(Tarball, Project):
             'ffmpeg',
             archive_url = 'http://ffmpeg.org/releases/ffmpeg-3.3.tar.xz',
             hash = '599e7f7c017221c22011c4037b88bdcd1c47cd40c1e466838bc3c465f3e9569d',
-            dependencies = [ 'yasm', 'x264' ]
+            dependencies = [ 'yasm', 'x264' ],
+            patches = [ '0001-lavc-mpegvideo_enc-allow-low_delay-for-non-MPEG2-cod.patch' ]
         )
 
     def build(self):
