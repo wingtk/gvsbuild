@@ -155,3 +155,10 @@ class Project(object):
     @staticmethod
     def get_dict():
         return dict(Project._dict)
+
+def project_add(cls):
+    """
+    Class decorator to add the newly created Project class to the global projects/tools/groups list 
+    """
+    Project.add(cls())
+    return cls
