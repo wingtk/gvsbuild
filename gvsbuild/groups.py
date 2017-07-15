@@ -20,9 +20,10 @@
 Default groups of projects
 """
 
-from .utils.base_group import Group
+from .utils.base_group import Group, group_add
 from .utils.base_project import Project, GVSBUILD_PROJECT
 
+@group_add
 class Group_Tools(Group):
     def __init__(self):
         Group.__init__(self,
@@ -39,8 +40,7 @@ class Group_Tools(Group):
                 ],
             )
 
-Group.add(Group_Tools())
-
+@group_add
 class Group_Gtk3_Full(Group):
     def __init__(self):
         Group.__init__(self,
@@ -57,8 +57,7 @@ class Group_Gtk3_Full(Group):
                 ],
             )
 
-Group.add(Group_Gtk3_Full())
-
+@group_add
 class Group_All(Group):
     def __init__(self):
         all_prj = [x.name for x in Project._projects if x.type == GVSBUILD_PROJECT]
@@ -66,5 +65,3 @@ class Group_All(Group):
             'all',
             dependencies = all_prj
         )
-
-Group.add(Group_All())
