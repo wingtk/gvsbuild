@@ -20,6 +20,7 @@ Base project class, used also for tools
 """
 
 import os
+import sys
 import shutil
 
 from .utils import _rmtree_error_handler
@@ -156,9 +157,21 @@ class Project(object):
     def get_dict():
         return dict(Project._dict)
 
-def project_add(cls):
+def auto_add(mod_name, prefix, class_2_check):
     """
-    Class decorator to add the newly created Project class to the global projects/tools/groups list 
+    Add all prefix??? classes of class_2_check to the global projects/tools/groups list
     """
-    Project.add(cls())
-    return cls
+    # Get the module 
+    c_mod = sys.modules[mod_name]
+    # Walk on all the definitions of the module 
+    for i in dir(c_mod):
+        # the name is ok ...
+        if i.startswith(prefix):
+            # Get the object (class)
+            ob = getattr(c_mod, i)
+            # Only if the class is derived from the one we check
+            if issubclass(ob, class_2_check):
+                # add it to the list :)
+                print_debug("Auto adding '%s'" % (i, ))
+                class_2_check.add(ob())
+    
