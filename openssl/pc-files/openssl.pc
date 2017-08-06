@@ -1,0 +1,12 @@
+# On windows, the prefix is automagically build from the location of the .pc file
+prefix=C:/dir_placeholder
+exec_prefix=C:/dir_placeholder
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: oepnssl
+Description: Cryptography and SSL/TLS Toolkit
+Version: 1.0.2l
+
+Libs: -L${libdir} -llibeay32 -lssleay32
+Cflags: -I${includedir}/openssl

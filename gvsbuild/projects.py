@@ -1077,6 +1077,7 @@ class Project_openssl(Tarball, Project):
         self.install(r'.\cert.pem bin')
         self.install(r'.\openssl.cnf share')
         self.install(r'.\LICENSE share\doc\openssl\COPYING')
+        self.install(r'.\pc-files\* lib\pkgconfig')
 
 @project_add
 class Project_opus(Tarball, Project):
