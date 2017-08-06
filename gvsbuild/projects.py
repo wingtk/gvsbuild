@@ -26,10 +26,9 @@ import shutil
 from .utils.simple_ui import print_debug
 from .utils.utils import convert_to_msys
 from .utils.base_expanders import Tarball, GitRepo
-from .utils.base_project import Project, project_add
+from .utils.base_project import Project, auto_add
 from .utils.base_builders import Meson, MercurialCmakeProject
 
-@project_add
 class Project_adwaita_icon_theme(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -47,7 +46,6 @@ class Project_adwaita_icon_theme(Tarball, Project):
 
         self.install(r'.\COPYING_CCBYSA3 share\doc\adwaita-icon-theme')
 
-@project_add
 class Project_atk(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -61,7 +59,6 @@ class Project_atk(Tarball, Project):
         self.exec_msbuild(r'win32\vs%(vs_ver)s\atk.sln')
         self.install(r'.\COPYING share\doc\atk')
 
-@project_add
 class Project_cairo(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -101,7 +98,6 @@ class Project_cairo(Tarball, Project):
 
         self.install(r'.\COPYING share\doc\cairo')
 
-@project_add
 class Project_clutter(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -116,7 +112,6 @@ class Project_clutter(Tarball, Project):
 
         self.install(r'.\COPYING share\doc\clutter')
 
-@project_add
 class Project_cogl(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -133,7 +128,6 @@ class Project_cogl(Tarball, Project):
 
         self.install(r'.\COPYING share\doc\cogl')
 
-@project_add
 class Project_cyrus_sasl(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -152,7 +146,6 @@ class Project_cyrus_sasl(Tarball, Project):
 
         self.install(r'.\COPYING share\doc\cyrus-sasl')
 
-@project_add
 class Project_emeus(GitRepo, Meson):
     def __init__(self):
         Meson.__init__(self,
@@ -167,7 +160,6 @@ class Project_emeus(GitRepo, Meson):
         Meson.build(self, meson_params='-Denable-introspection=false -Denable-gtk-doc=false')
         self.install(r'.\COPYING.txt share\doc\emeus')
 
-@project_add
 class Project_enchant(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -220,7 +212,6 @@ class Project_enchant(Tarball, Project):
 
         self.install(r'.\COPYING.LIB share\doc\enchant')
 
-@project_add
 class Project_ffmpeg(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -246,7 +237,6 @@ class Project_ffmpeg(Tarball, Project):
         self.builder.exec_msys(['mv', 'postproc.lib', '../lib/'], working_dir=os.path.join(self.builder.gtk_dir, 'bin'))
         self.builder.exec_msys(['mv', 'swscale.lib', '../lib/'], working_dir=os.path.join(self.builder.gtk_dir, 'bin'))
 
-@project_add
 class Project_fontconfig(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -289,7 +279,6 @@ class Project_fontconfig(Tarball, Project):
 
         self.install(r'.\COPYING share\doc\fontconfig')
 
-@project_add
 class Project_freetype(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -304,7 +293,6 @@ class Project_freetype(Tarball, Project):
         self.install(r'.\objs\%(platform)s\freetype.lib lib')
         self.install(r'.\docs\LICENSE.TXT share\doc\freetype')
 
-@project_add
 class Project_gdk_pixbuf(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -322,7 +310,6 @@ class Project_gdk_pixbuf(Tarball, Project):
         self.exec_msbuild(r'win32\vs%(vs_ver)s\gdk-pixbuf.sln', configuration=configuration)
         self.install(r'.\COPYING share\doc\gdk-pixbuf')
 
-@project_add
 class Project_gettext(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -347,7 +334,6 @@ class Project_gettext(Tarball, Project):
         self.install(r'.\gettext-tools\its\*.loc share\gettext\its')
         self.install(r'.\COPYING share\doc\gettext')
 
-@project_add
 class Project_glib(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -368,7 +354,6 @@ class Project_glib(Tarball, Project):
         self.exec_msbuild(r'win32\vs%(vs_ver)s\glib.sln', configuration=configuration)
         self.install(r'.\COPYING share\doc\glib')
 
-@project_add
 class Project_glib_networking(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -382,7 +367,6 @@ class Project_glib_networking(Tarball, Project):
         self.exec_msbuild(r'build\win32\vs%(vs_ver)s\glib-networking.sln')
         self.install(r'.\COPYING share\doc\glib-networking')
 
-@project_add
 class Project_glib_openssl(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -397,7 +381,6 @@ class Project_glib_openssl(Tarball, Project):
         self.install(r'.\COPYING share\doc\glib-openssl')
         self.install(r'.\LICENSE_EXCEPTION share\doc\glib-openssl')
 
-@project_add
 class Project_graphene(GitRepo, Meson):
     def __init__(self):
         Meson.__init__(self,
@@ -412,7 +395,6 @@ class Project_graphene(GitRepo, Meson):
         Meson.build(self)
         self.install(r'.\LICENSE share\doc\graphene')
 
-@project_add
 class Project_grpc(GitRepo, Project):
     def __init__(self):
         Project.__init__(self,
@@ -462,7 +444,6 @@ class Project_grpc(GitRepo, Project):
 
         self.install(r'.\LICENSE share\doc\grpc')
 
-@project_add
 class Project_gsettings_desktop_schemas(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -481,7 +462,7 @@ class Project_gsettings_desktop_schemas(Tarball, Project):
 
         self.install(r'.\COPYING share\doc\gsettings-desktop-schemas')
 
-class Project_gtk_base(Tarball, Project):
+class _Project_gtk_base(Tarball, Project):
     def __init__(self, name, **kwargs):
         Project.__init__(self, name, **kwargs)
 
@@ -500,10 +481,9 @@ class Project_gtk_base(Tarball, Project):
 
         self.install(r'.\COPYING share\doc\%s' % self.name)
 
-@project_add
-class Project_gtk(Project_gtk_base):
+class Project_gtk(_Project_gtk_base):
     def __init__(self):
-        Project_gtk_base.__init__(self,
+        _Project_gtk_base.__init__(self,
             'gtk',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/2.24/gtk+-2.24.31.tar.xz',
             hash = '68c1922732c7efc08df4656a5366dcc3afdc8791513400dac276009b40954658',
@@ -516,10 +496,9 @@ class Project_gtk(Project_gtk_base):
 
         super(Project_gtk, self).build()
 
-@project_add
-class Project_gtk3(Project_gtk_base):
+class Project_gtk3(_Project_gtk_base):
     def __init__(self):
-        Project_gtk_base.__init__(self,
+        _Project_gtk_base.__init__(self,
             'gtk3',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.22/gtk+-3.22.12.tar.xz',
             hash = '84fae0cefb6a11ee2b4e86b8ac42fe46a3d30b4ad16661d5fc51e8ae03e2a98c',
@@ -536,7 +515,6 @@ class Project_gtk3(Project_gtk_base):
         self.exec_cmd(r'%(gtk_dir)s\bin\glib-compile-schemas.exe %(gtk_dir)s\share\glib-2.0\schemas')
         self.exec_cmd(r'%(gtk_dir)s\bin\gtk-update-icon-cache.exe --ignore-theme-index --force "%(gtk_dir)s\share\icons\hicolor"')
 
-@project_add
 class Project_gtksourceview3(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -551,7 +529,6 @@ class Project_gtksourceview3(Tarball, Project):
 
         self.install(r'.\COPYING share\doc\gtksourceview3')
 
-@project_add
 class Project_harfbuzz(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -570,7 +547,6 @@ class Project_harfbuzz(Tarball, Project):
 
         self.install(r'.\COPYING share\doc\harfbuzz')
 
-@project_add
 class Project_hicolor_icon_theme(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -582,7 +558,6 @@ class Project_hicolor_icon_theme(Tarball, Project):
     def build(self):
         self.install(r'.\index.theme share\icons\hicolor')
 
-@project_add
 class Project_jsonc(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -597,7 +572,6 @@ class Project_jsonc(Tarball, Project):
 
         self.install(r'.\COPYING share\doc\json-c')
 
-@project_add
 class Project_json_glib(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -612,7 +586,6 @@ class Project_json_glib(Tarball, Project):
 
         self.install(r'.\COPYING share\doc\json-glib')
 
-@project_add
 class Project_leveldb(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -626,7 +599,6 @@ class Project_leveldb(Tarball, Project):
 
         self.install(r'.\LICENSE share\doc\leveldb')
 
-@project_add
 class Project_libarchive(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -645,7 +617,6 @@ class Project_libarchive(Tarball, Project):
 
         self.install(r'.\COPYING share\doc\libarchive')
 
-@project_add
 class Project_libcroco(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -659,7 +630,6 @@ class Project_libcroco(Tarball, Project):
         self.exec_msbuild(r'build\win32\vs%(vs_ver)s\libcroco.sln')
         self.install(r'.\COPYING share\doc\libcroco')
 
-@project_add
 class Project_libepoxy(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
@@ -674,7 +644,6 @@ class Project_libepoxy(Tarball, Meson):
 
         self.install(r'COPYING share\doc\libepoxy')
 
-@project_add
 class Project_libffi(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -695,7 +664,6 @@ class Project_libffi(Tarball, Project):
         self.install(r'.\\' + build_dest + r'\include\ffi.h', r'.\src\x86\ffitarget.h', 'include')
         self.install(r'LICENSE share\doc\libffi')
 
-@project_add
 class Project_libgxps(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -713,7 +681,6 @@ class Project_libgxps(Tarball, Project):
 
         self.install(r'.\COPYING share\doc\libgxps')
 
-@project_add
 class Project_libjpeg_turbo(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -733,7 +700,6 @@ class Project_libjpeg_turbo(Tarball, Project):
 
         self.install(r'.\LICENSE.md share\doc\libjpeg-turbo')
 
-@project_add
 class Project_libmicrohttpd(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -775,7 +741,6 @@ class Project_libmicrohttpd(Tarball, Project):
 
         self.install(r'.\COPYING share\doc\libmicrohttpd')
 
-@project_add
 class Project_libpng(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -792,7 +757,6 @@ class Project_libpng(Tarball, Project):
 
         self.install('LICENSE share\doc\libpng')
 
-@project_add
 class Project_librsvg(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -809,7 +773,6 @@ class Project_librsvg(Tarball, Project):
     def post_install(self):
         self.exec_cmd(r'%(gtk_dir)s\bin\gdk-pixbuf-query-loaders.exe --update-cache')
 
-@project_add
 class Project_sqlite(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -826,7 +789,6 @@ class Project_sqlite(Tarball, Project):
         self.install('sqlite3.dll sqlite3.pdb bin')
         self.install('sqlite3.lib lib')
 
-@project_add
 class Project_libcurl(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -844,7 +806,6 @@ class Project_libcurl(Tarball, Project):
 
         self.install(r'.\COPYING share\doc\libcurl')
 
-@project_add
 class Project_libsoup(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -859,7 +820,6 @@ class Project_libsoup(Tarball, Project):
 
         self.install(r'.\COPYING share\doc\libsoup')
 
-@project_add
 class Project_libssh(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -874,7 +834,6 @@ class Project_libssh(Tarball, Project):
 
         self.install(r'.\COPYING share\doc\libssh')
 
-@project_add
 class Project_libssh2(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -892,7 +851,6 @@ class Project_libssh2(Tarball, Project):
 
         self.install(r'.\COPYING share\doc\libssh2')
 
-@project_add
 class Project_libuv(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -939,7 +897,6 @@ class Project_libuv(Tarball, Project):
 
         self.install(r'.\LICENSE share\doc\libuv')
 
-@project_add
 class Project_libxml2(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -964,7 +921,6 @@ class Project_libxml2(Tarball, Project):
 
         self.install(r'.\COPYING share\doc\libxml2')
 
-@project_add
 class Project_libyuv(GitRepo, Project):
     def __init__(self):
         Project.__init__(self,
@@ -982,7 +938,6 @@ class Project_libyuv(GitRepo, Project):
 
         self.install(r'.\LICENSE share\doc\libyuv')
 
-@project_add
 class Project_libzip(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -1000,7 +955,6 @@ class Project_libzip(Tarball, Project):
 
         self.install(r'.\LICENSE share\doc\libzip')
 
-@project_add
 class Project_lmdb(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -1016,7 +970,6 @@ class Project_lmdb(Tarball, Project):
         self.install(r'.\build\win32\vs%(vs_ver)s\%(platform)s\%(configuration)s\lmdb.lib lib')
         self.install(r'.\libraries\liblmdb\LICENSE share\doc\lmdb')
 
-@project_add
 class Project_lz4(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -1034,7 +987,6 @@ class Project_lz4(Tarball, Project):
 
         self.install(r'.\lib\LICENSE share\doc\lz4')
 
-@project_add
 class Project_openssl(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -1079,7 +1031,6 @@ class Project_openssl(Tarball, Project):
         self.install(r'.\LICENSE share\doc\openssl\COPYING')
         self.install(r'.\pc-files\* lib\pkgconfig')
 
-@project_add
 class Project_opus(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -1112,7 +1063,6 @@ class Project_opus(Tarball, Project):
 
         self.install(r'COPYING share\doc\opus')
 
-@project_add
 class Project_pango(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -1130,7 +1080,6 @@ class Project_pango(Tarball, Project):
         self.exec_msbuild(r'win32\vs%(vs_ver)s\pango.sln', configuration=configuration)
         self.install(r'COPYING share\doc\pango')
 
-@project_add
 class Project_pixman(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -1158,7 +1107,6 @@ class Project_pixman(Tarball, Project):
 
         self.install(r'.\COPYING share\doc\pixman')
 
-@project_add
 class Project_pkg_config(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -1177,7 +1125,6 @@ class Project_pkg_config(Tarball, Project):
 
         self.install(r'.\COPYING share\doc\pkg-config')
 
-@project_add
 class Project_portaudio(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -1201,7 +1148,6 @@ class Project_portaudio(Tarball, Project):
 
         self.install(r'.\LICENSE.txt share\doc\portaudio')
 
-@project_add
 class Project_protobuf(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -1220,7 +1166,6 @@ class Project_protobuf(Tarball, Project):
 
         self.install(r'.\LICENSE share\doc\protobuf')
 
-@project_add
 class Project_protobuf_c(GitRepo, Project):
     def __init__(self):
         Project.__init__(self,
@@ -1239,7 +1184,6 @@ class Project_protobuf_c(GitRepo, Project):
 
         self.install(r'.\LICENSE share\doc\protobuf-c')
 
-@project_add
 class Project_win_iconv(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -1260,7 +1204,6 @@ class Project_win_iconv(Tarball, Project):
 
         self.install(r'.\COPYING share\doc\win-iconv')
 
-@project_add
 class Project_wing(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
@@ -1274,7 +1217,6 @@ class Project_wing(Tarball, Meson):
         Meson.build(self)
         self.install(r'.\COPYING share\doc\wing')
 
-@project_add
 class Project_x264(GitRepo, Project):
     def __init__(self):
         Project.__init__(self,
@@ -1295,7 +1237,6 @@ class Project_x264(GitRepo, Project):
 
         self.install(r'.\COPYING share\doc\x264')
 
-@project_add
 class Project_zlib(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -1320,3 +1261,7 @@ class Project_zlib(Tarball, Project):
 Project.add(MercurialCmakeProject('pycairo', repo_url='git+ssh://git@github.com:muntyan/pycairo-gtk-win32.git', dependencies = ['cmake', 'cairo']))
 Project.add(MercurialCmakeProject('pygobject', repo_url='git+ssh://git@github.com:muntyan/pygobject-gtk-win32.git', dependencies = ['cmake', 'glib']))
 Project.add(MercurialCmakeProject('pygtk', repo_url='git+ssh://git@github.com:muntyan/pygtk-gtk-win32.git', dependencies = ['cmake', 'gtk', 'pycairo', 'pygobject']))
+
+# Add all the projects by name  
+auto_add(__name__, 'Project_', Project)
+

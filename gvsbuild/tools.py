@@ -22,10 +22,10 @@ Default tools used to build the various projects
 import os
 import sys
 
-from .utils.base_tool import Tool, tool_add
+from .utils.base_tool import Tool
+from .utils.base_project import auto_add
 from .utils.base_expanders import extract_exec
 
-@tool_add
 class Tool_cmake(Tool):
     def __init__(self):
         Tool.__init__(self,
@@ -46,7 +46,6 @@ class Tool_cmake(Tool):
     def get_path(self):
         return os.path.join(self.cmake_path, 'bin')
 
-@tool_add
 class Tool_meson(Tool):
     def __init__(self):
         Tool.__init__(self,
@@ -66,7 +65,6 @@ class Tool_meson(Tool):
     def get_path(self):
         pass
 
-@tool_add
 class Tool_nasm(Tool):
     def __init__(self):
         Tool.__init__(self,
@@ -87,7 +85,6 @@ class Tool_nasm(Tool):
     def get_path(self):
         return self.nasm_path
 
-@tool_add
 class Tool_ninja(Tool):
     def __init__(self):
         Tool.__init__(self,
@@ -107,7 +104,6 @@ class Tool_ninja(Tool):
     def get_path(self):
         return self.ninja_path
 
-@tool_add
 class Tool_nuget(Tool):
     def __init__(self):
         Tool.__init__(self,
@@ -128,7 +124,6 @@ class Tool_nuget(Tool):
         # No need to add the path, we use the full file name
         pass
 
-@tool_add
 class Tool_perl(Tool):
     def __init__(self):
         Tool.__init__(self,
@@ -151,7 +146,6 @@ class Tool_perl(Tool):
     def get_path(self):
         return self.perl_path
 
-@tool_add
 class Tool_python(Tool):
     def __init__(self):
         Tool.__init__(self,
@@ -172,7 +166,6 @@ class Tool_python(Tool):
     def get_path(self):
         return self.python_path
 
-@tool_add
 class Tool_yasm(Tool):
     def __init__(self):
         Tool.__init__(self,
@@ -191,3 +184,6 @@ class Tool_yasm(Tool):
 
     def get_path(self):
         return self.yasm_path
+
+# Add all the tools by name  
+auto_add(__name__, 'Tool_', Tool)

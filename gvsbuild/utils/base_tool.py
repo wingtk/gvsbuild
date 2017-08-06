@@ -48,10 +48,3 @@ class Tool(Project):
     @staticmethod
     def add(proj):
         Project.add(proj, type=GVSBUILD_TOOL)
-
-def tool_add(cls):
-    """
-    Class decorator to add the newly created Toolp class to the global projects/tools/groups list 
-    """
-    Tool.add(cls())
-    return cls
