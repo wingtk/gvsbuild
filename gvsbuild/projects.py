@@ -383,17 +383,20 @@ class Project_glib_networking(Tarball, Project):
         self.install(r'.\COPYING share\doc\glib-networking')
 
 @project_add
-class Project_glib_openssl(Tarball, Project):
+class Project_glib_openssl(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'glib-openssl',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib-openssl/2.50/glib-openssl-2.50.2.tar.xz',
-            hash = '1a381fce3a932f66ff3d6acab40b6153f8fe4db7371834fae182aec7cc8b62ae',
-            dependencies = ['glib', 'openssl'],
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib-openssl/2.50/glib-openssl-2.50.3.tar.xz',
+            hash = '0211c118b86aec228d2b7d2606bba9637d5bb5d60694cc7ccb6d2920f02866bc',
+            dependencies = ['pkg-config', 'ninja', 'meson', 'glib', 'openssl'],
             )
 
     def build(self):
-        self.exec_msbuild(r'win32\vs%(vs_ver)s\glib-openssl.sln')
+        # If you want to build without certificates use
+        # params = '-Dwith-ca-certificates=no'
+        params = '-Dwith-ca-certificates=%s/bin/cert.pem' % (self.builder.gtk_dir, )
+        Meson.build(self, meson_params=params)
         self.install(r'.\COPYING share\doc\glib-openssl')
         self.install(r'.\LICENSE_EXCEPTION share\doc\glib-openssl')
 
