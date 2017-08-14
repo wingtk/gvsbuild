@@ -64,7 +64,7 @@ class CmakeProject(Tarball, Project):
     def __init__(self, name, **kwargs):
         Project.__init__(self, name, **kwargs)
 
-    def build(self, cmake_params=None, use_ninja=False):
+    def build(self, cmake_params=None, use_ninja=False, make_tests=False):
         cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
         cmake_gen = 'Ninja' if use_ninja else 'NMake Makefiles'
         
@@ -76,6 +76,9 @@ class CmakeProject(Tarball, Project):
         self.exec_vs(cmd)
         # Build 
         if use_ninja:
+            if make_tests:
+                self.exec_vs('ninja')
+                self.exec_vs('ninja test')
             self.exec_vs('ninja install')
         else:
             self.exec_vs('nmake /nologo')
