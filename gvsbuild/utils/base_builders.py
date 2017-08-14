@@ -64,11 +64,22 @@ class CmakeProject(Tarball, Project):
     def __init__(self, name, **kwargs):
         Project.__init__(self, name, **kwargs)
 
-    def build(self):
+    def build(self, cmake_params=None, use_ninja=False):
         cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
-        self.exec_vs('cmake -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(pkg_dir)s" -DGTK_DIR="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config)
-        self.exec_vs('nmake /nologo')
-        self.exec_vs('nmake /nologo install')
+        cmake_gen = 'Ninja' if use_ninja else 'NMake Makefiles'
+        
+        # Create the command for cmake
+        cmd = 'cmake -G "' + cmake_gen + '" -DCMAKE_INSTALL_PREFIX="%(pkg_dir)s" -DGTK_DIR="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config
+        if cmake_params:
+            cmd += ' ' + cmake_params 
+        # Generate the files used to build 
+        self.exec_vs(cmd)
+        # Build 
+        if use_ninja:
+            self.exec_vs('ninja install')
+        else:
+            self.exec_vs('nmake /nologo')
+            self.exec_vs('nmake /nologo install')
 
 class MercurialCmakeProject(MercurialRepo, CmakeProject):
     def __init__(self, name, **kwargs):
