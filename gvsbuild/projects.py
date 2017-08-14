@@ -1239,23 +1239,17 @@ class Project_protobuf_c(GitRepo, Project):
         self.install(r'.\LICENSE share\doc\protobuf-c')
 
 @project_add
-class Project_win_iconv(Tarball, Project):
+class Project_win_iconv(CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'win-iconv',
             archive_url = 'http://dl.hexchat.net/gtk-win32/src/win-iconv-0.0.8.tar.gz',
             hash = '23adea990a8303c6e69e32a64a30171efcb1b73824a1c2da1bbf576b0ae7c520',
-            dependencies = ['cmake'],
+            dependencies = ['cmake', 'ninja', ],
             )
 
     def build(self):
-        #Remove-Item -Recurse CMakeCache.txt, CMakeFiles -ErrorAction Ignore
-
-        self.exec_vs('cmake -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(pkg_dir)s" -DCMAKE_BUILD_TYPE=%(configuration)s')
-        #Exec nmake clean
-        self.exec_vs('nmake /nologo')
-        self.exec_vs('nmake /nologo install')
-        #Exec nmake clean
+        CmakeProject.build(self, use_ninja=True, cmake_params='-DBUILD_TEST=1', make_tests=True)
 
         self.install(r'.\COPYING share\doc\win-iconv')
 
