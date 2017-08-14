@@ -164,7 +164,7 @@ class Project_emeus(GitRepo, Meson):
             )
 
     def build(self):
-        Meson.build(self, meson_params='-Denable-introspection=false -Denable-gtk-doc=false')
+        Meson.build(self, meson_params='-Denable-introspection=false -Denable-gtk-doc=false', make_tests=True)
         self.install(r'.\COPYING.txt share\doc\emeus')
 
 @project_add
