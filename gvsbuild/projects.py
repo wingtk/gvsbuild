@@ -27,7 +27,7 @@ from .utils.simple_ui import print_debug
 from .utils.utils import convert_to_msys
 from .utils.base_expanders import Tarball, GitRepo
 from .utils.base_project import Project, project_add
-from .utils.base_builders import Meson, MercurialCmakeProject, CmakeProject
+from .utils.base_builders import Meson, MercurialCmakeProject
 
 @project_add
 class Project_adwaita_icon_theme(Tarball, Project):
@@ -878,17 +878,21 @@ class Project_libssh(Tarball, Project):
         self.install(r'.\COPYING share\doc\libssh')
 
 @project_add
-class Project_libssh2(CmakeProject):
+class Project_libssh2(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libssh2',
             archive_url = 'https://www.libssh2.org/download/libssh2-1.8.0.tar.gz',
             hash = '39f34e2f6835f4b992cafe8625073a88e5a28ba78f83e8099610a7b3af4676d4',
-            dependencies = ['cmake', 'ninja', ],
+            dependencies = ['cmake'],
             )
 
     def build(self):
-        CmakeProject.build(self, cmake_params='-DWITH_ZLIB=ON', use_ninja=False)
+        cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
+        self.exec_vs(r'cmake -G"NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DGTK_DIR="%(pkg_dir)s" -DWITH_ZLIB=ON -DCMAKE_BUILD_TYPE=' + cmake_config)
+        self.exec_vs(r'nmake /nologo')
+        self.exec_vs(r'nmake /nologo install')
+
         self.install(r'.\COPYING share\doc\libssh2')
 
 @project_add
