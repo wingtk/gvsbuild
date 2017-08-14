@@ -1201,40 +1201,36 @@ class Project_portaudio(Tarball, Project):
         self.install(r'.\LICENSE.txt share\doc\portaudio')
 
 @project_add
-class Project_protobuf(Tarball, Project):
+class Project_protobuf(CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'protobuf',
             archive_url = 'https://github.com/google/protobuf/releases/download/v3.3.0/protobuf-cpp-3.3.0.tar.gz',
             hash = '5e2587dea2f9287885e3b04d3a94ed4e8b9b2d2c5dd1f0032ceef3ea1d153bd7',
-            dependencies = ['cmake', 'zlib'],
+            dependencies = ['cmake', 'zlib', 'ninja', ],
             )
 
     def build(self):
-        cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'Release'
         # We need to compile with STATIC_RUNTIME off since protobuf-c also compiles with it OFF
-        self.exec_vs('cmake .\cmake\ -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(pkg_dir)s" -Dprotobuf_DEBUG_POSTFIX="" -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_WITH_ZLIB=ON -Dprotobuf_MSVC_STATIC_RUNTIME=OFF -DCMAKE_BUILD_TYPE=' + cmake_config)
-        self.exec_vs('nmake /nologo')
-        self.exec_vs('nmake /nologo install')
+        CmakeProject.build(self, 
+                           cmake_params=r'.\cmake\ -Dprotobuf_DEBUG_POSTFIX="" -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_WITH_ZLIB=ON -Dprotobuf_MSVC_STATIC_RUNTIME=OFF',
+                           use_ninja=True)
 
         self.install(r'.\LICENSE share\doc\protobuf')
 
 @project_add
-class Project_protobuf_c(GitRepo, Project):
+class Project_protobuf_c(GitRepo, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'protobuf-c',
             repo_url = 'https://github.com/protobuf-c/protobuf-c',
             fetch_submodules = False,
             tag = 'a8921fe7dc2455a20114130eacc6761d1354fa2c',
-            dependencies = ['cmake', 'protobuf'],
+            dependencies = ['cmake', 'protobuf', 'ninja', ],
             )
 
     def build(self):
-        cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
-        self.exec_vs(r'cmake .\build-cmake\ -G "NMake Makefiles" -DPROTOBUF_ROOT="%(gtk_dir)s" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config)
-        self.exec_vs(r'nmake /nologo')
-        self.exec_vs(r'nmake /nologo install')
+        CmakeProject.build(self, cmake_params=r'.\build-cmake\ -DPROTOBUF_ROOT="%s"' % (self.builder.gtk_dir, ), use_ninja=True)  
 
         self.install(r'.\LICENSE share\doc\protobuf-c')
 
