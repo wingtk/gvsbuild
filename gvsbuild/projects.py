@@ -630,22 +630,18 @@ class Project_leveldb(Tarball, Project):
         self.install(r'.\LICENSE share\doc\leveldb')
 
 @project_add
-class Project_libarchive(Tarball, Project):
+class Project_libarchive(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'libarchive',
             archive_url = 'https://libarchive.org/downloads/libarchive-3.3.1.tar.gz',
             hash = '29ca5bd1624ca5a007aa57e16080262ab4379dbf8797f5c52f7ea74a3b0424e7',
-            dependencies = ['cmake', 'win-iconv', 'zlib', 'lz4', 'openssl', 'libxml2'],
+            dependencies = ['cmake', 'ninja', 'win-iconv', 'zlib', 'lz4', 'openssl', 'libxml2'],
             patches = ['0001-Do-not-try-to-compile-with-warnings-as-errors-on-deb.patch'],
             )
 
     def build(self):
-        cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'Release'
-        self.exec_vs(r'cmake . -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config)
-        self.exec_vs(r'nmake /nologo')
-        self.exec_vs(r'nmake /nologo install')
-
+        CmakeProject.build(self, use_ninja=True)
         self.install(r'.\COPYING share\doc\libarchive')
 
 @project_add
@@ -979,21 +975,17 @@ class Project_libyuv(GitRepo, Project):
         self.install(r'.\LICENSE share\doc\libyuv')
 
 @project_add
-class Project_libzip(Tarball, Project):
+class Project_libzip(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'libzip',
             archive_url = 'https://nih.at/libzip/libzip-1.2.0.tar.gz',
             hash = '6cf9840e427db96ebf3936665430bab204c9ebbd0120c326459077ed9c907d9f',
-            dependencies = ['cmake', 'zlib'],
+            dependencies = ['cmake', 'ninja', 'zlib'],
             )
 
     def build(self):
-        cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
-        self.exec_vs(r'cmake -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DGTK_DIR="%(pkg_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config)
-        self.exec_vs(r'nmake /nologo')
-        self.exec_vs(r'nmake /nologo install')
-
+        CmakeProject.build(self, use_ninja=True)
         self.install(r'.\LICENSE share\doc\libzip')
 
 @project_add
