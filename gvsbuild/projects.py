@@ -1174,20 +1174,21 @@ class Project_pkg_config(Tarball, Project):
         self.install(r'.\COPYING share\doc\pkg-config')
 
 @project_add
-class Project_portaudio(Tarball, Project):
+class Project_portaudio(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'portaudio',
             archive_url = 'http://www.portaudio.com/archives/pa_stable_v190600_20161030.tgz',
-            dependencies = ['cmake'],
+            dependencies = ['cmake', 'ninja', ],
             patches = [ '0001-Do-not-add-suffice-to-the-library-name.patch',
                         '0001-Fix-MSVC-check.patch' ]
             )
 
     def build(self):
-        cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'Release'
-        self.exec_vs(r'cmake . -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DPA_DLL_LINK_WITH_STATIC_RUNTIME=off -DCMAKE_BUILD_TYPE=' + cmake_config)
-        self.exec_vs(r'nmake /nologo')
+        CmakeProject.build(self, 
+                           cmake_params='-DPA_DLL_LINK_WITH_STATIC_RUNTIME=off',
+                           use_ninja=True,
+                           do_install=False)
 
         self.install(r'portaudio.dll bin')
         self.install(r'portaudio.pdb bin')
