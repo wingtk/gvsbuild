@@ -949,20 +949,18 @@ class Project_libxml2(Tarball, Project):
         self.install(r'.\COPYING share\doc\libxml2')
 
 @project_add
-class Project_libyuv(GitRepo, Project):
+class Project_libyuv(GitRepo, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'libyuv',
             repo_url = 'https://chromium.googlesource.com/libyuv/libyuv',
             fetch_submodules = False,
             tag = None,
-            dependencies = ['cmake'],
+            dependencies = ['cmake', 'ninja', ],
             )
 
     def build(self):
-        self.exec_vs(r'cmake . -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=%(configuration)s')
-        self.exec_vs(r'nmake /nologo')
-        self.exec_vs(r'nmake /nologo install')
+        CmakeProject.build(self, use_ninja=True)
 
         self.install(r'.\LICENSE share\doc\libyuv')
 
