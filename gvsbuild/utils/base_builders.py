@@ -64,7 +64,7 @@ class CmakeProject(Project):
     def __init__(self, name, **kwargs):
         Project.__init__(self, name, **kwargs)
 
-    def build(self, cmake_params=None, use_ninja=False, make_tests=False):
+    def build(self, cmake_params=None, use_ninja=False, make_tests=False, do_install=True):
         cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
         cmake_gen = 'Ninja' if use_ninja else 'NMake Makefiles'
         
@@ -79,10 +79,17 @@ class CmakeProject(Project):
             if make_tests:
                 self.exec_vs('ninja')
                 self.exec_vs('ninja test')
-            self.exec_vs('ninja install')
+                if do_install:
+                    self.exec_vs('ninja install')
+            else:
+                if do_install:
+                    self.exec_vs('ninja install')
+                else:
+                    self.exec_vs('ninja')
         else:
             self.exec_vs('nmake /nologo')
-            self.exec_vs('nmake /nologo install')
+            if do_install:
+                self.exec_vs('nmake /nologo install')
 
 class MercurialCmakeProject(MercurialRepo, CmakeProject):
     def __init__(self, name, **kwargs):
