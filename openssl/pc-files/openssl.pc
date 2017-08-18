@@ -4,7 +4,7 @@ exec_prefix=C:/dir_placeholder
 libdir=${prefix}/lib
 includedir=${prefix}/include
 
-Name: oepnssl
+Name: openssl
 Description: Cryptography and SSL/TLS Toolkit
 Version: 1.0.2l
 
