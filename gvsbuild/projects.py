@@ -713,23 +713,17 @@ class Project_libgxps(Tarball, Project):
         self.install(r'.\COPYING share\doc\libgxps')
 
 @project_add
-class Project_libjpeg_turbo(Tarball, Project):
+class Project_libjpeg_turbo(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'libjpeg-turbo',
             archive_url = 'https://sourceforge.net/projects/libjpeg-turbo/files/1.5.1/libjpeg-turbo-1.5.1.tar.gz',
             hash = '41429d3d253017433f66e3d472b8c7d998491d2f41caa7306b8d9a6f2a2c666c',
-            dependencies = ['cmake', 'nasm', ],
+            dependencies = ['cmake', 'ninja', 'nasm', ],
             )
 
     def build(self):
-        cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
-        add_path = os.path.join(self.builder.opts.msys_dir, 'usr', 'bin')
-
-        self.exec_vs(r'cmake . -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=%(configuration)s', add_path=add_path)
-        self.exec_vs(r'nmake /nologo', add_path=add_path)
-        self.exec_vs(r'nmake /nologo install', add_path=add_path)
-
+        CmakeProject.build(self, use_ninja=True)
         self.install(r'.\LICENSE.md share\doc\libjpeg-turbo')
 
 @project_add
