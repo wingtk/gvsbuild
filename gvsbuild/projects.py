@@ -830,7 +830,7 @@ class Project_sqlite(Tarball, Project):
         self.install('sqlite3.lib lib')
 
 @project_add
-class Project_libcurl(CmakeProject):
+class Project_libcurl(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'libcurl',
@@ -875,7 +875,7 @@ class Project_libssh(Tarball, Project):
         self.install(r'.\COPYING share\doc\libssh')
 
 @project_add
-class Project_libssh2(CmakeProject):
+class Project_libssh2(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'libssh2',
@@ -1198,7 +1198,7 @@ class Project_portaudio(Tarball, Project):
         self.install(r'.\LICENSE.txt share\doc\portaudio')
 
 @project_add
-class Project_protobuf(CmakeProject):
+class Project_protobuf(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'protobuf',
@@ -1232,7 +1232,7 @@ class Project_protobuf_c(GitRepo, CmakeProject):
         self.install(r'.\LICENSE share\doc\protobuf-c')
 
 @project_add
-class Project_win_iconv(CmakeProject):
+class Project_win_iconv(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'win-iconv',

@@ -60,7 +60,7 @@ class Meson(Project):
         # if we don't make the tests we simply run 'ninja install' that takes care of everything, running explicity from the build dir
         self.builder.exec_vs('ninja install', working_dir=ninja_build)
 
-class CmakeProject(Tarball, Project):
+class CmakeProject(Project):
     def __init__(self, name, **kwargs):
         Project.__init__(self, name, **kwargs)
 
