@@ -769,19 +769,17 @@ class Project_libmicrohttpd(Tarball, Project):
         self.install(r'.\COPYING share\doc\libmicrohttpd')
 
 @project_add
-class Project_libpng(Tarball, Project):
+class Project_libpng(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'libpng',
             archive_url = 'http://prdownloads.sourceforge.net/libpng/libpng-1.6.29.tar.xz',
             hash = '4245b684e8fe829ebb76186327bb37ce5a639938b219882b53d64bd3cfc5f239',
-            dependencies = ['cmake', 'zlib'],
+            dependencies = ['cmake', 'ninja', 'zlib'],
             )
 
     def build(self):
-        self.exec_vs(r'cmake . -G "NMake Makefiles" -DZLIB_ROOT="%(gtk_dir)s" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=%(configuration)s')
-        self.exec_vs(r'nmake /nologo')
-        self.exec_vs(r'nmake /nologo install')
+        CmakeProject.build(self, use_ninja=True)
 
         self.install('LICENSE share\doc\libpng')
 
