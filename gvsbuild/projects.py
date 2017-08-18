@@ -830,20 +830,17 @@ class Project_sqlite(Tarball, Project):
         self.install('sqlite3.lib lib')
 
 @project_add
-class Project_libcurl(Tarball, Project):
+class Project_libcurl(CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'libcurl',
             archive_url = 'https://github.com/curl/curl/releases/download/curl-7_54_0/curl-7.54.0.tar.gz',
             hash = 'a84b635941c74e26cce69dd817489bec687eb1f230e7d1897fc5b5f108b59adf',
-            dependencies = ['cmake'],
+            dependencies = ['perl', 'cmake', 'ninja', ],
             )
 
     def build(self):
-        cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
-        self.exec_vs(r'cmake -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%(gtk_dir)s" -DGTK_DIR="%(pkg_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config)
-        self.exec_vs(r'nmake /nologo')
-        self.exec_vs(r'nmake /nologo install')
+        CmakeProject.build(self, use_ninja=True)
 
         self.install(r'.\COPYING share\doc\libcurl')
 
