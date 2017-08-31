@@ -57,7 +57,10 @@ def get_options(args):
     if not opts.tools_root_dir:
         opts.tools_root_dir = os.path.join(args.build_dir, 'tools')
     if not opts.vs_install_path:
-        opts.vs_install_path = r'C:\Program Files (x86)\Microsoft Visual Studio %s.0' % (opts.vs_ver,)
+        if opts.vs_ver == "15":
+            opts.vs_install_path = r'C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional'
+        else:
+            opts.vs_install_path = r'C:\Program Files (x86)\Microsoft Visual Studio %s.0' % (opts.vs_ver,)
 
     opts.projects = args.project
 
