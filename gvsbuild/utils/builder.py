@@ -136,7 +136,7 @@ class Builder(object):
         self.add_env('LIBPATH', os.path.join(self.gtk_dir, 'lib'))
         self.add_env('PATH', os.path.join(self.gtk_dir, 'bin'))
 
-        output = subprocess.check_output('cmd.exe /c ""%s" && set"' % (vcvars_bat,), shell=True)
+        output = subprocess.check_output('cmd.exe /c ""%s">NUL && set"' % (vcvars_bat,), shell=True)
         self.vs_env = {}
         for l in output.splitlines():
             # python 3 str is not bytes and no need to decode
