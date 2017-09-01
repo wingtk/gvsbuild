@@ -1284,6 +1284,7 @@ class Project_zlib(Tarball, Project):
         self.install(r'.\zlib1.dll .\zlib1.pdb bin')
         self.install(r'.\zlib1.lib lib')
 
+        self.install(r'.\pc-files\* lib\pkgconfig')
         self.install(r'.\README share\doc\zlib')
 
 Project.add(MercurialCmakeProject('pycairo', repo_url='git+ssh://git@github.com:muntyan/pycairo-gtk-win32.git', dependencies = ['cmake', 'cairo']))
