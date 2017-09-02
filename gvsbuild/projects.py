@@ -1193,8 +1193,9 @@ class Project_protobuf(Tarball, CmakeProject):
     def build(self):
         # We need to compile with STATIC_RUNTIME off since protobuf-c also compiles with it OFF
         CmakeProject.build(self, 
-                           cmake_params=r'.\cmake\ -Dprotobuf_DEBUG_POSTFIX="" -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_WITH_ZLIB=ON -Dprotobuf_MSVC_STATIC_RUNTIME=OFF',
-                           use_ninja=True)
+                           cmake_params=r'-Dprotobuf_DEBUG_POSTFIX="" -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_WITH_ZLIB=ON -Dprotobuf_MSVC_STATIC_RUNTIME=OFF',
+                           use_ninja=True,
+                           source_part='cmake')
 
         self.install(r'.\LICENSE share\doc\protobuf')
 
@@ -1210,7 +1211,7 @@ class Project_protobuf_c(GitRepo, CmakeProject):
             )
 
     def build(self):
-        CmakeProject.build(self, cmake_params=r'.\build-cmake\ -DPROTOBUF_ROOT="%s"' % (self.builder.gtk_dir, ), use_ninja=True)  
+        CmakeProject.build(self, use_ninja=True, source_part='build-cmake')
 
         self.install(r'.\LICENSE share\doc\protobuf-c')
 

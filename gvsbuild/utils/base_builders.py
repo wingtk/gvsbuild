@@ -64,7 +64,7 @@ class CmakeProject(Project):
     def __init__(self, name, **kwargs):
         Project.__init__(self, name, **kwargs)
 
-    def build(self, cmake_params=None, use_ninja=False, make_tests=False, do_install=True):
+    def build(self, cmake_params=None, use_ninja=False, make_tests=False, do_install=True, out_of_source=None, source_part=None):
         cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
         cmake_gen = 'Ninja' if use_ninja else 'NMake Makefiles'
         
@@ -72,24 +72,46 @@ class CmakeProject(Project):
         cmd = 'cmake -G "' + cmake_gen + '" -DCMAKE_INSTALL_PREFIX="%(pkg_dir)s" -DGTK_DIR="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config
         if cmake_params:
             cmd += ' ' + cmake_params 
+        if use_ninja and out_of_source is None:
+            # For ninja the default is build out of source 
+            out_of_source = True
+        
+        if out_of_source:
+            cmake_dir = self.build_dir + '-cmake'
+
+            # clean up and regenerate all
+            if self.builder.opts.clean and os.path.exists(cmake_dir):
+                print_debug("Removing cmake build dir '%s'" % (cmake_dir, ))
+                shutil.rmtree(cmake_dir, onerror=_rmtree_error_handler)
+
+            self.builder.make_dir(cmake_dir)
+            if source_part:
+                src_full = os.path.join(self.build_dir, source_part)
+            else:
+                src_full = self.build_dir
+            cmd += ' -B%s -H%s' % (cmake_dir, src_full, )
+            work_dir = cmake_dir
+        else:
+            work_dir = self._get_working_dir()
+        
         # Generate the files used to build 
-        self.exec_vs(cmd)
+        self.builder.exec_vs(cmd, working_dir=work_dir)
         # Build 
         if use_ninja:
             if make_tests:
-                self.exec_vs('ninja')
-                self.exec_vs('ninja test')
+                self.builder.exec_vs('ninja', working_dir=work_dir)
+                self.builder.exec_vs('ninja test', working_dir=work_dir)
                 if do_install:
-                    self.exec_vs('ninja install')
+                    self.builder.exec_vs('ninja install', working_dir=work_dir)
             else:
                 if do_install:
-                    self.exec_vs('ninja install')
+                    self.builder.exec_vs('ninja install', working_dir=work_dir)
                 else:
-                    self.exec_vs('ninja')
+                    self.builder.exec_vs('ninja', working_dir=work_dir)
         else:
-            self.exec_vs('nmake /nologo')
+            self.builder.exec_vs('nmake /nologo', working_dir=work_dir)
             if do_install:
-                self.exec_vs('nmake /nologo install')
+                self.builder.exec_vs('nmake /nologo install', working_dir=work_dir)
 
 class MercurialCmakeProject(MercurialRepo, CmakeProject):
     def __init__(self, name, **kwargs):
