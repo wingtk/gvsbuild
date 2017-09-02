@@ -837,6 +837,11 @@ class Project_libcurl(Tarball, CmakeProject):
 
     def build(self):
         CmakeProject.build(self, use_ninja=True)
+        # Fix the pkg-config .pc file, correcting the library's names 
+        file_replace(os.path.join(self.pkg_dir, 'lib', 'pkgconfig', 'libcurl.pc'),
+                     [ (' -lcurl', ' -llibcurl_imp'),
+                       ]
+                     )
 
         self.install(r'.\COPYING share\doc\libcurl')
 
