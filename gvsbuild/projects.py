@@ -733,6 +733,8 @@ class Project_libjpeg_turbo(Tarball, CmakeProject):
 
     def build(self):
         CmakeProject.build(self, use_ninja=True)
+
+        self.install(r'.\pc-files\* lib\pkgconfig')
         self.install(r'.\LICENSE.md share\doc\libjpeg-turbo')
 
 @project_add
