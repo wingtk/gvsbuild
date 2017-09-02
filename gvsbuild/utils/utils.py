@@ -19,6 +19,7 @@ import os
 import stat
 import time
 import shutil
+import re
 
 from .simple_ui import print_debug
 
@@ -50,6 +51,41 @@ def rmtree_full(dest_dir, retry=False):
     else:
         shutil.rmtree(dest_dir, onerror=_rmtree_error_handler)
 
+def read_file(file_name):
+    with open(file_name, 'rt') as fi:
+        rt = [ line.rstrip('\n') for line in fi ]
+    return rt
+
+def write_file(file_name, content):
+    with open(file_name, 'wt') as fo:
+        for i in content:
+            fo.write('%s\n' % (i, ))
+
+def file_replace(file_name, chg_list, make_bak=True):
+    """
+    Execute a series of replace on the file indicated
+    
+    chg_list is an iterable of tuple (find, replace) to execute 
+    """
+    
+    fc = read_file(file_name)
+    if make_bak:
+        sv = fc
+    chg = 0
+    for find, repl in chg_list:
+        exp = re.compile(find)
+        nw = []
+        for i in fc:
+            nl = exp.sub(repl, i)
+            if nl != i:
+                chg += 1
+            nw.append(nl)
+        fc = nw
+    if chg:
+        if make_bak:
+            write_file(file_name + '.bak', sv)
+        write_file(file_name, fc)
+            
 class ordered_set(set):
     def __init__(self):
         set.__init__(self)

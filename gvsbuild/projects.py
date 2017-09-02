@@ -25,6 +25,7 @@ import shutil
 
 from .utils.simple_ui import print_debug
 from .utils.utils import convert_to_msys
+from .utils.utils import file_replace
 from .utils.base_expanders import Tarball, GitRepo
 from .utils.base_project import Project, project_add
 from .utils.base_builders import Meson, MercurialCmakeProject, CmakeProject
@@ -642,6 +643,13 @@ class Project_libarchive(Tarball, CmakeProject):
 
     def build(self):
         CmakeProject.build(self, use_ninja=True)
+        # Fix the pkg-config .pc file, correcting the library's names 
+        file_replace(os.path.join(self.pkg_dir, 'lib', 'pkgconfig', 'libarchive.pc'), 
+                     [ (' -llz4',   ' -lliblz4'),
+                       (' -leay32', ' -llibeay32'),
+                       (' -lxml2',  ' -llibxml2'),
+                       ]
+                     )
         self.install(r'.\COPYING share\doc\libarchive')
 
 @project_add
