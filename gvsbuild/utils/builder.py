@@ -29,8 +29,10 @@ from urllib.request import splittype, urlopen, ContentTooShortError
 from urllib.error import URLError
 import contextlib
 import ssl
+import zipfile
 
 from .utils import ordered_set
+from .utils import rmtree_full
 from .simple_ui import global_verbose, error_exit, print_debug, print_log, print_message
 from .base_project import Project
 
@@ -65,6 +67,25 @@ class Builder(object):
             self.msbuild_opts += ' /v:normal'
         else:
             self.msbuild_opts += ' /v:minimal'
+
+        vs_zip_parts = {
+            '12': 'vs2013',
+            '14': 'vs2015',
+            '15': 'vs2017',
+        }
+
+        vs_part = vs_zip_parts.get(opts.vs_ver, None)
+        if not vs_part:
+            vs_part = 'ms-cl-%s' % (opts.vs_ver, )
+
+        self.zip_dir = os.path.join(opts.build_dir, 'dist', vs_part, opts.platform, opts.configuration)
+        if opts.make_zip:
+            # Remove the destination dir before starting anything
+            if os.path.isdir(self.gtk_dir):
+                print_log('Removing build dir (%s)' % (self.gtk_dir, ))
+                rmtree_full(self.gtk_dir)
+            self.file_builded = set()
+            os.makedirs(self.zip_dir, exist_ok=True)
 
     def __msys_missing(self, base_dir):
         msys_pkg = [
@@ -214,6 +235,22 @@ class Builder(object):
                 return True
         return False
 
+    def _load_builded_files(self):
+        """
+        Return a set with all the files present in the final, installation, dir
+        """
+        def _load_single_dir(dir_name, returned_set):
+            for cf in os.scandir(dir_name):
+                full = os.path.join(dir_name, cf.name.lower())
+                if cf.is_file():
+                    returned_set.add(full)
+                elif cf.is_dir():
+                    if cf.name.lower() != '__pycache__':
+                        _load_single_dir(full, returned_set)
+        rt = set()
+        _load_single_dir(self.gtk_dir, rt)
+        return rt
+
     def __build_one(self, proj):
         print_message("Building project %s" % (proj.name,))
 
@@ -254,6 +291,27 @@ class Builder(object):
         if vs_saved_path:
             # Restore the original vs path
             self.vs_env['PATH'] = vs_saved_path
+
+        if self.opts.make_zip:
+            # Create file list
+            cur = self._load_builded_files()
+            # delta with the old
+            new = cur - self.file_builded
+            if new:
+                # file presents, do the zip
+                zip_file = os.path.join(self.zip_dir, proj.name + '.zip')
+                self.make_zip(zip_file, new)
+                # use the current file set
+                self.file_builded = cur
+            else:
+                # No file preentt
+                print_log("%s:zip not needed (tool?)" % (proj.name, ))
+
+    def make_zip(self, name, files):
+        print_log('Creating zip file %s with %u files' % (name, len(files), ))
+        with zipfile.ZipFile(name + '.zip', 'w', compression=zipfile.ZIP_DEFLATED) as zf:
+            for f in sorted(list(files)):
+                zf.write(f, arcname=f[len(self.gtk_dir):])
 
     def make_dir(self, path):
         if not os.path.exists(path):
