@@ -1,0 +1,12 @@
+# On windows, the prefix is automagically build from the location of the .pc file
+prefix=C:/dir_placeholder
+exec_prefix=C:/dir_placeholder
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: freetype 2
+Description: A free, high-quality, and portable font engine.
+Version: 2.7.1
+
+Libs: -L${libdir} -lfreetype
+Cflags: -I${includedir}

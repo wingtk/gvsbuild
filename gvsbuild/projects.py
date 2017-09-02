@@ -303,6 +303,7 @@ class Project_freetype(Tarball, Project):
         self.exec_msbuild(r'builds\windows\vc%(vs_ver)s\freetype.vcxproj')
         self.install_dir(r'.\include')
         self.install(r'.\objs\%(platform)s\freetype.lib lib')
+        self.install(r'.\pc-files\* lib\pkgconfig')
         self.install(r'.\docs\LICENSE.TXT share\doc\freetype')
 
 @project_add
