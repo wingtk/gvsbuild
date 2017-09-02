@@ -708,16 +708,16 @@ class Project_libgxps(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libgxps',
-            archive_url = 'https://git.gnome.org/browse/libgxps/snapshot/libgxps-84e11c4f93829a762273b7cc362d6bc9a7582ed7.tar.xz',
-            hash = '1618845a59f665acfc1eeccee893b3cf27ff52588f90b9ba2c678630aeca5cf8',
-            dependencies = ['glib', 'libarchive', 'cairo', 'libpng', 'libjpeg-turbo'],
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libgxps/0.3/libgxps-0.3.0.tar.xz',
+            hash = '412b1343bd31fee41f7204c47514d34c563ae34dafa4cc710897366bd6cd0fae',
+            dependencies = ['meson', 'ninja', 'pkg-config', 'glib', 'libarchive', 'cairo', 'libpng', 'libjpeg-turbo', 'gtk3', ],
+            patches = [
+                '001-ignore-m-lib.patch',
+                ],
             )
 
     def build(self):
-        self.push_location(r'.\nmake')
-        self.exec_vs(r'nmake /nologo /f Makefile.vc CFG=%(configuration)s PREFIX="%(gtk_dir)s" LIBPNG=1 LIBJPEG=1 CAIRO_PDF=1 CAIRO_PS=1 CAIRO_SVG=1')
-        self.exec_vs(r'nmake /nologo /f Makefile.vc install CFG=%(configuration)s PREFIX="%(gtk_dir)s" LIBPNG=1 LIBJPEG=1 CAIRO_PDF=1 CAIRO_PS=1 CAIRO_SVG=1')
-        self.pop_location()
+        Meson.build(self, meson_params='-Dwith-liblcms2=false -Dwith-libtiff=false')
 
         self.install(r'.\COPYING share\doc\libgxps')
 
