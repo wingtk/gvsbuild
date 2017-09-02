@@ -789,6 +789,7 @@ class Project_libpng(Tarball, CmakeProject):
     def build(self):
         CmakeProject.build(self, use_ninja=True)
 
+        self.install(r'.\pc-files\* lib\pkgconfig')
         self.install('LICENSE share\doc\libpng')
 
 @project_add
