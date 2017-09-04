@@ -1326,3 +1326,39 @@ class Project_zlib(Tarball, Project):
 Project.add(MercurialCmakeProject('pycairo', repo_url='git+ssh://git@github.com:muntyan/pycairo-gtk-win32.git', dependencies = ['cmake', 'cairo']))
 Project.add(MercurialCmakeProject('pygobject', repo_url='git+ssh://git@github.com:muntyan/pygobject-gtk-win32.git', dependencies = ['cmake', 'glib']))
 Project.add(MercurialCmakeProject('pygtk', repo_url='git+ssh://git@github.com:muntyan/pygtk-gtk-win32.git', dependencies = ['cmake', 'gtk', 'pycairo', 'pygobject']))
+
+@project_add
+class Project_check_libs(Meson):
+    def __init__(self):
+        Project.__init__(self,
+            'check-libs',
+            dependencies = [
+                    # Used to build the various tests
+                    'meson',
+                    'ninja',
+                    'pkg-config',
+                    # libraries to test, hopefully all the one we build!
+                    'atk',
+                    'freetype',
+                    'libarchive',
+                    'libcurl',
+                    'libjpeg-turbo',
+                    'libpng',
+                    'libtiff-4',
+                    'zlib',
+
+                ],
+            )
+
+    def update_build_dir(self):
+        # Force the copy of the files in the script
+        return True
+
+    def unpack(self):
+        # Everything is in our script, nothing to download
+        pass
+
+    def build(self):
+        Meson.build(self, make_tests=True)
+        self.install(r'.\COPYING share\doc\check-libs')
+
