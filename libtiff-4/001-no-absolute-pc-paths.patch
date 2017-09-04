@@ -1,0 +1,26 @@
+diff -ur orig/CMakeLists.txt new/CMakeLists.txt
+--- orig/CMakeLists.txt	2015-09-01 16:22:51.000000000 +0200
++++ new/CMakeLists.txt	2017-09-04 21:35:25.325098800 +0200
+@@ -672,7 +672,8 @@
+ set(libdir "${CMAKE_INSTALL_FULL_LIBDIR}")
+ set(includedir "${CMAKE_INSTALL_FULL_INCLUDEDIR}")
+ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libtiff-4.pc.in
+-               ${CMAKE_CURRENT_BINARY_DIR}/libtiff-4.pc)
++               ${CMAKE_CURRENT_BINARY_DIR}/libtiff-4.pc
++               @ONLY)
+ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libtiff-4.pc
+         DESTINATION "${CMAKE_INSTALL_FULL_LIBDIR}/pkgconfig")
+ 
+diff -ur orig/libtiff-4.pc.in new/libtiff-4.pc.in
+--- orig/libtiff-4.pc.in	2010-11-27 21:48:32.000000000 +0100
++++ new/libtiff-4.pc.in	2017-09-04 21:25:36.170843400 +0200
+@@ -1,7 +1,7 @@
+ prefix=@prefix@
+ exec_prefix=@exec_prefix@
+-libdir=@libdir@
+-includedir=@includedir@
++libdir=${prefix}/lib
++includedir=${prefix}/include
+ 
+ Name: libtiff
+ Description:  Tag Image File Format (TIFF) library.
