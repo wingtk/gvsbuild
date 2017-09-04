@@ -710,14 +710,14 @@ class Project_libgxps(Tarball, Project):
             'libgxps',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libgxps/0.3/libgxps-0.3.0.tar.xz',
             hash = '412b1343bd31fee41f7204c47514d34c563ae34dafa4cc710897366bd6cd0fae',
-            dependencies = ['meson', 'ninja', 'pkg-config', 'glib', 'libarchive', 'cairo', 'libpng', 'libjpeg-turbo', 'gtk3', ],
+            dependencies = ['meson', 'ninja', 'pkg-config', 'glib', 'libarchive', 'cairo', 'libpng', 'libjpeg-turbo', 'libtiff-4', 'gtk3', ],
             patches = [
                 '001-ignore-m-lib.patch',
                 ],
             )
 
     def build(self):
-        Meson.build(self, meson_params='-Dwith-liblcms2=false -Dwith-libtiff=false')
+        Meson.build(self, meson_params='-Dwith-liblcms2=false')
 
         self.install(r'.\COPYING share\doc\libgxps')
 
@@ -892,6 +892,24 @@ class Project_libssh2(Tarball, CmakeProject):
     def build(self):
         CmakeProject.build(self, cmake_params='-DWITH_ZLIB=ON', use_ninja=True)
         self.install(r'.\COPYING share\doc\libssh2')
+
+@project_add
+class Project_libtiff4(Tarball, CmakeProject):
+    def __init__(self):
+        Project.__init__(self,
+            'libtiff-4',
+            archive_url = 'ftp://download.osgeo.org/libtiff/tiff-4.0.8.tar.gz',
+            hash = '59d7a5a8ccd92059913f246877db95a2918e6c04fb9d43fd74e5c3390dac2910',
+            dependencies = ['cmake', 'ninja', ],
+            patches = [
+                '001-no-absolute-pc-paths.patch',
+                ],
+            )
+
+    def build(self):
+        CmakeProject.build(self, use_ninja=True)
+
+        self.install(r'.\COPYRIGHT share\doc\tiff')
 
 @project_add
 class Project_libuv(Tarball, Project):
