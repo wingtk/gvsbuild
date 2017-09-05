@@ -191,10 +191,10 @@ Examples:
                          help='Command line options to pass to msbuild.')
 
     p_build.add_argument('--skip', default='',
-                         help='A comma separated list of project(s) not to builded.')
+                         help='A comma separated list of project(s) not to build.')
 
     p_build.add_argument('--make-zip', default=False, action='store_true',
-                         help="Create singles zips of the projetcs builded under $(build-dir)\\dist\\vsXXXX\\[platform]\\[configuration], " +
+                         help="Create singles zips of the projects built under $(build-dir)\\dist\\vsXXXX\\[platform]\\[configuration], " +
                          "for example 'c:\\gtk-build\\dist\\vs2015\\win32\\release'. " +
                          "NOTE: the destination dir (e.g. 'c:\\gtk-build\\gtk\\win32\\release') " +
                          "will be cleared completely before the build!")

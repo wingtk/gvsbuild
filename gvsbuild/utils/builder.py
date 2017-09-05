@@ -84,7 +84,7 @@ class Builder(object):
             if os.path.isdir(self.gtk_dir):
                 print_log('Removing build dir (%s)' % (self.gtk_dir, ))
                 rmtree_full(self.gtk_dir)
-            self.file_builded = set()
+            self.file_built = set()
             os.makedirs(self.zip_dir, exist_ok=True)
 
     def __msys_missing(self, base_dir):
@@ -235,7 +235,7 @@ class Builder(object):
                 return True
         return False
 
-    def _load_builded_files(self):
+    def _load_built_files(self):
         """
         Return a set with all the files present in the final, installation, dir
         """
@@ -294,15 +294,15 @@ class Builder(object):
 
         if self.opts.make_zip:
             # Create file list
-            cur = self._load_builded_files()
+            cur = self._load_built_files()
             # delta with the old
-            new = cur - self.file_builded
+            new = cur - self.file_built
             if new:
                 # file presents, do the zip
                 zip_file = os.path.join(self.zip_dir, proj.name + '.zip')
                 self.make_zip(zip_file, new)
                 # use the current file set
-                self.file_builded = cur
+                self.file_built = cur
             else:
                 # No file preentt
                 print_log("%s:zip not needed (tool?)" % (proj.name, ))
