@@ -1323,9 +1323,41 @@ class Project_zlib(Tarball, Project):
         self.install(r'.\pc-files\* lib\pkgconfig')
         self.install(r'.\README share\doc\zlib')
 
-Project.add(MercurialCmakeProject('pycairo', repo_url='git+ssh://git@github.com:muntyan/pycairo-gtk-win32.git', dependencies = ['cmake', 'cairo']))
-Project.add(MercurialCmakeProject('pygobject', repo_url='git+ssh://git@github.com:muntyan/pygobject-gtk-win32.git', dependencies = ['cmake', 'glib']))
-Project.add(MercurialCmakeProject('pygtk', repo_url='git+ssh://git@github.com:muntyan/pygtk-gtk-win32.git', dependencies = ['cmake', 'gtk', 'pycairo', 'pygobject']))
+@project_add
+class Project_pycairo(GitRepo, CmakeProject):
+    def __init__(self):
+        GitRepo.__init__(self)
+        Project.__init__(self,
+                         'pycairo',
+                         repo_url='git://github.com/muntyan/pycairo-gtk-win32.git',
+                         fetch_submodules = False,
+                         tag = None,
+                         dependencies = ['cmake', 'cairo'],
+                         )
+        
+@project_add
+class Project_pygobject(GitRepo, CmakeProject):
+    def __init__(self):
+        GitRepo.__init__(self)
+        Project.__init__(self,
+                         'pygobject',
+                         repo_url='git://github.com/muntyan/pygobject-gtk-win32.git',
+                         fetch_submodules = False,
+                         tag = None,
+                         dependencies = ['cmake', 'glib'],
+                         )
+
+@project_add
+class Project_pygtk(GitRepo, CmakeProject):
+    def __init__(self):
+        GitRepo.__init__(self)
+        Project.__init__(self,
+                         'pygtk',
+                         repo_url='git://github.com/muntyan/pygtk-gtk-win32.git',
+                         fetch_submodules = False,
+                         tag = None,
+                         dependencies = ['cmake', 'gtk', 'pycairo', 'pygobject'],
+                         )
 
 @project_add
 class Project_check_libs(Meson):
