@@ -134,11 +134,14 @@ class Builder(object):
 
     def __check_vs(self, opts):
         # Verify VS exists at the indicated location, and that it supports the required target
+        add_opts = ''
         if opts.platform == 'Win32':
             vcvars_bat = os.path.join(opts.vs_install_path, 'VC', 'bin', 'vcvars32.bat')
             # make sure it works with VS 2017
             if not os.path.exists(vcvars_bat):
                 vcvars_bat=os.path.join(opts.vs_install_path, 'VC', 'Auxiliary', 'Build', 'vcvars32.bat')
+            if not opts.win_sdk_ver:
+                add_opts = ' x86 %s' % (opts.win_sdk_ver, )
         else:
             vcvars_bat = os.path.join(opts.vs_install_path, 'VC', 'bin', 'amd64', 'vcvars64.bat')
             # make sure it works with VS Express
@@ -147,6 +150,8 @@ class Builder(object):
             # make sure it works with VS 2017
             if not os.path.exists(vcvars_bat):
                 vcvars_bat=os.path.join(opts.vs_install_path, 'VC', 'Auxiliary', 'Build', 'vcvars64.bat')
+            if not opts.win_sdk_ver:
+                add_opts = ' x64 %s' % (opts.win_sdk_ver, )
 
         if not os.path.exists(vcvars_bat):
             raise Exception("'%s' could not be found. Please check you have Visual Studio installed at '%s' and that it supports the target platform '%s'." % (vcvars_bat, opts.vs_install_path, opts.platform))
@@ -157,7 +162,7 @@ class Builder(object):
         self.add_env('LIBPATH', os.path.join(self.gtk_dir, 'lib'))
         self.add_env('PATH', os.path.join(self.gtk_dir, 'bin'))
 
-        output = subprocess.check_output('cmd.exe /c ""%s">NUL && set"' % (vcvars_bat,), shell=True)
+        output = subprocess.check_output('cmd.exe /c ""%s"%s>NUL && set"' % (vcvars_bat, add_opts, ), shell=True)
         self.vs_env = {}
         for l in output.splitlines():
             # python 3 str is not bytes and no need to decode
