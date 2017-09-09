@@ -42,6 +42,7 @@ def get_options(args):
     opts.tools_root_dir = args.tools_root_dir
     opts.vs_ver = args.vs_ver
     opts.vs_install_path = args.vs_install_path
+    opts.win_sdk_ver = args.win_sdk_ver
     opts.python_dir = args.python_dir
     opts.msys_dir = args.msys_dir
     opts.clean = args.clean
@@ -177,6 +178,10 @@ Examples:
                          help="Visual Studio version 10,12,14, etc. Default is 12.")
     p_build.add_argument('--vs-install-path',
                          help=r"The directory where you installed Visual Studio. Default is 'C:\Program Files (x86)\Microsoft Visual Studio $(build-ver).0'")
+    p_build.add_argument('--win-sdk-ver', default = None,
+                         help=r"The windows sdk version to use for building, used to initialize the Visual Studio build environment. " +
+                               "It can be 8.1 (for windows 8 compatibility) or 10.0.xxxxx.0, where xxxxx, at the moment, can be 10150, 10240, 10586, 14393 or 15063 " +
+                               "depending on the VS version / installation's options.")
     p_build.add_argument('--python-dir', default=os.path.dirname(sys.executable),
                          help="The directory where you installed python.")
 
