@@ -140,7 +140,7 @@ class Builder(object):
             # make sure it works with VS 2017
             if not os.path.exists(vcvars_bat):
                 vcvars_bat=os.path.join(opts.vs_install_path, 'VC', 'Auxiliary', 'Build', 'vcvars32.bat')
-            if not opts.win_sdk_ver:
+            if opts.win_sdk_ver:
                 add_opts = ' x86 %s' % (opts.win_sdk_ver, )
         else:
             vcvars_bat = os.path.join(opts.vs_install_path, 'VC', 'bin', 'amd64', 'vcvars64.bat')
@@ -150,7 +150,7 @@ class Builder(object):
             # make sure it works with VS 2017
             if not os.path.exists(vcvars_bat):
                 vcvars_bat=os.path.join(opts.vs_install_path, 'VC', 'Auxiliary', 'Build', 'vcvars64.bat')
-            if not opts.win_sdk_ver:
+            if opts.win_sdk_ver:
                 add_opts = ' x64 %s' % (opts.win_sdk_ver, )
 
         if not os.path.exists(vcvars_bat):
