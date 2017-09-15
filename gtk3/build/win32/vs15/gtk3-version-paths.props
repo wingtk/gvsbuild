@@ -12,7 +12,7 @@
     <GtkSeparateVSDllSuffix>-vs$(VSVer)</GtkSeparateVSDllSuffix>
     <GtkDllPrefix>$(GtkSeparateVSDllPrefix)</GtkDllPrefix>
     <GtkDllSuffix>$(GtkSeparateVSDllSuffix)</GtkDllSuffix>
-    <PythonPath>c:\python34</PythonPath>
+    <PythonPath>c:\python36</PythonPath>
     <PythonPathX64>$(PythonPath).x64</PythonPathX64>
   </PropertyGroup>
   <PropertyGroup>

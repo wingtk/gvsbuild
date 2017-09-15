@@ -15,7 +15,7 @@
     <JsonGlibSeparateVSDllSuffix>-1.0</JsonGlibSeparateVSDllSuffix>
     <JsonGlibDllPrefix>$(JsonGlibSeparateVSDllPrefix)</JsonGlibDllPrefix>
     <JsonGlibDllSuffix>$(JsonGlibSeparateVSDllSuffix)</JsonGlibDllSuffix>
-    <PythonPath>c:\python34</PythonPath>
+    <PythonPath>c:\python36</PythonPath>
   </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>jsonglibversionpathsprops</_PropertySheetDisplayName>

@@ -17,7 +17,7 @@
     <GdkPixbufSeparateVSDllSuffix>-2.0</GdkPixbufSeparateVSDllSuffix>
     <GdkPixbufDllPrefix>$(GdkPixbufSeparateVSDllPrefix)</GdkPixbufDllPrefix>
     <GdkPixbufDllSuffix>$(GdkPixbufSeparateVSDllSuffix)</GdkPixbufDllSuffix>
-    <PythonPath>c:\python34</PythonPath>
+    <PythonPath>c:\python36</PythonPath>
     <PythonPathX64>$(PythonPath).x64</PythonPathX64>
   </PropertyGroup>
   <PropertyGroup>

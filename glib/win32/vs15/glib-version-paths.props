@@ -14,7 +14,7 @@
     <GlibSeparateVSDllSuffix>-2.0</GlibSeparateVSDllSuffix>
     <GlibDllPrefix>$(GlibSeparateVSDllPrefix)</GlibDllPrefix>
     <GlibDllSuffix>$(GlibSeparateVSDllSuffix)</GlibDllSuffix>
-    <PythonPath>c:\python34</PythonPath>
+    <PythonPath>c:\python36</PythonPath>
   </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>glibversionpathsprops</_PropertySheetDisplayName>

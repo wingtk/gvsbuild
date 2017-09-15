@@ -16,7 +16,7 @@
     <PangoSeparateVSDllSuffix>-1.0</PangoSeparateVSDllSuffix>
     <PangoDllPrefix>$(PangoSeparateVSDllPrefix)</PangoDllPrefix>
     <PangoDllSuffix>$(PangoSeparateVSDllSuffix)</PangoDllSuffix>
-    <PythonPath>c:\python34</PythonPath>
+    <PythonPath>c:\python36</PythonPath>
     <PythonPathX64>$(PythonPath)</PythonPathX64>
   </PropertyGroup>
   <PropertyGroup>

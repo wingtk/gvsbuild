@@ -12,8 +12,8 @@
     <GtkSeparateVSDllSuffix>-3.0</GtkSeparateVSDllSuffix>
     <GtkDllPrefix>$(GtkSeparateVSDllPrefix)</GtkDllPrefix>
     <GtkDllSuffix>$(GtkSeparateVSDllSuffix)</GtkDllSuffix>
-    <PythonPath>c:\python34</PythonPath>
-    <PythonPathX64>c:\python34</PythonPathX64>
+    <PythonPath>c:\python36</PythonPath>
+    <PythonPathX64>c:\python36</PythonPathX64>
   </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>gtk3versionpathsprops</_PropertySheetDisplayName>
