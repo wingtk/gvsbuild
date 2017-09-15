@@ -1235,13 +1235,12 @@ class Project_protobuf(Tarball, CmakeProject):
         self.install(r'.\LICENSE share\doc\protobuf')
 
 @project_add
-class Project_protobuf_c(GitRepo, CmakeProject):
+class Project_protobuf_c(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'protobuf-c',
-            repo_url = 'https://github.com/protobuf-c/protobuf-c',
-            fetch_submodules = False,
-            tag = 'a8921fe7dc2455a20114130eacc6761d1354fa2c',
+            archive_url = 'https://github.com/protobuf-c/protobuf-c/releases/download/v1.3.0/protobuf-c-1.3.0.tar.gz',
+            hash = '5dc9ad7a9b889cf7c8ff6bf72215f1874a90260f60ad4f88acf21bb15d2752a1',
             dependencies = ['cmake', 'protobuf', 'ninja', ],
             )
 
