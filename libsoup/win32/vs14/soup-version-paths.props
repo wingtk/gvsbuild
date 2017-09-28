@@ -8,7 +8,7 @@
     <CopyDir>..\..\..\libsoup-rel</CopyDir>
     <SoupMajorVersion>2</SoupMajorVersion>
     <SoupMinorVersion>58</SoupMinorVersion>
-    <SoupMicroVersion>1</SoupMicroVersion>
+    <SoupMicroVersion>2</SoupMicroVersion>
     <ApiVersion>2.4</ApiVersion>
     <SoupLibtoolCompatibleDllPrefix>lib</SoupLibtoolCompatibleDllPrefix>
     <SoupLibtoolCompatibleDllSuffix>-$(ApiVersion)-0</SoupLibtoolCompatibleDllSuffix>
