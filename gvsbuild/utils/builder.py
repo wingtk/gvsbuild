@@ -30,6 +30,7 @@ from urllib.error import URLError
 import contextlib
 import ssl
 import zipfile
+import re
 
 from .utils import ordered_set
 from .utils import rmtree_full
@@ -53,6 +54,9 @@ class Builder(object):
         # Setup the directory, used by check vs
         self.working_dir = os.path.join(opts.build_dir, 'build', opts.platform, opts.configuration)
         self.gtk_dir = os.path.join(opts.build_dir, 'gtk', opts.platform, opts.configuration)
+
+        if not opts.use_env:
+            self.__minimum_env()
 
         self.__check_tools(opts)
         self.__check_vs(opts)
@@ -89,6 +93,59 @@ class Builder(object):
             self.file_built = set()
             os.makedirs(self.zip_dir, exist_ok=True)
 
+    def __minimum_env(self):
+        """
+        Set the environment to the minimum needed to run, leaving only
+        the c:\windows\XXXX directory and the git one.
+        
+        The LIB, LIBPATH & INCLUDE environment are also cleaned to avoid 
+        mismatch with  libs / programs already installed
+        """
+        
+        print_debug('Cleaning up the build environment')
+        win_dir = os.environ.get('SYSTEMROOT', r'c:\windows').lower()
+    
+        win_dir = win_dir.replace('\\', '\\\\')
+        print_debug('windir -> %s' % (win_dir, ))
+    
+        chk_re = [
+            re.compile('^%s\\\\' % (win_dir, )),
+            re.compile('^%s$' % (win_dir, )),
+            re.compile('\\\\git\\\\'),
+            re.compile('\\\\git$'),
+        ]
+    
+        mp = []
+        paths = os.environ.get('PATH', '').split(';')
+        for k in paths:
+            # use all lower
+            k = os.path.normpath(k).lower()
+            if k in mp:
+                # already present
+                print_debug("   Already present: '%s'" % (k, ))
+                continue
+    
+            add = False
+            for cre in chk_re:
+                if cre.search(k):
+                    mp.append(k)
+                    add = True
+                    break
+            if add:
+                print_debug("Add '%s'" % (k, ))
+            else:
+                print_debug("   Skip '%s'" % (k, ))
+    
+        print_debug('Final path:')
+        for i in mp:
+            print_debug('    %s' % (i, ))
+        os.environ['PATH'] = ';'.join(mp)
+
+        os.environ['LIB'] = ''
+        os.environ['LIBPATH'] = ''
+        os.environ['INCLUDE'] = ''
+        print_debug('End environment setup')
+    
     def __msys_missing(self, base_dir):
         msys_pkg = [
             ('patch',      'patch'),
