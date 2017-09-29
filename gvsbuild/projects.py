@@ -1392,6 +1392,7 @@ class Project_check_libs(Meson):
                     # libraries to test, hopefully all the one we build!
                     'atk',
                     'freetype',
+                    'gdk-pixbuf',
                     'libarchive',
                     'libcurl',
                     'libjpeg-turbo',

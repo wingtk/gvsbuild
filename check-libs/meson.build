@@ -84,6 +84,18 @@ if libcurl_dep.found()
         test('libcurl', test_libcurl)
 endif
 
+# gdk-pixbuf
+gdk_pixbuf_required_ver = '>= 2.36.10'
+gdk_pixbuf_dep = dependency('gdk-pixbuf-2.0', version: gdk_pixbuf_required_ver, required: check_all)
+if gdk_pixbuf_dep.found()
+        test_gdk_pixbuf = executable('test_gdk-pixbuf',
+                                     [ 'test_gdk-pixbuf.c', 'check_utils.c', ],
+                                     dependencies: [ gdk_pixbuf_dep, ],
+                                    )
+
+        test('gdk-pixbuf', test_gdk_pixbuf)
+endif
+
 # jasper
 jasper_required_ver = '>= 2.0.12'
 jasper_dep = dependency('jasper', version: jasper_required_ver, required: check_all)
