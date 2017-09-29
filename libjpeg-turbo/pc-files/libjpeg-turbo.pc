@@ -6,7 +6,7 @@ includedir=${prefix}/include
 
 Name: libjpeg-turbo
 Description: check_all
-Version: 1.5.1
+Version: 1.5.2
 
 Libs: -L${libdir} -lturbojpeg
 Cflags: -I${includedir}
