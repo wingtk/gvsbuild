@@ -84,6 +84,18 @@ if libcurl_dep.found()
         test('libcurl', test_libcurl)
 endif
 
+# jasper
+jasper_required_ver = '>= 2.0.12'
+jasper_dep = dependency('jasper', version: jasper_required_ver, required: check_all)
+if jasper_dep.found()
+        test_jasper = executable('test_jasper',
+                                 [ 'test_jasper.c', 'check_utils.c', ],
+                                 dependencies: [ jasper_dep, ],
+                                )
+
+        test('jasper', test_jasper)
+endif
+
 # libjpeg
 libjpeg_required_ver = '>= 6.2'
 libjpeg_dep = dependency('libjpeg', version: libjpeg_required_ver, required: check_all)
