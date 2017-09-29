@@ -47,6 +47,7 @@ def get_options(args):
     opts.msys_dir = args.msys_dir
     opts.clean = args.clean
     opts.msbuild_opts = args.msbuild_opts
+    opts.use_env = args.use_env
     opts.no_deps = args.no_deps
     opts.check_hash = args.check_hash
     opts.skip = args.skip
@@ -194,6 +195,8 @@ Examples:
 
     p_build.add_argument('--msbuild-opts', default='',
                          help='Command line options to pass to msbuild.')
+    p_build.add_argument('--use-env', default=False, action='store_true',
+                         help='Use and keep the calling environment for LIB, LIBPATH, INCLUDE and PATH')
 
     p_build.add_argument('--skip', default='',
                          help='A comma separated list of project(s) not to build.')
