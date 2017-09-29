@@ -141,7 +141,7 @@ class Builder(object):
             if not os.path.exists(vcvars_bat):
                 vcvars_bat=os.path.join(opts.vs_install_path, 'VC', 'Auxiliary', 'Build', 'vcvars32.bat')
             if opts.win_sdk_ver:
-                add_opts = ' x86 %s' % (opts.win_sdk_ver, )
+                add_opts = ' %s' % (opts.win_sdk_ver, )
         else:
             vcvars_bat = os.path.join(opts.vs_install_path, 'VC', 'bin', 'amd64', 'vcvars64.bat')
             # make sure it works with VS Express
@@ -151,7 +151,7 @@ class Builder(object):
             if not os.path.exists(vcvars_bat):
                 vcvars_bat=os.path.join(opts.vs_install_path, 'VC', 'Auxiliary', 'Build', 'vcvars64.bat')
             if opts.win_sdk_ver:
-                add_opts = ' x64 %s' % (opts.win_sdk_ver, )
+                add_opts = ' %s' % (opts.win_sdk_ver, )
 
         if not os.path.exists(vcvars_bat):
             raise Exception("'%s' could not be found. Please check you have Visual Studio installed at '%s' and that it supports the target platform '%s'." % (vcvars_bat, opts.vs_install_path, opts.platform))
