@@ -77,6 +77,8 @@ class Builder(object):
         vs_part = vs_zip_parts.get(opts.vs_ver, None)
         if not vs_part:
             vs_part = 'ms-cl-%s' % (opts.vs_ver, )
+        if opts.win_sdk_ver:
+            vs_part += '-' + opts.win_sdk_ver
 
         self.zip_dir = os.path.join(opts.build_dir, 'dist', vs_part, opts.platform, opts.configuration)
         if opts.make_zip:
