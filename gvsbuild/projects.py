@@ -307,21 +307,22 @@ class Project_freetype(Tarball, Project):
         self.install(r'.\docs\LICENSE.TXT share\doc\freetype')
 
 @project_add
-class Project_gdk_pixbuf(Tarball, Project):
+class Project_gdk_pixbuf(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'gdk-pixbuf',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.36/gdk-pixbuf-2.36.7.tar.xz',
-            hash = '1b6e5eef09d98f05f383014ecd3503e25dfb03d7e5b5f5904e5a65b049a6a4d8',
-            dependencies = ['glib', 'libpng'],
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.36/gdk-pixbuf-2.36.10.tar.xz',
+            hash = 'f8f6fa896b89475c73b6e9e8d2a2b062fc359c4b4ccb8e96470d6ab5da949ace',
+            dependencies = ['ninja', 'pkg-config', 'meson', 'perl', 'libtiff-4', 'jasper', 'glib', 'libpng'],
             )
 
     def build(self):
-        configuration = 'Release_GDI+'
-        if self.builder.opts.configuration == 'debug':
-            configuration = 'Debug_GDI+'
-
-        self.exec_msbuild(r'win32\vs%(vs_ver)s\gdk-pixbuf.sln', configuration=configuration)
+        # We can experiment with a couple of options to give to meson:
+        #    -Dbuiltin_loaders=all|windows
+        #        Buld the loader inside the library
+        #    -Denable_native_windows_loaders=true  
+        #        Use gdi+ to load some formats (ICO, BMP, ...)
+        Meson.build(self, meson_params='-Denable_jasper=true -Dwith_gir=false -Dwith_man=false')
         self.install(r'.\COPYING share\doc\gdk-pixbuf')
 
 @project_add
