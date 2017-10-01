@@ -921,7 +921,7 @@ class Project_libtiff4(Tarball, CmakeProject):
             'libtiff-4',
             archive_url = 'ftp://download.osgeo.org/libtiff/tiff-4.0.8.tar.gz',
             hash = '59d7a5a8ccd92059913f246877db95a2918e6c04fb9d43fd74e5c3390dac2910',
-            dependencies = ['cmake', 'ninja', ],
+            dependencies = ['cmake', 'ninja', 'libjpeg-turbo', ],
             patches = [
                 '001-no-absolute-pc-paths.patch',
                 ],
