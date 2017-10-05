@@ -594,4 +594,9 @@ class Builder(object):
             if k.lower() == 'path':
                 key = k
                 break
-        env[key] = env[key] + ';' + folder
+        if key:
+            env[key] = env[key] + ';' + folder
+        else:
+            key = 'path'
+            env[key] = folder
+        print_debug("Changed path env variable to '%s'" % env[key])
