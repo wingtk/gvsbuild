@@ -5,12 +5,12 @@
 	</PropertyGroup>
 	<ItemDefinitionGroup>
 		<ClCompile>
-			<AdditionalIncludeDirectories>..\..\..\gtk\$(Platform)\include</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>..\..\..\..\gtk\$(Platform)\$(Configuration)\include;..\..\..\..\gtk\$(Platform)\$(Configuration)\include\libxml2</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 		</ClCompile>
 		<Link>
 			<!--AdditionalDependencies></AdditionalDependencies-->
-			<AdditionalLibraryDirectories>..\..\..\gtk\$(Platform)\lib</AdditionalLibraryDirectories>
+			<AdditionalLibraryDirectories>..\..\..\..\gtk\$(Platform)\$(Configuration)\lib</AdditionalLibraryDirectories>
 		</Link>
 	</ItemDefinitionGroup>
 </Project>

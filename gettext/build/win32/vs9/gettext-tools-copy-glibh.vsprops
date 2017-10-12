@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="gettexttoolscopyglibhsprops"
+	InheritedPropertySheets=".\gettext-tools-build-defines.vsprops"
+	>
+	<UserMacro
+		Name="CopyGLibH"
+		Value="copy ..\..\..\gettext-tools\gnulib-lib\glib.in.h ..\..\..\gettext-tools\gnulib-lib\glib.h"
+	/>
+	<UserMacro
+		Name="CopyGLibConfigH"
+		Value="copy ..\..\..\gettext-tools\gnulib-lib\glibconfig.in.h ..\..\..\gettext-tools\gnulib-lib\glibconfig.h"
+	/>
+	<UserMacro
+		Name="CopyGHashH"
+		Value="copy ..\..\..\gettext-tools\gnulib-lib\glib\ghash.in.h ..\..\..\gettext-tools\gnulib-lib\glib\ghash.h"
+	/>
+	<UserMacro
+		Name="CopyGListH"
+		Value="copy ..\..\..\gettext-tools\gnulib-lib\glib\glist.in.h ..\..\..\gettext-tools\gnulib-lib\glib\glist.h"
+	/>
+	<UserMacro
+		Name="CopyGPrimesH"
+		Value="copy ..\..\..\gettext-tools\gnulib-lib\glib\gprimes.in.h ..\..\..\gettext-tools\gnulib-lib\glib\gprimes.h"
+	/>
+	<UserMacro
+		Name="CopyGStrfuncsH"
+		Value="copy ..\..\..\gettext-tools\gnulib-lib\glib\gstrfuncs.in.h ..\..\..\gettext-tools\gnulib-lib\glib\gstrfuncs.h"
+	/>
+	<UserMacro
+		Name="CopyGStringH"
+		Value="copy ..\..\..\gettext-tools\gnulib-lib\glib\gstring.in.h ..\..\..\gettext-tools\gnulib-lib\glib\gstring.h"
+	/>
+	<UserMacro
+		Name="CopyGTypesH"
+		Value="copy ..\..\..\gettext-tools\gnulib-lib\glib\gtypes.in.h ..\..\..\gettext-tools\gnulib-lib\glib\gtypes.h"
+	/>
+</VisualStudioPropertySheet>

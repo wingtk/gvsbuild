@@ -1,0 +1,12 @@
+# On windows, the prefix is automagically build from the location of the .pc file
+prefix=C:/dir_placeholder
+exec_prefix=C:/dir_placeholder
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: zlib
+Description: A Massively Spiffy Yet Delicately Unobtrusive Compression Library
+Version: 1.2.11
+
+Libs: -L${libdir} -lzlib1
+Cflags: -I${includedir}

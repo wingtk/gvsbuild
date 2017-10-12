@@ -1,0 +1,27 @@
+From 73be110fa8bcb781c04684f59c696ee36e1c7de2 Mon Sep 17 00:00:00 2001
+From: Ignacio Casal Quinteiro <icq@gnome.org>
+Date: Fri, 4 Nov 2016 09:33:47 +0100
+Subject: [PATCH] Do not add suffice to the library name
+
+---
+ CMakeLists.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 789671a..c9c99e5 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -370,8 +370,8 @@ IF(WIN32 AND MSVC)
+       SET(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin/Win32)
+     ENDIF()
+   ENDIF()
+-  SET_TARGET_PROPERTIES(portaudio PROPERTIES OUTPUT_NAME portaudio_${TARGET_POSTFIX} FOLDER "Portaudio")
+-  SET_TARGET_PROPERTIES(portaudio_static PROPERTIES OUTPUT_NAME portaudio_static_${TARGET_POSTFIX} FOLDER "Portaudio")
++  SET_TARGET_PROPERTIES(portaudio PROPERTIES FOLDER "Portaudio")
++  SET_TARGET_PROPERTIES(portaudio_static PROPERTIES FOLDER "Portaudio")
+ ELSE()
+   IF(APPLE AND CMAKE_VERSION VERSION_GREATER 3.4.2)
+     OPTION(PA_OUTPUT_OSX_FRAMEWORK "Generate an OS X framework instead of the simple library" OFF)
+-- 
+2.9.3
+

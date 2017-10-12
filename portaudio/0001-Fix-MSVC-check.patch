@@ -1,0 +1,25 @@
+From b489efcde3d7f7fc14e933e9482e3a66e2fceea2 Mon Sep 17 00:00:00 2001
+From: Ignacio Casal Quinteiro <icq@gnome.org>
+Date: Fri, 11 Nov 2016 17:20:51 +0100
+Subject: [PATCH] Fix MSVC check
+
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index c9c99e5..0b0d76e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -200,7 +200,7 @@ IF(WIN32)
+     SET(PA_LIBRARY_DEPENDENCIES ${PA_LIBRARY_DEPENDENCIES} ole32 uuid)
+   ENDIF()
+ 
+-  IF(MSVS)
++  IF(MSVC)
+     OPTION(PA_USE_WASAPI "Enable support for WASAPI" ON)
+   ELSE()
+     # I was unable to get WASAPI to compile outside of Visual Studio. If
+-- 
+2.9.3
+

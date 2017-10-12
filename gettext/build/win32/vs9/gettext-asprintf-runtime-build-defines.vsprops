@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="gettextasprintfbuilddefinesprops"
+	OutputDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin"
+	IntermediateDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\obj\$(ProjectName)\"
+	InheritedPropertySheets=".\gettext-version-paths.vsprops"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="..\..\..\gettext-runtime\libasprintf\msvc;..\..\..\gettext-runtime\libasprintf;..\..\..\gettext-runtime"
+	/>
+	<UserMacro
+		Name="LibAsprintfDefines"
+		Value="IN_LIBASPRINTF"
+	/>
+</VisualStudioPropertySheet>

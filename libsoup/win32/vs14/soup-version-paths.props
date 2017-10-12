@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets">
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+    <VSVer>14</VSVer>
+    <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
+    <CopyDir>..\..\..\libsoup-rel</CopyDir>
+    <SoupMajorVersion>2</SoupMajorVersion>
+    <SoupMinorVersion>58</SoupMinorVersion>
+    <SoupMicroVersion>2</SoupMicroVersion>
+    <ApiVersion>2.4</ApiVersion>
+    <SoupLibtoolCompatibleDllPrefix>lib</SoupLibtoolCompatibleDllPrefix>
+    <SoupLibtoolCompatibleDllSuffix>-$(ApiVersion)-0</SoupLibtoolCompatibleDllSuffix>
+    <SoupSeparateVSDllPrefix />
+    <SoupSeparateVSDllSuffix>-$(ApiVersion)</SoupSeparateVSDllSuffix>
+    <SoupDllPrefix>$(SoupSeparateVSDllPrefix)</SoupDllPrefix>
+    <SoupDllSuffix>$(SoupSeparateVSDllSuffix)</SoupDllSuffix>
+    <PythonPath>c:\python36</PythonPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>soupversionpathsprops</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <ItemDefinitionGroup />
+  <ItemGroup>
+    <BuildMacro Include="VSVer">
+      <Value>$(VSVer)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GlibEtcInstallRoot">
+      <Value>$(GlibEtcInstallRoot)</Value>
+    </BuildMacro>
+    <BuildMacro Include="CopyDir">
+      <Value>$(CopyDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="SoupMajorVersion">
+      <Value>$(SoupMajorVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="SoupMinorVersion">
+      <Value>$(SoupMinorVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="SoupMicroVersion">
+      <Value>$(SoupMicroVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="ApiVersion">
+      <Value>$(ApiVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="SoupLibtoolCompatibleDllPrefix">
+      <Value>$(SoupLibtoolCompatibleDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="SoupLibtoolCompatibleDllSuffix">
+      <Value>$(SoupLibtoolCompatibleDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="SoupSeparateVSDllPrefix">
+      <Value>$(SoupSeparateVSDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="SoupSeparateVSDllSuffix">
+      <Value>$(SoupSeparateVSDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="SoupDllPrefix">
+      <Value>$(SoupDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="SoupDllSuffix">
+      <Value>$(SoupDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PythonPath">
+      <Value>$(PythonPath)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,13 @@
+diff -ru orig/CMakeLists.txt new/CMakeLists.txt
+--- orig/CMakeLists.txt	2017-03-02 19:03:10.000000000 +0100
++++ new/CMakeLists.txt	2017-09-08 18:47:57.257588300 +0200
+@@ -171,7 +171,8 @@
+ 	endforeach()
+ endif()
+
+-include(InstallRequiredSystemLibraries)
++# Do not install runtime libs
++# include(InstallRequiredSystemLibraries)
+ set(CPACK_PACKAGE_NAME "${CMAKE_PROJECT_NAME}")
+ set(CPACK_PACKAGE_VERSION "${JAS_VERSION}")
+ set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "JasPer Image Processing Tool Kit")

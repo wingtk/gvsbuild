@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="UserMacros">
+    <VSVer>15</VSVer>
+    <GlibEtcInstallRoot>$(SolutionDir)..\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
+    <CopyDir>..\..\..\..\json-glib-rel</CopyDir>
+    <DefDir>$(SolutionDir)$(Configuration)\$(PlatformName)\obj\$(ProjectName)\</DefDir>
+    <JsonGlibMajorVersion>1</JsonGlibMajorVersion>
+    <JsonGlibMinorVersion>2</JsonGlibMinorVersion>
+    <JsonGlibMicroVersion>8</JsonGlibMicroVersion>
+    <ApiVersion>1.0</ApiVersion>
+    <JsonGlibLibtoolCompatibleDllPrefix>lib</JsonGlibLibtoolCompatibleDllPrefix>
+    <JsonGlibLibtoolCompatibleDllSuffix>-1.0-0</JsonGlibLibtoolCompatibleDllSuffix>
+    <JsonGlibSeparateVSDllPrefix />
+    <JsonGlibSeparateVSDllSuffix>-1.0</JsonGlibSeparateVSDllSuffix>
+    <JsonGlibDllPrefix>$(JsonGlibSeparateVSDllPrefix)</JsonGlibDllPrefix>
+    <JsonGlibDllSuffix>$(JsonGlibSeparateVSDllSuffix)</JsonGlibDllSuffix>
+    <PythonPath>c:\python36</PythonPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>jsonglibversionpathsprops</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <ItemGroup>
+    <BuildMacro Include="VSVer">
+      <Value>$(VSVer)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GlibEtcInstallRoot">
+      <Value>$(GlibEtcInstallRoot)</Value>
+    </BuildMacro>
+    <BuildMacro Include="CopyDir">
+      <Value>$(CopyDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="JsonGlibMajorVersion">
+      <Value>$(JsonGlibMajorVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="JsonGlibMinorVersion">
+      <Value>$(JsonGlibMinorVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="JsonGlibMicroVersion">
+      <Value>$(JsonGlibMicroVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="ApiVersion">
+      <Value>$(ApiVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="JsonGlibLibtoolCompatibleDllPrefix">
+      <Value>$(JsonGlibLibtoolCompatibleDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="JsonGlibLibtoolCompatibleDllSuffix">
+      <Value>$(JsonGlibLibtoolCompatibleDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="JsonGlibSeparateVSDllPrefix">
+      <Value>$(JsonGlibSeparateVSDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="JsonGlibSeparateVSDllSuffix">
+      <Value>$(JsonGlibSeparateVSDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="JsonGlibDllPrefix">
+      <Value>$(JsonGlibDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="JsonGlibDllSuffix">
+      <Value>$(JsonGlibDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="DefDir">
+      <Value>$(DefDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PythonPath">
+      <Value>$(PythonPath)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

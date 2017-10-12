@@ -1,0 +1,42 @@
+From f2ccd4ae31e700a102d5fb7660bef2f79288f2be Mon Sep 17 00:00:00 2001
+From: Chun-wei Fan <fanchunwei@src.gnome.org>
+Date: Tue, 9 May 2017 18:25:43 -0700
+Subject: [PATCH] build/win32/replace.py: Fix replacing items in files with
+ UTF-8 content
+
+Some files that this script will process might have UTF-8 items in
+there, which can cause problems on Python 3.x as it is more strict and
+careful on unicode issues.
+
+Fix this by:
+-Doing what we did before on Python 2.x
+-Opening the file with encoding='utf-8' on Python 3.x
+---
+ build/win32/replace.py | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/build/win32/replace.py b/build/win32/replace.py
+index a81bab9..f215cce 100644
+--- a/build/win32/replace.py
++++ b/build/win32/replace.py
+@@ -21,9 +21,15 @@ valid_actions = ['remove-prefix',
+                  'replace-str',
+                  'remove-str']
+ 
++def open_file(filename, mode):
++    if sys.version_info[0] < 3:
++        return open(filename, mode=mode)
++    else:
++        return open(filename, mode=mode, encoding='utf-8')
++
+ def replace_multi(src, dest, replace_items):
+-    with open(src, 'r') as s:
+-        with open(dest, 'w') as d:
++    with open_file(src, 'r') as s:
++        with open_file(dest, 'w') as d:
+             for line in s:
+                 replace_dict = dict((re.escape(key), value) \
+                                for key, value in replace_items.items())
+-- 
+2.7.4
+

@@ -1,13 +1,9 @@
- * Download [GDK-PixBuf 2.30.8](http://ftp.gnome.org/pub/gnome/sources/gdk-pixbuf/2.30/gdk-pixbuf-2.30.8.tar.xz)
- * In `build\win32\vc12\gdk-pixbuf.props`, replace:
-	* `intl.lib` with `libintl.lib`
-	* `<GlibEtcInstallRoot>..\..\..\..\vs$(VSVer)\$(Platform)</GlibEtcInstallRoot>` with
-`<GlibEtcInstallRoot>..\..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRoot>`
-	* `<GlibEtcInstallRootFromBuildWin32>..\..\..\vs$(VSVer)\$(Platform)</GlibEtcInstallRootFromBuildWin32>` with
-`<GlibEtcInstallRootFromBuildWin32>..\..\..\..\..\gtk\$(Platform)</GlibEtcInstallRootFromBuildWin32>`
+ * In `build\win32\vc12\gdk-pixbuf-version-paths.props`, replace:
+	* `<GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\vs$(VSVer)\$(Platform)</GlibEtcInstallRoot>` with
+`<GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>`
+`<GlibEtcInstallRoot Condition="'$(Configuration)'=='Release_GDI+'">$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\Release</GlibEtcInstallRoot>`
+`<GlibEtcInstallRoot Condition="'$(Configuration)'=='Debug_GDI+'">$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\Debug</GlibEtcInstallRoot>`
 	* `<CopyDir>$(GlibEtcInstallRoot)</CopyDir>` with
 `<CopyDir>..\..\..\..\gdk-pixbuf-rel</CopyDir>`
 	* `<GdkPixbufSeparateVSDllSuffix>-2-vs$(VSVer)</GdkPixbufSeparateVSDllSuffix>` with
 `<GdkPixbufSeparateVSDllSuffix>-2.0</GdkPixbufSeparateVSDllSuffix>`
- * In `build\win32\vc12\gdk-pixbuf.props`, add to `GdkPixbufDoInstall`:
-`copy $(Configuration)\$(Platform)\bin\*.pdb $(CopyDir)\bin`

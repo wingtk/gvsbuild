@@ -1,0 +1,94 @@
+commit ac28dc0aebb5bf723fb2bb2bc498d2dfdb19a4d5
+Author: Roberto Tronci <roberto.tronci@bittree.it>
+Date:   Sat Oct 22 11:50:37 2016 +0200
+
+    Clipboard: patch to fix simultaneous access to data
+    
+    This patch focuses on the issue of retrieving the data from the clipboard in the case of simultaneous access to it. In fact, multiple applications may watch and open the clipboard simultaneously, but only one can open the clipboard while the others will receive an error. This happens also in the case we want only to read the data that it is present in the clipboard, and not modify it. Moreover, as written in MSDN "OpenClipboard fails if another window has the clipboard open", but the Windows API doesn't provide any event to notify that the clipboard is free again. Thus, the only solution, is to try several times to open it until the clipboard can be opened.
+    
+    The error related to the Windows API function OpenClipboard can happen also in the case that the application wants to open the clipboard to only retrieve the types (mime-types) of the data that are present in the clipboard, or wants to write data into it. This patch is focused only in the case we want to read data from the clipboard (ie the mime-types or the data). For this reason the new function that create a loop to retry the OpenClipboard command replaces it only in some parts of the code and not globally.
+    The new gtk_win32_open_clipboard function will attempt to access to the clipboard for a specified number of times. Between each try the loop will sleep for a specified amount of microseconds. In this version of the patch the maximum number of tries are 10 and the sleep time between each try is 5 milliseconds. This new function will return false if it consumes all the number of tries without successfully opening the clipboard. This issue has been also tracked into Bugzilla with id 771775. Other bugs try to replace all the OpenClipboard calls, like bug 706610, but in that case other problems can arise in the case of copy events (ie writing data into the clipboard).
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=771775
+
+diff --git a/gdk/win32/gdkselection-win32.c b/gdk/win32/gdkselection-win32.c
+index 131c0bf..aeb75e8 100644
+--- a/gdk/win32/gdkselection-win32.c
++++ b/gdk/win32/gdkselection-win32.c
+@@ -63,6 +63,22 @@ static GdkAtom text_plain;
+ static GdkAtom text_plain_charset_utf_8;
+ static GdkAtom text_plain_charset_CP1252;
+ 
++static guint
++_gdk_win32_open_clipboard (HWND  hwnd_new_owner)
++{
++  gint8 retry_times = 10;
++
++  while (--retry_times > 0)
++    {
++      if (OpenClipboard (hwnd_new_owner))
++        return 1;
++
++      g_usleep (5000);
++    }
++
++  return (API_CALL (OpenClipboard, (hwnd_new_owner)));
++}
++
+ void
+ _gdk_win32_selection_init (void)
+ {
+@@ -292,7 +308,7 @@ _gdk_win32_display_set_selection_owner (GdkDisplay *display,
+   else
+     hwnd = NULL;
+ 
+-  if (!API_CALL (OpenClipboard, (hwnd)))
++  if (!_gdk_win32_open_clipboard (hwnd))
+     return FALSE;
+ 
+   _ignore_destroy_clipboard = TRUE;
+@@ -419,7 +435,7 @@ _gdk_win32_display_convert_selection (GdkDisplay *display,
+       gboolean has_png = FALSE;
+       gboolean has_bmp = FALSE;
+ 
+-      if (!API_CALL (OpenClipboard, (GDK_WINDOW_HWND (requestor))))
++      if (!_gdk_win32_open_clipboard (GDK_WINDOW_HWND (requestor)))
+ 	return;
+ 
+       targets = g_new (GdkAtom, CountClipboardFormats ());
+@@ -523,7 +539,7 @@ _gdk_win32_display_convert_selection (GdkDisplay *display,
+        * contents of the clipboard. Get the clipboard data, and store
+        * it for later.
+        */
+-      if (!API_CALL (OpenClipboard, (GDK_WINDOW_HWND (requestor))))
++      if (!_gdk_win32_open_clipboard (GDK_WINDOW_HWND (requestor)))
+ 	return;
+ 
+       if ((hdata = GetClipboardData (CF_UNICODETEXT)) != NULL)
+@@ -568,7 +584,7 @@ _gdk_win32_display_convert_selection (GdkDisplay *display,
+     }
+   else if (selection == GDK_SELECTION_CLIPBOARD && target == _image_bmp)
+     {
+-      if (!API_CALL (OpenClipboard, (GDK_WINDOW_HWND (requestor))))
++      if (!_gdk_win32_open_clipboard (GDK_WINDOW_HWND (requestor)))
+ 	return;
+ 
+       if ((hdata = GetClipboardData (CF_DIB)) != NULL)
+@@ -745,7 +761,7 @@ _gdk_win32_display_convert_selection (GdkDisplay *display,
+       gchar *mapped_target_name;
+       UINT fmt = 0;
+ 
+-      if (!API_CALL (OpenClipboard, (GDK_WINDOW_HWND (requestor))))
++      if (!_gdk_win32_open_clipboard (GDK_WINDOW_HWND (requestor)))
+ 	return;
+ 
+       mapped_target_name = get_mapped_gdk_atom_name (target);
+@@ -1181,7 +1197,7 @@ gdk_win32_selection_add_targets (GdkWindow  *owner,
+       hwnd = GDK_WINDOW_HWND (owner);
+     }
+ 
+-  if (!API_CALL (OpenClipboard, (hwnd)))
++  if (!_gdk_win32_open_clipboard (hwnd))
+     return;
+ 
+   /* We have a very simple strategy: If some kind of pixmap image

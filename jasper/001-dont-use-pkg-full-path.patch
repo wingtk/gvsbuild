@@ -1,0 +1,12 @@
+diff -ru orig/build/jasper.pc.in new/build/jasper.pc.in
+--- orig/build/jasper.pc.in     2017-03-02 19:03:10.000000000 +0100
++++ new/build/jasper.pc.in      2017-09-08 18:07:38.581239500 +0200
+@@ -1,5 +1,6 @@
+-libdir=@CMAKE_INSTALL_FULL_LIBDIR@
+-includedir=@CMAKE_INSTALL_FULL_INCLUDEDIR@
++prefix=@CMAKE_INSTALL_PREFIX@
++libdir=${prefix}/lib
++includedir=${prefix}/include
+
+ Name: JasPer
+ Description: Image Processing/Coding Tool Kit with JPEG-2000 Support

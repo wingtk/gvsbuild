@@ -1,0 +1,37 @@
+diff -urpN glib.orig/win32/vs12/glib-gen-srcs.props glib/win32/vs12/glib-gen-srcs.props
+--- glib.orig/win32/vs12/glib-gen-srcs.props	2017-03-19 01:54:54.000000000 +0100
++++ glib/win32/vs12/glib-gen-srcs.props	2017-03-25 22:53:38.010376700 +0100
+@@ -8,7 +8,7 @@
+     <GenGLibConfigH>copy ..\..\glib\glibconfig.h.win32 ..\..\glib\glibconfig.h</GenGLibConfigH>
+     <GenGModuleConfH>copy ..\..\gmodule\gmoduleconf.h.win32 ..\..\gmodule\gmoduleconf.h</GenGModuleConfH>
+     <GenGNetworkingH>copy ..\..\gio\gnetworking.h.win32 ..\..\gio\gnetworking.h</GenGNetworkingH>
+-    <GenGLibMKEnums>if exist $(PythonPath)\python.exe $(PythonPath)\python.exe ..\replace.py --action=replace-var --input=..\..\gobject\glib-mkenums.in --output=..\..\gobject\glib-mkenums --var=GLIB_VERSION --outstring=$(GlibVersion)</GenGLibMKEnums>
++    <GenGLibMKEnums>if exist $(PythonPath)\python.exe $(PythonPath)\python.exe ..\replace.py --action=replace-var --input=..\..\gobject\glib-mkenums.in --output=..\..\gobject\glib-mkenums --var=GLIB_VERSION --outstring=$(GlibVersion) --var=PERL_PATH --outstring=perl.exe</GenGLibMKEnums>
+   </PropertyGroup>
+   <PropertyGroup>
+     <_PropertySheetDisplayName>glibgensrcsprops</_PropertySheetDisplayName>
+diff -urpN glib.orig/win32/vs14/glib-gen-srcs.props glib/win32/vs14/glib-gen-srcs.props
+--- glib.orig/win32/vs14/glib-gen-srcs.props	2017-03-25 22:52:29.295414100 +0100
++++ glib/win32/vs14/glib-gen-srcs.props	2017-03-25 22:53:08.595607000 +0100
+@@ -8,7 +8,7 @@
+     <GenGLibConfigH>copy ..\..\glib\glibconfig.h.win32 ..\..\glib\glibconfig.h</GenGLibConfigH>
+     <GenGModuleConfH>copy ..\..\gmodule\gmoduleconf.h.win32 ..\..\gmodule\gmoduleconf.h</GenGModuleConfH>
+     <GenGNetworkingH>copy ..\..\gio\gnetworking.h.win32 ..\..\gio\gnetworking.h</GenGNetworkingH>
+-    <GenGLibMKEnums>if exist $(PythonPath)\python.exe $(PythonPath)\python.exe ..\replace.py --action=replace-var --input=..\..\gobject\glib-mkenums.in --output=..\..\gobject\glib-mkenums --var=GLIB_VERSION --outstring=$(GlibVersion)</GenGLibMKEnums>
++    <GenGLibMKEnums>if exist $(PythonPath)\python.exe $(PythonPath)\python.exe ..\replace.py --action=replace-var --input=..\..\gobject\glib-mkenums.in --output=..\..\gobject\glib-mkenums --var=GLIB_VERSION --outstring=$(GlibVersion) --var=PERL_PATH --outstring=perl.exe</GenGLibMKEnums>
+   </PropertyGroup>
+   <PropertyGroup>
+     <_PropertySheetDisplayName>glibgensrcsprops</_PropertySheetDisplayName>
+Binary files glib.orig/win32/vs14/glib.VC.VC.opendb and glib/win32/vs14/glib.VC.VC.opendb differ
+diff -urpN glib.orig/win32/vs15/glib-gen-srcs.props glib/win32/vs15/glib-gen-srcs.props
+--- glib.orig/win32/vs15/glib-gen-srcs.props	2017-03-19 01:54:54.000000000 +0100
++++ glib/win32/vs15/glib-gen-srcs.props	2017-03-25 22:53:59.305695400 +0100
+@@ -8,7 +8,7 @@
+     <GenGLibConfigH>copy ..\..\glib\glibconfig.h.win32 ..\..\glib\glibconfig.h</GenGLibConfigH>
+     <GenGModuleConfH>copy ..\..\gmodule\gmoduleconf.h.win32 ..\..\gmodule\gmoduleconf.h</GenGModuleConfH>
+     <GenGNetworkingH>copy ..\..\gio\gnetworking.h.win32 ..\..\gio\gnetworking.h</GenGNetworkingH>
+-    <GenGLibMKEnums>if exist $(PythonPath)\python.exe $(PythonPath)\python.exe ..\replace.py --action=replace-var --input=..\..\gobject\glib-mkenums.in --output=..\..\gobject\glib-mkenums --var=GLIB_VERSION --outstring=$(GlibVersion)</GenGLibMKEnums>
++    <GenGLibMKEnums>if exist $(PythonPath)\python.exe $(PythonPath)\python.exe ..\replace.py --action=replace-var --input=..\..\gobject\glib-mkenums.in --output=..\..\gobject\glib-mkenums --var=GLIB_VERSION --outstring=$(GlibVersion) --var=PERL_PATH --outstring=perl.exe</GenGLibMKEnums>
+   </PropertyGroup>
+   <PropertyGroup>
+     <_PropertySheetDisplayName>glibgensrcsprops</_PropertySheetDisplayName>

@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets">
+    <Import Project="gettext-version-paths.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+    <BaseDefines>INSTALLDIR="$(InstallRoot)";EXEEXT=".exe";LOCALEDIR="$(DataDir)/locale";LOCALE_ALIAS_PATH="$(DataDir)/locale";LIBDIR="$(LibDir)";GETTEXTJEXEDIR="$(LibDir)/gettext";BISON_LOCALEDIR="$(DataDir)/locale";GETTEXTDATADIR="$(DataDir)";GETTEXTJAR="$(DataDir)/gettext/gettext.jar";GETTEXTDATADIR="$(DataDir)/gettext";PROJECTSDIR="$(DataDir)/gettext";PKGDATADIR="$(DataDir)/gettext";ENABLE_RELOCATABLE=1;ICONV_CONST=const;DEPENDS_ON_LIBICONV=1</BaseDefines>
+    <GettextPoDefines>IN_LIBGETTEXTPO</GettextPoDefines>
+    <GettextSrcDefines>IN_GETTEXTSRC;GETTEXTDATADIR="$(DataDir)"</GettextSrcDefines>
+    <GettextLibDefines>IN_GETTEXTLIB;BUILDING_DLL;DLL_VARIABLE=__declspec(dllexport);$(BaseDefines)</GettextLibDefines>
+    <GettextPoBaseIncludeDirs>..\..\..\gettext-tools\libgettextpo\msvc;..\..\..\gettext-tools\libgettextpo</GettextPoBaseIncludeDirs>
+    <GettextLibBaseIncludeDirs>..\..\..\gettext-tools\gnulib-lib\msvc;..\..\..\gettext-tools\gnulib-lib</GettextLibBaseIncludeDirs>
+    <GettextLibIncludeDirs>$(GettextLibBaseIncludeDirs);..\..\..\gettext-tools\gnulib-lib\libcroco;$(GettextToolsBaseIncludeDir)</GettextLibIncludeDirs>
+    <GettextSrcBaseIncludeDirs>..\..\..\gettext-tools\src;..\..\..\gettext-runtime\intl\msvc;..\..\..\gettext-runtime\intl</GettextSrcBaseIncludeDirs>
+    <GettextSrcIncludeDirs>$(GettextLibBaseIncludeDirs);$(GettextSrcBaseIncludeDirs)</GettextSrcIncludeDirs>
+    <GettextGrepIncludeDirs>..\..\..\gettext-tools\libgrep;$(GettextSrcIncludeDirs)</GettextGrepIncludeDirs>
+    <GettextPoIncludeDirs>$(GettextPoBaseIncludeDirs);$(GettextSrcBaseIncludeDirs)</GettextPoIncludeDirs>
+    <GettextToolsDefines>$(BaseDefines);GETTEXT_STATIC_ITEM</GettextToolsDefines>
+    <LibGrepDefines>$(BaseDefines);IN_GETTEXT_TOOLS_LIBGREP=1;_GNU_SOURCE</LibGrepDefines>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>gettexttoolsbuilddefinesprops</_PropertySheetDisplayName>
+    <OutDir>$(SolutionDir)$(Configuration)\$(PlatformName)\bin\</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)\$(PlatformName)\obj\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(GlibEtcInstallRoot)\include;..\..\..\gettext-tools\msvc;..\..\..\gettext-tools;..\..\..\gettext-runtime\intl\msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>iconv.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(GlibEtcInstallRoot)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <BuildMacro Include="BaseDefines">
+      <Value>$(BaseDefines)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GettextPoDefines">
+      <Value>$(GettextPoDefines)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GettextSrcDefines">
+      <Value>$(GettextSrcDefines)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GettextLibDefines">
+      <Value>$(GettextLibDefines)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GettextPoBaseIncludeDirs">
+      <Value>$(GettextPoBaseIncludeDirs)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GettextLibBaseIncludeDirs">
+      <Value>$(GettextLibBaseIncludeDirs)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GettextLibIncludeDirs">
+      <Value>$(GettextLibIncludeDirs)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GettextSrcBaseIncludeDirs">
+      <Value>$(GettextSrcBaseIncludeDirs)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GettextSrcIncludeDirs">
+      <Value>$(GettextSrcIncludeDirs)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GettextGrepIncludeDirs">
+      <Value>$(GettextGrepIncludeDirs)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GettextPoIncludeDirs">
+      <Value>$(GettextPoIncludeDirs)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GettextToolsDefines">
+      <Value>$(GettextToolsDefines)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LibGrepDefines">
+      <Value>$(LibGrepDefines)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

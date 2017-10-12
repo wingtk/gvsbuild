@@ -1,0 +1,10 @@
+--- cogl-1.22.0.orig/cogl/cogl.symbols	2015-08-20 03:00:03.000000000 +0900
++++ cogl-1.22.0/cogl/cogl.symbols	2016-08-22 15:58:50.973198700 +0900
+@@ -391,6 +391,7 @@ cogl_is_bitmap
+ cogl_is_buffer
+ cogl_is_context
+ cogl_is_frame_info
++cogl_is_framebuffer
+ cogl_is_gles2_context
+ cogl_is_index_buffer
+ #if 0

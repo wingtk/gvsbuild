@@ -1,0 +1,657 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_SDL|Win32">
+      <Configuration>Debug_SDL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_SDL|x64">
+      <Configuration>Debug_SDL</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_SDL|Win32">
+      <Configuration>Release_SDL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_SDL|x64">
+      <Configuration>Release_SDL</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F3A80987-5411-43DB-A23B-06F2076E1206}</ProjectGuid>
+    <RootNamespace>cogl</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="cogl-gen-srcs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="cogl-gen-srcs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="cogl-gen-srcs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="cogl-gen-srcs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="cogl-gen-srcs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="cogl-gen-srcs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="cogl-gen-srcs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="cogl-gen-srcs.props" />
+  </ImportGroup>
+  <Import Project="..\..\..\..\stack.props" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|Win32'">Debug\$(Platform)\bin\</OutDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|x64'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|x64'">Debug\$(Platform)\bin\</OutDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release_SDL|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release_SDL|Win32'">Release\$(Platform)\bin\</OutDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release_SDL|x64'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release_SDL|x64'">Release\$(Platform)\bin\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\cogl\deprecated;..\..\..\cogl\winsys;..\..\..\cogl\driver\gl;..\..\..\cogl\driver\gl\gl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>$(DebugLibBuildDefines);$(CoglBuildDefines);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;intl.lib;cairo.lib;gdk_pixbuf-2.0.lib;gmodule-2.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(CoglDllPrefix)$(ProjectName)$(CoglDllSuffix).dll</OutputFile>
+      <ModuleDefinitionFile>$(IntDir)\cogl.def</ModuleDefinitionFile>
+      <ImportLibrary>$(OutDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)$(CoglDllPrefix)$(ProjectName)$(CoglDllSuffix).pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|Win32'">
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\cogl\deprecated;..\..\..\cogl\winsys;..\..\..\cogl\driver\gl;..\..\..\cogl\driver\gl\gl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>$(DebugLibBuildDefines);$(CoglBuildDefines);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>SDL2.lib;opengl32.lib;intl.lib;cairo.lib;gdk_pixbuf-2.0.lib;gmodule-2.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(CoglDllPrefix)$(ProjectName)$(CoglDllSuffix).dll</OutputFile>
+      <ModuleDefinitionFile>$(IntDir)\cogl.def</ModuleDefinitionFile>
+      <ImportLibrary>$(TargetDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)$(CoglDllPrefix)$(ProjectName)$(CoglDllSuffix).pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\cogl\deprecated;..\..\..\cogl\winsys;..\..\..\cogl\driver\gl;..\..\..\cogl\driver\gl\gl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>$(DebugLibBuildDefines);$(CoglBuildDefines);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;intl.lib;cairo.lib;gdk_pixbuf-2.0.lib;gmodule-2.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(CoglDllPrefix)$(ProjectName)$(CoglDllSuffix).dll</OutputFile>
+      <ModuleDefinitionFile>$(IntDir)\cogl.def</ModuleDefinitionFile>
+      <ImportLibrary>$(TargetDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)$(CoglDllPrefix)$(ProjectName)$(CoglDllSuffix).pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|x64'">
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\cogl\deprecated;..\..\..\cogl\winsys;..\..\..\cogl\driver\gl;..\..\..\cogl\driver\gl\gl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>$(DebugLibBuildDefines);$(CoglBuildDefines);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>SDL2.lib;opengl32.lib;intl.lib;cairo.lib;gdk_pixbuf-2.0.lib;gmodule-2.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(CoglDllPrefix)$(ProjectName)$(CoglDllSuffix).dll</OutputFile>
+      <ModuleDefinitionFile>$(IntDir)\cogl.def</ModuleDefinitionFile>
+      <ImportLibrary>$(TargetDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)$(CoglDllPrefix)$(ProjectName)$(CoglDllSuffix).pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\cogl\deprecated;..\..\..\cogl\winsys;..\..\..\cogl\driver\gl;..\..\..\cogl\driver\gl\gl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>$(ReleaseLibBuildDefines);$(CoglBuildDefines);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;intl.lib;cairo.lib;gdk_pixbuf-2.0.lib;gmodule-2.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(CoglDllPrefix)$(ProjectName)$(CoglDllSuffix).dll</OutputFile>
+      <ModuleDefinitionFile>$(IntDir)\cogl.def</ModuleDefinitionFile>
+      <ImportLibrary>$(OutDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)$(CoglDllPrefix)$(ProjectName)$(CoglDllSuffix).pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL|Win32'">
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\cogl\deprecated;..\..\..\cogl\winsys;..\..\..\cogl\driver\gl;..\..\..\cogl\driver\gl\gl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>$(ReleaseLibBuildDefines);$(CoglBuildDefines);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>SDL2.lib;opengl32.lib;intl.lib;cairo.lib;gdk_pixbuf-2.0.lib;gmodule-2.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(CoglDllPrefix)$(ProjectName)$(CoglDllSuffix).dll</OutputFile>
+      <ModuleDefinitionFile>$(IntDir)\cogl.def</ModuleDefinitionFile>
+      <ImportLibrary>$(TargetDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)$(CoglDllPrefix)$(ProjectName)$(CoglDllSuffix).pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..\cogl\deprecated;..\..\..\cogl\winsys;..\..\..\cogl\driver\gl;..\..\..\cogl\driver\gl\gl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>$(ReleaseLibBuildDefines);$(CoglBuildDefines);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;intl.lib;cairo.lib;gdk_pixbuf-2.0.lib;gmodule-2.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(CoglDllPrefix)$(ProjectName)$(CoglDllSuffix).dll</OutputFile>
+      <ModuleDefinitionFile>$(IntDir)\cogl.def</ModuleDefinitionFile>
+      <ImportLibrary>$(TargetDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)$(CoglDllPrefix)$(ProjectName)$(CoglDllSuffix).pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL|x64'">
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..\cogl\deprecated;..\..\..\cogl\winsys;..\..\..\cogl\driver\gl;..\..\..\cogl\driver\gl\gl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>$(ReleaseLibBuildDefines);$(CoglBuildDefines);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>SDL2.lib;opengl32.lib;intl.lib;cairo.lib;gdk_pixbuf-2.0.lib;gmodule-2.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(CoglDllPrefix)$(ProjectName)$(CoglDllSuffix).dll</OutputFile>
+      <ModuleDefinitionFile>$(IntDir)\cogl.def</ModuleDefinitionFile>
+      <ImportLibrary>$(TargetDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)$(CoglDllPrefix)$(ProjectName)$(CoglDllSuffix).pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\cogl\winsys\cogl-winsys-wgl.c" />
+    <ClCompile Include="..\..\..\cogl\winsys\cogl-winsys-sdl2.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-sdl.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-win32-renderer.c" />
+    <ClCompile Include="..\..\..\cogl\driver\nop\cogl-driver-nop.c" />
+    <ClCompile Include="..\..\..\cogl\driver\nop\cogl-framebuffer-nop.c" />
+    <ClCompile Include="..\..\..\cogl\driver\nop\cogl-attribute-nop.c" />
+    <ClCompile Include="..\..\..\cogl\driver\nop\cogl-clip-stack-nop.c" />
+    <ClCompile Include="..\..\..\cogl\driver\nop\cogl-texture-2d-nop.c" />
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-pipeline-opengl.c" />
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-pipeline-fragend-glsl.c" />
+    <ClCompile Include="..\..\..\cogl\driver\gl\gl\cogl-pipeline-fragend-arbfp.c" />
+    <ClCompile Include="..\..\..\cogl\driver\gl\gl\cogl-pipeline-progend-fixed-arbfp.c" />
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-pipeline-fragend-fixed.c" />
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-pipeline-vertend-glsl.c" />
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-pipeline-vertend-fixed.c" />
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-pipeline-progend-fixed.c" />
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-pipeline-progend-glsl.c" />
+    <ClCompile Include="..\..\..\cogl\winsys\cogl-winsys.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-gpu-info.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-context.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-renderer.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-swap-chain.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-onscreen-template.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-display.c" />
+    <ClCompile Include="..\..\..\cogl\cogl.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-object.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-util.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-bitmap.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-bitmap-conversion.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-primitives.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-bitmap-pixbuf.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-clip-stack.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-feature-private.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-color.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-buffer.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-pixel-buffer.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-index-buffer.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-attribute-buffer.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-indices.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-attribute.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-primitive.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-matrix.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-vector.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-euler.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-quaternion.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-matrix-stack.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-depth-state.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-node.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-pipeline.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-pipeline-layer.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-pipeline-state.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-pipeline-layer-state.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-pipeline-debug.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-glsl-shader.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-pipeline-snippet.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-pipeline-cache.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-pipeline-hash-table.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-sampler-cache.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-blend-string.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-debug.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-sub-texture.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-texture.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-texture-2d.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-texture-2d-sliced.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-texture-3d.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-texture-rectangle.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-rectangle-map.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-atlas.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-atlas-texture.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-meta-texture.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-primitive-texture.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-blit.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-spans.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-journal.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-frame-info.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-framebuffer.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-onscreen.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-output.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-profile.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-bitmask.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-gtype.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-point-in-poly.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-list.c" />
+    <ClCompile Include="..\..\..\cogl\winsys\cogl-winsys-stub.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-config.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-boxed-value.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-snippet.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-poll.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-memory-stack.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-magazine.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-gles2-context.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-error.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-closure-list.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-fence.c" />
+    <ClCompile Include="..\..\..\cogl\deprecated\cogl-clip-state.c" />
+    <ClCompile Include="..\..\..\cogl\deprecated\cogl-fixed.c" />
+    <ClCompile Include="..\..\..\cogl\deprecated\cogl-vertex-buffer.c" />
+    <ClCompile Include="..\..\..\cogl\deprecated\cogl-material-compat.c" />
+    <ClCompile Include="..\..\..\cogl\deprecated\cogl-program.c" />
+    <ClCompile Include="..\..\..\cogl\deprecated\cogl-auto-texture.c" />
+    <ClCompile Include="..\..\..\cogl\deprecated\cogl-shader.c" />
+    <ClCompile Include="..\..\..\cogl\deprecated\cogl-clutter.c" />
+    <ClCompile Include="..\..\..\cogl\deprecated\cogl-framebuffer-deprecated.c" />
+    <ClCompile Include="..\..\..\cogl\deprecated\cogl-texture-deprecated.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-glib-source.c" />
+    <ClCompile Include="..\..\..\cogl\cogl-enum-types.c" />
+    <ClCompile Include="..\..\..\cogl\driver\gl\gl\cogl-driver-gl.c" />
+    <ClCompile Include="..\..\..\cogl\driver\gl\gl\cogl-texture-driver-gl.c" />
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-attribute-gl.c" />
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-buffer-gl.c" />
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-clip-stack-gl.c" />
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-framebuffer-gl.c" />
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-texture-gl.c" />
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-texture-2d-gl.c" />
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-util-gl.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\config.h.win32">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|Win32'">Copying config.h from config.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|Win32'">$(CopyConfigH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|Win32'">..\..\..\config.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|x64'">Copying config.h from config.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|x64'">$(CopyConfigH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|x64'">..\..\..\config.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying config.h from config.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(CopyConfigH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\config.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copying config.h from config.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(CopyConfigH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\..\config.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release_SDL|Win32'">Copying config.h from config.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_SDL|Win32'">$(CopyConfigH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_SDL|Win32'">..\..\..\config.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release_SDL|x64'">Copying config.h from config.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_SDL|x64'">$(CopyConfigH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_SDL|x64'">..\..\..\config.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying config.h from config.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(CopyConfigH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\config.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying config.h from config.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(CopyConfigH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\..\config.h;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\cogl\cogl-gl-header.h.win32">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|Win32'">Copying cogl-gl-header.h from cogl-gl-header.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|Win32'">$(CopyGLHeaderH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|Win32'">..\..\..\cogl\cogl-gl-header.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|x64'">Copying cogl-gl-header.h from cogl-gl-header.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|x64'">$(CopyGLHeaderH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|x64'">..\..\..\cogl\cogl-gl-header.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying cogl-gl-header.h from cogl-gl-header.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(CopyGLHeaderH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\cogl\cogl-gl-header.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copying cogl-gl-header.h from cogl-gl-header.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(CopyGLHeaderH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\..\cogl\cogl-gl-header.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release_SDL|Win32'">Copying cogl-gl-header.h from cogl-gl-header.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_SDL|Win32'">$(CopyGLHeaderH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_SDL|Win32'">..\..\..\cogl\cogl-gl-header.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release_SDL|x64'">Copying cogl-gl-header.h from cogl-gl-header.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_SDL|x64'">$(CopyGLHeaderH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_SDL|x64'">..\..\..\cogl\cogl-gl-header.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying cogl-gl-header.h from cogl-gl-header.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(CopyGLHeaderH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\cogl\cogl-gl-header.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying cogl-gl-header.h from cogl-gl-header.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(CopyGLHeaderH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\..\cogl\cogl-gl-header.h;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\cogl\cogl-defines.h.win32">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying cogl-defines.h from cogl-defines.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(CopyDefinesH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\cogl\cogl-defines.h;..\..\..\cogl\WGL_DEFINES;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copying cogl-defines.h from cogl-defines.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(CopyDefinesH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\..\cogl\cogl-defines.h;..\..\..\cogl\WGL_DEFINES;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying cogl-defines.h from cogl-defines.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(CopyDefinesH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\cogl\cogl-defines.h;..\..\..\cogl\WGL_DEFINES;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying cogl-defines.h from cogl-defines.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(CopyDefinesH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\..\cogl\cogl-defines.h;..\..\..\cogl\WGL_DEFINES;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\cogl\cogl-defines.h.win32_SDL">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|Win32'">Copying cogl-defines.h from cogl-defines.h.win32_SDL...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|Win32'">$(CopyDefinesSDLH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|Win32'">..\..\..\cogl\cogl-defines.h;..\..\..\cogl\SDL_DEFINES;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|x64'">Copying cogl-defines.h from cogl-defines.h.win32_SDL...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|x64'">$(CopyDefinesSDLH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|x64'">..\..\..\cogl\cogl-defines.h;..\..\..\cogl\SDL_DEFINES;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release_SDL|Win32'">Copying cogl-defines.h from cogl-defines.h.win32_SDL...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_SDL|Win32'">$(CopyDefinesSDLH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_SDL|Win32'">..\..\..\cogl\cogl-defines.h;..\..\..\cogl\SDL_DEFINES;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release_SDL|x64'">Copying cogl-defines.h from cogl-defines.h.win32_SDL...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_SDL|x64'">$(CopyDefinesSDLH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_SDL|x64'">..\..\..\cogl\cogl-defines.h;..\..\..\cogl\SDL_DEFINES;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\cogl\cogl.symbols">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|Win32'">Generating $(IntDir)\cogl.def</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|Win32'">$(GenerateCoglSDLDef)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|Win32'">$(IntDir)\cogl.def;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|x64'">Generating $(IntDir)\cogl.def</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|x64'">$(GenerateCoglSDLDef)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|x64'">$(IntDir)\cogl.def;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Generating $(IntDir)\cogl.def</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(GenerateCoglDef)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)\cogl.def;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating $(IntDir)\cogl.def</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(GenerateCoglDef)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)\cogl.def;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release_SDL|Win32'">Generating $(IntDir)\cogl.def</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_SDL|Win32'">$(GenerateCoglSDLDef)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_SDL|Win32'">$(IntDir)\cogl.def;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release_SDL|x64'">Generating $(IntDir)\cogl.def</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_SDL|x64'">$(GenerateCoglSDLDef)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_SDL|x64'">$(IntDir)\cogl.def;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Generating $(IntDir)\cogl.def</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(GenerateCoglDef)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)\cogl.def;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating $(IntDir)\cogl.def</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(GenerateCoglDef)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)\cogl.def;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\cogl\cogl-enum-types.h.in">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|Win32'">Generating ..\..\..\cogl\cogl-enum-types.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|Win32'">$(GenCoglEnumsH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|Win32'">..\..\..\cogl\cogl-enum-types.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|x64'">Generating ..\..\..\cogl\cogl-enum-types.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|x64'">$(GenCoglEnumsH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|x64'">..\..\..\cogl\cogl-enum-types.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Generating ..\..\..\cogl\cogl-enum-types.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(GenCoglEnumsH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\cogl\cogl-enum-types.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating ..\..\..\cogl\cogl-enum-types.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(GenCoglEnumsH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\..\cogl\cogl-enum-types.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release_SDL|Win32'">Generating ..\..\..\cogl\cogl-enum-types.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_SDL|Win32'">$(GenCoglEnumsH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_SDL|Win32'">..\..\..\cogl\cogl-enum-types.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release_SDL|x64'">Generating ..\..\..\cogl\cogl-enum-types.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_SDL|x64'">$(GenCoglEnumsH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_SDL|x64'">..\..\..\cogl\cogl-enum-types.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Generating ..\..\..\cogl\cogl-enum-types.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(GenCoglEnumsH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\cogl\cogl-enum-types.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating ..\..\..\cogl\cogl-enum-types.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(GenCoglEnumsH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\..\cogl\cogl-enum-types.h;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\cogl\cogl-enum-types.c.in">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|Win32'">Generating ..\..\..\cogl\cogl-enum-types.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|Win32'">$(GenCoglEnumsC)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|Win32'">..\..\..\cogl\cogl-enum-types.c;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|x64'">Generating ..\..\..\cogl\cogl-enum-types.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|x64'">$(GenCoglEnumsC)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_SDL|x64'">..\..\..\cogl\cogl-enum-types.c;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Generating ..\..\..\cogl\cogl-enum-types.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(GenCoglEnumsC)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\cogl\cogl-enum-types.c;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating ..\..\..\cogl\cogl-enum-types.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(GenCoglEnumsC)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\..\cogl\cogl-enum-types.c;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release_SDL|Win32'">Generating ..\..\..\cogl\cogl-enum-types.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_SDL|Win32'">$(GenCoglEnumsC)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_SDL|Win32'">..\..\..\cogl\cogl-enum-types.c;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release_SDL|x64'">Generating ..\..\..\cogl\cogl-enum-types.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release_SDL|x64'">$(GenCoglEnumsC)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_SDL|x64'">..\..\..\cogl\cogl-enum-types.c;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Generating ..\..\..\cogl\cogl-enum-types.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(GenCoglEnumsC)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\cogl\cogl-enum-types.c;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating ..\..\..\cogl\cogl-enum-types.c</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(GenCoglEnumsC)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\..\cogl\cogl-enum-types.c;%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\..\cogl\cogl.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

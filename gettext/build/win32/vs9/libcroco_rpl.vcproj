@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="9.00"
+	Name="libcroco_rpl"
+	ProjectGUID="{2045108A-A97F-43DE-99CD-81635075C78A}"
+	RootNamespace="libcroco_rpl"
+	Keyword="Win32Proj"
+	TargetFrameworkVersion="196613"
+	>
+	<Platforms>
+		<Platform
+			Name="Win32"
+		/>
+		<Platform
+			Name="x64"
+		/>
+	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			ConfigurationType="4"
+			InheritedPropertySheets=".\gettext-tools-build-defines.vsprops"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="$(GettextLibBaseIncludeDirs)"
+				PreprocessorDefinitions="_DEBUG"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="4"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			ConfigurationType="4"
+			InheritedPropertySheets=".\gettext-tools-build-defines.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="$(GettextLibBaseIncludeDirs)"
+				PreprocessorDefinitions=""
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|x64"
+			ConfigurationType="4"
+			InheritedPropertySheets=".\gettext-tools-build-defines.vsprops"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="$(GettextLibBaseIncludeDirs)"
+				PreprocessorDefinitions="_DEBUG"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|x64"
+			ConfigurationType="4"
+			InheritedPropertySheets=".\gettext-tools-build-defines.vsprops"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="$(GettextLibBaseIncludeDirs)"
+				PreprocessorDefinitions=""
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+		<Filter
+			Name="Sources"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			>
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\libcroco\cr-additional-sel.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\libcroco\cr-attr-sel.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\libcroco\cr-cascade.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\libcroco\cr-declaration.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\libcroco\cr-doc-handler.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\libcroco\cr-enc-handler.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\libcroco\cr-fonts.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\libcroco\cr-input.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\libcroco\cr-num.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\libcroco\cr-om-parser.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\libcroco\cr-parser.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\libcroco\cr-parsing-location.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\libcroco\cr-prop-list.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\libcroco\cr-pseudo.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\libcroco\cr-rgb.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\libcroco\cr-sel-eng.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\libcroco\cr-selector.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\libcroco\cr-simple-sel.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\libcroco\cr-statement.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\libcroco\cr-string.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\libcroco\cr-style.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\libcroco\cr-stylesheet.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\libcroco\cr-term.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\libcroco\cr-tknzr.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\libcroco\cr-token.c" />
+			<File RelativePath="..\..\..\gettext-tools\gnulib-lib\libcroco\cr-utils.c" />
+		</Filter>
+		<Filter
+			Name="Headers"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+			>
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

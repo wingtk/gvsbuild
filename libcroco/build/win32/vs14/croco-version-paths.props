@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is part of The Croco Library
+This program is free software; you can redistribute it and/or
+modify it under the terms of version 2.1 of the GNU Lesser General Public
+License as published by the Free Software Foundation.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+USA
+
+Author: Fan, Chun-wei
+See COPYRIGHTS file for copyright information.
+-->
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="UserMacros">
+    <ApiVersion>0.6</ApiVersion>
+    <VSVer>14</VSVer>
+    <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
+    <CopyDir>..\..\..\..\libcroco-rel</CopyDir>
+    <DefDir>$(SolutionDir)$(Configuration)\$(PlatformName)\obj\$(ProjectName)\</DefDir>
+    <LibCrocoLibtoolCompatibleDllPrefix>lib</LibCrocoLibtoolCompatibleDllPrefix>
+    <LibCrocoLibtoolCompatibleDllSuffix>-$(ApiVersion)-0</LibCrocoLibtoolCompatibleDllSuffix>
+    <LibCrocoSeparateVSDllPrefix />
+    <LibCrocoSeparateVSDllSuffix>-$(ApiVersion)</LibCrocoSeparateVSDllSuffix>
+    <LibCrocoDllPrefix>$(LibCrocoSeparateVSDllPrefix)</LibCrocoDllPrefix>
+    <LibCrocoDllSuffix>$(LibCrocoSeparateVSDllSuffix)</LibCrocoDllSuffix>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>crocoversionpathsprops</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <ItemGroup>
+    <BuildMacro Include="ApiVersion">
+      <Value>$(ApiVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="VSVer">
+      <Value>$(VSVer)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GlibEtcInstallRoot">
+      <Value>$(GlibEtcInstallRoot)</Value>
+    </BuildMacro>
+    <BuildMacro Include="CopyDir">
+      <Value>$(CopyDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="DefDir">
+      <Value>$(DefDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LibCrocoLibtoolCompatibleDllPrefix">
+      <Value>$(LibCrocoLibtoolCompatibleDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LibCrocoLibtoolCompatibleDllSuffix">
+      <Value>$(LibCrocoLibtoolCompatibleDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LibCrocoSeparateVSDllPrefix">
+      <Value>$(LibCrocoSeparateVSDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LibCrocoSeparateVSDllSuffix">
+      <Value>$(LibCrocoSeparateVSDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LibCrocoDllPrefix">
+      <Value>$(LibCrocoDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LibCrocoDllSuffix">
+      <Value>$(LibCrocoDllSuffix)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,12 @@
+# On windows, the prefix is automagically build from the location of the .pc file
+prefix=C:/dir_placeholder
+exec_prefix=C:/dir_placeholder
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: libjpeg-turbo
+Description: check_all
+Version: 1.5.2
+
+Libs: -L${libdir} -lturbojpeg
+Cflags: -I${includedir}

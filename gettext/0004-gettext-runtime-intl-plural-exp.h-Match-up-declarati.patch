@@ -1,0 +1,33 @@
+From 671e656d1043457223217c051f91491bde1bd288 Mon Sep 17 00:00:00 2001
+From: Chun-wei Fan <fanchunwei@src.gnome.org>
+Date: Mon, 28 Mar 2016 13:34:53 +0800
+Subject: [PATCH 4/5] gettext-runtime/intl/plural-exp.h: Match up declaration
+
+Use the same conditions as in plural-exp.c where we only use 'const' when
+we can use named initializers.
+---
+ gettext-runtime/intl/plural-exp.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/gettext-runtime/intl/plural-exp.h b/gettext-runtime/intl/plural-exp.h
+index 32edbc0..a6301ad 100644
+--- a/gettext-runtime/intl/plural-exp.h
++++ b/gettext-runtime/intl/plural-exp.h
+@@ -108,7 +108,14 @@ struct parse_args
+ extern void FREE_EXPRESSION (struct expression *exp)
+      internal_function;
+ extern int PLURAL_PARSE (struct parse_args *arg);
++
++#if (defined __GNUC__ && !(defined __APPLE_CC_ && __APPLE_CC__ > 1) \
++     && !defined __cplusplus)                                       \
++    || (defined __STDC_VERSION__ && __STDC_VERSION__ >= 199901L)
+ extern const struct expression GERMANIC_PLURAL attribute_hidden;
++#else
++extern struct expression GERMANIC_PLURAL attribute_hidden;
++#endif
+ extern void EXTRACT_PLURAL_EXPRESSION (const char *nullentry,
+ 				       const struct expression **pluralp,
+ 				       unsigned long int *npluralsp)
+-- 
+2.7.1.windows.2
+

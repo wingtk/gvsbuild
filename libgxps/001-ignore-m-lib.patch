@@ -1,0 +1,11 @@
+--- "libgxps-0.3.0\\meson.build"	2017-08-09 14:57:59.000000000 +0200
++++ "org\\meson.build"	2017-09-02 18:54:04.187234900 +0200
+@@ -153,7 +153,7 @@
+ cdata.set('HAVE_LIBTIFF', tiff_dep.found())
+ 
+ # Maths functions might be implemented in libm
+-libm_dep = cc.find_library('m')
++libm_dep = cc.find_library('m', required: false)
+ 
+ gnome = import('gnome')
+ gir = find_program('g-ir-scanner', required: false)
