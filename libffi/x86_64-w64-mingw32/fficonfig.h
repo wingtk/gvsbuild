@@ -10,7 +10,7 @@
 /* #undef CRAY_STACKSEG_END */
 
 /* Define to 1 if using `alloca.c'. */
-#define C_ALLOCA 1
+/* #undef C_ALLOCA */
 
 /* Define to the flags needed for the .section .eh_frame directive. */
 /* #undef EH_FRAME_FLAGS */
@@ -27,14 +27,14 @@
 /* Cannot use malloc on this target, so, we revert to alternative means */
 /* #undef FFI_MMAP_EXEC_WRIT */
 
-/* Define this is you do not want support for the raw API. */
+/* Define this if you do not want support for the raw API. */
 /* #undef FFI_NO_RAW_API */
 
-/* Define this is you do not want support for aggregate types. */
+/* Define this if you do not want support for aggregate types. */
 /* #undef FFI_NO_STRUCTS */
 
 /* Define to 1 if you have `alloca', as a function or macro. */
-/* #undef HAVE_ALLOCA */
+#define HAVE_ALLOCA 1
 
 /* Define to 1 if you have <alloca.h> and it should be used (not on Ultrix).
    */
@@ -74,11 +74,17 @@
 /* Define if you have the long double type and it is bigger than a double */
 /* #undef HAVE_LONG_DOUBLE */
 
+/* Define if you support more than one size of the long double type */
+/* #undef HAVE_LONG_DOUBLE_VARIANT */
+
 /* Define to 1 if you have the `memcpy' function. */
 /* #undef HAVE_MEMCPY */
 
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1
+
+/* Define to 1 if you have the `mkostemp' function. */
+/* #undef HAVE_MKOSTEMP */
 
 /* Define to 1 if you have the `mmap' function. */
 /* #undef HAVE_MMAP */
@@ -136,7 +142,7 @@
 #define PACKAGE_NAME "libffi"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "libffi 3.0.13"
+#define PACKAGE_STRING "libffi 3.2.1"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "libffi"
@@ -145,13 +151,16 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "3.0.13"
+#define PACKAGE_VERSION "3.2.1"
 
 /* The size of `double', as computed by sizeof. */
-#define SIZEOF_DOUBLE 0
+#define SIZEOF_DOUBLE 8
 
 /* The size of `long double', as computed by sizeof. */
-#define SIZEOF_LONG_DOUBLE 0
+#define SIZEOF_LONG_DOUBLE 8
+
+/* The size of `size_t', as computed by sizeof. */
+#define SIZEOF_SIZE_T 8
 
 /* If using the C implementation of alloca, define if you know the
    direction of stack growth for your system; otherwise it will be
@@ -159,7 +168,7 @@
 	STACK_DIRECTION > 0 => grows toward higher addresses
 	STACK_DIRECTION < 0 => grows toward lower addresses
 	STACK_DIRECTION = 0 => direction of growth unknown */
-#define STACK_DIRECTION -1
+/* #undef STACK_DIRECTION */
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
@@ -172,7 +181,7 @@
 /* #undef USING_PURIFY */
 
 /* Version number of package */
-#define VERSION "3.0.13"
+#define VERSION "3.2.1"
 
 /* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
    significant byte first (like Motorola and SPARC, unlike Intel). */
@@ -182,7 +191,7 @@
 # endif
 #else
 # ifndef WORDS_BIGENDIAN
-#  define WORDS_BIGENDIAN 1
+/* #  undef WORDS_BIGENDIAN */
 # endif
 #endif
 
