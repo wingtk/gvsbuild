@@ -359,8 +359,7 @@ class Project_glib(Tarball, Project):
             hash = '25ee7635a7c0fcd4ec91cbc3ae07c7f8f5ce621d8183511f414ded09e7e4e128',
             dependencies = ['gettext', 'libffi', 'zlib'],
             patches = ['glib-if_nametoindex.patch',
-                       'glib-package-installation-directory.patch',
-                       'glib-mkenums_perl_path.patch'],
+                       'glib-package-installation-directory.patch'],
             )
 
     def build(self):
