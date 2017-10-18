@@ -70,6 +70,7 @@ class Project_cairo(Tarball, Project):
             archive_url = 'http://cairographics.org/snapshots/cairo-1.15.2.tar.xz',
             hash = '268cc265a7f807403582f440643064bf52896556766890c8df7bad02d230f6c9',
             dependencies = ['fontconfig', 'glib', 'pixman', 'libpng'],
+            patches = ['cairo.patch']
             )
 
     def build(self):
