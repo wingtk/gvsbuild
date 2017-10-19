@@ -112,8 +112,8 @@ class Tool_nuget(Tool):
     def __init__(self):
         Tool.__init__(self,
             'nuget',
-            archive_url = 'https://dist.nuget.org/win-x86-commandline/v3.5.0/nuget.exe',
-            hash = '399ec24c26ed54d6887cde61994bb3d1cada7956c1b19ff880f06f060c039918')
+            archive_url = 'https://dist.nuget.org/win-x86-commandline/v4.3.0/nuget.exe',
+            hash = '386da77a8cf2b63d1260b7020feeedabfe3b65ab31d20e6a313a530865972f3a')
 
     def load_defaults(self, builder):
         Tool.load_defaults(self, builder)
