@@ -737,7 +737,7 @@ class Project_libgxps(Tarball, Project):
             )
 
     def build(self):
-        Meson.build(self, meson_params='-Dwith-liblcms2=false')
+        Meson.build(self, meson_params='-Dwith-liblcms2=false -Denable-test=false')
 
         self.install(r'.\COPYING share\doc\libgxps')
 
