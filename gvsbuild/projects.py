@@ -623,17 +623,17 @@ class Project_jsonc(Tarball, Project):
         self.install(r'.\COPYING share\doc\json-c')
 
 @project_add
-class Project_json_glib(Tarball, Project):
+class Project_json_glib(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'json-glib',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/json-glib/1.2/json-glib-1.2.8.tar.xz',
-            hash = 'fd55a9037d39e7a10f0db64309f5f0265fa32ec962bf85066087b83a2807f40a',
-            dependencies = ['glib'],
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/json-glib/1.4/json-glib-1.4.2.tar.xz',
+            hash = '2d7709a44749c7318599a6829322e081915bdc73f5be5045882ed120bb686dc8',
+            dependencies = ['perl', 'glib'],
             )
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\json-glib.sln')
+        Meson.build(self, meson_params='-Denable-gtk-doc=false', make_tests=True)
 
         self.install(r'.\COPYING share\doc\json-glib')
 
