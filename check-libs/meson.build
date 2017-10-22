@@ -84,6 +84,18 @@ if libcurl_dep.found()
         test('libcurl', test_libcurl)
 endif
 
+# ffi
+libffi_required_ver = '>= 3.2.1'
+libffi_dep = dependency('libffi', version: libffi_required_ver, required: check_all)
+if libffi_dep.found()
+        test_libffi = executable('test_libffi',
+                                [ 'test_libffi.c', 'check_utils.c', ],
+                               dependencies: [ libffi_dep, ],
+                                )
+        test('libffi', test_libffi)
+endif
+
+
 # gdk-pixbuf
 gdk_pixbuf_required_ver = '>= 2.36.10'
 gdk_pixbuf_dep = dependency('gdk-pixbuf-2.0', version: gdk_pixbuf_required_ver, required: check_all)

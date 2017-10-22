@@ -726,6 +726,7 @@ class Project_libffi(Tarball, Project):
         self.exec_msbuild(r'build\win32\vs%(vs_ver)s\libffi.sln')
 
         self.install(r'.\\' + build_dest + r'\include\ffi.h', r'.\src\x86\ffitarget.h', 'include')
+        self.install(r'.\pc-files\* lib\pkgconfig')
         self.install(r'LICENSE share\doc\libffi')
 
 @project_add
