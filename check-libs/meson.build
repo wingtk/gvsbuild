@@ -108,6 +108,19 @@ if jasper_dep.found()
         test('jasper', test_jasper)
 endif
 
+# json-glib
+json_glib_required_ver = '>= 1.4.2'
+json_glib_dep = dependency('json-glib-1.0', version: json_glib_required_ver, required: check_all)
+if json_glib_dep.found()
+        test_json_glib = executable('test_json_glib',
+                                 [ 'test_json_glib.c', 'check_utils.c', ],
+                                 dependencies: [ json_glib_dep, ],
+                                )
+
+        test('json_glib', test_json_glib)
+endif
+
+
 # libjpeg
 libjpeg_required_ver = '>= 6.2'
 libjpeg_dep = dependency('libjpeg', version: libjpeg_required_ver, required: check_all)

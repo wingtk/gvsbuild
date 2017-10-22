@@ -1397,6 +1397,7 @@ class Project_check_libs(Meson):
                     'atk',
                     'freetype',
                     'gdk-pixbuf',
+                    'json-glib',
                     'libarchive',
                     'libcurl',
                     'libjpeg-turbo',
