@@ -49,17 +49,17 @@ class Project_adwaita_icon_theme(Tarball, Project):
         self.install(r'.\COPYING_CCBYSA3 share\doc\adwaita-icon-theme')
 
 @project_add
-class Project_atk(Tarball, Project):
+class Project_atk(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'atk',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/atk/2.24/atk-2.24.0.tar.xz',
-            hash = 'bb2daa9a808c73a7a79d2983f333e0ba74be42fc51e3ba1faf2551a636487a49',
-            dependencies = ['glib'],
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/atk/2.26/atk-2.26.1.tar.xz',
+            hash = 'ef00ff6b83851dddc8db38b4d9faeffb99572ba150b0664ee02e46f015ea97cb',
+            dependencies = ['ninja', 'meson', 'pkg-config', 'perl', 'glib'],
             )
 
     def build(self):
-        self.exec_msbuild(r'win32\vs%(vs_ver)s\atk.sln')
+        Meson.build(self, meson_params='-Ddisable_introspection=true -Denable_docs=false', make_tests=True)
         self.install(r'.\COPYING share\doc\atk')
 
 @project_add
