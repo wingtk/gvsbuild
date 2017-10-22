@@ -485,6 +485,11 @@ LIBENCHANT_MYSPELL_DEFINES = \
 LIBENCHANT_MYSPELL_DLL=$(outdir)\libenchant_myspell.dll
 LIBENCHANT_MYSPELL_LIB=$(libdir)\libenchant_myspell.lib
 LIBENCHANT_MYSPELL_PDB=$(pdbdir)\libenchant_myspell.pdb
+LIBENCHANT_MYSPELL_RES=$(srcdir)\libenchant_myspell.res
+LIBENCHANT_MYSPELL_RC=$(srcdir)\libenchant_myspell.rc
+
+$(LIBENCHANT_MYSPELL_RES) : $(LIBENCHANT_MYSPELL_RC)
+	rc -Fo $(LIBENCHANT_MYSPELL_RES) $(LIBENCHANT_MYSPELL_RC)
 
 LIBENCHANT_MYSPELL_LIBS = \
     $(otherlibdir)\glib-2.0.lib \
@@ -495,16 +500,17 @@ LIBENCHANT_MYSPELL_LIBS = \
 LIBENCHANT_MYSPELL_OBJECTS = \
     $(objdir)\affentry.obj \
     $(objdir)\affixmgr.obj \
-    $(objdir)\dictmgr.obj \
     $(objdir)\csutil.obj \
-    $(objdir)\utf_info.obj \
-    $(objdir)\hashmgr.obj \
-    $(objdir)\suggestmgr.obj \
-    $(objdir)\hunspell.obj \
+    $(objdir)\dictmgr.obj \
     $(objdir)\filemgr.obj \
-    $(objdir)\phonet.obj \
+    $(objdir)\hashmgr.obj \
+    $(objdir)\hunspell.obj \
     $(objdir)\hunzip.obj \
-    $(objdir)\myspell_checker.obj
+    $(objdir)\myspell_checker.obj \
+    $(objdir)\phonet.obj \
+    $(objdir)\replist.obj \
+    $(objdir)\suggestmgr.obj \
+    $(objdir)\utf_info.obj
         
 !if !$(DLL)
 libenchant_myspell: LIBENCHANT_MYSPELL_LIB
@@ -520,43 +526,46 @@ $(objdir)\affentry.obj : $(srcdir)\affentry.cxx
 $(objdir)\affixmgr.obj : $(srcdir)\affixmgr.cxx
 	$(CC_OBJ) $** $(LIBENCHANT_MYSPELL_DEFINES)
 
+$(objdir)\csutil.obj : $(srcdir)\csutil.cxx
+	$(CC_OBJ) $** $(LIBENCHANT_MYSPELL_DEFINES)
+
 $(objdir)\dictmgr.obj : $(srcdir)\dictmgr.cxx
 	$(CC_OBJ) $** $(LIBENCHANT_MYSPELL_DEFINES)
 
-$(objdir)\csutil.obj : $(srcdir)\csutil.cxx
+$(objdir)\filemgr.obj : $(srcdir)\filemgr.cxx
+	$(CC_OBJ) $** $(LIBENCHANT_MYSPELL_DEFINES)
+
+$(objdir)\hashmgr.obj : $(srcdir)\hashmgr.cxx
+	$(CC_OBJ) $** $(LIBENCHANT_MYSPELL_DEFINES)
+
+$(objdir)\hunspell.obj : $(srcdir)\hunspell.cxx
+	$(CC_OBJ) $** $(LIBENCHANT_MYSPELL_DEFINES)
+
+$(objdir)\hunzip.obj : $(srcdir)\hunzip.cxx
+	$(CC_OBJ) $** $(LIBENCHANT_MYSPELL_DEFINES)
+
+$(objdir)\myspell_checker.obj : $(srcdir)\myspell_checker.cpp
+	$(CC_OBJ) $** $(LIBENCHANT_MYSPELL_DEFINES)
+
+$(objdir)\phonet.obj : $(srcdir)\phonet.cxx
+	$(CC_OBJ) $** $(LIBENCHANT_MYSPELL_DEFINES)
+   
+$(objdir)\replist.obj : $(srcdir)\replist.cxx
+	$(CC_OBJ) $** $(LIBENCHANT_MYSPELL_DEFINES)
+   
+$(objdir)\suggestmgr.obj : $(srcdir)\suggestmgr.cxx
 	$(CC_OBJ) $** $(LIBENCHANT_MYSPELL_DEFINES)
 
 $(objdir)\utf_info.obj : $(srcdir)\utf_info.cxx
 	$(CC_OBJ) $** $(LIBENCHANT_MYSPELL_DEFINES)
-    
-$(objdir)\hashmgr.obj : $(srcdir)\hashmgr.cxx
-	$(CC_OBJ) $** $(LIBENCHANT_MYSPELL_DEFINES)
-    
-$(objdir)\suggestmgr.obj : $(srcdir)\suggestmgr.cxx
-	$(CC_OBJ) $** $(LIBENCHANT_MYSPELL_DEFINES)
-    
-$(objdir)\hunspell.obj : $(srcdir)\hunspell.cxx
-	$(CC_OBJ) $** $(LIBENCHANT_MYSPELL_DEFINES)
-    
-$(objdir)\filemgr.obj : $(srcdir)\filemgr.cxx
-	$(CC_OBJ) $** $(LIBENCHANT_MYSPELL_DEFINES)
-    
-$(objdir)\phonet.obj : $(srcdir)\phonet.cxx
-	$(CC_OBJ) $** $(LIBENCHANT_MYSPELL_DEFINES)
-   
-$(objdir)\hunzip.obj : $(srcdir)\hunzip.cxx
-	$(CC_OBJ) $** $(LIBENCHANT_MYSPELL_DEFINES)
-    
-$(objdir)\myspell_checker.obj : $(srcdir)\myspell_checker.cpp
-	$(CC_OBJ) $** $(LIBENCHANT_MYSPELL_DEFINES)
-    
+
 LIBENCHANT_MYSPELL_LIB : $(LIBENCHANT_MYSPELL_OBJECTS)
 	-$(RM) $(LIBENCHANT_MYSPELL_LIB)
 	$(AR) $(AR_FLAGS)$(LIBENCHANT_MYSPELL_LIB) $(LIBENCHANT_MYSPELL_OBJECTS)
 
 # libenchant_myspell.dll and libenchant_myspell.lib are created together.
-LIBENCHANT_MYSPELL_DLL : $(LIBENCHANT_MYSPELL_OBJECTS)
-    $(LINK_DLL) $(LIBENCHANT_MYSPELL_OBJECTS) $(LIBENCHANT_MYSPELL_LIBS) -OUT:$(LIBENCHANT_MYSPELL_DLL)
+LIBENCHANT_MYSPELL_DLL : $(LIBENCHANT_MYSPELL_OBJECTS) $(LIBENCHANT_MYSPELL_RES)
+    $(LINK_DLL) $(LIBENCHANT_MYSPELL_OBJECTS) $(LIBENCHANT_MYSPELL_LIBS) $(LIBENCHANT_MYSPELL_RES) -OUT:$(LIBENCHANT_MYSPELL_DLL)
     $(EMBED_MANIFEST:exe_name=libenchant_myspell.dll)
     $(CLEAN_MANIFEST:exe_name=libenchant_myspell.dll)
     
@@ -564,7 +573,7 @@ libenchant_myspell_lib_clean:
     $(RM) $(LIBENCHANT_MYSPELL_OBJECTS) $(LIBENCHANT_MYSPELL_LIB)
 
 libenchant_myspell_dll_clean:
-    $(RM) $(LIBENCHANT_MYSPELL_OBJECTS) $(LIBENCHANT_MYSPELL_LIB) $(LIBENCHANT_MYSPELL_DLL) $(LIBENCHANT_MYSPELL_PDB)
+    $(RM) $(LIBENCHANT_MYSPELL_OBJECTS) $(LIBENCHANT_MYSPELL_LIB) $(LIBENCHANT_MYSPELL_DLL) $(LIBENCHANT_MYSPELL_PDB) $(LIBENCHANT_MYSPELL_RES) $(LIBENCHANT_MYSPELL_RC)
 
 ################################################################################
 

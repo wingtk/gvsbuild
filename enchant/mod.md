@@ -1,1 +1,1 @@
- * Download [Enchant 1.6.0](http://www.abisource.com/downloads/enchant/1.6.0/enchant-1.6.0.tar.gz)
+ * Download [Enchant 1.6.1](https://github.com/AbiWord/enchant/archive/enchant-1-6-1.tar.gz)
