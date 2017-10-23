@@ -51,10 +51,10 @@ class Tool_meson(Tool):
     def __init__(self):
         Tool.__init__(self,
             'meson',
-            archive_url = 'https://github.com/mesonbuild/meson/archive/0.42.0.zip',
-            archive_file_name = 'meson-0.42.0.zip',
-            hash = '4ec7b2685b4660b4e56239789906569b1f8773e667a44437b0730040df575c28',
-            dir_part = 'meson-0.42.0')
+            archive_url = 'https://github.com/mesonbuild/meson/archive/0.43.0.zip',
+            archive_file_name = 'meson-0.43.0.zip',
+            hash = '315ab08fa388e30ccaae4dfd37fc9a2f70542140a453e7d3482c3a19664dffe1',
+            dir_part = 'meson-0.43.0')
 
     def load_defaults(self, builder):
         Tool.load_defaults(self, builder)
