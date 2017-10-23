@@ -235,8 +235,11 @@ class Builder(object):
     def preprocess(self):
         for proj in Project.list_projects():
             if proj.archive_url:
-                url = proj.archive_url
-                archive = url[url.rfind('/') + 1:]
+                if proj.archive_file_name:
+                    archive = proj.archive_file_name
+                else:
+                    url = proj.archive_url
+                    archive = url[url.rfind('/') + 1:]
                 proj.archive_file = os.path.join(self.opts.archives_download_dir, archive)
             else:
                 proj.archive_file = None

@@ -36,6 +36,7 @@ class Project(object):
         self.dependencies = []
         self.patches = []
         self.archive_url = None
+        self.archive_file_name = None
         self.tarbomb = False
         self.type = GVSBUILD_PROJECT
         for k in kwargs:

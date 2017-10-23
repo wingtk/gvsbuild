@@ -52,6 +52,7 @@ class Tool_meson(Tool):
         Tool.__init__(self,
             'meson',
             archive_url = 'https://github.com/mesonbuild/meson/archive/0.42.0.zip',
+            archive_file_name = 'meson-0.42.0.zip',
             hash = '4ec7b2685b4660b4e56239789906569b1f8773e667a44437b0730040df575c28',
             dir_part = 'meson-0.42.0')
 
@@ -82,7 +83,7 @@ class Tool_nasm(Tool):
     def unpack(self):
         # We download directly the exe file so we copy it on the tool directory ...
         destfile = os.path.join(self.build_dir, 'nasm.exe')
-        extract_exec(self.archive_file, self.builder.opts.tools_root_dir, dir_part = self.dir_part, check_file = destfile, force_dest = destfile)
+        extract_exec(self.archive_file, self.builder.opts.tools_root_dir, dir_part = self.dir_part, check_file = destfile, force_dest = destfile, check_mark=True)
 
     def get_path(self):
         return self.nasm_path
@@ -93,6 +94,7 @@ class Tool_ninja(Tool):
         Tool.__init__(self,
             'ninja',
             archive_url = 'https://github.com/ninja-build/ninja/releases/download/v1.7.2/ninja-win.zip',
+            archive_file_name = 'ninja-win-1.7.2.zip',
             hash = '95b36a597d33c1fe672829cfe47b5ab34b3a1a4c6bf628e5d150b6075df4ef50')
 
     def load_defaults(self, builder):
@@ -113,6 +115,7 @@ class Tool_nuget(Tool):
         Tool.__init__(self,
             'nuget',
             archive_url = 'https://dist.nuget.org/win-x86-commandline/v4.3.0/nuget.exe',
+            archive_file_name = 'nuget-4.3.0.exe',
             hash = '386da77a8cf2b63d1260b7020feeedabfe3b65ab31d20e6a313a530865972f3a')
 
     def load_defaults(self, builder):
@@ -122,7 +125,7 @@ class Tool_nuget(Tool):
 
     def unpack(self):
         # We download directly the exe file so we copy it on the tool directory ...
-        extract_exec(self.archive_file, self.build_dir, check_file = self.builder.nuget, check_mark=True)
+        extract_exec(self.archive_file, self.build_dir, check_file = self.builder.nuget, force_dest = self.builder.nuget, check_mark=True)
 
     def get_path(self):
         # No need to add the path, we use the full file name
