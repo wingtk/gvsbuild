@@ -395,10 +395,7 @@ class Project_glib_openssl(Tarball, Meson):
             )
 
     def build(self):
-        # If you want to build without certificates use
-        # params = '-Dwith-ca-certificates=no'
-        params = '-Dwith-ca-certificates=%s/bin/cert.pem' % (self.builder.gtk_dir, )
-        Meson.build(self, meson_params=params)
+        Meson.build(self)
         self.install(r'.\COPYING share\doc\glib-openssl')
         self.install(r'.\LICENSE_EXCEPTION share\doc\glib-openssl')
 
