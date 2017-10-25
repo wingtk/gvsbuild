@@ -53,6 +53,9 @@
 #ifndef LIBFFI_H
 #define LIBFFI_H
 
+/* Since we build only with static linking we don't declare dllexport/dllimport anything */
+#define FFI_BUILDING
+
 #ifdef __cplusplus
 extern "C" {
 #endif
