@@ -148,11 +148,11 @@ class GitRepo(object):
         self.builder.exec_msys('git clone %s %s-tmp' % (self.repo_url, self.build_dir))
         shutil.move(self.build_dir + '-tmp', self.build_dir)
 
-        if self.fetch_submodules:
-            self.builder.exec_msys('git submodule update --init',  working_dir=self.build_dir)
-
         if self.tag:
             self.builder.exec_msys('git checkout -f %s' % self.tag, working_dir=self.build_dir)
+
+        if self.fetch_submodules:
+            self.builder.exec_msys('git submodule update --init',  working_dir=self.build_dir)
 
         print_log('Cloned %s to %s' % (self.repo_url, self.build_dir))
 
