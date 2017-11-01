@@ -1420,3 +1420,25 @@ class Project_check_libs(Meson):
         Meson.build(self, make_tests=True)
         self.install(r'.\COPYING share\doc\check-libs')
 
+@project_add
+class Project_dev_shell(Project):
+    def __init__(self):
+        Project.__init__(self,
+            'dev-shell',
+            dependencies = [ 'tools' ],
+            )
+
+#    def update_build_dir(self):
+#        # Force the copy of the files in the script
+#        return True
+
+    def unpack(self):
+        # Everything is in our script, nothing to download
+        pass
+
+    def build(self):
+        print("")
+        print("gvsbuild dev shell. Type exit to exit :)")
+        print("")
+        self.builder.mod_env('PROMPT', '[ gvsbuild shell ] $P $G', subst=True)
+        self.builder.exec_vs("cmd", working_dir=self.builder.working_dir)
