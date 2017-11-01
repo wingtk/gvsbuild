@@ -1426,18 +1426,16 @@ class Project_dev_shell(Project):
     def __init__(self):
         Project.__init__(self,
             'dev-shell',
+            # We may need all tools 
             dependencies = [ 'tools' ],
             )
 
-#    def update_build_dir(self):
-#        # Force the copy of the files in the script
-#        return True
-
     def unpack(self):
-        # Everything is in our script, nothing to download
+        # Nothing to do, it's not really a project
         pass
 
     def build(self):
+        # Do the shell
         print("")
         print("gvsbuild dev shell. Type exit to exit :)")
         print("")
