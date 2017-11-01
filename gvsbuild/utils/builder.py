@@ -348,19 +348,29 @@ class Builder(object):
         shutil.rmtree(proj.pkg_dir, ignore_errors=True)
         os.makedirs(proj.pkg_dir)
 
-        # Get the paths to add
-        paths = []
+        # Save base vs path
+        vs_saved_path = self.vs_env['PATH']
+
+        # Original path, converted to list
+        paths = vs_saved_path.split(';') 
+        # Add the paths needed
         for d in proj.all_dependencies:
             t = d.get_path()
             if t:
-                paths.append(t)
+                if isinstance(t, tuple):
+                    # pre/post
+                    if t[0]:
+                        # Add at the beginning,
+                        paths.insert(0, t[0])
+                    if t[1]:
+                        # Add at the end (msys, )
+                        paths.append(t[1])
+                else:
+                    # Single path,  at the beginning
+                    paths.insert(0, t)
 
-        # Save base vs path
-        vs_saved_path = self.vs_env['PATH']
-        if paths:
-            # Something to add to the vs environment path, at the beginning
-            tp = ';'.join(paths)
-            self.vs_env['PATH'] = tp + ';' + vs_saved_path
+        # Make the (eventually) new path
+        self.vs_env['PATH'] = ';'.join(paths)
 
         proj.patch()
         proj.build()
