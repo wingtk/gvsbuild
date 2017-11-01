@@ -55,6 +55,15 @@ class Builder(object):
         self.working_dir = os.path.join(opts.build_dir, 'build', opts.platform, opts.configuration)
         self.gtk_dir = os.path.join(opts.build_dir, 'gtk', opts.platform, opts.configuration)
 
+        if opts.from_scratch:
+            print('Removing working/building dir (%s)' % (self.working_dir, ))
+            rmtree_full(self.working_dir, retry=True)
+            print('Removing destination dir (%s)' % (self.gtk_dir, ))
+            rmtree_full(self.gtk_dir, retry=True)
+            if not opts.keep_tools:
+                print('Removing tools dir (%s)' % (opts.tools_root_dir, ))
+                rmtree_full(opts.tools_root_dir, retry=True)
+
         if not opts.use_env:
             self.__minimum_env()
 
