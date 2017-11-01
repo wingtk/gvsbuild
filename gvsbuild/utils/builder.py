@@ -34,12 +34,15 @@ import re
 
 from .utils import ordered_set
 from .utils import rmtree_full
+from .simple_ui import script_title
 from .simple_ui import global_verbose, error_exit, print_debug, print_log, print_message
 from .base_project import Project
 
 class Builder(object):
     def __init__(self, opts):
         self.opts = opts
+
+        script_title('* Setup')
 
         # Check and normalize the platform
         if opts.platform in ('Win32', 'win32', 'x86'):
@@ -286,6 +289,7 @@ class Builder(object):
             except:
                 traceback.print_exc()
                 error_exit("%s build failed" % (p.name))
+        script_title(None)
 
     def __prepare_build(self, projects):
         if not os.path.exists(self.working_dir):
@@ -306,6 +310,7 @@ class Builder(object):
             print_log("Creating directory %s" % (build_dir,))
             os.makedirs(build_dir)
 
+        script_title('* Downloading')
         for p in projects:
             if self.__download_one(p):
                 return True
@@ -329,6 +334,7 @@ class Builder(object):
 
     def __build_one(self, proj):
         print_message("Building project %s" % (proj.name,))
+        script_title(proj.name)
 
         proj.builder = self
         self.__project = proj
@@ -382,6 +388,7 @@ class Builder(object):
             else:
                 # No file preentt
                 print_log("%s:zip not needed (tool?)" % (proj.name, ))
+        script_title(None)
 
     def make_zip(self, name, files):
         print_log('Creating zip file %s with %u files' % (name, len(files), ))

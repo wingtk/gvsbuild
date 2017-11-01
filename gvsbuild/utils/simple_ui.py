@@ -20,6 +20,7 @@ Simple user interface for info, log & debug messages
 """
 
 import sys
+import ctypes
 
 global_verbose = False
 global_debug = False
@@ -47,3 +48,27 @@ def handle_global_options(args):
     if args.debug:
         global_verbose = True
         global_debug = True
+
+# Original windows console title
+_script_org_title = None
+def script_title(new_title):
+    """
+    Set the new console title for the running script, saving the old one
+    
+    Passing None to the title restores the old, saved, one
+    """
+    
+    global  _script_org_title
+    if new_title:
+        # Save the old title
+        if _script_org_title is None:
+            buf = ctypes.create_unicode_buffer(256)
+            ctypes.windll.kernel32.GetConsoleTitleW(buf, 256)
+            _script_org_title = buf.value
+        ctypes.windll.kernel32.SetConsoleTitleW('gvsbuild ' + new_title)
+    else:
+        # Restore old title
+        if _script_org_title is not None:
+            ctypes.windll.kernel32.SetConsoleTitleW(_script_org_title)
+            # cleanup if we want to call the function again 
+            _script_org_title = None
