@@ -173,6 +173,7 @@ class Builder(object):
         return missing
 
     def __check_tools(self, opts):
+        script_title('* Msys tool')
         # what's missing ?
         missing = self.__msys_missing(opts.msys_dir)
         if missing:
@@ -204,6 +205,7 @@ class Builder(object):
             env[key] = value
 
     def __check_vs(self, opts):
+        script_title('* Msvc tool')
         # Verify VS exists at the indicated location, and that it supports the required target
         add_opts = ''
         if opts.platform == 'Win32':
