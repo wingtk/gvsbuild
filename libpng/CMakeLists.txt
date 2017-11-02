@@ -35,7 +35,7 @@ enable_testing()
 
 set(PNGLIB_MAJOR 1)
 set(PNGLIB_MINOR 6)
-set(PNGLIB_RELEASE 28)
+set(PNGLIB_RELEASE 32)
 set(PNGLIB_NAME libpng${PNGLIB_MAJOR}${PNGLIB_MINOR})
 set(PNGLIB_VERSION ${PNGLIB_MAJOR}.${PNGLIB_MINOR}.${PNGLIB_RELEASE})
 
@@ -356,6 +356,7 @@ set(libpng_sources
   pngwrite.c
   pngwtran.c
   pngwutil.c
+  scripts/pngwin.rc
 )
 set(pngtest_sources
   pngtest.c
