@@ -559,8 +559,8 @@ class Project_harfbuzz(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'harfbuzz',
-            archive_url = 'https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.6.3.tar.bz2',
-            hash = 'e31eb367beb61a9399d2c78b51c225ab2b1cbd46f364f2d80d97bb422b44101a',
+            archive_url = 'https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.4.5.tar.bz2',
+            hash = 'd0e05438165884f21658154c709075feaf98c93ee5c694b951533ac425a9a711',
             dependencies = ['perl', 'freetype', 'glib'],
             )
 
