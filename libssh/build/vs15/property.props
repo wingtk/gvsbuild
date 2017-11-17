@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="UserMacros">
+    <ApiVersion>1.0</ApiVersion>
+    <VSVer>14</VSVer>
+    <PrjInstallRoot>$(SolutionDir)..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</PrjInstallRoot>
+    <PrjIncludeDir></PrjIncludeDir>
+    <CopyDir>..\..\..\libssh-rel</CopyDir>
+    <BinDir>$(SolutionDir)$(Configuration)\$(PlatformName)\bin</BinDir>
+    <ObjDir>$(SolutionDir)$(Configuration)\$(PlatformName)\obj\$(ProjectName)</ObjDir>
+    <SolDir>..\..</SolDir>
+    <PrjLibtoolCompatibleDllPrefix>lib</PrjLibtoolCompatibleDllPrefix>
+    <PrjLibtoolCompatibleDllSuffix></PrjLibtoolCompatibleDllSuffix>
+    <PrjSeparateDllPrefix />
+    <PrjSeparateDllSuffix></PrjSeparateDllSuffix>
+    <PrjDllPrefix>$(PrjSeparateDllPrefix)</PrjDllPrefix>
+    <PrjDllSuffix>$(PrjSeparateDllSuffix)</PrjDllSuffix>
+
+
+    <PreBuildCfg>
+
+    </PreBuildCfg>
+    
+    <PrjDoInstall>
+      mkdir $(CopyDir)
+
+      mkdir $(CopyDir)\bin
+
+      copy $(BinDir)\*.exe $(CopyDir)\bin
+
+      copy $(BinDir)\*.dll $(CopyDir)\bin
+
+      copy $(BinDir)\*.pdb $(CopyDir)\bin
+
+      mkdir $(CopyDir)\lib
+
+      copy $(BinDir)\*.lib $(CopyDir)\lib
+
+      mkdir $(CopyDir)\include\libssh-$(ApiVersion)\libssh
+
+      copy $(SolDir)\include\libssh\*.h $(CopyDir)\include\libssh-$(ApiVersion)\libssh
+
+
+    </PrjDoInstall>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>Prjprops</_PropertySheetDisplayName>
+    <OutDir>$(SolutionDir)$(Configuration)\$(PlatformName)\bin\</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)\$(PlatformName)\obj\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <BuildMacro Include="PrjInstallRoot">
+      <Value>$(PrjInstallRoot)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PrjIncludeDir">
+      <Value>$(PrjIncludeDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="CopyDir">
+      <Value>$(CopyDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PreBuildCfg">
+      <Value>$(PreBuildCfg)</Value>
+    </BuildMacro>
+    <BuildMacro Include="ApiVersion">
+      <Value>$(ApiVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PrjDoInstall">
+      <Value>$(PrjDoInstall)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PrjLibtoolCompatibleDllPrefix">
+      <Value>$(PrjLibtoolCompatibleDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PrjLibtoolCompatibleDllSuffix">
+      <Value>$(PrjLibtoolCompatibleDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PrjSeparateDllPrefix">
+      <Value>$(PrjSeparateDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PrjSeparateDllSuffix">
+      <Value>$(PrjSeparateDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PrjDllPrefix">
+      <Value>$(PrjDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PrjDllSuffix">
+      <Value>$(PrjDllSuffix)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>
