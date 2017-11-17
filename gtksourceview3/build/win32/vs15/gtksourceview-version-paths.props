@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="UserMacros">
+    <VSVer>17</VSVer>
+    <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
+    <CopyDir>..\..\..\..\gtksourceview3-rel</CopyDir>
+    <DefDir>$(SolutionDir)$(Configuration)\$(Platform)\obj\$(ProjectName)</DefDir>
+    <ApiVersion>3.0</ApiVersion>
+    <GtkSourceviewLibtoolCompatibleDllPrefix>lib</GtkSourceviewLibtoolCompatibleDllPrefix>
+    <GtkSourceviewLibtoolCompatibleDllSuffix>-$(ApiVersion)-0</GtkSourceviewLibtoolCompatibleDllSuffix>
+    <GtkSourceviewSeparateVSDllPrefix />
+    <GtkSourceviewSeparateVSDllSuffix>-3.0</GtkSourceviewSeparateVSDllSuffix>
+    <GtkSourceviewDllPrefix>$(GtkSourceviewSeparateVSDllPrefix)</GtkSourceviewDllPrefix>
+    <GtkSourceviewDllSuffix>$(GtkSourceviewSeparateVSDllSuffix)</GtkSourceviewDllSuffix>
+    <PythonPath>c:\python36</PythonPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>gtksourceviewversionpathsprops</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <ItemGroup>
+    <BuildMacro Include="VSVer">
+      <Value>$(VSVer)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GlibEtcInstallRoot">
+      <Value>$(GlibEtcInstallRoot)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GlibEtcInstallRootFromBuildWin32">
+      <Value>$(GlibEtcInstallRootFromBuildWin32)</Value>
+    </BuildMacro>
+    <BuildMacro Include="CopyDir">
+      <Value>$(CopyDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="DefDir">
+      <Value>$(DefDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="ApiVersion">
+      <Value>$(ApiVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GtkSourceviewLibtoolCompatibleDllPrefix">
+      <Value>$(GtkSourceviewLibtoolCompatibleDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GtkSourceviewLibtoolCompatibleDllSuffix">
+      <Value>$(GtkSourceviewLibtoolCompatibleDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GtkSourceviewSeparateVSDllPrefix">
+      <Value>$(GtkSourceviewSeparateVSDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GtkSourceviewSeparateVSDllSuffix">
+      <Value>$(GtkSourceviewSeparateVSDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GtkSourceviewDllPrefix">
+      <Value>$(GtkSourceviewDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GtkSourceviewDllSuffix">
+      <Value>$(GtkSourceviewDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PythonPath">
+      <Value>$(PythonPath)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>
