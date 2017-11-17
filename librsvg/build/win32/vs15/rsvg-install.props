@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets">
+    <Import Project="rsvg-build-defines.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+    <RsvgDoInstall>
+mkdir $(CopyDir)
+mkdir $(CopyDir)\bin
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\$(RsvgDllPrefix)rsvg$(RsvgDllSuffix).dll $(CopyDir)\bin
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\$(RsvgDllPrefix)rsvg$(RsvgDllSuffix).pdb $(CopyDir)\bin
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\rsvg-convert.exe $(CopyDir)\bin
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\rsvg-convert.pdb $(CopyDir)\bin
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\rsvg-view-3.exe $(CopyDir)\bin
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\rsvg-view-3.pdb $(CopyDir)\bin
+mkdir $(CopyDir)\include\librsvg-$(ApiVersion)\librsvg
+copy ..\..\..\rsvg.h $(CopyDir)\include\librsvg-2.0\librsvg\rsvg.h
+copy ..\..\..\rsvg-cairo.h $(CopyDir)\include\librsvg-2.0\librsvg\rsvg-cairo.h
+copy ..\..\..\librsvg-features.h $(CopyDir)\include\librsvg-2.0\librsvg\librsvg-features.h
+copy ..\..\..\librsvg-enum-types.h $(CopyDir)\include\librsvg-2.0\librsvg\librsvg-enum-types.h
+mkdir $(CopyDir)\lib\gdk-pixbuf-2.0\2.10.0\loaders
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\rsvg-$(ApiVersion).lib $(CopyDir)\lib
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\libpixbufloader-svg.dll $(CopyDir)\lib\gdk-pixbuf-2.0\2.10.0\loaders
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\libpixbufloader-svg.pdb $(CopyDir)\lib\gdk-pixbuf-2.0\2.10.0\loaders
+$(GlibEtcInstallRoot)\bin\gdk-pixbuf-query-loaders.exe &gt; $(CopyDir)\lib\gdk-pixbuf-2.0\2.10.0\loaders.cache
+</RsvgDoInstall>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>rsvginstallprops</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <ItemDefinitionGroup />
+  <ItemGroup>
+    <BuildMacro Include="RsvgDoInstall">
+      <Value>$(RsvgDoInstall)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>
