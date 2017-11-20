@@ -48,3 +48,11 @@ HexChat developers decided that their script should focus on their specific need
     ```
 
 1. When the script is done, your GTK+ stack will be found under _C:\gtk-build\gtk_. Enjoy!
+
+## License
+
+This build script is licensed under the GPL2.0 license, see the COPYING file for the full text.
+
+The binaries produced by the build script are licensed under the license terms of the project that gets built (ie glib is LGPL so you can use glib.dll built with this script under the terms of LGPL).
+
+Patches included in the repository are licensed under the license terms of the project they apply to.
