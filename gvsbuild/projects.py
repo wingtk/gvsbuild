@@ -882,7 +882,7 @@ class Project_libsoup(Tarball, Project):
             hash = '442300ca1b1bf8a3bbf2f788203287ff862542d4fc048f19a92a068a27d17b72',
             dependencies = ['libxml2', 'glib-openssl', 'sqlite'],
             patches = [
-                'websocket-connection-do-not-send-new-frames-until-.patch',
+                '0001-websocket-connection-do-not-send-new-frames-until-th.patch',
                 ],
             )
 
