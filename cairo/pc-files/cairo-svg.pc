@@ -8,5 +8,4 @@ Description: SVG surface backend for cairo graphics library
 Version: 1.15.2
 
 Requires: cairo 
-Libs:  
 Cflags: -I${includedir}/cairo 
