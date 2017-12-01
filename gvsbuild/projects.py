@@ -878,8 +878,8 @@ class Project_libsoup(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libsoup',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.58/libsoup-2.58.2.tar.xz',
-            hash = '442300ca1b1bf8a3bbf2f788203287ff862542d4fc048f19a92a068a27d17b72',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.60/libsoup-2.60.2.tar.xz',
+            hash = '7263cfe18872e2e652c196f5667e514616d9c97c861dfca82a65a55f45f0da01',
             dependencies = ['libxml2', 'glib-openssl', 'sqlite'],
             patches = [
                 '0001-websocket-connection-do-not-send-new-frames-until-th.patch',

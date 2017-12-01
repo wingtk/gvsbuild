@@ -7,7 +7,7 @@
     <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
     <CopyDir>..\..\..\libsoup-rel</CopyDir>
     <SoupMajorVersion>2</SoupMajorVersion>
-    <SoupMinorVersion>58</SoupMinorVersion>
+    <SoupMinorVersion>60</SoupMinorVersion>
     <SoupMicroVersion>2</SoupMicroVersion>
     <ApiVersion>2.4</ApiVersion>
     <SoupLibtoolCompatibleDllPrefix>lib</SoupLibtoolCompatibleDllPrefix>
