@@ -590,8 +590,8 @@ class Project_jasper(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'jasper',
-            archive_url = 'http://www.ece.uvic.ca/~frodo/jasper/software/jasper-2.0.12.tar.gz',
-            hash = '5b24faf5ed38670d6286e45ab7516b26458d05e7929b435afe569176765f4dda',
+            archive_url = 'http://www.ece.uvic.ca/~frodo/jasper/software/jasper-2.0.14.tar.gz',
+            hash = '2a1f61e55afe8b4ce8115e1508c5d7cb314d56dfcc2dd323f90c072f88ccf57b',
             dependencies = ['cmake', 'ninja', 'libjpeg-turbo', ],
             patches = [
                     '001-dont-use-pkg-full-path.patch',
