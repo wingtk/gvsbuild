@@ -4,7 +4,7 @@
     <VSVer>12</VSVer>
     <PangoMajorVersion>1</PangoMajorVersion>
     <PangoMinorVersion>40</PangoMinorVersion>
-    <PangoMicroVersion>5</PangoMicroVersion>
+    <PangoMicroVersion>14</PangoMicroVersion>
     <ApiVersion>1.0</ApiVersion>
     <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
     <GlibEtcInstallRoot Condition="'$(Configuration)'=='Release_FC'">$(SolutionDir)\..\..\..\..\..\..\gtk\$(Platform)\Release</GlibEtcInstallRoot>
