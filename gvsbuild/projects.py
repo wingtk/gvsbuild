@@ -706,25 +706,19 @@ class Project_libepoxy(Tarball, Meson):
         self.install(r'COPYING share\doc\libepoxy')
 
 @project_add
-class Project_libffi(Tarball, Project):
+class Project_libffi(GitRepo, Meson):
     def __init__(self):
         Project.__init__(self,
             'libffi',
-            archive_url = 'http://dl.hexchat.net/gtk-win32/src/libffi-3.2.1.tar.gz',
-            hash = 'd06ebb8e1d9a22d19e38d63fdb83954253f39bedc5d46232a05645685722ca37',
-            patches = ['libffi-msvc-complex.patch', 'libffi-win64-jmp.patch', '0001-Fix-build-on-windows.patch'],
+            repo_url = 'https://github.com/centricular/libffi.git',
+            fetch_submodules = False,
+            tag = None,
+            dependencies = ['python', 'ninja', 'meson'],
+            patches = ['0001-Fix-build-on-windows.patch'],
             )
 
     def build(self):
-        if self.builder.x86:
-            build_dest = 'i686-pc-mingw32'
-        else:
-            build_dest = 'x86_64-w64-mingw32'
-
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\libffi.sln')
-
-        self.install(r'.\\' + build_dest + r'\include\ffi.h', r'.\src\x86\ffitarget.h', 'include')
-        self.install(r'.\pc-files\* lib\pkgconfig')
+        Meson.build(self)
         self.install(r'LICENSE share\doc\libffi')
 
 @project_add
