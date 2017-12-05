@@ -1447,9 +1447,9 @@ class Project_gobject_introspection(GitRepo, Meson):
     def __init__(self):
         Project.__init__(self,
             'gobject-introspection',
-            repo_url = 'https://github.com/guruDanny67/gobject-introspection.git',
+            repo_url = 'https://git.gnome.org/browse/gobject-introspection',
             fetch_submodules = False,
-            tag = 'wip/tingping/meson',
+            tag = 'wip/meson',
             dependencies = [ 'ninja', 'meson', 'msys', 'pkg-config', 'glib', ],
             )
 
