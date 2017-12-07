@@ -296,8 +296,8 @@ class Project_freetype(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'freetype',
-            archive_url = 'http://download.savannah.gnu.org/releases/freetype/freetype-2.7.1.tar.gz',
-            hash = '162ef25aa64480b1189cdb261228e6c5c44f212aac4b4621e28cf2157efb59f5',
+            archive_url = 'http://download.savannah.gnu.org/releases/freetype/freetype-2.8.1.tar.gz',
+            hash = '876711d064a6a1bd74beb18dd37f219af26100f72daaebd2d86cb493d7cd7ec6',
             )
 
     def build(self):

@@ -6,7 +6,7 @@ includedir=${prefix}/include
 
 Name: freetype 2
 Description: A free, high-quality, and portable font engine.
-Version: 2.7.1
+Version: 2.8.1
 
 Libs: -L${libdir} -lfreetype
 Cflags: -I${includedir}
