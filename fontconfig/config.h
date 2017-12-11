@@ -50,6 +50,9 @@
 
 #define FC_CACHEDIR "c:/windows/temp"
 
+/* The type of len parameter of the gperf hash/lookup function */
+#define FC_GPERF_SIZE_T unsigned int
+
 /* Define to 1 if you have the `chsize' function. */
 #define HAVE_CHSIZE 1
 
