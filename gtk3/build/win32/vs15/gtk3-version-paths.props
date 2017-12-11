@@ -9,11 +9,17 @@
     <GtkLibtoolCompatibleDllPrefix>lib</GtkLibtoolCompatibleDllPrefix>
     <GtkLibtoolCompatibleDllSuffix>.0-0</GtkLibtoolCompatibleDllSuffix>
     <GtkSeparateVSDllPrefix />
-    <GtkSeparateVSDllSuffix>-vs$(VSVer)</GtkSeparateVSDllSuffix>
+    <GtkSeparateVSDllSuffix>-3.0</GtkSeparateVSDllSuffix>
     <GtkDllPrefix>$(GtkSeparateVSDllPrefix)</GtkDllPrefix>
     <GtkDllSuffix>$(GtkSeparateVSDllSuffix)</GtkDllSuffix>
-    <PythonPath>c:\python36</PythonPath>
-    <PythonPathX64>$(PythonPath).x64</PythonPathX64>
+    <PythonDir Condition="'$(VisualStudioVersion)' == '10.0'">c:\python34</PythonDir>
+    <PythonDir Condition="'$(VisualStudioVersion)' == '11.0'">c:\python34</PythonDir>
+    <PythonDir Condition="'$(VisualStudioVersion)' == '12.0'">c:\python34</PythonDir>
+    <PythonDir Condition="'$(VisualStudioVersion)' == '14.0'">c:\python36</PythonDir>
+    <PythonDir Condition="'$(VisualStudioVersion)' == '15.0'">c:\python36</PythonDir>
+    <PythonDirX64>$(PythonDir)</PythonDirX64>
+    <IntrospectPythonParam>PYTHON=$(PythonDir)\python.exe</IntrospectPythonParam>
+    <IntrospectPythonParamX64>PYTHON=$(PythonDirX64)\python.exe</IntrospectPythonParamX64>
   </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>gtk3versionpathsprops</_PropertySheetDisplayName>
@@ -52,11 +58,17 @@
     <BuildMacro Include="GtkDllSuffix">
       <Value>$(GtkDllSuffix)</Value>
     </BuildMacro>
-    <BuildMacro Include="PythonPath">
-      <Value>$(PythonPath)</Value>
+    <BuildMacro Include="PythonDir">
+      <Value>$(PythonDir)</Value>
     </BuildMacro>
-    <BuildMacro Include="PythonPathX64">
-      <Value>$(PythonPathX64)</Value>
+    <BuildMacro Include="PythonDirX64">
+      <Value>$(PythonDirX64)</Value>
+    </BuildMacro>
+    <BuildMacro Include="IntrospectPythonParam">
+      <Value>$(IntrospectPythonParam)</Value>
+    </BuildMacro>
+    <BuildMacro Include="IntrospectPythonParamX64">
+      <Value>$(IntrospectPythonParamX64)</Value>
     </BuildMacro>
   </ItemGroup>
 </Project>
