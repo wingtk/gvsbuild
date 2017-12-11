@@ -64,10 +64,10 @@ def write_file(file_name, content):
 def file_replace(file_name, chg_list, make_bak=True):
     """
     Execute a series of replace on the file indicated
-    
-    chg_list is an iterable of tuple (find, replace) to execute 
+
+    chg_list is an iterable of tuple (find, replace) to execute
     """
-    
+
     fc = read_file(file_name)
     if make_bak:
         sv = fc
@@ -85,7 +85,7 @@ def file_replace(file_name, chg_list, make_bak=True):
         if make_bak:
             write_file(file_name + '.bak', sv)
         write_file(file_name, fc)
-            
+
 class ordered_set(set):
     def __init__(self):
         set.__init__(self)

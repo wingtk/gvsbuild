@@ -209,7 +209,7 @@ Examples:
                          "NOTE: the destination dir (e.g. 'c:\\gtk-build\\gtk\\win32\\release') " +
                          "will be cleared completely before the build!")
     p_build.add_argument('--from-scratch', default=False, action='store_true',
-                         help="Start from scratch, deleting, before starting the build, the build and the " + 
+                         help="Start from scratch, deleting, before starting the build, the build and the " +
                          "destination directories of the project for the current platform/configuration " +
                          "setup (e.g. 'c:\\gtk-build\\build\\win32\\release' and 'c:\\gtk-build\\gtk\\win32\\release'  " +
                          "and the common tools ('c:\\gtk-build\\tools')")

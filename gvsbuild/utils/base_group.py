@@ -40,7 +40,7 @@ class Group(Project):
 
 def group_add(cls):
     """
-    Class decorator to add the newly created Group class to the global projects/tools/groups list 
+    Class decorator to add the newly created Group class to the global projects/tools/groups list
     """
     Group.add(cls())
     return cls

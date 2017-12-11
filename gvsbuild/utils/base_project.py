@@ -159,7 +159,7 @@ class Project(object):
 
 def project_add(cls):
     """
-    Class decorator to add the newly created Project class to the global projects/tools/groups list 
+    Class decorator to add the newly created Project class to the global projects/tools/groups list
     """
     Project.add(cls())
     return cls

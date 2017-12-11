@@ -109,24 +109,24 @@ class Builder(object):
         """
         Set the environment to the minimum needed to run, leaving only
         the c:\windows\XXXX directory and the git one.
-        
-        The LIB, LIBPATH & INCLUDE environment are also cleaned to avoid 
+
+        The LIB, LIBPATH & INCLUDE environment are also cleaned to avoid
         mismatch with  libs / programs already installed
         """
-        
+
         print_debug('Cleaning up the build environment')
         win_dir = os.environ.get('SYSTEMROOT', r'c:\windows').lower()
-    
+
         win_dir = win_dir.replace('\\', '\\\\')
         print_debug('windir -> %s' % (win_dir, ))
-    
+
         chk_re = [
             re.compile('^%s\\\\' % (win_dir, )),
             re.compile('^%s$' % (win_dir, )),
             re.compile('\\\\git\\\\'),
             re.compile('\\\\git$'),
         ]
-    
+
         mp = []
         paths = os.environ.get('PATH', '').split(';')
         for k in paths:
@@ -136,7 +136,7 @@ class Builder(object):
                 # already present
                 print_debug("   Already present: '%s'" % (k, ))
                 continue
-    
+
             add = False
             for cre in chk_re:
                 if cre.search(k):
@@ -147,7 +147,7 @@ class Builder(object):
                 print_debug("Add '%s'" % (k, ))
             else:
                 print_debug("   Skip '%s'" % (k, ))
-    
+
         print_debug('Final path:')
         for i in mp:
             print_debug('    %s' % (i, ))
@@ -157,7 +157,7 @@ class Builder(object):
         os.environ['LIBPATH'] = ''
         os.environ['INCLUDE'] = ''
         print_debug('End environment setup')
-    
+
     def __msys_missing(self, base_dir):
         msys_pkg = [
             ('patch',      'patch'),

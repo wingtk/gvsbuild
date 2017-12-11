@@ -321,7 +321,7 @@ class Project_gdk_pixbuf(Tarball, Meson):
         # We can experiment with a couple of options to give to meson:
         #    -Dbuiltin_loaders=all|windows
         #        Buld the loader inside the library
-        #    -Denable_native_windows_loaders=true  
+        #    -Denable_native_windows_loaders=true
         #        Use gdi+ to load some formats (ICO, BMP, ...)
         Meson.build(self, meson_params='-Denable_jasper=true -Dwith_gir=false -Dwith_man=false')
         self.install(r'.\COPYING share\doc\gdk-pixbuf')
@@ -663,8 +663,8 @@ class Project_libarchive(Tarball, CmakeProject):
 
     def build(self):
         CmakeProject.build(self, use_ninja=True)
-        # Fix the pkg-config .pc file, correcting the library's names 
-        file_replace(os.path.join(self.pkg_dir, 'lib', 'pkgconfig', 'libarchive.pc'), 
+        # Fix the pkg-config .pc file, correcting the library's names
+        file_replace(os.path.join(self.pkg_dir, 'lib', 'pkgconfig', 'libarchive.pc'),
                      [ (' -llz4',   ' -lliblz4'),
                        (' -leay32', ' -llibeay32'),
                        (' -lxml2',  ' -llibxml2'),
@@ -855,7 +855,7 @@ class Project_libcurl(Tarball, CmakeProject):
 
     def build(self):
         CmakeProject.build(self, use_ninja=True)
-        # Fix the pkg-config .pc file, correcting the library's names 
+        # Fix the pkg-config .pc file, correcting the library's names
         file_replace(os.path.join(self.pkg_dir, 'lib', 'pkgconfig', 'libcurl.pc'),
                      [ (' -lcurl', ' -llibcurl_imp'),
                        ]
@@ -1220,7 +1220,7 @@ class Project_portaudio(Tarball, CmakeProject):
             )
 
     def build(self):
-        CmakeProject.build(self, 
+        CmakeProject.build(self,
                            cmake_params='-DPA_DLL_LINK_WITH_STATIC_RUNTIME=off',
                            use_ninja=True,
                            do_install=False,
@@ -1246,7 +1246,7 @@ class Project_protobuf(Tarball, CmakeProject):
 
     def build(self):
         # We need to compile with STATIC_RUNTIME off since protobuf-c also compiles with it OFF
-        CmakeProject.build(self, 
+        CmakeProject.build(self,
                            cmake_params=r'-Dprotobuf_DEBUG_POSTFIX="" -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_WITH_ZLIB=ON -Dprotobuf_MSVC_STATIC_RUNTIME=OFF',
                            use_ninja=True,
                            source_part='cmake')
@@ -1352,7 +1352,7 @@ class Project_pycairo(GitRepo, CmakeProject):
                          tag = None,
                          dependencies = ['cmake', 'cairo'],
                          )
-        
+
 @project_add
 class Project_pygobject(GitRepo, CmakeProject):
     def __init__(self):

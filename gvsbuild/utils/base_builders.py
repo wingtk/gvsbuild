@@ -67,15 +67,15 @@ class CmakeProject(Project):
     def build(self, cmake_params=None, use_ninja=False, make_tests=False, do_install=True, out_of_source=None, source_part=None):
         cmake_config = 'Debug' if self.builder.opts.configuration == 'debug' else 'RelWithDebInfo'
         cmake_gen = 'Ninja' if use_ninja else 'NMake Makefiles'
-        
+
         # Create the command for cmake
         cmd = 'cmake -G "' + cmake_gen + '" -DCMAKE_INSTALL_PREFIX="%(pkg_dir)s" -DGTK_DIR="%(gtk_dir)s" -DCMAKE_BUILD_TYPE=' + cmake_config
         if cmake_params:
-            cmd += ' ' + cmake_params 
+            cmd += ' ' + cmake_params
         if use_ninja and out_of_source is None:
-            # For ninja the default is build out of source 
+            # For ninja the default is build out of source
             out_of_source = True
-        
+
         if out_of_source:
             cmake_dir = self.build_dir + '-cmake'
 
@@ -93,10 +93,10 @@ class CmakeProject(Project):
             work_dir = cmake_dir
         else:
             work_dir = self._get_working_dir()
-        
-        # Generate the files used to build 
+
+        # Generate the files used to build
         self.builder.exec_vs(cmd, working_dir=work_dir)
-        # Build 
+        # Build
         if use_ninja:
             if make_tests:
                 self.builder.exec_vs('ninja', working_dir=work_dir)

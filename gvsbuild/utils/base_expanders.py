@@ -30,19 +30,19 @@ from .utils import rmtree_full
 
 def extract_exec(src, dest_dir, dir_part=None, strip_one=False, check_file=None, force_dest=None, check_mark=False):
     """
-    Extract (or copy, in case of an exe file) from src to dest_dir, 
+    Extract (or copy, in case of an exe file) from src to dest_dir,
     handling the strip of the first part of the path in case of the tarbombs.
 
     dir_part is a piece, present in the tar/zip file, added to the desst_dir for
-    the checks 
+    the checks
 
     if check_file is passed and is present in the filesystem the extract is
     skipped (tool alreay installed)
-    
+
     force_dest can be used only on the exe file and set the destination name
-    
-    with check_mark the name of the original file extracted is written in the 
-    destination dir and checked, forcing a new, clean, extraction 
+
+    with check_mark the name of the original file extracted is written in the
+    destination dir and checked, forcing a new, clean, extraction
     """
 
     # Support function
@@ -71,7 +71,7 @@ def extract_exec(src, dest_dir, dir_part=None, strip_one=False, check_file=None,
                 rd_file = fi.readline().strip()
         except IOError:
             pass
-        
+
         wr_file = os.path.basename(src)
         if rd_file != wr_file:
             print_log('Forcing extraction of %s' % (src, ))
@@ -80,10 +80,10 @@ def extract_exec(src, dest_dir, dir_part=None, strip_one=False, check_file=None,
         else:
             # ok, finish, we've done
             return False
-    
+
     if check_file is not None:
         if check_file:
-            # look for the specific file 
+            # look for the specific file
             if os.path.isfile(check_file):
                 print_debug('Skipping %s handling, %s present' % (src, check_file, ))
                 return False
@@ -92,13 +92,13 @@ def extract_exec(src, dest_dir, dir_part=None, strip_one=False, check_file=None,
             if os.path.exists(full_dest):
                 print_debug('Skipping %s handling, directory exists' % (src, ))
                 return False
-    
-    print_log('Extracting %s to %s' % (src, full_dest, ))        
+
+    print_log('Extracting %s to %s' % (src, full_dest, ))
     os.makedirs(full_dest, exist_ok=True)
 
     _n, ext = os.path.splitext(src.lower())
     if ext == '.exe':
-        # Exe file, copy directly 
+        # Exe file, copy directly
         if force_dest:
             shutil.copy2(src, force_dest)
         else:
@@ -108,7 +108,7 @@ def extract_exec(src, dest_dir, dir_part=None, strip_one=False, check_file=None,
         with zipfile.ZipFile(src) as zf:
             zf.extractall(path=dest_dir)
     else:
-        # Ok, hoping it's a tarfile we can handle :) 
+        # Ok, hoping it's a tarfile we can handle :)
         with tarfile.open(src) as tar:
             tar.extractall(dest_dir, __get_stripped_tar_members(tar) if strip_one else tar.getmembers())
 
@@ -125,7 +125,7 @@ class Tarball(object):
         if rt:
             print_log('Extracted %s (forced)' % (self.archive_file,))
         return rt
-        
+
     def unpack(self):
         extract_exec(self.archive_file, self.build_dir, strip_one=not self.tarbomb, check_mark=True)
         print_log('Extracted %s' % (self.archive_file,))
