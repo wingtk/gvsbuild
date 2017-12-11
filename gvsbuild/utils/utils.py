@@ -103,3 +103,37 @@ class ordered_set(set):
 
     def __iter__(self):
         return self.__list.__iter__()
+
+def python_find_libs_dir(org_dir):
+    """
+    From the python org_dir that can be also a virtualenv path
+    return the libs dir
+    """
+    
+    cur = os.path.join(org_dir, 'libs')
+    if os.path.isdir(cur):
+        # easy :)
+        return cur
+    
+    # look for the virtualenv marker
+    chk = os.path.join(org_dir, 'lib')
+    if not os.path.isdir(chk):
+        # one level up 
+        chk = os.path.join(org_dir, '..', 'lib')
+        
+    if not chk:
+        # oops
+        return None
+            
+    orig_file = os.path.join(chk, 'orig-prefix.txt')
+    if os.path.isfile(orig_file):
+        # Read and see whats happening
+        with open(orig_file, 'rt') as fi:
+            org_dir = fi.read()
+        
+    # Let's see if now is ok ..
+    cur = os.path.join(org_dir, 'libs')
+    if os.path.isdir(cur):
+        return cur
+    
+    return None

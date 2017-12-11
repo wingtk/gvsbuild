@@ -26,6 +26,7 @@ import shutil
 from .utils.simple_ui import print_debug
 from .utils.utils import convert_to_msys
 from .utils.utils import file_replace
+from .utils.utils import python_find_libs_dir
 from .utils.base_expanders import Tarball, GitRepo
 from .utils.base_project import Project, project_add
 from .utils.base_builders import Meson, MercurialCmakeProject, CmakeProject
@@ -1415,3 +1416,48 @@ class Project_check_libs(Meson):
         Meson.build(self, make_tests=True)
         self.install(r'.\COPYING share\doc\check-libs')
 
+@project_add
+class Project_dev_shell(Project):
+    def __init__(self):
+        Project.__init__(self,
+            'dev-shell',
+            # We may need all tools 
+            dependencies = [ 'tools' ],
+            )
+
+    def unpack(self):
+        # Nothing to do, it's not really a project
+        pass
+
+    def build(self):
+        # Do the shell
+        print("")
+        print("gvsbuild dev shell. Type exit to exit :)")
+        print("")
+        self.builder.mod_env('PROMPT', '[ gvsbuild shell ] $P $G', subst=True)
+        self.builder.exec_vs("cmd", working_dir=self.builder.working_dir)
+
+@project_add
+class Project_gobject_introspection(GitRepo, Meson):
+    def __init__(self):
+        Project.__init__(self,
+            'gobject-introspection',
+            repo_url = 'https://git.gnome.org/browse/gobject-introspection',
+            fetch_submodules = False,
+            tag = 'wip/meson',
+            dependencies = [ 'ninja', 'meson', 'msys', 'pkg-config', 'glib', ],
+            )
+
+    def build(self):
+        # For finding gobject-introspection.pc
+        self.builder.mod_env('PKG_CONFIG_PATH', '.')
+        # For finding & using girepository.lib/.dll
+        self.builder.mod_env('LIB', r'.\girepository')
+        self.builder.mod_env('PATH', r'.\girepository')
+        # For linking the _giscanner.pyd extension module when using a virtualenv
+        py_libs = python_find_libs_dir(Project.get_tool_path('python'))
+        if py_libs:
+            print_debug("Python library path is [%s]" % (py_libs, ))
+            self.builder.mod_env('LIB', py_libs, prepend=False)
+
+        Meson.build(self)

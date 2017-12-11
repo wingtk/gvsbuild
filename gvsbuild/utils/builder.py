@@ -31,6 +31,7 @@ import contextlib
 import ssl
 import zipfile
 import re
+import copy
 
 from .utils import ordered_set
 from .utils import rmtree_full
@@ -109,24 +110,24 @@ class Builder(object):
         """
         Set the environment to the minimum needed to run, leaving only
         the c:\windows\XXXX directory and the git one.
-        
-        The LIB, LIBPATH & INCLUDE environment are also cleaned to avoid 
+
+        The LIB, LIBPATH & INCLUDE environment are also cleaned to avoid
         mismatch with  libs / programs already installed
         """
-        
+
         print_debug('Cleaning up the build environment')
         win_dir = os.environ.get('SYSTEMROOT', r'c:\windows').lower()
-    
+
         win_dir = win_dir.replace('\\', '\\\\')
         print_debug('windir -> %s' % (win_dir, ))
-    
+
         chk_re = [
             re.compile('^%s\\\\' % (win_dir, )),
             re.compile('^%s$' % (win_dir, )),
             re.compile('\\\\git\\\\'),
             re.compile('\\\\git$'),
         ]
-    
+
         mp = []
         paths = os.environ.get('PATH', '').split(';')
         for k in paths:
@@ -136,7 +137,7 @@ class Builder(object):
                 # already present
                 print_debug("   Already present: '%s'" % (k, ))
                 continue
-    
+
             add = False
             for cre in chk_re:
                 if cre.search(k):
@@ -147,7 +148,7 @@ class Builder(object):
                 print_debug("Add '%s'" % (k, ))
             else:
                 print_debug("   Skip '%s'" % (k, ))
-    
+
         print_debug('Final path:')
         for i in mp:
             print_debug('    %s' % (i, ))
@@ -157,13 +158,14 @@ class Builder(object):
         os.environ['LIBPATH'] = ''
         os.environ['INCLUDE'] = ''
         print_debug('End environment setup')
-    
+
     def __msys_missing(self, base_dir):
         msys_pkg = [
             ('patch',      'patch'),
             ('make',       'make'),
             ('md5sum',     'coreutils'),
             ('diff',       'diffutils'),
+            ('bison',       'bison'),
         ]
         missing = []
         for prog, pkg in msys_pkg:
@@ -173,6 +175,7 @@ class Builder(object):
         return missing
 
     def __check_tools(self, opts):
+        script_title('* Msys tool')
         # what's missing ?
         missing = self.__msys_missing(opts.msys_dir)
         if missing:
@@ -191,19 +194,31 @@ class Builder(object):
             error_exit("%s not found. Please check that you installed patch in msys2 using ``pacman -S patch``" % (self.patch,))
         print_debug("patch: %s" % (self.patch,))
 
-    def add_env(self, key, value, prepend=True):
-        env = os.environ
-        te = env.get(key, None)
+    def _add_env(self, key, value, env, prepend=True, subst=False):
+        # env manipulation helper fun 
+        if subst:
+            te = None
+        else:
+            te = env.get(key, None)
         if te:
             if prepend:
                 env[key] = value + ';' + te
             else:
                 env[key] = te + ';' + value
         else:
-            # not set
+            # not set or forced
             env[key] = value
 
+    def add_global_env(self, key, value, prepend=True):
+        # Env to load before the setup for the visual studio environment
+        self._add_env(key, value, os.environ, prepend)
+
+    def mod_env(self, key, value, prepend=True, subst=False):
+        # Modify the current build environment
+        self._add_env(key, value, self.vs_env, prepend=prepend, subst=subst)
+
     def __check_vs(self, opts):
+        script_title('* Msvc tool')
         # Verify VS exists at the indicated location, and that it supports the required target
         add_opts = ''
         if opts.platform == 'Win32':
@@ -228,10 +243,10 @@ class Builder(object):
             raise Exception("'%s' could not be found. Please check you have Visual Studio installed at '%s' and that it supports the target platform '%s'." % (vcvars_bat, opts.vs_install_path, opts.platform))
 
         # Add to the environment the gtk paths so meson can find everything
-        self.add_env('INCLUDE', os.path.join(self.gtk_dir, 'include'))
-        self.add_env('LIB', os.path.join(self.gtk_dir, 'lib'))
-        self.add_env('LIBPATH', os.path.join(self.gtk_dir, 'lib'))
-        self.add_env('PATH', os.path.join(self.gtk_dir, 'bin'))
+        self.add_global_env('INCLUDE', os.path.join(self.gtk_dir, 'include'))
+        self.add_global_env('LIB', os.path.join(self.gtk_dir, 'lib'))
+        self.add_global_env('LIBPATH', os.path.join(self.gtk_dir, 'lib'))
+        self.add_global_env('PATH', os.path.join(self.gtk_dir, 'bin'))
 
         output = subprocess.check_output('cmd.exe /c ""%s"%s>NUL && set"' % (vcvars_bat, add_opts, ), shell=True)
         self.vs_env = {}
@@ -336,6 +351,8 @@ class Builder(object):
         print_message("Building project %s" % (proj.name,))
         script_title(proj.name)
 
+        # save the vs environment
+        saved_env = copy.copy(self.vs_env)
         proj.builder = self
         self.__project = proj
 
@@ -345,19 +362,26 @@ class Builder(object):
         shutil.rmtree(proj.pkg_dir, ignore_errors=True)
         os.makedirs(proj.pkg_dir)
 
-        # Get the paths to add
-        paths = []
+        # Original path, converted to list
+        paths = self.vs_env['PATH'].split(';')
+        # Add the paths needed
         for d in proj.all_dependencies:
             t = d.get_path()
             if t:
-                paths.append(t)
+                if isinstance(t, tuple):
+                    # pre/post
+                    if t[0]:
+                        # Add at the beginning,
+                        paths.insert(0, t[0])
+                    if t[1]:
+                        # Add at the end (msys, )
+                        paths.append(t[1])
+                else:
+                    # Single path,  at the beginning
+                    paths.insert(0, t)
 
-        # Save base vs path
-        vs_saved_path = self.vs_env['PATH']
-        if paths:
-            # Something to add to the vs environment path, at the beginning
-            tp = ';'.join(paths)
-            self.vs_env['PATH'] = tp + ';' + vs_saved_path
+        # Make the (eventually) new path
+        self.vs_env['PATH'] = ';'.join(paths)
 
         proj.patch()
         proj.build()
@@ -370,9 +394,9 @@ class Builder(object):
 
         proj.builder = None
         self.__project = None
-        if vs_saved_path:
-            # Restore the original vs path
-            self.vs_env['PATH'] = vs_saved_path
+        # Restore the full environment
+        self.vs_env = saved_env
+        saved_env = None
 
         if self.opts.make_zip:
             # Create file list
