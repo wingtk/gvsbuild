@@ -555,21 +555,17 @@ class Project_gtksourceview3(Tarball, Project):
         self.install(r'.\COPYING share\doc\gtksourceview3')
 
 @project_add
-class Project_harfbuzz(Tarball, Project):
+class Project_harfbuzz(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'harfbuzz',
-            archive_url = 'https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.4.5.tar.bz2',
-            hash = 'd0e05438165884f21658154c709075feaf98c93ee5c694b951533ac425a9a711',
+            archive_url = 'https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.7.2.tar.bz2',
+            hash = 'a790585e35c1a87f0dcc23580c84b7cc2324e6f67a2946178d278c2a36c790cb',
             dependencies = ['perl', 'freetype', 'glib'],
             )
 
     def build(self):
-        self.push_location(r'.\win32')
-        self.builder.make_dir(os.path.join(self.build_dir, 'build', 'win32', self.builder.opts.configuration, 'win32'))
-        self.exec_vs(r'nmake /nologo /f Makefile.vc CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PERL="%(perl_dir)s\bin\perl.exe" PREFIX="%(gtk_dir)s" FREETYPE=1 GOBJECT=1')
-        self.exec_vs(r'nmake /nologo /f Makefile.vc install CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PERL="%(perl_dir)s\bin\perl.exe" PREFIX="%(gtk_dir)s" FREETYPE=1 GOBJECT=1')
-        self.pop_location()
+        CmakeProject.build(self, cmake_params='-DHB_HAVE_FREETYPE=ON -DHB_HAVE_GLIB=ON', use_ninja=True)
 
         self.install(r'.\COPYING share\doc\harfbuzz')
 
