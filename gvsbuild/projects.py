@@ -1223,7 +1223,8 @@ class Project_portaudio(Tarball, CmakeProject):
         CmakeProject.build(self, 
                            cmake_params='-DPA_DLL_LINK_WITH_STATIC_RUNTIME=off',
                            use_ninja=True,
-                           do_install=False)
+                           do_install=False,
+                           out_of_source=False)
 
         self.install(r'portaudio.dll bin')
         self.install(r'portaudio.pdb bin')
