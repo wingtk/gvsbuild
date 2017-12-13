@@ -561,7 +561,7 @@ class Project_harfbuzz(Tarball, CmakeProject):
             'harfbuzz',
             archive_url = 'https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.7.2.tar.bz2',
             hash = 'a790585e35c1a87f0dcc23580c84b7cc2324e6f67a2946178d278c2a36c790cb',
-            dependencies = ['perl', 'freetype', 'glib'],
+            dependencies = ['perl', 'freetype', 'pkg-config', 'glib'],
             )
 
     def build(self):
