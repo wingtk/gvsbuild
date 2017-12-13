@@ -38,6 +38,8 @@ from .utils import rmtree_full
 from .simple_ui import script_title
 from .simple_ui import global_verbose, error_exit, print_debug, print_log, print_message
 from .base_project import Project
+from .base_expanders import dirlist2set
+from .base_expanders import make_zip
 
 class Builder(object):
     def __init__(self, opts):
@@ -337,17 +339,7 @@ class Builder(object):
         """
         Return a set with all the files present in the final, installation, dir
         """
-        def _load_single_dir(dir_name, returned_set):
-            for cf in os.scandir(dir_name):
-                full = os.path.join(dir_name, cf.name.lower())
-                if cf.is_file():
-                    returned_set.add(full)
-                elif cf.is_dir():
-                    if cf.name.lower() != '__pycache__':
-                        _load_single_dir(full, returned_set)
-        rt = set()
-        _load_single_dir(self.gtk_dir, rt)
-        return rt
+        return dirlist2set(self.gtk_dir)
 
     def __build_one(self, proj):
         print_message("Building project %s" % (proj.name,))
@@ -417,10 +409,7 @@ class Builder(object):
         script_title(None)
 
     def make_zip(self, name, files):
-        print_log('Creating zip file %s with %u files' % (name, len(files), ))
-        with zipfile.ZipFile(name + '.zip', 'w', compression=zipfile.ZIP_DEFLATED) as zf:
-            for f in sorted(list(files)):
-                zf.write(f, arcname=f[len(self.gtk_dir):])
+        make_zip(name, files, skip_spc=len(self.gtk_dir))
 
     def make_dir(self, path):
         if not os.path.exists(path):

@@ -119,6 +119,39 @@ def extract_exec(src, dest_dir, dir_part=None, strip_one=False, check_file=None,
     # Say that we have done the extraction
     return True
 
+def dirlist2set(st_dir, add_dirs=False):
+    """
+    Loads & return a set with all the files and, eventually,
+    directory from a single dir.
+
+    Used to make a file list to create a .zip file
+    """
+    def _load_single_dir(dir_name, returned_set):
+        for cf in os.scandir(dir_name):
+            full = os.path.join(dir_name, cf.name.lower())
+            if cf.is_file():
+                returned_set.add(full)
+            elif cf.is_dir():
+                if (add_dirs):
+                    returned_set.add(full)
+                if cf.name.lower() != '__pycache__':
+                    _load_single_dir(full, returned_set)
+    rt = set()
+    _load_single_dir(st_dir, rt)
+    return rt
+
+def make_zip(name, files, skip_spc=0):
+    """
+    Create the name .zip using all files. skip_spc spaces are dropped
+    from the beginning of all file/dir names to avoid to have the full
+    path (e.g. from c:\data\temp\build\my_arch we want to save only
+    mt_arch
+    """
+    print_log('Creating zip file %s with %u files' % (name, len(files), ))
+    with zipfile.ZipFile(name + '.zip', 'w', compression=zipfile.ZIP_DEFLATED) as zf:
+        for f in sorted(list(files)):
+            zf.write(f, arcname=f[skip_spc:])
+
 class Tarball(object):
     def update_build_dir(self):
         rt = extract_exec(self.archive_file, self.build_dir, strip_one=not self.tarbomb, check_mark=True)
