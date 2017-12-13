@@ -25,6 +25,7 @@ import shutil
 from .utils import _rmtree_error_handler
 from .simple_ui import print_debug, print_log, error_exit
 
+GVSBUILD_IGNORE = 0
 GVSBUILD_PROJECT = 1
 GVSBUILD_TOOL = 2
 GVSBUILD_GROUP = 3
