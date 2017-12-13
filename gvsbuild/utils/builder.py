@@ -85,15 +85,18 @@ class Builder(object):
         else:
             self.msbuild_opts += ' /v:minimal'
 
+        # Create the year version for Visual studio
         vs_zip_parts = {
             '12': 'vs2013',
             '14': 'vs2015',
             '15': 'vs2017',
         }
 
-        vs_part = vs_zip_parts.get(opts.vs_ver, None)
-        if not vs_part:
-            vs_part = 'ms-cl-%s' % (opts.vs_ver, )
+        self.vs_ver_year = vs_zip_parts.get(opts.vs_ver, None)
+        if not self.vs_ver_year:
+            self.vs_ver_year = 'ms-cl-%s' % (opts.vs_ver, )
+
+        vs_part = self.vs_ver_year
         if opts.win_sdk_ver:
             vs_part += '-' + opts.win_sdk_ver
 
