@@ -79,7 +79,7 @@ class Builder(object):
         self.x86 = opts.platform == 'Win32'
         self.x64 = not self.x86
 
-        self.msbuild_opts = '/nologo /p:Platform=%(platform)s /p:PythonPath="%(python_dir)s" %(msbuild_opts)s ' % \
+        self.msbuild_opts = '/nologo /p:Platform=%(platform)s /p:PythonPath="%(python_dir)s" /p:PythonDir="%(python_dir)s" %(msbuild_opts)s ' % \
             dict(platform=opts.platform, python_dir=opts.python_dir, configuration=opts.configuration, msbuild_opts=opts.msbuild_opts)
 
         if global_verbose:
