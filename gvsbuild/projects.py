@@ -164,10 +164,13 @@ class Project_emeus(GitRepo, Meson):
             fetch_submodules = False,
             tag = None,
             dependencies = ['ninja', 'meson', 'pkg-config', 'gtk3'],
+            patches = [
+                '00_win_no_script.patch'
+                ],
             )
 
     def build(self):
-        Meson.build(self, meson_params='-Denable-introspection=false -Denable-gtk-doc=false', make_tests=True)
+        Meson.build(self, meson_params='-Ddocs=false -Dintrospection=false', make_tests=True)
         self.install(r'.\COPYING.txt share\doc\emeus')
 
 @project_add
