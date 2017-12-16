@@ -631,7 +631,7 @@ class Project_json_glib(Tarball, Meson):
             )
 
     def build(self):
-        Meson.build(self, meson_params='-Denable-gtk-doc=false', make_tests=True)
+        Meson.build(self, meson_params='-Ddocs=false -Dintrospection=false', make_tests=True)
         # Fix the forward slash on the .pc file, bug #1906 in meson
         file_replace(os.path.join(self.builder.gtk_dir, 'lib', 'pkgconfig', 'json-glib-1.0.pc'),
                      [ ('\\\\', '/'),
