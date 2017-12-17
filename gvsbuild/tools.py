@@ -110,9 +110,9 @@ class Tool_ninja(Tool):
     def __init__(self):
         Tool.__init__(self,
             'ninja',
-            archive_url = 'https://github.com/ninja-build/ninja/releases/download/v1.7.2/ninja-win.zip',
-            archive_file_name = 'ninja-win-1.7.2.zip',
-            hash = '95b36a597d33c1fe672829cfe47b5ab34b3a1a4c6bf628e5d150b6075df4ef50')
+            archive_url = 'https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-win.zip',
+            archive_file_name = 'ninja-win-1.8.2.zip',
+            hash = 'c80313e6c26c0b9e0c241504718e2d8bbc2798b73429933adf03fdc6d84f0e70')
 
     def load_defaults(self, builder):
         Tool.load_defaults(self, builder)
