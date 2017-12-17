@@ -104,11 +104,14 @@ class Builder(object):
 
         self.zip_dir = os.path.join(opts.build_dir, 'dist', vs_part, opts.platform, opts.configuration)
         if opts.make_zip:
-            # Remove the destination dir before starting anything
-            if os.path.isdir(self.gtk_dir):
-                print_log('Removing build dir (%s)' % (self.gtk_dir, ))
-                rmtree_full(self.gtk_dir)
-            self.file_built = set()
+            if opts.zip_continue:
+                self.file_built = self._load_built_files()
+            else:
+                # Remove the destination dir before starting anything
+                if os.path.isdir(self.gtk_dir):
+                    print_log('Removing build dir (%s)' % (self.gtk_dir, ))
+                    rmtree_full(self.gtk_dir)
+                self.file_built = set()
             os.makedirs(self.zip_dir, exist_ok=True)
 
     def __minimum_env(self):

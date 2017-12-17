@@ -52,6 +52,7 @@ def get_options(args):
     opts.check_hash = args.check_hash
     opts.skip = args.skip
     opts.make_zip = args.make_zip
+    opts.zip_continue = args.zip_continue
     opts.from_scratch = args.from_scratch
     opts.keep_tools = args.keep_tools
     opts.fast_build = args.fast_build
@@ -209,6 +210,8 @@ Examples:
                          "for example 'c:\\gtk-build\\dist\\vs2015\\win32\\release'. " +
                          "NOTE: the destination dir (e.g. 'c:\\gtk-build\\gtk\\win32\\release') " +
                          "will be cleared completely before the build!")
+    p_build.add_argument('--zip-continue', default=False, action='store_true',
+                         help="Don't initialize the zip creation phase and keep the destination dir.")
     p_build.add_argument('--from-scratch', default=False, action='store_true',
                          help="Start from scratch, deleting, before starting the build, the build and the " +
                          "destination directories of the project for the current platform/configuration " +
