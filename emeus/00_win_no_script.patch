@@ -1,0 +1,10 @@
+--- "emeus-orig\\meson.build"	2017-12-04 09:48:31.850782000 +0100
++++ "emeus\\meson.build"	2017-12-04 09:54:06.756528400 +0100
+@@ -169,4 +169,6 @@
+   subdir('doc')
+ endif
+ 
+-meson.add_install_script('build-aux/post-install.sh')
++if host_system != 'windows'
++    meson.add_install_script('build-aux/post-install.sh')
++endif

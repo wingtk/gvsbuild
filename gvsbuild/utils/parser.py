@@ -54,6 +54,7 @@ def get_options(args):
     opts.make_zip = args.make_zip
     opts.from_scratch = args.from_scratch
     opts.keep_tools = args.keep_tools
+    opts.fast_build = args.fast_build
 
     if opts.make_zip and opts.no_deps:
         error_exit('Options --make-zip and --no-deps are not compatible')
@@ -209,12 +210,14 @@ Examples:
                          "NOTE: the destination dir (e.g. 'c:\\gtk-build\\gtk\\win32\\release') " +
                          "will be cleared completely before the build!")
     p_build.add_argument('--from-scratch', default=False, action='store_true',
-                         help="Start from scratch, deleting, before starting the build, the build and the " + 
+                         help="Start from scratch, deleting, before starting the build, the build and the " +
                          "destination directories of the project for the current platform/configuration " +
                          "setup (e.g. 'c:\\gtk-build\\build\\win32\\release' and 'c:\\gtk-build\\gtk\\win32\\release'  " +
                          "and the common tools ('c:\\gtk-build\\tools')")
     p_build.add_argument('--keep-tools', default=False, action='store_true',
                          help="Active only when used with --from-scratch, keep and don't delete the (common) tool directory.")
+    p_build.add_argument('--fast-build', default=False, action='store_true',
+                         help="Assume that a project is up to date if the build directory is present. Use with caution!")
 
     p_build.add_argument('project', nargs='+',
                          help='Project(s) to build.')

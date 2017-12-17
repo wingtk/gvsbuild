@@ -49,6 +49,18 @@ if atk_dep.found()
         test('atk', test_atk)
 endif
 
+# cairo
+cairo_required_ver = '>= 1.15.2'
+cairo_dep = dependency('cairo', version: cairo_required_ver, required: check_all)
+if cairo_dep.found()
+        test_cairo = executable('test_cairo',
+                                     [ 'test_cairo.c', 'check_utils.c', ],
+                                     dependencies: [ cairo_dep, ],
+                                    )
+
+        test('cairo', test_cairo)
+endif
+
 # freetype2
 freetype2_required_ver = '>= 2.7.1'
 freetype2_dep = dependency('freetype2', version: freetype2_required_ver, required: check_all)
@@ -106,6 +118,18 @@ if gdk_pixbuf_dep.found()
                                     )
 
         test('gdk-pixbuf', test_gdk_pixbuf)
+endif
+
+# glib
+glib_required_ver = '>= 2.54.2'
+glib_dep = dependency('glib-2.0', version: glib_required_ver, required: check_all)
+if glib_dep.found()
+        test_glib = executable('test_glib',
+                                     [ 'test_glib.c', 'check_utils.c', ],
+                                     dependencies: [ glib_dep, ],
+                                    )
+
+        test('glib', test_glib)
 endif
 
 # jasper
@@ -179,6 +203,18 @@ if libtiff_dep.found()
                                 )
 
         test('libtiff-4', test_libtiff)
+endif
+
+# pango
+pango_required_ver = '>= 1.40.14'
+pango_dep = dependency('pango', version: pango_required_ver, required: check_all)
+if pango_dep.found()
+        test_pango = executable('test_pango',
+                                     [ 'test_pango.c', 'check_utils.c', ],
+                                     dependencies: [ pango_dep, ],
+                                    )
+
+        test('pango', test_pango)
 endif
 
 # zlib

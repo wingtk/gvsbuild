@@ -27,7 +27,9 @@ from .utils.simple_ui import print_debug
 from .utils.utils import convert_to_msys
 from .utils.utils import file_replace
 from .utils.base_expanders import Tarball, GitRepo
+from .utils.base_expanders import NullExpander
 from .utils.base_project import Project, project_add
+from .utils.base_project import GVSBUILD_IGNORE
 from .utils.base_builders import Meson, MercurialCmakeProject, CmakeProject
 
 @project_add
@@ -163,10 +165,13 @@ class Project_emeus(GitRepo, Meson):
             fetch_submodules = False,
             tag = None,
             dependencies = ['ninja', 'meson', 'pkg-config', 'gtk3'],
+            patches = [
+                '00_win_no_script.patch'
+                ],
             )
 
     def build(self):
-        Meson.build(self, meson_params='-Denable-introspection=false -Denable-gtk-doc=false', make_tests=True)
+        Meson.build(self, meson_params='-Ddocs=false -Dintrospection=false', make_tests=True)
         self.install(r'.\COPYING.txt share\doc\emeus')
 
 @project_add
@@ -321,7 +326,7 @@ class Project_gdk_pixbuf(Tarball, Meson):
         # We can experiment with a couple of options to give to meson:
         #    -Dbuiltin_loaders=all|windows
         #        Buld the loader inside the library
-        #    -Denable_native_windows_loaders=true  
+        #    -Denable_native_windows_loaders=true
         #        Use gdi+ to load some formats (ICO, BMP, ...)
         Meson.build(self, meson_params='-Denable_jasper=true -Dwith_gir=false -Dwith_man=false')
         self.install(r'.\COPYING share\doc\gdk-pixbuf')
@@ -561,7 +566,7 @@ class Project_harfbuzz(Tarball, CmakeProject):
             'harfbuzz',
             archive_url = 'https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.7.2.tar.bz2',
             hash = 'a790585e35c1a87f0dcc23580c84b7cc2324e6f67a2946178d278c2a36c790cb',
-            dependencies = ['perl', 'freetype', 'glib'],
+            dependencies = ['perl', 'freetype', 'pkg-config', 'glib'],
             )
 
     def build(self):
@@ -627,7 +632,7 @@ class Project_json_glib(Tarball, Meson):
             )
 
     def build(self):
-        Meson.build(self, meson_params='-Denable-gtk-doc=false', make_tests=True)
+        Meson.build(self, meson_params='-Ddocs=false -Dintrospection=false', make_tests=True)
         # Fix the forward slash on the .pc file, bug #1906 in meson
         file_replace(os.path.join(self.builder.gtk_dir, 'lib', 'pkgconfig', 'json-glib-1.0.pc'),
                      [ ('\\\\', '/'),
@@ -663,8 +668,8 @@ class Project_libarchive(Tarball, CmakeProject):
 
     def build(self):
         CmakeProject.build(self, use_ninja=True)
-        # Fix the pkg-config .pc file, correcting the library's names 
-        file_replace(os.path.join(self.pkg_dir, 'lib', 'pkgconfig', 'libarchive.pc'), 
+        # Fix the pkg-config .pc file, correcting the library's names
+        file_replace(os.path.join(self.pkg_dir, 'lib', 'pkgconfig', 'libarchive.pc'),
                      [ (' -llz4',   ' -lliblz4'),
                        (' -leay32', ' -llibeay32'),
                        (' -lxml2',  ' -llibxml2'),
@@ -855,7 +860,7 @@ class Project_libcurl(Tarball, CmakeProject):
 
     def build(self):
         CmakeProject.build(self, use_ninja=True)
-        # Fix the pkg-config .pc file, correcting the library's names 
+        # Fix the pkg-config .pc file, correcting the library's names
         file_replace(os.path.join(self.pkg_dir, 'lib', 'pkgconfig', 'libcurl.pc'),
                      [ (' -lcurl', ' -llibcurl_imp'),
                        ]
@@ -1220,7 +1225,7 @@ class Project_portaudio(Tarball, CmakeProject):
             )
 
     def build(self):
-        CmakeProject.build(self, 
+        CmakeProject.build(self,
                            cmake_params='-DPA_DLL_LINK_WITH_STATIC_RUNTIME=off',
                            use_ninja=True,
                            do_install=False,
@@ -1246,7 +1251,7 @@ class Project_protobuf(Tarball, CmakeProject):
 
     def build(self):
         # We need to compile with STATIC_RUNTIME off since protobuf-c also compiles with it OFF
-        CmakeProject.build(self, 
+        CmakeProject.build(self,
                            cmake_params=r'-Dprotobuf_DEBUG_POSTFIX="" -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_WITH_ZLIB=ON -Dprotobuf_MSVC_STATIC_RUNTIME=OFF',
                            use_ninja=True,
                            source_part='cmake')
@@ -1352,7 +1357,7 @@ class Project_pycairo(GitRepo, CmakeProject):
                          tag = None,
                          dependencies = ['cmake', 'cairo'],
                          )
-        
+
 @project_add
 class Project_pygobject(GitRepo, CmakeProject):
     def __init__(self):
@@ -1378,7 +1383,7 @@ class Project_pygtk(GitRepo, CmakeProject):
                          )
 
 @project_add
-class Project_check_libs(Meson):
+class Project_check_libs(NullExpander, Meson):
     def __init__(self):
         Project.__init__(self,
             'check-libs',
@@ -1389,8 +1394,10 @@ class Project_check_libs(Meson):
                     'pkg-config',
                     # libraries to test, hopefully all the one we build!
                     'atk',
+                    'cairo',
                     'freetype',
                     'gdk-pixbuf',
+                    'glib',
                     'jasper',
                     'json-glib',
                     'libarchive',
@@ -1399,20 +1406,38 @@ class Project_check_libs(Meson):
                     'libjpeg-turbo',
                     'libpng',
                     'libtiff-4',
+                    'pango',
                     'zlib',
 
                 ],
             )
 
-    def update_build_dir(self):
-        # Force the copy of the files in the script
-        return True
-
-    def unpack(self):
-        # Everything is in our script, nothing to download
-        pass
-
     def build(self):
         Meson.build(self, make_tests=True)
         self.install(r'.\COPYING share\doc\check-libs')
+
+@project_add
+class Project_dev_shell(Project):
+    def __init__(self):
+        Project.__init__(self,
+            'dev-shell',
+            # We may need all tools
+            dependencies = [ 'tools' ],
+            )
+        # We don't want this project to be built with the group 'all'
+        self.type = GVSBUILD_IGNORE
+
+    def unpack(self):
+        # Nothing to do, it's not really a project
+        pass
+
+    def build(self):
+        # Do the shell
+        print("")
+        print("gvsbuild dev shell. Type exit to exit :)")
+        print("")
+        # If you need to use it as a --prefix in some build test ...
+        self.builder.mod_env('GTK_BASE_DIR', self.builder.gtk_dir)
+        self.builder.mod_env('PROMPT', '[ gvsbuild shell ] $P $G', subst=True)
+        self.builder.exec_vs("cmd", working_dir=self.builder.working_dir)
 

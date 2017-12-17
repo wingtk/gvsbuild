@@ -68,6 +68,23 @@ class Tool_meson(Tool):
         pass
 
 @tool_add
+class Tool_msys2(Tool):
+    def __init__(self):
+        Tool.__init__(self,
+            'msys2')
+
+    def load_defaults(self, builder):
+        Tool.load_defaults(self, builder)
+        self.msys_path = os.path.join(builder.opts.msys_dir, 'usr', 'bin')
+
+    def unpack(self):
+        pass
+
+    def get_path(self):
+        # We always put msys at the end of path
+        return None, self.msys_path
+
+@tool_add
 class Tool_nasm(Tool):
     def __init__(self):
         Tool.__init__(self,

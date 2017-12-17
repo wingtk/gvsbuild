@@ -51,7 +51,7 @@ class Tool(Project):
 
 def tool_add(cls):
     """
-    Class decorator to add the newly created Toolp class to the global projects/tools/groups list 
+    Class decorator to add the newly created Toolp class to the global projects/tools/groups list
     """
     Tool.add(cls())
     return cls
