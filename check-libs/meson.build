@@ -205,6 +205,18 @@ if libtiff_dep.found()
         test('libtiff-4', test_libtiff)
 endif
 
+# pango
+pango_required_ver = '>= 1.40.14'
+pango_dep = dependency('pango', version: pango_required_ver, required: check_all)
+if pango_dep.found()
+        test_pango = executable('test_pango',
+                                     [ 'test_pango.c', 'check_utils.c', ],
+                                     dependencies: [ pango_dep, ],
+                                    )
+
+        test('pango', test_pango)
+endif
+
 # zlib
 zlib_required_ver = '>= 1.2.11'
 zlib_dep = dependency('zlib', version: zlib_required_ver, required: check_all)

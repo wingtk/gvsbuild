@@ -1406,6 +1406,7 @@ class Project_check_libs(NullExpander, Meson):
                     'libjpeg-turbo',
                     'libpng',
                     'libtiff-4',
+                    'pango',
                     'zlib',
 
                 ],
