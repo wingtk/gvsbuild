@@ -1394,6 +1394,7 @@ class Project_check_libs(NullExpander, Meson):
                     'pkg-config',
                     # libraries to test, hopefully all the one we build!
                     'atk',
+                    'cairo',
                     'freetype',
                     'gdk-pixbuf',
                     'glib',

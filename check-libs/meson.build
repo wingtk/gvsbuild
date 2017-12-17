@@ -49,6 +49,18 @@ if atk_dep.found()
         test('atk', test_atk)
 endif
 
+# cairo
+cairo_required_ver = '>= 1.15.2'
+cairo_dep = dependency('cairo', version: cairo_required_ver, required: check_all)
+if cairo_dep.found()
+        test_cairo = executable('test_cairo',
+                                     [ 'test_cairo.c', 'check_utils.c', ],
+                                     dependencies: [ cairo_dep, ],
+                                    )
+
+        test('cairo', test_cairo)
+endif
+
 # freetype2
 freetype2_required_ver = '>= 2.7.1'
 freetype2_dep = dependency('freetype2', version: freetype2_required_ver, required: check_all)
@@ -119,7 +131,6 @@ if glib_dep.found()
 
         test('glib', test_glib)
 endif
-
 
 # jasper
 jasper_required_ver = '>= 2.0.12'
