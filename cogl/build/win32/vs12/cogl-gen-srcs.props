@@ -28,22 +28,22 @@ copy ..\..\..\cogl\WGL_DEFINES ..\..\..\cogl\cogl-defines.h
     <CopyGLHeaderH>copy ..\..\..\cogl\cogl-gl-header.h.win32 ..\..\..\cogl\cogl-gl-header.h</CopyGLHeaderH>
     <GenCoglPathEnumsH>
 cd ..\..\..\cogl-path
-perl $(GlibEtcInstallRoot)\bin\glib-mkenums --template cogl-path-enum-types.h.in cogl-path-types.h cogl1-path-functions.h &gt; cogl-path-enum-types.h
+python $(GlibEtcInstallRoot)\bin\glib-mkenums --template cogl-path-enum-types.h.in cogl-path-types.h cogl1-path-functions.h &gt; cogl-path-enum-types.h
 cd $(SolutionDir)
     </GenCoglPathEnumsH>
     <GenCoglPathEnumsC>
 cd ..\..\..\cogl-path
-perl $(GlibEtcInstallRoot)\bin\glib-mkenums --template cogl-path-enum-types.c.in cogl-path-types.h cogl1-path-functions.h &gt; cogl-path-enum-types.c
+python $(GlibEtcInstallRoot)\bin\glib-mkenums --template cogl-path-enum-types.c.in cogl-path-types.h cogl1-path-functions.h &gt; cogl-path-enum-types.c
 cd $(SolutionDir)
     </GenCoglPathEnumsC>
     <GenCoglEnumsH>
 cd ..\..\..\cogl
-perl $(GlibEtcInstallRoot)\bin\glib-mkenums --template cogl-enum-types.h.in deprecated\cogl-clip-state.h deprecated\cogl-fixed.h deprecated\cogl-material-compat.h deprecated\cogl-vertex-buffer.h deprecated\cogl-shader.h deprecated\cogl-clutter.h deprecated\cogl-type-casts.h deprecated\cogl-framebuffer-deprecated.h deprecated\cogl-texture-deprecated.h deprecated\cogl-auto-texture.h cogl1-context.h cogl-bitmap.h cogl-color.h cogl-matrix.h cogl-offscreen.h cogl-primitives.h cogl-texture.h cogl-types.h cogl.h cogl-win32-renderer.h &gt; cogl-enum-types.h
+python $(GlibEtcInstallRoot)\bin\glib-mkenums --template cogl-enum-types.h.in deprecated\cogl-clip-state.h deprecated\cogl-fixed.h deprecated\cogl-material-compat.h deprecated\cogl-vertex-buffer.h deprecated\cogl-shader.h deprecated\cogl-clutter.h deprecated\cogl-type-casts.h deprecated\cogl-framebuffer-deprecated.h deprecated\cogl-texture-deprecated.h deprecated\cogl-auto-texture.h cogl1-context.h cogl-bitmap.h cogl-color.h cogl-matrix.h cogl-offscreen.h cogl-primitives.h cogl-texture.h cogl-types.h cogl.h cogl-win32-renderer.h &gt; cogl-enum-types.h
 cd $(SolutionDir)
     </GenCoglEnumsH>
     <GenCoglEnumsC>
 cd ..\..\..\cogl
-perl $(GlibEtcInstallRoot)\bin\glib-mkenums --template cogl-enum-types.c.in deprecated\cogl-clip-state.h deprecated\cogl-fixed.h deprecated\cogl-material-compat.h deprecated\cogl-vertex-buffer.h deprecated\cogl-shader.h deprecated\cogl-clutter.h deprecated\cogl-type-casts.h deprecated\cogl-framebuffer-deprecated.h deprecated\cogl-texture-deprecated.h deprecated\cogl-auto-texture.h cogl1-context.h cogl-bitmap.h cogl-color.h cogl-matrix.h cogl-offscreen.h cogl-primitives.h cogl-texture.h cogl-types.h cogl.h cogl-win32-renderer.h &gt; cogl-enum-types.c
+python $(GlibEtcInstallRoot)\bin\glib-mkenums --template cogl-enum-types.c.in deprecated\cogl-clip-state.h deprecated\cogl-fixed.h deprecated\cogl-material-compat.h deprecated\cogl-vertex-buffer.h deprecated\cogl-shader.h deprecated\cogl-clutter.h deprecated\cogl-type-casts.h deprecated\cogl-framebuffer-deprecated.h deprecated\cogl-texture-deprecated.h deprecated\cogl-auto-texture.h cogl1-context.h cogl-bitmap.h cogl-color.h cogl-matrix.h cogl-offscreen.h cogl-primitives.h cogl-texture.h cogl-types.h cogl.h cogl-win32-renderer.h &gt; cogl-enum-types.c
 cd $(SolutionDir)
     </GenCoglEnumsC>
     <GenerateCoglDef>
