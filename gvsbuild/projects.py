@@ -27,6 +27,7 @@ from .utils.simple_ui import print_debug
 from .utils.utils import convert_to_msys
 from .utils.utils import file_replace
 from .utils.base_expanders import Tarball, GitRepo
+from .utils.base_expanders import NullExpander
 from .utils.base_project import Project, project_add
 from .utils.base_project import GVSBUILD_IGNORE
 from .utils.base_builders import Meson, MercurialCmakeProject, CmakeProject
@@ -1382,7 +1383,7 @@ class Project_pygtk(GitRepo, CmakeProject):
                          )
 
 @project_add
-class Project_check_libs(Meson):
+class Project_check_libs(NullExpander, Meson):
     def __init__(self):
         Project.__init__(self,
             'check-libs',
@@ -1407,14 +1408,6 @@ class Project_check_libs(Meson):
 
                 ],
             )
-
-    def update_build_dir(self):
-        # Force the copy of the files in the script
-        return True
-
-    def unpack(self):
-        # Everything is in our script, nothing to download
-        pass
 
     def build(self):
         Meson.build(self, make_tests=True)
