@@ -54,6 +54,7 @@ def get_options(args):
     opts.make_zip = args.make_zip
     opts.from_scratch = args.from_scratch
     opts.keep_tools = args.keep_tools
+    opts.fast_build = args.fast_build
 
     if opts.make_zip and opts.no_deps:
         error_exit('Options --make-zip and --no-deps are not compatible')
@@ -215,6 +216,8 @@ Examples:
                          "and the common tools ('c:\\gtk-build\\tools')")
     p_build.add_argument('--keep-tools', default=False, action='store_true',
                          help="Active only when used with --from-scratch, keep and don't delete the (common) tool directory.")
+    p_build.add_argument('--fast-build', default=False, action='store_true',
+                         help="Assume that a project is up to date if the build directory is present. Use with caution!")
 
     p_build.add_argument('project', nargs='+',
                          help='Project(s) to build.')

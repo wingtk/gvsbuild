@@ -342,6 +342,11 @@ class Builder(object):
         return dirlist2set(self.gtk_dir)
 
     def __build_one(self, proj):
+        if self.opts.fast_build and not self.opts.clean:
+            if os.path.isdir(proj.build_dir):
+                print_message("Fast build:skipping project %s" % (proj.name, ))
+                return 
+            
         print_message("Building project %s" % (proj.name,))
         script_title(proj.name)
 
