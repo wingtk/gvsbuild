@@ -181,20 +181,21 @@ class GitRepo(object):
         work offline and as a reference of the last correct build
         """
         if self.tag:
-            # name the .zip from the tag
-            zip_post = self.tag
+            # name the .zip from the tag, validating it
+            t_name = [ c if c.isalnum() else '_' for c in self.tag ]
+            zip_post = ''.join(t_name)
         else:
             of = os.path.join(self.build_dir, '.git-temp.rsp')
             self.builder.exec_msys('git rev-parse --short HEAD >%s' % (of, ), working_dir=self.build_dir)
             with open(of, 'rt') as fi:
                 zip_post = fi.readline().rstrip('\n')
+            os.remove(of)
             
         # Be sure to have the git .zip dir
         git_tmp_dir = os.path.join(self.builder.opts.archives_download_dir, 'git')
         if not os.path.exists(git_tmp_dir):
             print_log("Creating git archives save directory %s" % (git_tmp_dir, ))
             os.makedirs(git_tmp_dir)
-        os.remove(of)
         
         # create a .zip file with the downloaded project
         all_files = dirlist2set(self.build_dir, add_dirs=True)
