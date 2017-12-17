@@ -1396,6 +1396,7 @@ class Project_check_libs(NullExpander, Meson):
                     'atk',
                     'freetype',
                     'gdk-pixbuf',
+                    'glib',
                     'jasper',
                     'json-glib',
                     'libarchive',

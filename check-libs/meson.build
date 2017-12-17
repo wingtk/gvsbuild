@@ -108,6 +108,19 @@ if gdk_pixbuf_dep.found()
         test('gdk-pixbuf', test_gdk_pixbuf)
 endif
 
+# glib
+glib_required_ver = '>= 2.54.2'
+glib_dep = dependency('glib-2.0', version: glib_required_ver, required: check_all)
+if glib_dep.found()
+        test_glib = executable('test_glib',
+                                     [ 'test_glib.c', 'check_utils.c', ],
+                                     dependencies: [ glib_dep, ],
+                                    )
+
+        test('glib', test_glib)
+endif
+
+
 # jasper
 jasper_required_ver = '>= 2.0.12'
 jasper_dep = dependency('jasper', version: jasper_required_ver, required: check_all)
