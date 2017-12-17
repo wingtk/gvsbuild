@@ -175,6 +175,31 @@ class MercurialRepo(object):
         self.exec_cmd('hg pull -u', working_dir=self.build_dir)
 
 class GitRepo(object):
+    def create_zip(self):
+        """
+        Create a .zip file with the git checkout to be able to 
+        work offline and as a reference of the last correct build
+        """
+        if self.tag:
+            # name the .zip from the tag
+            zip_post = self.tag
+        else:
+            of = os.path.join(self.build_dir, '.git-temp.rsp')
+            self.builder.exec_msys('git rev-parse --short HEAD >%s' % (of, ), working_dir=self.build_dir)
+            with open(of, 'rt') as fi:
+                zip_post = fi.readline().rstrip('\n')
+            
+        # Be sure to have the git .zip dir
+        git_tmp_dir = os.path.join(self.builder.opts.archives_download_dir, 'git')
+        if not os.path.exists(git_tmp_dir):
+            print_log("Creating git archives save directory %s" % (git_tmp_dir, ))
+            os.makedirs(git_tmp_dir)
+        os.remove(of)
+        
+        # create a .zip file with the downloaded project
+        all_files = dirlist2set(self.build_dir, add_dirs=True)
+        make_zip(os.path.join(git_tmp_dir, self.name + '-' + zip_post), all_files, len(self.build_dir))
+        
     def unpack(self):
         print_log('Cloning %s to %s' % (self.repo_url, self.build_dir))
 
@@ -184,6 +209,7 @@ class GitRepo(object):
         if self.tag:
             self.builder.exec_msys('git checkout -f %s' % self.tag, working_dir=self.build_dir)
 
+        self.create_zip()
         if self.fetch_submodules:
             self.builder.exec_msys('git submodule update --init',  working_dir=self.build_dir)
 
@@ -202,6 +228,7 @@ class GitRepo(object):
             self.builder.exec_msys('git checkout -f', working_dir=self.build_dir)
             self.builder.exec_msys('git pull --rebase', working_dir=self.build_dir)
 
+        self.create_zip()
         if self.fetch_submodules:
             self.builder.exec_msys('git submodule update --init', working_dir=self.build_dir)
 
