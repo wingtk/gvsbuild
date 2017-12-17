@@ -628,16 +628,11 @@ class Project_json_glib(Tarball, Meson):
             'json-glib',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/json-glib/1.4/json-glib-1.4.2.tar.xz',
             hash = '2d7709a44749c7318599a6829322e081915bdc73f5be5045882ed120bb686dc8',
-            dependencies = ['perl', 'glib'],
+            dependencies = ['meson', 'ninja', 'pkg-config', 'perl', 'glib'],
             )
 
     def build(self):
         Meson.build(self, meson_params='-Ddocs=false -Dintrospection=false', make_tests=True)
-        # Fix the forward slash on the .pc file, bug #1906 in meson
-        file_replace(os.path.join(self.builder.gtk_dir, 'lib', 'pkgconfig', 'json-glib-1.0.pc'),
-                     [ ('\\\\', '/'),
-                       ]
-                     )
 
         self.install(r'.\COPYING share\doc\json-glib')
 
