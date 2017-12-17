@@ -235,3 +235,18 @@ class GitRepo(object):
         if os.path.exists(self.patch_dir):
             print_log("Copying files from %s to %s" % (self.patch_dir, self.build_dir))
             self.builder.copy_all(self.patch_dir, self.build_dir)
+
+class NullExpander(object):
+    """
+    Null expander to use when all the source are present in the script and
+    nothing must be downloaded
+
+    """
+    def update_build_dir(self):
+        # Force the copy of the files in the script
+        return True
+
+    def unpack(self):
+        # Everything is in our script, nothing to download
+        pass
+
