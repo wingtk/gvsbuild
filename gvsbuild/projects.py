@@ -498,7 +498,7 @@ class Project_grpc(GitRepo, Project):
             fetch_submodules = True,
             tag = 'v1.0.0',
             dependencies = ['nuget', 'protobuf'],
-            patches = ['0001-Remove-RuntimeLibrary-setting-from-the-projects.patch'],
+            patches = ['0001-Remove-RuntimeLibrary-setting-from-the-projects.patch', '0002-grpc-vs17.patch'],
             )
 
     def build(self):
