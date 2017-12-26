@@ -173,6 +173,7 @@ class Builder(object):
             ('make',       'make'),
             ('md5sum',     'coreutils'),
             ('diff',       'diffutils'),
+            ('bison',       'bison'),
         ]
         missing = []
         for prog, pkg in msys_pkg:

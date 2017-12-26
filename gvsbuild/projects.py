@@ -24,8 +24,10 @@ import glob
 import shutil
 
 from .utils.simple_ui import print_debug
+from .utils.simple_ui import print_message
 from .utils.utils import convert_to_msys
 from .utils.utils import file_replace
+from .utils.utils import python_find_libs_dir
 from .utils.base_expanders import Tarball, GitRepo
 from .utils.base_expanders import NullExpander
 from .utils.base_project import Project, project_add
@@ -404,6 +406,75 @@ class Project_glib_openssl(Tarball, Meson):
         Meson.build(self)
         self.install(r'.\COPYING share\doc\glib-openssl')
         self.install(r'.\LICENSE_EXCEPTION share\doc\glib-openssl')
+
+@project_add
+class Project_gobject_introspection(GitRepo, Meson):
+    def __init__(self):
+        Project.__init__(self,
+            'gobject-introspection',
+            repo_url = 'https://git.gnome.org/browse/gobject-introspection',
+            fetch_submodules = False,
+            tag = 'wip/meson',
+            dependencies = [
+                'ninja',
+                'meson',
+                'msys2',
+                'pkg-config',
+                'glib',
+                # This ones are for add their's gir
+                'atk',
+                'gdk-pixbuf',
+                'pango',
+                'gtk',
+                'gtk3',
+                ],
+            patches = [
+                '00_glib_win_ver.patch',
+                ],
+            )
+
+    def make_single_gir(self, prj_name, prj_dir=None):
+        if not prj_dir:
+            prj_dir = prj_name
+
+        b_dir = r'%s\%s\build\win32' % (self.builder.working_dir, prj_dir, )
+        if not os.path.isfile(os.path.join(b_dir, 'detectenv-msvc.mak')):
+            b_dir = r'%s\%s\win32' % (self.builder.working_dir, prj_dir, )
+            if not os.path.isfile(os.path.join(b_dir, 'detectenv-msvc.mak')):
+                print_message('Unable to find detectenv-msvc.mak for %s' % (prj_name, ))
+                return
+
+        cmd = 'nmake -f %s-introspection-msvc.mak CFG=%s PREFIX=%s PYTHON=%s\python.exe install-introspection' % (
+                prj_name,
+                self.builder.opts.configuration,
+                self.builder.gtk_dir,
+                self.builder.opts.python_dir,
+                )
+
+        self.push_location(b_dir)
+        self.exec_vs(cmd)
+        self.pop_location()
+
+    def build(self):
+        # For finding gobject-introspection.pc
+        self.builder.mod_env('PKG_CONFIG_PATH', '.')
+        # For finding & using girepository.lib/.dll
+        self.builder.mod_env('LIB', r'.\girepository')
+        self.builder.mod_env('PATH', r'.\girepository')
+        # For linking the _giscanner.pyd extension module when using a virtualenv
+        py_libs = python_find_libs_dir(Project.get_tool_path('python'))
+        if py_libs:
+            print_debug("Python library path is [%s]" % (py_libs, ))
+            self.builder.mod_env('LIB', py_libs, prepend=False)
+
+        Meson.build(self)
+
+        # Build extra gir/typelib
+        self.make_single_gir('atk')
+        self.make_single_gir('gdk-pixbuf')
+        self.make_single_gir('pango')
+        self.make_single_gir('gtk', prj_dir='gtk')
+        self.make_single_gir('gtk', prj_dir='gtk3')
 
 @project_add
 class Project_graphene(GitRepo, Meson):

@@ -1,0 +1,18 @@
+--- "orig\\meson.build"	2017-12-06 16:50:52.499102700 +0100
++++ "gobject-introspection\\meson.build"	2017-12-06 16:54:05.752593500 +0100
+@@ -48,8 +48,13 @@
+   output: 'config.h'
+ )
+
+-# Always bumped to match our version
+-glib_version = '>=2.@0@.@1@'.format(gi_versions[1], gi_versions[2])
++if host_system != 'windows'
++  # Always bumped to match our version
++  glib_version = '>=2.@0@.@1@'.format(gi_versions[1], gi_versions[2])
++else
++  # windows, for now we have 2.52 & 2.54
++  glib_version = '>=2.52'
++endif
+
+ glib_dep = dependency('glib-2.0', version : glib_version,
+   fallback: ['glib', 'libglib_dep'])
