@@ -328,7 +328,7 @@ class Project_gdk_pixbuf(Tarball, Meson):
         # We can experiment with a couple of options to give to meson:
         #    -Dbuiltin_loaders=all|windows
         #        Buld the loader inside the library
-        Meson.build(self, meson_params='-Denable_jasper=true -Dnative_windows_loaders=true -Dwith_gir=false -Dwith_man=false')
+        Meson.build(self, meson_params='-Djasper=true -Dnative_windows_loaders=true -Dgir=false -Dman=false')
         self.install(r'.\COPYING share\doc\gdk-pixbuf')
 
 @project_add
