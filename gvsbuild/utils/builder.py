@@ -101,6 +101,7 @@ class Builder(object):
         vs_part = self.vs_ver_year
         if opts.win_sdk_ver:
             vs_part += '-' + opts.win_sdk_ver
+            self.msbuild_opts += ' /p:WindowsTargetPlatformVersion="%s"' % (opts.win_sdk_ver, )
 
         self.zip_dir = os.path.join(opts.build_dir, 'dist', vs_part, opts.platform, opts.configuration)
         if opts.make_zip:
