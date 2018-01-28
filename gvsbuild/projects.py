@@ -431,7 +431,7 @@ class Project_gobject_introspection(GitRepo, Meson):
                 ],
             )
 
-    def make_single_gir(self, prj_name, prj_dir=None):
+    def make_single_gir(self, prj_name, prj_dir=None, add_meson=False):
         if not prj_dir:
             prj_dir = prj_name
 
@@ -441,6 +441,13 @@ class Project_gobject_introspection(GitRepo, Meson):
             if not os.path.isfile(os.path.join(b_dir, 'detectenv-msvc.mak')):
                 print_message('Unable to find detectenv-msvc.mak for %s' % (prj_name, ))
                 return
+
+        old_inc = None
+        if add_meson:
+            # include 
+            add_inc = r'%s\%s-meson' % (self.builder.working_dir, prj_dir, )
+            old_inc = self.builder.mod_env('INCLUDE', add_inc, prepend=False)
+            print("Include add: %s" % (add_inc, ))
 
         cmd = 'nmake -f %s-introspection-msvc.mak CFG=%s PREFIX=%s PYTHON=%s\python.exe install-introspection' % (
                 prj_name,
@@ -452,6 +459,7 @@ class Project_gobject_introspection(GitRepo, Meson):
         self.push_location(b_dir)
         self.exec_vs(cmd)
         self.pop_location()
+        self.builder.restore_env(old_inc)
 
     def build(self):
         # For finding gobject-introspection.pc
@@ -469,7 +477,7 @@ class Project_gobject_introspection(GitRepo, Meson):
 
         # Build extra gir/typelib
         self.make_single_gir('atk')
-        self.make_single_gir('gdk-pixbuf')
+        self.make_single_gir('gdk-pixbuf', add_meson=True)
         self.make_single_gir('pango')
         self.make_single_gir('gtk', prj_dir='gtk')
         self.make_single_gir('gtk', prj_dir='gtk3')
