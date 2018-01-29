@@ -391,6 +391,17 @@ class Project_glib_networking(Tarball, Project):
         self.install(r'.\COPYING share\doc\glib-networking')
 
 @project_add
+class Project_glib_py_wrapper(NullExpander, Meson):
+    def __init__(self):
+        Project.__init__(self,
+            'glib-py-wrapper',
+            dependencies = ['glib'],
+            )
+
+    def build(self):
+        Meson.build(self)
+
+@project_add
 class Project_glib_openssl(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
