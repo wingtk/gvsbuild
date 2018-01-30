@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\clutter\win32\clutter-backend-win32.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\win32\clutter-device-manager-win32.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\win32\clutter-event-win32.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\win32\clutter-stage-win32.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\cally\cally-actor.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\cally\cally.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\cally\cally-clone.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\cally\cally-group.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\cally\cally-rectangle.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\cally\cally-root.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\cally\cally-stage.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\cally\cally-text.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\cally\cally-texture.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\cally\cally-util.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-action.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-actor-box.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-actor-meta.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-actor.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-align-constraint.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-animatable.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-backend.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-base-types.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-bezier.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-bind-constraint.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-binding-pool.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-bin-layout.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-blur-effect.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-box-layout.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-brightness-contrast-effect.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-cairo.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-canvas.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-child-meta.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-click-action.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-clone.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-color.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-colorize-effect.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-constraint.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-container.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-content.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-deform-effect.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-desaturate-effect.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-device-manager.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-drag-action.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-drop-action.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-effect.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-event.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-feature.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-fixed-layout.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-flatten-effect.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-flow-layout.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-gesture-action.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-grid-layout.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-image.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-input-device.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-interval.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-keyframe-transition.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-keysyms-table.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-layout-manager.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-layout-meta.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-main.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-master-clock.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-master-clock-default.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-offscreen-effect.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-page-turn-effect.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-paint-nodes.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-paint-node.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-pan-action.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-path-constraint.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-path.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-property-transition.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-rotate-action.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-script.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-script-parser.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-scriptable.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-scroll-actor.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-settings.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-shader-effect.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-shader-types.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-swipe-action.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-snap-constraint.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-stage.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-stage-manager.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-stage-window.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-tap-action.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-test-utils.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-text.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-text-buffer.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-transition-group.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-transition.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-timeline.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-units.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-util.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-paint-volume.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-zoom-action.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-easing.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-event-translator.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-id-pool.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-actor-deprecated.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-alpha.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-animation.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-animator.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-behaviour.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-behaviour-depth.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-behaviour-ellipse.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-behaviour-opacity.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-behaviour-path.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-behaviour-rotate.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-behaviour-scale.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-box.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-cairo-texture.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-fixed.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-frame-source.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-group.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-input-device-deprecated.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-layout-manager-deprecated.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-list-model.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-media.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-model.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-rectangle.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-score.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-shader.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-state.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-table-layout.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-texture.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-timeout-pool.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\deprecated\clutter-timeout-interval.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-enum-types.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\clutter-marshal.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\gdk\clutter-backend-gdk.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\gdk\clutter-device-manager-gdk.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\gdk\clutter-event-gdk.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\gdk\clutter-input-device-gdk.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\gdk\clutter-master-clock-gdk.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\gdk\clutter-stage-gdk.c"><Filter>Sources</Filter></ClCompile>
+    <ClCompile Include="..\..\..\clutter\cogl\clutter-stage-cogl.c"><Filter>Sources</Filter></ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\clutter\config.h.win32"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\clutter\clutter-config.h.win32"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\clutter\clutter-config.h.win32_GDK"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\clutter\clutter-marshal.list"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\clutter\clutter-enum-types.h.in"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\clutter\clutter-enum-types.c.in"><Filter>Resource Files</Filter></CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\..\clutter\win32\resources.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

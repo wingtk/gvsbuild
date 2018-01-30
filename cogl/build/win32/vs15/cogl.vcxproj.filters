@@ -1,0 +1,378 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Sources\Driver_GL">
+      <UniqueIdentifier>{43c6d046-ba3b-4ff2-b7e6-df455affa6bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\cogl\winsys\cogl-winsys-wgl.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\winsys\cogl-winsys-sdl2.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-sdl.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-win32-renderer.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\driver\nop\cogl-driver-nop.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\driver\nop\cogl-framebuffer-nop.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\driver\nop\cogl-attribute-nop.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\driver\nop\cogl-clip-stack-nop.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\driver\nop\cogl-texture-2d-nop.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-pipeline-opengl.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-pipeline-fragend-glsl.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\driver\gl\gl\cogl-pipeline-fragend-arbfp.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\driver\gl\gl\cogl-pipeline-progend-fixed-arbfp.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-pipeline-fragend-fixed.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-pipeline-vertend-glsl.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-pipeline-vertend-fixed.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-pipeline-progend-fixed.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-pipeline-progend-glsl.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\winsys\cogl-winsys.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-gpu-info.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-context.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-renderer.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-swap-chain.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-onscreen-template.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-display.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-object.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-util.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-bitmap.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-bitmap-conversion.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-primitives.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-bitmap-pixbuf.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-clip-stack.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-feature-private.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-color.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-buffer.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-pixel-buffer.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-index-buffer.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-attribute-buffer.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-indices.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-attribute.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-primitive.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-matrix.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-vector.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-euler.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-quaternion.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-matrix-stack.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-depth-state.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-node.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-pipeline.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-pipeline-layer.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-pipeline-state.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-pipeline-layer-state.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-pipeline-debug.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-glsl-shader.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-pipeline-snippet.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-pipeline-cache.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-pipeline-hash-table.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-sampler-cache.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-blend-string.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-debug.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-sub-texture.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-texture.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-texture-2d.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-texture-2d-sliced.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-texture-3d.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-texture-rectangle.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-rectangle-map.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-atlas.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-atlas-texture.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-meta-texture.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-primitive-texture.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-blit.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-spans.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-journal.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-frame-info.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-framebuffer.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-onscreen.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-output.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-profile.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-bitmask.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-gtype.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-point-in-poly.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-list.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\winsys\cogl-winsys-stub.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-config.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-boxed-value.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-snippet.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-poll.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-memory-stack.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-magazine.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-gles2-context.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-error.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-closure-list.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-fence.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\deprecated\cogl-clip-state.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\deprecated\cogl-fixed.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\deprecated\cogl-vertex-buffer.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\deprecated\cogl-material-compat.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\deprecated\cogl-program.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\deprecated\cogl-auto-texture.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\deprecated\cogl-shader.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\deprecated\cogl-clutter.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\deprecated\cogl-framebuffer-deprecated.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\deprecated\cogl-texture-deprecated.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-glib-source.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\cogl-enum-types.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\driver\gl\gl\cogl-driver-gl.c">
+      <Filter>Sources\Driver_GL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\driver\gl\gl\cogl-texture-driver-gl.c">
+      <Filter>Sources\Driver_GL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-attribute-gl.c">
+      <Filter>Sources\Driver_GL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-buffer-gl.c">
+      <Filter>Sources\Driver_GL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-clip-stack-gl.c">
+      <Filter>Sources\Driver_GL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-framebuffer-gl.c">
+      <Filter>Sources\Driver_GL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-texture-gl.c">
+      <Filter>Sources\Driver_GL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-texture-2d-gl.c">
+      <Filter>Sources\Driver_GL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cogl\driver\gl\cogl-util-gl.c">
+      <Filter>Sources\Driver_GL</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\config.h.win32" />
+    <CustomBuild Include="..\..\..\cogl\cogl-gl-header.h.win32" />
+    <CustomBuild Include="..\..\..\cogl\cogl-defines.h.win32" />
+    <CustomBuild Include="..\..\..\cogl\cogl-defines.h.win32_SDL" />
+    <CustomBuild Include="..\..\..\cogl\cogl.symbols" />
+    <CustomBuild Include="..\..\..\cogl\cogl-enum-types.h.in" />
+    <CustomBuild Include="..\..\..\cogl\cogl-enum-types.c.in" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\..\cogl\cogl.rc" />
+  </ItemGroup>
+</Project>

@@ -101,6 +101,7 @@ class Builder(object):
         vs_part = self.vs_ver_year
         if opts.win_sdk_ver:
             vs_part += '-' + opts.win_sdk_ver
+            self.msbuild_opts += ' /p:WindowsTargetPlatformVersion="%s"' % (opts.win_sdk_ver, )
 
         self.zip_dir = os.path.join(opts.build_dir, 'dist', vs_part, opts.platform, opts.configuration)
         if opts.make_zip:
@@ -204,10 +205,12 @@ class Builder(object):
 
     def _add_env(self, key, value, env, prepend=True, subst=False):
         # env manipulation helper fun
+        # returns a tuple with the old (key, value, ) to let the script restore it if needed
+        org_env = env.get(key, None)
         if subst:
             te = None
         else:
-            te = env.get(key, None)
+            te = org_env
         if te:
             if prepend:
                 env[key] = value + ';' + te
@@ -216,6 +219,7 @@ class Builder(object):
         else:
             # not set or forced
             env[key] = value
+        return (key, org_env, )
 
     def add_global_env(self, key, value, prepend=True):
         # Env to load before the setup for the visual studio environment
@@ -223,8 +227,18 @@ class Builder(object):
 
     def mod_env(self, key, value, prepend=True, subst=False):
         # Modify the current build environment
-        self._add_env(key, value, self.vs_env, prepend=prepend, subst=subst)
+        # returns the old value
+        return self._add_env(key, value, self.vs_env, prepend=prepend, subst=subst)
 
+    def restore_env(self, saved):
+        if saved:
+            key, value = saved
+            if key:
+                if value:
+                    self.vs_env[key] = value
+                else:
+                    del self.vs_env[key]
+            
     def __check_vs(self, opts):
         script_title('* Msvc tool')
         # Verify VS exists at the indicated location, and that it supports the required target
