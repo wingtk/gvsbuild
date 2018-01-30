@@ -513,53 +513,19 @@ class Project_graphene(GitRepo, Meson):
         self.install(r'.\LICENSE share\doc\graphene')
 
 @project_add
-class Project_grpc(GitRepo, Project):
+class Project_grpc(GitRepo, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'grpc',
             repo_url = 'https://github.com/grpc/grpc.git',
             fetch_submodules = True,
-            tag = 'v1.0.0',
-            dependencies = ['nuget', 'protobuf'],
-            patches = ['0001-Remove-RuntimeLibrary-setting-from-the-projects.patch'],
+            tag = 'v1.8.6',
+            dependencies = ['nuget', 'protobuf', 'perl', 'zlib', 'openssl', 'yasm'],
+            patches = ['0001-removing-extra-plugins.patch'],
             )
 
     def build(self):
-        self.exec_cmd(self.builder.nuget + ' restore ' + os.path.join(self.build_dir, 'vsprojects', 'grpc.sln'))
-        self.exec_msbuild(r'vsprojects\grpc.sln /t:grpc++')
-        self.exec_msbuild(r'vsprojects\grpc_protoc_plugins.sln')
-
-        self.install(r'.\include\grpc include\google')
-        self.install(r'.\include\grpc++ include\google')
-
-        platform = ''
-        if self.builder.x64:
-            platform = 'x64\\'
-
-        bin_dir = r'.\vsprojects\%s%s' % (platform, self.builder.opts.configuration, )
-
-        self.install(bin_dir + r'\gpr.lib lib')
-        self.install(bin_dir + r'\grpc.lib lib')
-        self.install(bin_dir + r'\grpc++.lib lib')
-
-        self.install(bin_dir + r'\grpc_cpp_plugin.exe bin')
-        self.install(bin_dir + r'\grpc_cpp_plugin.pdb bin')
-
-        self.install(bin_dir + r'\grpc_csharp_plugin.exe bin')
-        self.install(bin_dir + r'\grpc_csharp_plugin.pdb bin')
-
-        self.install(bin_dir + r'\grpc_node_plugin.exe bin')
-        self.install(bin_dir + r'\grpc_node_plugin.pdb bin')
-
-        self.install(bin_dir + r'\grpc_objective_c_plugin.exe bin')
-        self.install(bin_dir + r'\grpc_objective_c_plugin.pdb bin')
-
-        self.install(bin_dir + r'\grpc_python_plugin.exe bin')
-        self.install(bin_dir + r'\grpc_python_plugin.pdb bin')
-
-        self.install(bin_dir + r'\grpc_ruby_plugin.exe bin')
-        self.install(bin_dir + r'\grpc_ruby_plugin.pdb bin')
-
+        CmakeProject.build(self,cmake_params='-DgRPC_ZLIB_PROVIDER=package -DgRPC_SSL_PROVIDER=package -DgRPC_PROTOBUF_PROVIDER=package', use_ninja=True)
         self.install(r'.\LICENSE share\doc\grpc')
 
 @project_add
