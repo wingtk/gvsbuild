@@ -1,0 +1,224 @@
+From 83393a709f3a175b0b56c4f446f2d07f4c67156f Mon Sep 17 00:00:00 2001
+From: "Montazeri, Mehrdad" <mmontaze@amazon.com>
+Date: Tue, 30 Jan 2018 08:05:03 -0800
+Subject: [PATCH] removing extra plugins
+
+---
+ CMakeLists.txt | 166 ---------------------------------------------------------
+ 1 file changed, 166 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 8b19d51fee..8201d09890 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -347,11 +347,6 @@ add_custom_target(plugins
+   DEPENDS
+   grpc_cpp_plugin
+   grpc_csharp_plugin
+-  grpc_node_plugin
+-  grpc_objective_c_plugin
+-  grpc_php_plugin
+-  grpc_python_plugin
+-  grpc_ruby_plugin
+ )
+ 
+ add_custom_target(tools_c
+@@ -4123,11 +4118,6 @@ endif (gRPC_BUILD_TESTS)
+ add_library(grpc_plugin_support
+   src/compiler/cpp_generator.cc
+   src/compiler/csharp_generator.cc
+-  src/compiler/node_generator.cc
+-  src/compiler/objective_c_generator.cc
+-  src/compiler/php_generator.cc
+-  src/compiler/python_generator.cc
+-  src/compiler/ruby_generator.cc
+ )
+ 
+ if(WIN32 AND MSVC)
+@@ -10764,34 +10754,6 @@ if (gRPC_INSTALL)
+   )
+ endif()
+ 
+-
+-add_executable(grpc_node_plugin
+-  src/compiler/node_plugin.cc
+-)
+-
+-
+-target_include_directories(grpc_node_plugin
+-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
+-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
+-  PRIVATE ${BORINGSSL_ROOT_DIR}/include
+-  PRIVATE ${PROTOBUF_ROOT_DIR}/src
+-  PRIVATE ${BENCHMARK_ROOT_DIR}/include
+-  PRIVATE ${ZLIB_ROOT_DIR}
+-  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/third_party/zlib
+-  PRIVATE ${CARES_INCLUDE_DIR}
+-  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/third_party/cares/cares
+-  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/third_party/gflags/include
+-  PRIVATE ${_gRPC_PROTO_GENS_DIR}
+-)
+-
+-target_link_libraries(grpc_node_plugin
+-  ${_gRPC_PROTOBUF_PROTOC_LIBRARIES}
+-  ${_gRPC_PROTOBUF_LIBRARIES}
+-  ${_gRPC_ALLTARGETS_LIBRARIES}
+-  grpc_plugin_support
+-)
+-
+-
+ if (gRPC_INSTALL)
+   install(TARGETS grpc_node_plugin EXPORT gRPCTargets
+     RUNTIME DESTINATION ${gRPC_INSTALL_BINDIR}
+@@ -10800,34 +10762,6 @@ if (gRPC_INSTALL)
+   )
+ endif()
+ 
+-
+-add_executable(grpc_objective_c_plugin
+-  src/compiler/objective_c_plugin.cc
+-)
+-
+-
+-target_include_directories(grpc_objective_c_plugin
+-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
+-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
+-  PRIVATE ${BORINGSSL_ROOT_DIR}/include
+-  PRIVATE ${PROTOBUF_ROOT_DIR}/src
+-  PRIVATE ${BENCHMARK_ROOT_DIR}/include
+-  PRIVATE ${ZLIB_ROOT_DIR}
+-  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/third_party/zlib
+-  PRIVATE ${CARES_INCLUDE_DIR}
+-  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/third_party/cares/cares
+-  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/third_party/gflags/include
+-  PRIVATE ${_gRPC_PROTO_GENS_DIR}
+-)
+-
+-target_link_libraries(grpc_objective_c_plugin
+-  ${_gRPC_PROTOBUF_PROTOC_LIBRARIES}
+-  ${_gRPC_PROTOBUF_LIBRARIES}
+-  ${_gRPC_ALLTARGETS_LIBRARIES}
+-  grpc_plugin_support
+-)
+-
+-
+ if (gRPC_INSTALL)
+   install(TARGETS grpc_objective_c_plugin EXPORT gRPCTargets
+     RUNTIME DESTINATION ${gRPC_INSTALL_BINDIR}
+@@ -10836,70 +10770,6 @@ if (gRPC_INSTALL)
+   )
+ endif()
+ 
+-
+-add_executable(grpc_php_plugin
+-  src/compiler/php_plugin.cc
+-)
+-
+-
+-target_include_directories(grpc_php_plugin
+-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
+-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
+-  PRIVATE ${BORINGSSL_ROOT_DIR}/include
+-  PRIVATE ${PROTOBUF_ROOT_DIR}/src
+-  PRIVATE ${BENCHMARK_ROOT_DIR}/include
+-  PRIVATE ${ZLIB_ROOT_DIR}
+-  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/third_party/zlib
+-  PRIVATE ${CARES_INCLUDE_DIR}
+-  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/third_party/cares/cares
+-  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/third_party/gflags/include
+-  PRIVATE ${_gRPC_PROTO_GENS_DIR}
+-)
+-
+-target_link_libraries(grpc_php_plugin
+-  ${_gRPC_PROTOBUF_PROTOC_LIBRARIES}
+-  ${_gRPC_PROTOBUF_LIBRARIES}
+-  ${_gRPC_ALLTARGETS_LIBRARIES}
+-  grpc_plugin_support
+-)
+-
+-
+-if (gRPC_INSTALL)
+-  install(TARGETS grpc_php_plugin EXPORT gRPCTargets
+-    RUNTIME DESTINATION ${gRPC_INSTALL_BINDIR}
+-    LIBRARY DESTINATION ${gRPC_INSTALL_LIBDIR}
+-    ARCHIVE DESTINATION ${gRPC_INSTALL_LIBDIR}
+-  )
+-endif()
+-
+-
+-add_executable(grpc_python_plugin
+-  src/compiler/python_plugin.cc
+-)
+-
+-
+-target_include_directories(grpc_python_plugin
+-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
+-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
+-  PRIVATE ${BORINGSSL_ROOT_DIR}/include
+-  PRIVATE ${PROTOBUF_ROOT_DIR}/src
+-  PRIVATE ${BENCHMARK_ROOT_DIR}/include
+-  PRIVATE ${ZLIB_ROOT_DIR}
+-  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/third_party/zlib
+-  PRIVATE ${CARES_INCLUDE_DIR}
+-  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/third_party/cares/cares
+-  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/third_party/gflags/include
+-  PRIVATE ${_gRPC_PROTO_GENS_DIR}
+-)
+-
+-target_link_libraries(grpc_python_plugin
+-  ${_gRPC_PROTOBUF_PROTOC_LIBRARIES}
+-  ${_gRPC_PROTOBUF_LIBRARIES}
+-  ${_gRPC_ALLTARGETS_LIBRARIES}
+-  grpc_plugin_support
+-)
+-
+-
+ if (gRPC_INSTALL)
+   install(TARGETS grpc_python_plugin EXPORT gRPCTargets
+     RUNTIME DESTINATION ${gRPC_INSTALL_BINDIR}
+@@ -10908,42 +10778,6 @@ if (gRPC_INSTALL)
+   )
+ endif()
+ 
+-
+-add_executable(grpc_ruby_plugin
+-  src/compiler/ruby_plugin.cc
+-)
+-
+-
+-target_include_directories(grpc_ruby_plugin
+-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
+-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
+-  PRIVATE ${BORINGSSL_ROOT_DIR}/include
+-  PRIVATE ${PROTOBUF_ROOT_DIR}/src
+-  PRIVATE ${BENCHMARK_ROOT_DIR}/include
+-  PRIVATE ${ZLIB_ROOT_DIR}
+-  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/third_party/zlib
+-  PRIVATE ${CARES_INCLUDE_DIR}
+-  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/third_party/cares/cares
+-  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/third_party/gflags/include
+-  PRIVATE ${_gRPC_PROTO_GENS_DIR}
+-)
+-
+-target_link_libraries(grpc_ruby_plugin
+-  ${_gRPC_PROTOBUF_PROTOC_LIBRARIES}
+-  ${_gRPC_PROTOBUF_LIBRARIES}
+-  ${_gRPC_ALLTARGETS_LIBRARIES}
+-  grpc_plugin_support
+-)
+-
+-
+-if (gRPC_INSTALL)
+-  install(TARGETS grpc_ruby_plugin EXPORT gRPCTargets
+-    RUNTIME DESTINATION ${gRPC_INSTALL_BINDIR}
+-    LIBRARY DESTINATION ${gRPC_INSTALL_LIBDIR}
+-    ARCHIVE DESTINATION ${gRPC_INSTALL_LIBDIR}
+-  )
+-endif()
+-
+ if (gRPC_BUILD_TESTS)
+ 
+ add_executable(grpc_tool_test
+-- 
+2.16.1.windows.1
+
