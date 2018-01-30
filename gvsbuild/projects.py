@@ -273,7 +273,11 @@ class Project_fontconfig(Tarball, Project):
                 content = f.read()
             if content.find('<PlatformToolset>FIXME</PlatformToolset>') >= 0:
                 print_debug('patching project file %s' % (proj,))
-                content = content.replace('<PlatformToolset>FIXME</PlatformToolset>', '<PlatformToolset>v%s0</PlatformToolset>' % (self.builder.opts.vs_ver))
+                if self.builder.vs_ver == '15':
+                    fixme = r'141'
+                else:
+                    fixme = self.builder.opts.vs_ver + r'0'
+                content = content.replace('<PlatformToolset>FIXME</PlatformToolset>', '<PlatformToolset>v%s</PlatformToolset>' % (fixme))
                 with open(proj, 'w') as f:
                     f.write(content)
 
