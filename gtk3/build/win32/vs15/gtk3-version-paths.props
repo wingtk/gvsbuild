@@ -1,18 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
-    <VSVer>14</VSVer>
-    <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\vs$(VSVer)\$(Platform)</GlibEtcInstallRoot>
-    <CopyDir>..\..\..\..\vs$(VSVer)\$(Platform)</CopyDir>
+    <VSVer>15</VSVer>
+    <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
+    <CopyDir>..\..\..\..\gtk3-rel</CopyDir>
     <ApiVersion>3.0</ApiVersion>
     <GtkVersion>3.20.10</GtkVersion>
     <GtkLibtoolCompatibleDllPrefix>lib</GtkLibtoolCompatibleDllPrefix>
     <GtkLibtoolCompatibleDllSuffix>.0-0</GtkLibtoolCompatibleDllSuffix>
     <GtkSeparateVSDllPrefix />
-    <GtkSeparateVSDllSuffix>-vs$(VSVer)</GtkSeparateVSDllSuffix>
+    <GtkSeparateVSDllSuffix>-3.0</GtkSeparateVSDllSuffix>
     <GtkDllPrefix>$(GtkSeparateVSDllPrefix)</GtkDllPrefix>
     <GtkDllSuffix>$(GtkSeparateVSDllSuffix)</GtkDllSuffix>
-    <PythonPath>c:\python27</PythonPath>
+    <PythonPath>c:\python36</PythonPath>
+    <PythonPathX64>c:\python36</PythonPathX64>
   </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>gtk3versionpathsprops</_PropertySheetDisplayName>
@@ -53,6 +54,9 @@
     </BuildMacro>
     <BuildMacro Include="PythonPath">
       <Value>$(PythonPath)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PythonPathX64">
+      <Value>$(PythonPathX64)</Value>
     </BuildMacro>
   </ItemGroup>
 </Project>
