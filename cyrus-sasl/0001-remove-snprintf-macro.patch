@@ -1,0 +1,25 @@
+From 1c457a82c4d7675690ab781c336b1e1bab67bf31 Mon Sep 17 00:00:00 2001
+From: "Montazeri, Mehrdad" <mmontaze@amazon.com>
+Date: Wed, 31 Jan 2018 08:42:00 -0800
+Subject: [PATCH] remove snprintf macro
+
+---
+ win32/include/config.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/win32/include/config.h b/win32/include/config.h
+index 34408378..c641aaea 100644
+--- a/win32/include/config.h
++++ b/win32/include/config.h
+@@ -117,7 +117,7 @@ typedef int		    intptr_t;
+ /* Windows calls these functions something else
+  */
+ #define strcasecmp   stricmp
+-#define snprintf    _snprintf
++//#define snprintf    _snprintf
+ #define strncasecmp  strnicmp
+ 
+ #define MAXHOSTNAMELEN 1024
+-- 
+2.16.1.windows.1
+
