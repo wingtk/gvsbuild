@@ -526,7 +526,14 @@ class Project_grpc(GitRepo, CmakeProject):
             )
 
     def build(self):
-        CmakeProject.build(self,cmake_params='-DgRPC_ZLIB_PROVIDER=package -DgRPC_SSL_PROVIDER=package -DgRPC_PROTOBUF_PROVIDER=package', use_ninja=True)
+        CmakeProject.build(self, cmake_params='-DgRPC_ZLIB_PROVIDER=package -DgRPC_SSL_PROVIDER=package -DgRPC_PROTOBUF_PROVIDER=package', use_ninja=True, out_of_source=False)
+        self.install(r'.\gpr.lib lib')
+        self.install(r'.\grpc.lib lib')
+        self.install(r'.\grpc++.lib lib')
+        self.install(r'.\grpc_cpp_plugin.exe bin')
+        self.install(r'.\grpc_cpp_plugin.pdb bin')
+        self.install(r'.\grpc_csharp_plugin.exe bin')
+        self.install(r'.\grpc_csharp_plugin.pdb bin')
         self.install(r'.\LICENSE share\doc\grpc')
 
 @project_add
