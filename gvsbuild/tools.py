@@ -211,3 +211,24 @@ class Tool_yasm(Tool):
 
     def get_path(self):
         return self.yasm_path
+
+@tool_add
+class Tool_go(Tool):
+    def __init__(self):
+        Tool.__init__(self,
+            'go',
+            archive_url = 'https://dl.google.com/go/go1.10.windows-amd64.zip',
+            hash = '210b223031c254a6eb8fa138c3782b23af710a9959d64b551fa81edd762ea167')
+
+    def load_defaults(self, builder):
+        Tool.load_defaults(self, builder)
+        self.go_dir = os.path.join(self.build_dir, 'go')
+        self.go_path = os.path.join(self.go_dir, 'bin')
+
+    def unpack(self):
+        # We download directly the exe file so we copy it on the tool directory ...
+        destfile = os.path.join(self.go_path, 'go.exe')
+        extract_exec(self.archive_file, self.build_dir, check_file = destfile, check_mark=True)
+
+    def get_path(self):
+        return self.go_path

@@ -1,0 +1,225 @@
+From 1c5ad367b3f1690b6a8e6e47cb2b27a13f62d55e Mon Sep 17 00:00:00 2001
+From: Mehrdad Montazeri <mmontaze@amazon.com>
+Date: Tue, 20 Feb 2018 02:16:44 -0800
+Subject: [PATCH] removing extra plugins
+
+---
+ CMakeLists.txt | 181 ---------------------------------------------------------
+ 1 file changed, 181 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 3e1e7f2321..02d3a1ca8f 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -182,11 +182,6 @@ add_custom_target(plugins
+   DEPENDS
+   grpc_cpp_plugin
+   grpc_csharp_plugin
+-  grpc_node_plugin
+-  grpc_objective_c_plugin
+-  grpc_php_plugin
+-  grpc_python_plugin
+-  grpc_ruby_plugin
+ )
+ 
+ add_custom_target(tools_c
+@@ -1130,7 +1125,6 @@ if (gRPC_INSTALL)
+   )
+ endif()
+ 
+-
+ add_library(grpc_cronet
+   src/core/lib/surface/init.cc
+   src/core/lib/backoff/backoff.cc
+@@ -3910,11 +3904,6 @@ endif (gRPC_BUILD_TESTS)
+ add_library(grpc_plugin_support
+   src/compiler/cpp_generator.cc
+   src/compiler/csharp_generator.cc
+-  src/compiler/node_generator.cc
+-  src/compiler/objective_c_generator.cc
+-  src/compiler/php_generator.cc
+-  src/compiler/python_generator.cc
+-  src/compiler/ruby_generator.cc
+ )
+ 
+ if(WIN32 AND MSVC)
+@@ -10044,176 +10033,6 @@ if (gRPC_INSTALL)
+   )
+ endif()
+ 
+-
+-add_executable(grpc_node_plugin
+-  src/compiler/node_plugin.cc
+-)
+-
+-
+-target_include_directories(grpc_node_plugin
+-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
+-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
+-  PRIVATE ${_gRPC_SSL_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_PROTOBUF_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_ZLIB_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_BENCHMARK_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_CARES_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_GFLAGS_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_PROTO_GENS_DIR}
+-)
+-
+-target_link_libraries(grpc_node_plugin
+-  ${_gRPC_PROTOBUF_PROTOC_LIBRARIES}
+-  ${_gRPC_PROTOBUF_LIBRARIES}
+-  ${_gRPC_ALLTARGETS_LIBRARIES}
+-  grpc_plugin_support
+-)
+-
+-
+-if (gRPC_INSTALL)
+-  install(TARGETS grpc_node_plugin EXPORT gRPCTargets
+-    RUNTIME DESTINATION ${gRPC_INSTALL_BINDIR}
+-    LIBRARY DESTINATION ${gRPC_INSTALL_LIBDIR}
+-    ARCHIVE DESTINATION ${gRPC_INSTALL_LIBDIR}
+-  )
+-endif()
+-
+-
+-add_executable(grpc_objective_c_plugin
+-  src/compiler/objective_c_plugin.cc
+-)
+-
+-
+-target_include_directories(grpc_objective_c_plugin
+-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
+-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
+-  PRIVATE ${_gRPC_SSL_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_PROTOBUF_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_ZLIB_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_BENCHMARK_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_CARES_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_GFLAGS_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_PROTO_GENS_DIR}
+-)
+-
+-target_link_libraries(grpc_objective_c_plugin
+-  ${_gRPC_PROTOBUF_PROTOC_LIBRARIES}
+-  ${_gRPC_PROTOBUF_LIBRARIES}
+-  ${_gRPC_ALLTARGETS_LIBRARIES}
+-  grpc_plugin_support
+-)
+-
+-
+-if (gRPC_INSTALL)
+-  install(TARGETS grpc_objective_c_plugin EXPORT gRPCTargets
+-    RUNTIME DESTINATION ${gRPC_INSTALL_BINDIR}
+-    LIBRARY DESTINATION ${gRPC_INSTALL_LIBDIR}
+-    ARCHIVE DESTINATION ${gRPC_INSTALL_LIBDIR}
+-  )
+-endif()
+-
+-
+-add_executable(grpc_php_plugin
+-  src/compiler/php_plugin.cc
+-)
+-
+-
+-target_include_directories(grpc_php_plugin
+-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
+-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
+-  PRIVATE ${_gRPC_SSL_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_PROTOBUF_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_ZLIB_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_BENCHMARK_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_CARES_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_GFLAGS_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_PROTO_GENS_DIR}
+-)
+-
+-target_link_libraries(grpc_php_plugin
+-  ${_gRPC_PROTOBUF_PROTOC_LIBRARIES}
+-  ${_gRPC_PROTOBUF_LIBRARIES}
+-  ${_gRPC_ALLTARGETS_LIBRARIES}
+-  grpc_plugin_support
+-)
+-
+-
+-if (gRPC_INSTALL)
+-  install(TARGETS grpc_php_plugin EXPORT gRPCTargets
+-    RUNTIME DESTINATION ${gRPC_INSTALL_BINDIR}
+-    LIBRARY DESTINATION ${gRPC_INSTALL_LIBDIR}
+-    ARCHIVE DESTINATION ${gRPC_INSTALL_LIBDIR}
+-  )
+-endif()
+-
+-
+-add_executable(grpc_python_plugin
+-  src/compiler/python_plugin.cc
+-)
+-
+-
+-target_include_directories(grpc_python_plugin
+-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
+-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
+-  PRIVATE ${_gRPC_SSL_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_PROTOBUF_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_ZLIB_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_BENCHMARK_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_CARES_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_GFLAGS_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_PROTO_GENS_DIR}
+-)
+-
+-target_link_libraries(grpc_python_plugin
+-  ${_gRPC_PROTOBUF_PROTOC_LIBRARIES}
+-  ${_gRPC_PROTOBUF_LIBRARIES}
+-  ${_gRPC_ALLTARGETS_LIBRARIES}
+-  grpc_plugin_support
+-)
+-
+-
+-if (gRPC_INSTALL)
+-  install(TARGETS grpc_python_plugin EXPORT gRPCTargets
+-    RUNTIME DESTINATION ${gRPC_INSTALL_BINDIR}
+-    LIBRARY DESTINATION ${gRPC_INSTALL_LIBDIR}
+-    ARCHIVE DESTINATION ${gRPC_INSTALL_LIBDIR}
+-  )
+-endif()
+-
+-
+-add_executable(grpc_ruby_plugin
+-  src/compiler/ruby_plugin.cc
+-)
+-
+-
+-target_include_directories(grpc_ruby_plugin
+-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
+-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
+-  PRIVATE ${_gRPC_SSL_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_PROTOBUF_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_ZLIB_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_BENCHMARK_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_CARES_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_GFLAGS_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_PROTO_GENS_DIR}
+-)
+-
+-target_link_libraries(grpc_ruby_plugin
+-  ${_gRPC_PROTOBUF_PROTOC_LIBRARIES}
+-  ${_gRPC_PROTOBUF_LIBRARIES}
+-  ${_gRPC_ALLTARGETS_LIBRARIES}
+-  grpc_plugin_support
+-)
+-
+-
+-if (gRPC_INSTALL)
+-  install(TARGETS grpc_ruby_plugin EXPORT gRPCTargets
+-    RUNTIME DESTINATION ${gRPC_INSTALL_BINDIR}
+-    LIBRARY DESTINATION ${gRPC_INSTALL_LIBDIR}
+-    ARCHIVE DESTINATION ${gRPC_INSTALL_LIBDIR}
+-  )
+-endif()
+-
+ if (gRPC_BUILD_TESTS)
+ 
+ add_executable(grpc_tool_test
+-- 
+2.16.1.windows.1
+
