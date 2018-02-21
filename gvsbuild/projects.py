@@ -520,13 +520,15 @@ class Project_grpc(GitRepo, CmakeProject):
             'grpc',
             repo_url = 'https://github.com/grpc/grpc.git',
             fetch_submodules = True,
-            tag = 'v1.8.6',
-            dependencies = ['nuget', 'protobuf', 'perl', 'zlib', 'openssl', 'yasm'],
+            tag = 'v1.9.1',
+            dependencies = ['go', 'nuget', 'protobuf', 'perl', 'zlib', 'yasm'],
             patches = ['0001-removing-extra-plugins.patch'],
             )
 
     def build(self):
-        CmakeProject.build(self, cmake_params='-DgRPC_ZLIB_PROVIDER=package -DgRPC_SSL_PROVIDER=package -DgRPC_PROTOBUF_PROVIDER=package', use_ninja=True, out_of_source=False)
+        CmakeProject.build(self, use_ninja=True, out_of_source=False)
+        self.install(r'.\third_party\boringssl\ssl\ssl.lib lib')
+        self.install(r'.\third_party\boringssl\\crypto\\crypto.lib lib')
         self.install(r'.\gpr.lib lib')
         self.install(r'.\grpc.lib lib')
         self.install(r'.\grpc++.lib lib')
