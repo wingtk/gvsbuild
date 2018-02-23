@@ -526,7 +526,7 @@ class Project_grpc(GitRepo, CmakeProject):
             )
 
     def build(self):
-        CmakeProject.build(self, use_ninja=True, out_of_source=False)
+        CmakeProject.build(self, cmake_params='-DgRPC_ZLIB_PROVIDER=package -DgRPC_PROTOBUF_PROVIDER=package', use_ninja=True, out_of_source=False)
         self.install(r'.\third_party\boringssl\ssl\ssl.lib lib')
         self.install(r'.\third_party\boringssl\\crypto\\crypto.lib lib')
         self.install(r'.\gpr.lib lib')
