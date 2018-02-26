@@ -411,8 +411,8 @@ class Project_glib_openssl(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'glib-openssl',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib-openssl/2.50/glib-openssl-2.50.6.tar.xz',
-            hash = '1703a1da93911cf7f386e5fd9f82b803a150448e257db749166c0c3a1b5d3880',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib-openssl/2.50/glib-openssl-2.50.7.tar.xz',
+            hash = 'b3e573f745df875045c85144fb4b2dedc2e9f1621eee320feefb4cfcf70be17a',
             dependencies = ['pkg-config', 'ninja', 'meson', 'glib', 'openssl'],
             )
 
