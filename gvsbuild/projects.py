@@ -336,6 +336,9 @@ class Project_gdk_pixbuf(Tarball, Meson):
         Meson.build(self, meson_params='-Djasper=true -Dnative_windows_loaders=true -Dgir=false -Dman=false')
         self.install(r'.\COPYING share\doc\gdk-pixbuf')
 
+    def post_install(self):
+        self.exec_cmd(r'%(gtk_dir)s\bin\gdk-pixbuf-query-loaders.exe --update-cache')
+
 @project_add
 class Project_gettext(Tarball, Project):
     def __init__(self):
