@@ -1518,6 +1518,35 @@ class Project_check_libs(NullExpander, Meson):
         Meson.build(self, make_tests=True)
         self.install(r'.\COPYING share\doc\check-libs')
 
+
+@project_add
+class Project_lgi(GitRepo, Project):
+    def __init__(self):
+        GitRepo.__init__(self)
+        Project.__init__(self,
+            'lgi',
+            repo_url='https://github.com/pavouk/lgi.git',
+            fetch_submodules=False,
+            tag='2dd5db9678913ba08e54931b59cd97e550c7459e',
+            dependencies=['luajit', 'gobject-introspection'],
+            patches=['fix-loading-non-libtool-style-libs.patch'],
+        )
+
+    def build(self):
+        self.push_location('lgi')
+
+        self.exec_vs(r'nmake -f .\Makefile-msvc.mak corelgilua51.dll version.lua PREFIX="%(gtk_dir)s')
+
+        self.install(r'corelgilua51.dll lib\lua\lgi')
+        self.install(r'.\*.lua share\lua\lgi')
+        self.install(r'.\override\*.lua share\lua\lgi\override')
+
+        self.pop_location()
+
+        self.install(r'LICENSE share\doc\lgi')
+        self.install(r'lgi.lua share\lua')
+
+
 @project_add
 class Project_dev_shell(Project):
     def __init__(self):
