@@ -1,0 +1,41 @@
+From 0b862348ad8987716e0484ec104545bb6e81fdce Mon Sep 17 00:00:00 2001
+From: Patrick Griffis <tingping@tingping.se>
+Date: Tue, 6 Mar 2018 13:09:07 +0000
+Subject: [PATCH] Fix loading non-libtool style libs on Windows
+
+---
+ lgi/core.c             | 4 ++--
+ lgi/override/cairo.lua | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/lgi/core.c b/lgi/core.c
+index 8b06c17..e8857fd 100644
+--- a/lgi/core.c
++++ b/lgi/core.c
+@@ -514,8 +514,8 @@ static const struct luaL_Reg module_reg[] = {
+ #define MODULE_NAME_FORMAT_VERSION "cyg%s-%d.dll"
+ #define MODULE_NAME_FORMAT_PLAIN "cyg%s.dll"
+ #elif defined(G_OS_WIN32)
+-#define MODULE_NAME_FORMAT_VERSION "lib%s-%d.dll"
+-#define MODULE_NAME_FORMAT_PLAIN "lib%s.dll"
++#define MODULE_NAME_FORMAT_VERSION "%s.dll"
++#define MODULE_NAME_FORMAT_PLAIN "%s.dll"
+ #elif defined(__APPLE__)
+ #define MODULE_NAME_FORMAT_VERSION "lib%s.%d.dylib"
+ #define MODULE_NAME_FORMAT_PLAIN "lib%s.dylib"
+diff --git a/lgi/override/cairo.lua b/lgi/override/cairo.lua
+index 6d3eea2..2b2903d 100644
+--- a/lgi/override/cairo.lua
++++ b/lgi/override/cairo.lua
+@@ -49,7 +49,7 @@ for _, name in pairs {
+ end
+ 
+ -- Load libcairo.so directly; this has to happen after the typelib was used
+-cairo._module = core.module('cairo', 2)
++cairo._module = core.module('cairo')
+ 
+ -- Versioning support.
+ function cairo.version_encode(major, minor, micro)
+-- 
+2.16.1
+
