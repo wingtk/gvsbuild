@@ -463,7 +463,7 @@ class Project_gobject_introspection(GitRepo, Meson):
 
         old_inc = None
         if add_meson:
-            # include 
+            # include
             add_inc = r'%s\%s-meson' % (self.builder.working_dir, prj_dir, )
             old_inc = self.builder.mod_env('INCLUDE', add_inc, prepend=False)
             print("Include add: %s" % (add_inc, ))
@@ -1457,6 +1457,34 @@ class Project_pygtk(GitRepo, CmakeProject):
                          )
 
 @project_add
+class Project_luajit(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'luajit',
+            archive_url = 'http://luajit.org/download/LuaJIT-2.1.0-beta3.tar.gz',
+            hash = '1ad2e34b111c802f9d0cdf019e986909123237a28c746b21295b63c9e785d9c3',
+            patches = ['set-paths.patch'],
+            )
+
+    def build(self):
+        option = ''
+        if self.builder.opts.configuration == 'debug':
+            option = 'debug'
+
+        self.push_location('src')
+
+        self.exec_vs(r'.\msvcbuild ' + option)
+
+        self.install(r'.\lua.h .\lualib.h .\luaconf.h .\lauxlib.h .\luajit.h include\luajit-2.1')
+        self.install(r'.\luajit.exe .\lua51.dll .\lua51.pdb bin')
+        self.install(r'.\lua51.lib lib')
+
+        self.pop_location()
+
+        self.install(r'.\etc\luajit.pc lib\pkgconfig')
+        self.install(r'.\README .\COPYRIGHT share\doc\luajit')
+
+@project_add
 class Project_check_libs(NullExpander, Meson):
     def __init__(self):
         Project.__init__(self,
@@ -1514,4 +1542,3 @@ class Project_dev_shell(Project):
         self.builder.mod_env('GTK_BASE_DIR', self.builder.gtk_dir)
         self.builder.mod_env('PROMPT', '[ gvsbuild shell ] $P $G', subst=True)
         self.builder.exec_vs("cmd", working_dir=self.builder.working_dir)
-

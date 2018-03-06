@@ -1,0 +1,21 @@
+--- luajit.orig/src/luaconf.h	2015-05-14 11:30:00.000000000 -0700
++++ luajit/src/luaconf.h	2016-04-07 16:41:19.903401700 -0700
+@@ -18,12 +18,14 @@
+ ** In Windows, any exclamation mark ('!') in the path is replaced by the
+ ** path of the directory of the executable file of the current process.
+ */
+-#define LUA_LDIR	"!\\lua\\"
+-#define LUA_CDIR	"!\\"
++#define LUA_LDIR1	"!\\share\\lua\\"
++#define LUA_LDIR2	"!\\..\\share\\lua\\"
++#define LUA_CDIR1	"!\\lib\\lua\\"
++#define LUA_CDIR2	"!\\..\\lib\\lua\\"
+ #define LUA_PATH_DEFAULT \
+-  ".\\?.lua;" LUA_LDIR"?.lua;" LUA_LDIR"?\\init.lua;"
++  ".\\?.lua;" LUA_LDIR1"?.lua;" LUA_LDIR1"?\\init.lua;" LUA_LDIR2"?.lua;" LUA_LDIR2"?\\init.lua;"
+ #define LUA_CPATH_DEFAULT \
+-  ".\\?.dll;" LUA_CDIR"?.dll;" LUA_CDIR"loadall.dll"
++  ".\\?.dll;" LUA_CDIR1"?.dll;" LUA_CDIR1"loadall.dll;" LUA_CDIR2"?.dll;" LUA_CDIR2"loadall.dll;"
+ #else
+ /*
+ ** Note to distribution maintainers: do NOT patch the following lines!
