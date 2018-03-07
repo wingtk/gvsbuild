@@ -1412,16 +1412,25 @@ class Project_zlib(Tarball, Project):
         self.install(r'.\README share\doc\zlib')
 
 @project_add
-class Project_pycairo(GitRepo, CmakeProject):
+class Project_pycairo(Tarball, Project):
     def __init__(self):
-        GitRepo.__init__(self)
         Project.__init__(self,
-                         'pycairo',
-                         repo_url='git://github.com/muntyan/pycairo-gtk-win32.git',
-                         fetch_submodules = False,
-                         tag = None,
-                         dependencies = ['cmake', 'cairo'],
-                         )
+            'pycairo',
+            archive_url = 'https://github.com/pygobject/pycairo/releases/download/v1.16.3/pycairo-1.16.3.tar.gz',
+            hash = '5bb321e5d4f8b3a51f56fc6a35c143f1b72ce0d748b43d8b623596e8215f01f7',
+            dependencies = ['cairo', 'python'],
+            )
+
+    def build(self):
+        cairo_inc = os.path.join(self.builder.gtk_dir, 'include', 'cairo')
+        old_inc = self.builder.mod_env('INCLUDE', cairo_inc)
+        self.push_location(self.build_dir)
+        self.exec_vs(r'%(python_dir)s\python.exe setup.py install')
+        self.install(r'.\COPYING share\doc\pycairo')
+        self.install(r'.\COPYING-LGPL-2.1 share\doc\pycairo')
+        self.install(r'.\COPYING-MPL-1.1 share\doc\pycairo')
+        self.pop_location()
+        self.builder.restore_env(old_inc)
 
 @project_add
 class Project_pygobject(GitRepo, CmakeProject):
