@@ -1433,16 +1433,29 @@ class Project_pycairo(Tarball, Project):
         self.builder.restore_env(old_inc)
 
 @project_add
-class Project_pygobject(GitRepo, CmakeProject):
+class Project_pygobject(Tarball, Project):
     def __init__(self):
-        GitRepo.__init__(self)
         Project.__init__(self,
-                         'pygobject',
-                         repo_url='git://github.com/muntyan/pygobject-gtk-win32.git',
-                         fetch_submodules = False,
-                         tag = None,
-                         dependencies = ['cmake', 'glib'],
-                         )
+            'pygobject',
+            archive_url = 'https://ftp.acc.umu.se/pub/GNOME/sources/pygobject/3.27/pygobject-3.27.5.tar.xz',
+            hash = '3e57f42a48f7e762a791ccec2514894945829dc1e70caeea0252505cbddbeda4',
+            dependencies = ['python', 'pycairo', 'gobject-introspection', 'libffi'],
+            )
+
+    def build(self):
+        gtk_dir = self.builder.gtk_dir
+        add_inc = [
+            os.path.join(gtk_dir, 'include', 'cairo'),
+            os.path.join(gtk_dir, 'include', 'gobject-introspection-1.0'),
+            os.path.join(gtk_dir, 'include', 'glib-2.0'),
+            os.path.join(gtk_dir, 'lib', 'glib-2.0', 'include'),
+        ]
+        old_inc = self.builder.mod_env('INCLUDE', ";".join(add_inc))
+        self.push_location(self.build_dir)
+        self.exec_vs(r'%(python_dir)s\python.exe setup.py install')
+        self.install(r'.\COPYING share\doc\pygobject')
+        self.pop_location()
+        self.builder.restore_env(old_inc)
 
 @project_add
 class Project_pygtk(GitRepo, CmakeProject):
