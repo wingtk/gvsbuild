@@ -1260,23 +1260,23 @@ class Project_pixman(Tarball, Project):
         self.install(r'.\COPYING share\doc\pixman')
 
 @project_add
-class Project_pkg_config(Tarball, Project):
+class Project_pkg_config(GitRepo, Meson):
     def __init__(self):
+        GitRepo.__init__(self)
         Project.__init__(self,
             'pkg-config',
-            archive_url = 'https://pkg-config.freedesktop.org/releases/pkg-config-0.29.2.tar.gz',
-            hash = '6fc69c01688c9458a57eb9a1664c9aba372ccda420a02bf4429fe610e7e7d591',
-            dependencies = [ 'glib', ],
+            repo_url = 'https://github.com/pkgconf/pkgconf.git',
+            fetch_submodules = False,
+            tag = 'a50bf726e093e108e78e4901577e566d44aa2e2e',
+            dependencies = ['ninja', 'meson'],
             )
 
     def build(self):
-        self.exec_vs(r'nmake /nologo /f Makefile.vc CFG=%(configuration)s GLIB_PREFIX="%(gtk_dir)s"')
+        Meson.build(self, meson_params='-Dtests=false')
+        self.install(r'.\COPYING share\doc\pkgconf')
 
-        bin_dir = r'.\%s\%s' % (self.builder.opts.configuration, self.builder.opts.platform, )
-        self.install(bin_dir + r'\pkg-config.exe bin')
-        self.install(bin_dir + r'\pkg-config.pdb bin')
-
-        self.install(r'.\COPYING share\doc\pkg-config')
+    def post_install(self):
+        self.exec_cmd(r'copy %(gtk_dir)s\bin\pkgconf.exe %(gtk_dir)s\bin\pkg-config.exe')
 
 @project_add
 class Project_portaudio(Tarball, CmakeProject):
