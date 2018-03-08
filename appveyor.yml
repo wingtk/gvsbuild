@@ -1,0 +1,24 @@
+clone_folder: C:\gtk-build\github\gvsbuild
+
+matrix:
+  fast_finish: true
+
+environment:
+  global:
+    DOWNLOAD_DIR: _download_cache
+    APPVEYOR_SAVE_CACHE_ON_ERROR: true
+    PATH: C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Program Files\Git\cmd
+  matrix:
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      VS_VER: "14"
+      PLATFORM: "x86"
+
+build_script:
+  - C:\Python36\python.exe build.py build --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% gtk3
+
+cache:
+  - '%DOWNLOAD_DIR%'
+
+deploy: off
+
+test: off
