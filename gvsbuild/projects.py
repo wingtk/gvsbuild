@@ -1046,28 +1046,17 @@ class Project_libuv(Tarball, Project):
         self.install(r'.\LICENSE share\doc\libuv')
 
 @project_add
-class Project_libxml2(Tarball, Project):
+class Project_libxml2(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'libxml2',
             archive_url = 'ftp://xmlsoft.org/libxml2/libxml2-2.9.8.tar.gz',
             hash = '0b74e51595654f958148759cfef0993114ddccccbb6f31aee018f3558e8e2732',
-            dependencies = ['win-iconv'],
+            dependencies = ['win-iconv', 'meson', 'ninja'],
             )
 
     def build(self):
-        shutil.copy(os.path.join(self._get_working_dir(), 'include', 'win32config.h'),
-                    os.path.join(self._get_working_dir(), 'config.h'))
-
-        lib = ';'.join([self.builder.vs_env['LIB'],
-                        os.path.join(self.builder.gtk_dir, 'lib')])
-
-        nmake_config = 'DEBUG=1' if self.builder.opts.configuration == 'debug' else 'DEBUG=0'
-        self.push_location(r'.\win32')
-        self.exec_vs(r'nmake /nologo /f Makefile.msvc WITH_ICONV=1 LIB="%s" PREFIX="%s" %s' % (lib, self.builder.gtk_dir, nmake_config))
-        self.exec_vs(r'nmake /nologo /f Makefile.msvc install LIB="%s" PREFIX="%s" %s' % (lib, self.builder.gtk_dir, nmake_config))
-        self.pop_location()
-
+        Meson.build(self)
         self.install(r'.\COPYING share\doc\libxml2')
 
 @project_add
