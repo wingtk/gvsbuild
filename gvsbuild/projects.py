@@ -1050,8 +1050,8 @@ class Project_libxml2(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libxml2',
-            archive_url = 'ftp://xmlsoft.org/libxml2/libxml2-2.9.7.tar.gz',
-            hash = 'f63c5e7d30362ed28b38bfa1ac6313f9a80230720b7fb6c80575eeab3ff5900c',
+            archive_url = 'ftp://xmlsoft.org/libxml2/libxml2-2.9.8.tar.gz',
+            hash = '0b74e51595654f958148759cfef0993114ddccccbb6f31aee018f3558e8e2732',
             dependencies = ['win-iconv'],
             )
 
