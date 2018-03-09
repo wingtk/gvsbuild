@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/yho8d4pf4j5mxoen/branch/master?svg=true)](https://ci.appveyor.com/project/lazka/gvsbuild-yumfb/branch/master)
+
 ## Goals
 
 This python script helps you build a full GTK+ library stack for Windows using Visual Studio.
