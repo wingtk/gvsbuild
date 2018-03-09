@@ -1142,7 +1142,7 @@ class Project_openssl(Tarball, Project):
             )
 
     def build(self):
-        common_options = r'no-ssl2 no-ssl3 no-comp --prefix="%(pkg_dir)s"'
+        common_options = r'no-ssl2 no-ssl3 no-comp --openssldir=./'
         add_path = None
 
         debug_option = ''
@@ -1171,10 +1171,20 @@ class Project_openssl(Tarball, Project):
         self.exec_vs(r'%(perl_dir)s\bin\perl.exe mk-ca-bundle.pl -n cert.pem')
         self.exec_vs(r'nmake /nologo -f ms\ntdll.mak install', add_path=add_path)
 
-        self.install(r'.\cert.pem bin')
-        self.install(r'.\openssl.cnf share')
-        self.install(r'.\LICENSE share\doc\openssl\COPYING')
+        self.install(r'.\bin\* .\cert.pem bin')
+        self.install(r'.\LICENSE share\doc\openssl')
         self.install(r'.\pc-files\* lib\pkgconfig')
+        self.install(r'include\* include')
+
+        self.install(r'lib\* lib')
+
+        self.push_location(r'.\out32dll')
+        self.install('libeay32.pdb openssl.pdb ssleay32.pdb bin')
+        self.install(r'''.\out32dll\4758cca.pdb .\out32dll\aep.pdb .\out32dll\atalla.pdb .\out32dll\capi.pdb
+                         .\out32dll\chil.pdb lib\engines .\out32dll\cswift.pdb .\out32dll\gmp.pdb
+                         .\out32dll\gost.pdb .\out32dll\nuron.pdb .\out32dll\padlock.pdb .\out32dll\sureware.pdb
+		                 .\out32dll\ubsec.pdb lib\engines''')
+        self.pop_location()
 
 @project_add
 class Project_opus(Tarball, Project):
