@@ -301,6 +301,7 @@ class Project_fontconfig(Tarball, Project):
         self.install('fontconfig.lib', 'lib')
         self.pop_location()
 
+        self.install(r'.\fontconfig.pc lib\pkgconfig')
         self.install(r'.\COPYING share\doc\fontconfig')
 
 @project_add
