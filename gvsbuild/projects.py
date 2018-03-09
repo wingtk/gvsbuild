@@ -588,7 +588,14 @@ class Project_gtk(Project_gtk_base):
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/2.24/gtk+-2.24.31.tar.xz',
             hash = '68c1922732c7efc08df4656a5366dcc3afdc8791513400dac276009b40954658',
             dependencies = ['atk', 'gdk-pixbuf', 'pango'],
-            patches = ['gtk-revert-scrolldc-commit.patch', 'gtk-bgimg.patch', 'gtk-accel.patch', 'gtk-multimonitor.patch'],
+            patches = ['gtk-revert-scrolldc-commit.patch', 'gtk-bgimg.patch', 'gtk-accel.patch',
+                       # https://github.com/hexchat/hexchat/issues/1007
+                       'gtk-multimonitor.patch',
+                       # These two will be in 2.24.33
+                       'bfdac2f70e005b2504cc3f4ebbdab328974d005a.patch', '61162225f712df648f38fd12bc0817cfa9f79a64.patch',
+                       # https://github.com/hexchat/hexchat/issues/2077
+                       '0001-GDK-W32-Remove-WS_EX_LAYERED-from-an-opaque-window.patch',
+                       ],
             )
 
     def build(self):
