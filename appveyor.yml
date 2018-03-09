@@ -9,12 +9,21 @@ environment:
     APPVEYOR_SAVE_CACHE_ON_ERROR: true
     PATH: C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Program Files\Git\cmd
   matrix:
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       VS_VER: "14"
       PLATFORM: "x86"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      VS_VER: "14"
+      PLATFORM: "x64"
 
 build_script:
-  - C:\Python36\python.exe build.py build --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% gtk3
+  - C:\Python36\python.exe build.py build --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% --skip clutter,gtksourceview3,emeus gtk3-full
+  - set PATH=%PATH%;C:\msys64\usr\bin
+  - IF "%PLATFORM%"=="x86" tar.exe -zcf gvsbuild-vs%VS_VER%-%PLATFORM%.tar.gz -C /c/gtk-build/gtk/Win32 release
+  - IF "%PLATFORM%"=="x64" tar.exe -zcf gvsbuild-vs%VS_VER%-%PLATFORM%.tar.gz -C /c/gtk-build/gtk/x64 release
+
+artifacts:
+  - path: gvsbuild-vs%VS_VER%-%PLATFORM%.tar.gz
 
 cache:
   - '%DOWNLOAD_DIR%'
