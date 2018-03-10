@@ -1,18 +1,24 @@
---- "orig\\meson.build"	2017-12-06 16:50:52.499102700 +0100
-+++ "gobject-introspection\\meson.build"	2017-12-06 16:54:05.752593500 +0100
-@@ -48,8 +48,13 @@
-   output: 'config.h'
- )
+From 81df8972b881f3e317dfd9007e35dbd860924a5b Mon Sep 17 00:00:00 2001
+From: Patrick Griffis <tingping@tingping.se>
+Date: Sat, 10 Mar 2018 14:41:34 +0000
+Subject: [PATCH] Support older glib
 
--# Always bumped to match our version
--glib_version = '>=2.@0@.@1@'.format(gi_versions[1], gi_versions[2])
-+if host_system != 'windows'
-+  # Always bumped to match our version
-+  glib_version = '>=2.@0@.@1@'.format(gi_versions[1], gi_versions[2])
-+else
-+  # windows, for now we have 2.52 & 2.54
-+  glib_version = '>=2.52'
-+endif
+---
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meson.build b/meson.build
+index 0e8b22fc..7a12a9b6 100644
+--- a/meson.build
++++ b/meson.build
+@@ -50,7 +50,7 @@ configure_file(
+
+ # FIXME: Always bumped to match our version
+ #glib_version = '>=2.@0@.@1@'.format(gi_versions[1], gi_versions[2])
+-glib_version = '>= 2.55.1'
++glib_version = '>= 2.54.0'
 
  glib_dep = dependency('glib-2.0', version : glib_version,
    fallback: ['glib', 'libglib_dep'])
+--
+2.16.2.windows.1

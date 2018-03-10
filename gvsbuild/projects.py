@@ -432,7 +432,7 @@ class Project_gobject_introspection(GitRepo, Meson):
             'gobject-introspection',
             repo_url = 'https://git.gnome.org/browse/gobject-introspection',
             fetch_submodules = False,
-            tag = 'wip/meson',
+            tag = 'master',
             dependencies = [
                 'ninja',
                 'meson',
