@@ -63,7 +63,7 @@ def get_options(args):
     if not opts.archives_download_dir:
         opts.archives_download_dir = os.path.join(args.build_dir, 'src')
     if not opts.patches_root_dir:
-        opts.patches_root_dir = sys.path[0]
+        opts.patches_root_dir = os.path.join(sys.path[0], 'patches')
     if not opts.tools_root_dir:
         opts.tools_root_dir = os.path.join(args.build_dir, 'tools')
     if not opts.vs_install_path:
