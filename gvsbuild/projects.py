@@ -779,7 +779,7 @@ class Project_libffi(GitRepo, Meson):
             'libffi',
             repo_url = 'https://github.com/centricular/libffi.git',
             fetch_submodules = False,
-            tag = None,
+            tag = 'meson-1.14',
             dependencies = ['python', 'ninja', 'meson'],
             )
 
