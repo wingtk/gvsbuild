@@ -321,6 +321,21 @@ class Project_freetype(Tarball, Project):
         self.install(r'.\docs\LICENSE.TXT share\doc\freetype')
 
 @project_add
+class Project_fribidi(GitRepo, Meson):
+    def __init__(self):
+        Project.__init__(self,
+            'fribidi',
+            repo_url = 'https://github.com/fribidi/fribidi.git',
+            fetch_submodules = False,
+            tag = 'f2c9d50722cb60d0cdec3b1bafba9029770e86b4',
+            dependencies = ['ninja', 'meson'],
+            )
+
+    def build(self):
+        Meson.build(self, meson_params='-Ddocs=false')
+        self.install(r'.\COPYING share\doc\fribidi')
+
+@project_add
 class Project_gdk_pixbuf(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
