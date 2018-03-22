@@ -604,8 +604,8 @@ class Project_gtk(Project_gtk_base):
             hash = '68c1922732c7efc08df4656a5366dcc3afdc8791513400dac276009b40954658',
             dependencies = ['atk', 'gdk-pixbuf', 'pango'],
             patches = ['gtk-revert-scrolldc-commit.patch', 'gtk-bgimg.patch', 'gtk-accel.patch',
-                       # https://github.com/hexchat/hexchat/issues/1423
-                       'gtkstatusicon-dpichange.patch',
+                       # https://github.com/hexchat/hexchat/issues/1007
+                       'gtk-multimonitor.patch',
                        # These two will be in 2.24.33
                        'bfdac2f70e005b2504cc3f4ebbdab328974d005a.patch', '61162225f712df648f38fd12bc0817cfa9f79a64.patch',
                        # https://github.com/hexchat/hexchat/issues/2077
