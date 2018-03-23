@@ -12,12 +12,14 @@ environment:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       VS_VER: "14"
       PLATFORM: "x86"
+      PYTHON: C:\Python36\python.exe
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       VS_VER: "14"
       PLATFORM: "x64"
+      PYTHON: C:\Python36-x64\python.exe
 
 build_script:
-  - C:\Python36\python.exe build.py build --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% --skip clutter,gtksourceview3,emeus gtk3-full gtk pycairo
+  - "%PYTHON% build.py build --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% --skip clutter,gtksourceview3,emeus gtk3-full gtk pycairo"
   - set PATH=%PATH%;C:\msys64\usr\bin
   - IF "%PLATFORM%"=="x86" tar.exe -zcf gvsbuild-vs%VS_VER%-%PLATFORM%.tar.gz -C /c/gtk-build/gtk/Win32 release
   - IF "%PLATFORM%"=="x64" tar.exe -zcf gvsbuild-vs%VS_VER%-%PLATFORM%.tar.gz -C /c/gtk-build/gtk/x64 release
