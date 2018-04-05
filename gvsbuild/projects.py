@@ -1152,8 +1152,8 @@ class Project_openssl(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'openssl',
-            archive_url = 'ftp://ftp.openssl.org/source/openssl-1.0.2n.tar.gz',
-            hash = '370babb75f278c39e0c50e8c4e7493bc0f18db6867478341a832a982fd15a8fe',
+            archive_url = 'ftp://ftp.openssl.org/source/openssl-1.0.2o.tar.gz',
+            hash = 'ec3f5c9714ba0fd45cb4e087301eb1336c317e0d20b575a125050470e8089e4d',
             dependencies = ['perl', 'nasm', ],
             )
 
