@@ -305,18 +305,17 @@ class Project_fontconfig(Tarball, Project):
         self.install(r'.\COPYING share\doc\fontconfig')
 
 @project_add
-class Project_freetype(Tarball, Project):
+class Project_freetype(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'freetype',
-            archive_url = 'http://download.savannah.gnu.org/releases/freetype/freetype-2.8.1.tar.gz',
-            hash = '876711d064a6a1bd74beb18dd37f219af26100f72daaebd2d86cb493d7cd7ec6',
+            archive_url = 'http://git.savannah.gnu.org/cgit/freetype/freetype2.git/snapshot/freetype2-098dd70cb1845b8c325ef4801c5f2e09e476b1ed.tar.gz',
+            hash = 'c891891164a716acbcf7137585c2ef1bc27599d2815b3c099a31d6a5a2e67a72',
+            dependencies = ['pkg-config', 'ninja', 'libpng'],
             )
 
     def build(self):
-        self.exec_msbuild(r'builds\windows\vc%(vs_ver)s\freetype.vcxproj')
-        self.install_dir(r'.\include')
-        self.install(r'.\objs\%(platform)s\freetype.lib lib')
+        CmakeProject.build(self, cmake_params='-DWITH_ZLIB=ON -DWITH_PNG=ON -DDISABLE_FORCE_DEBUG_POSTFIX=ON -DBUILD_SHARED_LIBS=ON', use_ninja=True)
         self.install(r'.\pc-files\* lib\pkgconfig')
         self.install(r'.\docs\LICENSE.TXT share\doc\freetype')
 
