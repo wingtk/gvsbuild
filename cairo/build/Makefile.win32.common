@@ -60,7 +60,7 @@ ifeq ($(CAIRO_HAS_FT_FONT),1)
 ifeq ($(FREETYPE_PATH),)
 FREETYPE_PATH := $(INSTALL_DIR)
 endif
-FREETYPE_CFLAGS += -I$(FREETYPE_PATH)/include
+FREETYPE_CFLAGS += -I$(FREETYPE_PATH)/include/freetype2
 CAIRO_LIBS +=  $(FREETYPE_PATH)/lib/freetype.lib
 endif
 
