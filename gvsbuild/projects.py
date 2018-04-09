@@ -380,23 +380,18 @@ class Project_gettext(Tarball, Project):
         self.install(r'.\COPYING share\doc\gettext')
 
 @project_add
-class Project_glib(Tarball, Project):
+class Project_glib(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'glib',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.54/glib-2.54.3.tar.xz',
-            hash = '963fdc6685dc3da8e5381dfb9f15ca4b5709b28be84d9d05a9bb8e446abac0a8',
-            dependencies = ['gettext', 'libffi', 'zlib'],
-            patches = ['glib-if_nametoindex.patch',
-                       'glib-package-installation-directory.patch'],
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.56/glib-2.56.1.tar.xz',
+            hash = '40ef3f44f2c651c7a31aedee44259809b6f03d3d20be44545cd7d177221c0b8d',
+            dependencies = ['ninja', 'meson', 'pkg-config', 'gettext', 'libffi', 'zlib'],
+            patches = ['glib-package-installation-directory.patch'],
             )
 
     def build(self):
-        configuration = 'Release_BundledPCRE'
-        if self.builder.opts.configuration == 'debug':
-            configuration = 'Debug_BundledPCRE'
-
-        self.exec_msbuild(r'win32\vs%(vs_ver)s\glib.sln', configuration=configuration)
+        Meson.build(self, meson_params='-Dinternal_pcre=true')
         self.install(r'.\COPYING share\doc\glib')
 
 @project_add
