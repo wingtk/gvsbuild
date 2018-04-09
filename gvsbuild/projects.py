@@ -339,8 +339,8 @@ class Project_gdk_pixbuf(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'gdk-pixbuf',
-            archive_url = 'https://git.gnome.org/browse/gdk-pixbuf/snapshot/gdk-pixbuf-f38e3e2cededb3ed9d8887072a4e685d3057847e.tar.xz',
-            hash = '548d650085806379fae62e181696d4e9c29507d131ea62b75612e628c26e54ad',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.36/gdk-pixbuf-2.36.12.tar.xz',
+            hash = 'fff85cf48223ab60e3c3c8318e2087131b590fd6f1737e42cb3759a3b427a334',
             dependencies = ['ninja', 'pkg-config', 'meson', 'perl', 'libtiff-4', 'jasper', 'glib', 'libpng'],
             )
 
