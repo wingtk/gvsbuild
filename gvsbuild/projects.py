@@ -660,7 +660,7 @@ class Project_harfbuzz(Tarball, CmakeProject):
     def build(self):
         CmakeProject.build(self, cmake_params='-DHB_HAVE_FREETYPE=ON -DHB_HAVE_GLIB=ON -DHB_HAVE_GOBJECT=ON', use_ninja=True)
 
-        self.install(r'.\harfbuzz.pc lib\pkgconfig')
+        self.install(r'.\pc-files\* lib\pkgconfig')
         self.install(r'.\COPYING share\doc\harfbuzz')
 
 @project_add
