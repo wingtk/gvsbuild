@@ -956,12 +956,9 @@ class Project_libsoup(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libsoup',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.60/libsoup-2.60.3.tar.xz',
-            hash = '1b0dc762f23abe4e0d29b77370e539fd35f31d8e8e0318d6ddccff395be68a22',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.62/libsoup-2.62.1.tar.xz',
+            hash = 'f037ddac2e0f9b1c842a0060fa6119bea1d3b349a2c901283c961247e45883d7',
             dependencies = ['libxml2', 'glib-openssl', 'sqlite'],
-            patches = [
-                '0001-websocket-connection-do-not-send-new-frames-until-th.patch',
-                ],
             )
 
     def build(self):
