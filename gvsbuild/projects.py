@@ -1352,7 +1352,7 @@ class Project_win_iconv(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'win-iconv',
-            archive_url = 'http://dl.hexchat.net/gtk-win32/src/win-iconv-0.0.8.tar.gz',
+            archive_url = 'https://dl.hexchat.net/gtk-win32/src/win-iconv-0.0.8.tar.gz',
             hash = '23adea990a8303c6e69e32a64a30171efcb1b73824a1c2da1bbf576b0ae7c520',
             dependencies = ['cmake', 'ninja', ],
             )
