@@ -26,6 +26,9 @@ export PKG_CONFIG_PATH=$gtk_dir/lib/pkgconfig:$PKG_CONFIG_PATH
     --enable-decoder=h264 \
     --enable-decoder=mpeg1video \
     --enable-encoder=mpeg1video \
+    --enable-hwaccel=h264_d3d11va \
+    --enable-hwaccel=h264_d3d11va2 \
+    --enable-d3d11va \
     --enable-libx264 \
     --enable-gpl \
     --enable-encoder="libx264" \
