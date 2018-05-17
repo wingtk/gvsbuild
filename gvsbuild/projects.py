@@ -805,16 +805,14 @@ class Project_libffi(GitRepo, Meson):
         self.install(r'LICENSE share\doc\libffi')
 
 @project_add
-class Project_libgxps(Tarball, Project):
+class Project_libgxps(GitRepo, Project):
     def __init__(self):
         Project.__init__(self,
             'libgxps',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libgxps/0.3/libgxps-0.3.0.tar.xz',
-            hash = '412b1343bd31fee41f7204c47514d34c563ae34dafa4cc710897366bd6cd0fae',
+            repo_url = 'https://git.gnome.org/browse/libgxps',
+            fetch_submodules = False,
+            tag = '133fe2a96e020d4ca65c6f64fb28a404050ebbfd',
             dependencies = ['meson', 'ninja', 'pkg-config', 'glib', 'libarchive', 'cairo', 'libpng', 'libjpeg-turbo', 'libtiff-4', 'gtk3', ],
-            patches = [
-                '001-ignore-m-lib.patch',
-                ],
             )
 
     def build(self):
