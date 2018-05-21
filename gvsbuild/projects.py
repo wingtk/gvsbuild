@@ -368,7 +368,8 @@ class Project_gettext(Tarball, Project):
                        '0001-gettext-tools-src-x-lua.c-Fix-C99ism.patch',
                        '0002-gettext-tools-gnulib-lib-Declare-items-at-top-of-blo.patch',
                        '0004-gettext-runtime-intl-plural-exp.h-Match-up-declarati.patch',
-                       '0005-gettext-runtime-intl-printf-parse.c-Fix-build-on-Vis.patch'],
+                       '0005-gettext-runtime-intl-printf-parse.c-Fix-build-on-Vis.patch',
+                       '0006-gettext-intrinsics.patch'],
             )
 
     def build(self):
