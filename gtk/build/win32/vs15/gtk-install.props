@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets">
+    <Import Project="gtk-build-defines.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+    <BinDir>$(SolutionDir)$(Configuration)\$(Platform)\bin</BinDir>
+    <InstalledDlls>$(BinDir)\$(GtkDllPrefix)gdk-win32(GtkDllSuffix).dll;$(BinDir)\$(GtkDllPrefix)gtk-win32(GtkDllSuffix).dll;$(BinDir)\libwimp.dll</InstalledDlls>
+    <InstalledBins>$(BinDir)\gtk-demo.exe</InstalledBins>
+    <GtkDoInstall>
+mkdir $(CopyDir)\bin
+copy "$(BinDir)\$(GtkDllPrefix)gdk-win32$(GtkDllSuffix).dll" $(CopyDir)\bin
+copy "$(BinDir)\$(GtkDllPrefix)gdk-win32$(GtkDllSuffix).pdb" $(CopyDir)\bin
+copy "$(BinDir)\$(GtkDllPrefix)gtk-win32$(GtkDllSuffix).dll" $(CopyDir)\bin
+copy "$(BinDir)\$(GtkDllPrefix)gtk-win32$(GtkDllSuffix).pdb" $(CopyDir)\bin
+copy "$(BinDir)\$(GtkDllPrefix)gailutil$(GtkDllSuffix).dll" $(CopyDir)\bin
+copy "$(BinDir)\$(GtkDllPrefix)gailutil$(GtkDllSuffix).pdb" $(CopyDir)\bin
+copy "$(BinDir)\gtk-demo.exe" $(CopyDir)\bin
+copy "$(BinDir)\gtk-demo.pdb" $(CopyDir)\bin
+mkdir $(CopyDir)\lib
+copy "$(BinDir)\gdk-win32-$(ApiVersion).lib" $(CopyDir)\lib
+copy "$(BinDir)\gtk-win32-$(ApiVersion).lib" $(CopyDir)\lib
+copy "$(BinDir)\gailutil-$(ApiVersion).lib" $(CopyDir)\lib
+mkdir $(CopyDir)\include\gtk-$(ApiVersion)\gdk
+copy ..\..\..\gdk\gdk.h $(CopyDir)\include\gtk-2.0\gdk\gdk.h
+copy ..\..\..\gdk\gdkapplaunchcontext.h $(CopyDir)\include\gtk-2.0\gdk\gdkapplaunchcontext.h
+copy ..\..\..\gdk\gdkcairo.h $(CopyDir)\include\gtk-2.0\gdk\gdkcairo.h
+copy ..\..\..\gdk\gdkcolor.h $(CopyDir)\include\gtk-2.0\gdk\gdkcolor.h
+copy ..\..\..\gdk\gdkcursor.h $(CopyDir)\include\gtk-2.0\gdk\gdkcursor.h
+copy ..\..\..\gdk\gdkdisplay.h $(CopyDir)\include\gtk-2.0\gdk\gdkdisplay.h
+copy ..\..\..\gdk\gdkdisplaymanager.h $(CopyDir)\include\gtk-2.0\gdk\gdkdisplaymanager.h
+copy ..\..\..\gdk\gdkdnd.h $(CopyDir)\include\gtk-2.0\gdk\gdkdnd.h
+copy ..\..\..\gdk\gdkdrawable.h $(CopyDir)\include\gtk-2.0\gdk\gdkdrawable.h
+copy ..\..\..\gdk\gdkevents.h $(CopyDir)\include\gtk-2.0\gdk\gdkevents.h
+copy ..\..\..\gdk\gdkfont.h $(CopyDir)\include\gtk-2.0\gdk\gdkfont.h
+copy ..\..\..\gdk\gdkgc.h $(CopyDir)\include\gtk-2.0\gdk\gdkgc.h
+copy ..\..\..\gdk\gdki18n.h $(CopyDir)\include\gtk-2.0\gdk\gdki18n.h
+copy ..\..\..\gdk\gdkimage.h $(CopyDir)\include\gtk-2.0\gdk\gdkimage.h
+copy ..\..\..\gdk\gdkinput.h $(CopyDir)\include\gtk-2.0\gdk\gdkinput.h
+copy ..\..\..\gdk\gdkkeys.h $(CopyDir)\include\gtk-2.0\gdk\gdkkeys.h
+copy ..\..\..\gdk\gdkkeysyms.h $(CopyDir)\include\gtk-2.0\gdk\gdkkeysyms.h
+copy ..\..\..\gdk\gdkkeysyms-compat.h $(CopyDir)\include\gtk-2.0\gdk\gdkkeysyms-compat.h
+copy ..\..\..\gdk\gdkpango.h $(CopyDir)\include\gtk-2.0\gdk\gdkpango.h
+copy ..\..\..\gdk\gdkpixbuf.h $(CopyDir)\include\gtk-2.0\gdk\gdkpixbuf.h
+copy ..\..\..\gdk\gdkpixmap.h $(CopyDir)\include\gtk-2.0\gdk\gdkpixmap.h
+copy ..\..\..\gdk\gdkprivate.h $(CopyDir)\include\gtk-2.0\gdk\gdkprivate.h
+copy ..\..\..\gdk\gdkproperty.h $(CopyDir)\include\gtk-2.0\gdk\gdkproperty.h
+copy ..\..\..\gdk\gdkregion.h $(CopyDir)\include\gtk-2.0\gdk\gdkregion.h
+copy ..\..\..\gdk\gdkrgb.h $(CopyDir)\include\gtk-2.0\gdk\gdkrgb.h
+copy ..\..\..\gdk\gdkscreen.h $(CopyDir)\include\gtk-2.0\gdk\gdkscreen.h
+copy ..\..\..\gdk\gdkselection.h $(CopyDir)\include\gtk-2.0\gdk\gdkselection.h
+copy ..\..\..\gdk\gdkspawn.h $(CopyDir)\include\gtk-2.0\gdk\gdkspawn.h
+copy ..\..\..\gdk\gdktestutils.h $(CopyDir)\include\gtk-2.0\gdk\gdktestutils.h
+copy ..\..\..\gdk\gdktypes.h $(CopyDir)\include\gtk-2.0\gdk\gdktypes.h
+copy ..\..\..\gdk\gdkvisual.h $(CopyDir)\include\gtk-2.0\gdk\gdkvisual.h
+copy ..\..\..\gdk\gdkwindow.h $(CopyDir)\include\gtk-2.0\gdk\gdkwindow.h
+copy ..\..\..\gdk\gdkenumtypes.h $(CopyDir)\include\gtk-2.0\gdk\gdkenumtypes.h
+copy ..\..\..\gdk\win32\gdkwin32.h $(CopyDir)\include\gtk-2.0\gdk\gdkwin32.h
+mkdir $(CopyDir)\include\gtk-$(ApiVersion)\gtk
+copy ..\..\..\gtk\gtk.h $(CopyDir)\include\gtk-2.0\gtk\gtk.h
+copy ..\..\..\gtk\gtkaboutdialog.h $(CopyDir)\include\gtk-2.0\gtk\gtkaboutdialog.h
+copy ..\..\..\gtk\gtkaccelgroup.h $(CopyDir)\include\gtk-2.0\gtk\gtkaccelgroup.h
+copy ..\..\..\gtk\gtkaccellabel.h $(CopyDir)\include\gtk-2.0\gtk\gtkaccellabel.h
+copy ..\..\..\gtk\gtkaccelmap.h $(CopyDir)\include\gtk-2.0\gtk\gtkaccelmap.h
+copy ..\..\..\gtk\gtkaccessible.h $(CopyDir)\include\gtk-2.0\gtk\gtkaccessible.h
+copy ..\..\..\gtk\gtkaction.h $(CopyDir)\include\gtk-2.0\gtk\gtkaction.h
+copy ..\..\..\gtk\gtkactiongroup.h $(CopyDir)\include\gtk-2.0\gtk\gtkactiongroup.h
+copy ..\..\..\gtk\gtkactivatable.h $(CopyDir)\include\gtk-2.0\gtk\gtkactivatable.h
+copy ..\..\..\gtk\gtkadjustment.h $(CopyDir)\include\gtk-2.0\gtk\gtkadjustment.h
+copy ..\..\..\gtk\gtkalignment.h $(CopyDir)\include\gtk-2.0\gtk\gtkalignment.h
+copy ..\..\..\gtk\gtkarrow.h $(CopyDir)\include\gtk-2.0\gtk\gtkarrow.h
+copy ..\..\..\gtk\gtkaspectframe.h $(CopyDir)\include\gtk-2.0\gtk\gtkaspectframe.h
+copy ..\..\..\gtk\gtkassistant.h $(CopyDir)\include\gtk-2.0\gtk\gtkassistant.h
+copy ..\..\..\gtk\gtkbbox.h $(CopyDir)\include\gtk-2.0\gtk\gtkbbox.h
+copy ..\..\..\gtk\gtkbin.h $(CopyDir)\include\gtk-2.0\gtk\gtkbin.h
+copy ..\..\..\gtk\gtkbindings.h $(CopyDir)\include\gtk-2.0\gtk\gtkbindings.h
+copy ..\..\..\gtk\gtkbox.h $(CopyDir)\include\gtk-2.0\gtk\gtkbox.h
+copy ..\..\..\gtk\gtkbuilder.h $(CopyDir)\include\gtk-2.0\gtk\gtkbuilder.h
+copy ..\..\..\gtk\gtkbuildable.h $(CopyDir)\include\gtk-2.0\gtk\gtkbuildable.h
+copy ..\..\..\gtk\gtkbutton.h $(CopyDir)\include\gtk-2.0\gtk\gtkbutton.h
+copy ..\..\..\gtk\gtkcalendar.h $(CopyDir)\include\gtk-2.0\gtk\gtkcalendar.h
+copy ..\..\..\gtk\gtkcelleditable.h $(CopyDir)\include\gtk-2.0\gtk\gtkcelleditable.h
+copy ..\..\..\gtk\gtkcelllayout.h $(CopyDir)\include\gtk-2.0\gtk\gtkcelllayout.h
+copy ..\..\..\gtk\gtkcellrenderer.h $(CopyDir)\include\gtk-2.0\gtk\gtkcellrenderer.h
+copy ..\..\..\gtk\gtkcellrendereraccel.h $(CopyDir)\include\gtk-2.0\gtk\gtkcellrendereraccel.h
+copy ..\..\..\gtk\gtkcellrenderercombo.h $(CopyDir)\include\gtk-2.0\gtk\gtkcellrenderercombo.h
+copy ..\..\..\gtk\gtkcellrendererpixbuf.h $(CopyDir)\include\gtk-2.0\gtk\gtkcellrendererpixbuf.h
+copy ..\..\..\gtk\gtkcellrendererprogress.h $(CopyDir)\include\gtk-2.0\gtk\gtkcellrendererprogress.h
+copy ..\..\..\gtk\gtkcellrendererspin.h $(CopyDir)\include\gtk-2.0\gtk\gtkcellrendererspin.h
+copy ..\..\..\gtk\gtkcellrendererspinner.h $(CopyDir)\include\gtk-2.0\gtk\gtkcellrendererspinner.h
+copy ..\..\..\gtk\gtkcellrenderertext.h $(CopyDir)\include\gtk-2.0\gtk\gtkcellrenderertext.h
+copy ..\..\..\gtk\gtkcellrenderertoggle.h $(CopyDir)\include\gtk-2.0\gtk\gtkcellrenderertoggle.h
+copy ..\..\..\gtk\gtkcellview.h $(CopyDir)\include\gtk-2.0\gtk\gtkcellview.h
+copy ..\..\..\gtk\gtkcheckbutton.h $(CopyDir)\include\gtk-2.0\gtk\gtkcheckbutton.h
+copy ..\..\..\gtk\gtkcheckmenuitem.h $(CopyDir)\include\gtk-2.0\gtk\gtkcheckmenuitem.h
+copy ..\..\..\gtk\gtkclipboard.h $(CopyDir)\include\gtk-2.0\gtk\gtkclipboard.h
+copy ..\..\..\gtk\gtkcolorbutton.h $(CopyDir)\include\gtk-2.0\gtk\gtkcolorbutton.h
+copy ..\..\..\gtk\gtkcolorsel.h $(CopyDir)\include\gtk-2.0\gtk\gtkcolorsel.h
+copy ..\..\..\gtk\gtkcolorseldialog.h $(CopyDir)\include\gtk-2.0\gtk\gtkcolorseldialog.h
+copy ..\..\..\gtk\gtkcombobox.h $(CopyDir)\include\gtk-2.0\gtk\gtkcombobox.h
+copy ..\..\..\gtk\gtkcomboboxentry.h $(CopyDir)\include\gtk-2.0\gtk\gtkcomboboxentry.h
+copy ..\..\..\gtk\gtkcomboboxtext.h $(CopyDir)\include\gtk-2.0\gtk\gtkcomboboxtext.h
+copy ..\..\..\gtk\gtkcontainer.h $(CopyDir)\include\gtk-2.0\gtk\gtkcontainer.h
+copy ..\..\..\gtk\gtkdebug.h $(CopyDir)\include\gtk-2.0\gtk\gtkdebug.h
+copy ..\..\..\gtk\gtkdialog.h $(CopyDir)\include\gtk-2.0\gtk\gtkdialog.h
+copy ..\..\..\gtk\gtkdnd.h $(CopyDir)\include\gtk-2.0\gtk\gtkdnd.h
+copy ..\..\..\gtk\gtkdrawingarea.h $(CopyDir)\include\gtk-2.0\gtk\gtkdrawingarea.h
+copy ..\..\..\gtk\gtkeditable.h $(CopyDir)\include\gtk-2.0\gtk\gtkeditable.h
+copy ..\..\..\gtk\gtkentry.h $(CopyDir)\include\gtk-2.0\gtk\gtkentry.h
+copy ..\..\..\gtk\gtkentrybuffer.h $(CopyDir)\include\gtk-2.0\gtk\gtkentrybuffer.h
+copy ..\..\..\gtk\gtkentrycompletion.h $(CopyDir)\include\gtk-2.0\gtk\gtkentrycompletion.h
+copy ..\..\..\gtk\gtkenums.h $(CopyDir)\include\gtk-2.0\gtk\gtkenums.h
+copy ..\..\..\gtk\gtkeventbox.h $(CopyDir)\include\gtk-2.0\gtk\gtkeventbox.h
+copy ..\..\..\gtk\gtkexpander.h $(CopyDir)\include\gtk-2.0\gtk\gtkexpander.h
+copy ..\..\..\gtk\gtkfilechooser.h $(CopyDir)\include\gtk-2.0\gtk\gtkfilechooser.h
+copy ..\..\..\gtk\gtkfilechooserbutton.h $(CopyDir)\include\gtk-2.0\gtk\gtkfilechooserbutton.h
+copy ..\..\..\gtk\gtkfilechooserdialog.h $(CopyDir)\include\gtk-2.0\gtk\gtkfilechooserdialog.h
+copy ..\..\..\gtk\gtkfilechooserwidget.h $(CopyDir)\include\gtk-2.0\gtk\gtkfilechooserwidget.h
+copy ..\..\..\gtk\gtkfilefilter.h $(CopyDir)\include\gtk-2.0\gtk\gtkfilefilter.h
+copy ..\..\..\gtk\gtkfixed.h $(CopyDir)\include\gtk-2.0\gtk\gtkfixed.h
+copy ..\..\..\gtk\gtkfontbutton.h $(CopyDir)\include\gtk-2.0\gtk\gtkfontbutton.h
+copy ..\..\..\gtk\gtkfontsel.h $(CopyDir)\include\gtk-2.0\gtk\gtkfontsel.h
+copy ..\..\..\gtk\gtkframe.h $(CopyDir)\include\gtk-2.0\gtk\gtkframe.h
+copy ..\..\..\gtk\gtkgc.h $(CopyDir)\include\gtk-2.0\gtk\gtkgc.h
+copy ..\..\..\gtk\gtkhandlebox.h $(CopyDir)\include\gtk-2.0\gtk\gtkhandlebox.h
+copy ..\..\..\gtk\gtkhbbox.h $(CopyDir)\include\gtk-2.0\gtk\gtkhbbox.h
+copy ..\..\..\gtk\gtkhbox.h $(CopyDir)\include\gtk-2.0\gtk\gtkhbox.h
+copy ..\..\..\gtk\gtkhpaned.h $(CopyDir)\include\gtk-2.0\gtk\gtkhpaned.h
+copy ..\..\..\gtk\gtkhruler.h $(CopyDir)\include\gtk-2.0\gtk\gtkhruler.h
+copy ..\..\..\gtk\gtkhscale.h $(CopyDir)\include\gtk-2.0\gtk\gtkhscale.h
+copy ..\..\..\gtk\gtkhscrollbar.h $(CopyDir)\include\gtk-2.0\gtk\gtkhscrollbar.h
+copy ..\..\..\gtk\gtkhseparator.h $(CopyDir)\include\gtk-2.0\gtk\gtkhseparator.h
+copy ..\..\..\gtk\gtkhsv.h $(CopyDir)\include\gtk-2.0\gtk\gtkhsv.h
+copy ..\..\..\gtk\gtkiconfactory.h $(CopyDir)\include\gtk-2.0\gtk\gtkiconfactory.h
+copy ..\..\..\gtk\gtkicontheme.h $(CopyDir)\include\gtk-2.0\gtk\gtkicontheme.h
+copy ..\..\..\gtk\gtkiconview.h $(CopyDir)\include\gtk-2.0\gtk\gtkiconview.h
+copy ..\..\..\gtk\gtkimage.h $(CopyDir)\include\gtk-2.0\gtk\gtkimage.h
+copy ..\..\..\gtk\gtkimagemenuitem.h $(CopyDir)\include\gtk-2.0\gtk\gtkimagemenuitem.h
+copy ..\..\..\gtk\gtkimcontext.h $(CopyDir)\include\gtk-2.0\gtk\gtkimcontext.h
+copy ..\..\..\gtk\gtkimcontextsimple.h $(CopyDir)\include\gtk-2.0\gtk\gtkimcontextsimple.h
+copy ..\..\..\gtk\gtkimmodule.h $(CopyDir)\include\gtk-2.0\gtk\gtkimmodule.h
+copy ..\..\..\gtk\gtkimmulticontext.h $(CopyDir)\include\gtk-2.0\gtk\gtkimmulticontext.h
+copy ..\..\..\gtk\gtkinfobar.h $(CopyDir)\include\gtk-2.0\gtk\gtkinfobar.h
+copy ..\..\..\gtk\gtkinvisible.h $(CopyDir)\include\gtk-2.0\gtk\gtkinvisible.h
+copy ..\..\..\gtk\gtkitem.h $(CopyDir)\include\gtk-2.0\gtk\gtkitem.h
+copy ..\..\..\gtk\gtklabel.h $(CopyDir)\include\gtk-2.0\gtk\gtklabel.h
+copy ..\..\..\gtk\gtklayout.h $(CopyDir)\include\gtk-2.0\gtk\gtklayout.h
+copy ..\..\..\gtk\gtklinkbutton.h $(CopyDir)\include\gtk-2.0\gtk\gtklinkbutton.h
+copy ..\..\..\gtk\gtkliststore.h $(CopyDir)\include\gtk-2.0\gtk\gtkliststore.h
+copy ..\..\..\gtk\gtkmain.h $(CopyDir)\include\gtk-2.0\gtk\gtkmain.h
+copy ..\..\..\gtk\gtkmenu.h $(CopyDir)\include\gtk-2.0\gtk\gtkmenu.h
+copy ..\..\..\gtk\gtkmenubar.h $(CopyDir)\include\gtk-2.0\gtk\gtkmenubar.h
+copy ..\..\..\gtk\gtkmenuitem.h $(CopyDir)\include\gtk-2.0\gtk\gtkmenuitem.h
+copy ..\..\..\gtk\gtkmenushell.h $(CopyDir)\include\gtk-2.0\gtk\gtkmenushell.h
+copy ..\..\..\gtk\gtkmenutoolbutton.h $(CopyDir)\include\gtk-2.0\gtk\gtkmenutoolbutton.h
+copy ..\..\..\gtk\gtkmessagedialog.h $(CopyDir)\include\gtk-2.0\gtk\gtkmessagedialog.h
+copy ..\..\..\gtk\gtkmisc.h $(CopyDir)\include\gtk-2.0\gtk\gtkmisc.h
+copy ..\..\..\gtk\gtkmodules.h $(CopyDir)\include\gtk-2.0\gtk\gtkmodules.h
+copy ..\..\..\gtk\gtkmountoperation.h $(CopyDir)\include\gtk-2.0\gtk\gtkmountoperation.h
+copy ..\..\..\gtk\gtknotebook.h $(CopyDir)\include\gtk-2.0\gtk\gtknotebook.h
+copy ..\..\..\gtk\gtkobject.h $(CopyDir)\include\gtk-2.0\gtk\gtkobject.h
+copy ..\..\..\gtk\gtkoffscreenwindow.h $(CopyDir)\include\gtk-2.0\gtk\gtkoffscreenwindow.h
+copy ..\..\..\gtk\gtkorientable.h $(CopyDir)\include\gtk-2.0\gtk\gtkorientable.h
+copy ..\..\..\gtk\gtkpagesetup.h $(CopyDir)\include\gtk-2.0\gtk\gtkpagesetup.h
+copy ..\..\..\gtk\gtkpaned.h $(CopyDir)\include\gtk-2.0\gtk\gtkpaned.h
+copy ..\..\..\gtk\gtkpapersize.h $(CopyDir)\include\gtk-2.0\gtk\gtkpapersize.h
+copy ..\..\..\gtk\gtkplug.h $(CopyDir)\include\gtk-2.0\gtk\gtkplug.h
+copy ..\..\..\gtk\gtkprintcontext.h $(CopyDir)\include\gtk-2.0\gtk\gtkprintcontext.h
+copy ..\..\..\gtk\gtkprintoperation.h $(CopyDir)\include\gtk-2.0\gtk\gtkprintoperation.h
+copy ..\..\..\gtk\gtkprintoperationpreview.h $(CopyDir)\include\gtk-2.0\gtk\gtkprintoperationpreview.h
+copy ..\..\..\gtk\gtkprintsettings.h $(CopyDir)\include\gtk-2.0\gtk\gtkprintsettings.h
+copy ..\..\..\gtk\gtkprivate.h $(CopyDir)\include\gtk-2.0\gtk\gtkprivate.h
+copy ..\..\..\gtk\gtkprogressbar.h $(CopyDir)\include\gtk-2.0\gtk\gtkprogressbar.h
+copy ..\..\..\gtk\gtkradioaction.h $(CopyDir)\include\gtk-2.0\gtk\gtkradioaction.h
+copy ..\..\..\gtk\gtkradiobutton.h $(CopyDir)\include\gtk-2.0\gtk\gtkradiobutton.h
+copy ..\..\..\gtk\gtkradiomenuitem.h $(CopyDir)\include\gtk-2.0\gtk\gtkradiomenuitem.h
+copy ..\..\..\gtk\gtkradiotoolbutton.h $(CopyDir)\include\gtk-2.0\gtk\gtkradiotoolbutton.h
+copy ..\..\..\gtk\gtkrange.h $(CopyDir)\include\gtk-2.0\gtk\gtkrange.h
+copy ..\..\..\gtk\gtkrc.h $(CopyDir)\include\gtk-2.0\gtk\gtkrc.h
+copy ..\..\..\gtk\gtkrecentaction.h $(CopyDir)\include\gtk-2.0\gtk\gtkrecentaction.h
+copy ..\..\..\gtk\gtkrecentchooser.h $(CopyDir)\include\gtk-2.0\gtk\gtkrecentchooser.h
+copy ..\..\..\gtk\gtkrecentchooserdialog.h $(CopyDir)\include\gtk-2.0\gtk\gtkrecentchooserdialog.h
+copy ..\..\..\gtk\gtkrecentchoosermenu.h $(CopyDir)\include\gtk-2.0\gtk\gtkrecentchoosermenu.h
+copy ..\..\..\gtk\gtkrecentchooserwidget.h $(CopyDir)\include\gtk-2.0\gtk\gtkrecentchooserwidget.h
+copy ..\..\..\gtk\gtkrecentfilter.h $(CopyDir)\include\gtk-2.0\gtk\gtkrecentfilter.h
+copy ..\..\..\gtk\gtkrecentmanager.h $(CopyDir)\include\gtk-2.0\gtk\gtkrecentmanager.h
+copy ..\..\..\gtk\gtkruler.h $(CopyDir)\include\gtk-2.0\gtk\gtkruler.h
+copy ..\..\..\gtk\gtkscale.h $(CopyDir)\include\gtk-2.0\gtk\gtkscale.h
+copy ..\..\..\gtk\gtkscalebutton.h $(CopyDir)\include\gtk-2.0\gtk\gtkscalebutton.h
+copy ..\..\..\gtk\gtkscrollbar.h $(CopyDir)\include\gtk-2.0\gtk\gtkscrollbar.h
+copy ..\..\..\gtk\gtkscrolledwindow.h $(CopyDir)\include\gtk-2.0\gtk\gtkscrolledwindow.h
+copy ..\..\..\gtk\gtkselection.h $(CopyDir)\include\gtk-2.0\gtk\gtkselection.h
+copy ..\..\..\gtk\gtkseparator.h $(CopyDir)\include\gtk-2.0\gtk\gtkseparator.h
+copy ..\..\..\gtk\gtkseparatormenuitem.h $(CopyDir)\include\gtk-2.0\gtk\gtkseparatormenuitem.h
+copy ..\..\..\gtk\gtkseparatortoolitem.h $(CopyDir)\include\gtk-2.0\gtk\gtkseparatortoolitem.h
+copy ..\..\..\gtk\gtkshow.h $(CopyDir)\include\gtk-2.0\gtk\gtkshow.h
+copy ..\..\..\gtk\gtksettings.h $(CopyDir)\include\gtk-2.0\gtk\gtksettings.h
+copy ..\..\..\gtk\gtksizegroup.h $(CopyDir)\include\gtk-2.0\gtk\gtksizegroup.h
+copy ..\..\..\gtk\gtksocket.h $(CopyDir)\include\gtk-2.0\gtk\gtksocket.h
+copy ..\..\..\gtk\gtkspinbutton.h $(CopyDir)\include\gtk-2.0\gtk\gtkspinbutton.h
+copy ..\..\..\gtk\gtkspinner.h $(CopyDir)\include\gtk-2.0\gtk\gtkspinner.h
+copy ..\..\..\gtk\gtkstatusbar.h $(CopyDir)\include\gtk-2.0\gtk\gtkstatusbar.h
+copy ..\..\..\gtk\gtkstatusicon.h $(CopyDir)\include\gtk-2.0\gtk\gtkstatusicon.h
+copy ..\..\..\gtk\gtkstock.h $(CopyDir)\include\gtk-2.0\gtk\gtkstock.h
+copy ..\..\..\gtk\gtkstyle.h $(CopyDir)\include\gtk-2.0\gtk\gtkstyle.h
+copy ..\..\..\gtk\gtktable.h $(CopyDir)\include\gtk-2.0\gtk\gtktable.h
+copy ..\..\..\gtk\gtktearoffmenuitem.h $(CopyDir)\include\gtk-2.0\gtk\gtktearoffmenuitem.h
+copy ..\..\..\gtk\gtktestutils.h $(CopyDir)\include\gtk-2.0\gtk\gtktestutils.h
+copy ..\..\..\gtk\gtktextbuffer.h $(CopyDir)\include\gtk-2.0\gtk\gtktextbuffer.h
+copy ..\..\..\gtk\gtktextbufferrichtext.h $(CopyDir)\include\gtk-2.0\gtk\gtktextbufferrichtext.h
+copy ..\..\..\gtk\gtktextchild.h $(CopyDir)\include\gtk-2.0\gtk\gtktextchild.h
+copy ..\..\..\gtk\gtktextdisplay.h $(CopyDir)\include\gtk-2.0\gtk\gtktextdisplay.h
+copy ..\..\..\gtk\gtktextiter.h $(CopyDir)\include\gtk-2.0\gtk\gtktextiter.h
+copy ..\..\..\gtk\gtktextmark.h $(CopyDir)\include\gtk-2.0\gtk\gtktextmark.h
+copy ..\..\..\gtk\gtktexttag.h $(CopyDir)\include\gtk-2.0\gtk\gtktexttag.h
+copy ..\..\..\gtk\gtktexttagtable.h $(CopyDir)\include\gtk-2.0\gtk\gtktexttagtable.h
+copy ..\..\..\gtk\gtktextview.h $(CopyDir)\include\gtk-2.0\gtk\gtktextview.h
+copy ..\..\..\gtk\gtktoggleaction.h $(CopyDir)\include\gtk-2.0\gtk\gtktoggleaction.h
+copy ..\..\..\gtk\gtktogglebutton.h $(CopyDir)\include\gtk-2.0\gtk\gtktogglebutton.h
+copy ..\..\..\gtk\gtktoggletoolbutton.h $(CopyDir)\include\gtk-2.0\gtk\gtktoggletoolbutton.h
+copy ..\..\..\gtk\gtktoolbar.h $(CopyDir)\include\gtk-2.0\gtk\gtktoolbar.h
+copy ..\..\..\gtk\gtktoolbutton.h $(CopyDir)\include\gtk-2.0\gtk\gtktoolbutton.h
+copy ..\..\..\gtk\gtktoolitem.h $(CopyDir)\include\gtk-2.0\gtk\gtktoolitem.h
+copy ..\..\..\gtk\gtktoolitemgroup.h $(CopyDir)\include\gtk-2.0\gtk\gtktoolitemgroup.h
+copy ..\..\..\gtk\gtktoolpalette.h $(CopyDir)\include\gtk-2.0\gtk\gtktoolpalette.h
+copy ..\..\..\gtk\gtktoolshell.h $(CopyDir)\include\gtk-2.0\gtk\gtktoolshell.h
+copy ..\..\..\gtk\gtktooltip.h $(CopyDir)\include\gtk-2.0\gtk\gtktooltip.h
+copy ..\..\..\gtk\gtktreednd.h $(CopyDir)\include\gtk-2.0\gtk\gtktreednd.h
+copy ..\..\..\gtk\gtktreemodel.h $(CopyDir)\include\gtk-2.0\gtk\gtktreemodel.h
+copy ..\..\..\gtk\gtktreemodelfilter.h $(CopyDir)\include\gtk-2.0\gtk\gtktreemodelfilter.h
+copy ..\..\..\gtk\gtktreemodelsort.h $(CopyDir)\include\gtk-2.0\gtk\gtktreemodelsort.h
+copy ..\..\..\gtk\gtktreeselection.h $(CopyDir)\include\gtk-2.0\gtk\gtktreeselection.h
+copy ..\..\..\gtk\gtktreesortable.h $(CopyDir)\include\gtk-2.0\gtk\gtktreesortable.h
+copy ..\..\..\gtk\gtktreestore.h $(CopyDir)\include\gtk-2.0\gtk\gtktreestore.h
+copy ..\..\..\gtk\gtktreeview.h $(CopyDir)\include\gtk-2.0\gtk\gtktreeview.h
+copy ..\..\..\gtk\gtktreeviewcolumn.h $(CopyDir)\include\gtk-2.0\gtk\gtktreeviewcolumn.h
+copy ..\..\..\gtk\gtktypeutils.h $(CopyDir)\include\gtk-2.0\gtk\gtktypeutils.h
+copy ..\..\..\gtk\gtkuimanager.h $(CopyDir)\include\gtk-2.0\gtk\gtkuimanager.h
+copy ..\..\..\gtk\gtkvbbox.h $(CopyDir)\include\gtk-2.0\gtk\gtkvbbox.h
+copy ..\..\..\gtk\gtkvbox.h $(CopyDir)\include\gtk-2.0\gtk\gtkvbox.h
+copy ..\..\..\gtk\gtkviewport.h $(CopyDir)\include\gtk-2.0\gtk\gtkviewport.h
+copy ..\..\..\gtk\gtkvolumebutton.h $(CopyDir)\include\gtk-2.0\gtk\gtkvolumebutton.h
+copy ..\..\..\gtk\gtkvpaned.h $(CopyDir)\include\gtk-2.0\gtk\gtkvpaned.h
+copy ..\..\..\gtk\gtkvruler.h $(CopyDir)\include\gtk-2.0\gtk\gtkvruler.h
+copy ..\..\..\gtk\gtkvscale.h $(CopyDir)\include\gtk-2.0\gtk\gtkvscale.h
+copy ..\..\..\gtk\gtkvscrollbar.h $(CopyDir)\include\gtk-2.0\gtk\gtkvscrollbar.h
+copy ..\..\..\gtk\gtkvseparator.h $(CopyDir)\include\gtk-2.0\gtk\gtkvseparator.h
+copy ..\..\..\gtk\gtkwidget.h $(CopyDir)\include\gtk-2.0\gtk\gtkwidget.h
+copy ..\..\..\gtk\gtkwindow.h $(CopyDir)\include\gtk-2.0\gtk\gtkwindow.h
+copy ..\..\..\gtk\gtktext.h $(CopyDir)\include\gtk-2.0\gtk\gtktext.h
+copy ..\..\..\gtk\gtktree.h $(CopyDir)\include\gtk-2.0\gtk\gtktree.h
+copy ..\..\..\gtk\gtktreeitem.h $(CopyDir)\include\gtk-2.0\gtk\gtktreeitem.h
+copy ..\..\..\gtk\gtkclist.h $(CopyDir)\include\gtk-2.0\gtk\gtkclist.h
+copy ..\..\..\gtk\gtkcombo.h $(CopyDir)\include\gtk-2.0\gtk\gtkcombo.h
+copy ..\..\..\gtk\gtkctree.h $(CopyDir)\include\gtk-2.0\gtk\gtkctree.h
+copy ..\..\..\gtk\gtkcurve.h $(CopyDir)\include\gtk-2.0\gtk\gtkcurve.h
+copy ..\..\..\gtk\gtkfilesel.h $(CopyDir)\include\gtk-2.0\gtk\gtkfilesel.h
+copy ..\..\..\gtk\gtkgamma.h $(CopyDir)\include\gtk-2.0\gtk\gtkgamma.h
+copy ..\..\..\gtk\gtkinputdialog.h $(CopyDir)\include\gtk-2.0\gtk\gtkinputdialog.h
+copy ..\..\..\gtk\gtkitemfactory.h $(CopyDir)\include\gtk-2.0\gtk\gtkitemfactory.h
+copy ..\..\..\gtk\gtklist.h $(CopyDir)\include\gtk-2.0\gtk\gtklist.h
+copy ..\..\..\gtk\gtklistitem.h $(CopyDir)\include\gtk-2.0\gtk\gtklistitem.h
+copy ..\..\..\gtk\gtkoldeditable.h $(CopyDir)\include\gtk-2.0\gtk\gtkoldeditable.h
+copy ..\..\..\gtk\gtkoptionmenu.h $(CopyDir)\include\gtk-2.0\gtk\gtkoptionmenu.h
+copy ..\..\..\gtk\gtkpixmap.h $(CopyDir)\include\gtk-2.0\gtk\gtkpixmap.h
+copy ..\..\..\gtk\gtkpreview.h $(CopyDir)\include\gtk-2.0\gtk\gtkpreview.h
+copy ..\..\..\gtk\gtkprogress.h $(CopyDir)\include\gtk-2.0\gtk\gtkprogress.h
+copy ..\..\..\gtk\gtksignal.h $(CopyDir)\include\gtk-2.0\gtk\gtksignal.h
+copy ..\..\..\gtk\gtktipsquery.h $(CopyDir)\include\gtk-2.0\gtk\gtktipsquery.h
+copy ..\..\..\gtk\gtktooltips.h $(CopyDir)\include\gtk-2.0\gtk\gtktooltips.h
+copy ..\..\..\gtk\gtktextlayout.h $(CopyDir)\include\gtk-2.0\gtk\gtktextlayout.h
+copy ..\..\..\gtk\gtkmarshal.h $(CopyDir)\include\gtk-2.0\gtk\gtkmarshal.h
+copy ..\..\..\gtk\gtktypebuiltins.h $(CopyDir)\include\gtk-2.0\gtk\gtktypebuiltins.h
+copy ..\..\..\gtk\gtkversion.h $(CopyDir)\include\gtk-2.0\gtk\gtkversion.h
+mkdir $(CopyDir)\lib\gtk-$(ApiVersion)\include
+copy ..\..\..\gdk\gdkconfig.h $(CopyDir)\lib\gtk-$(ApiVersion)\include
+mkdir $(CopyDir)\include\gail-1.0\libgail-util
+copy ..\..\..\modules\other\gail\libgail-util\gailmisc.h $(CopyDir)\include\gail-1.0\libgail-util\gailmisc.h
+copy ..\..\..\modules\other\gail\libgail-util\gailtextutil.h $(CopyDir)\include\gail-1.0\libgail-util\gailtextutil.h
+copy ..\..\..\modules\other\gail\libgail-util\gail-util.h $(CopyDir)\include\gail-1.0\libgail-util\gail-util.h
+mkdir $(CopyDir)\lib\gtk-$(ApiVersion)\$(GtkHost)\engines
+copy "$(BinDir)\libwimp.dll" $(CopyDir)\lib\gtk-$(ApiVersion)\$(GtkHost)\engines
+mkdir $(CopyDir)\share\gtk-$(ApiVersion)\demo
+copy ..\..\..\demos\gtk-demo\*.png $(CopyDir)\share\gtk-$(ApiVersion)\demo
+copy ..\..\..\demos\gtk-demo\*.gif $(CopyDir)\share\gtk-$(ApiVersion)\demo
+copy ..\..\..\demos\gtk-demo\*.ui $(CopyDir)\share\gtk-$(ApiVersion)\demo
+copy ..\..\..\demos\gtk-demo\*.jpg $(CopyDir)\share\gtk-$(ApiVersion)\demo
+copy ..\..\..\demos\gtk-demo\*.c $(CopyDir)\share\gtk-$(ApiVersion)\demo
+copy ..\..\..\demos\gtk-demo\*.h $(CopyDir)\share\gtk-$(ApiVersion)\demo
+mkdir $(CopyDir)\share\themes\Default\gtk-2.0-key
+copy ..\..\..\gtk\gtkrc.key.default $(CopyDir)\share\themes\Default\gtk-2.0-key\gtkrc
+mkdir $(CopyDir)\share\themes\Emacs\gtk-2.0-key
+copy ..\..\..\gtk\gtkrc.key.emacs $(CopyDir)\share\themes\Emacs\gtk-2.0-key\gtkrc
+mkdir $(CopyDir)\share\themes\MS-Windows\gtk-2.0
+copy ..\..\..\modules\engines\ms-windows\Theme\gtk-2.0\gtkrc $(CopyDir)\share\themes\MS-Windows\gtk-2.0
+mkdir $(CopyDir)\share\themes\Raleigh\gtk-2.0
+copy ..\..\..\gtk\gtkrc.default $(CopyDir)\share\themes\Raleigh\gtk-2.0\gtkrc
+if exist $(CopyDir)\share\icons\hicolor $(CopyDir)\bin\gtk-update-icon-cache.exe --ignore-theme-index --force "$(CopyDir)\share\icons\hicolor"
+</GtkDoInstall>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>gtkinstallprops</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <ItemGroup>
+    <BuildMacro Include="BinDir">
+      <Value>$(BinDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="InstalledDlls">
+      <Value>$(InstalledDlls)</Value>
+    </BuildMacro>
+    <BuildMacro Include="InstalledBins">
+      <Value>$(InstalledBins)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GtkDoInstall">
+      <Value>$(GtkDoInstall)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>
