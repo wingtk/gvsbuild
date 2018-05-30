@@ -1123,8 +1123,8 @@ class Project_lz4(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'lz4',
-            archive_url = 'https://github.com/lz4/lz4/archive/v1.8.1.2.tar.gz',
-            hash = '12f3a9e776a923275b2dc78ae138b4967ad6280863b77ff733028ce89b8123f9',
+            archive_url = 'https://github.com/lz4/lz4/archive/v1.8.2.tar.gz',
+            hash = '0963fbe9ee90acd1d15e9f09e826eaaf8ea0312e854803caf2db0a6dd40f4464',
             )
 
     def build(self):
