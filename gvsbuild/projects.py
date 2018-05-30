@@ -814,6 +814,7 @@ class Project_libgxps(GitRepo, Project):
             fetch_submodules = False,
             tag = '133fe2a96e020d4ca65c6f64fb28a404050ebbfd',
             dependencies = ['meson', 'ninja', 'pkg-config', 'glib', 'libarchive', 'cairo', 'libpng', 'libjpeg-turbo', 'libtiff-4', 'gtk3', ],
+            patches = ['fix_font_scale_2.patch'],
             )
 
     def build(self):
