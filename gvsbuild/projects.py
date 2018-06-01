@@ -1382,8 +1382,8 @@ class Project_x264(GitRepo, Project):
             'x264',
             repo_url = 'http://git.videolan.org/git/x264.git',
             fetch_submodules = False,
-            dependencies = ['yasm', ],
-            tag = '97eaef2ab82a46d13ea5e00270712d6475fbe42b',
+            dependencies = [ 'nasm' ],
+            tag = 'e9a5903edf8ca59ef20e6f4894c196f135af735e',
             patches = [ '0001-use-more-recent-version-of-config.guess.patch',
                         '0002-configure-recognize-the-msys-shell.patch' ]
             )
