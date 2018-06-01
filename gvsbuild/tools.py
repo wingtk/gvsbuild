@@ -89,9 +89,9 @@ class Tool_nasm(Tool):
     def __init__(self):
         Tool.__init__(self,
             'nasm',
-            archive_url = 'http://www.nasm.us/pub/nasm/releasebuilds/2.13.01/win64/nasm-2.13.01-win64.zip',
-            hash = '8b368c5ed7f9deb33be90918e8c19b2fbf004fbe74b743e515674c75943d3362',
-            dir_part = 'nasm-2.13.01')
+            archive_url = 'https://www.nasm.us/pub/nasm/releasebuilds/2.13.03/win64/nasm-2.13.03-win64.zip',
+            hash = 'b3a1f896b53d07854884c2e0d6be7defba7ebd09b864bbb9e6d69ada1c3e989f',
+            dir_part = 'nasm-2.13.03')
 
     def load_defaults(self, builder):
         Tool.load_defaults(self, builder)
