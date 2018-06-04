@@ -533,7 +533,7 @@ class Project_grpc(GitRepo, CmakeProject):
             'grpc',
             repo_url = 'https://github.com/grpc/grpc.git',
             fetch_submodules = True,
-            tag = 'v1.9.1',
+            tag = 'v1.12.0',
             dependencies = ['go', 'nuget', 'protobuf', 'perl', 'zlib', 'yasm'],
             patches = ['0001-removing-extra-plugins.patch'],
             )

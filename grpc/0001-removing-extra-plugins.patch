@@ -1,17 +1,17 @@
-From 1c5ad367b3f1690b6a8e6e47cb2b27a13f62d55e Mon Sep 17 00:00:00 2001
-From: Mehrdad Montazeri <mmontaze@amazon.com>
-Date: Tue, 20 Feb 2018 02:16:44 -0800
+From 8922d606a4fd5e56339fedc10d05cf69bb3619ac Mon Sep 17 00:00:00 2001
+From: Ignacio Casal Quinteiro <qignacio@amazon.com>
+Date: Mon, 4 Jun 2018 12:05:42 +0200
 Subject: [PATCH] removing extra plugins
 
 ---
- CMakeLists.txt | 181 ---------------------------------------------------------
- 1 file changed, 181 deletions(-)
+ CMakeLists.txt | 194 ---------------------------------------------------------
+ 1 file changed, 194 deletions(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 3e1e7f2321..02d3a1ca8f 100644
+index f58ee19..4a965b2 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -182,11 +182,6 @@ add_custom_target(plugins
+@@ -190,11 +190,6 @@ add_custom_target(plugins
    DEPENDS
    grpc_cpp_plugin
    grpc_csharp_plugin
@@ -23,15 +23,7 @@ index 3e1e7f2321..02d3a1ca8f 100644
  )
  
  add_custom_target(tools_c
-@@ -1130,7 +1125,6 @@ if (gRPC_INSTALL)
-   )
- endif()
- 
--
- add_library(grpc_cronet
-   src/core/lib/surface/init.cc
-   src/core/lib/backoff/backoff.cc
-@@ -3910,11 +3904,6 @@ endif (gRPC_BUILD_TESTS)
+@@ -4551,11 +4546,6 @@ endif (gRPC_BUILD_TESTS)
  add_library(grpc_plugin_support
    src/compiler/cpp_generator.cc
    src/compiler/csharp_generator.cc
@@ -43,10 +35,11 @@ index 3e1e7f2321..02d3a1ca8f 100644
  )
  
  if(WIN32 AND MSVC)
-@@ -10044,176 +10033,6 @@ if (gRPC_INSTALL)
-   )
+@@ -11535,191 +11525,7 @@ if (gRPC_INSTALL)
  endif()
  
+ endif (gRPC_BUILD_CODEGEN)
+-if (gRPC_BUILD_CODEGEN)
 -
 -add_executable(grpc_node_plugin
 -  src/compiler/node_plugin.cc
@@ -62,6 +55,7 @@ index 3e1e7f2321..02d3a1ca8f 100644
 -  PRIVATE ${_gRPC_BENCHMARK_INCLUDE_DIR}
 -  PRIVATE ${_gRPC_CARES_INCLUDE_DIR}
 -  PRIVATE ${_gRPC_GFLAGS_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_ADDRESS_SORTING_INCLUDE_DIR}
 -  PRIVATE ${_gRPC_PROTO_GENS_DIR}
 -)
 -
@@ -81,6 +75,8 @@ index 3e1e7f2321..02d3a1ca8f 100644
 -  )
 -endif()
 -
+-endif (gRPC_BUILD_CODEGEN)
+-if (gRPC_BUILD_CODEGEN)
 -
 -add_executable(grpc_objective_c_plugin
 -  src/compiler/objective_c_plugin.cc
@@ -96,6 +92,7 @@ index 3e1e7f2321..02d3a1ca8f 100644
 -  PRIVATE ${_gRPC_BENCHMARK_INCLUDE_DIR}
 -  PRIVATE ${_gRPC_CARES_INCLUDE_DIR}
 -  PRIVATE ${_gRPC_GFLAGS_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_ADDRESS_SORTING_INCLUDE_DIR}
 -  PRIVATE ${_gRPC_PROTO_GENS_DIR}
 -)
 -
@@ -115,6 +112,8 @@ index 3e1e7f2321..02d3a1ca8f 100644
 -  )
 -endif()
 -
+-endif (gRPC_BUILD_CODEGEN)
+-if (gRPC_BUILD_CODEGEN)
 -
 -add_executable(grpc_php_plugin
 -  src/compiler/php_plugin.cc
@@ -130,9 +129,10 @@ index 3e1e7f2321..02d3a1ca8f 100644
 -  PRIVATE ${_gRPC_BENCHMARK_INCLUDE_DIR}
 -  PRIVATE ${_gRPC_CARES_INCLUDE_DIR}
 -  PRIVATE ${_gRPC_GFLAGS_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_ADDRESS_SORTING_INCLUDE_DIR}
 -  PRIVATE ${_gRPC_PROTO_GENS_DIR}
 -)
--
+ 
 -target_link_libraries(grpc_php_plugin
 -  ${_gRPC_PROTOBUF_PROTOC_LIBRARIES}
 -  ${_gRPC_PROTOBUF_LIBRARIES}
@@ -149,6 +149,8 @@ index 3e1e7f2321..02d3a1ca8f 100644
 -  )
 -endif()
 -
+-endif (gRPC_BUILD_CODEGEN)
+-if (gRPC_BUILD_CODEGEN)
 -
 -add_executable(grpc_python_plugin
 -  src/compiler/python_plugin.cc
@@ -164,6 +166,7 @@ index 3e1e7f2321..02d3a1ca8f 100644
 -  PRIVATE ${_gRPC_BENCHMARK_INCLUDE_DIR}
 -  PRIVATE ${_gRPC_CARES_INCLUDE_DIR}
 -  PRIVATE ${_gRPC_GFLAGS_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_ADDRESS_SORTING_INCLUDE_DIR}
 -  PRIVATE ${_gRPC_PROTO_GENS_DIR}
 -)
 -
@@ -183,6 +186,8 @@ index 3e1e7f2321..02d3a1ca8f 100644
 -  )
 -endif()
 -
+-endif (gRPC_BUILD_CODEGEN)
+-if (gRPC_BUILD_CODEGEN)
 -
 -add_executable(grpc_ruby_plugin
 -  src/compiler/ruby_plugin.cc
@@ -198,6 +203,7 @@ index 3e1e7f2321..02d3a1ca8f 100644
 -  PRIVATE ${_gRPC_BENCHMARK_INCLUDE_DIR}
 -  PRIVATE ${_gRPC_CARES_INCLUDE_DIR}
 -  PRIVATE ${_gRPC_GFLAGS_INCLUDE_DIR}
+-  PRIVATE ${_gRPC_ADDRESS_SORTING_INCLUDE_DIR}
 -  PRIVATE ${_gRPC_PROTO_GENS_DIR}
 -)
 -
@@ -217,9 +223,10 @@ index 3e1e7f2321..02d3a1ca8f 100644
 -  )
 -endif()
 -
+-endif (gRPC_BUILD_CODEGEN)
  if (gRPC_BUILD_TESTS)
  
  add_executable(grpc_tool_test
 -- 
-2.16.1.windows.1
+2.7.4
 
