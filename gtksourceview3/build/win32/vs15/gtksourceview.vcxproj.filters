@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcebuffer.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcecompletion.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcecompletioncontext.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcecompletioninfo.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcecompletionitem.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcecompletionproposal.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcecompletionprovider.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceencoding.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcefile.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcefileloader.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcefilesaver.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcegutter.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcegutterrenderer.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcegutterrendererpixbuf.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcegutterrenderertext.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcelanguage.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcelanguagemanager.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcemap.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcemark.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcemarkattributes.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceprintcompositor.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceregion.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcesearchcontext.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcesearchsettings.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcestyle.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcestylescheme.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcestyleschemechooser.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcestyleschemechooserbutton.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcestyleschemechooserwidget.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcestyleschememanager.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcetag.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceundomanager.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceutils.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceversion.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceview.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcebufferinputstream.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcebufferinternal.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcebufferoutputstream.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcecompletioncontainer.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcecompletionmodel.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcecontextengine.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceengine.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcegutterrendererlines.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcegutterrenderermarks.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceiter.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcelanguage-parser-1.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcelanguage-parser-2.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcemarkssequence.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcepixbufhelper.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceregex.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcespacedrawer.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceundomanagerdefault.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceview-i18n.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceview-init.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceview-utils.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceview-enumtypes.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceview-resources.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\completion-providers\words\gtksourcecompletionwords.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\completion-providers\words\gtksourcecompletionwordsbuffer.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\completion-providers\words\gtksourcecompletionwordslibrary.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\completion-providers\words\gtksourcecompletionwordsproposal.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\gtksourceview\completion-providers\words\gtksourcecompletionwordsutils.c"><Filter>Source Files</Filter></ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\config.h.win32"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\gen-enums.bat"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gtksourceview\gtksourceview.gresource.xml"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\gtksourceview\gtksourceversion.h.in"><Filter>Resource Files</Filter></CustomBuild>
+  </ItemGroup>
+</Project>

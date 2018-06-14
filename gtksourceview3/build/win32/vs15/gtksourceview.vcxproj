@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B95C0A8D-2528-40C4-8ADE-1FDE8B6E50E8}</ProjectGuid>
+    <RootNamespace>gtksourceview</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="gtksourceview-gen-srcs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="gtksourceview-gen-srcs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="gtksourceview-gen-srcs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="gtksourceview-gen-srcs.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;$(GtkSourceBuildDefines);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(OutDir)$(GtkSourceviewDllPrefix)$(ProjectName)$(GtkSourceviewDllSuffix).dll</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <ImportLibrary>$(TargetDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
+      <ProgramDatabaseFile>$(TargetDir)$(GtkSourceviewDllPrefix)$(ProjectName)$(GtkSourceviewDllSuffix).pdb</ProgramDatabaseFile>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>$(GtkSourceBuildDefines);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(OutDir)$(GtkSourceviewDllPrefix)$(ProjectName)$(GtkSourceviewDllSuffix).dll</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <ImportLibrary>$(TargetDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
+      <ProgramDatabaseFile>$(TargetDir)$(GtkSourceviewDllPrefix)$(ProjectName)$(GtkSourceviewDllSuffix).pdb</ProgramDatabaseFile>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;$(GtkSourceBuildDefines);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(OutDir)$(GtkSourceviewDllPrefix)$(ProjectName)$(GtkSourceviewDllSuffix).dll</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <ImportLibrary>$(TargetDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
+      <ProgramDatabaseFile>$(TargetDir)$(GtkSourceviewDllPrefix)$(ProjectName)$(GtkSourceviewDllSuffix).pdb</ProgramDatabaseFile>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>$(GtkSourceBuildDefines);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(OutDir)$(GtkSourceviewDllPrefix)$(ProjectName)$(GtkSourceviewDllSuffix).dll</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <ImportLibrary>$(TargetDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
+      <ProgramDatabaseFile>$(TargetDir)$(GtkSourceviewDllPrefix)$(ProjectName)$(GtkSourceviewDllSuffix).pdb</ProgramDatabaseFile>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcebuffer.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcecompletion.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcecompletioncontext.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcecompletioninfo.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcecompletionitem.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcecompletionproposal.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcecompletionprovider.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceencoding.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcefile.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcefileloader.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcefilesaver.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcegutter.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcegutterrenderer.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcegutterrendererpixbuf.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcegutterrenderertext.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcelanguage.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcelanguagemanager.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcemap.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcemark.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcemarkattributes.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceprintcompositor.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceregion.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcesearchcontext.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcesearchsettings.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcestyle.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcestylescheme.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcestyleschemechooser.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcestyleschemechooserbutton.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcestyleschemechooserwidget.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcestyleschememanager.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcetag.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceundomanager.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceutils.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceversion.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceview.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcebufferinputstream.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcebufferinternal.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcebufferoutputstream.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcecompletioncontainer.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcecompletionmodel.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcecontextengine.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceengine.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcegutterrendererlines.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcegutterrenderermarks.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceiter.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcelanguage-parser-1.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcelanguage-parser-2.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcemarkssequence.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcepixbufhelper.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceregex.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourcespacedrawer.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceundomanagerdefault.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceview-i18n.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceview-init.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceview-utils.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceview-enumtypes.c" />
+   <ClCompile Include="..\..\..\gtksourceview\gtksourceview-resources.c" />
+   <ClCompile Include="..\..\..\gtksourceview\completion-providers\words\gtksourcecompletionwords.c" />
+   <ClCompile Include="..\..\..\gtksourceview\completion-providers\words\gtksourcecompletionwordsbuffer.c" />
+   <ClCompile Include="..\..\..\gtksourceview\completion-providers\words\gtksourcecompletionwordslibrary.c" />
+   <ClCompile Include="..\..\..\gtksourceview\completion-providers\words\gtksourcecompletionwordsproposal.c" />
+   <ClCompile Include="..\..\..\gtksourceview\completion-providers\words\gtksourcecompletionwordsutils.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\config.h.win32">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying config.h from config.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(CopyConfigH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\config.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copying config.h from config.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(CopyConfigH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\..\config.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying config.h from config.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(CopyConfigH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\config.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying config.h from config.h.win32...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(CopyConfigH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\..\config.h;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\gtksourceview\gtksourceversion.h.in">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Generating gtksourceversion.h...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(GenGtksourceVersionH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\gtksourceview\gtksourceversion.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating gtksourceversion.h...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(GenGtksourceVersionH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\..\gtksourceview\gtksourceversion.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Generating gtksourceversion.h...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(GenGtksourceVersionH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\gtksourceview\gtksourceversion.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating gtksourceversion.h...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(GenGtksourceVersionH)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\..\gtksourceview\gtksourceversion.h;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\gen-enums.bat">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Generating Enumeration sources...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(GenerateEnums)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\gtksourceview\gtksourceview-enumtypes.c;..\..\..\gtksourceview\gtksourceview-enumtypes.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating Enumeration sources...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(GenerateEnums)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\..\gtksourceview\gtksourceview-enumtypes.c;..\..\..\gtksourceview\gtksourceview-enumtypes.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Generating Enumeration sources...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(GenerateEnums)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\gtksourceview\gtksourceview-enumtypes.c;..\..\..\gtksourceview\gtksourceview-enumtypes.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating Enumeration sources...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(GenerateEnums)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\..\gtksourceview\gtksourceview-enumtypes.c;..\..\..\gtksourceview\gtksourceview-enumtypes.h;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\gtksourceview\gtksourceview.gresource.xml">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Generating GResource sources...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(GenerateRsrcSrc)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\gtksourceview\gtksourceview-resources.c;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating GResource sources...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(GenerateRsrcSrc)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\..\gtksourceview\gtksourceview-resources.c;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Generating GResource sources...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(GenerateRsrcSrc)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\gtksourceview\gtksourceview-resources.c;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating GResource sources...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(GenerateRsrcSrc)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\..\gtksourceview\gtksourceview-resources.c;%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
