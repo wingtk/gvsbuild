@@ -30,6 +30,7 @@ class Group_Tools(Group):
             'tools',
             dependencies = [
                 'cmake',
+                'go',
                 'meson',
                 'msys2',
                 'nasm',
