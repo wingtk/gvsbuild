@@ -366,7 +366,7 @@ class Builder(object):
                 return 
             
         print_message("Building project %s" % (proj.name,))
-        script_title(proj.name)
+        script_title('%s (%s)' % (proj.name, proj.version, ))
 
         # save the vs environment
         saved_env = copy.copy(self.vs_env)

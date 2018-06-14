@@ -118,14 +118,22 @@ def do_build(args):
     builder.build(to_build)
 
 def do_list(args):
-    def do_list_type(type, desc):
-        nl = [x.name for x in Project._projects if x.type == type]
+    def do_list_type(type, desc, amp):
+        nl = [ (x.name, x.version, ) for x in Project._projects if x.type == type]
         if nl:
             nl.sort()
-            print("%s:\n\t" % (desc, ) + "\n\t".join(nl))
-    do_list_type(GVSBUILD_TOOL, "Available tools")
-    do_list_type(GVSBUILD_PROJECT, "Available projects")
-    do_list_type(GVSBUILD_GROUP, "Available groups")
+            
+            print("%s:" % (desc, ))
+            for i in nl:
+                print('\t%-*s %s' % (amp, i[0], i[1], ))
+    name_amp = 8
+    for i in Project._projects:
+        if len(i.name) > name_amp:
+            name_amp = len(i.name)
+
+    do_list_type(GVSBUILD_TOOL, "Available tools", name_amp)
+    do_list_type(GVSBUILD_PROJECT, "Available projects", name_amp)
+    do_list_type(GVSBUILD_GROUP, "Available groups", name_amp)
     sys.exit(0)
 
 def create_parser():

@@ -21,6 +21,7 @@ Base project class, used also for tools
 
 import os
 import shutil
+import re
 
 from .utils import _rmtree_error_handler
 from .simple_ui import print_debug, print_log, error_exit
@@ -40,13 +41,17 @@ class Project(object):
         self.archive_file_name = None
         self.tarbomb = False
         self.type = GVSBUILD_PROJECT
+        self.version = None
         for k in kwargs:
             setattr(self, k, kwargs[k])
         self.__working_dir = None
+        if not self.version:
+            self._calc_version()
 
     _projects = []
     _names = []
     _dict = {}
+    _ver_res = None
 
     def __str__(self):
         return self.name
@@ -170,6 +175,49 @@ class Project(object):
                 return t
         else:
             return None
+
+    @staticmethod
+    def _file_to_version(file_name):
+        if not Project._ver_res:
+            Project._ver_res = [
+                re.compile('.*_v([0-9]+_[0-9]+)\.'),
+                re.compile('.*-([0-9+]\.[0-9]+\.[0-9]+-[0-9]+)\.'),
+                re.compile('.*-([0-9+]\.[0-9]+\.[0-9]+)-'),
+                re.compile('.*-([0-9+]\.[0-9]+\.[0-9]+[a-z])\.'),
+                re.compile('.*-([0-9+]\.[0-9]+\.[0-9]+)\.'),
+                re.compile('.*-([0-9+]\.[0-9]+)\.'),
+                re.compile('.*_([0-9+]\.[0-9]+\.[0-9]+)\.'),
+                re.compile('^([0-9+]\.[0-9]+\.[0-9]+)\.'),
+                re.compile('^v([0-9+]\.[0-9]+\.[0-9]+\.[0-9]+)\.'),
+                re.compile('^v([0-9+]\.[0-9]+\.[0-9]+)\.'),
+                re.compile('^v([0-9+]\.[0-9]+)\.'),
+                re.compile('.*-([0-9a-f]+)\.'),
+                re.compile('.*([0-9]\.[0-9]+)\.'),
+                ]
+        
+        ver = ''
+        for r in Project._ver_res:
+            ok = r.match(file_name)
+            if ok:
+                ver = ok.group(1)
+                break
+        print_debug('Version from file name:%-16s <- %s' % (ver, file_name, ))
+        return ver
+            
+    def _calc_version(self):
+        if self.archive_file_name:
+            self.version = Project._file_to_version(self.archive_file_name)
+        elif self.archive_url:
+            _t, name = os.path.split(self.archive_url)
+            self.version = Project._file_to_version(name)
+        else:
+            if hasattr(self, 'tag') and self.tag:
+                self.version = 'git/' + self.tag 
+            elif hasattr(self, 'repo_url'):
+                self.version = 'git/master'
+            else:
+                self.version = ''
+        
 
 def project_add(cls):
     """

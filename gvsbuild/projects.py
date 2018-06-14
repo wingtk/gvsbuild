@@ -414,6 +414,7 @@ class Project_glib_py_wrapper(NullExpander, Meson):
         Project.__init__(self,
             'glib-py-wrapper',
             dependencies = ['glib'],
+            version = '0.1.0',
             )
 
     def build(self):
@@ -1367,6 +1368,7 @@ class Project_wing(Tarball, Meson):
         Project.__init__(self,
             'wing',
             archive_url = 'https://gitlab.gnome.org/GNOME/wing/repository/v0.0.18/archive.tar.gz',
+            archive_file_name = 'wing-0.0.18.tar.gz',
             hash = 'a876030c27336a2ce6cb37a695650509934a0b9968b2028a3ef079b995d15388',
             dependencies = ['ninja', 'meson', 'pkg-config', 'glib'],
             )
@@ -1533,6 +1535,7 @@ class Project_check_libs(NullExpander, Meson):
                     'zlib',
 
                 ],
+            version = '0.1.0',
             )
 
     def build(self):
@@ -1575,6 +1578,7 @@ class Project_dev_shell(Project):
             'dev-shell',
             # We may need all tools
             dependencies = [ 'tools' ],
+            version = '0.1.0',
             )
         # We don't want this project to be built with the group 'all'
         self.type = GVSBUILD_IGNORE
