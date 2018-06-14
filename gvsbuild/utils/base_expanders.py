@@ -137,7 +137,10 @@ def dirlist2set(st_dir, add_dirs=False):
                 if cf.name.lower() != '__pycache__':
                     _load_single_dir(full, returned_set)
     rt = set()
-    _load_single_dir(st_dir, rt)
+    try:
+        _load_single_dir(st_dir, rt)
+    except FileNotFoundError:
+        print("Warning: (--zip-continue) No file found on '%s'" % (st_dir, ))
     return rt
 
 def make_zip(name, files, skip_spc=0):
