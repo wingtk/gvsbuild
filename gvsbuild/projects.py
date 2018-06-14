@@ -1278,6 +1278,8 @@ class Project_pkg_config(GitRepo, Meson):
             fetch_submodules = False,
             tag = 'a50bf726e093e108e78e4901577e566d44aa2e2e',
             dependencies = ['ninja', 'meson'],
+            patches = [ '0001-vs2013.patch', 
+                      ], 
             )
 
     def build(self):
