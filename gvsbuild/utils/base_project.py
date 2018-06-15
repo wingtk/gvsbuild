@@ -47,11 +47,14 @@ class Project(object):
         self.__working_dir = None
         if not self.version:
             self._calc_version()
+        if len(self.name) > Project.name_len:
+            Project.name_len = len(self.name)
 
     _projects = []
     _names = []
     _dict = {}
     _ver_res = None
+    name_len = 0
 
     def __str__(self):
         return self.name
