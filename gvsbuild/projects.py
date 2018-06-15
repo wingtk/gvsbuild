@@ -1582,9 +1582,9 @@ class Project_dev_shell(Project):
             # We may need all tools
             dependencies = [ 'tools' ],
             version = '0.1.0',
+            # We don't want this project to be built with the group 'all'
+            type = GVSBUILD_IGNORE,
             )
-        # We don't want this project to be built with the group 'all'
-        self.type = GVSBUILD_IGNORE
 
     def unpack(self):
         # Nothing to do, it's not really a project

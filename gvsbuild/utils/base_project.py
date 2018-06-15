@@ -139,13 +139,14 @@ class Project(object):
         pass
 
     @staticmethod
-    def add(proj, type=GVSBUILD_PROJECT):
+    def add(proj, type=GVSBUILD_IGNORE):
         if proj.name in Project._dict:
             error_exit("Project '%s' already present!" % (proj.name, ))
         Project._projects.append(proj)
         Project._names.append(proj.name)
         Project._dict[proj.name] = proj
-        proj.type = type
+        if type != GVSBUILD_IGNORE:
+            proj.type = type
 
     @staticmethod
     def get_project(name):
