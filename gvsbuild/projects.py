@@ -508,6 +508,7 @@ class Project_gobject_introspection(GitRepo, Meson):
         # Build extra gir/typelib
         self.make_single_gir('atk')
         self.make_single_gir('gdk-pixbuf', add_meson=True)
+        self.builder.mod_env('INCLUDE', '%s\\include\\cairo' % (self.builder.gtk_dir, ))
         self.make_single_gir('pango')
         self.make_single_gir('gtk', prj_dir='gtk')
         self.make_single_gir('gtk', prj_dir='gtk3')
