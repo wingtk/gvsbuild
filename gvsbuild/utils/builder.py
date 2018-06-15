@@ -32,6 +32,7 @@ import ssl
 import zipfile
 import re
 import copy
+import time
 
 from .utils import ordered_set
 from .utils import rmtree_full
@@ -111,7 +112,7 @@ class Builder(object):
                 # Remove the destination dir before starting anything
                 if os.path.isdir(self.gtk_dir):
                     print_log('Removing build dir (%s)' % (self.gtk_dir, ))
-                    rmtree_full(self.gtk_dir)
+                    rmtree_full(self.gtk_dir, retry=True)
                 self.file_built = set()
             os.makedirs(self.zip_dir, exist_ok=True)
 
@@ -313,20 +314,69 @@ class Builder(object):
             deps.add(dep)
         proj.all_dependencies = deps
 
+    def _drop_proj(self, drop_prj):
+        """
+        Delete drop_prj and all the ones that depends on this from the list of projects to build
+        """  
+        drop_list = [ drop_prj, ]
+        while drop_list:
+            drop_prj = drop_list.pop(0)
+
+            print('* Removing %s dependents ...' % (drop_prj.name, ))
+            for p in self.projects_to_do:
+                if drop_prj in p.all_dependencies:
+                    print("* > Removing %s for %s ..." % (p.name, drop_prj.name, ))
+                    # Recursive drop 
+                    drop_list.append(p)
+                    self.projects_to_do.remove(p)
+                    self.prj_dropped.append(p.name)
+    
     def build(self, projects):
         if self.__prepare_build(projects):
             return
 
         if self.opts.check_hash:
             return
-
-        for p in projects:
+        
+        self.prj_done = []
+        self.prj_err = []
+        self.prj_dropped = []
+        self.projects_to_do = list(projects)
+        
+        while self.projects_to_do:
+            p = self.projects_to_do.pop(0)
             try:
+                st = time.time()
                 self.__build_one(p)
+                msg = '%-*s (%.3f s)' % (Project.name_len, p.name, time.time() - st, )
+                self.prj_done.append(msg)
+            except KeyboardInterrupt:
+                traceback.print_exc()
+                error_exit("Interrupted on %s" % (p.name, ))
             except:
                 traceback.print_exc()
-                error_exit("%s build failed" % (p.name))
+                if self.opts.keep:
+                    self.prj_err.append(p.name)
+                    self._drop_proj(p)
+                else:
+                    error_exit("%s build failed" % (p.name, ))
+
         script_title(None)
+        if self.opts.keep:
+            if self.prj_done:
+                print('Project(s) built:')
+                for p in self.prj_done:
+                    print('\t%s' % (p, ))
+            
+            if self.prj_err:
+                print('Project(s) not built:')
+                for p in self.prj_err:
+                    print('\t%s' % (p, ))
+
+                if self.prj_dropped:
+                    print('Missing dependecies:')
+                    for p in self.prj_dropped:
+                        print('\t%s' % (p, ))
 
     def __prepare_build(self, projects):
         if not os.path.exists(self.working_dir):
@@ -365,7 +415,7 @@ class Builder(object):
                 print_message("Fast build:skipping project %s" % (proj.name, ))
                 return 
             
-        print_message("Building project %s" % (proj.name,))
+        print_message("Building project %s (%s)" % (proj.name, proj.version, ))
         script_title('%s (%s)' % (proj.name, proj.version, ))
 
         # save the vs environment
