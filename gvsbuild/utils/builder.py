@@ -203,6 +203,10 @@ class Builder(object):
         if not os.path.exists(self.patch):
             error_exit("%s not found. Please check that you installed patch in msys2 using ``pacman -S patch``" % (self.patch,))
         print_debug("patch: %s" % (self.patch,))
+        
+        if opts.python_dir:
+            if not os.path.isfile(os.path.join(opts.python_dir, 'python.exe')):
+                error_exit("Executable python.exe not found at '%s'" % (self.opts.python_dir, ))
 
     def _add_env(self, key, value, env, prepend=True, subst=False):
         # env manipulation helper fun
@@ -414,7 +418,7 @@ class Builder(object):
             if os.path.isdir(proj.build_dir):
                 print_message("Fast build:skipping project %s" % (proj.name, ))
                 return 
-            
+          
         print_message("Building project %s (%s)" % (proj.name, proj.version, ))
         script_title('%s (%s)' % (proj.name, proj.version, ))
 
