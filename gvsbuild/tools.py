@@ -41,7 +41,7 @@ class Tool_cmake(Tool):
 
     def unpack(self):
         destfile = os.path.join(self.cmake_path, 'bin', 'cmake.exe')
-        extract_exec(self.archive_file, self.builder.opts.tools_root_dir, dir_part = self.dir_part, check_file = destfile, check_mark=True)
+        self.mark_deps = extract_exec(self.archive_file, self.builder.opts.tools_root_dir, dir_part = self.dir_part, check_file = destfile, check_mark=True)
 
     def get_path(self):
         return os.path.join(self.cmake_path, 'bin')
@@ -62,7 +62,7 @@ class Tool_meson(Tool):
         builder.meson = os.path.join(self.build_dir, 'meson.py')
 
     def unpack(self):
-        extract_exec(self.archive_file, self.builder.opts.tools_root_dir, dir_part = self.dir_part, check_file = self.builder.meson, check_mark=True)
+        self.mark_deps = extract_exec(self.archive_file, self.builder.opts.tools_root_dir, dir_part = self.dir_part, check_file = self.builder.meson, check_mark=True)
 
     def get_path(self):
         pass
@@ -81,6 +81,7 @@ class Tool_msys2(Tool):
         # Create the directory to let the --fast-build option work as expected
         if not os.path.exists(self.build_dir):
             os.makedirs(self.build_dir)
+            self.mark_deps = True
 
     def get_path(self):
         # We always put msys at the end of path
@@ -102,7 +103,7 @@ class Tool_nasm(Tool):
     def unpack(self):
         # We download directly the exe file so we copy it on the tool directory ...
         destfile = os.path.join(self.build_dir, 'nasm.exe')
-        extract_exec(self.archive_file, self.builder.opts.tools_root_dir, dir_part = self.dir_part, check_file = destfile, force_dest = destfile, check_mark=True)
+        self.mark_deps = extract_exec(self.archive_file, self.builder.opts.tools_root_dir, dir_part = self.dir_part, check_file = destfile, force_dest = destfile, check_mark=True)
 
     def get_path(self):
         return self.nasm_path
@@ -123,7 +124,7 @@ class Tool_ninja(Tool):
 
     def unpack(self):
         destfile = os.path.join(self.ninja_path, 'ninja.exe')
-        extract_exec(self.archive_file, self.ninja_path, check_file = destfile, check_mark=True)
+        self.mark_deps = extract_exec(self.archive_file, self.ninja_path, check_file = destfile, check_mark=True)
 
     def get_path(self):
         return self.ninja_path
@@ -144,7 +145,7 @@ class Tool_nuget(Tool):
 
     def unpack(self):
         # We download directly the exe file so we copy it on the tool directory ...
-        extract_exec(self.archive_file, self.build_dir, check_file = self.builder.nuget, force_dest = self.builder.nuget, check_mark=True)
+        self.mark_deps = extract_exec(self.archive_file, self.build_dir, check_file = self.builder.nuget, force_dest = self.builder.nuget, check_mark=True)
 
     def get_path(self):
         # No need to add the path, we use the full file name
@@ -168,7 +169,7 @@ class Tool_perl(Tool):
 
     def unpack(self):
         destfile = os.path.join(self.perl_path, 'perl.exe')
-        extract_exec(self.archive_file, self.build_dir, check_file = destfile, check_mark=True)
+        self.mark_deps = extract_exec(self.archive_file, self.build_dir, check_file = destfile, check_mark=True)
 
     def get_path(self):
         return self.perl_path
@@ -192,6 +193,7 @@ class Tool_python(Tool):
         # Create the directory to let the --fast-build option work as expected
         if not os.path.exists(self.build_dir):
             os.makedirs(self.build_dir)
+            self.mark_deps = True
 
     def get_path(self):
         return self.python_path
@@ -211,7 +213,7 @@ class Tool_yasm(Tool):
     def unpack(self):
         # We download directly the exe file so we copy it on the tool directory ...
         destfile = os.path.join(self.build_dir, 'yasm.exe')
-        extract_exec(self.archive_file, self.build_dir, check_file = destfile, force_dest = destfile, check_mark=True)
+        self.mark_deps = extract_exec(self.archive_file, self.build_dir, check_file = destfile, force_dest = destfile, check_mark=True)
 
     def get_path(self):
         return self.yasm_path
@@ -232,7 +234,7 @@ class Tool_go(Tool):
     def unpack(self):
         # We download directly the exe file so we copy it on the tool directory ...
         destfile = os.path.join(self.go_path, 'go.exe')
-        extract_exec(self.archive_file, self.build_dir, check_file = destfile, check_mark=True)
+        self.mark_deps = extract_exec(self.archive_file, self.build_dir, check_file = destfile, check_mark=True)
 
     def get_path(self):
         return self.go_path

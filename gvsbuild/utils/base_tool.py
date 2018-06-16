@@ -26,6 +26,7 @@ from .base_project import Project, GVSBUILD_TOOL
 class Tool(Project):
     def __init__(self, name, **kwargs):
         self.dir_part = None
+        self.mark_deps = False 
         Project.__init__(self, name, **kwargs)
 
     def load_defaults(self, builder):
@@ -35,8 +36,8 @@ class Tool(Project):
             self.build_dir = os.path.join(builder.opts.tools_root_dir, self.name)
 
     def build(self):
-        # All the work is done in the unpack
-        pass
+        # All the work is done in the unpack & we don't force the rebuild of all projects that uses this tool
+        return not self.mark_deps
 
     def update_build_dir(self):
         self.unpack()

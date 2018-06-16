@@ -43,6 +43,9 @@ def extract_exec(src, dest_dir, dir_part=None, strip_one=False, check_file=None,
 
     with check_mark the name of the original file extracted is written in the
     destination dir and checked, forcing a new, clean, extraction
+    
+    Returns True if the extraction has been done, False if it's skipped (so we can skip 
+    marking the dependents of the project/tool)
     """
 
     # Support function

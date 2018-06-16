@@ -343,6 +343,9 @@ class Builder(object):
         if self.opts.check_hash:
             return
         
+        # List of all the project we can mark for build because of a dependend 
+        self.prj_to_mark = [x for x in Project._projects if x.is_project()]
+        
         self.prj_done = []
         self.prj_skipped = []
         self.prj_err = []
@@ -353,7 +356,9 @@ class Builder(object):
             p = self.projects_to_do.pop(0)
             try:
                 st = time.time()
-                self.__build_one(p)
+                if self.__build_one(p):
+                    self.prj_skipped.append(p.name)
+                else:
                     msg = '%-*s (%.3f s)' % (Project.name_len, p.name, time.time() - st, )
                     self.prj_done.append(msg)
             except KeyboardInterrupt:
@@ -421,11 +426,14 @@ class Builder(object):
         return dirlist2set(self.gtk_dir)
 
     def __build_one(self, proj):
+        """
+        Build one project, return True if skipped
+        """
         if self.opts.fast_build and not self.opts.clean:
             t = proj.mark_file_exist()
             if t:
                 print_message("Fast build:skipping project %s, built @ %s" % (proj.name, t, ))
-                return 
+                return True
           
         proj.mark_file_remove()
         print_message("Building project %s (%s)" % (proj.name, proj.version, ))
@@ -464,7 +472,7 @@ class Builder(object):
         self.vs_env['PATH'] = ';'.join(paths)
 
         proj.patch()
-        proj.build()
+        skip_deps = proj.build()
 
         print_debug("copying %s to %s" % (proj.pkg_dir, self.gtk_dir))
         self.copy_all(proj.pkg_dir, self.gtk_dir)
@@ -494,19 +502,22 @@ class Builder(object):
                 print_log("%s:zip not needed (tool?)" % (proj.name, ))
 
         # Drop the mark file for all the projects that depends on this so we rebuild them
-        first = True
-        for p in Project._projects:
-            if p.is_project() and proj in p.all_dependencies:
-                if first:
-                    first = False
-                    print_debug('Forcing build of %s dependent' % (proj.name, ))
-                print_debug(" > Mark %s ..." % (p.name, ))
-                p.mark_file_remove()
+        if not skip_deps:
+            first = True
+            for p in self.prj_to_mark:
+                if proj in p.all_dependencies:
+                    if first:
+                        first = False
+                        print_debug('Forcing build of %s dependent' % (proj.name, ))
+                    print_debug(" > Mark %s ..." % (p.name, ))
+                    p.mark_file_remove()
+                    self.prj_to_mark.remove(p)
 
         # Mark this project done correctly
         proj.mark_file_write()
 
         script_title(None)
+        return False
 
     def make_zip(self, name, files):
         make_zip(name, files, skip_spc=len(self.gtk_dir))
