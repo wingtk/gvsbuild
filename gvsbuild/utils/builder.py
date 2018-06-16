@@ -344,6 +344,7 @@ class Builder(object):
             return
         
         self.prj_done = []
+        self.prj_skipped = []
         self.prj_err = []
         self.prj_dropped = []
         self.projects_to_do = list(projects)
@@ -353,8 +354,8 @@ class Builder(object):
             try:
                 st = time.time()
                 self.__build_one(p)
-                msg = '%-*s (%.3f s)' % (Project.name_len, p.name, time.time() - st, )
-                self.prj_done.append(msg)
+                    msg = '%-*s (%.3f s)' % (Project.name_len, p.name, time.time() - st, )
+                    self.prj_done.append(msg)
             except KeyboardInterrupt:
                 traceback.print_exc()
                 error_exit("Interrupted on %s" % (p.name, ))
@@ -369,17 +370,22 @@ class Builder(object):
         script_title(None)
         if self.opts.keep:
             if self.prj_done:
-                print('Project(s) built:')
+                print('\nProject(s) built:')
                 for p in self.prj_done:
                     print('\t%s' % (p, ))
             
+            if self.prj_skipped:
+                print('\nProject(s) skipped (already built):')
+                for p in self.prj_skipped:
+                    print('\t%s' % (p, ))
+            
             if self.prj_err:
-                print('Project(s) not built:')
+                print('\nProject(s) not built:')
                 for p in self.prj_err:
                     print('\t%s' % (p, ))
 
                 if self.prj_dropped:
-                    print('Missing dependecies:')
+                    print('\nMissing dependecies:')
                     for p in self.prj_dropped:
                         print('\t%s' % (p, ))
 
