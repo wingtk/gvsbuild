@@ -561,7 +561,9 @@ class Project_gsettings_desktop_schemas(Tarball, Project):
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.24/gsettings-desktop-schemas-3.24.0.tar.xz',
             hash = 'f6573a3f661d22ff8a001cc2421d8647717f1c0e697e342d03c6102f29bbbb90',
             dependencies = ['perl', 'glib'],
-            patches = ['0001-build-win32-replace.py-Fix-replacing-items-in-files-.patch'],
+            patches = ['0001-build-win32-replace.py-Fix-replacing-items-in-files-.patch',
+                       '0002-glib-mkenums-python.patch',
+                       ],
             )
 
     def build(self):

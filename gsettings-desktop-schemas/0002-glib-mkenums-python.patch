@@ -1,0 +1,12 @@
+diff -ru cur/build/win32/gsettings-desktop-schemas-msvc.mak new/build/win32/gsettings-desktop-schemas-msvc.mak
+--- cur/build/win32/gsettings-desktop-schemas-msvc.mak	2017-03-20 12:47:41.000000000 +0100
++++ new/build/win32/gsettings-desktop-schemas-msvc.mak	2018-06-16 12:22:15.026750300 +0200
+@@ -60,7 +60,7 @@
+ 	$(PYTHON) genschema.py --input=$< --output=$@ --package=gsettings-desktop-schemas --prefix=$(PREFIX_POSIX)
+ 
+ org.gnome.desktop.enums.xml:
+-	$(PERL) $(PREFIX)\bin\glib-mkenums --comments "<!-- @comment@ -->"	\
++	$(PYTHON) $(PREFIX)\bin\glib-mkenums --comments "<!-- @comment@ -->"	\
+ 	--fhead "<schemalist>"	\
+ 	--vhead "  <@type@ id='org.gnome.desktop.@EnumName@'>"	\
+ 	--vprod "    <value nick='@valuenick@' value='@valuenum@'/>"	\
