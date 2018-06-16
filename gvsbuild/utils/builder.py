@@ -302,6 +302,7 @@ class Builder(object):
             proj.dependencies = [Project.get_project(dep) for dep in proj.dependencies]
             proj.dependents = []
             proj.load_defaults(self)
+            proj.mark_file_calc()
 
         for proj in Project.list_projects():
             self.__compute_deps(proj)
@@ -415,10 +416,12 @@ class Builder(object):
 
     def __build_one(self, proj):
         if self.opts.fast_build and not self.opts.clean:
-            if os.path.isdir(proj.build_dir):
-                print_message("Fast build:skipping project %s" % (proj.name, ))
+            t = proj.mark_file_exist()
+            if t:
+                print_message("Fast build:skipping project %s, built @ %s" % (proj.name, t, ))
                 return 
           
+        proj.mark_file_remove()
         print_message("Building project %s (%s)" % (proj.name, proj.version, ))
         script_title('%s (%s)' % (proj.name, proj.version, ))
 
@@ -483,6 +486,20 @@ class Builder(object):
             else:
                 # No file preentt
                 print_log("%s:zip not needed (tool?)" % (proj.name, ))
+
+        # Drop the mark file for all the projects that depends on this so we rebuild them
+        first = True
+        for p in Project._projects:
+            if p.is_project() and proj in p.all_dependencies:
+                if first:
+                    first = False
+                    print_debug('Forcing build of %s dependent' % (proj.name, ))
+                print_debug(" > Mark %s ..." % (p.name, ))
+                p.mark_file_remove()
+
+        # Mark this project done correctly
+        proj.mark_file_write()
+
         script_title(None)
 
     def make_zip(self, name, files):

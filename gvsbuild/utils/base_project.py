@@ -22,6 +22,7 @@ Base project class, used also for tools
 import os
 import shutil
 import re
+import datetime
 
 from .utils import _rmtree_error_handler
 from .simple_ui import print_debug, print_log, error_exit
@@ -42,6 +43,7 @@ class Project(object):
         self.tarbomb = False
         self.type = GVSBUILD_PROJECT
         self.version = None
+        self.mark_file = None
         for k in kwargs:
             setattr(self, k, kwargs[k])
         self.__working_dir = None
@@ -122,6 +124,7 @@ class Project(object):
         if os.path.exists(self.build_dir):
             print_debug("directory %s already exists" % (self.build_dir,))
             if self.update_build_dir():
+                self.mark_file_remove(None)
                 if os.path.exists(self.patch_dir):
                     print_log("Copying files from %s to %s" % (self.patch_dir, self.build_dir))
                     self.builder.copy_all(self.patch_dir, self.build_dir)
@@ -221,7 +224,39 @@ class Project(object):
                 self.version = 'git/master'
             else:
                 self.version = ''
+    
+    def mark_file_calc(self):
+        if not self.mark_file:
+            self.mark_file = os.path.join(self.build_dir, '.wingtk-built')
+            
+    def mark_file_remove(self):
+        self.mark_file_calc()
+        if os.path.isfile(self.mark_file):
+            os.remove(self.mark_file)
+            
+    def mark_file_write(self):
+        self.mark_file_calc()
+        try:
+            with open(self.mark_file, 'wt') as fo:
+                now = datetime.datetime.now().replace(microsecond=0)
+                fo.write('%s\n' % (now.strftime('%Y-%m-%d %H:%M:%S'), ))
+        except FileNotFoundError as e:
+            print_debug("Exception writing file '%s' (%s)" % (self.mark_file, e, ))
         
+    def mark_file_exist(self):
+        rt = None
+        self.mark_file_calc()
+        if os.path.isfile(self.mark_file):
+            try:
+                with open(self.mark_file, 'rt') as fi:
+                    rt = fi.readline().strip('\n')
+            except IOError as e:
+                print("Exception reading file '%s'" % (self.mark_file, ))
+                print(e)
+        return rt
+
+    def is_project(self):
+        return self.type == GVSBUILD_PROJECT
 
 def project_add(cls):
     """

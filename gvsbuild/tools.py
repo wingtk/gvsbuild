@@ -78,7 +78,9 @@ class Tool_msys2(Tool):
         self.msys_path = os.path.join(builder.opts.msys_dir, 'usr', 'bin')
 
     def unpack(self):
-        pass
+        # Create the directory to let the --fast-build option work as expected
+        if not os.path.exists(self.build_dir):
+            os.makedirs(self.build_dir)
 
     def get_path(self):
         # We always put msys at the end of path
@@ -187,7 +189,9 @@ class Tool_python(Tool):
             self.python_path = os.path.dirname(sys.executable)
 
     def unpack(self):
-        pass
+        # Create the directory to let the --fast-build option work as expected
+        if not os.path.exists(self.build_dir):
+            os.makedirs(self.build_dir)
 
     def get_path(self):
         return self.python_path
