@@ -525,7 +525,7 @@ class Project_graphene(GitRepo, Meson):
             )
 
     def build(self):
-        Meson.build(self)
+        Meson.build(self, meson_params='-Dbenchmarks=false', make_tests=True)
         self.install(r'.\LICENSE share\doc\graphene')
 
 @project_add
