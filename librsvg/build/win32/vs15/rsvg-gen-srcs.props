@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets">
+    <Import Project="rsvg-build-defines.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+    <CopyConfigH>copy ..\..\..\config.h.win32 ..\..\..\config.h</CopyConfigH>
+    <GenerateRsvgDef>
+echo EXPORTS &gt; $(DefDir)\rsvg.def
+cl  /EP ..\..\..\rsvg.symbols &gt;&gt; $(DefDir)\rsvg.def
+     </GenerateRsvgDef>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>rsvggensrcsprops</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <ItemDefinitionGroup />
+  <ItemGroup>
+    <BuildMacro Include="CopyConfigH">
+      <Value>$(CopyConfigH)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GenerateRsvgDef">
+      <Value>$(GenerateRsvgDef)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>
