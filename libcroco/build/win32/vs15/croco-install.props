@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is part of The Croco Library
+This program is free software; you can redistribute it and/or
+modify it under the terms of version 2.1 of the GNU Lesser General Public
+License as published by the Free Software Foundation.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+USA
+Author: Fan, Chun-wei
+See COPYRIGHTS file for copyright information.
+-->
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets">
+    <Import Project="croco-build-defines.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+    <BinDir>$(SolutionDir)$(Configuration)\$(Platform)\bin</BinDir>
+    <InstalledDlls>$(BinDir)\$(GlibDllPrefix)croco(GlibDllSuffix).dll</InstalledDlls>
+    <InstalledBins>$(BinDir)\csslint.exe</InstalledBins>
+    <LibCrocoDoInstall>
+mkdir $(CopyDir)
+mkdir $(CopyDir)\bin
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\$(LibCrocoDllPrefix)croco$(LibCrocoDllSuffix).dll $(CopyDir)\bin
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\$(LibCrocoDllPrefix)croco$(LibCrocoDllSuffix).pdb $(CopyDir)\bin
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\csslint.exe $(CopyDir)\bin
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\csslint.pdb $(CopyDir)\bin
+mkdir $(CopyDir)\include\libcroco-$(ApiVersion)\libcroco
+copy ..\..\..\src\libcroco.h $(CopyDir)\include\libcroco-0.6\libcroco\libcroco.h
+copy ..\..\..\src\cr-additional-sel.h $(CopyDir)\include\libcroco-0.6\libcroco\cr-additional-sel.h
+copy ..\..\..\src\cr-attr-sel.h $(CopyDir)\include\libcroco-0.6\libcroco\cr-attr-sel.h
+copy ..\..\..\src\cr-cascade.h $(CopyDir)\include\libcroco-0.6\libcroco\cr-cascade.h
+copy ..\..\..\src\cr-declaration.h $(CopyDir)\include\libcroco-0.6\libcroco\cr-declaration.h
+copy ..\..\..\src\cr-doc-handler.h $(CopyDir)\include\libcroco-0.6\libcroco\cr-doc-handler.h
+copy ..\..\..\src\cr-enc-handler.h $(CopyDir)\include\libcroco-0.6\libcroco\cr-enc-handler.h
+copy ..\..\..\src\cr-input.h $(CopyDir)\include\libcroco-0.6\libcroco\cr-input.h
+copy ..\..\..\src\cr-num.h $(CopyDir)\include\libcroco-0.6\libcroco\cr-num.h
+copy ..\..\..\src\cr-om-parser.h $(CopyDir)\include\libcroco-0.6\libcroco\cr-om-parser.h
+copy ..\..\..\src\cr-parser.h $(CopyDir)\include\libcroco-0.6\libcroco\cr-parser.h
+copy ..\..\..\src\cr-pseudo.h $(CopyDir)\include\libcroco-0.6\libcroco\cr-pseudo.h
+copy ..\..\..\src\cr-rgb.h $(CopyDir)\include\libcroco-0.6\libcroco\cr-rgb.h
+copy ..\..\..\src\cr-selector.h $(CopyDir)\include\libcroco-0.6\libcroco\cr-selector.h
+copy ..\..\..\src\cr-simple-sel.h $(CopyDir)\include\libcroco-0.6\libcroco\cr-simple-sel.h
+copy ..\..\..\src\cr-statement.h $(CopyDir)\include\libcroco-0.6\libcroco\cr-statement.h
+copy ..\..\..\src\cr-stylesheet.h $(CopyDir)\include\libcroco-0.6\libcroco\cr-stylesheet.h
+copy ..\..\..\src\cr-term.h $(CopyDir)\include\libcroco-0.6\libcroco\cr-term.h
+copy ..\..\..\src\cr-tknzr.h $(CopyDir)\include\libcroco-0.6\libcroco\cr-tknzr.h
+copy ..\..\..\src\cr-token.h $(CopyDir)\include\libcroco-0.6\libcroco\cr-token.h
+copy ..\..\..\src\cr-utils.h $(CopyDir)\include\libcroco-0.6\libcroco\cr-utils.h
+copy ..\..\..\src\cr-fonts.h $(CopyDir)\include\libcroco-0.6\libcroco\cr-fonts.h
+copy ..\..\..\src\cr-sel-eng.h $(CopyDir)\include\libcroco-0.6\libcroco\cr-sel-eng.h
+copy ..\..\..\src\cr-style.h $(CopyDir)\include\libcroco-0.6\libcroco\cr-style.h
+copy ..\..\..\src\cr-prop-list.h $(CopyDir)\include\libcroco-0.6\libcroco\cr-prop-list.h
+copy ..\..\..\src\cr-parsing-location.h $(CopyDir)\include\libcroco-0.6\libcroco\cr-parsing-location.h
+copy ..\..\..\src\cr-string.h $(CopyDir)\include\libcroco-0.6\libcroco\cr-string.h
+copy ..\..\..\src\libcroco-config.h $(CopyDir)\include\libcroco-0.6\libcroco\libcroco-config.h
+mkdir $(CopyDir)\lib
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\croco-$(ApiVersion).lib $(CopyDir)\lib
+    </LibCrocoDoInstall>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>crocoinstallprops</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <ItemGroup>
+    <BuildMacro Include="LibCrocoDoInstall">
+      <Value>$(LibCrocoDoInstall)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

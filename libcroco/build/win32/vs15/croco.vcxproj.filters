@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is part of The Croco Library
+This program is free software; you can redistribute it and/or
+modify it under the terms of version 2.1 of the GNU Lesser General Public
+License as published by the Free Software Foundation.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+USA
+Author: Fan, Chun-wei
+See COPYRIGHTS file for copyright information.
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+   <ClCompile Include="..\..\..\src\cr-utils.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\src\cr-input.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\src\cr-enc-handler.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\src\cr-num.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\src\cr-rgb.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\src\cr-token.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\src\cr-tknzr.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\src\cr-term.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\src\cr-attr-sel.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\src\cr-pseudo.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\src\cr-additional-sel.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\src\cr-simple-sel.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\src\cr-selector.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\src\cr-doc-handler.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\src\cr-parser.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\src\cr-declaration.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\src\cr-statement.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\src\cr-stylesheet.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\src\cr-cascade.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\src\cr-om-parser.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\src\cr-style.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\src\cr-sel-eng.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\src\cr-fonts.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\src\cr-prop-list.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\src\cr-parsing-location.c"><Filter>Source Files</Filter></ClCompile>
+   <ClCompile Include="..\..\..\src\cr-string.c"><Filter>Source Files</Filter></ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\config.h.win32"><Filter>Resource Files</Filter></CustomBuild>
+    <CustomBuild Include="..\..\..\src\libcroco.symbols"><Filter>Resource Files</Filter></CustomBuild>
+  </ItemGroup>
+</Project>
