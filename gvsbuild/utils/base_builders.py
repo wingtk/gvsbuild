@@ -35,7 +35,7 @@ class Meson(Project):
         # where we build, with ninja, the library
         ninja_build = self.build_dir + '-meson'
         # clean up and regenerate all
-        if self.builder.opts.clean and os.path.exists(ninja_build):
+        if self.clean and os.path.exists(ninja_build):
             print_debug("Removing meson build dir '%s'" % (ninja_build, ))
             shutil.rmtree(ninja_build, onerror=_rmtree_error_handler)
 
@@ -80,7 +80,7 @@ class CmakeProject(Project):
             cmake_dir = self.build_dir + '-cmake'
 
             # clean up and regenerate all
-            if self.builder.opts.clean and os.path.exists(cmake_dir):
+            if self.clean and os.path.exists(cmake_dir):
                 print_debug("Removing cmake build dir '%s'" % (cmake_dir, ))
                 shutil.rmtree(cmake_dir, onerror=_rmtree_error_handler)
 

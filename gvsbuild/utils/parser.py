@@ -57,6 +57,7 @@ def get_options(args):
     opts.keep_tools = args.keep_tools
     opts.fast_build = args.fast_build
     opts.keep = args.keep
+    opts.clean_built = args.clean_built
 
     if opts.make_zip and opts.no_deps:
         error_exit('Options --make-zip and --no-deps are not compatible')
@@ -90,6 +91,8 @@ def __get_projects_to_build(opts):
             for dep in p.all_dependencies:
                 to_build.add(dep)
         to_build.add(p)
+        if opts.clean_built:
+            p.clean = True
 
     # See if we need to drop some project
     if opts.skip:
@@ -119,8 +122,8 @@ def do_build(args):
     builder.build(to_build)
 
 def do_list(args):
-    def do_list_type(type, desc):
-        nl = [ (x.name, x.version, ) for x in Project._projects if x.type == type]
+    def do_list_type(prj_type, desc):
+        nl = [ (x.name, x.version, ) for x in Project._projects if x.type == prj_type]
         if nl:
             nl.sort()
             
@@ -199,6 +202,8 @@ Examples:
                          help='Only check hashes of downloaded archive(s), no build')
     p_build.add_argument('--clean', default=False, action='store_true',
                          help='Build the project(s) from scratch')
+    p_build.add_argument('--clean-built', default=False, action='store_true',
+                         help='Clean before the build only the project(s) asked on the command line, not all the ones to build (via a dependency)')
     p_build.add_argument('--no-deps', default=False, action='store_true',
                          help='Do not build dependencies of the selected project(s)')
 

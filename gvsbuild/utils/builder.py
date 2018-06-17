@@ -303,6 +303,8 @@ class Builder(object):
             proj.dependents = []
             proj.load_defaults(self)
             proj.mark_file_calc()
+            if self.opts.clean:
+                proj.clean = True
 
         for proj in Project.list_projects():
             self.__compute_deps(proj)
@@ -429,7 +431,7 @@ class Builder(object):
         """
         Build one project, return True if skipped
         """
-        if self.opts.fast_build and not self.opts.clean:
+        if self.opts.fast_build and not proj.clean:
             t = proj.mark_file_exist()
             if t:
                 print_message("Fast build:skipping project %s, built @ %s" % (proj.name, t, ))

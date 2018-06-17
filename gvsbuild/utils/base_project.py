@@ -44,6 +44,7 @@ class Project(object):
         self.type = GVSBUILD_PROJECT
         self.version = None
         self.mark_file = None
+        self.clean = False
         for k in kwargs:
             setattr(self, k, kwargs[k])
         self.__working_dir = None
@@ -118,7 +119,7 @@ class Project(object):
         self.__working_dir = None
 
     def prepare_build_dir(self):
-        if self.builder.opts.clean and os.path.exists(self.build_dir):
+        if self.clean and os.path.exists(self.build_dir):
             shutil.rmtree(self.build_dir, onerror=_rmtree_error_handler)
 
         if os.path.exists(self.build_dir):
