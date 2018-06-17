@@ -692,7 +692,8 @@ class Builder(object):
     def __sub_vars(self, s):
         if '%' in s:
             d = dict(platform=self.opts.platform, configuration=self.opts.configuration, build_dir=self.opts.build_dir, vs_ver=self.opts.vs_ver,
-                     gtk_dir=self.gtk_dir, python_dir=self.opts.python_dir, perl_dir=self.perl_dir, msbuild_opts=self.msbuild_opts)
+                     gtk_dir=self.gtk_dir, python_dir=self.opts.python_dir, perl_dir=self.perl_dir, msbuild_opts=self.msbuild_opts, 
+                     vs_ver_year=self.vs_ver_year, )
             if self.__project is not None:
                 d['pkg_dir'] = self.__project.pkg_dir
                 d['build_dir'] = self.__project.build_dir
