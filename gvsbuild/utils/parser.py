@@ -211,8 +211,8 @@ Examples:
                          help='A comma separated list of project(s) not to build.')
 
     p_build.add_argument('--make-zip', default=False, action='store_true',
-                         help="Create singles zips of the projects built under $(build-dir)\\dist\\vsXXXX\\[platform]\\[configuration], " +
-                         "for example 'c:\\gtk-build\\dist\\vs2015\\win32\\release'. " +
+                         help="Create singles zips of the projects built under $(build-dir)\\dist\\vsXXXX[-sdkVer]\\[platform]\\[configuration], " +
+                         "for example 'c:\\gtk-build\\dist\\vs2015-8.1\\win32\\release'. " +
                          "NOTE: the destination dir (e.g. 'c:\\gtk-build\\gtk\\win32\\release') " +
                          "will be cleared completely before the build!")
     p_build.add_argument('--zip-continue', default=False, action='store_true',
@@ -225,7 +225,7 @@ Examples:
     p_build.add_argument('--keep-tools', default=False, action='store_true',
                          help="Active only when used with --from-scratch, keep and don't delete the (common) tool directory.")
     p_build.add_argument('--fast-build', default=False, action='store_true',
-                         help="Assume that a project is up to date if the build directory is present. Use with caution!")
+                         help="Don't build a project if it's already built and not updated. Use with caution!")
     p_build.add_argument('-k', '--keep', default=False, action='store_true',
                          help="Continue the build even on errors, dropping the projects that depends on the failed ones")
 
