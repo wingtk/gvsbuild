@@ -23,7 +23,7 @@ import argparse
 import os
 import sys
 
-from .base_project import Project, GVSBUILD_PROJECT, GVSBUILD_TOOL, GVSBUILD_GROUP
+from .base_project import Project, GVSBUILD_PROJECT, GVSBUILD_TOOL, GVSBUILD_GROUP, GVSBUILD_IGNORE
 from .builder import Builder
 from .utils import ordered_set
 from .simple_ui import error_exit, print_debug
@@ -134,6 +134,7 @@ def do_list(args):
     do_list_type(GVSBUILD_TOOL, "Available tools")
     do_list_type(GVSBUILD_PROJECT, "Available projects")
     do_list_type(GVSBUILD_GROUP, "Available groups")
+    do_list_type(GVSBUILD_IGNORE, "Developer project(s)")
     sys.exit(0)
 
 def create_parser():
