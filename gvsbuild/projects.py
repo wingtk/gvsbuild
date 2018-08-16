@@ -449,15 +449,38 @@ class Project_gobject_introspection(GitRepo, Meson):
                 'msys2',
                 'pkg-config',
                 'glib',
-                # This ones are for add their's gir
-                'atk',
-                'gdk-pixbuf',
-                'pango',
-                'gtk',
-                'gtk3',
                 ],
             patches = [
                 '00_glib_win_ver.patch',
+                ],
+            )
+
+    def build(self):
+        # For finding gobject-introspection.pc
+        self.builder.mod_env('PKG_CONFIG_PATH', '.')
+        # For finding & using girepository.lib/.dll
+        self.builder.mod_env('LIB', r'.\girepository')
+        self.builder.mod_env('PATH', r'.\girepository')
+        # For linking the _giscanner.pyd extension module when using a virtualenv
+        py_libs = python_find_libs_dir(Project.get_tool_path('python'))
+        if py_libs:
+            print_debug("Python library path is [%s]" % (py_libs, ))
+            self.builder.mod_env('LIB', py_libs, prepend=False)
+
+        Meson.build(self)
+
+@project_add
+class Project_gobject_gir(NullExpander, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'gobject-gir',
+            version='0.1.0',
+            dependencies = [
+                 'atk',
+                 'gdk-pixbuf',
+                 'pango',
+                 'gtk',
+                 'gtk3',
                 ],
             )
 
@@ -492,19 +515,6 @@ class Project_gobject_introspection(GitRepo, Meson):
         self.builder.restore_env(old_inc)
 
     def build(self):
-        # For finding gobject-introspection.pc
-        self.builder.mod_env('PKG_CONFIG_PATH', '.')
-        # For finding & using girepository.lib/.dll
-        self.builder.mod_env('LIB', r'.\girepository')
-        self.builder.mod_env('PATH', r'.\girepository')
-        # For linking the _giscanner.pyd extension module when using a virtualenv
-        py_libs = python_find_libs_dir(Project.get_tool_path('python'))
-        if py_libs:
-            print_debug("Python library path is [%s]" % (py_libs, ))
-            self.builder.mod_env('LIB', py_libs, prepend=False)
-
-        Meson.build(self)
-
         # Build extra gir/typelib
         self.make_single_gir('atk')
         self.make_single_gir('gdk-pixbuf', add_meson=True)
