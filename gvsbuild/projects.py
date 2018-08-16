@@ -478,7 +478,6 @@ class Project_gobject_gir(NullExpander, Project):
             dependencies = [
                  'atk',
                  'gdk-pixbuf',
-                 'pango',
                  'gtk',
                  'gtk3',
                 ],
@@ -519,7 +518,6 @@ class Project_gobject_gir(NullExpander, Project):
         self.make_single_gir('atk')
         self.make_single_gir('gdk-pixbuf', add_meson=True)
         self.builder.mod_env('INCLUDE', '%s\\include\\cairo' % (self.builder.gtk_dir, ))
-        self.make_single_gir('pango')
         self.make_single_gir('gtk', prj_dir='gtk')
         self.make_single_gir('gtk', prj_dir='gtk3')
 
@@ -1246,11 +1244,18 @@ class Project_pango(Tarball, Meson):
             'pango',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.42/pango-1.42.1.tar.xz',
             hash = '915a6756b298578ff27c7a6393f8c2e62e6e382f9411f2504d7af1a13c7bce32',
-            dependencies = ['ninja', 'meson', 'cairo', 'harfbuzz', 'fribidi'],
+            dependencies = [
+                'ninja', 
+                'meson', 
+                'cairo', 
+                'harfbuzz', 
+                'fribidi',
+                'gobject-introspection',
+            ],
             )
 
     def build(self):
-        Meson.build(self, meson_params='-Dgir=false')
+        Meson.build(self, meson_params='-Dgir=true')
         self.install(r'COPYING share\doc\pango')
 
 @project_add
