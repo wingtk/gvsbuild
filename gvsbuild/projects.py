@@ -59,11 +59,18 @@ class Project_atk(Tarball, Meson):
             'atk',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/atk/2.28/atk-2.28.1.tar.xz',
             hash = 'cd3a1ea6ecc268a2497f0cd018e970860de24a6d42086919d6bf6c8e8d53f4fc',
-            dependencies = ['ninja', 'meson', 'pkg-config', 'perl', 'glib'],
+            dependencies = [
+                'ninja', 
+                'meson', 
+                'pkg-config', 
+                'perl', 
+                'glib',
+                'gobject-introspection',
+            ],
             )
 
     def build(self):
-        Meson.build(self, meson_params='-Ddisable_introspection=true -Denable_docs=false', make_tests=True)
+        Meson.build(self, meson_params='-Ddisable_introspection=false -Denable_docs=false', make_tests=True)
         self.install(r'.\COPYING share\doc\atk')
 
 @project_add
@@ -476,7 +483,6 @@ class Project_gobject_gir(NullExpander, Project):
             'gobject-gir',
             version='0.1.0',
             dependencies = [
-                 'atk',
                  'gdk-pixbuf',
                  'gtk',
                  'gtk3',
@@ -515,7 +521,6 @@ class Project_gobject_gir(NullExpander, Project):
 
     def build(self):
         # Build extra gir/typelib
-        self.make_single_gir('atk')
         self.make_single_gir('gdk-pixbuf', add_meson=True)
         self.builder.mod_env('INCLUDE', '%s\\include\\cairo' % (self.builder.gtk_dir, ))
         self.make_single_gir('gtk', prj_dir='gtk')
