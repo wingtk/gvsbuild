@@ -748,6 +748,7 @@ class Project_leveldb(Tarball, Project):
         Project.__init__(self,
             'leveldb',
             archive_url = 'https://github.com/google/leveldb/archive/v1.20.tar.gz',
+            archive_file_name = 'leveldb-1.20.tar.gz',
             hash = 'f5abe8b5b209c2f36560b75f32ce61412f39a2922f7045ae764a2c23335b6664',
             )
 
@@ -1035,6 +1036,7 @@ class Project_libuv(Tarball, Project):
         Project.__init__(self,
             'libuv',
             archive_url = 'https://github.com/libuv/libuv/archive/v1.11.0.tar.gz',
+            archive_file_name = 'libuv-1.11.0.tar.gz',
             hash = '6ec7eec6ecc24b1a8ffedebedb2fe9313fffb5410de89aaf784dd01080411c7a',
             )
 
@@ -1142,6 +1144,7 @@ class Project_lz4(Tarball, Project):
         Project.__init__(self,
             'lz4',
             archive_url = 'https://github.com/lz4/lz4/archive/v1.8.2.tar.gz',
+            archive_file_name = 'lz4-1.8.2.tar.gz',
             hash = '0963fbe9ee90acd1d15e9f09e826eaaf8ea0312e854803caf2db0a6dd40f4464',
             )
 
@@ -1378,6 +1381,7 @@ class Project_win_iconv(Tarball, CmakeProject):
         Project.__init__(self,
             'win-iconv',
             archive_url = 'https://github.com/win-iconv/win-iconv/archive/v0.0.8.tar.gz',
+            archive_file_name = 'win-iconv-0.0.8.tar.gz',
             hash = '23adea990a8303c6e69e32a64a30171efcb1b73824a1c2da1bbf576b0ae7c520',
             dependencies = ['cmake', 'ninja', ],
             )
