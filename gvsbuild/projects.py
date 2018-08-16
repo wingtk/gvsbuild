@@ -347,14 +347,24 @@ class Project_gdk_pixbuf(Tarball, Meson):
             'gdk-pixbuf',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.36/gdk-pixbuf-2.36.12.tar.xz',
             hash = 'fff85cf48223ab60e3c3c8318e2087131b590fd6f1737e42cb3759a3b427a334',
-            dependencies = ['ninja', 'pkg-config', 'meson', 'perl', 'libtiff-4', 'jasper', 'glib', 'libpng'],
+            dependencies = [
+                'ninja', 
+                'pkg-config', 
+                'meson', 
+                'perl', 
+                'libtiff-4', 
+                'jasper', 
+                'glib', 
+                'libpng',
+                'gobject-introspection',
+            ],
             )
 
     def build(self):
         # We can experiment with a couple of options to give to meson:
         #    -Dbuiltin_loaders=all|windows
         #        Buld the loader inside the library
-        Meson.build(self, meson_params='-Djasper=true -Dnative_windows_loaders=true -Dgir=false -Dman=false')
+        Meson.build(self, meson_params='-Djasper=true -Dnative_windows_loaders=true -Dgir=true -Dman=false')
         self.install(r'.\COPYING share\doc\gdk-pixbuf')
 
     def post_install(self):
@@ -483,13 +493,12 @@ class Project_gobject_gir(NullExpander, Project):
             'gobject-gir',
             version='0.1.0',
             dependencies = [
-                 'gdk-pixbuf',
                  'gtk',
                  'gtk3',
                 ],
             )
 
-    def make_single_gir(self, prj_name, prj_dir=None, add_meson=False):
+    def make_single_gir(self, prj_name, prj_dir=None):
         if not prj_dir:
             prj_dir = prj_name
 
@@ -499,13 +508,6 @@ class Project_gobject_gir(NullExpander, Project):
             if not os.path.isfile(os.path.join(b_dir, 'detectenv-msvc.mak')):
                 print_message('Unable to find detectenv-msvc.mak for %s' % (prj_name, ))
                 return
-
-        old_inc = None
-        if add_meson:
-            # include
-            add_inc = r'%s\%s-meson' % (self.builder.working_dir, prj_dir, )
-            old_inc = self.builder.mod_env('INCLUDE', add_inc, prepend=False)
-            print("Include add: %s" % (add_inc, ))
 
         cmd = 'nmake -f %s-introspection-msvc.mak CFG=%s PREFIX=%s PYTHON=%s\python.exe install-introspection' % (
                 prj_name,
@@ -517,11 +519,9 @@ class Project_gobject_gir(NullExpander, Project):
         self.push_location(b_dir)
         self.exec_vs(cmd)
         self.pop_location()
-        self.builder.restore_env(old_inc)
 
     def build(self):
         # Build extra gir/typelib
-        self.make_single_gir('gdk-pixbuf', add_meson=True)
         self.builder.mod_env('INCLUDE', '%s\\include\\cairo' % (self.builder.gtk_dir, ))
         self.make_single_gir('gtk', prj_dir='gtk')
         self.make_single_gir('gtk', prj_dir='gtk3')
