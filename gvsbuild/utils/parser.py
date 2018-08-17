@@ -66,6 +66,10 @@ def get_options(args):
         opts.archives_download_dir = os.path.join(args.build_dir, 'src')
     if not opts.patches_root_dir:
         opts.patches_root_dir = sys.path[0]
+    prop_file = os.path.join(opts.patches_root_dir, 'stack.props')
+    if not os.path.isfile(prop_file):
+        error_exit("Missing 'stack.prop' file on directory '%s'.\nWrong or missing --patches-root-dir option?" % (opts.patches_root_dir, ))
+        
     if not opts.tools_root_dir:
         opts.tools_root_dir = os.path.join(args.build_dir, 'tools')
     if not opts.vs_install_path:
