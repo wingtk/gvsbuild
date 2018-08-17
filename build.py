@@ -19,6 +19,19 @@
 Main build script
 """
 
+# Verify we can import from the script directory
+try:
+    import gvsbuild.utils.utils
+except ImportError:
+    # We are probably using an embedded installation
+    print('Error importing utility, fixing paths ...')
+    import sys
+    import os
+    # Get the script dir
+    script_dir = os.path.dirname(os.path.realpath(sys.argv[0]))
+    # and add it at the beginning, emulating the standard python startup
+    sys.path.insert(0, script_dir)
+
 # Options parser
 from gvsbuild.utils.parser import create_parser
 from gvsbuild.utils.simple_ui import handle_global_options
