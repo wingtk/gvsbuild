@@ -493,6 +493,7 @@ class Project_gobject_gir(NullExpander, Project):
             'gobject-gir',
             version='0.1.0',
             dependencies = [
+                 'gobject-introspection',
                  'gtk',
                  'gtk3',
                 ],
