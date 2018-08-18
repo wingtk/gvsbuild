@@ -58,3 +58,15 @@ This build script is licensed under the GPL2.0 license, see the COPYING file for
 The binaries produced by the build script are licensed under the license terms of the project that gets built (ie glib is LGPL so you can use glib.dll built with this script under the terms of LGPL).
 
 Patches included in the repository are licensed under the license terms of the project they apply to.
+
+## Dependency print / graph
+
+To see and analyze the dependency between the various projects, in text or in a Graphviz format, use the script deps.py:
+
+    ```
+    cd C:\gtk-build\github\gvsbuild
+    python .\deps.py -g -o test.gv
+    ```
+
+Without option a simple dependency of all the projects is printed, as usual with --help a summary of the options/commands is printed. 
+
