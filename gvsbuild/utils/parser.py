@@ -79,6 +79,8 @@ def get_options(args):
             opts.vs_install_path = r'C:\Program Files (x86)\Microsoft Visual Studio %s.0' % (opts.vs_ver,)
 
     opts.projects = args.project
+    # now add the tools/projects/groups
+    Project.add_all()
 
     for p in opts.projects:
         if not p in Project.get_names():
@@ -135,6 +137,8 @@ def do_list(args):
             for i in nl:
                 print('\t%-*s %s' % (Project.name_len, i[0], i[1], ))
 
+    # now add the tools/projects/groups
+    Project.add_all()
     do_list_type(GVSBUILD_TOOL, "Available tools")
     do_list_type(GVSBUILD_PROJECT, "Available projects")
     do_list_type(GVSBUILD_GROUP, "Available groups")

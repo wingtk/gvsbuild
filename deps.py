@@ -170,6 +170,8 @@ def main():
 
     # get the option(s)
     opt = parser.parse_args()
+    # now add the tools/projects/groups
+    Project.add_all()
     # do what's asked
     if opt.graph:
         # .gv graph

@@ -27,6 +27,7 @@ import datetime
 from .utils import _rmtree_error_handler
 from .simple_ui import print_debug, print_log, error_exit
 
+GVSBUILD_NONE = -1
 GVSBUILD_IGNORE = 0
 GVSBUILD_PROJECT = 1
 GVSBUILD_TOOL = 2
@@ -41,7 +42,7 @@ class Project(object):
         self.archive_url = None
         self.archive_file_name = None
         self.tarbomb = False
-        self.type = GVSBUILD_PROJECT
+        self.type = GVSBUILD_NONE
         self.version = None
         self.mark_file = None
         self.clean = False
@@ -58,6 +59,8 @@ class Project(object):
     _dict = {}
     _ver_res = None
     name_len = 0
+    # List of class/type to add, now not at import time but after some options are parsed
+    _reg_prj_list = []
 
     def __str__(self):
         return self.name
@@ -152,8 +155,24 @@ class Project(object):
         Project._projects.append(proj)
         Project._names.append(proj.name)
         Project._dict[proj.name] = proj
-        if type != GVSBUILD_IGNORE:
+        if proj.type == GVSBUILD_NONE:
             proj.type = type
+
+    @staticmethod
+    def register(cls, ty):
+        """
+        Register the class to be added after some initialization
+        """
+        Project._reg_prj_list.append((cls, ty, ))
+        
+    @staticmethod
+    def add_all():
+        """
+        Add all the registered class 
+        """
+        for cls, ty in Project._reg_prj_list:
+            Project.add(cls(), type=ty)
+        del Project._reg_prj_list
 
     @staticmethod
     def get_project(name):
@@ -263,5 +282,5 @@ def project_add(cls):
     """
     Class decorator to add the newly created Project class to the global projects/tools/groups list
     """
-    Project.add(cls())
+    Project.register(cls, GVSBUILD_PROJECT)
     return cls
