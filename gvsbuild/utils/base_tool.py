@@ -46,13 +46,9 @@ class Tool(Project):
         # Mandatory for tools
         raise NotImplementedError("get_path")
 
-    @staticmethod
-    def add(proj):
-        Project.add(proj, type=GVSBUILD_TOOL)
-
 def tool_add(cls):
     """
     Class decorator to add the newly created Toolp class to the global projects/tools/groups list
     """
-    Tool.add(cls())
+    Project.register(cls, GVSBUILD_TOOL)
     return cls

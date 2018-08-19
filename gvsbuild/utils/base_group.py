@@ -34,13 +34,9 @@ class Group(Project):
     def build(self):
         pass
 
-    @staticmethod
-    def add(proj):
-        Project.add(proj, type=GVSBUILD_GROUP)
-
 def group_add(cls):
     """
     Class decorator to add the newly created Group class to the global projects/tools/groups list
     """
-    Group.add(cls())
+    Project.register(cls, GVSBUILD_GROUP)
     return cls
