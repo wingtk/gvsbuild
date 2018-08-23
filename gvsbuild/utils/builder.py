@@ -356,6 +356,8 @@ class Builder(object):
         
         while self.projects_to_do:
             p = self.projects_to_do.pop(0)
+            # save the vs environment
+            saved_env = copy.copy(self.vs_env)
             try:
                 st = time.time()
                 if self.__build_one(p):
@@ -373,7 +375,8 @@ class Builder(object):
                     self._drop_proj(p)
                 else:
                     error_exit("%s build failed" % (p.name, ))
-
+            self.vs_env = saved_env
+            
         script_title(None)
         if self.opts.keep:
             if self.prj_done:
@@ -446,8 +449,6 @@ class Builder(object):
         print_message("Building project %s (%s)" % (proj.name, proj.version, ))
         script_title('%s (%s)' % (proj.name, proj.version, ))
 
-        # save the vs environment
-        saved_env = copy.copy(self.vs_env)
         proj.builder = self
         self.__project = proj
 
@@ -489,9 +490,6 @@ class Builder(object):
 
         proj.builder = None
         self.__project = None
-        # Restore the full environment
-        self.vs_env = saved_env
-        saved_env = None
 
         if self.opts.make_zip:
             # Create file list
