@@ -54,7 +54,6 @@ class Group_Gtk3_Full(Group):
                 'gtk3',
                 'gtksourceview3',
                 'hicolor-icon-theme',
-                'pkg-config',
                 'wing',
                 ],
             )
