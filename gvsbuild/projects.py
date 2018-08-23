@@ -480,12 +480,13 @@ class Project_gobject_introspection(GitRepo, Meson):
         self.builder.mod_env('LIB', r'.\girepository')
         self.builder.mod_env('PATH', r'.\girepository')
         # For linking the _giscanner.pyd extension module when using a virtualenv
-        py_libs = python_find_libs_dir(Project.get_tool_path('python'))
+        py_dir = Project.get_tool_path('python')
+        py_libs = python_find_libs_dir(py_dir)
         if py_libs:
             print_debug("Python library path is [%s]" % (py_libs, ))
             self.builder.mod_env('LIB', py_libs, prepend=False)
 
-        Meson.build(self)
+        Meson.build(self, meson_params='-Dpython=%s\\python.exe -Dcairo-libname=cairo-gobject.dll' % (py_dir, ))
 
 @project_add
 class Project_gobject_gir(NullExpander, Project):
