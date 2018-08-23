@@ -1261,6 +1261,9 @@ class Project_pango(Tarball, Meson):
                 'fribidi',
                 'gobject-introspection',
             ],
+            patches = [ 
+                '001-ignore-help2man.patch', 
+            ], 
             )
 
     def build(self):
