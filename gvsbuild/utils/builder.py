@@ -391,10 +391,15 @@ class Builder(object):
                 for p in self.prj_err:
                     print('\t%s' % (p, ))
 
+                miss = len(self.prj_err)
                 if self.prj_dropped:
                     print('\nMissing dependecies:')
                     for p in self.prj_dropped:
                         print('\t%s' % (p, ))
+                    miss += len(self.prj_dropped)
+
+                # Don't fool appveyor
+                error_exit('%u project(s) missing ;(' % (miss, ))
 
     def __prepare_build(self, projects):
         if not os.path.exists(self.working_dir):
