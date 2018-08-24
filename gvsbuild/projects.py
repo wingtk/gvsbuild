@@ -975,8 +975,8 @@ class Project_libsoup(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libsoup',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.62/libsoup-2.62.2.tar.xz',
-            hash = '9e536fe3da60b25d2c63addb84a9d5072d00b0d8b8cbeabc629a6bcd63f879b6',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.62/libsoup-2.62.3.tar.xz',
+            hash = 'd312ade547495c2093ff8bda61f9b9727a98cfdae339f3263277dd39c0451172',
             dependencies = ['libxml2', 'glib-openssl', 'sqlite'],
             )
 
