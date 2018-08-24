@@ -267,8 +267,8 @@ class Project_fontconfig(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'fontconfig',
-            archive_url = 'https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.12.6.tar.gz',
-            hash = '064b9ebf060c9e77011733ac9dc0e2ce92870b574cca2405e11f5353a683c334',
+            archive_url = 'https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.0.tar.gz',
+            hash = 'a6ca290637d8b2c4e1dd40549b179202977593f7481ec83ddfb1765ad90037ba',
             dependencies = ['freetype', 'libxml2'],
             patches = ['fontconfig.patch'],
             )
