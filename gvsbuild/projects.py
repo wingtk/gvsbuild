@@ -242,8 +242,8 @@ class Project_ffmpeg(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'ffmpeg',
-            archive_url = 'http://ffmpeg.org/releases/ffmpeg-4.0.tar.xz',
-            hash = 'ed945daf40b124e77a685893cc025d086f638bc703183460aff49508edb3a43f',
+            archive_url = 'http://ffmpeg.org/releases/ffmpeg-4.0.2.tar.xz',
+            hash = 'a95c0cc9eb990e94031d2183f2e6e444cc61c99f6f182d1575c433d62afb2f97',
             dependencies = [ 'yasm', 'x264' ],
         )
 
