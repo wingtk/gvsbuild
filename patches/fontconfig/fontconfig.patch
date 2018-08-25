@@ -174,4 +174,90 @@ index 556a05e..f478742 100644
  
  #endif /* _FCMUTEX_H_ */
 
+diff -bru fontconfig/src/fccache.c fontconfig-ok/src/fccache.c
+--- fontconfig/src/fccache.c	2017-12-18 13:45:13.000000000 +0100
++++ fontconfig-ok/src/fccache.c	2018-08-25 18:19:25.678887800 +0200
+@@ -30,7 +30,7 @@
+ #include <limits.h>
+ #include <sys/types.h>
+ #include <sys/stat.h>
+-#include <sys/time.h>
++//#include <sys/time.h>
+ #include <assert.h>
+ #if defined(HAVE_MMAP) || defined(__CYGWIN__)
+ #  include <unistd.h>
+@@ -38,6 +38,7 @@
+ #endif
+ #if defined(_WIN32)
+ #include <sys/locking.h>
++#include <io.h>
+ #else
+ #include <uuid/uuid.h>
+ #endif
+diff -bru fontconfig/src/fccfg.c fontconfig-ok/src/fccfg.c
+--- fontconfig/src/fccfg.c	2018-02-04 12:01:46.000000000 +0100
++++ fontconfig-ok/src/fccfg.c	2018-08-25 18:22:38.690550800 +0200
+@@ -32,6 +32,11 @@
+ #if defined (_WIN32) && !defined (R_OK)
+ #define R_OK 4
+ #endif
++#if defined (_WIN32)
++#include <io.h>
++#include <stdlib.h>
++#define PATH_MAX    _MAX_PATH
++#endif
+
+ static FcConfig    *_fcConfig; /* MT-safe */
+
+diff -bru fontconfig/src/fccompat.c fontconfig-ok/src/fccompat.c
+--- fontconfig/src/fccompat.c	2018-01-04 12:39:14.000000000 +0100
++++ fontconfig-ok/src/fccompat.c	2018-08-25 18:30:05.200394100 +0200
+@@ -26,6 +26,9 @@
+  */
+
+ #include "fcint.h"
++#if defined(_WIN32)
++#include <io.h>
++#endif
+
+ #include <errno.h>
+ #if HAVE_SYS_TYPES_H
+diff -bru fontconfig/src/fclist.c fontconfig-ok/src/fclist.c
+--- fontconfig/src/fclist.c	2017-12-05 13:44:22.000000000 +0100
++++ fontconfig-ok/src/fclist.c	2018-08-25 18:32:13.186804400 +0200
+@@ -80,7 +80,7 @@
+     }
+     if (c < 0)
+ 	mid++;
+-    memmove (os->objects + mid + 1, os->objects + mid,
++    memmove ((char **)os->objects + mid + 1, os->objects + mid,
+ 	     (os->nobject - mid) * sizeof (const char *));
+     os->objects[mid] = object;
+     os->nobject++;
+diff -bru fontconfig/src/fcstat.c fontconfig-ok/src/fcstat.c
+--- fontconfig/src/fcstat.c	2017-10-12 08:51:29.000000000 +0200
++++ fontconfig-ok/src/fcstat.c	2018-08-25 18:39:16.952212400 +0200
+@@ -43,6 +43,9 @@
+ #include <sys/mount.h>
+ #endif
+ #include <errno.h>
++#if defined(_WIN32)
++#include <io.h>
++#endif
+
+ #ifdef _WIN32
+ #ifdef __GNUC__
+diff -bru fontconfig/src/fcxml.c fontconfig-ok/src/fcxml.c
+--- fontconfig/src/fcxml.c	2018-02-04 12:01:55.000000000 +0100
++++ fontconfig-ok/src/fcxml.c	2018-08-25 18:39:26.385309700 +0200
+@@ -26,6 +26,9 @@
+ #include <fcntl.h>
+ #include <stdarg.h>
+ #include <dirent.h>
++#if defined(_WIN32)
++#include <io.h>
++#endif
+
+ #ifdef ENABLE_LIBXML2
+
 

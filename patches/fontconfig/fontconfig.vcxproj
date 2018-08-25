@@ -221,7 +221,6 @@
   <ItemGroup>
     <ClCompile Include="dirent.c" />
     <ClCompile Include="src\fcatomic.c" />
-    <ClCompile Include="src\fcblanks.c" />
     <ClCompile Include="src\fccache.c" />
     <ClCompile Include="src\fccfg.c" />
     <ClCompile Include="src\fccharset.c" />
@@ -232,6 +231,7 @@
     <ClCompile Include="src\fcformat.c" />
     <ClCompile Include="src\fcfreetype.c" />
     <ClCompile Include="src\fcfs.c" />
+    <ClCompile Include="src\fchash.c" />
     <ClCompile Include="src\fcinit.c" />
     <ClCompile Include="src\fclang.c" />
     <ClCompile Include="src\fclist.c" />
@@ -240,6 +240,7 @@
     <ClCompile Include="src\fcname.c" />
     <ClCompile Include="src\fcobjs.c" />
     <ClCompile Include="src\fcpat.c" />
+    <ClCompile Include="src\fcptrlist.c" />
     <ClCompile Include="src\fcserialize.c" />
     <ClCompile Include="src\fcstat.c" />
     <ClCompile Include="src\fcstr.c" />
@@ -255,10 +256,6 @@
     </ProjectReference>
     <ProjectReference Include="fc-case.vcxproj">
       <Project>{1b4e62f7-3437-48d5-aab2-cbbe3de513ed}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="fc-glyphname.vcxproj">
-      <Project>{9e193d8e-2adf-4cd9-8860-9da4c41e6eb8}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="fc-lang.vcxproj">

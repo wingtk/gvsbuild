@@ -38,6 +38,9 @@
 /* Font configuration directory */
 #define CONFDIR "c:/windows/etc"
 
+/* Font template dir ? */
+#define FC_TEMPLATEDIR "c:/windows/etc/font.template"
+
 /* Use libxml2 instead of Expat */
 /* #undef ENABLE_LIBXML2 */
 #define ENABLE_LIBXML2 1
@@ -227,7 +230,7 @@
 #define USE_ICONV 1
 
 /* Version number of package */
-#define VERSION "2.7.3"
+#define VERSION "2.13.0"
 
 /* Define to empty if `const' does not conform to ANSI C. */
 /* #undef const */
@@ -245,9 +248,11 @@
 # ifdef _WIN64
 #  define SIZEOF_VOID_P 8
 #  define ALIGNOF_DOUBLE 8
+    typedef long long   ssize_t;
 # else
 #  define SIZEOF_VOID_P 4
 #  define ALIGNOF_DOUBLE 4
+    typedef long        ssize_t;
 # endif
 #endif
 

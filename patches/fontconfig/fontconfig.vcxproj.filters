@@ -21,9 +21,6 @@
     <ClCompile Include="src\fcatomic.c">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\fcblanks.c">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="src\fccache.c">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -97,6 +94,12 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="src\fcweight.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fchash.c">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fcptrlist.c">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
