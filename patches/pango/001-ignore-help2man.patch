@@ -1,5 +1,6 @@
---- "pango-fixed\\pango-view\\meson.build"	2018-04-07 12:00:40.000000000 +0200
-+++ "pango\\pango-view\\meson.build"	2018-08-23 23:14:03.143519000 +0200
+diff -bru a/utils/meson.build b/utils/meson.build
+--- a/utils/meson.build		2018-04-07 12:00:40.000000000 +0200
++++ b/utils/meson.build		2018-08-23 23:14:03.143519000 +0200
 @@ -39,6 +39,8 @@
                            '-DPACKAGE_VERSION="@0@"'.format(meson.project_version()),
                          ])
