@@ -1467,14 +1467,13 @@ class Project_pycairo(Tarball, Project):
 
     def build(self):
         cairo_inc = os.path.join(self.builder.gtk_dir, 'include', 'cairo')
-        old_inc = self.builder.mod_env('INCLUDE', cairo_inc)
+        self.builder.mod_env('INCLUDE', cairo_inc)
         self.push_location(self.build_dir)
         self.exec_vs(r'%(python_dir)s\python.exe setup.py install')
         self.install(r'.\COPYING share\doc\pycairo')
         self.install(r'.\COPYING-LGPL-2.1 share\doc\pycairo')
         self.install(r'.\COPYING-MPL-1.1 share\doc\pycairo')
         self.pop_location()
-        self.builder.restore_env(old_inc)
 
 @project_add
 class Project_pygobject(Tarball, Project):
@@ -1494,12 +1493,11 @@ class Project_pygobject(Tarball, Project):
             os.path.join(gtk_dir, 'include', 'glib-2.0'),
             os.path.join(gtk_dir, 'lib', 'glib-2.0', 'include'),
         ]
-        old_inc = self.builder.mod_env('INCLUDE', ";".join(add_inc))
+        self.builder.mod_env('INCLUDE', ";".join(add_inc))
         self.push_location(self.build_dir)
         self.exec_vs(r'%(python_dir)s\python.exe setup.py install')
         self.install(r'.\COPYING share\doc\pygobject')
         self.pop_location()
-        self.builder.restore_env(old_inc)
 
 @project_add
 class Project_pygtk(GitRepo, CmakeProject):
