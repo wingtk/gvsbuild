@@ -639,7 +639,6 @@ class Project_gtk3(Project_gtk_base):
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.22/gtk+-3.22.30.tar.xz',
             hash = 'a1a4a5c12703d4e1ccda28333b87ff462741dc365131fbc94c218ae81d9a6567',
             dependencies = ['atk', 'gdk-pixbuf', 'pango', 'libepoxy'],
-            patches = ['gtk3-clip-retry-if-opened-by-others.patch'],
             )
 
     def build(self):
