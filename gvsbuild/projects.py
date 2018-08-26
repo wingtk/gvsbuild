@@ -1472,7 +1472,9 @@ class Project_pycairo(Tarball, Project):
         self.exec_vs(r'%(python_dir)s\python.exe setup.py install')
         if self.builder.opts.py_egg:
             self.exec_vs(r'%(python_dir)s\python.exe setup.py bdist_egg')
-        if self.builder.opts.py_egg:
+        if self.builder.opts.py_wheel:
+            self.exec_vs(r'%(python_dir)s\python.exe setup.py bdist_wheel')
+        if self.builder.opts.py_egg or self.builder.opts.py_wheel:
             self.install_dir('dist', 'python')
         self.install(r'.\COPYING share\doc\pycairo')
         self.install(r'.\COPYING-LGPL-2.1 share\doc\pycairo')
@@ -1502,8 +1504,8 @@ class Project_pygobject(Tarball, Project):
         self.exec_vs(r'%(python_dir)s\python.exe setup.py install')
         if self.builder.opts.py_egg:
             self.exec_vs(r'%(python_dir)s\python.exe setup.py bdist_egg')
-        if self.builder.opts.py_egg:
-            self.install_dir('dist', 'python')
+        if self.builder.opts.py_egg or self.builder.opts.py_wheel:
+            self.exec_vs(r'%(python_dir)s\python.exe setup.py bdist_wheel')
         self.install(r'.\COPYING share\doc\pygobject')
         self.pop_location()
 
