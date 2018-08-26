@@ -1470,6 +1470,10 @@ class Project_pycairo(Tarball, Project):
         self.builder.mod_env('INCLUDE', cairo_inc)
         self.push_location(self.build_dir)
         self.exec_vs(r'%(python_dir)s\python.exe setup.py install')
+        if self.builder.opts.py_egg:
+            self.exec_vs(r'%(python_dir)s\python.exe setup.py bdist_egg')
+        if self.builder.opts.py_egg:
+            self.install_dir('dist', 'python')
         self.install(r'.\COPYING share\doc\pycairo')
         self.install(r'.\COPYING-LGPL-2.1 share\doc\pycairo')
         self.install(r'.\COPYING-MPL-1.1 share\doc\pycairo')
@@ -1496,6 +1500,10 @@ class Project_pygobject(Tarball, Project):
         self.builder.mod_env('INCLUDE', ";".join(add_inc))
         self.push_location(self.build_dir)
         self.exec_vs(r'%(python_dir)s\python.exe setup.py install')
+        if self.builder.opts.py_egg:
+            self.exec_vs(r'%(python_dir)s\python.exe setup.py bdist_egg')
+        if self.builder.opts.py_egg:
+            self.install_dir('dist', 'python')
         self.install(r'.\COPYING share\doc\pygobject')
         self.pop_location()
 

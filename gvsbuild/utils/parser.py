@@ -58,6 +58,7 @@ def get_options(args):
     opts.fast_build = args.fast_build
     opts.keep = args.keep
     opts.clean_built = args.clean_built
+    opts.py_egg = args.py_egg
 
     if opts.make_zip and opts.no_deps:
         error_exit('Options --make-zip and --no-deps are not compatible')
@@ -242,6 +243,8 @@ Examples:
                          help="Don't build a project if it's already built and not updated. Use with caution!")
     p_build.add_argument('-k', '--keep', default=False, action='store_true',
                          help="Continue the build even on errors, dropping the projects that depends on the failed ones")
+    p_build.add_argument('--py-egg', default=False, action='store_true',
+                         help="pycairo/pygobject: build also the egg distribution format")
 
     p_build.add_argument('project', nargs='+',
                          help='Project(s) to build.')
