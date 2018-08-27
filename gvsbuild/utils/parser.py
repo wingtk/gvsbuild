@@ -24,12 +24,10 @@ import os
 import sys
 
 from .base_project import Project, GVSBUILD_PROJECT, GVSBUILD_TOOL, GVSBUILD_GROUP, GVSBUILD_IGNORE
+from .base_project import Options
 from .builder import Builder
 from .utils import ordered_set
 from .simple_ui import error_exit, print_debug
-
-class Options(object):
-    pass
 
 def get_options(args):
     opts = Options()
