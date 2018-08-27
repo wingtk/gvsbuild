@@ -33,6 +33,11 @@ GVSBUILD_PROJECT = 1
 GVSBUILD_TOOL = 2
 GVSBUILD_GROUP = 3
 
+class Options(object):
+    def __init__(self):
+        # Only the one used by the projects
+        self.enable_gi = False
+
 class Project(object):
     def __init__(self, name, **kwargs):
         object.__init__(self)
@@ -61,6 +66,8 @@ class Project(object):
     name_len = 0
     # List of class/type to add, now not at import time but after some options are parsed
     _reg_prj_list = []
+    # build option 
+    opts = Options()
 
     def __str__(self):
         return self.name
@@ -78,6 +85,9 @@ class Project(object):
     def post_install(self):
         pass
 
+    def add_dependency(self, dep):
+        self.dependencies.append(dep)
+        
     def exec_cmd(self, cmd, working_dir=None, add_path=None):
         self.builder.exec_cmd(cmd, working_dir=working_dir, add_path=add_path)
 
