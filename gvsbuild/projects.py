@@ -65,10 +65,15 @@ class Project_atk(Tarball, Meson):
                 'pkg-config', 
                 'perl', 
                 'glib',
-                'gobject-introspection',
             ],
             )
-        self.add_param('-Ddisable_introspection=false')
+        if self.opts.enable_gi:
+            self.add_dependencies('gobject-introspection')
+            disable_gi = 'false'
+        else:
+            disable_gi = 'true'
+        
+        self.add_param('-Ddisable_introspection=%s' % (disable_gi, ))
         self.add_param('-Denable_docs=false')
 
     def build(self):
@@ -358,12 +363,17 @@ class Project_gdk_pixbuf(Tarball, Meson):
                 'jasper', 
                 'glib', 
                 'libpng',
-                'gobject-introspection',
             ],
             )
+        if self.opts.enable_gi:
+            self.add_dependencies('gobject-introspection')
+            enable_gi = 'true'
+        else:
+            enable_gi = 'false'
+
         self.add_param('-Djasper=true')
         self.add_param('-Dnative_windows_loaders=true') 
-        self.add_param('-Dgir=true') 
+        self.add_param('-Dgir=%s' % (enable_gi, )) 
         self.add_param('-Dman=false')
 
     def build(self):
@@ -1270,13 +1280,18 @@ class Project_pango(Tarball, Meson):
                 'cairo', 
                 'harfbuzz', 
                 'fribidi',
-                'gobject-introspection',
             ],
             patches = [ 
                 '001-ignore-help2man.patch', 
             ], 
             )
-        self.add_param('-Dgir=true')
+        if self.opts.enable_gi:
+            self.add_dependencies('gobject-introspection')
+            enable_gi = 'true'
+        else:
+            enable_gi = 'false'
+
+        self.add_param('-Dgir=%s' % (enable_gi, ))
 
     def build(self):
         Meson.build(self)
