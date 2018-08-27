@@ -68,9 +68,11 @@ class Project_atk(Tarball, Meson):
                 'gobject-introspection',
             ],
             )
+        self.add_param('-Ddisable_introspection=false')
+        self.add_param('-Denable_docs=false')
 
     def build(self):
-        Meson.build(self, meson_params='-Ddisable_introspection=false -Denable_docs=false', make_tests=True)
+        Meson.build(self, make_tests=True)
         self.install(r'.\COPYING share\doc\atk')
 
 @project_add
@@ -359,12 +361,16 @@ class Project_gdk_pixbuf(Tarball, Meson):
                 'gobject-introspection',
             ],
             )
+        self.add_param('-Djasper=true')
+        self.add_param('-Dnative_windows_loaders=true') 
+        self.add_param('-Dgir=true') 
+        self.add_param('-Dman=false')
 
     def build(self):
         # We can experiment with a couple of options to give to meson:
         #    -Dbuiltin_loaders=all|windows
         #        Buld the loader inside the library
-        Meson.build(self, meson_params='-Djasper=true -Dnative_windows_loaders=true -Dgir=true -Dman=false')
+        Meson.build(self)
         self.install(r'.\COPYING share\doc\gdk-pixbuf')
 
     def post_install(self):
@@ -539,9 +545,10 @@ class Project_graphene(GitRepo, Meson):
             tag = None,
             dependencies = ['ninja', 'meson', 'pkg-config', 'glib'],
             )
-
+        self.add_param('-Dbenchmarks=false')
+        
     def build(self):
-        Meson.build(self, meson_params='-Dbenchmarks=false', make_tests=True)
+        Meson.build(self, make_tests=True)
         self.install(r'.\LICENSE share\doc\graphene')
 
 @project_add
@@ -738,9 +745,11 @@ class Project_json_glib(Tarball, Meson):
             hash = '2d7709a44749c7318599a6829322e081915bdc73f5be5045882ed120bb686dc8',
             dependencies = ['meson', 'ninja', 'pkg-config', 'perl', 'glib'],
             )
+        self.add_param('-Ddocs=false')
+        self.add_param('-Dintrospection=false')
 
     def build(self):
-        Meson.build(self, meson_params='-Ddocs=false -Dintrospection=false', make_tests=True)
+        Meson.build(self, make_tests=True)
 
         self.install(r'.\COPYING share\doc\json-glib')
 
@@ -826,7 +835,7 @@ class Project_libffi(GitRepo, Meson):
         self.install(r'LICENSE share\doc\libffi')
 
 @project_add
-class Project_libgxps(GitRepo, Project):
+class Project_libgxps(GitRepo, Meson):
     def __init__(self):
         Project.__init__(self,
             'libgxps',
@@ -836,9 +845,11 @@ class Project_libgxps(GitRepo, Project):
             dependencies = ['meson', 'ninja', 'pkg-config', 'glib', 'libarchive', 'cairo', 'libpng', 'libjpeg-turbo', 'libtiff-4', 'gtk3', ],
             patches = ['0001-Fixes-font-scaling-issue-when-converting-xps-to-pdf.patch'],
             )
+        self.add_param('-Dwith-liblcms2=false')
+        self.add_param('-Denable-test=false')
 
     def build(self):
-        Meson.build(self, meson_params='-Dwith-liblcms2=false -Denable-test=false')
+        Meson.build(self)
 
         self.install(r'.\COPYING share\doc\libgxps')
 
@@ -1171,7 +1182,6 @@ class Project_openssl(Tarball, Project):
 
     def build(self):
         common_options = r'no-ssl2 no-ssl3 no-comp --openssldir=./'
-        add_path = None
 
         debug_option = ''
         if self.builder.opts.configuration == 'debug':
@@ -1266,9 +1276,10 @@ class Project_pango(Tarball, Meson):
                 '001-ignore-help2man.patch', 
             ], 
             )
+        self.add_param('-Dgir=true')
 
     def build(self):
-        Meson.build(self, meson_params='-Dgir=true')
+        Meson.build(self)
         self.install(r'COPYING share\doc\pango')
 
 @project_add
@@ -1312,9 +1323,10 @@ class Project_pkg_config(GitRepo, Meson):
             patches = [ '0001-vs2013.patch', 
                       ], 
             )
+        self.add_param('-Dtests=false')
 
     def build(self):
-        Meson.build(self, meson_params='-Dtests=false')
+        Meson.build(self)
         self.install(r'.\COPYING share\doc\pkgconf')
 
     def post_install(self):
