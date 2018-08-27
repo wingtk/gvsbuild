@@ -30,6 +30,15 @@ from .base_project import Project
 class Meson(Project):
     def __init__(self, name, **kwargs):
         Project.__init__(self, name, **kwargs)
+        self._ensure_params()
+
+    def _ensure_params(self):
+        if not hasattr(self, 'params'):
+            self.params = []
+                    
+    def add_param(self, par):
+        self._ensure_params()
+        self.params.append(par)
 
     def build(self, meson_params=None, make_tests=False):
         # where we build, with ninja, the library
@@ -42,8 +51,14 @@ class Meson(Project):
         # First we check if we need to generate the meson build files
         if not os.path.isfile(os.path.join(ninja_build, 'build.ninja')):
             self.builder.make_dir(ninja_build)
+            # base params 
+            self._ensure_params()
+            if self.params:
+                add_opts = ' '.join(self.params) + ' '
+            else:
+                add_opts = ''
             # debug info
-            add_opts = '--buildtype ' + self.builder.opts.configuration
+            add_opts += '--buildtype ' + self.builder.opts.configuration
             if meson_params:
                 add_opts += ' ' + meson_params
             # pyhon meson.py src_dir ninja_build_dir --prefix gtk_bin options
