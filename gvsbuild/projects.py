@@ -1174,9 +1174,9 @@ class Project_lz4(Tarball, Project):
     def build(self):
         self.exec_msbuild(r'visual\%(vs_ver_year)s\lz4.sln')
 
-        self.install(r'visual\VS20%(vs_ver)s\bin\%(platform)s_%(configuration)s\liblz4.dll visual\VS20%(vs_ver)s\bin\%(platform)s_%(configuration)s\liblz4.pdb bin')
+        self.install(r'visual\%(vs_ver_year)s\bin\%(platform)s_%(configuration)s\liblz4.dll visual\%(vs_ver_year)s\bin\%(platform)s_%(configuration)s\liblz4.pdb bin')
         self.install(r'.\lib\lz4.h .\lib\lz4hc.h .\lib\lz4frame.h include')
-        self.install(r'visual\VS20%(vs_ver)s\bin\%(platform)s_%(configuration)s\liblz4.lib lib')
+        self.install(r'visual\%(vs_ver_year)s\bin\%(platform)s_%(configuration)s\liblz4.lib lib')
 
         self.install(r'.\lib\LICENSE share\doc\lz4')
 
