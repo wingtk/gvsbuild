@@ -68,7 +68,7 @@ class Project_atk(Tarball, Meson):
             ],
             )
         if self.opts.enable_gi:
-            self.add_dependencies('gobject-introspection')
+            self.add_dependency('gobject-introspection')
             disable_gi = 'false'
         else:
             disable_gi = 'true'
@@ -366,7 +366,7 @@ class Project_gdk_pixbuf(Tarball, Meson):
             ],
             )
         if self.opts.enable_gi:
-            self.add_dependencies('gobject-introspection')
+            self.add_dependency('gobject-introspection')
             enable_gi = 'true'
         else:
             enable_gi = 'false'
@@ -1286,7 +1286,7 @@ class Project_pango(Tarball, Meson):
             ], 
             )
         if self.opts.enable_gi:
-            self.add_dependencies('gobject-introspection')
+            self.add_dependency('gobject-introspection')
             enable_gi = 'true'
         else:
             enable_gi = 'false'

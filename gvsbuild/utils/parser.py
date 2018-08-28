@@ -80,6 +80,7 @@ def get_options(args):
             opts.vs_install_path = r'C:\Program Files (x86)\Microsoft Visual Studio %s.0' % (opts.vs_ver,)
 
     opts.projects = args.project
+    Project.opts = opts
     # now add the tools/projects/groups
     Project.add_all()
 
