@@ -555,7 +555,14 @@ class Project_graphene(GitRepo, Meson):
             tag = None,
             dependencies = ['ninja', 'meson', 'pkg-config', 'glib'],
             )
+        if self.opts.enable_gi:
+            self.add_dependency('gobject-introspection')
+            enable_gi = 'true'
+        else:
+            enable_gi = 'false'
+
         self.add_param('-Dbenchmarks=false')
+        self.add_param('-Dintrospection=%s' % (enable_gi, ))
         
     def build(self):
         Meson.build(self, make_tests=True)
