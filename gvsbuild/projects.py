@@ -505,47 +505,6 @@ class Project_gobject_introspection(GitRepo, Meson):
         Meson.build(self, meson_params='-Dpython=%s\\python.exe -Dcairo-libname=cairo-gobject.dll' % (py_dir, ))
 
 @project_add
-class Project_gobject_gir(NullExpander, Project):
-    def __init__(self):
-        Project.__init__(self,
-            'gobject-gir',
-            version='0.1.0',
-            dependencies = [
-                 'gobject-introspection',
-                 'gtk',
-                 'gtk3',
-                ],
-            )
-
-    def make_single_gir(self, prj_name, prj_dir=None):
-        if not prj_dir:
-            prj_dir = prj_name
-
-        b_dir = r'%s\%s\build\win32' % (self.builder.working_dir, prj_dir, )
-        if not os.path.isfile(os.path.join(b_dir, 'detectenv-msvc.mak')):
-            b_dir = r'%s\%s\win32' % (self.builder.working_dir, prj_dir, )
-            if not os.path.isfile(os.path.join(b_dir, 'detectenv-msvc.mak')):
-                print_message('Unable to find detectenv-msvc.mak for %s' % (prj_name, ))
-                return
-
-        cmd = 'nmake -f %s-introspection-msvc.mak CFG=%s PREFIX=%s PYTHON=%s\python.exe install-introspection' % (
-                prj_name,
-                self.builder.opts.configuration,
-                self.builder.gtk_dir,
-                self.builder.opts.python_dir,
-                )
-
-        self.push_location(b_dir)
-        self.exec_vs(cmd)
-        self.pop_location()
-
-    def build(self):
-        # Build extra gir/typelib
-        self.builder.mod_env('INCLUDE', '%s\\include\\cairo' % (self.builder.gtk_dir, ))
-        self.make_single_gir('gtk', prj_dir='gtk')
-        self.make_single_gir('gtk', prj_dir='gtk3')
-
-@project_add
 class Project_graphene(GitRepo, Meson):
     def __init__(self):
         Meson.__init__(self,
@@ -614,7 +573,35 @@ class Project_gsettings_desktop_schemas(Tarball, Project):
 
         self.install(r'.\COPYING share\doc\gsettings-desktop-schemas')
 
-class Project_gtk_base(Tarball, Project):
+class _MakeGir(object):
+    """
+    Class to build, with nmake, a single project .gir/.typelib files for the 
+    gobject-introspection support, used where the meson script is not 
+    present (gtk % gtk3) or not update the handle it
+    """
+    def make_single_gir(self, prj_name, prj_dir=None):
+        if not prj_dir:
+            prj_dir = prj_name
+
+        b_dir = r'%s\%s\build\win32' % (self.builder.working_dir, prj_dir, )
+        if not os.path.isfile(os.path.join(b_dir, 'detectenv-msvc.mak')):
+            b_dir = r'%s\%s\win32' % (self.builder.working_dir, prj_dir, )
+            if not os.path.isfile(os.path.join(b_dir, 'detectenv-msvc.mak')):
+                print_message('Unable to find detectenv-msvc.mak for %s' % (prj_name, ))
+                return
+
+        cmd = 'nmake -f %s-introspection-msvc.mak CFG=%s PREFIX=%s PYTHON=%s\python.exe install-introspection' % (
+                prj_name,
+                self.builder.opts.configuration,
+                self.builder.gtk_dir,
+                self.builder.opts.python_dir,
+                )
+
+        self.push_location(b_dir)
+        self.exec_vs(cmd)
+        self.pop_location()
+
+class Project_gtk_base(Tarball, Project, _MakeGir):
     def __init__(self, name, **kwargs):
         Project.__init__(self, name, **kwargs)
 
@@ -650,11 +637,16 @@ class Project_gtk(Project_gtk_base):
                        '0001-GDK-W32-Remove-WS_EX_LAYERED-from-an-opaque-window.patch',
                        ],
             )
+        if Project.opts.enable_gi:
+            self.add_dependency('gobject-introspection')
 
     def build(self):
         self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtk+.sln')
 
         super(Project_gtk, self).build()
+        if Project.opts.enable_gi:
+            self.builder.mod_env('INCLUDE', '%s\\include\\cairo' % (self.builder.gtk_dir, ))
+            self.make_single_gir('gtk', prj_dir='gtk')
 
 @project_add
 class Project_gtk3(Project_gtk_base):
@@ -665,11 +657,16 @@ class Project_gtk3(Project_gtk_base):
             hash = 'a1a4a5c12703d4e1ccda28333b87ff462741dc365131fbc94c218ae81d9a6567',
             dependencies = ['atk', 'gdk-pixbuf', 'pango', 'libepoxy'],
             )
+        if Project.opts.enable_gi:
+            self.add_dependency('gobject-introspection')
 
     def build(self):
         self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtk+.sln /p:GtkPostInstall=rem')
 
         super(Project_gtk3, self).build()
+        if Project.opts.enable_gi:
+            self.builder.mod_env('INCLUDE', '%s\\include\\cairo' % (self.builder.gtk_dir, ))
+            self.make_single_gir('gtk', prj_dir='gtk3')
 
     def post_install(self):
         self.exec_cmd(r'%(gtk_dir)s\bin\glib-compile-schemas.exe %(gtk_dir)s\share\glib-2.0\schemas')
