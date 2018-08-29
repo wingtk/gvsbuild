@@ -681,7 +681,7 @@ class Project_gtk3(Project_gtk_base):
         self.exec_cmd(r'%(gtk_dir)s\bin\gtk-update-icon-cache.exe --ignore-theme-index --force "%(gtk_dir)s\share\icons\hicolor"')
 
 @project_add
-class Project_gtksourceview3(Tarball, Project):
+class Project_gtksourceview3(Tarball, Project, _MakeGir):
     def __init__(self):
         Project.__init__(self,
             'gtksourceview3',
@@ -689,9 +689,15 @@ class Project_gtksourceview3(Tarball, Project):
             hash = '6ce84231dd0931cc747708434ca2f344c65a092dd6e1a800283fe0748773af5e',
             dependencies = ['perl', 'gtk3'],
             )
+        if Project.opts.enable_gi:
+            self.add_dependency('gobject-introspection')
 
     def build(self):
         self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtksourceview.sln')
+        if Project.opts.enable_gi:
+            self.builder.mod_env('INCLUDE', '%s\\include\\gtk-3.0' % (self.builder.gtk_dir, ))
+            self.builder.mod_env('INCLUDE', '%s\\include\\cairo' % (self.builder.gtk_dir, ))
+            self.make_single_gir('gtksourceview', prj_dir='gtksourceview3')
 
         self.install(r'.\COPYING share\doc\gtksourceview3')
 
