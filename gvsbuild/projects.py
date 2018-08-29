@@ -867,6 +867,13 @@ class Project_libgxps(GitRepo, Meson):
             dependencies = ['meson', 'ninja', 'pkg-config', 'glib', 'libarchive', 'cairo', 'libpng', 'libjpeg-turbo', 'libtiff-4', 'gtk3', ],
             patches = ['0001-Fixes-font-scaling-issue-when-converting-xps-to-pdf.patch'],
             )
+        if self.opts.enable_gi:
+            self.add_dependency('gobject-introspection')
+            disable_gi = 'false'
+        else:
+            disable_gi = 'true'
+        
+        self.add_param('-Ddisable-introspection=%s' % (disable_gi, ))
         self.add_param('-Dwith-liblcms2=false')
         self.add_param('-Denable-test=false')
 
