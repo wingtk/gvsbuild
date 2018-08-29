@@ -767,8 +767,14 @@ class Project_json_glib(Tarball, Meson):
             hash = '2d7709a44749c7318599a6829322e081915bdc73f5be5045882ed120bb686dc8',
             dependencies = ['meson', 'ninja', 'pkg-config', 'perl', 'glib'],
             )
+        if self.opts.enable_gi:
+            self.add_dependency('gobject-introspection')
+            enable_gi = 'true'
+        else:
+            enable_gi = 'false'
+
         self.add_param('-Ddocs=false')
-        self.add_param('-Dintrospection=false')
+        self.add_param('-Dintrospection=%s' % (enable_gi, ))
 
     def build(self):
         Meson.build(self, make_tests=True)
