@@ -963,7 +963,7 @@ class Project_libpng(Tarball, CmakeProject):
         self.install('LICENSE share\doc\libpng')
 
 @project_add
-class Project_librsvg(Tarball, Project):
+class Project_librsvg(Tarball, Project, _MakeGir):
     def __init__(self):
         Project.__init__(self,
             'librsvg',
@@ -971,9 +971,20 @@ class Project_librsvg(Tarball, Project):
             hash = 'cff4dd3c3b78bfe99d8fcfad3b8ba1eee3289a0823c0e118d78106be6b84c92b',
             dependencies = ['libcroco', 'cairo', 'pango', 'gdk-pixbuf', 'gtk3'],
             )
+        if Project.opts.enable_gi:
+            self.add_dependency('gobject-introspection')
 
     def build(self):
         self.exec_msbuild(r'build\win32\vs%(vs_ver)s\librsvg.sln')
+        
+        if Project.opts.enable_gi:
+            self.builder.mod_env('INCLUDE', '%s\\include\\glib-2.0' % (self.builder.gtk_dir, ))
+            self.builder.mod_env('INCLUDE', '%s\\lib\\glib-2.0\include' % (self.builder.gtk_dir, ))
+            self.builder.mod_env('INCLUDE', '%s\\include\\gdk-pixbuf-2.0' % (self.builder.gtk_dir, ))
+            self.builder.mod_env('INCLUDE', '%s\\include\\cairo' % (self.builder.gtk_dir, ))
+
+            self.make_single_gir('rsvg', prj_dir='librsvg')
+        
         self.install(r'.\COPYING share\doc\librsvg')
 
     def post_install(self):
