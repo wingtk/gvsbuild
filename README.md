@@ -49,6 +49,23 @@ HexChat developers decided that their script should focus on their specific need
     python .\build.py --help
     ```
 
+    Is possible to set some parameters from a file, e.g. vs2015-release.pro, putting the @ character before the file name. The file contains the option, one per line, separated by a carriage return:
+    
+    ```
+    --vs-ver
+    15
+    --win-sdk
+    8.1
+    -c
+    release
+    ```
+
+    Even if the format is not the easier to write or read in this way we eliminate the problem of escaping spaces is file names and directories. Then you can use it:
+
+    ```
+    python .\build.py build @vs2015-release.pro gtk3-full
+    ```
+ 
 1. When the script is done, your GTK+ stack will be found under _C:\gtk-build\gtk_. Enjoy!
 
 ## License

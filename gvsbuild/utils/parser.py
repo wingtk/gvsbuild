@@ -151,6 +151,7 @@ def create_parser():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
         description='Jhbuild-like system for Windows to build Gtk and friends',
+        fromfile_prefix_chars='@',
         epilog=
     """
 Examples:
