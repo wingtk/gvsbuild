@@ -1138,6 +1138,7 @@ class Project_libxml2(Tarball, Meson):
 
     def build(self):
         Meson.build(self)
+        self.install(r'.\pc-files\* lib\pkgconfig')
         self.install(r'.\COPYING share\doc\libxml2')
 
 @project_add
