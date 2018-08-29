@@ -186,9 +186,17 @@ class Project_emeus(GitRepo, Meson):
                 '00_win_no_script.patch'
                 ],
             )
+        if self.opts.enable_gi:
+            self.add_dependency('gobject-introspection')
+            enable_gi = 'true'
+        else:
+            enable_gi = 'false'
+
+        self.add_param('-Ddocs=false')
+        self.add_param('-Dintrospection=%s' % (enable_gi, ))
 
     def build(self):
-        Meson.build(self, meson_params='-Ddocs=false -Dintrospection=false', make_tests=True)
+        Meson.build(self, make_tests=True)
         self.install(r'.\COPYING.txt share\doc\emeus')
 
 @project_add
