@@ -205,6 +205,18 @@ if libtiff_dep.found()
         test('libtiff-4', test_libtiff)
 endif
 
+# libxml2
+libxml2_required_ver = '>= 2.9.8'
+libxml2_dep = dependency('libxml-2.0', version: libxml2_required_ver, required: check_all)
+if libxml2_dep.found()
+        test_libxml2 = executable('test_libxml2',
+                                 [ 'test_libxml2.c', 'check_utils.c', ],
+                                 dependencies: [ libxml2_dep, ],
+                                )
+
+        test('libxml2', test_libxml2)
+endif
+
 # pango
 pango_required_ver = '>= 1.40.14'
 pango_dep = dependency('pango', version: pango_required_ver, required: check_all)
