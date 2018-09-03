@@ -478,22 +478,18 @@ class Project_glib_openssl(Tarball, Meson):
         self.install(r'.\LICENSE_EXCEPTION share\doc\glib-openssl')
 
 @project_add
-class Project_gobject_introspection(GitRepo, Meson):
+class Project_gobject_introspection(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'gobject-introspection',
-            repo_url = 'https://git.gnome.org/browse/gobject-introspection',
-            fetch_submodules = False,
-            tag = 'master',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gobject-introspection/1.58/gobject-introspection-1.58.0.tar.xz',
+            hash = '27c1590a32749de0a5481ce897772547043e94bccba4bc0a7edb3d8513e401ec',
             dependencies = [
                 'ninja',
                 'meson',
                 'msys2',
                 'pkg-config',
                 'glib',
-                ],
-            patches = [
-                '00_glib_win_ver.patch',
                 ],
             )
 
