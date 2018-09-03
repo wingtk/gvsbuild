@@ -113,7 +113,7 @@ index b4a941e..3a9c0cd 100644
    socket->priv->connected_read = TRUE;
    socket->priv->connected_write = TRUE;
  
-@@ -3054,8 +3051,6 @@ g_socket_receive_with_timeout (GSocket       *socket,
+@@ -3068,8 +3065,6 @@ g_socket_receive_with_timeout (GSocket       *socket,
  
    while (1)
      {
@@ -122,7 +122,7 @@ index b4a941e..3a9c0cd 100644
        if ((ret = recv (socket->priv->fd, buffer, size, 0)) < 0)
  	{
  	  int errsv = get_socket_errno ();
-@@ -3070,6 +3065,8 @@ g_socket_receive_with_timeout (GSocket       *socket,
+@@ -3084,6 +3079,8 @@ g_socket_receive_with_timeout (GSocket       *socket,
                errsv == EAGAIN)
  #endif
              {
@@ -131,7 +131,7 @@ index b4a941e..3a9c0cd 100644
                if (timeout != 0)
                  {
                    if (!block_on_timeout (socket, G_IO_IN, timeout, start_time,
-@@ -3080,10 +3077,14 @@ g_socket_receive_with_timeout (GSocket       *socket,
+@@ -3094,10 +3091,14 @@ g_socket_receive_with_timeout (GSocket       *socket,
                  }
              }
  
@@ -146,16 +146,16 @@ index b4a941e..3a9c0cd 100644
        break;
      }
  
-@@ -3249,8 +3250,6 @@ g_socket_send_with_timeout (GSocket       *socket,
+@@ -3263,8 +3264,6 @@ g_socket_send_with_timeout (GSocket       *socket,
  
    while (1)
      {
 -      win32_unset_event_mask (socket, FD_WRITE);
 -
-       if ((ret = send (socket->priv->fd, buffer, size, G_SOCKET_DEFAULT_SEND_FLAGS)) < 0)
+       if ((ret = send (socket->priv->fd, (const char *)buffer, size, G_SOCKET_DEFAULT_SEND_FLAGS)) < 0)
  	{
  	  int errsv = get_socket_errno ();
-@@ -3265,6 +3264,8 @@ g_socket_send_with_timeout (GSocket       *socket,
+@@ -3279,6 +3278,8 @@ g_socket_send_with_timeout (GSocket       *socket,
                errsv == EAGAIN)
  #endif
              {
@@ -164,7 +164,7 @@ index b4a941e..3a9c0cd 100644
                if (timeout != 0)
                  {
                    if (!block_on_timeout (socket, G_IO_OUT, timeout, start_time,
-@@ -3679,7 +3680,7 @@ remove_condition_watch (GSocket      *socket,
+@@ -3693,7 +3694,7 @@ remove_condition_watch (GSocket      *socket,
  }
  
  static GIOCondition
@@ -173,7 +173,7 @@ index b4a941e..3a9c0cd 100644
  {
    WSANETWORKEVENTS events;
    GIOCondition condition;
-@@ -3746,16 +3747,6 @@ update_condition_unlocked (GSocket *socket)
+@@ -3760,16 +3761,6 @@ update_condition_unlocked (GSocket *socket)
  
    return condition;
  }
@@ -190,7 +190,7 @@ index b4a941e..3a9c0cd 100644
  #endif
  
  typedef struct {
-@@ -4176,44 +4167,11 @@ g_socket_condition_timed_wait (GSocket       *socket,
+@@ -4190,44 +4181,11 @@ g_socket_condition_timed_wait (GSocket       *socket,
      if (timeout == -1)
        timeout = WSA_INFINITE;
  
@@ -238,7 +238,7 @@ index b4a941e..3a9c0cd 100644
  	if (res == WSA_WAIT_FAILED)
  	  {
  	    int errsv = get_socket_errno ();
-@@ -4234,7 +4192,7 @@ g_socket_condition_timed_wait (GSocket       *socket,
+@@ -4248,7 +4206,7 @@ g_socket_condition_timed_wait (GSocket       *socket,
  	if (g_cancellable_set_error_if_cancelled (cancellable, error))
  	  break;
  
@@ -247,7 +247,7 @@ index b4a941e..3a9c0cd 100644
  
  	if (timeout != WSA_INFINITE)
  	  {
-@@ -4243,7 +4201,6 @@ g_socket_condition_timed_wait (GSocket       *socket,
+@@ -4257,7 +4215,6 @@ g_socket_condition_timed_wait (GSocket       *socket,
  	      timeout = 0;
  	  }
        }
@@ -255,7 +255,7 @@ index b4a941e..3a9c0cd 100644
      remove_condition_watch (socket, &condition);
      if (num_events > 1)
        g_cancellable_release_fd (cancellable);
-@@ -4741,8 +4698,6 @@ g_socket_send_message_with_timeout (GSocket                *socket,
+@@ -4755,8 +4712,6 @@ g_socket_send_message_with_timeout (GSocket                *socket,
  
      while (1)
        {
@@ -264,7 +264,7 @@ index b4a941e..3a9c0cd 100644
  	if (address)
  	  result = WSASendTo (socket->priv->fd,
  			      bufs, num_vectors,
-@@ -4764,6 +4719,8 @@ g_socket_send_message_with_timeout (GSocket                *socket,
+@@ -4778,6 +4733,8 @@ g_socket_send_message_with_timeout (GSocket                *socket,
  
  	    if (errsv == WSAEWOULDBLOCK)
                {
@@ -273,7 +273,7 @@ index b4a941e..3a9c0cd 100644
                  if (timeout != 0)
                    {
                      if (!block_on_timeout (socket, G_IO_OUT, timeout,
-@@ -5211,8 +5168,6 @@ g_socket_receive_message_with_timeout (GSocket                 *socket,
+@@ -5225,8 +5182,6 @@ g_socket_receive_message_with_timeout (GSocket                 *socket,
      /* do it */
      while (1)
        {
@@ -282,7 +282,7 @@ index b4a941e..3a9c0cd 100644
  	addrlen = sizeof addr;
  	if (address)
  	  result = WSARecvFrom (socket->priv->fd,
-@@ -5234,6 +5189,8 @@ g_socket_receive_message_with_timeout (GSocket                 *socket,
+@@ -5248,6 +5203,8 @@ g_socket_receive_message_with_timeout (GSocket                 *socket,
  
              if (errsv == WSAEWOULDBLOCK)
                {
@@ -291,7 +291,7 @@ index b4a941e..3a9c0cd 100644
                  if (timeout != 0)
                    {
                      if (!block_on_timeout (socket, G_IO_IN, timeout,
-@@ -5247,6 +5204,7 @@ g_socket_receive_message_with_timeout (GSocket                 *socket,
+@@ -5261,6 +5218,7 @@ g_socket_receive_message_with_timeout (GSocket                 *socket,
  	    socket_set_error_lazy (error, errsv, _("Error receiving message: %s"));
  	    return -1;
  	  }
