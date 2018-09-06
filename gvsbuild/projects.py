@@ -1185,20 +1185,20 @@ class Project_libzip(Tarball, CmakeProject):
         self.install(r'.\LICENSE share\doc\libzip')
 
 @project_add
-class Project_lmdb(Tarball, Project):
+class Project_lmdb(GitRepo, Meson):
     def __init__(self):
         Project.__init__(self,
             'lmdb',
-            archive_url = 'https://github.com/LMDB/lmdb/archive/LMDB_0.9.22.tar.gz',
-            hash = 'f3927859882eb608868c8c31586bb7eb84562a40a6bf5cc3e13b6b564641ea28',
+            repo_url = 'https://github.com/wingtk/lmdb.git',
+            fetch_submodules = False,
+            tag = 'meson',
             )
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\lmdb.sln')
-
-        self.install(r'.\libraries\liblmdb\lmdb.h include')
-        self.install(r'.\build\win32\vs%(vs_ver)s\%(platform)s\%(configuration)s\lmdb.lib lib')
-        self.install(r'.\libraries\liblmdb\LICENSE share\doc\lmdb')
+        self.push_location(r'.\libraries\liblmdb')
+        Meson.build(self)
+        self.install('LICENSE share\doc\lmdb')
+        self.pop_location()
 
 @project_add
 class Project_lz4(Tarball, Project):
