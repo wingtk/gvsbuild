@@ -52,6 +52,7 @@ class Project(object):
         self.version = None
         self.mark_file = None
         self.clean = False
+        self.to_add = True
         for k in kwargs:
             setattr(self, k, kwargs[k])
         self.__working_dir = None
@@ -182,9 +183,19 @@ class Project(object):
         Add all the registered class 
         """
         for cls, ty in Project._reg_prj_list:
-            Project.add(cls(), type=ty)
+            c_inst = cls()
+            if c_inst.to_add:
+                Project.add(c_inst, type=ty)
+            else:
+                del c_inst
         del Project._reg_prj_list
 
+    def ignore(self):
+        """
+        Mark the project not to build/add to the list
+        """
+        self.to_add = False
+         
     @staticmethod
     def get_project(name):
         return Project._dict[name]
