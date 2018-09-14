@@ -42,6 +42,7 @@ class Project(object):
     def __init__(self, name, **kwargs):
         object.__init__(self)
         self.name = name
+        self.prj_dir = name 
         self.dependencies = []
         self.patches = []
         self.archive_url = None

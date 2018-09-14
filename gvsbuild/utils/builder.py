@@ -297,8 +297,8 @@ class Builder(object):
                 proj.archive_file = os.path.join(self.opts.archives_download_dir, archive)
             else:
                 proj.archive_file = None
-            proj.patch_dir = os.path.join(self.opts.patches_root_dir, proj.name)
-            proj.build_dir = os.path.join(self.working_dir, proj.name)
+            proj.patch_dir = os.path.join(self.opts.patches_root_dir, proj.prj_dir)
+            proj.build_dir = os.path.join(self.working_dir, proj.prj_dir)
             proj.dependencies = [Project.get_project(dep) for dep in proj.dependencies]
             proj.dependents = []
             proj.load_defaults(self)
@@ -498,7 +498,7 @@ class Builder(object):
             new = cur - self.file_built
             if new:
                 # file presents, do the zip
-                zip_file = os.path.join(self.zip_dir, proj.name + '.zip')
+                zip_file = os.path.join(self.zip_dir, proj.prj_dir + '.zip')
                 self.make_zip(zip_file, new)
                 # use the current file set
                 self.file_built = cur

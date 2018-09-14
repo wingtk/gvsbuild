@@ -205,7 +205,7 @@ class GitRepo(object):
         
         # create a .zip file with the downloaded project
         all_files = dirlist2set(self.build_dir, add_dirs=True)
-        make_zip(os.path.join(git_tmp_dir, self.name + '-' + zip_post), all_files, len(self.build_dir))
+        make_zip(os.path.join(git_tmp_dir, self.prj_dir + '-' + zip_post), all_files, len(self.build_dir))
         
     def unpack(self):
         print_log('Cloning %s to %s' % (self.repo_url, self.build_dir))
