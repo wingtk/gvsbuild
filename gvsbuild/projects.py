@@ -1365,11 +1365,12 @@ class Project_pixman(Tarball, Project):
         self.install(r'.\COPYING share\doc\pixman')
 
 @project_add
-class Project_pkg_config(GitRepo, Meson):
+class Project_pkgconf(GitRepo, Meson):
     def __init__(self):
         GitRepo.__init__(self)
         Project.__init__(self,
             'pkg-config',
+            prj_dir = 'pkgconf',
             repo_url = 'https://github.com/pkgconf/pkgconf.git',
             fetch_submodules = False,
             tag = 'a50bf726e093e108e78e4901577e566d44aa2e2e',
