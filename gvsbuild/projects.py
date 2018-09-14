@@ -606,10 +606,7 @@ class _MakeGir(object):
         self.pop_location()
 
 class Project_gtk_base(Tarball, Project, _MakeGir):
-    def __init__(self, name, **kwargs):
-        Project.__init__(self, name, **kwargs)
-
-    def build(self):
+    def make_all_mo(self):
         mo = 'gtk20.mo' if self.name == 'gtk' else 'gtk30.mo'
 
         localedir = os.path.join(self.pkg_dir, 'share', 'locale')
@@ -627,7 +624,7 @@ class Project_gtk_base(Tarball, Project, _MakeGir):
 @project_add
 class Project_gtk(Project_gtk_base):
     def __init__(self):
-        Project_gtk_base.__init__(self,
+        Project.__init__(self,
             'gtk',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/2.24/gtk+-2.24.31.tar.xz',
             hash = '68c1922732c7efc08df4656a5366dcc3afdc8791513400dac276009b40954658',
@@ -647,16 +644,21 @@ class Project_gtk(Project_gtk_base):
     def build(self):
         self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtk+.sln')
 
-        super(Project_gtk, self).build()
+        self.make_all_mo()
         if Project.opts.enable_gi:
             self.builder.mod_env('INCLUDE', '%s\\include\\cairo' % (self.builder.gtk_dir, ))
             self.make_single_gir('gtk', prj_dir='gtk')
 
 @project_add
-class Project_gtk3(Project_gtk_base):
+class Project_gtk3_22(Project_gtk_base):
     def __init__(self):
-        Project_gtk_base.__init__(self,
+        if self.opts.gtk3_ver != '3.22':
+            self.ignore()
+            return 
+        
+        Project.__init__(self,
             'gtk3',
+            prj_dir='gtk3-22',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.22/gtk+-3.22.30.tar.xz',
             hash = 'a1a4a5c12703d4e1ccda28333b87ff462741dc365131fbc94c218ae81d9a6567',
             dependencies = ['atk', 'gdk-pixbuf', 'pango', 'libepoxy'],
@@ -667,7 +669,36 @@ class Project_gtk3(Project_gtk_base):
     def build(self):
         self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtk+.sln /p:GtkPostInstall=rem')
 
-        super(Project_gtk3, self).build()
+        self.make_all_mo()
+        if Project.opts.enable_gi:
+            self.builder.mod_env('INCLUDE', '%s\\include\\cairo' % (self.builder.gtk_dir, ))
+            self.make_single_gir('gtk', prj_dir='gtk3')
+
+    def post_install(self):
+        self.exec_cmd(r'%(gtk_dir)s\bin\glib-compile-schemas.exe %(gtk_dir)s\share\glib-2.0\schemas')
+        self.exec_cmd(r'%(gtk_dir)s\bin\gtk-update-icon-cache.exe --ignore-theme-index --force "%(gtk_dir)s\share\icons\hicolor"')
+
+@project_add
+class Project_gtk3_24(Project_gtk_base):
+    def __init__(self):
+        if self.opts.gtk3_ver != '3.24':
+            self.ignore()
+            return 
+        
+        Project.__init__(self,
+            'gtk3',
+            prj_dir='gtk3-24',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.24/gtk+-3.24.0.tar.xz',
+            hash = '02e991389277206253d79884d10e5aa06fd78fdf7a5096799dbe3c97a05e32a8',
+            dependencies = ['atk', 'gdk-pixbuf', 'pango', 'libepoxy'],
+            )
+        if Project.opts.enable_gi:
+            self.add_dependency('gobject-introspection')
+
+    def build(self):
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtk+.sln /p:GtkPostInstall=rem')
+
+        self.make_all_mo()
         if Project.opts.enable_gi:
             self.builder.mod_env('INCLUDE', '%s\\include\\cairo' % (self.builder.gtk_dir, ))
             self.make_single_gir('gtk', prj_dir='gtk3')

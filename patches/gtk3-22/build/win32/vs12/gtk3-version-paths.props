@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
-    <VSVer>15</VSVer>
+    <VSVer>12</VSVer>
     <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
-    <CopyDir>..\..\..\..\gtk3-rel</CopyDir>
+    <CopyDir>..\..\..\..\gtk3-22-rel</CopyDir>
     <ApiVersion>3.0</ApiVersion>
     <GtkVersion>3.22.30</GtkVersion>
     <GtkLibtoolCompatibleDllPrefix>lib</GtkLibtoolCompatibleDllPrefix>
