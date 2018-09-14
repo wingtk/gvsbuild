@@ -1578,18 +1578,6 @@ class Project_pygobject(Tarball, Project):
         self.pop_location()
 
 @project_add
-class Project_pygtk(GitRepo, CmakeProject):
-    def __init__(self):
-        GitRepo.__init__(self)
-        Project.__init__(self,
-                         'pygtk',
-                         repo_url='git://github.com/muntyan/pygtk-gtk-win32.git',
-                         fetch_submodules = False,
-                         tag = None,
-                         dependencies = ['cmake', 'gtk', 'pycairo', 'pygobject'],
-                         )
-
-@project_add
 class Project_luajit(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
