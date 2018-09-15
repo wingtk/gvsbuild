@@ -650,6 +650,36 @@ class Project_gtk(Project_gtk_base):
             self.make_single_gir('gtk', prj_dir='gtk')
 
 @project_add
+class Project_gtk3_20(Project_gtk_base):
+    def __init__(self):
+        if self.opts.gtk3_ver != '3.20':
+            self.ignore()
+            return 
+        
+        Project.__init__(self,
+            'gtk3',
+            prj_dir='gtk3-20',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.20/gtk+-3.20.10.tar.xz',
+            hash = 'e81da1af1c5c1fee87ba439770e17272fa5c06e64572939814da406859e56b70',
+            dependencies = ['atk', 'gdk-pixbuf', 'pango', 'libepoxy'],
+            patches = ['gtk3-clip-retry-if-opened-by-others.patch'],
+            )
+        if Project.opts.enable_gi:
+            self.add_dependency('gobject-introspection')
+
+    def build(self):
+        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtk+.sln /p:GtkPostInstall=rem')
+
+        self.make_all_mo()
+        if Project.opts.enable_gi:
+            self.builder.mod_env('INCLUDE', '%s\\include\\cairo' % (self.builder.gtk_dir, ))
+            self.make_single_gir('gtk', prj_dir='gtk3')
+
+    def post_install(self):
+        self.exec_cmd(r'%(gtk_dir)s\bin\glib-compile-schemas.exe %(gtk_dir)s\share\glib-2.0\schemas')
+        self.exec_cmd(r'%(gtk_dir)s\bin\gtk-update-icon-cache.exe --ignore-theme-index --force "%(gtk_dir)s\share\icons\hicolor"')
+
+@project_add
 class Project_gtk3_22(Project_gtk_base):
     def __init__(self):
         if self.opts.gtk3_ver != '3.22':
