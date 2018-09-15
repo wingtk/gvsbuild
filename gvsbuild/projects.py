@@ -1432,6 +1432,10 @@ class Project_pixman(Tarball, Project):
 @project_add
 class Project_pkgconf(GitRepo, Meson):
     def __init__(self):
+        if Project.opts.with_pkg_config:
+            self.ignore()
+            return 
+
         GitRepo.__init__(self)
         Project.__init__(self,
             'pkg-config',
@@ -1451,6 +1455,27 @@ class Project_pkgconf(GitRepo, Meson):
 
     def post_install(self):
         self.exec_cmd(r'copy %(gtk_dir)s\bin\pkgconf.exe %(gtk_dir)s\bin\pkg-config.exe')
+
+@project_add
+class Project_pkg_config(Tarball, Meson):
+    def __init__(self):
+        if not Project.opts.with_pkg_config:
+            self.ignore()
+            return 
+        
+        Project.__init__(self,
+            'pkg-config',
+            archive_url = 'https://pkg-config.freedesktop.org/releases/pkg-config-0.29.2.tar.gz',
+            hash = '6fc69c01688c9458a57eb9a1664c9aba372ccda420a02bf4429fe610e7e7d591',
+            dependencies = ['ninja', 'meson', ],
+            patches = [ 
+                '0001-init-glib.patch',
+            ],
+            )
+
+    def build(self):
+        Meson.build(self)
+        self.install(r'.\COPYING share\doc\pkg-config')
 
 @project_add
 class Project_portaudio(Tarball, CmakeProject):
