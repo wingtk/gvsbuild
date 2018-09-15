@@ -1223,6 +1223,10 @@ class Project_lmdb(GitRepo, Meson):
             repo_url = 'https://github.com/wingtk/lmdb.git',
             fetch_submodules = False,
             tag = 'meson',
+            dependencies = [
+                'ninja', 
+                'meson',
+            ], 
             )
 
     def build(self):
