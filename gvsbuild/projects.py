@@ -645,6 +645,8 @@ class Project_gtk(Project_gtk_base):
         self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtk+.sln')
 
         self.make_all_mo()
+
+    def post_install(self):
         if Project.opts.enable_gi:
             self.builder.mod_env('INCLUDE', '%s\\include\\cairo' % (self.builder.gtk_dir, ))
             self.make_single_gir('gtk', prj_dir='gtk')
@@ -671,11 +673,12 @@ class Project_gtk3_20(Project_gtk_base):
         self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtk+.sln /p:GtkPostInstall=rem')
 
         self.make_all_mo()
-        if Project.opts.enable_gi:
-            self.builder.mod_env('INCLUDE', '%s\\include\\cairo' % (self.builder.gtk_dir, ))
-            self.make_single_gir('gtk', prj_dir='gtk3')
 
     def post_install(self):
+        if Project.opts.enable_gi:
+            self.builder.mod_env('INCLUDE', '%s\\include\\cairo' % (self.builder.gtk_dir, ))
+            self.make_single_gir('gtk', prj_dir='gtk3-20')
+
         self.exec_cmd(r'%(gtk_dir)s\bin\glib-compile-schemas.exe %(gtk_dir)s\share\glib-2.0\schemas')
         self.exec_cmd(r'%(gtk_dir)s\bin\gtk-update-icon-cache.exe --ignore-theme-index --force "%(gtk_dir)s\share\icons\hicolor"')
 
@@ -700,11 +703,12 @@ class Project_gtk3_22(Project_gtk_base):
         self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtk+.sln /p:GtkPostInstall=rem')
 
         self.make_all_mo()
-        if Project.opts.enable_gi:
-            self.builder.mod_env('INCLUDE', '%s\\include\\cairo' % (self.builder.gtk_dir, ))
-            self.make_single_gir('gtk', prj_dir='gtk3')
 
     def post_install(self):
+        if Project.opts.enable_gi:
+            self.builder.mod_env('INCLUDE', '%s\\include\\cairo' % (self.builder.gtk_dir, ))
+            self.make_single_gir('gtk', prj_dir='gtk3-22')
+
         self.exec_cmd(r'%(gtk_dir)s\bin\glib-compile-schemas.exe %(gtk_dir)s\share\glib-2.0\schemas')
         self.exec_cmd(r'%(gtk_dir)s\bin\gtk-update-icon-cache.exe --ignore-theme-index --force "%(gtk_dir)s\share\icons\hicolor"')
 
@@ -729,11 +733,12 @@ class Project_gtk3_24(Project_gtk_base):
         self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtk+.sln /p:GtkPostInstall=rem')
 
         self.make_all_mo()
-        if Project.opts.enable_gi:
-            self.builder.mod_env('INCLUDE', '%s\\include\\cairo' % (self.builder.gtk_dir, ))
-            self.make_single_gir('gtk', prj_dir='gtk3')
 
     def post_install(self):
+        if Project.opts.enable_gi:
+            self.builder.mod_env('INCLUDE', '%s\\include\\cairo' % (self.builder.gtk_dir, ))
+            self.make_single_gir('gtk', prj_dir='gtk3-24')
+
         self.exec_cmd(r'%(gtk_dir)s\bin\glib-compile-schemas.exe %(gtk_dir)s\share\glib-2.0\schemas')
         self.exec_cmd(r'%(gtk_dir)s\bin\gtk-update-icon-cache.exe --ignore-theme-index --force "%(gtk_dir)s\share\icons\hicolor"')
 
@@ -751,12 +756,14 @@ class Project_gtksourceview3(Tarball, Project, _MakeGir):
 
     def build(self):
         self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtksourceview.sln')
+
+        self.install(r'.\COPYING share\doc\gtksourceview3')
+
+    def post_install(self):
         if Project.opts.enable_gi:
             self.builder.mod_env('INCLUDE', '%s\\include\\gtk-3.0' % (self.builder.gtk_dir, ))
             self.builder.mod_env('INCLUDE', '%s\\include\\cairo' % (self.builder.gtk_dir, ))
             self.make_single_gir('gtksourceview', prj_dir='gtksourceview3')
-
-        self.install(r'.\COPYING share\doc\gtksourceview3')
 
 @project_add
 class Project_harfbuzz(Tarball, CmakeProject):
