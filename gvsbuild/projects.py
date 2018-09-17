@@ -989,20 +989,17 @@ class Project_libmicrohttpd(Tarball, Project):
         if self.builder.opts.configuration == 'debug':
             configuration = 'debug-dll'
 
-        version = '13'
-        if self.builder.opts.vs_ver == '14':
-            version = '15'
+        base_dir = r'w32\%s' % (self.builder.vs_ver_year, )
 
-        self.exec_msbuild(r'w32\VS20' + version + '\libmicrohttpd.sln', configuration=configuration)
+        self.exec_msbuild(base_dir + '\libmicrohttpd.sln', configuration=configuration)
 
         debug_option = ''
         if self.builder.opts.configuration == 'debug':
             debug_option = r'_d'
 
-        if self.builder.x86:
-            rel_dir = r'.\w32\VS20' + version + r'\Output'
-        else:
-            rel_dir = r'.\w32\VS20' + version + r'\Output\x64'
+        rel_dir = '.\\' + base_dir + r'\Output'
+        if not self.builder.x86:
+            rel_dir += r'\x64'
 
         self.push_location(rel_dir)
         self.install(r'microhttpd.h include')
