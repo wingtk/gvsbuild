@@ -1,0 +1,29 @@
+diff -rub a/main.c b/main.c
+--- a/main.c	Sun Mar 19 16:53:45 2017
++++ b/main.c	Fri Sep 14 15:25:14 2018
+@@ -35,6 +35,10 @@
+ #undef STRICT
+ #endif
+ 
++#ifdef GLIB_STATIC
++#include <glib-init.h>
++#endif
++
+ char *pcsysrootdir = NULL;
+ char *pkg_config_pc_path = NULL;
+ 
+@@ -494,6 +498,14 @@
+   GError *error = NULL;
+   GOptionContext *opt_context;
+ 
++#ifdef GLIB_STATIC
++  // init the glib stuff, normally done in window in the DllMain when the DLL is loaded
++  g_clock_win32_init();
++  g_thread_win32_init();
++  glib_init();
++  g_console_win32_init();
++#endif
++
+   /* This is here so that we get debug spew from the start,
+    * during arg parsing
+    */

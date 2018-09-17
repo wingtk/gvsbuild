@@ -60,6 +60,7 @@ def get_options(args):
     opts.py_wheel = args.py_wheel
     opts.enable_gi = args.enable_gi
     opts.gtk3_ver = args.gtk3_ver
+    opts.with_pkg_config = args.with_pkg_config
 
     if opts.make_zip and opts.no_deps:
         error_exit('Options --make-zip and --no-deps are not compatible')
@@ -254,6 +255,8 @@ Examples:
                          help="Create, for the gtk stack, the .gir/.typelib files for gobject introspection")
     p_build.add_argument('--gtk3-ver', default='3.22', choices=['3.20', '3.22', '3.24'],
                          help="Gtk3 version to build")
+    p_build.add_argument('--with-pkg-config', default=False, action='store_true',
+                         help="Use the old, original, pkg-config from freedesktop.org instead of pkgconf")
 
     p_build.add_argument('project', nargs='+',
                          help='Project(s) to build.')
