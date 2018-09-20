@@ -1,0 +1,35 @@
+From 3349d745cc1d74e97c39831f4b75b5ad2edd6780 Mon Sep 17 00:00:00 2001
+From: alesiani <alesiani@amazon.com>
+Date: Thu, 20 Sep 2018 11:49:34 +0200
+Subject: [PATCH 2/2] Provide a compile option for 32/64 gssapi
+
+---
+ plugins/NTMakefile | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/plugins/NTMakefile b/plugins/NTMakefile
+index 07bb0ae1..ad78d77e 100755
+--- a/plugins/NTMakefile
++++ b/plugins/NTMakefile
+@@ -119,12 +119,16 @@ OPENSSL_FLAGS= /I $(OPENSSL_INCLUDE)
+ OPENSSL_FLAGS=
+ !ENDIF 
+ 
++!IF "$(GSSAPILIB)" == ""
++GSSAPILIB=gssapi32.lib
++!ENDIF
++
+ !IF "$(GSSAPI)" == "CyberSafe"
+ GSS_FLAGS= /I $(GSSAPI_INCLUDE) /D "HAVE_GSS_C_NT_HOSTBASED_SERVICE" /D "HAVE_GSS_C_NT_USER_NAME"
+-GSS_LIBS=/libpath:$(GSSAPI_LIBPATH) gssapi32.lib
++GSS_LIBS=/libpath:$(GSSAPI_LIBPATH) $(GSSAPILIB)
+ !ELSE IF "$(GSSAPI)" == "MITKerberos"
+ GSS_FLAGS= /I $(GSSAPI_INCLUDE) /D "HAVE_GSS_C_NT_HOSTBASED_SERVICE" /D "HAVE_GSS_C_NT_USER_NAME"
+-GSS_LIBS=/libpath:$(GSSAPI_LIBPATH) gssapi64.lib
++GSS_LIBS=/libpath:$(GSSAPI_LIBPATH) $(GSSAPILIB)
+ !ELSE 
+ GSS_FLAGS=
+ GSS_LIBS=
+-- 
+2.18.0.windows.1
+
