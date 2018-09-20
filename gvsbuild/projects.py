@@ -161,16 +161,19 @@ class Project_cyrus_sasl(Tarball, Project):
             hash = '9e8035c12d419209ea60584d5efa51d042c3ed44b450b9d173d5504b222df9f1',
             archive_url = 'https://github.com/wingtk/cyrus-sasl/releases/download/cyrus-sasl-lmdb-2.1.28/cyrus-sasl-2.1.28.tar.xz',
             dependencies = ['lmdb', 'openssl', 'mit-kerberos'],
-            patches = ['0001-fix-snprintf-macro.patch'],
+            patches = ['0001-fix-snprintf-macro.patch',
+                       '0001-Add-MIT-Kerberos-as-GSSAPI-provider.patch',
+                       '0002-Provide-a-compile-option-for-32-64-gssapi.patch'],
             )
 
     def build(self):
         configuration = 'Debug' if self.builder.opts.configuration == 'debug' else 'Release'
+        gssapilib = 'gssapi32.lib' if self.builder.x86 else 'gssapi64.lib'
         self.exec_vs(r'nmake /nologo /f NTMakefile SASLDB="LMDB" LMDB_INCLUDE="%(gtk_dir)s\include" LMDB_LIBPATH="%(gtk_dir)s\lib" ' +
-                     r'GSSAPI="MITKerberos" GSSAPI_INCLUDE="%(gtk_dir)s\include" GSSAPI_LIBPATH="%(gtk_dir)s\lib" ' +
+                     r'GSSAPI="MITKerberos" GSSAPILIB="' + gssapilib + '" GSSAPI_INCLUDE="%(gtk_dir)s\include" GSSAPI_LIBPATH="%(gtk_dir)s\lib" ' +
                      r'OPENSSL_INCLUDE="%(gtk_dir)s\include" OPENSSL_LIBPATH="%(gtk_dir)s\lib" prefix="%(pkg_dir)s" CFG=' + configuration)
         self.exec_vs(r'nmake /nologo /f NTMakefile install SASLDB="LMDB" LMDB_INCLUDE="%(gtk_dir)s\include" ' +
-                     r'GSSAPI="MITKerberos" GSSAPI_INCLUDE="%(gtk_dir)s\include" GSSAPI_LIBPATH="%(gtk_dir)s\lib" ' +
+                     r'GSSAPI="MITKerberos" GSSAPILIB="' + gssapilib + '" GSSAPI_INCLUDE="%(gtk_dir)s\include" GSSAPI_LIBPATH="%(gtk_dir)s\lib" ' +
                      r'LMDB_LIBPATH="%(gtk_dir)s\lib" OPENSSL_INCLUDE="%(gtk_dir)s\include" OPENSSL_LIBPATH="%(gtk_dir)s\lib" prefix="%(pkg_dir)s" CFG=' + configuration)
 
         self.install(r'.\COPYING share\doc\cyrus-sasl')
