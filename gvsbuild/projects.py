@@ -174,6 +174,30 @@ class Project_cyrus_sasl(Tarball, Project):
         self.install(r'.\COPYING share\doc\cyrus-sasl')
 
 @project_add
+class Project_mit_kerberos(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'mit-kerberos',
+            hash = 'd46a676bd6cfe58b8684ffd881bc7ed2c9c90cb43ccfa45a9500530e84aa262b',
+            archive_url = 'https://github.com/krb5/krb5/archive/krb5-1.16.1-final.tar.gz',
+            dependencies = [
+                'perl',
+            ],
+            )
+
+    def build(self):
+        configuration = 'Debug' if self.builder.opts.configuration == 'debug' else 'Release'
+        add_path = os.path.join(self.builder.opts.msys_dir, 'usr', 'bin')
+
+        self.push_location('src')
+        self.exec_vs(r'nmake -f Makefile.in prep-windows NO_LEASH=1 KRB_INSTALL_DIR=%(gtk_dir)s ', add_path=add_path)
+        self.exec_vs(r'nmake NODEBUG=' + str(1 if configuration == 'Release' else 0) + ' NO_LEASH=1 KRB_INSTALL_DIR=%(gtk_dir)s ', add_path=add_path)
+        self.exec_vs(r'nmake install NODEBUG=' + str(1 if configuration == 'Release' else 0) + ' NO_LEASH=1 KRB_INSTALL_DIR=%(gtk_dir)s ', add_path=add_path)
+        self.pop_location()
+
+        self.install(r'.\NOTICE share\doc\mit-kerberos')
+
+@project_add
 class Project_emeus(GitRepo, Meson):
     def __init__(self):
         Meson.__init__(self,
