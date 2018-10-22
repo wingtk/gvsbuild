@@ -391,8 +391,8 @@ class Project_gdk_pixbuf(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'gdk-pixbuf',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.36/gdk-pixbuf-2.36.12.tar.xz',
-            hash = 'fff85cf48223ab60e3c3c8318e2087131b590fd6f1737e42cb3759a3b427a334',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.38/gdk-pixbuf-2.38.0.tar.xz',
+            hash = 'dd50973c7757bcde15de6bcd3a6d462a445efd552604ae6435a0532fbbadae47',
             dependencies = [
                 'ninja', 
                 'pkg-config', 
@@ -414,6 +414,7 @@ class Project_gdk_pixbuf(Tarball, Meson):
         self.add_param('-Dnative_windows_loaders=true') 
         self.add_param('-Dgir=%s' % (enable_gi, )) 
         self.add_param('-Dman=false')
+        self.add_param('-Dx11=false')
 
     def build(self):
         # We can experiment with a couple of options to give to meson:
