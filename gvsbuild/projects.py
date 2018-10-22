@@ -1473,7 +1473,7 @@ class Project_pkgconf(GitRepo, Meson):
             prj_dir = 'pkgconf',
             repo_url = 'https://github.com/pkgconf/pkgconf.git',
             fetch_submodules = False,
-            tag = 'a50bf726e093e108e78e4901577e566d44aa2e2e',
+            tag = 'pkgconf-1.5.4',
             dependencies = ['ninja', 'meson'],
             patches = [ '0001-vs2013.patch', 
                       ], 
