@@ -62,7 +62,6 @@
     <ProjectGuid>{016C739D-6389-43BF-8D88-24B2BF6F620F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>opus_demo</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
