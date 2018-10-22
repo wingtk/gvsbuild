@@ -57,24 +57,20 @@ class Project_atk(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'atk',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/atk/2.28/atk-2.28.1.tar.xz',
-            hash = 'cd3a1ea6ecc268a2497f0cd018e970860de24a6d42086919d6bf6c8e8d53f4fc',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/atk/2.30/atk-2.30.0.tar.xz',
+            hash = 'dd4d90d4217f2a0c1fee708a555596c2c19d26fef0952e1ead1938ab632c027b',
             dependencies = [
                 'ninja', 
                 'meson', 
                 'pkg-config', 
-                'perl', 
                 'glib',
             ],
             )
         if self.opts.enable_gi:
             self.add_dependency('gobject-introspection')
-            disable_gi = 'false'
-        else:
-            disable_gi = 'true'
         
-        self.add_param('-Ddisable_introspection=%s' % (disable_gi, ))
-        self.add_param('-Denable_docs=false')
+        self.add_param('-Dintrospection=%s' % (self.opts.enable_gi, ))
+        self.add_param('-Ddocs=false')
 
     def build(self):
         Meson.build(self, make_tests=True)
