@@ -801,8 +801,8 @@ class Project_harfbuzz(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'harfbuzz',
-            archive_url = 'https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.8.8.tar.bz2',
-            hash = 'a8e5c86e4d99e1cc9865ec1b8e9b05b98e413c2a885cd11f8e9bb9502dd3e3a9',
+            archive_url = 'https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.0.2.tar.bz2',
+            hash = 'f6de6c9dc89a56909227ac3e3dc9b18924a0837936ffd9633d13e981bcbd96e0',
             dependencies = ['perl', 'freetype', 'pkg-config', 'glib'],
             )
 
