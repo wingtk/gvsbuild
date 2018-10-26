@@ -1,17 +1,26 @@
-From 75dce84f01f80e940e34b434e3b60feb6fb387af Mon Sep 17 00:00:00 2001
+From 1c32f66fbaa0fd4ff104896259cbd4e9b112d187 Mon Sep 17 00:00:00 2001
 From: alesiani <alesiani@amazon.com>
 Date: Thu, 20 Sep 2018 11:10:05 +0200
 Subject: [PATCH 1/2] Add MIT Kerberos as GSSAPI provider
 
 ---
- plugins/NTMakefile | 3 +++
- 1 file changed, 3 insertions(+)
+ plugins/NTMakefile | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/plugins/NTMakefile b/plugins/NTMakefile
-index 7417f0f9..07bb0ae1 100755
+index 7417f0f9..c98d06df 100755
 --- a/plugins/NTMakefile
 +++ b/plugins/NTMakefile
-@@ -122,6 +122,9 @@ OPENSSL_FLAGS=
+@@ -10,6 +10,8 @@ PLUGINS_EXT=
+ 
+ !IF "$(GSSAPI)" == "CyberSafe"
+ PLUGINS_EXT=$(PLUGINS_EXT) saslGSSAPI.dll
++!ELSE IF "$(GSSAPI)" == "MITKerberos"
++PLUGINS_EXT=$(PLUGINS_EXT) saslGSSAPI.dll
+ !ENDIF 
+ 
+ !IF "$(SRP)" == "1"
+@@ -122,6 +124,9 @@ OPENSSL_FLAGS=
  !IF "$(GSSAPI)" == "CyberSafe"
  GSS_FLAGS= /I $(GSSAPI_INCLUDE) /D "HAVE_GSS_C_NT_HOSTBASED_SERVICE" /D "HAVE_GSS_C_NT_USER_NAME"
  GSS_LIBS=/libpath:$(GSSAPI_LIBPATH) gssapi32.lib
@@ -22,5 +31,5 @@ index 7417f0f9..07bb0ae1 100755
  GSS_FLAGS=
  GSS_LIBS=
 -- 
-2.18.0.windows.1
+2.19.0.windows.1
 
