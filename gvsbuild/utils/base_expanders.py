@@ -122,26 +122,32 @@ def extract_exec(src, dest_dir, dir_part=None, strip_one=False, check_file=None,
     # Say that we have done the extraction
     return True
 
-def dirlist2set(st_dir, add_dirs=False):
+def dirlist2set(st_dir, add_dirs=False, skipped_dir=None):
     """
     Loads & return a set with all the files and, eventually,
     directory from a single dir.
 
     Used to make a file list to create a .zip file
     """
-    def _load_single_dir(dir_name, returned_set):
+    def _load_single_dir(dir_name, returned_set, skipped_dir):
         for cf in os.scandir(dir_name):
             full = os.path.join(dir_name, cf.name.lower())
             if cf.is_file():
                 returned_set.add(full)
             elif cf.is_dir():
-                if (add_dirs):
-                    returned_set.add(full)
-                if cf.name.lower() != '__pycache__':
-                    _load_single_dir(full, returned_set)
+                if cf.name.lower() in skipped_dir:
+                    print_debug("  Skipped dir '%s' (from '%s')" % (cf.name, dir_name, ))
+                else:
+                    if (add_dirs):
+                        returned_set.add(full)
+                    _load_single_dir(full, returned_set, skipped_dir)
     rt = set()
+    if skipped_dir is None:
+        skipped_dir = []
+    skipped_dir.append('__pycache__')
     try:
-        _load_single_dir(st_dir, rt)
+        print_debug("Getting file list from '%s'" % (st_dir, ))
+        _load_single_dir(st_dir, rt, set(skipped_dir))
     except FileNotFoundError:
         print("Warning: (--zip-continue) No file found on '%s'" % (st_dir, ))
     return rt
@@ -204,7 +210,7 @@ class GitRepo(object):
             os.makedirs(git_tmp_dir)
         
         # create a .zip file with the downloaded project
-        all_files = dirlist2set(self.build_dir, add_dirs=True)
+        all_files = dirlist2set(self.build_dir, add_dirs=True, skipped_dir=[ '.git', ])
         make_zip(os.path.join(git_tmp_dir, self.prj_dir + '-' + zip_post), all_files, len(self.build_dir))
         
     def unpack(self):
