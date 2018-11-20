@@ -131,6 +131,22 @@ index 362e521..9f83a2a 100644
 +static __inline FcBool FcRefIsConst  (const FcRef *r) { return r->count == FC_REF_CONSTANT_VALUE; }
  
  #endif /* _FCATOMIC_H_ */
+diff -bru --strip-trailing-cr fontconfig-2.13.0.orig/src/fcfreetype.c fontconfig-2.13.0/src/fcfreetype.c
+--- fontconfig-2.13.0.orig/src/fcfreetype.c	2018-03-02 07:27:09.000000000 +0300
++++ fontconfig-2.13.0/src/fcfreetype.c	2018-11-20 17:25:43.917470895 +0300
+@@ -2252,9 +2252,9 @@
+     return 0;
+ }
+ 
+-static inline int fc_min (int a, int b) { return a <= b ? a : b; }
+-static inline int fc_max (int a, int b) { return a >= b ? a : b; }
+-static inline FcBool fc_approximately_equal (int x, int y)
++static __inline int fc_min (int a, int b) { return a <= b ? a : b; }
++static __inline int fc_max (int a, int b) { return a >= b ? a : b; }
++static __inline FcBool fc_approximately_equal (int x, int y)
+ { return abs (x - y) * 33 <= fc_max (abs (x), abs (y)); }
+ 
+ static int
 diff -ruN --strip-trailing-cr fontconfig-2.11.1.orig/src/fcint.h fontconfig-2.11.1/src/fcint.h
 index cdf2dab..1d11806 100644
 --- fontconfig-2.11.1.orig/fcint.h
