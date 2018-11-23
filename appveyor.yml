@@ -22,6 +22,7 @@ build_script:
   - "%PYTHON% -m pip install -U wheel"
   - "%PYTHON% build.py build --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --enable-gi --py-wheel adwaita-icon-theme enchant gtk3 gtksourceview3 pygobject"
   - "%PYTHON% -m pip install C:/gtk-build/gtk/Win32/release/python/pycairo-1.17.1-cp36-cp36m-win32.whl C:/gtk-build/gtk/Win32/release/python/PyGObject-3.31.1.dev0-cp36-cp36m-win32.whl"
+  - set PATH=%PATH%;C:/gtk-build\gtk\Win32\release\bin
   - "%PYTHON% -c \"import os; print(os.getenv('PATH'))\""
   - "%PYTHON% -c \"import gi; gi.require_version('Gtk', '3.0'); from gi.repository import Gtk\""
   - set PATH=%PATH%;C:\msys64\usr\bin
