@@ -1653,8 +1653,8 @@ class Project_pygobject(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'pygobject',
-            archive_url = 'https://ftp.acc.umu.se/pub/GNOME/sources/pygobject/3.31/pygobject-3.31.1.tar.xz',
-            hash = 'e2670219ca2ed4d1817b5ffb6ca086e61d54b0f95d3ee28a38e07f0f76a6d6f1',
+            archive_url = 'https://ftp.acc.umu.se/pub/GNOME/sources/pygobject/3.28/pygobject-3.28.3.tar.xz',
+            hash = '3dd3e21015d06e00482ea665fc1733b77e754a6ab656a5db5d7f7bfaf31ad0b0',
             dependencies = ['python', 'pycairo', 'gobject-introspection', 'libffi'],
             )
 
