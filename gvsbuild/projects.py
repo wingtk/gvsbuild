@@ -460,7 +460,7 @@ class Project_glib(Tarball, Meson):
             hash = '97d6a9d926b6aa3dfaadad3077cfb43eec74432ab455dff14250c769d526d7d6',
             dependencies = ['ninja', 'meson', 'pkg-config', 'gettext', 'libffi', 'zlib'],
             patches = ['glib-package-installation-directory.patch',
-                       '0001-Revert-GSocket-Fix-race-conditions-on-Win32-if-multi.patch'],
+                       '0001-Partially-revert-GSocket-Fix-race-conditions-on-Win3.patch'],
             )
 
     def build(self):
