@@ -1240,7 +1240,7 @@ class Project_libxml2(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'libxml2',
-            archive_url = 'ftp://xmlsoft.org/libxml2/libxml2-2.9.8.tar.gz',
+            archive_url = 'http://xmlsoft.org/sources/libxml2-2.9.8.tar.gz',
             hash = '0b74e51595654f958148759cfef0993114ddccccbb6f31aee018f3558e8e2732',
             dependencies = ['win-iconv', 'meson', 'ninja'],
             )
@@ -1324,7 +1324,7 @@ class Project_openssl(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'openssl',
-            archive_url = 'ftp://ftp.openssl.org/source/openssl-1.0.2p.tar.gz',
+            archive_url = 'https://www.openssl.org/source/openssl-1.0.2p.tar.gz',
             hash = '50a98e07b1a89eb8f6a99477f262df71c6fa7bef77df4dc83025a2845c827d00',
             dependencies = ['perl', 'nasm', ],
             )
