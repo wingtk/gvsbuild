@@ -174,30 +174,6 @@ class Project_cyrus_sasl(Tarball, Project):
         self.install(r'.\COPYING share\doc\cyrus-sasl')
 
 @project_add
-class Project_mit_kerberos(Tarball, Project):
-    def __init__(self):
-        Project.__init__(self,
-            'mit-kerberos',
-            hash = 'd46a676bd6cfe58b8684ffd881bc7ed2c9c90cb43ccfa45a9500530e84aa262b',
-            archive_url = 'https://github.com/krb5/krb5/archive/krb5-1.16.1-final.tar.gz',
-            dependencies = [
-                'perl',
-            ],
-            )
-
-    def build(self):
-        configuration = 'Debug' if self.builder.opts.configuration == 'debug' else 'Release'
-        add_path = os.path.join(self.builder.opts.msys_dir, 'usr', 'bin')
-
-        self.push_location('src')
-        self.exec_vs(r'nmake -f Makefile.in prep-windows NO_LEASH=1 KRB_INSTALL_DIR=%(gtk_dir)s ', add_path=add_path)
-        self.exec_vs(r'nmake NODEBUG=' + str(1 if configuration == 'Release' else 0) + ' NO_LEASH=1 KRB_INSTALL_DIR=%(gtk_dir)s ', add_path=add_path)
-        self.exec_vs(r'nmake install NODEBUG=' + str(1 if configuration == 'Release' else 0) + ' NO_LEASH=1 KRB_INSTALL_DIR=%(gtk_dir)s ', add_path=add_path)
-        self.pop_location()
-
-        self.install(r'.\NOTICE share\doc\mit-kerberos')
-
-@project_add
 class Project_emeus(GitRepo, Meson):
     def __init__(self):
         Meson.__init__(self,
@@ -1089,23 +1065,6 @@ class Project_librsvg(Tarball, Project, _MakeGir):
         self.exec_cmd(r'%(gtk_dir)s\bin\gdk-pixbuf-query-loaders.exe --update-cache')
 
 @project_add
-class Project_sqlite(Tarball, Project):
-    def __init__(self):
-        Project.__init__(self,
-            'sqlite',
-            archive_url = 'https://www.sqlite.org/2016/sqlite-autoconf-3120200.tar.gz',
-            hash = 'fd00770c9afd39db555c78400e52f55e8bd6568c78be23561abb472a22d09abb',
-            )
-
-    def build(self):
-        nmake_debug = 'DEBUG=2' if self.builder.opts.configuration == 'debug' else 'DEBUG=0'
-        self.exec_vs(r'nmake /f Makefile.msc sqlite3.dll DYNAMIC_SHELL=1 ' + nmake_debug)
-
-        self.install('sqlite3.h include')
-        self.install('sqlite3.dll sqlite3.pdb bin')
-        self.install('sqlite3.lib lib')
-
-@project_add
 class Project_libcurl(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
@@ -1301,6 +1260,34 @@ class Project_lmdb(GitRepo, Meson):
         self.pop_location()
 
 @project_add
+class Project_luajit(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'luajit',
+            archive_url = 'http://luajit.org/download/LuaJIT-2.1.0-beta3.tar.gz',
+            hash = '1ad2e34b111c802f9d0cdf019e986909123237a28c746b21295b63c9e785d9c3',
+            patches = ['set-paths.patch'],
+            )
+
+    def build(self):
+        option = ''
+        if self.builder.opts.configuration == 'debug':
+            option = 'debug'
+
+        self.push_location('src')
+
+        self.exec_vs(r'.\msvcbuild ' + option)
+
+        self.install(r'.\lua.h .\lualib.h .\luaconf.h .\lauxlib.h .\luajit.h include\luajit-2.1')
+        self.install(r'.\luajit.exe .\lua51.dll .\lua51.pdb bin')
+        self.install(r'.\lua51.lib lib')
+
+        self.pop_location()
+
+        self.install(r'.\etc\luajit.pc lib\pkgconfig')
+        self.install(r'.\README .\COPYRIGHT share\doc\luajit')
+
+@project_add
 class Project_lz4(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
@@ -1318,6 +1305,30 @@ class Project_lz4(Tarball, Project):
         self.install(r'visual\%(vs_ver_year)s\bin\%(platform)s_%(configuration)s\liblz4.lib lib')
 
         self.install(r'.\lib\LICENSE share\doc\lz4')
+
+@project_add
+class Project_mit_kerberos(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'mit-kerberos',
+            hash = 'd46a676bd6cfe58b8684ffd881bc7ed2c9c90cb43ccfa45a9500530e84aa262b',
+            archive_url = 'https://github.com/krb5/krb5/archive/krb5-1.16.1-final.tar.gz',
+            dependencies = [
+                'perl',
+            ],
+            )
+
+    def build(self):
+        configuration = 'Debug' if self.builder.opts.configuration == 'debug' else 'Release'
+        add_path = os.path.join(self.builder.opts.msys_dir, 'usr', 'bin')
+
+        self.push_location('src')
+        self.exec_vs(r'nmake -f Makefile.in prep-windows NO_LEASH=1 KRB_INSTALL_DIR=%(gtk_dir)s ', add_path=add_path)
+        self.exec_vs(r'nmake NODEBUG=' + str(1 if configuration == 'Release' else 0) + ' NO_LEASH=1 KRB_INSTALL_DIR=%(gtk_dir)s ', add_path=add_path)
+        self.exec_vs(r'nmake install NODEBUG=' + str(1 if configuration == 'Release' else 0) + ' NO_LEASH=1 KRB_INSTALL_DIR=%(gtk_dir)s ', add_path=add_path)
+        self.pop_location()
+
+        self.install(r'.\NOTICE share\doc\mit-kerberos')
 
 @project_add
 class Project_openssl(Tarball, Project):
@@ -1548,6 +1559,79 @@ class Project_protobuf_c(Tarball, CmakeProject):
         self.install(r'.\LICENSE share\doc\protobuf-c')
 
 @project_add
+class Project_pycairo(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'pycairo',
+            archive_url = 'https://github.com/pygobject/pycairo/releases/download/v1.17.1/pycairo-1.17.1.tar.gz',
+            hash = '0f0a35ec923d87bc495f6753b1e540fd046d95db56a35250c44089fbce03b698',
+            dependencies = ['cairo', 'python'],
+            )
+
+    def build(self):
+        cairo_inc = os.path.join(self.builder.gtk_dir, 'include', 'cairo')
+        self.builder.mod_env('INCLUDE', cairo_inc)
+        self.push_location(self.build_dir)
+        self.exec_vs(r'%(python_dir)s\python.exe setup.py install')
+        if self.builder.opts.py_egg:
+            self.exec_vs(r'%(python_dir)s\python.exe setup.py bdist_egg')
+        if self.builder.opts.py_wheel:
+            self.exec_vs(r'%(python_dir)s\python.exe setup.py bdist_wheel')
+        if self.builder.opts.py_egg or self.builder.opts.py_wheel:
+            self.install_dir('dist', 'python')
+        self.install(r'.\COPYING share\doc\pycairo')
+        self.install(r'.\COPYING-LGPL-2.1 share\doc\pycairo')
+        self.install(r'.\COPYING-MPL-1.1 share\doc\pycairo')
+        self.pop_location()
+
+@project_add
+class Project_pygobject(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'pygobject',
+            archive_url = 'https://ftp.acc.umu.se/pub/GNOME/sources/pygobject/3.28/pygobject-3.28.3.tar.xz',
+            hash = '3dd3e21015d06e00482ea665fc1733b77e754a6ab656a5db5d7f7bfaf31ad0b0',
+            dependencies = ['python', 'pycairo', 'gobject-introspection', 'libffi'],
+            )
+
+    def build(self):
+        gtk_dir = self.builder.gtk_dir
+        add_inc = [
+            os.path.join(gtk_dir, 'include', 'cairo'),
+            os.path.join(gtk_dir, 'include', 'gobject-introspection-1.0'),
+            os.path.join(gtk_dir, 'include', 'glib-2.0'),
+            os.path.join(gtk_dir, 'lib', 'glib-2.0', 'include'),
+        ]
+        self.builder.mod_env('INCLUDE', ";".join(add_inc))
+        self.push_location(self.build_dir)
+        self.exec_vs(r'%(python_dir)s\python.exe setup.py install')
+        if self.builder.opts.py_egg:
+            self.exec_vs(r'%(python_dir)s\python.exe setup.py bdist_egg')
+        if self.builder.opts.py_wheel:
+            self.exec_vs(r'%(python_dir)s\python.exe setup.py bdist_wheel')
+        if self.builder.opts.py_egg or self.builder.opts.py_wheel:
+            self.install_dir('dist', 'python')
+        self.install(r'.\COPYING share\doc\pygobject')
+        self.pop_location()
+
+@project_add
+class Project_sqlite(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'sqlite',
+            archive_url = 'https://www.sqlite.org/2016/sqlite-autoconf-3120200.tar.gz',
+            hash = 'fd00770c9afd39db555c78400e52f55e8bd6568c78be23561abb472a22d09abb',
+            )
+
+    def build(self):
+        nmake_debug = 'DEBUG=2' if self.builder.opts.configuration == 'debug' else 'DEBUG=0'
+        self.exec_vs(r'nmake /f Makefile.msc sqlite3.dll DYNAMIC_SHELL=1 ' + nmake_debug)
+
+        self.install('sqlite3.h include')
+        self.install('sqlite3.dll sqlite3.pdb bin')
+        self.install('sqlite3.lib lib')
+
+@project_add
 class Project_win_iconv(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
@@ -1621,90 +1705,6 @@ class Project_zlib(Tarball, Project):
 
         self.install(r'.\pc-files\* lib\pkgconfig')
         self.install(r'.\README share\doc\zlib')
-
-@project_add
-class Project_pycairo(Tarball, Project):
-    def __init__(self):
-        Project.__init__(self,
-            'pycairo',
-            archive_url = 'https://github.com/pygobject/pycairo/releases/download/v1.17.1/pycairo-1.17.1.tar.gz',
-            hash = '0f0a35ec923d87bc495f6753b1e540fd046d95db56a35250c44089fbce03b698',
-            dependencies = ['cairo', 'python'],
-            )
-
-    def build(self):
-        cairo_inc = os.path.join(self.builder.gtk_dir, 'include', 'cairo')
-        self.builder.mod_env('INCLUDE', cairo_inc)
-        self.push_location(self.build_dir)
-        self.exec_vs(r'%(python_dir)s\python.exe setup.py install')
-        if self.builder.opts.py_egg:
-            self.exec_vs(r'%(python_dir)s\python.exe setup.py bdist_egg')
-        if self.builder.opts.py_wheel:
-            self.exec_vs(r'%(python_dir)s\python.exe setup.py bdist_wheel')
-        if self.builder.opts.py_egg or self.builder.opts.py_wheel:
-            self.install_dir('dist', 'python')
-        self.install(r'.\COPYING share\doc\pycairo')
-        self.install(r'.\COPYING-LGPL-2.1 share\doc\pycairo')
-        self.install(r'.\COPYING-MPL-1.1 share\doc\pycairo')
-        self.pop_location()
-
-@project_add
-class Project_pygobject(Tarball, Project):
-    def __init__(self):
-        Project.__init__(self,
-            'pygobject',
-            archive_url = 'https://ftp.acc.umu.se/pub/GNOME/sources/pygobject/3.28/pygobject-3.28.3.tar.xz',
-            hash = '3dd3e21015d06e00482ea665fc1733b77e754a6ab656a5db5d7f7bfaf31ad0b0',
-            dependencies = ['python', 'pycairo', 'gobject-introspection', 'libffi'],
-            )
-
-    def build(self):
-        gtk_dir = self.builder.gtk_dir
-        add_inc = [
-            os.path.join(gtk_dir, 'include', 'cairo'),
-            os.path.join(gtk_dir, 'include', 'gobject-introspection-1.0'),
-            os.path.join(gtk_dir, 'include', 'glib-2.0'),
-            os.path.join(gtk_dir, 'lib', 'glib-2.0', 'include'),
-        ]
-        self.builder.mod_env('INCLUDE', ";".join(add_inc))
-        self.push_location(self.build_dir)
-        self.exec_vs(r'%(python_dir)s\python.exe setup.py install')
-        if self.builder.opts.py_egg:
-            self.exec_vs(r'%(python_dir)s\python.exe setup.py bdist_egg')
-        if self.builder.opts.py_wheel:
-            self.exec_vs(r'%(python_dir)s\python.exe setup.py bdist_wheel')
-        if self.builder.opts.py_egg or self.builder.opts.py_wheel:
-            self.install_dir('dist', 'python')
-        self.install(r'.\COPYING share\doc\pygobject')
-        self.pop_location()
-
-@project_add
-class Project_luajit(Tarball, Project):
-    def __init__(self):
-        Project.__init__(self,
-            'luajit',
-            archive_url = 'http://luajit.org/download/LuaJIT-2.1.0-beta3.tar.gz',
-            hash = '1ad2e34b111c802f9d0cdf019e986909123237a28c746b21295b63c9e785d9c3',
-            patches = ['set-paths.patch'],
-            )
-
-    def build(self):
-        option = ''
-        if self.builder.opts.configuration == 'debug':
-            option = 'debug'
-
-        self.push_location('src')
-
-        self.exec_vs(r'.\msvcbuild ' + option)
-
-        self.install(r'.\lua.h .\lualib.h .\luaconf.h .\lauxlib.h .\luajit.h include\luajit-2.1')
-        self.install(r'.\luajit.exe .\lua51.dll .\lua51.pdb bin')
-        self.install(r'.\lua51.lib lib')
-
-        self.pop_location()
-
-        self.install(r'.\etc\luajit.pc lib\pkgconfig')
-        self.install(r'.\README .\COPYRIGHT share\doc\luajit')
 
 @project_add
 class Project_check_libs(NullExpander, Meson):
