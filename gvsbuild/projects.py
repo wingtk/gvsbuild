@@ -933,6 +933,9 @@ class Project_libffi(GitRepo, Meson):
             fetch_submodules = False,
             tag = 'meson-1.14',
             dependencies = ['python', 'ninja', 'meson'],
+            patches = [
+                 '001-rename-debug-to-ffi-debug.patch',
+                 ],
             )
 
     def build(self):
