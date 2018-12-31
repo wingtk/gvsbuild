@@ -801,6 +801,32 @@ class Project_hicolor_icon_theme(Tarball, Project):
         self.install(r'.\index.theme share\icons\hicolor')
 
 @project_add
+class Project_icu(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'icu',
+            archive_url = 'http://download.icu-project.org/files/icu4c/63.1/icu4c-63_1-src.zip',
+            hash = '3d957deabf75e96c35918355eac4da3e728fc222b9b4bdb2663652f76ee51772',
+            )
+
+    def build(self):
+        bindir = r'.\bin'
+        libdir = r'.\lib'
+        if not self.builder.x86:
+            bindir += '64'
+            libdir += '64'
+
+        self.push_location('.\icu')
+        self.exec_msbuild(r'source\allinone\allinone.sln /t:cal')
+
+        self.install(r'.\LICENSE share\doc\icu')
+        self.install(bindir + r'\* bin')
+        self.install(libdir + r'\* lib')
+        self.install(r'.\include\* include')
+
+        self.pop_location()
+
+@project_add
 class Project_jasper(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
