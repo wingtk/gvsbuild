@@ -1066,6 +1066,25 @@ class Project_libpng(Tarball, CmakeProject):
         self.install('LICENSE share\doc\libpng')
 
 @project_add
+class Project_libpsl(GitRepo, Meson):
+    def __init__(self):
+        Project.__init__(self,
+            'libpsl',
+            repo_url = 'https://github.com/rockdaboot/libpsl.git',
+            fetch_submodules = True,
+            tag = '726d6773d431028472b621f331130b721e079aae',
+            dependencies = ['meson', 'ninja', 'pkg-config', 'icu', ],
+            )
+
+        self.add_param('-Druntime=libicu')
+        self.add_param('-Dbuiltin=libicu')
+
+    def build(self):
+        Meson.build(self)
+
+        self.install(r'.\LICENSE share\doc\libpsl')
+
+@project_add
 class Project_librsvg(Tarball, Project, _MakeGir):
     def __init__(self):
         Project.__init__(self,
