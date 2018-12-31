@@ -372,7 +372,7 @@ class Project_gdk_pixbuf(Tarball, Meson):
                 'ninja', 
                 'pkg-config', 
                 'meson', 
-                'perl', 
+                'python', 
                 'libtiff-4', 
                 'jasper', 
                 'glib', 
@@ -570,7 +570,7 @@ class Project_gsettings_desktop_schemas(Tarball, Project):
             'gsettings-desktop-schemas',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.24/gsettings-desktop-schemas-3.24.0.tar.xz',
             hash = 'f6573a3f661d22ff8a001cc2421d8647717f1c0e697e342d03c6102f29bbbb90',
-            dependencies = ['perl', 'glib'],
+            dependencies = ['python', 'glib'],
             patches = ['0001-build-win32-replace.py-Fix-replacing-items-in-files-.patch',
                        '0002-glib-mkenums-python.patch',
                        ],
@@ -779,7 +779,7 @@ class Project_harfbuzz(Tarball, CmakeProject):
             'harfbuzz',
             archive_url = 'https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.0.2.tar.bz2',
             hash = 'f6de6c9dc89a56909227ac3e3dc9b18924a0837936ffd9633d13e981bcbd96e0',
-            dependencies = ['perl', 'freetype', 'pkg-config', 'glib'],
+            dependencies = ['python', 'freetype', 'pkg-config', 'glib'],
             )
 
     def build(self):
@@ -842,7 +842,7 @@ class Project_json_glib(Tarball, Meson):
             'json-glib',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/json-glib/1.4/json-glib-1.4.4.tar.xz',
             hash = '720c5f4379513dc11fd97dc75336eb0c0d3338c53128044d9fabec4374f4bc47',
-            dependencies = ['meson', 'ninja', 'pkg-config', 'perl', 'glib'],
+            dependencies = ['meson', 'ninja', 'pkg-config', 'python', 'glib'],
             )
         if self.opts.enable_gi:
             self.add_dependency('gobject-introspection')
