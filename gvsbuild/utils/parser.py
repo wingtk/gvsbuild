@@ -253,7 +253,7 @@ Examples:
                          help="pycairo/pygobject: build also the wheel distribution format")
     p_build.add_argument('--enable-gi', default=False, action='store_true',
                          help="Create, for the gtk stack, the .gir/.typelib files for gobject introspection")
-    p_build.add_argument('--gtk3-ver', default='3.22', choices=['3.20', '3.22', '3.24'],
+    p_build.add_argument('--gtk3-ver', default='3.24', choices=['3.20', '3.22', '3.24'],
                          help="Gtk3 version to build")
     p_build.add_argument('--ffmpeg-enable-gpl', default=False, action='store_true',
                          help="ffmpeg: build with the gpl libraries/modules")
