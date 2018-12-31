@@ -27,11 +27,13 @@ from .base_project import Project, GVSBUILD_PROJECT, GVSBUILD_TOOL, GVSBUILD_GRO
 from .base_project import Options
 from .builder import Builder
 from .utils import ordered_set
-from .simple_ui import error_exit, print_debug
+from .simple_ui import log
 
 def get_options(args):
     opts = Options()
 
+    opts.verbose = args.verbose
+    opts.debug = args.debug
     opts.platform = args.platform
     opts.configuration = getattr(args, 'configuration', 'release')
     opts.build_dir = args.build_dir
@@ -61,9 +63,14 @@ def get_options(args):
     opts.enable_gi = args.enable_gi
     opts.gtk3_ver = args.gtk3_ver
     opts.ffmpeg_enable_gpl = args.ffmpeg_enable_gpl
+    opts.log_size = args.log_size
+    opts.log_single = args.log_single
+
+    # active the log
+    log.configure(os.path.join(opts.build_dir, 'logs'), opts)
 
     if opts.make_zip and opts.no_deps:
-        error_exit('Options --make-zip and --no-deps are not compatible')
+        log.error_exit('Options --make-zip and --no-deps are not compatible')
 
     if not opts.archives_download_dir:
         opts.archives_download_dir = os.path.join(args.build_dir, 'src')
@@ -71,7 +78,7 @@ def get_options(args):
         opts.patches_root_dir = os.path.join(sys.path[0], 'patches')
     prop_file = os.path.join(opts.patches_root_dir, 'stack.props')
     if not os.path.isfile(prop_file):
-        error_exit("Missing 'stack.prop' file on directory '%s'.\nWrong or missing --patches-root-dir option?" % (opts.patches_root_dir, ))
+        log.error_exit("Missing 'stack.prop' file on directory '%s'.\nWrong or missing --patches-root-dir option?" % (opts.patches_root_dir, ))
         
     if not opts.tools_root_dir:
         opts.tools_root_dir = os.path.join(args.build_dir, 'tools')
@@ -88,7 +95,7 @@ def get_options(args):
 
     for p in opts.projects:
         if not p in Project.get_names():
-            error_exit(
+            log.error_exit(
                 p + " is not a valid project name, available projects are:\n\t" + "\n\t".join(Project.get_names()))
 
     return opts
@@ -109,25 +116,33 @@ def __get_projects_to_build(opts):
         to_skip = opts.skip.split(',')
         for s in to_skip:
             if not s in Project.get_names():
-                error_exit(
+                log.error_exit(
                     s + " is not a valid project name, available projects are:\n\t" + "\n\t".join(Project.get_names()))
 
             p = Project.get_project(s)
             if p in to_build:
-                print_debug('Dropped project %s' % (s, ))
+                log.debug('Dropped project %s' % (s, ))
                 to_build.remove(p)
     return to_build
 
 def do_build(args):
     opts = get_options(args)
-    print_debug("options are: %s" % (opts.__dict__,))
+    if log.debug_on():
+        log.debug("Options are:")
+        for co in sorted(opts.__dict__.keys()):
+            v = opts.__dict__[co]
+            if type(v) is str:
+                pv = "'%s'" % (v, )
+            else:
+                pv = repr(v) 
+            log.message_indent("'%s': %s, " % (co, pv, ))
     builder = Builder(opts)
     builder.preprocess()
 
     to_build = __get_projects_to_build(opts)
     if not to_build:
-        error_exit("nothing to do")
-    print_debug("building %s" % ([p.name for p in to_build],))
+        log.error_exit("nothing to do")
+    log.debug("building %s" % ([p.name for p in to_build],))
 
     builder.build(to_build)
 
@@ -257,6 +272,10 @@ Examples:
                          help="Gtk3 version to build")
     p_build.add_argument('--ffmpeg-enable-gpl', default=False, action='store_true',
                          help="ffmpeg: build with the gpl libraries/modules")
+    p_build.add_argument('--log-size', default=0, type=int,
+                         help="Maximum log size (in kilobytes) before restarting with a new file")
+    p_build.add_argument('--log-single', default=False, action='store_true',
+                         help="Always start a new log file, with date & time")
 
     p_build.add_argument('project', nargs='+',
                          help='Project(s) to build.')

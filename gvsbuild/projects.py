@@ -23,8 +23,7 @@ import os
 import glob
 import shutil
 
-from .utils.simple_ui import print_debug
-from .utils.simple_ui import print_message
+from .utils.simple_ui import log
 from .utils.utils import convert_to_msys
 from .utils.utils import file_replace
 from .utils.utils import python_find_libs_dir
@@ -300,7 +299,7 @@ class Project_fontconfig(Tarball, Project):
             with open(proj, 'r') as f:
                 content = f.read()
             if content.find('<PlatformToolset>FIXME</PlatformToolset>') >= 0:
-                print_debug('patching project file %s' % (proj,))
+                log.debug('patching project file %s' % (proj,))
                 if self.builder.opts.vs_ver == '15':
                     fixme = r'141'
                 else:
@@ -510,7 +509,7 @@ class Project_gobject_introspection(Tarball, Meson):
         py_dir = Project.get_tool_path('python')
         py_libs = python_find_libs_dir(py_dir)
         if py_libs:
-            print_debug("Python library path is [%s]" % (py_libs, ))
+            log.debug("Python library path is [%s]" % (py_libs, ))
             self.builder.mod_env('LIB', py_libs, prepend=False)
 
         Meson.build(self, meson_params='-Dpython=%s\\python.exe -Dcairo-libname=cairo-gobject.dll' % (py_dir, ))
@@ -598,7 +597,7 @@ class _MakeGir(object):
         if not os.path.isfile(os.path.join(b_dir, 'detectenv-msvc.mak')):
             b_dir = r'%s\%s\win32' % (self.builder.working_dir, prj_dir, )
             if not os.path.isfile(os.path.join(b_dir, 'detectenv-msvc.mak')):
-                print_message('Unable to find detectenv-msvc.mak for %s' % (prj_name, ))
+                log.message('Unable to find detectenv-msvc.mak for %s' % (prj_name, ))
                 return
 
         cmd = 'nmake -f %s-introspection-msvc.mak CFG=%s PREFIX=%s PYTHON=%s\python.exe install-introspection' % (
