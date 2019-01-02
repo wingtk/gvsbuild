@@ -80,11 +80,13 @@ def get_options(args):
     if not os.path.isfile(prop_file):
         log.error_exit("Missing 'stack.prop' file on directory '%s'.\nWrong or missing --patches-root-dir option?" % (opts.patches_root_dir, ))
         
+    opts._vs_path_auto = False
     if not opts.tools_root_dir:
         opts.tools_root_dir = os.path.join(args.build_dir, 'tools')
     if not opts.vs_install_path:
         if opts.vs_ver == "15":
-            opts.vs_install_path = r'C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional'
+            opts.vs_install_path = r'C:\Program Files (x86)\Microsoft Visual Studio\2017'
+            opts._vs_path_auto = True
         else:
             opts.vs_install_path = r'C:\Program Files (x86)\Microsoft Visual Studio %s.0' % (opts.vs_ver,)
 
@@ -217,9 +219,11 @@ Examples:
     p_build.add_argument('--tools-root-dir',
                          help="The directory where to install the downloaded tools. Default is $(build-dir)\\tools.")
     p_build.add_argument('--vs-ver', default='12',
-                         help="Visual Studio version 10,12,14, etc. Default is 12.")
+                         help="Visual Studio version 12 (vs2013), 14 (vs2015), 15 (vs2017) etc. Default is 12.")
     p_build.add_argument('--vs-install-path',
-                         help=r"The directory where you installed Visual Studio. Default is 'C:\Program Files (x86)\Microsoft Visual Studio $(build-ver).0'")
+                         help=r"The directory where you installed Visual Studio. Default is 'C:\Program Files (x86)\Microsoft Visual Studio $(vs-ver).0' (for vs-ver <= 14) " +
+                         "or 'C:\Program Files (x86)\Microsoft Visual Studio\\20xx' (2017 for vs-ver 15, 2019 for vs-ver 16, ...). "
+                         "If not set for the vs2017 version the script look automatically under Professional, BuildTools, Enterprise, Community and Preview sub directory until it finds the startup batch.")
     p_build.add_argument('--win-sdk-ver', default = None,
                          help=r"The windows sdk version to use for building, used to initialize the Visual Studio build environment. " +
                                "It can be 8.1 (for windows 8 compatibility) or 10.0.xxxxx.0, where xxxxx, at the moment, can be 10150, 10240, 10586, 14393 or 15063 " +

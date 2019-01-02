@@ -29,10 +29,10 @@ from urllib.request import splittype, urlopen, ContentTooShortError
 from urllib.error import URLError
 import contextlib
 import ssl
-import zipfile
 import re
 import copy
 import time
+import json
 
 from .utils import ordered_set
 from .utils import rmtree_full
@@ -249,39 +249,101 @@ class Builder(object):
                 else:
                     del self.vs_env[key]
             
-    def __check_vs(self, opts):
-        script_title('* Msvc tool')
-        log.start('Checking Msvc tool')
+    def __dump_vs_loc(self):
+        """
+        Using vswhere try to locate the vs installation path
+        """
+        vswhere = r'%s\Microsoft Visual Studio\Installer\vswhere.exe' % (os.environ.get('ProgramFiles(x86)', r'C:\Program Files (x86)'))
+        log.log('Trying to find Visual Studio installations ...')
+        if not os.path.exists(vswhere):
+            log.log('Could not find vswhere executable (%s)' % (vswhere, ))
+            return
+        
+        json_file = 'vs-found.json'
+        if os.path.exists(json_file):
+            os.remove(json_file)
+        
+        cmd = '"%s" -all -products * -format json >%s' % (vswhere, json_file, )
+        self.exec_cmd(cmd)
+        
+        res = None
+        try:
+            with open(json_file, 'rt') as fi:
+                res = json.load(fi)
+        except Exception as e:
+            log.log('Exception reading vswhere result file (%s)' % (e, ))
+
+        if res:
+            log.message('')
+            log.message('Visual studio installation(s) found:')
+            for i in res:
+                disp = i.get('displayName', '?')
+                path = i.get('installationPath', r'?:\?')
+                log.message('    %s @ %s' % (disp, path, ))
+            log.message('')
+                    
+    def __check_vs_single(self, opts, vs_path, exit_missing=True):
         # Verify VS exists at the indicated location, and that it supports the required target
         add_opts = ''
         if opts.platform == 'Win32':
-            vcvars_bat = os.path.join(opts.vs_install_path, 'VC', 'bin', 'vcvars32.bat')
-            # make sure it works with VS 2017
+            vcvars_bat = os.path.join(vs_path, 'VC', 'bin', 'vcvars32.bat')
+            # make sure it works with VS 2017+
             if not os.path.exists(vcvars_bat):
-                vcvars_bat=os.path.join(opts.vs_install_path, 'VC', 'Auxiliary', 'Build', 'vcvars32.bat')
-            if opts.win_sdk_ver:
-                add_opts = ' %s' % (opts.win_sdk_ver, )
+                vcvars_bat=os.path.join(vs_path, 'VC', 'Auxiliary', 'Build', 'vcvars32.bat')
         else:
-            vcvars_bat = os.path.join(opts.vs_install_path, 'VC', 'bin', 'amd64', 'vcvars64.bat')
+            vcvars_bat = os.path.join(vs_path, 'VC', 'bin', 'amd64', 'vcvars64.bat')
             # make sure it works with VS Express
             if not os.path.exists(vcvars_bat):
-                vcvars_bat = os.path.join(opts.vs_install_path, 'VC', 'bin', 'x86_amd64', 'vcvarsx86_amd64.bat')
-            # make sure it works with VS 2017
+                vcvars_bat = os.path.join(vs_path, 'VC', 'bin', 'x86_amd64', 'vcvarsx86_amd64.bat')
+            # make sure it works with VS 2017+
             if not os.path.exists(vcvars_bat):
-                vcvars_bat=os.path.join(opts.vs_install_path, 'VC', 'Auxiliary', 'Build', 'vcvars64.bat')
-            if opts.win_sdk_ver:
-                add_opts = ' %s' % (opts.win_sdk_ver, )
+                vcvars_bat=os.path.join(vs_path, 'VC', 'Auxiliary', 'Build', 'vcvars64.bat')
+
+        if opts.win_sdk_ver:
+            add_opts = ' %s' % (opts.win_sdk_ver, )
 
         if not os.path.exists(vcvars_bat):
-            raise Exception("'%s' could not be found. Please check you have Visual Studio installed at '%s' and that it supports the target platform '%s'." % (vcvars_bat, opts.vs_install_path, opts.platform))
+            if exit_missing:
+                self.__dump_vs_loc();
+                log.error_exit("\n  '%s' could not be found.\n  Please check you have Visual Studio installed at '%s'\n  and that it supports the target platform '%s'." % (vcvars_bat, vs_path, opts.platform))
+            else:
+                return None
+
+        output = subprocess.check_output('cmd.exe /c ""%s"%s>NUL && set"' % (vcvars_bat, add_opts, ), shell=True)
+        return output
+                    
+    def __check_vs(self, opts):
+        script_title('* Msvc tool')
+        log.start('Checking Msvc tool')
 
         # Add to the environment the gtk paths so meson can find everything
         self.add_global_env('INCLUDE', os.path.join(self.gtk_dir, 'include'))
         self.add_global_env('LIB', os.path.join(self.gtk_dir, 'lib'))
         self.add_global_env('LIBPATH', os.path.join(self.gtk_dir, 'lib'))
         self.add_global_env('PATH', os.path.join(self.gtk_dir, 'bin'))
+        
+        if opts._vs_path_auto:
+            dir_parts = [
+                'Professional', 
+                'BuildTools',
+                'Enterprise',
+                'Community',
+                'Preview',
+                ]
+            log.log('Looking for the Visual Studio version installed under %s ...' % (opts.vs_install_path, ))
+            for part in dir_parts:
+                output = self.__check_vs_single(opts, os.path.join(opts.vs_install_path, part), False)
+                if output:
+                    log.log("Found '%s'" % (part, ))
+                    break
+            
+            if not output:
+                # Nothing found, see what's installed & exit
+                self.__dump_vs_loc();
+                log.error_exit("\n  Visual Studio startup batch could not be found.\n  Please check you have Visual Studio installed under '%s\\[Professional|BuildTools|Community|...]'\n  and that it supports the target platform '%s'." % (opts.vs_install_path, opts.platform, ))
+        else:
+            output = self.__check_vs_single(opts, opts.vs_install_path, True)
 
-        output = subprocess.check_output('cmd.exe /c ""%s"%s>NUL && set"' % (vcvars_bat, add_opts, ), shell=True)
         self.vs_env = {}
         dbg = log.debug_on()
         for l in output.splitlines():
