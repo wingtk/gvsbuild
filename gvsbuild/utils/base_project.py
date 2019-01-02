@@ -25,7 +25,7 @@ import re
 import datetime
 
 from .utils import _rmtree_error_handler
-from .simple_ui import print_debug, print_log, error_exit
+from .simple_ui import log
 
 GVSBUILD_NONE = -1
 GVSBUILD_IGNORE = 0
@@ -116,12 +116,12 @@ class Project(object):
             name = os.path.basename(p)
             stamp = os.path.join(self.build_dir, name + ".patch-applied")
             if not os.path.exists(stamp):
-                print_log("Applying patch %s" % (p,))
+                log.log("Applying patch %s" % (p,))
                 self.builder.exec_msys(['patch', '-p1', '-i', p], working_dir=self._get_working_dir())
                 with open(stamp, 'w') as stampfile:
                     stampfile.write('done')
             else:
-                print_debug("patch %s already applied, skipping" % (p,))
+                log.debug("patch %s already applied, skipping" % (p,))
 
     def _get_working_dir(self):
         if self.__working_dir:
@@ -140,16 +140,16 @@ class Project(object):
             shutil.rmtree(self.build_dir, onerror=_rmtree_error_handler)
 
         if os.path.exists(self.build_dir):
-            print_debug("directory %s already exists" % (self.build_dir,))
+            log.debug("directory %s already exists" % (self.build_dir,))
             if self.update_build_dir():
                 self.mark_file_remove()
                 if os.path.exists(self.patch_dir):
-                    print_log("Copying files from %s to %s" % (self.patch_dir, self.build_dir))
+                    log.log("Copying files from %s to %s" % (self.patch_dir, self.build_dir))
                     self.builder.copy_all(self.patch_dir, self.build_dir)
         else:
             self.unpack()
             if os.path.exists(self.patch_dir):
-                print_log("Copying files from %s to %s" % (self.patch_dir, self.build_dir))
+                log.log("Copying files from %s to %s" % (self.patch_dir, self.build_dir))
                 self.builder.copy_all(self.patch_dir, self.build_dir)
 
     def update_build_dir(self):
@@ -165,7 +165,7 @@ class Project(object):
     @staticmethod
     def add(proj, type=GVSBUILD_IGNORE):
         if proj.name in Project._dict:
-            error_exit("Project '%s' already present!" % (proj.name, ))
+            log.error_exit("Project '%s' already present!" % (proj.name, ))
         Project._projects.append(proj)
         Project._names.append(proj.name)
         Project._dict[proj.name] = proj
@@ -252,7 +252,7 @@ class Project(object):
             if ok:
                 ver = ok.group(1)
                 break
-        print_debug('Version from file name:%-16s <- %s' % (ver, file_name, ))
+        log.debug('Version from file name:%-16s <- %s' % (ver, file_name, ))
         return ver
             
     def _calc_version(self):
@@ -285,7 +285,7 @@ class Project(object):
                 now = datetime.datetime.now().replace(microsecond=0)
                 fo.write('%s\n' % (now.strftime('%Y-%m-%d %H:%M:%S'), ))
         except FileNotFoundError as e:
-            print_debug("Exception writing file '%s' (%s)" % (self.mark_file, e, ))
+            log.debug("Exception writing file '%s' (%s)" % (self.mark_file, e, ))
         
     def mark_file_exist(self):
         rt = None

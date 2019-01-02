@@ -20,34 +20,10 @@ Simple user interface for info, log & debug messages
 """
 
 import sys
+import os
+import datetime
 import ctypes
-
-global_verbose = False
-global_debug = False
-
-def print_message(msg):
-    print(msg)
-
-def print_log(msg):
-    if global_verbose:
-        print(msg)
-
-def print_debug(msg):
-    if global_debug:
-        print("Debug:", msg)
-
-def error_exit(msg):
-    print("Error:", msg, file=sys.stderr)
-    sys.exit(1)
-
-def handle_global_options(args):
-    global global_verbose
-    global global_debug
-    if args.verbose:
-        global_verbose = True
-    if args.debug:
-        global_verbose = True
-        global_debug = True
+from contextlib import contextmanager
 
 # Original windows console title
 _script_org_title = None
@@ -72,3 +48,225 @@ def script_title(new_title):
             ctypes.windll.kernel32.SetConsoleTitleW(_script_org_title)
             # cleanup if we want to call the function again
             _script_org_title = None
+
+# Log levels
+LOG_ALWAYS = 1
+LOG_VERBOSE = 2
+LOG_DEBUG = 3
+
+class LogElem(object):
+    def __init__(self, msg, enabled, tim=None):
+        self.msg = msg
+        self.tim = tim if tim else datetime.datetime.now()
+        self.indent = not enabled
+        self.enabled = enabled
+
+class Log(object):
+    """"
+    Simple log class, used mainly to time the execution of the script
+    """
+    _verbose = False
+    _debug = False
+    def __init__(self):
+        self.st_time = datetime.datetime.now()
+        self.fo = None
+        self.level = LOG_ALWAYS 
+
+    def configure(self, file_path, opts=None):
+        max_size_kb = 0
+        single = False
+        if opts:
+            if opts.debug:
+                self._verbose = True
+                self._debug = True
+                self.level = LOG_DEBUG
+            elif opts.verbose:
+                self._verbose = True
+                self.level = LOG_VERBOSE
+            max_size_kb = opts.log_size
+            single = opts.log_single
+            if single:
+                max_size_kb = 0
+
+        if file_path:
+            if not os.path.exists(file_path):
+                created = True
+                os.makedirs(file_path)
+            else:
+                created = False
+                
+            if single:
+                file_name = self.st_time.strftime('gvsbuild-log-%Y%m%d-%H%M%S.txt')
+            else:
+                file_name = 'gvsbuild-log.txt'
+
+            self.log_file = os.path.join(file_path, file_name)
+            if max_size_kb:
+                try:
+                    c_size = os.path.getsize(self.log_file) / 1024
+                except Exception as e:
+                    print('Exception reading log file size (%s)', self.log_file)
+                    print(e)
+                    c_size = 0
+                
+                if c_size > max_size_kb:
+                    old_file = os.path.join(file_path, 'gvsbuild-log.old.txt')
+                    try:
+                        os.remove(old_file)
+                    except FileNotFoundError:
+                        pass
+                    os.rename(self.log_file, old_file)
+                
+            self.operations = []
+            self.fo = open(self.log_file, 'at')
+            self._output('Script started')
+            if created:
+                self.log("Log directory %s created" % (file_path, ))
+            if opts and not self._debug:
+                # Dump some information
+                self._output_val('Configuration', opts.configuration )
+                self._output_val('Platform', opts.platform)
+                self._output_val('Vs ver', opts.vs_ver)
+                self._output_val('Vs path', opts.vs_install_path)
+                self._output_val('Sdk ver', opts.win_sdk_ver)
+
+    def _get_delta(self, start, end=None):
+        if not end:
+            end = datetime.datetime.now()
+        dt = datetime.datetime.now() - start
+        return '%u.%03u' % (dt.seconds, dt.microseconds / 1000, )
+
+    def _indend_check(self):
+        if self.operations:
+            co = self.operations[-1]
+            if not co.indent:
+                # not yet logged
+                self.operations.pop()
+                self._output('%s ...' % (co.msg, ), check_indent=False)
+                co.indent = True
+                self.operations.append(co)
+
+    def close(self):
+        while self.operations:
+            self.end()
+            
+        self._output('Script ended correctly (%s s)' % (self._get_delta(self.st_time), ))
+        # The \n is correct, to separate other build's logs
+        self._output('--------\n')
+        self.fo.close()
+        self.fo = None
+
+    def start(self, msg, level=LOG_ALWAYS):
+        enabled = level <= self.level
+        if enabled:
+            print(msg)
+            self._indend_check()
+        
+        co = LogElem(msg, enabled)
+        self.operations.append(co)
+
+    def start_verbose(self, msg):
+        self.start(msg, level=LOG_VERBOSE)
+        
+    def start_debug(self, msg):
+        self.start(msg, level=LOG_DEBUG)
+
+    def end(self, force_print=False):
+        if self.operations:
+            co = self.operations.pop()
+            if co.enabled:
+                out_msg = '%s - Ended in %s s' % (co.msg, self._get_delta(co.tim), )
+                self._output(out_msg, check_indent=False)
+                if force_print:
+                    print(out_msg)
+                if not self.operations:
+                    self.flush()
+
+    def flush(self):
+        if self.fo:
+            self.fo.flush()
+
+    def _output(self, msg, add_date=True, check_indent=True):
+        if self.fo:
+            if check_indent:
+                self._indend_check()
+            msg = ' ' * len(self.operations) * 2 + msg
+            if add_date:
+                now_val = datetime.datetime.now()
+                self.fo.write('%s %s\n' % (now_val.strftime('%Y-%m-%d %H:%M:%S'), msg, ))
+            else:
+                self.fo.write('%19s %s\n' % ('', msg, ))
+            return False
+        else:
+            print(msg)
+            # tell the caller we already print on video
+            return True
+
+    def _output_val(self, msg, val):
+        self._output('%16s: %s' % (msg, val, ))
+
+    def message_indent(self, msg):
+        if self._output(msg, add_date=False):
+            return
+        print('  %s' % (msg, ))
+
+    def message(self, msg):
+        if self._output(msg):
+            # already printed
+            return
+        print(msg)
+
+    def log(self, msg):
+        if self._verbose:
+            if self._output(msg):
+                return
+            print(msg)
+
+    def debug(self, msg):
+        if self._debug:
+            if self._output(msg):
+                return
+            print('Debug:', msg)
+
+    def verbose_on(self):
+        return self._verbose
+
+    def debug_on(self):
+        return self._debug
+
+    def error_exit(self, msg):
+        self._output('Error:' + msg)
+        print("Error:", msg, file=sys.stderr)
+        sys.exit(1)
+
+    @staticmethod
+    @contextmanager
+    def simple_oper(msg, level=LOG_ALWAYS):
+        '''
+        To time single operation, using:
+        with log.simple_oper('timing ...'):
+           .. do stuff
+        '''
+        log.start(msg, level)
+        yield True
+        log.end()
+
+# single instance of the log class
+log = Log()
+
+if __name__ == '__main__':
+    import time
+    
+    log.configure('.', None)
+    log.start('Test #1')
+    time.sleep(.8)
+    log.start('Test #2, nested')
+    time.sleep(.5)
+    log.end()
+    with log.simple_oper('Test with context manager') as l:
+        time.sleep(0.35)
+        with log.simple_oper('Second test with context manager'):
+            time.sleep(0.15)
+    # log.end()
+    log.close()
+    

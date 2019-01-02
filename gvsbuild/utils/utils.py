@@ -21,7 +21,7 @@ import time
 import shutil
 import re
 
-from .simple_ui import print_debug
+from .simple_ui import log
 
 def convert_to_msys(path):
     path = path
@@ -35,7 +35,7 @@ def _rmtree_error_handler(func, path, exc_info):
         # Is the error an access error ?
         os.chmod(path, stat.S_IWUSR)
         func(path)
-        print_debug('rmtree:read-only file/path (%s)' % (path, ))
+        log.debug('rmtree:read-only file/path (%s)' % (path, ))
     else:
         raise
 

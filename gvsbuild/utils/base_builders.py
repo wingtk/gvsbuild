@@ -23,7 +23,7 @@ import os
 import shutil
 
 from .utils import _rmtree_error_handler
-from .simple_ui import print_debug
+from .simple_ui import log
 from .base_expanders import Tarball, MercurialRepo
 from .base_project import Project
 
@@ -45,7 +45,7 @@ class Meson(Project):
         ninja_build = self.build_dir + '-meson'
         # clean up and regenerate all
         if self.clean and os.path.exists(ninja_build):
-            print_debug("Removing meson build dir '%s'" % (ninja_build, ))
+            log.debug("Removing meson build dir '%s'" % (ninja_build, ))
             shutil.rmtree(ninja_build, onerror=_rmtree_error_handler)
 
         # First we check if we need to generate the meson build files
@@ -96,7 +96,7 @@ class CmakeProject(Project):
 
             # clean up and regenerate all
             if self.clean and os.path.exists(cmake_dir):
-                print_debug("Removing cmake build dir '%s'" % (cmake_dir, ))
+                log.debug("Removing cmake build dir '%s'" % (cmake_dir, ))
                 shutil.rmtree(cmake_dir, onerror=_rmtree_error_handler)
 
             self.builder.make_dir(cmake_dir)

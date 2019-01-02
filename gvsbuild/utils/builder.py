@@ -37,7 +37,7 @@ import time
 from .utils import ordered_set
 from .utils import rmtree_full
 from .simple_ui import script_title
-from .simple_ui import global_verbose, error_exit, print_debug, print_log, print_message
+from .simple_ui import log
 from .base_project import Project
 from .base_expanders import dirlist2set
 from .base_expanders import make_zip
@@ -63,14 +63,17 @@ class Builder(object):
         self.gtk_dir = os.path.join(opts.build_dir, 'gtk', opts.platform, opts.configuration)
 
         if opts.from_scratch:
-            print('Removing working/building dir (%s)' % (self.working_dir, ))
-            rmtree_full(self.working_dir, retry=True)
-            print('Removing destination dir (%s)' % (self.gtk_dir, ))
-            rmtree_full(self.gtk_dir, retry=True)
-            if not opts.keep_tools:
-                print('Removing tools dir (%s)' % (opts.tools_root_dir, ))
-                rmtree_full(opts.tools_root_dir, retry=True)
-
+            with log.simple_oper('Cleanup build directories'):
+                with log.simple_oper('Removing working/building dir (%s)' % (self.working_dir, )):
+                    rmtree_full(self.working_dir, retry=True)
+                with log.simple_oper('Removing destination dir (%s)' % (self.gtk_dir, )):
+                    rmtree_full(self.gtk_dir, retry=True)
+                if not opts.keep_tools:
+                    with log.simple_oper('Removing tools dir (%s)' % (opts.tools_root_dir, )):
+                        rmtree_full(opts.tools_root_dir, retry=True)
+                else:
+                    log.message('Keeping tools dir (%s)' % (opts.tools_root_dir, ))
+            
         if not opts.use_env:
             self.__minimum_env()
 
@@ -83,7 +86,7 @@ class Builder(object):
         self.msbuild_opts = '/nologo /p:Platform=%(platform)s /p:PythonPath="%(python_dir)s" /p:PythonDir="%(python_dir)s" %(msbuild_opts)s ' % \
             dict(platform=opts.platform, python_dir=opts.python_dir, configuration=opts.configuration, msbuild_opts=opts.msbuild_opts)
 
-        if global_verbose:
+        if log.verbose_on():
             self.msbuild_opts += ' /v:normal'
         else:
             self.msbuild_opts += ' /v:minimal'
@@ -111,8 +114,8 @@ class Builder(object):
             else:
                 # Remove the destination dir before starting anything
                 if os.path.isdir(self.gtk_dir):
-                    print_log('Removing build dir (%s)' % (self.gtk_dir, ))
-                    rmtree_full(self.gtk_dir, retry=True)
+                    with log.simple_oper('Removing build dir (%s)' % (self.gtk_dir, )):
+                        rmtree_full(self.gtk_dir, retry=True)
                 self.file_built = set()
             os.makedirs(self.zip_dir, exist_ok=True)
 
@@ -125,11 +128,11 @@ class Builder(object):
         mismatch with  libs / programs already installed
         """
 
-        print_debug('Cleaning up the build environment')
+        log.start('Cleaning up the build environment')
         win_dir = os.environ.get('SYSTEMROOT', r'c:\windows').lower()
 
         win_dir = win_dir.replace('\\', '\\\\')
-        print_debug('windir -> %s' % (win_dir, ))
+        log.debug('windir -> %s' % (win_dir, ))
 
         chk_re = [
             re.compile('^%s\\\\' % (win_dir, )),
@@ -145,7 +148,7 @@ class Builder(object):
             k = os.path.normpath(k).lower()
             if k in mp:
                 # already present
-                print_debug("   Already present: '%s'" % (k, ))
+                log.debug("   Already present: '%s'" % (k, ))
                 continue
 
             add = False
@@ -155,19 +158,19 @@ class Builder(object):
                     add = True
                     break
             if add:
-                print_debug("Add '%s'" % (k, ))
+                log.debug("Add '%s'" % (k, ))
             else:
-                print_debug("   Skip '%s'" % (k, ))
+                log.debug("   Skip '%s'" % (k, ))
 
-        print_debug('Final path:')
+        log.debug('Final path:')
         for i in mp:
-            print_debug('    %s' % (i, ))
+            log.debug('    %s' % (i, ))
         os.environ['PATH'] = ';'.join(mp)
 
         os.environ['LIB'] = ''
         os.environ['LIBPATH'] = ''
         os.environ['INCLUDE'] = ''
-        print_debug('End environment setup')
+        log.end()
 
     def __msys_missing(self, base_dir):
         msys_pkg = [
@@ -180,33 +183,35 @@ class Builder(object):
         missing = []
         for prog, pkg in msys_pkg:
             if not os.path.isfile(os.path.join(base_dir, 'usr', 'bin', prog + '.exe')):
-                print_log('msys: missing package %s' % (pkg, ))
+                log.log('msys: missing package %s' % (pkg, ))
                 missing.append(pkg)
         return missing
 
     def __check_tools(self, opts):
         script_title('* Msys tool')
+        log.start('Checking msys tool')
         # what's missing ?
         missing = self.__msys_missing(opts.msys_dir)
         if missing:
             # install using pacman
             cmd = os.path.join(opts.msys_dir, 'usr', 'bin', 'bash') + ' -l -c "pacman --noconfirm -S ' + ' '.join(missing) + '"'
-            print_debug("Updating msys2 with '%s'" % (cmd, ))
+            log.debug("Updating msys2 with '%s'" % (cmd, ))
             subprocess.check_call(cmd, shell=True)
             missing = self.__msys_missing(opts.msys_dir)
             if missing:
                 # oops
                 cmd = 'pacman -S ' + ' '.join(missing)
-                error_exit("Missing package(s) from msys2 installation, try with\n    '%s'\nin a msys2 shell." % (cmd, ))
+                log.error_exit("Missing package(s) from msys2 installation, try with\n    '%s'\nin a msys2 shell." % (cmd, ))
 
         self.patch = os.path.join(opts.msys_dir, 'usr', 'bin', 'patch.exe')
         if not os.path.exists(self.patch):
-            error_exit("%s not found. Please check that you installed patch in msys2 using ``pacman -S patch``" % (self.patch,))
-        print_debug("patch: %s" % (self.patch,))
+            log.error_exit("%s not found. Please check that you installed patch in msys2 using ``pacman -S patch``" % (self.patch,))
+        log.debug("patch: %s" % (self.patch,))
         
         if opts.python_dir:
             if not os.path.isfile(os.path.join(opts.python_dir, 'python.exe')):
-                error_exit("Executable python.exe not found at '%s'" % (self.opts.python_dir, ))
+                log.error_exit("Executable python.exe not found at '%s'" % (self.opts.python_dir, ))
+        log.end()
 
     def _add_env(self, key, value, env, prepend=True, subst=False):
         # env manipulation helper fun
@@ -246,6 +251,7 @@ class Builder(object):
             
     def __check_vs(self, opts):
         script_title('* Msvc tool')
+        log.start('Checking Msvc tool')
         # Verify VS exists at the indicated location, and that it supports the required target
         add_opts = ''
         if opts.platform == 'Win32':
@@ -277,6 +283,7 @@ class Builder(object):
 
         output = subprocess.check_output('cmd.exe /c ""%s"%s>NUL && set"' % (vcvars_bat, add_opts, ), shell=True)
         self.vs_env = {}
+        dbg = log.debug_on()
         for l in output.splitlines():
             # python 3 str is not bytes and no need to decode
             k, v = (l.decode('utf-8') if isinstance(l, bytes) else l).split("=", 1)
@@ -284,8 +291,17 @@ class Builder(object):
             if k.upper() == 'PATH':
                 k = 'PATH'
             self.vs_env[k] = v
-            print_debug('vs env:%s -> [%s]' % (k, v, ))
-
+            if dbg:
+                vl = v.split(';')
+                if len(vl) > 1:
+                    log.debug('vs env: %s: [' % (k, ))
+                    for i in vl:
+                        log.message_indent('  ' + i)
+                    log.message_indent(']')
+                else:
+                    log.debug('vs env:%s -> [%s]' % (k, v, ))
+        log.end()
+        
     def preprocess(self):
         for proj in Project.list_projects():
             if proj.archive_url:
@@ -308,7 +324,7 @@ class Builder(object):
 
         for proj in Project.list_projects():
             self.__compute_deps(proj)
-            print_debug("%s => %s" % (proj.name, [d.name for d in proj.all_dependencies]))
+            log.debug("%s => %s" % (proj.name, [d.name for d in proj.all_dependencies]))
 
     def __compute_deps(self, proj):
         if hasattr(proj, 'all_dependencies'):
@@ -367,14 +383,14 @@ class Builder(object):
                     self.prj_done.append(msg)
             except KeyboardInterrupt:
                 traceback.print_exc()
-                error_exit("Interrupted on %s" % (p.name, ))
+                log.error_exit("Interrupted on %s" % (p.name, ))
             except:
                 traceback.print_exc()
                 if self.opts.keep:
                     self.prj_err.append(p.name)
                     self._drop_proj(p)
                 else:
-                    error_exit("%s build failed" % (p.name, ))
+                    log.error_exit("%s build failed" % (p.name, ))
             self.vs_env = saved_env
             
         script_title(None)
@@ -402,31 +418,29 @@ class Builder(object):
                     miss += len(self.prj_dropped)
 
                 # Don't fool appveyor
-                error_exit('%u project(s) missing ;(' % (miss, ))
+                log.error_exit('%u project(s) missing ;(' % (miss, ))
+        
+        log.close()
 
     def __prepare_build(self, projects):
         if not os.path.exists(self.working_dir):
-            print_log("Creating working directory %s" % (self.working_dir,))
+            log.log("Creating working directory %s" % (self.working_dir,))
             os.makedirs(self.working_dir)
 
         shutil.copy(os.path.join(self.opts.patches_root_dir, 'stack.props'), self.working_dir)
 
-        log_dir = os.path.join(self.working_dir, 'logs')
-        if not os.path.exists(log_dir):
-            print_log("Creating log directory %s" % (log_dir,))
-            os.makedirs(log_dir)
-
-        #Remove-Item $logDirectory\*.log
-
         build_dir = os.path.join(self.working_dir, '..', '..', '..', 'gtk', self.opts.platform)
         if not os.path.exists(build_dir):
-            print_log("Creating directory %s" % (build_dir,))
+            log.log("Creating directory %s" % (build_dir,))
             os.makedirs(build_dir)
 
         script_title('* Downloading')
+        log.start('Downloading packages')
         for p in projects:
             if self.__download_one(p):
                 return True
+        log.end()
+            
         return False
 
     def _load_built_files(self):
@@ -442,11 +456,11 @@ class Builder(object):
         if self.opts.fast_build and not proj.clean:
             t = proj.mark_file_exist()
             if t:
-                print_message("Fast build:skipping project %s, built @ %s" % (proj.name, t, ))
+                log.message("Fast build:skipping project %s, built @ %s" % (proj.name, t, ))
                 return True
           
         proj.mark_file_remove()
-        print_message("Building project %s (%s)" % (proj.name, proj.version, ))
+        log.start("Building project %s (%s)" % (proj.name, proj.version, ))
         script_title('%s (%s)' % (proj.name, proj.version, ))
 
         proj.builder = self
@@ -482,7 +496,7 @@ class Builder(object):
         proj.patch()
         skip_deps = proj.build()
 
-        print_debug("copying %s to %s" % (proj.pkg_dir, self.gtk_dir))
+        log.debug("copying %s to %s" % (proj.pkg_dir, self.gtk_dir))
         self.copy_all(proj.pkg_dir, self.gtk_dir)
         shutil.rmtree(proj.pkg_dir, ignore_errors=True)
 
@@ -504,7 +518,7 @@ class Builder(object):
                 self.file_built = cur
             else:
                 # No file preentt
-                print_log("%s:zip not needed (tool?)" % (proj.name, ))
+                log.log("%s:zip not needed (tool?)" % (proj.name, ))
 
         # Drop the mark file for all the projects that depends on this so we rebuild them
         if not skip_deps:
@@ -513,8 +527,8 @@ class Builder(object):
                 if proj in p.all_dependencies:
                     if first:
                         first = False
-                        print_debug('Forcing build of %s dependent' % (proj.name, ))
-                    print_debug(" > Mark %s ..." % (p.name, ))
+                        log.debug('Forcing build of %s dependent' % (proj.name, ))
+                    log.debug(" > Mark %s ..." % (p.name, ))
                     p.mark_file_remove()
                     self.prj_to_mark.remove(p)
 
@@ -522,6 +536,7 @@ class Builder(object):
         proj.mark_file_write()
 
         script_title(None)
+        log.end()
         return False
 
     def make_zip(self, name, files):
@@ -537,7 +552,7 @@ class Builder(object):
             self.__copy_to(f, destdir)
 
     def __copy_to(self, src, destdir):
-        #print_debug("__copy_to %s %s" % (src, destdir))
+        #log.debug("__copy_to %s %s" % (src, destdir))
         self.make_dir(destdir)
         for f in glob.glob(src):
             if os.path.isdir(f):
@@ -552,10 +567,10 @@ class Builder(object):
     def __copy(self, src, destdir):
         if os.path.isdir(src):
             dst = os.path.join(destdir, os.path.basename(src))
-            print_debug("copying '%s' to '%s'" % (src, dst))
+            log.debug("copying '%s' to '%s'" % (src, dst))
             shutil.copytree(src, dst)
         else:
-            print_debug("copying '%s' to '%s'" % (src, destdir))
+            log.debug("copying '%s' to '%s'" % (src, destdir))
             shutil.copy(src, destdir)
 
     def __hashfile(self, file_name):
@@ -569,14 +584,14 @@ class Builder(object):
         if hasattr(proj, 'hash'):
             hc = self.__hashfile(proj.archive_file)
             if hc != proj.hash:
-                print_message("Hash mismatch on %s:\n  Calculated '%s'\n  Expected   '%s'\n" % (proj.archive_file, hc, proj.hash, ))
+                log.message("Hash mismatch on %s:\n  Calculated '%s'\n  Expected   '%s'\n" % (proj.archive_file, hc, proj.hash, ))
                 return True
 
             # Print the correct hash
             if self.opts.check_hash:
-                print_message("Hash ok on %s (%s)" % (proj.archive_file, hc, ))
+                log.message("Hash ok on %s (%s)" % (proj.archive_file, hc, ))
             else:
-                print_debug("Hash ok on %s (%s)" % (proj.archive_file, hc, ))
+                log.debug("Hash ok on %s (%s)" % (proj.archive_file, hc, ))
         return False
 
     def __download_progress(self, count, block_size, total_size):
@@ -660,18 +675,18 @@ class Builder(object):
 
     def __download_one(self, proj):
         if not proj.archive_file:
-            print_debug("archive file is not specified for project %s, skipping" % (proj.name,))
+            log.debug("archive file is not specified for project %s, skipping" % (proj.name,))
             return False
 
         if os.path.exists(proj.archive_file):
-            print_debug("archive %s already exists" % (proj.archive_file,))
+            log.debug("archive %s already exists" % (proj.archive_file,))
             return self.__check_hash(proj)
 
         if not os.path.exists(self.opts.archives_download_dir):
-            print_log("Creating archives download directory %s" % (self.opts.archives_download_dir,))
+            log.log("Creating archives download directory %s" % (self.opts.archives_download_dir,))
             os.makedirs(self.opts.archives_download_dir)
 
-        print_log("downloading %s" % (proj.archive_file,))
+        log.start_verbose("Downloading %s" % (proj.archive_file,))
         # Setup for progress show
         self._downloading_file = proj.archive_file
         self._old_perc = -1
@@ -688,7 +703,8 @@ class Builder(object):
             else:
                 print('Hash not present, bailing out ;(')
                 raise
-
+        log.end()
+            
         print('%-*s' % (self._old_print, '%s - Download finished' % (proj.archive_file, )), )
         return self.__check_hash(proj)
 
@@ -717,20 +733,20 @@ class Builder(object):
         self.make_dir(dest)
         for f in args[:-1]:
             src = os.path.join(self.__sub_vars(build_dir), self.__sub_vars(f))
-            print_debug("copying %s to %s" % (src, dest))
+            log.debug("copying %s to %s" % (src, dest))
             self.__copy_to(src, dest)
 
     def install_dir(self, build_dir, pkg_dir, src, dest):
         src = os.path.join(build_dir, self.__sub_vars(src))
         dest = os.path.join(pkg_dir, self.__sub_vars(dest))
-        print_debug("copying %s content to %s" % (src, dest))
+        log.debug("copying %s content to %s" % (src, dest))
         self.copy_all(src, dest)
 
     def exec_msys(self, args, working_dir=None):
         self.__execute(args, working_dir=working_dir, add_path=os.path.join(self.opts.msys_dir, 'usr', 'bin'))
 
     def __execute(self, args, working_dir=None, add_path=None, env=None):
-        print_debug("running %s, cwd=%s, path+=%s" % (args, working_dir, add_path))
+        log.debug("running %s, cwd=%s, path+=%s" % (args, working_dir, add_path))
         if add_path:
             if env is not None:
                 env = dict(env)
@@ -750,4 +766,4 @@ class Builder(object):
         else:
             key = 'path'
             env[key] = folder
-        print_debug("Changed path env variable to '%s'" % env[key])
+        log.debug("Changed path env variable to '%s'" % env[key])

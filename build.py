@@ -34,7 +34,6 @@ except ImportError:
 
 # Options parser
 from gvsbuild.utils.parser import create_parser
-from gvsbuild.utils.simple_ui import handle_global_options
 # All default tools ...
 import gvsbuild.tools
 # projects ...
@@ -45,7 +44,6 @@ import gvsbuild.groups
 if __name__ == '__main__':
     parser = create_parser()
     args = parser.parse_args()
-    handle_global_options(args)
     if hasattr(args, 'func'):
         args.func(args)
     else:
