@@ -362,6 +362,21 @@ class Builder(object):
                     log.message_indent(']')
                 else:
                     log.debug('vs env:%s -> [%s]' % (k, v, ))
+
+        if not opts.win_sdk_ver:
+            # Try lo figure the sdk version to pass it to the msbuild programs
+            sdk = self.vs_env.get('WindowsSDKVersion', '')
+            if not sdk:
+                sdk = self.vs_env.get('WindowsSDKLibVersion', '')
+            if sdk:
+                # drop the last '\'
+                if sdk[-1] == '\\':
+                    sdk = sdk[:-1]
+                if sdk == 'winv6.3':
+                    sdk = '8.1'
+                opts.win_sdk_ver = sdk
+                log.log("Auto load win_sdk_ver: '%s'" % (sdk, ))
+                
         log.end()
         
     def preprocess(self):

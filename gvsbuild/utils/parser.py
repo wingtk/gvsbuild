@@ -226,8 +226,10 @@ Examples:
                          "If not set for the vs2017 version the script look automatically under Professional, BuildTools, Enterprise, Community and Preview sub directory until it finds the startup batch.")
     p_build.add_argument('--win-sdk-ver', default = None,
                          help=r"The windows sdk version to use for building, used to initialize the Visual Studio build environment. " +
-                               "It can be 8.1 (for windows 8 compatibility) or 10.0.xxxxx.0, where xxxxx, at the moment, can be 10150, 10240, 10586, 14393 or 15063 " +
-                               "depending on the VS version / installation's options.")
+                               "It can be 8.1 (for windows 8 compatibility) or 10.0.xxxxx.0, where xxxxx, at the moment, can be 10150, 10240, 10586, 14393, 15063 " +
+                               "16299, 17134 or 17763 " +
+                               "depending on the VS version / installation's options. " +
+                               "If you don't specify one the scripts tries to locate the used one to pass the value to the msbuild command.")
     p_build.add_argument('--python-dir', default=os.path.dirname(sys.executable),
                          help="The directory where you installed python.")
 
