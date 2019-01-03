@@ -431,8 +431,8 @@ class Project_glib(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'glib',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.58/glib-2.58.1.tar.xz',
-            hash = '97d6a9d926b6aa3dfaadad3077cfb43eec74432ab455dff14250c769d526d7d6',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.58/glib-2.58.2.tar.xz',
+            hash = 'c7b24ed6536f1a10fc9bce7994e55c427b727602e78342821f1f07fb48753d4b',
             dependencies = ['ninja', 'meson', 'pkg-config', 'gettext', 'libffi', 'zlib'],
             patches = ['glib-package-installation-directory.patch',
                        '0001-Partially-revert-GSocket-Fix-race-conditions-on-Win3.patch'],
