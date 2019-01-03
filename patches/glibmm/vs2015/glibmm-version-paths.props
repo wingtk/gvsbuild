@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="UserMacros">
+    <VSVer>12</VSVer>
+    <GlibEtcInstallRoot>..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
+    <CopyDir>..\..\glibmm-rel</CopyDir>
+    <DefDir>$(SolutionDir)$(Configuration)\$(Platform)\obj\$(ProjectName)\</DefDir>
+    <ApiMajorVersion>2</ApiMajorVersion>
+    <ApiMinorVersion>4</ApiMinorVersion>
+    <ReleaseDllSuffix>-$(ApiMajorVersion).$(ApiMinorVersion)</ReleaseDllSuffix>
+    <DebugDllSuffix>-$(ApiMajorVersion).$(ApiMinorVersion)</DebugDllSuffix>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>glibmmversionpathsprops</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <ItemGroup>
+    <BuildMacro Include="VSVer">
+      <Value>$(VSVer)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GlibEtcInstallRoot">
+      <Value>$(GlibEtcInstallRoot)</Value>
+    </BuildMacro>
+    <BuildMacro Include="CopyDir">
+      <Value>$(CopyDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="DefDir">
+      <Value>$(DefDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="ApiMajorVersion">
+      <Value>$(ApiMajorVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="ApiMinorVersion">
+      <Value>$(ApiMinorVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="ReleaseDllSuffix">
+      <Value>$(ReleaseDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="DebugDllSuffix">
+      <Value>$(DebugDllSuffix)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

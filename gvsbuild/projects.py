@@ -1780,6 +1780,7 @@ class Project_check_libs(NullExpander, Meson):
                     'zlib',
                     # C++ ones
                     'libsig++',
+                    'glibmm',
                 ],
             version = '0.2.0',
             )
@@ -1858,3 +1859,20 @@ class Project_libsigplusplus(Tarball, Meson):
 
     def build(self):
         Meson.build(self)
+
+@project_add
+class Project_glibmm(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'glibmm',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glibmm/2.56/glibmm-2.56.0.tar.xz',
+            hash = '6e74fcba0d245451c58fc8a196e9d103789bc510e1eee1a9b1e816c5209e79a9',
+            dependencies = ['libsig++', 'glib'],
+            )
+
+    def build(self):
+        self.exec_msbuild_gen('.', 'glibmm.sln')
+
+        self.install(r'.\pc-files\* lib\pkgconfig')
+        self.install(r'.\COPYING share\doc\glibmm')
+

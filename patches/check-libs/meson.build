@@ -303,3 +303,28 @@ if sigcplusplus_dep.found()
 
         test('sigcplusplus', test_sigcplusplus)
 endif
+
+# giomm
+giomm_required_ver = '>= 2.54.1'
+giomm_dep = dependency('giomm-2.4', version: giomm_required_ver, required: check_all)
+if giomm_dep.found()
+        test_giomm = executable('test_giomm',
+                sources: [ 'test_giomm.cpp', ],
+                dependencies: [ giomm_dep, ],
+                )
+
+        test('giomm', test_giomm)
+endif
+
+# glibmm
+glibmm_required_ver = '>= 2.54.1'
+glibmm_dep = dependency('glibmm-2.4', version: glibmm_required_ver, required: check_all)
+if glibmm_dep.found()
+        test_glibmm = executable('test_glibmm',
+                sources: [ 'test_glibmm.cpp', ],
+                dependencies: [ glibmm_dep, ],
+                )
+
+        test('glibmm', test_glibmm)
+endif
+
