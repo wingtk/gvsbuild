@@ -1132,17 +1132,26 @@ class Project_libcurl(Tarball, CmakeProject):
         self.install(r'.\COPYING share\doc\libcurl')
 
 @project_add
-class Project_libsoup(Tarball, Project):
+class Project_libsoup(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'libsoup',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.62/libsoup-2.62.3.tar.xz',
-            hash = 'd312ade547495c2093ff8bda61f9b9727a98cfdae339f3263277dd39c0451172',
-            dependencies = ['libxml2', 'glib-openssl', 'sqlite'],
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.64/libsoup-2.64.2.tar.xz',
+            hash = '75ddc194a5b1d6f25033bb9d355f04bfe5c03e0e1c71ed0774104457b3a786c6',
+            dependencies = ['libxml2', 'glib-openssl', 'sqlite', 'libpsl', 'mit-kerberos'],
             )
 
+        if self.opts.enable_gi:
+            self.add_dependency('gobject-introspection')
+            enable_gi = 'true'
+        else:
+            enable_gi = 'false'
+
+        self.add_param('-Dintrospection=%s' % (enable_gi, ))
+        self.add_param('-Dvapi=false')
+
     def build(self):
-        self.exec_msbuild(r'win32\vs%(vs_ver)s\libsoup.sln')
+        Meson.build(self)
 
         self.install(r'.\COPYING share\doc\libsoup')
 
