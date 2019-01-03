@@ -124,6 +124,7 @@ class Project(object):
                 '12': [], 
                 '14': [ 'vs12', 'vs2013', ],
                 '15': [ 'vs14', 'vs2015', 'vs12', 'vs2013', ],
+                '16': [ 'vs15', 'vs2017', 'vs14', 'vs2015', 'vs12', 'vs2013', ],
                 }
             lst = look.get(self.builder.opts.vs_ver, [])
             for p in lst:

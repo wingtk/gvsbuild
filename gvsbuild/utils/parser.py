@@ -88,6 +88,9 @@ def get_options(args):
         if opts.vs_ver == "15":
             opts.vs_install_path = r'C:\Program Files (x86)\Microsoft Visual Studio\2017'
             opts._vs_path_auto = True
+        elif opts.vs_ver == "16":
+            opts.vs_install_path = r'C:\Program Files (x86)\Microsoft Visual Studio\2019'
+            opts._vs_path_auto = True
         else:
             opts.vs_install_path = r'C:\Program Files (x86)\Microsoft Visual Studio %s.0' % (opts.vs_ver,)
 
