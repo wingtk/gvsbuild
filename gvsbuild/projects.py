@@ -1779,7 +1779,7 @@ class Project_check_libs(NullExpander, Meson):
                     'pango',
                     'zlib',
                     # C++ ones
-                    'libsig++',
+                    'libsigc++',
                     'glibmm',
                     'cairomm',
                     'atkmm',
@@ -1849,10 +1849,10 @@ class Project_dev_shell(Project):
         self.builder.exec_vs("cmd", working_dir=self.builder.working_dir)
 
 @project_add
-class Project_libsigplusplus(Tarball, Meson):
+class Project_libsigcplusplus(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
-            'libsig++',
+            'libsigc++',
             archive_url = 'https://download.gnome.org/sources/libsigc++/2.10/libsigc++-2.10.0.tar.xz',
             hash = 'f843d6346260bfcb4426259e314512b99e296e8ca241d771d21ac64f28298d81',
             dependencies = [
@@ -1871,7 +1871,7 @@ class Project_glibmm(Tarball, Project):
             'glibmm',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glibmm/2.56/glibmm-2.56.0.tar.xz',
             hash = '6e74fcba0d245451c58fc8a196e9d103789bc510e1eee1a9b1e816c5209e79a9',
-            dependencies = ['libsig++', 'glib'],
+            dependencies = ['libsigc++', 'glib'],
             )
 
     def build(self):
@@ -1887,7 +1887,7 @@ class Project_cairomm(Tarball, Project):
             'cairomm',
             archive_url = 'https://www.cairographics.org/releases/cairomm-1.15.3.tar.gz',
             hash = 'd858a8c6981a033d8f851d58e19ec7d42d496a40fbec028028498832b6700bc8',
-            dependencies = ['libsig++', 'cairo'],
+            dependencies = ['libsigc++', 'cairo'],
             patches = [
                 '00_win_drop_create.patch',
                 ],
@@ -1932,7 +1932,7 @@ class Project_atkmm(Tarball, Project):
             'atkmm',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/atkmm/2.24/atkmm-2.24.2.tar.xz',
             hash = 'ff95385759e2af23828d4056356f25376cfabc41e690ac1df055371537e458bd',
-            dependencies = ['libsig++', 'atk', 'glibmm', ],
+            dependencies = ['libsigc++', 'atk', 'glibmm', ],
             )
 
     def build(self):
@@ -1948,7 +1948,7 @@ class Project_pangomm(Tarball, Project):
             'pangomm',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/pangomm/2.40/pangomm-2.40.1.tar.xz',
             hash = '9762ee2a2d5781be6797448d4dd2383ce14907159b30bc12bf6b08e7227be3af',
-            dependencies = ['libsig++', 'pango', 'cairomm', 'glibmm', ],
+            dependencies = ['libsigc++', 'pango', 'cairomm', 'glibmm', ],
             )
 
     def build(self):
@@ -1964,7 +1964,7 @@ class Project_gtkmm(Tarball, Project):
             'gtkmm',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtkmm/3.22/gtkmm-3.22.2.tar.xz',
             hash = '91afd98a31519536f5f397c2d79696e3d53143b80b75778521ca7b48cb280090',
-            dependencies = ['libsig++', 'gtk3', 'pangomm', 'atkmm', ],
+            dependencies = ['libsigc++', 'gtk3', 'pangomm', 'atkmm', ],
             )
 
     def build(self):
