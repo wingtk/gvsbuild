@@ -1072,7 +1072,7 @@ class Project_libpsl(GitRepo, Meson):
             repo_url = 'https://github.com/rockdaboot/libpsl.git',
             fetch_submodules = True,
             tag = '726d6773d431028472b621f331130b721e079aae',
-            dependencies = ['meson', 'ninja', 'pkg-config', 'icu', ],
+            dependencies = ['python', 'meson', 'ninja', 'pkg-config', 'icu', ],
             )
 
         self.add_param('-Druntime=libicu')
