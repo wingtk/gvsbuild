@@ -355,3 +355,15 @@ if atkmm_dep.found()
         test('atkmm', test_atkmm)
 endif
 
+# pangomm
+pangomm_required_ver = '>= 2.40.0'
+pangomm_dep = dependency('pangomm-1.4', version: pangomm_required_ver, required: check_all)
+if pangomm_dep.found()
+        test_pangomm = executable('test_pangomm',
+                sources: [ 'test_pangomm.cpp', ],
+                dependencies: [ pangomm_dep, ],
+                )
+
+        test('pangomm', test_pangomm)
+endif
+

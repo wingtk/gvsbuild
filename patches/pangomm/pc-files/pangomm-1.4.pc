@@ -1,0 +1,22 @@
+# On windows, the prefix is automagically build from the location of the .pc file
+prefix=C:/dir_placeholder
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+datarootdir=${prefix}/share
+datadir=${datarootdir}
+includedir=${prefix}/include
+
+gmmprocm4dir=${libdir}/pangomm-1.4/proc/m4
+
+docdir=${datarootdir}/doc/pangomm-1.4
+doxytagfile=${docdir}/reference/pangomm-1.4.tag
+htmlrefdir=${docdir}/reference/html
+htmlrefpub=http://library.gnome.org/devel/pangomm/unstable/
+
+Name: pangomm
+Description: C++ binding for Pango
+Version: 2.40.1
+URL: http://www.gtkmm.org/
+Requires: glibmm-2.4 >= 2.48.0 cairomm-1.0 >= 1.2.2 pangocairo >= 1.38.0
+Libs: -L${libdir} -lpangomm-1.4
+Cflags: -I${includedir}/pangomm-1.4  -I${libdir}/pangomm-1.4/include

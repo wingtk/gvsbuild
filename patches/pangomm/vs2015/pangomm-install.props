@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets">
+    <Import Project="pangomm-build-defines.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+    <BinDir>$(SolutionDir)$(Configuration)\$(Platform)\bin</BinDir>
+    <InstalledReleaseDlls>$(BinDir)\pangomm$(ReleaseDllSuffix).dll</InstalledReleaseDlls>
+    <InstalledDebugDlls>$(BinDir)\pangomm$(DebugDllSuffix).dll</InstalledDebugDlls>
+    <PangommDoInstall>
+mkdir $(CopyDir)
+
+mkdir $(CopyDir)\bin
+
+copy $(BinDir)\pangomm-$(ApiMajorVersion).$(ApiMinorVersion).dll $(CopyDir)\bin
+copy $(BinDir)\pangomm-$(ApiMajorVersion).$(ApiMinorVersion).pdb $(CopyDir)\bin
+
+mkdir $(CopyDir)\lib\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\include
+
+copy $(BinDir)\pangomm-$(ApiMajorVersion).$(ApiMinorVersion).lib $(CopyDir)\lib
+
+
+mkdir $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm\private
+
+
+copy ..\pango\pangomm.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)
+
+copy ..\pango\pangomm\attributes.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+copy ..\pango\pangomm\attriter.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+copy ..\pango\pangomm\attrlist.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+copy ..\pango\pangomm\cairofontmap.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+copy ..\pango\pangomm\color.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+copy ..\pango\pangomm\context.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+copy ..\pango\pangomm\coverage.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+copy ..\pango\pangomm\font.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+copy ..\pango\pangomm\fontdescription.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+copy ..\pango\pangomm\fontface.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+copy ..\pango\pangomm\fontfamily.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+copy ..\pango\pangomm\fontmap.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+copy ..\pango\pangomm\fontmetrics.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+copy ..\pango\pangomm\fontset.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+copy ..\pango\pangomm\glyph.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+copy ..\pango\pangomm\glyphstring.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+copy ..\pango\pangomm\init.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+copy ..\pango\pangomm\item.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+copy ..\pango\pangomm\language.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+copy ..\pango\pangomm\layout.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+copy ..\pango\pangomm\layoutiter.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+copy ..\pango\pangomm\layoutline.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+copy ..\pango\pangomm\layoutrun.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+copy ..\pango\pangomm\rectangle.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+copy ..\pango\pangomm\renderer.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+copy ..\pango\pangomm\tabarray.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+copy ..\pango\pangomm\types.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+copy ..\pango\pangomm\wrap_init.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm
+
+
+copy ..\pango\pangomm\private\attributes_p.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm\private
+
+copy ..\pango\pangomm\private\attriter_p.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm\private
+
+copy ..\pango\pangomm\private\attrlist_p.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm\private
+
+copy ..\pango\pangomm\private\cairofontmap_p.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm\private
+
+copy ..\pango\pangomm\private\color_p.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm\private
+
+copy ..\pango\pangomm\private\context_p.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm\private
+
+copy ..\pango\pangomm\private\coverage_p.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm\private
+
+copy ..\pango\pangomm\private\font_p.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm\private
+
+copy ..\pango\pangomm\private\fontdescription_p.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm\private
+
+copy ..\pango\pangomm\private\fontface_p.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm\private
+
+copy ..\pango\pangomm\private\fontfamily_p.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm\private
+
+copy ..\pango\pangomm\private\fontmap_p.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm\private
+
+copy ..\pango\pangomm\private\fontmetrics_p.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm\private
+
+copy ..\pango\pangomm\private\fontset_p.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm\private
+
+copy ..\pango\pangomm\private\glyph_p.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm\private
+
+copy ..\pango\pangomm\private\glyphstring_p.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm\private
+
+copy ..\pango\pangomm\private\item_p.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm\private
+
+copy ..\pango\pangomm\private\language_p.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm\private
+
+copy ..\pango\pangomm\private\layout_p.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm\private
+
+copy ..\pango\pangomm\private\layoutiter_p.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm\private
+
+copy ..\pango\pangomm\private\layoutline_p.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm\private
+
+copy ..\pango\pangomm\private\layoutrun_p.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm\private
+
+copy ..\pango\pangomm\private\rectangle_p.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm\private
+
+copy ..\pango\pangomm\private\renderer_p.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm\private
+
+copy ..\pango\pangomm\private\tabarray_p.h $(CopyDir)\include\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\pangomm\private
+
+
+copy .\pangomm\pangommconfig.h $(CopyDir)\lib\pangomm-$(ApiMajorVersion).$(ApiMinorVersion)\include
+    </PangommDoInstall>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>pangomminstallprops</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <ItemGroup>
+    <BuildMacro Include="BinDir">
+      <Value>$(BinDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="InstalledReleaseDlls">
+      <Value>$(InstalledReleaseDlls)</Value>
+    </BuildMacro>
+    <BuildMacro Include="InstalledDebugDlls">
+      <Value>$(InstalledDebugDlls)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PangommDoInstall">
+      <Value>$(PangommDoInstall)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

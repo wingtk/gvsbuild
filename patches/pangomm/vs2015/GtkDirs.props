@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <GtkBaseDir>c:\gtk-build\gtk\$(Platform)\$(Configuration)</GtkBaseDir>
+  </PropertyGroup>
+  <PropertyGroup>
+    <IncludePath>$(GtkBaseDir)\lib\sigc++-2.0\include;$(GtkBaseDir)\include\sigc++-2.0;$(GtkBaseDir)\include\atk-1.0;$(GtkBaseDir)\include\pango-1.0;$(GtkBaseDir)\lib\glib-2.0\include\;$(GtkBaseDir)\include;$(GtkBaseDir)\include\cairo;$(GtkBaseDir)\include\glib-2.0;$(IncludePath)</IncludePath>
+    <LibraryPath>$(GtkBaseDir)\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup />
+  <ItemGroup>
+    <BuildMacro Include="GtkBaseDir">
+      <Value>$(GtkBaseDir)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

@@ -1783,6 +1783,7 @@ class Project_check_libs(NullExpander, Meson):
                     'glibmm',
                     'cairomm',
                     'atkmm',
+                    'pangomm',
                 ],
             version = '0.2.0',
             )
@@ -1938,4 +1939,20 @@ class Project_atkmm(Tarball, Project):
 
         self.install(r'.\pc-files\* lib\pkgconfig')
         self.install(r'.\COPYING share\doc\atkmm')
+
+@project_add
+class Project_pangomm(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'pangomm',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/pangomm/2.40/pangomm-2.40.1.tar.xz',
+            hash = '9762ee2a2d5781be6797448d4dd2383ce14907159b30bc12bf6b08e7227be3af',
+            dependencies = ['libsig++', 'pango', 'cairomm', 'glibmm', ],
+            )
+
+    def build(self):
+        self.exec_msbuild_gen('.', 'pangomm.sln')
+
+        self.install(r'.\pc-files\* lib\pkgconfig')
+        self.install(r'.\COPYING share\doc\pangomm')
 
