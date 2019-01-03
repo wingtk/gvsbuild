@@ -158,32 +158,35 @@ def make_zip(name, files, skip_spc=0):
     path (e.g. from c:\data\temp\build\my_arch we want to save only
     mt_arch
     """
-    log.log('Creating zip file %s with %u files' % (name, len(files), ))
+    log.start_verbose('Creating zip file %s with %u files' % (name, len(files), ))
     with zipfile.ZipFile(name + '.zip', 'w', compression=zipfile.ZIP_DEFLATED) as zf:
         for f in sorted(list(files)):
             zf.write(f, arcname=f[skip_spc:])
+    log.end()
 
 class Tarball(object):
     def update_build_dir(self):
+        log.start_verbose('(tar) Updating %s' % (self.archive_file, ))
         rt = extract_exec(self.archive_file, self.build_dir, strip_one=not self.tarbomb, check_mark=True)
-        if rt:
-            log.log('Extracted %s (forced)' % (self.archive_file,))
+        log.end()
         return rt
 
     def unpack(self):
+        log.start_verbose('(tar) Extracting %s' % (self.archive_file, ))
         extract_exec(self.archive_file, self.build_dir, strip_one=not self.tarbomb, check_mark=True)
-        log.log('Extracted %s' % (self.archive_file,))
+        log.end()
 
 class MercurialRepo(object):
     def unpack(self):
-        log.log('Cloning %s to %s' % (self.repo_url, self.build_dir))
+        log.start_verbose('(hg) Cloning %s to %s' % (self.repo_url, self.build_dir))
         self.exec_cmd('hg clone %s %s-tmp' % (self.repo_url, self.build_dir))
         shutil.move(self.build_dir + '-tmp', self.build_dir)
-        log.log('Cloned %s to %s' % (self.repo_url, self.build_dir))
+        log.end()
 
     def update_build_dir(self):
-        log.log('Updating directory %s' % (self.build_dir,))
+        log.start_verbose('(hg) Updating directory %s' % (self.build_dir,))
         self.exec_cmd('hg pull -u', working_dir=self.build_dir)
+        log.end()
 
 class GitRepo(object):
     def create_zip(self):
@@ -213,7 +216,7 @@ class GitRepo(object):
         make_zip(os.path.join(git_tmp_dir, self.prj_dir + '-' + zip_post), all_files, len(self.build_dir))
         
     def unpack(self):
-        log.start('Cloning %s to %s' % (self.repo_url, self.build_dir))
+        log.start('(git) Cloning %s to %s' % (self.repo_url, self.build_dir))
 
         self.builder.exec_msys('git clone %s %s-tmp' % (self.repo_url, self.build_dir))
         shutil.move(self.build_dir + '-tmp', self.build_dir)
@@ -223,12 +226,13 @@ class GitRepo(object):
 
         self.create_zip()
         if self.fetch_submodules:
+            log.start_verbose('Fetch submodule(s)')
             self.builder.exec_msys('git submodule update --init',  working_dir=self.build_dir)
-
-        log.end(force_print=True)
+            log.end()
+        log.end()
 
     def update_build_dir(self):
-        log.start('Updating directory %s' % (self.build_dir,))
+        log.start('(git) Updating directory %s' % (self.build_dir,))
 
         # I don't like too much this, but at least we ensured it is properly cleaned up
         self.builder.exec_msys('git clean -xdf', working_dir=self.build_dir)
@@ -242,7 +246,9 @@ class GitRepo(object):
 
         self.create_zip()
         if self.fetch_submodules:
+            log.start_verbose('Update submodule(s)')
             self.builder.exec_msys('git submodule update --init', working_dir=self.build_dir)
+            log.end()
 
         if os.path.exists(self.patch_dir):
             log.log("Copying files from %s to %s" % (self.patch_dir, self.build_dir))
