@@ -1,0 +1,257 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>cairomm</ProjectName>
+    <ProjectGuid>{58B2B53C-C4FF-47FD-817B-095E45B7F7D4}</ProjectGuid>
+    <RootNamespace>cairomm</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project=".\cairomm-build-defines.props" />
+    <Import Project="GtkDirs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project=".\cairomm-build-defines.props" />
+    <Import Project="GtkDirs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project=".\cairomm-build-defines.props" />
+    <Import Project="GtkDirs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project=".\cairomm-build-defines.props" />
+    <Import Project="GtkDirs.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <PreLinkEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</PreLinkEventUseInBuild>
+    <PreLinkEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</PreLinkEventUseInBuild>
+    <PreLinkEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</PreLinkEventUseInBuild>
+    <PreLinkEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</PreLinkEventUseInBuild>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectName)$(ReleaseDllSuffix)</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectName)$(ReleaseDllSuffix)</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)$(DebugDllSuffix)</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectName)$(DebugDllSuffix)</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;$(CairoMMBuildDefs);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <PreLinkEvent>
+      <Message>Generate cairomm def file</Message>
+      <Command>$(OutDir)\gendef.exe $(DefDir)\$(ProjectName).def $(TargetFileName) $(IntDir)*.obj</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>$(CPPDepLibsDebug);%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName)$(DebugDllSuffix).dll</OutputFile>
+      <ModuleDefinitionFile>$(IntDir)\$(ProjectName).def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>$(CairoMMBuildDefs);DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <PreLinkEvent>
+      <Message>Generate cairomm def file</Message>
+      <Command>$(OutDir)\gendef.exe $(DefDir)\$(ProjectName).def $(TargetFileName) $(IntDir)*.obj</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>$(CPPDepLibsRelease);%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName)$(ReleaseDllSuffix).dll</OutputFile>
+      <ModuleDefinitionFile>$(IntDir)\$(ProjectName).def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;$(CairoMMBuildDefs);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <PreLinkEvent>
+      <Message>Generate cairomm def file</Message>
+      <Command>$(OutDir)\gendef.exe $(DefDir)\$(ProjectName).def $(TargetFileName) $(IntDir)*.obj</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>$(CPPDepLibsDebug);%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName)$(DebugDllSuffix).dll</OutputFile>
+      <ModuleDefinitionFile>$(IntDir)\$(ProjectName).def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <PreprocessorDefinitions>$(CairoMMBuildDefs);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <PreLinkEvent>
+      <Message>Generate cairomm def file</Message>
+      <Command>$(OutDir)\gendef.exe $(DefDir)\$(ProjectName).def $(TargetFileName) $(IntDir)*.obj</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>$(CPPDepLibsRelease);%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName)$(ReleaseDllSuffix).dll</OutputFile>
+      <ModuleDefinitionFile>$(IntDir)\$(ProjectName).def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\cairomm\context.cc" />
+    <ClCompile Include="..\cairomm\context_surface_quartz.cc" />
+    <ClCompile Include="..\cairomm\context_surface_win32.cc" />
+    <ClCompile Include="..\cairomm\context_surface_xlib.cc" />
+    <ClCompile Include="..\cairomm\device.cc" />
+    <ClCompile Include="..\cairomm\exception.cc" />
+    <ClCompile Include="..\cairomm\fontface.cc" />
+    <ClCompile Include="..\cairomm\fontoptions.cc" />
+    <ClCompile Include="..\cairomm\matrix.cc" />
+    <ClCompile Include="..\cairomm\path.cc" />
+    <ClCompile Include="..\cairomm\pattern.cc" />
+    <ClCompile Include="..\cairomm\private.cc" />
+    <ClCompile Include="..\cairomm\quartz_font.cc" />
+    <ClCompile Include="..\cairomm\quartz_surface.cc" />
+    <ClCompile Include="..\cairomm\region.cc" />
+    <ClCompile Include="..\cairomm\scaledfont.cc" />
+    <ClCompile Include="..\cairomm\script.cc" />
+    <ClCompile Include="..\cairomm\script_surface.cc" />
+    <ClCompile Include="..\cairomm\surface.cc" />
+    <ClCompile Include="..\cairomm\win32_font.cc" />
+    <ClCompile Include="..\cairomm\win32_surface.cc" />
+    <ClCompile Include="..\cairomm\xlib_surface.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\cairomm\cairomm.h" />
+    <ClInclude Include="..\cairomm\context.h" />
+    <ClInclude Include="..\cairomm\context_private.h" />
+    <ClInclude Include="..\cairomm\device.h" />
+    <ClInclude Include="..\cairomm\enums.h" />
+    <ClInclude Include="..\cairomm\exception.h" />
+    <ClInclude Include="..\cairomm\fontface.h" />
+    <ClInclude Include="..\cairomm\fontoptions.h" />
+    <ClInclude Include="..\cairomm\matrix.h" />
+    <ClInclude Include="..\cairomm\path.h" />
+    <ClInclude Include="..\cairomm\pattern.h" />
+    <ClInclude Include="..\cairomm\private.h" />
+    <ClInclude Include="..\cairomm\quartz_font.h" />
+    <ClInclude Include="..\cairomm\quartz_surface.h" />
+    <ClInclude Include="..\cairomm\refptr.h" />
+    <ClInclude Include="..\cairomm\region.h" />
+    <ClInclude Include="..\cairomm\scaledfont.h" />
+    <ClInclude Include="..\cairomm\script.h" />
+    <ClInclude Include="..\cairomm\script_surface.h" />
+    <ClInclude Include="..\cairomm\surface.h" />
+    <ClInclude Include="..\cairomm\types.h" />
+    <ClInclude Include="..\cairomm\win32_font.h" />
+    <ClInclude Include="..\cairomm\win32_surface.h" />
+    <ClInclude Include="..\cairomm\xlib_surface.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include=".\cairomm\cairomm.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="gendef.vcxproj">
+      <Project>{07324745-c9be-4d65-b08a-9c88188c0c28}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

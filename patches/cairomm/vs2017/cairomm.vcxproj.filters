@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\cairomm\context.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cairomm\context_surface_quartz.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cairomm\context_surface_win32.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cairomm\context_surface_xlib.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cairomm\device.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cairomm\exception.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cairomm\fontface.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cairomm\fontoptions.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cairomm\matrix.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cairomm\path.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cairomm\pattern.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cairomm\private.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cairomm\quartz_font.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cairomm\quartz_surface.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cairomm\region.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cairomm\scaledfont.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cairomm\script.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cairomm\script_surface.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cairomm\surface.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cairomm\win32_font.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cairomm\win32_surface.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cairomm\xlib_surface.cc"><Filter>Source Files</Filter></ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\cairomm\cairomm.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\cairomm\context.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\cairomm\context_private.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\cairomm\device.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\cairomm\enums.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\cairomm\exception.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\cairomm\fontface.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\cairomm\fontoptions.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\cairomm\matrix.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\cairomm\path.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\cairomm\pattern.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\cairomm\private.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\cairomm\quartz_font.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\cairomm\quartz_surface.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\cairomm\refptr.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\cairomm\region.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\cairomm\scaledfont.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\cairomm\script.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\cairomm\script_surface.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\cairomm\surface.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\cairomm\types.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\cairomm\win32_font.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\cairomm\win32_surface.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\cairomm\xlib_surface.h"><Filter>Header Files</Filter></ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include=".\cairomm\cairomm.rc"><Filter>Resource Files</Filter></ResourceCompile>
+  </ItemGroup>
+</Project>

@@ -328,3 +328,18 @@ if glibmm_dep.found()
         test('glibmm', test_glibmm)
 endif
 
+# cairomm
+cairomm_required_ver = '>= 1.15.3'
+cairomm_dep = dependency('cairomm-1.0', version: cairomm_required_ver, required: check_all)
+if cairomm_dep.found()
+        test_cairomm = executable('test_cairomm',
+                sources: [ 'test_cairomm.cpp', ],
+                dependencies: [
+                    cairomm_dep,
+            freetype2_dep,
+        ],
+                )
+
+        test('cairomm', test_cairomm)
+endif
+

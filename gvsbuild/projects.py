@@ -1781,6 +1781,7 @@ class Project_check_libs(NullExpander, Meson):
                     # C++ ones
                     'libsig++',
                     'glibmm',
+                    'cairomm',
                 ],
             version = '0.2.0',
             )
@@ -1875,4 +1876,49 @@ class Project_glibmm(Tarball, Project):
 
         self.install(r'.\pc-files\* lib\pkgconfig')
         self.install(r'.\COPYING share\doc\glibmm')
+
+@project_add
+class Project_cairomm(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'cairomm',
+            archive_url = 'https://www.cairographics.org/releases/cairomm-1.15.3.tar.gz',
+            hash = 'd858a8c6981a033d8f851d58e19ec7d42d496a40fbec028028498832b6700bc8',
+            dependencies = ['libsig++', 'cairo'],
+            patches = [
+                '00_win_drop_create.patch',
+                ],
+            )
+
+    def build(self):
+        td = self.exec_msbuild_gen('.', 'cairomm.sln')
+
+        # There isn't an install target in cairomm so it's to be done manually :(
+        bin_src = r'%s\%s\%s\bin' % (
+                    td,
+                    self.builder.opts.configuration,
+                    self.builder.opts.platform,
+                    )
+        self.install(r'%s\cairomm*.dll bin' % (bin_src, ))
+        self.install(r'%s\cairomm*.pdb bin' % (bin_src, ))
+        self.install(r'%s\cairomm*.lib lib' % (bin_src, ))
+
+        examples = [
+            'image-surface',
+            'pdf-surface',
+            'ps-surface',
+            'svg-surface',
+            'text-rotate',
+            'toy-text',
+            'user-font',
+            ]
+
+        for i in examples:
+            self.install(r'%s\%s.* libexec\installed-tests\cairomm-1.0' % (bin_src, i, ))
+
+        self.install(r'cairomm\*.h include\cairomm-1.0\cairomm')
+        self.install(r'%s\cairomm\*.h lib\cairomm-1.0\include' % (self.builder.vs_ver_year, ))
+
+        self.install(r'.\pc-files\* lib\pkgconfig')
+        self.install(r'.\COPYING share\doc\cairomm')
 

@@ -1,0 +1,4 @@
+Name: cairomm-ft
+Description: C++ wrapper for cairo - ft support
+Requires: cairomm-1.0 cairo-ft
+Version: 1.15.3

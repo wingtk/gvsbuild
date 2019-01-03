@@ -1,0 +1,14 @@
+--- "cmm-orig\\cairomm\\win32_surface.cc"	2016-12-09 13:31:27.000000000 +0100
++++ "cairomm\\cairomm\\win32_surface.cc"	2017-12-08 20:05:13.640473100 +0100
+@@ -53,11 +53,6 @@
+   return make_refptr_for_instance<Win32Surface>(new Win32Surface(cobject, true /* has reference */));
+ }
+ 
+-RefPtr<Win32Surface> Win32Surface::create(Format format, int width, int height)
+-{
+-  return create_with_dib(format, width, height);
+-}
+-
+ RefPtr<Win32Surface> Win32Surface::create_with_dib(Format format, int width, int height)
+ {
+   auto cobject = cairo_win32_surface_create_with_dib((cairo_format_t)format, width, height);

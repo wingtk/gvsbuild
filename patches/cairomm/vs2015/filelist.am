@@ -1,0 +1,27 @@
+## This file is part of cairomm
+
+msvc_net2013_data = README \
+                    cairomm.sln \
+                    cairomm-build-defines.props \
+                    cairomm-version-paths.props \
+                    gendef.vcxproj \
+                    gendef.vcxproj.filters \
+                    gendef/gendef.cc \
+                    cairomm/cairommconfig.h \
+                    cairomm/cairomm.rc \
+                    cairomm.vcxproj \
+                    cairomm.vcxproj.filters \
+                    image-surface.vcxproj \
+                    image-surface.vcxproj.filters \
+                    pdf-surface.vcxproj \
+                    pdf-surface.vcxproj.filters \
+                    ps-surface.vcxproj \
+                    ps-surface.vcxproj.filters \
+                    svg-surface.vcxproj \
+                    svg-surface.vcxproj.filters \
+                    text-rotate.vcxproj \
+                    text-rotate.vcxproj.filters \
+                    toy-text.vcxproj \
+                    toy-text.vcxproj.filters \
+                    user-font.vcxproj \
+                    user-font.vcxproj.filters

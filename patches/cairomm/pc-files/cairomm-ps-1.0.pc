@@ -1,0 +1,4 @@
+Name: cairomm-ps
+Description: C++ wrapper for cairo - postscript support
+Requires: cairomm-1.0 cairo-ps
+Version: 1.15.3

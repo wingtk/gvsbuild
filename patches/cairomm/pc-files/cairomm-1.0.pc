@@ -1,0 +1,20 @@
+# On windows, the prefix is automagically build from the location of the .pc file
+prefix=C:/dir_placeholder
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+datarootdir=${prefix}/share
+datadir=${datarootdir}
+includedir=${prefix}/include
+
+docdir=${datarootdir}/doc/cairomm-1.0
+doxytagfile=${docdir}/reference/cairomm-1.0.tag
+htmlrefdir=${docdir}/reference/html
+htmlrefpub=http://www.cairographics.org/documentation/cairomm/reference
+
+Name: cairomm
+Description: C++ binding for the cairo graphics library
+Version: 1.15.3
+URL: http://www.cairographics.org/cairomm/
+Requires: cairo >= 1.15.0 sigc++-2.0 >= 2.5.1
+Libs: -L${libdir} -lcairomm-1.0
+Cflags: -I${includedir}/cairomm-1.0 -I${libdir}/cairomm-1.0/include
