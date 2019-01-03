@@ -473,31 +473,34 @@ class Builder(object):
             self.vs_env = saved_env
             
         script_title(None)
-        if self.opts.keep:
-            if self.prj_done:
-                print('\nProject(s) built:')
-                for p in self.prj_done:
-                    print('\t%s' % (p, ))
-            
-            if self.prj_skipped:
-                print('\nProject(s) skipped (already built):')
-                for p in self.prj_skipped:
-                    print('\t%s' % (p, ))
-            
-            if self.prj_err:
-                print('\nProject(s) not built:')
-                for p in self.prj_err:
-                    print('\t%s' % (p, ))
+        if self.prj_done:
+            log.message('')
+            log.message('Project(s) built:')
+            for p in self.prj_done:
+                log.message('    %s' % (p, ))
+        
+        if self.prj_skipped:
+            log.message('')
+            log.message('Project(s) skipped (already built):')
+            for p in self.prj_skipped:
+                log.message('    %s' % (p, ))
+        
+        if self.prj_err:
+            log.message('')
+            log.message('Project(s) not built:')
+            for p in self.prj_err:
+                log.message('    %s' % (p, ))
 
-                miss = len(self.prj_err)
-                if self.prj_dropped:
-                    print('\nMissing dependecies:')
-                    for p in self.prj_dropped:
-                        print('\t%s' % (p, ))
-                    miss += len(self.prj_dropped)
+            miss = len(self.prj_err)
+            if self.prj_dropped:
+                log.message('')
+                log.message('Missing dependecies:')
+                for p in self.prj_dropped:
+                    log.message('    %s' % (p, ))
+                miss += len(self.prj_dropped)
 
-                # Don't fool appveyor
-                log.error_exit('%u project(s) missing ;(' % (miss, ))
+            # Don't fool appveyor
+            log.error_exit('%u project(s) missing ;(' % (miss, ))
         
         log.close()
 
