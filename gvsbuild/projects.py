@@ -1052,8 +1052,8 @@ class Project_libpng(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'libpng',
-            archive_url = 'http://prdownloads.sourceforge.net/libpng/libpng-1.6.35.tar.xz',
-            hash = '23912ec8c9584917ed9b09c5023465d71709dce089be503c7867fec68a93bcd7',
+            archive_url = 'http://prdownloads.sourceforge.net/libpng/libpng-1.6.36.tar.xz',
+            hash = 'eceb924c1fa6b79172fdfd008d335f0e59172a86a66481e09d4089df872aa319',
             dependencies = ['cmake', 'ninja', 'zlib'],
             )
 
