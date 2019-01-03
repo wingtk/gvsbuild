@@ -463,6 +463,7 @@ class Builder(object):
                 log.error_exit("Interrupted on %s" % (p.name, ))
             except:
                 traceback.print_exc()
+                log.end(mark_error=True)
                 if self.opts.keep:
                     self.prj_err.append(p.name)
                     self._drop_proj(p)

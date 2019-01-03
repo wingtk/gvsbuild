@@ -171,11 +171,14 @@ class Log(object):
     def start_debug(self, msg):
         self.start(msg, level=LOG_DEBUG)
 
-    def end(self, force_print=False):
+    def end(self, force_print=False, mark_error=False):
         if self.operations:
             co = self.operations.pop()
             if co.enabled:
-                out_msg = '%s - Ended in %s s' % (co.msg, self._get_delta(co.tim), )
+                if mark_error:
+                    out_msg = '*** Error: %s (%s s)' % (co.msg, self._get_delta(co.tim), )
+                else:
+                    out_msg = '%s - Ended in %s s' % (co.msg, self._get_delta(co.tim), )
                 self._output(out_msg, check_indent=False)
                 if force_print:
                     print(out_msg)
