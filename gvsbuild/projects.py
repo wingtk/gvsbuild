@@ -434,8 +434,8 @@ class Project_glib(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'glib',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.58/glib-2.58.1.tar.xz',
-            hash = '97d6a9d926b6aa3dfaadad3077cfb43eec74432ab455dff14250c769d526d7d6',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.58/glib-2.58.2.tar.xz',
+            hash = 'c7b24ed6536f1a10fc9bce7994e55c427b727602e78342821f1f07fb48753d4b',
             dependencies = ['ninja', 'meson', 'pkg-config', 'gettext', 'libffi', 'zlib'],
             patches = ['glib-package-installation-directory.patch',
                        '0001-Partially-revert-GSocket-Fix-race-conditions-on-Win3.patch'],
@@ -779,8 +779,8 @@ class Project_harfbuzz(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'harfbuzz',
-            archive_url = 'https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.0.2.tar.bz2',
-            hash = 'f6de6c9dc89a56909227ac3e3dc9b18924a0837936ffd9633d13e981bcbd96e0',
+            archive_url = 'https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.3.0.tar.bz2',
+            hash = '3b314db655a41d19481e18312465fa25fca6f63382217f08062f126059f96764',
             dependencies = ['python', 'freetype', 'pkg-config', 'glib'],
             )
 
@@ -1001,15 +1001,14 @@ class Project_libjpeg_turbo(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'libjpeg-turbo',
-            archive_url = 'https://sourceforge.net/projects/libjpeg-turbo/files/2.0.0/libjpeg-turbo-2.0.0.tar.gz',
-            hash = '778876105d0d316203c928fd2a0374c8c01f755d0a00b12a1c8934aeccff8868',
+            archive_url = 'https://sourceforge.net/projects/libjpeg-turbo/files/2.0.1/libjpeg-turbo-2.0.1.tar.gz',
+            hash = 'e5f86cec31df1d39596e0cca619ab1b01f99025a27dafdfc97a30f3a12f866ff',
             dependencies = ['cmake', 'ninja', 'nasm', ],
             )
 
     def build(self):
         CmakeProject.build(self, use_ninja=True)
 
-        self.install(r'.\pc-files\* lib\pkgconfig')
         self.install(r'.\LICENSE.md share\doc\libjpeg-turbo')
 
 @project_add
@@ -1053,8 +1052,8 @@ class Project_libpng(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'libpng',
-            archive_url = 'http://prdownloads.sourceforge.net/libpng/libpng-1.6.35.tar.xz',
-            hash = '23912ec8c9584917ed9b09c5023465d71709dce089be503c7867fec68a93bcd7',
+            archive_url = 'http://prdownloads.sourceforge.net/libpng/libpng-1.6.36.tar.xz',
+            hash = 'eceb924c1fa6b79172fdfd008d335f0e59172a86a66481e09d4089df872aa319',
             dependencies = ['cmake', 'ninja', 'zlib'],
             )
 
@@ -1072,7 +1071,7 @@ class Project_libpsl(GitRepo, Meson):
             repo_url = 'https://github.com/rockdaboot/libpsl.git',
             fetch_submodules = True,
             tag = '726d6773d431028472b621f331130b721e079aae',
-            dependencies = ['meson', 'ninja', 'pkg-config', 'icu', ],
+            dependencies = ['python', 'meson', 'ninja', 'pkg-config', 'icu', ],
             )
 
         self.add_param('-Druntime=libicu')
@@ -1132,17 +1131,26 @@ class Project_libcurl(Tarball, CmakeProject):
         self.install(r'.\COPYING share\doc\libcurl')
 
 @project_add
-class Project_libsoup(Tarball, Project):
+class Project_libsoup(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'libsoup',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.62/libsoup-2.62.3.tar.xz',
-            hash = 'd312ade547495c2093ff8bda61f9b9727a98cfdae339f3263277dd39c0451172',
-            dependencies = ['libxml2', 'glib-openssl', 'sqlite'],
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.64/libsoup-2.64.2.tar.xz',
+            hash = '75ddc194a5b1d6f25033bb9d355f04bfe5c03e0e1c71ed0774104457b3a786c6',
+            dependencies = ['libxml2', 'glib-openssl', 'sqlite', 'libpsl', 'mit-kerberos'],
             )
 
+        if self.opts.enable_gi:
+            self.add_dependency('gobject-introspection')
+            enable_gi = 'true'
+        else:
+            enable_gi = 'false'
+
+        self.add_param('-Dintrospection=%s' % (enable_gi, ))
+        self.add_param('-Dvapi=false')
+
     def build(self):
-        self.exec_msbuild_gen(r'win32', 'libsoup.sln')
+        Meson.build(self)
 
         self.install(r'.\COPYING share\doc\libsoup')
 
@@ -1382,8 +1390,8 @@ class Project_openssl(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'openssl',
-            archive_url = 'https://www.openssl.org/source/openssl-1.0.2p.tar.gz',
-            hash = '50a98e07b1a89eb8f6a99477f262df71c6fa7bef77df4dc83025a2845c827d00',
+            archive_url = 'https://www.openssl.org/source/openssl-1.0.2q.tar.gz',
+            hash = '5744cfcbcec2b1b48629f7354203bc1e5e9b5466998bbccc5b5fcde3b18eb684',
             dependencies = ['perl', 'nasm', ],
             )
 
