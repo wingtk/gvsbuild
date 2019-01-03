@@ -1,0 +1,22 @@
+# On windows, the prefix is automagically build from the location of the .pc file
+prefix=C:/dir_placeholder
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+datarootdir=${prefix}/share
+datadir=${datarootdir}
+includedir=${prefix}/include
+
+gmmprocm4dir=${libdir}/gtkmm-3.0/proc/m4
+
+docdir=${datarootdir}/doc/gtkmm-3.0
+doxytagfile=${docdir}/reference/gtkmm-3.0.tag
+htmlrefdir=${docdir}/reference/html
+htmlrefpub=http://library.gnome.org/devel/gtkmm/unstable/
+
+Name: gtkmm
+Description: C++ binding for the GTK+ toolkit
+Version: 3.22.2
+URL: http://www.gtkmm.org/
+Requires: atkmm-1.6 >= 2.24.2 giomm-2.4 >= 2.49.1 pangomm-1.4 >= 2.38.2 gtk+-3.0 >= 3.22.0 cairomm-1.0 >= 1.12.0 gdk-pixbuf-2.0 >= 2.35.5 gdkmm-3.0
+Libs: -L${libdir} -lgtkmm-3.0
+Cflags: -I${includedir}/gtkmm-3.0 -I${libdir}/gtkmm-3.0/include

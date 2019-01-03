@@ -1,0 +1,23 @@
+## This file is part of gtkmm.
+
+msvc_net2013_data =				\
+	README					\
+	gtkmm.sln				\
+	gtkmm-build-defines.props		\
+	gtkmm-gen-srcs.props			\
+	gtkmm-version-paths.props		\
+	gtkmm-install.props			\
+	gendef.vcxproj				\
+	gendef.vcxproj.filters			\
+	gendef/gendef.cc			\
+	gdkmm/gdkmm.rc				\
+	gdkmm.vcxproj				\
+	gdkmm.vcxproj.filters			\
+	gdkmm/gdkmmconfig.h			\
+	gtkmm/gtkmm.rc				\
+	gtkmm.vcxproj				\
+	gtkmm.vcxproj.filters			\
+	gtkmm/gtkmmconfig.h			\
+	gtkmm3-demo.vcxproj			\
+	gtkmm3-demo.vcxproj.filters		\
+	install.vcxproj

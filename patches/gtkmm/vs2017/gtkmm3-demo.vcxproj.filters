@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\demos\gtk-demo\demo_resources.c"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\demowindow.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\example_appwindow.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\example_builder.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\example_buttonbox.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\example_change_display.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\example_colorsel.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\example_dialog.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\example_drawingarea.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\example_flowbox.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\example_gestures.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\example_glarea.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\example_headerbar.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\example_iconbrowser.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\example_iconview.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\example_images.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\example_menus.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\example_overlay.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\example_panes.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\example_pixbufs.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\example_shortcuts.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\example_sizegroup.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\example_stack.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\example_stacksidebar.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\example_textview.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\example_treeview_editable_cells.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\example_treeview_liststore.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\example_treeview_treestore.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\main.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\demos\gtk-demo\textwidget.cc"><Filter>Source Files</Filter></ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\demos\gtk-demo\demos.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\demos\gtk-demo\demowindow.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\demos\gtk-demo\textwidget.h"><Filter>Header Files</Filter></ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\demos\gtk-demo\demo.gresource.xml"><Filter>Resource Files</Filter></CustomBuild>
+  </ItemGroup>
+</Project>

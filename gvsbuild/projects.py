@@ -1784,6 +1784,7 @@ class Project_check_libs(NullExpander, Meson):
                     'cairomm',
                     'atkmm',
                     'pangomm',
+                    'gtkmm',
                 ],
             version = '0.2.0',
             )
@@ -1956,3 +1957,23 @@ class Project_pangomm(Tarball, Project):
         self.install(r'.\pc-files\* lib\pkgconfig')
         self.install(r'.\COPYING share\doc\pangomm')
 
+@project_add
+class Project_gtkmm(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'gtkmm',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtkmm/3.22/gtkmm-3.22.2.tar.xz',
+            hash = '91afd98a31519536f5f397c2d79696e3d53143b80b75778521ca7b48cb280090',
+            dependencies = ['libsig++', 'gtk3', 'pangomm', 'atkmm', ],
+            )
+
+    def build(self):
+        log.debug('Updating loader cache')
+        # gdk-pixbuf-query-loaders > C:\gtk-build\gtk\Win32\Release\lib\gdk-pixbuf-2.0\2.10.0\loaders.cache
+        cmd = r'%s\bin\gdk-pixbuf-query-loaders >%s\lib\gdk-pixbuf-2.0\2.10.0\loaders.cache' % (self.builder.gtk_dir, self.builder.gtk_dir, )
+        self.exec_cmd(cmd)
+
+        self.exec_msbuild_gen('.', 'gtkmm.sln')
+
+        self.install(r'.\pc-files\* lib\pkgconfig')
+        self.install(r'.\COPYING share\doc\gtkmm')

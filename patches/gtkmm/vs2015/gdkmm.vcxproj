@@ -1,0 +1,272 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>gdkmm</ProjectName>
+    <ProjectGuid>{976C8F9C-1A1D-4E23-B79E-EC9091BBEA0E}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project=".\gtkmm-build-defines.props" />
+    <Import Project="GtkDirs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project=".\gtkmm-build-defines.props" />
+    <Import Project="GtkDirs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project=".\gtkmm-build-defines.props" />
+    <Import Project="GtkDirs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project=".\gtkmm-build-defines.props" />
+    <Import Project="GtkDirs.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <PreLinkEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</PreLinkEventUseInBuild>
+    <PreLinkEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</PreLinkEventUseInBuild>
+    <PreLinkEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</PreLinkEventUseInBuild>
+    <PreLinkEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</PreLinkEventUseInBuild>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)$(DebugDllSuffix)</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectName)$(DebugDllSuffix)</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectName)$(ReleaseDllSuffix)</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectName)$(ReleaseDllSuffix)</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;$(GdkMMBuildDefs);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <PreLinkEvent>
+      <Message>Generate gdkmm def file</Message>
+      <Command>$(OutDir)\gendef.exe $(DefDir)\$(ProjectName).def $(TargetFileName) $(IntDir)*.obj</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>$(CPPDepLibsDebug);%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName)$(DebugDllSuffix).dll</OutputFile>
+      <ModuleDefinitionFile>$(IntDir)\$(ProjectName).def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <PreprocessorDefinitions>$(GdkMMBuildDefs);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <OmitFramePointers>true</OmitFramePointers>
+    </ClCompile>
+    <PreLinkEvent>
+      <Message>Generate gdkmm def file</Message>
+      <Command>$(OutDir)\gendef.exe $(DefDir)\$(ProjectName).def $(TargetFileName) $(IntDir)*.obj</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>$(CPPDepLibsRelease);%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName)$(ReleaseDllSuffix).dll</OutputFile>
+      <ModuleDefinitionFile>$(IntDir)\$(ProjectName).def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;$(GdkMMBuildDefs);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <PreLinkEvent>
+      <Message>Generate gdkmm def file</Message>
+      <Command>$(OutDir)\gendef.exe $(DefDir)\$(ProjectName).def $(TargetFileName) $(IntDir)*.obj</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>$(CPPDepLibsDebug);%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName)$(DebugDllSuffix).dll</OutputFile>
+      <ModuleDefinitionFile>$(IntDir)\$(ProjectName).def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <PreprocessorDefinitions>$(GdkMMBuildDefs);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <PreLinkEvent>
+      <Message>Generate gdkmm def file</Message>
+      <Command>$(OutDir)\gendef.exe $(DefDir)\$(ProjectName).def $(TargetFileName) $(IntDir)*.obj</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>$(CPPDepLibsRelease);%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName)$(ReleaseDllSuffix).dll</OutputFile>
+      <ModuleDefinitionFile>$(IntDir)\$(ProjectName).def</ModuleDefinitionFile>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\gdk\gdkmm\applaunchcontext.cc" />
+    <ClCompile Include="..\gdk\gdkmm\color.cc" />
+    <ClCompile Include="..\gdk\gdkmm\cursor.cc" />
+    <ClCompile Include="..\gdk\gdkmm\device.cc" />
+    <ClCompile Include="..\gdk\gdkmm\devicemanager.cc" />
+    <ClCompile Include="..\gdk\gdkmm\display.cc" />
+    <ClCompile Include="..\gdk\gdkmm\displaymanager.cc" />
+    <ClCompile Include="..\gdk\gdkmm\dragcontext.cc" />
+    <ClCompile Include="..\gdk\gdkmm\drawingcontext.cc" />
+    <ClCompile Include="..\gdk\gdkmm\event.cc" />
+    <ClCompile Include="..\gdk\gdkmm\general.cc" />
+    <ClCompile Include="..\gdk\gdkmm\glcontext.cc" />
+    <ClCompile Include="..\gdk\gdkmm\monitor.cc" />
+    <ClCompile Include="..\gdk\gdkmm\pixbuf.cc" />
+    <ClCompile Include="..\gdk\gdkmm\pixbufanimation.cc" />
+    <ClCompile Include="..\gdk\gdkmm\pixbufanimationiter.cc" />
+    <ClCompile Include="..\gdk\gdkmm\pixbufformat.cc" />
+    <ClCompile Include="..\gdk\gdkmm\pixbufloader.cc" />
+    <ClCompile Include="..\gdk\gdkmm\rectangle.cc" />
+    <ClCompile Include="..\gdk\gdkmm\rgba.cc" />
+    <ClCompile Include="..\gdk\gdkmm\seat.cc" />
+    <ClCompile Include="..\gdk\gdkmm\screen.cc" />
+    <ClCompile Include="..\gdk\gdkmm\timecoord.cc" />
+    <ClCompile Include="..\gdk\gdkmm\types.cc" />
+    <ClCompile Include="..\gdk\gdkmm\visual.cc" />
+    <ClCompile Include="..\gdk\gdkmm\window.cc" />
+    <ClCompile Include="..\gdk\gdkmm\wrap_init.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\gdk\gdkmm\applaunchcontext.h" />
+    <ClInclude Include="..\gdk\gdkmm\color.h" />
+    <ClInclude Include="..\gdk\gdkmm\colormap.h" />
+    <ClInclude Include="..\gdk\gdkmm\cursor.h" />
+    <ClInclude Include="..\gdk\gdkmm\device.h" />
+    <ClInclude Include="..\gdk\gdkmm\devicemanager.h" />
+    <ClInclude Include="..\gdk\gdkmm\display.h" />
+    <ClInclude Include="..\gdk\gdkmm\displaymanager.h" />
+    <ClInclude Include="..\gdk\gdkmm\dragcontext.h" />
+    <ClInclude Include="..\gdk\gdkmm\drawingcontext.h" />
+    <ClInclude Include="..\gdk\gdkmm\event.h" />
+    <ClInclude Include="..\gdk\gdkmm\general.h" />
+    <ClInclude Include="..\gdk\gdkmm\glcontext.h" />
+    <ClInclude Include="..\gdk\gdkmm\list.h" />
+    <ClInclude Include="..\gdk\gdkmm\monitor.h" />
+    <ClInclude Include="..\gdk\gdkmm\pixbuf.h" />
+    <ClInclude Include="..\gdk\gdkmm\pixbufanimation.h" />
+    <ClInclude Include="..\gdk\gdkmm\pixbufanimationiter.h" />
+    <ClInclude Include="..\gdk\gdkmm\pixbufformat.h" />
+    <ClInclude Include="..\gdk\gdkmm\pixbufloader.h" />
+    <ClInclude Include="..\gdk\gdkmm\rectangle.h" />
+    <ClInclude Include="..\gdk\gdkmm\region.h" />
+    <ClInclude Include="..\gdk\gdkmm\rgba.h" />
+    <ClInclude Include="..\gdk\gdkmm\seat.h" />
+    <ClInclude Include="..\gdk\gdkmm\screen.h" />
+    <ClInclude Include="..\gdk\gdkmm\timecoord.h" />
+    <ClInclude Include="..\gdk\gdkmm\types.h" />
+    <ClInclude Include="..\gdk\gdkmm\visual.h" />
+    <ClInclude Include="..\gdk\gdkmm\window.h" />
+    <ClInclude Include="..\gdk\gdkmm\wrap_init.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include=".\gdkmm\gdkmm.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="gendef.vcxproj">
+      <Project>{07324745-c9be-4d65-b08a-9c88188c0c28}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

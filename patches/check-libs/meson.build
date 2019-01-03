@@ -367,3 +367,27 @@ if pangomm_dep.found()
         test('pangomm', test_pangomm)
 endif
 
+# gdkmm
+gdkmm_required_ver = '>= 3.22.2'
+gdkmm_dep = dependency('gdkmm-3.0', version: gdkmm_required_ver, required: check_all)
+if gdkmm_dep.found()
+        test_gdkmm = executable('test_gdkmm',
+                sources: [ 'test_gdkmm.cpp', ],
+                dependencies: [ gdkmm_dep, ],
+                )
+
+        test('gdkmm', test_gdkmm)
+endif
+
+# gtkmm
+gtkmm_required_ver = '>= 3.22.2'
+gtkmm_dep = dependency('gtkmm-3.0', version: gtkmm_required_ver, required: check_all)
+if gtkmm_dep.found()
+        test_gtkmm = executable('test_gtkmm',
+                sources: [ 'test_gtkmm.cpp', ],
+                dependencies: [ gtkmm_dep, ],
+                )
+
+        test('gtkmm', test_gtkmm)
+endif
+

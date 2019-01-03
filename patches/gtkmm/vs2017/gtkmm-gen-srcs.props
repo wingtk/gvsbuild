@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets">
+    <Import Project="gtkmm-build-defines.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+    <GenerateDemoRsrcSrc>$(GlibEtcInstallRoot)\bin\glib-compile-resources --target=..\demos\gtk-demo\demo_resources.c --sourcedir=..\demos\gtk-demo --generate-source ..\demos\gtk-demo\demo.gresource.xml</GenerateDemoRsrcSrc>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>glibmmbuilddefinesprops</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <ItemGroup>
+    <BuildMacro Include="GenerateDemoRsrcSrc">
+      <Value>$(GenerateDemoRsrcSrc)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

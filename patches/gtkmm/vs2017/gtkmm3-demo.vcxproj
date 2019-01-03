@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>gtkmm3-demo</ProjectName>
+    <ProjectGuid>{5A8BBE25-E8D8-487B-AD2D-690438F09FA1}</ProjectGuid>
+    <RootNamespace>gtkmm3-demo</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project=".\gtkmm-gen-srcs.props" />
+    <Import Project="GtkDirs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project=".\gtkmm-gen-srcs.props" />
+    <Import Project="GtkDirs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project=".\gtkmm-gen-srcs.props" />
+    <Import Project="GtkDirs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project=".\gtkmm-gen-srcs.props" />
+    <Import Project="GtkDirs.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectName)</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectName)</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.\gtkmm;..\gtk;$(GlibEtcInstallRoot)\include\atkmm-1.6;$(GlibEtcInstallRoot)\lib\atkmm-1.6\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>atkmm-1.6.lib;$(CPPDepLibsDebug);%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)gtk-demo.pdb</ProgramDatabaseFile>
+      <SubSystem>Console</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>.\gtkmm;..\gtk;$(GlibEtcInstallRoot)\include\atkmm-1.6;$(GlibEtcInstallRoot)\lib\atkmm-1.6\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <OmitFramePointers>true</OmitFramePointers>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>atkmm-1.6.lib;$(CPPDepLibsRelease);%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>false</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.\gtkmm;..\gtk;$(GlibEtcInstallRoot)\include\atkmm-1.6;$(GlibEtcInstallRoot)\lib\atkmm-1.6\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>atkmm-1.6.lib;$(CPPDepLibsDebug);%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)gtk-demo.pdb</ProgramDatabaseFile>
+      <SubSystem>Console</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>.\gtkmm;..\gtk;$(GlibEtcInstallRoot)\include\atkmm-1.6;$(GlibEtcInstallRoot)\lib\atkmm-1.6\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>atkmm-1.6.lib;$(CPPDepLibsRelease);%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>false</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\demos\gtk-demo\demo_resources.c" />
+    <ClCompile Include="..\demos\gtk-demo\demowindow.cc" />
+    <ClCompile Include="..\demos\gtk-demo\example_appwindow.cc" />
+    <ClCompile Include="..\demos\gtk-demo\example_builder.cc" />
+    <ClCompile Include="..\demos\gtk-demo\example_buttonbox.cc" />
+    <ClCompile Include="..\demos\gtk-demo\example_change_display.cc" />
+    <ClCompile Include="..\demos\gtk-demo\example_colorsel.cc" />
+    <ClCompile Include="..\demos\gtk-demo\example_dialog.cc" />
+    <ClCompile Include="..\demos\gtk-demo\example_drawingarea.cc" />
+    <ClCompile Include="..\demos\gtk-demo\example_flowbox.cc" />
+    <ClCompile Include="..\demos\gtk-demo\example_gestures.cc" />
+    <ClCompile Include="..\demos\gtk-demo\example_glarea.cc" />
+    <ClCompile Include="..\demos\gtk-demo\example_headerbar.cc" />
+    <ClCompile Include="..\demos\gtk-demo\example_iconbrowser.cc" />
+    <ClCompile Include="..\demos\gtk-demo\example_iconview.cc" />
+    <ClCompile Include="..\demos\gtk-demo\example_images.cc" />
+    <ClCompile Include="..\demos\gtk-demo\example_menus.cc" />
+    <ClCompile Include="..\demos\gtk-demo\example_overlay.cc" />
+    <ClCompile Include="..\demos\gtk-demo\example_panes.cc" />
+    <ClCompile Include="..\demos\gtk-demo\example_pixbufs.cc" />
+    <ClCompile Include="..\demos\gtk-demo\example_shortcuts.cc" />
+    <ClCompile Include="..\demos\gtk-demo\example_sizegroup.cc" />
+    <ClCompile Include="..\demos\gtk-demo\example_stack.cc" />
+    <ClCompile Include="..\demos\gtk-demo\example_stacksidebar.cc" />
+    <ClCompile Include="..\demos\gtk-demo\example_textview.cc" />
+    <ClCompile Include="..\demos\gtk-demo\example_treeview_editable_cells.cc" />
+    <ClCompile Include="..\demos\gtk-demo\example_treeview_liststore.cc" />
+    <ClCompile Include="..\demos\gtk-demo\example_treeview_treestore.cc" />
+    <ClCompile Include="..\demos\gtk-demo\main.cc" />
+    <ClCompile Include="..\demos\gtk-demo\textwidget.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\demos\gtk-demo\demos.h" />
+    <ClInclude Include="..\demos\gtk-demo\demowindow.h" />
+    <ClInclude Include="..\demos\gtk-demo\textwidget.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\demos\gtk-demo\demo.gresource.xml">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Generating Demo Resource Source...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(GenerateDemoRsrcSrc)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\demos\gtk-demo\demo_resources.c;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating Demo Resource Source...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(GenerateDemoRsrcSrc)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\demos\gtk-demo\demo_resources.c;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Generating Demo Resource Source...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(GenerateDemoRsrcSrc)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\demos\gtk-demo\demo_resources.c;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating Demo Resource Source...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(GenerateDemoRsrcSrc)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\demos\gtk-demo\demo_resources.c;%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="gdkmm.vcxproj">
+      <Project>{976c8f9c-1a1d-4e23-b79e-ec9091bbea0e}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="gtkmm.vcxproj">
+      <Project>{907b8d15-7e12-4136-a7e6-b6ed5e055d39}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
