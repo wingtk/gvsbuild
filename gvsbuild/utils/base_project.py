@@ -103,6 +103,46 @@ class Project(object):
             configuration = '%(configuration)s'
         self.exec_vs('msbuild ' + cmd + ' /p:Configuration=' + configuration + ' %(msbuild_opts)s', add_path=add_path)
 
+    def exec_msbuild_gen(self, base_dir, sln_file, add_pars='', configuration=None, add_path=None):
+        '''
+        looks for base_dir\{vs_ver}\sln_file or base_dir\{vs_ver_tear}\sln_file for launching the msbuild commamd.
+        If it's not present in the directory the system start to look backward to find the first version present 
+        '''
+        def _msbuild_ok(self, dir_part):
+            print(self.build_dir, base_dir, dir_part, sln_file, sep='\n')
+            full = os.path.join(self.build_dir, base_dir, dir_part, sln_file)
+            return os.path.exists(full)
+
+        part = 'vs' + self.builder.opts.vs_ver
+        if not _msbuild_ok(self, part):
+            part = self.builder.vs_ver_year
+            if not _msbuild_ok(self, part):
+                part = None
+
+        if not part:
+            look = {
+                '12': [], 
+                '14': [ 'vs12', 'vs2013', ],
+                '15': [ 'vs14', 'vs2015', 'vs12', 'vs2013', ],
+                }
+            lst = look.get(self.builder.opts.vs_ver, [])
+            for p in lst:
+                if _msbuild_ok(self, p):
+                    part = p
+                    break
+            if part:
+                # We log what we found because is not the default
+                log.log('Project %s, using %s directory' % (self.name, part, ))
+
+        if part:
+            cmd = os.path.join(base_dir, part, sln_file)
+            if add_pars:
+                cmd += ' ' + add_pars
+        else:
+            log.error_exit("Solution file '%s' for project '%s' not found!" % (sln_file, self.name, ))
+        self.exec_msbuild(cmd, configuration, add_path)
+        return part
+
     def install(self, *args):
         self.builder.install(self._get_working_dir(), self.pkg_dir, *args)
 
