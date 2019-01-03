@@ -158,7 +158,7 @@ endif
 
 
 # libjpeg
-libjpeg_required_ver = '>= 6.2'
+libjpeg_required_ver = '>= 2.0'
 libjpeg_dep = dependency('libjpeg', version: libjpeg_required_ver, required: check_all)
 if libjpeg_dep.found()
         test_libjpeg = executable('test_libjpeg',
@@ -171,7 +171,7 @@ endif
 
 # libjpeg_turbo
 libjpeg_turbo_required_ver = '>= 1.5.1'
-libjpeg_turbo_dep = dependency('libjpeg-turbo', version: libjpeg_turbo_required_ver, required: check_all)
+libjpeg_turbo_dep = dependency('libturbojpeg', version: libjpeg_turbo_required_ver, required: check_all)
 if libjpeg_turbo_dep.found()
         test_libjpeg_turbo = executable('test_libjpeg-turbo',
                                  [ 'test_libjpeg-turbo.c', 'check_utils.c', ],
