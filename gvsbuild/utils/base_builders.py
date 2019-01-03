@@ -50,6 +50,7 @@ class Meson(Project):
 
         # First we check if we need to generate the meson build files
         if not os.path.isfile(os.path.join(ninja_build, 'build.ninja')):
+            log.start_verbose('Generating meson directory')
             self.builder.make_dir(ninja_build)
             # base params 
             self._ensure_params()
@@ -65,7 +66,8 @@ class Meson(Project):
             cmd = '%s\\python.exe %s %s %s --prefix %s %s' % (self.builder.opts.python_dir, self.builder.meson, self._get_working_dir(), ninja_build, self.builder.gtk_dir, add_opts, )
             # build the ninja file to do everything (build the library, create the .pc file, install it, ...)
             self.exec_vs(cmd)
-
+            log.end()
+            
         if make_tests:
             # Run ninja to build all (library, ....
             self.builder.exec_ninja(working_dir=ninja_build)
@@ -110,7 +112,9 @@ class CmakeProject(Project):
             work_dir = self._get_working_dir()
 
         # Generate the files used to build
+        log.start_verbose('Generating/updating cmake files')
         self.builder.exec_vs(cmd, working_dir=work_dir)
+        log.end()
         # Build
         if use_ninja:
             if make_tests:
