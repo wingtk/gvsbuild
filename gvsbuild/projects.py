@@ -126,7 +126,7 @@ class Project_clutter(Tarball, Project):
             )
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\clutter.sln')
+        self.exec_msbuild_gen(r'build\win32', 'clutter.sln')
 
         self.install(r'.\COPYING share\doc\clutter')
 
@@ -143,7 +143,7 @@ class Project_cogl(Tarball, Project):
             )
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\cogl.sln')
+        self.exec_msbuild_gen(r'build\win32', 'cogl.sln')
 
         self.install(r'.\COPYING share\doc\cogl')
 
@@ -420,7 +420,7 @@ class Project_gettext(Tarball, Project):
             )
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gettext.sln')
+        self.exec_msbuild_gen(r'build\win32', 'gettext.sln')
 
         self.install(r'.\gettext-tools\its\*.its share\gettext\its')
         self.install(r'.\gettext-tools\its\*.loc share\gettext\its')
@@ -453,7 +453,7 @@ class Project_glib_networking(Tarball, Project):
             )
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\glib-networking.sln')
+        self.exec_msbuild_gen(r'build\win32', 'glib-networking.sln')
         self.install(r'.\COPYING share\doc\glib-networking')
 
 @project_add
@@ -648,7 +648,7 @@ class Project_gtk(Project_gtk_base):
             self.add_dependency('gobject-introspection')
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtk+.sln')
+        self.exec_msbuild_gen(r'build\win32', 'gtk+.sln')
 
         self.make_all_mo()
 
@@ -676,7 +676,7 @@ class Project_gtk3_20(Project_gtk_base):
             self.add_dependency('gobject-introspection')
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtk+.sln /p:GtkPostInstall=rem')
+        self.exec_msbuild_gen(r'build\win32', 'gtk+.sln',  add_pars='/p:GtkPostInstall=rem')
 
         self.make_all_mo()
 
@@ -706,7 +706,7 @@ class Project_gtk3_22(Project_gtk_base):
             self.add_dependency('gobject-introspection')
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtk+.sln /p:GtkPostInstall=rem')
+        self.exec_msbuild_gen(r'build\win32', 'gtk+.sln',  add_pars='/p:GtkPostInstall=rem')
 
         self.make_all_mo()
 
@@ -736,7 +736,7 @@ class Project_gtk3_24(Project_gtk_base):
             self.add_dependency('gobject-introspection')
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtk+.sln /p:GtkPostInstall=rem')
+        self.exec_msbuild_gen(r'build\win32', 'gtk+.sln',  add_pars='/p:GtkPostInstall=rem')
 
         self.make_all_mo()
 
@@ -761,7 +761,7 @@ class Project_gtksourceview3(Tarball, Project, _MakeGir):
             self.add_dependency('gobject-introspection')
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\gtksourceview.sln')
+        self.exec_msbuild_gen(r'build\win32', 'gtksourceview.sln')
 
         self.install(r'.\COPYING share\doc\gtksourceview3')
 
@@ -856,7 +856,7 @@ class Project_jsonc(Tarball, Project):
             )
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\json-c.sln')
+        self.exec_msbuild_gen(r'build\win32', 'json-c.sln')
 
         self.install(r'.\COPYING share\doc\json-c')
 
@@ -894,7 +894,7 @@ class Project_leveldb(Tarball, Project):
             )
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\leveldb.sln')
+        self.exec_msbuild_gen(r'build\win32', 'leveldb.sln')
 
         self.install(r'.\LICENSE share\doc\leveldb')
 
@@ -931,7 +931,7 @@ class Project_libcroco(Tarball, Project):
             )
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\libcroco.sln')
+        self.exec_msbuild_gen(r'build\win32', 'libcroco.sln')
         self.install(r'.\COPYING share\doc\libcroco')
 
 @project_add
@@ -1024,9 +1024,8 @@ class Project_libmicrohttpd(Tarball, Project):
         if self.builder.opts.configuration == 'debug':
             configuration = 'debug-dll'
 
-        base_dir = r'w32\%s' % (self.builder.vs_ver_year, )
-
-        self.exec_msbuild(base_dir + '\libmicrohttpd.sln', configuration=configuration)
+        td = self.exec_msbuild_gen(r'w32', 'libmicrohttpd.sln', configuration=configuration)
+        base_dir = os.path.join('w32', td)
 
         debug_option = ''
         if self.builder.opts.configuration == 'debug':
@@ -1043,8 +1042,6 @@ class Project_libmicrohttpd(Tarball, Project):
         self.install(r'libmicrohttpd-dll' + debug_option + '.pdb' + ' bin')
         self.install(r'hellobrowser-dll' + debug_option + '.exe' + ' bin')
         self.pop_location()
-
-
 
         self.install(r'.\COPYING share\doc\libmicrohttpd')
 
@@ -1096,7 +1093,7 @@ class Project_librsvg(Tarball, Project, _MakeGir):
             self.add_dependency('gobject-introspection')
 
     def build(self):
-        self.exec_msbuild(r'build\win32\vs%(vs_ver)s\librsvg.sln')
+        self.exec_msbuild_gen(r'build\win32', 'librsvg.sln')
         
         if Project.opts.enable_gi:
             self.builder.mod_env('INCLUDE', '%s\\include\\glib-2.0' % (self.builder.gtk_dir, ))
@@ -1142,7 +1139,7 @@ class Project_libsoup(Tarball, Project):
             )
 
     def build(self):
-        self.exec_msbuild(r'win32\vs%(vs_ver)s\libsoup.sln')
+        self.exec_msbuild_gen(r'win32', 'libsoup.sln')
 
         self.install(r'.\COPYING share\doc\libsoup')
 
@@ -1157,7 +1154,7 @@ class Project_libssh(Tarball, Project):
             )
 
     def build(self):
-        self.exec_msbuild(r'build\vs%(vs_ver)s\libssh-library.sln')
+        self.exec_msbuild_gen(r'build', 'libssh-library.sln')
 
         self.install(r'.\COPYING share\doc\libssh')
 
@@ -1345,7 +1342,7 @@ class Project_lz4(Tarball, Project):
             )
 
     def build(self):
-        self.exec_msbuild(r'visual\%(vs_ver_year)s\lz4.sln')
+        self.exec_msbuild_gen(r'visual', 'lz4.sln')
 
         self.install(r'visual\%(vs_ver_year)s\bin\%(platform)s_%(configuration)s\liblz4.dll visual\%(vs_ver_year)s\bin\%(platform)s_%(configuration)s\liblz4.pdb bin')
         self.install(r'.\lib\lz4.h .\lib\lz4hc.h .\lib\lz4frame.h include')
@@ -1441,19 +1438,12 @@ class Project_opus(Tarball, Project):
             )
 
     def build(self):
-        version = '13'
-        if self.builder.opts.vs_ver == '14':
-            version = '15'
-        elif self.builder.opts.vs_ver == '15':
-            version = '17'
-
         configuration = 'ReleaseDLL'
         if self.builder.opts.configuration == 'debug':
             configuration = 'DebugDLL'
 
-        self.exec_msbuild(r'.\win32\VS20' + version + '\opus.sln', configuration=configuration)
-
-        bin_dir = r'.\win32\VS20' + version + '\%s\%s' % (self.builder.opts.platform, configuration, )
+        td = self.exec_msbuild_gen(r'.\win32', 'opus.sln', configuration=configuration)
+        bin_dir = os.path.join(r'.\win32', td, self.builder.opts.platform, configuration)
 
         self.install(bin_dir + r'\opus.dll bin')
         self.install(bin_dir + r'\opus.pdb bin')
