@@ -1778,9 +1778,10 @@ class Project_check_libs(NullExpander, Meson):
                     'libxml2',
                     'pango',
                     'zlib',
-
+                    # C++ ones
+                    'libsig++',
                 ],
-            version = '0.1.0',
+            version = '0.2.0',
             )
 
     def build(self):
@@ -1841,3 +1842,19 @@ class Project_dev_shell(Project):
         self.builder.mod_env('GTK_BASE_DIR', self.builder.gtk_dir)
         self.builder.mod_env('PROMPT', '[ gvsbuild shell ] $P $G', subst=True)
         self.builder.exec_vs("cmd", working_dir=self.builder.working_dir)
+
+@project_add
+class Project_libsigplusplus(Tarball, Meson):
+    def __init__(self):
+        Project.__init__(self,
+            'libsig++',
+            archive_url = 'https://download.gnome.org/sources/libsigc++/2.10/libsigc++-2.10.0.tar.xz',
+            hash = 'f843d6346260bfcb4426259e314512b99e296e8ca241d771d21ac64f28298d81',
+            dependencies = [
+                'meson',
+                'ninja',
+            ]
+        )
+
+    def build(self):
+        Meson.build(self)
