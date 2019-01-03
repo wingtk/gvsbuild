@@ -65,6 +65,7 @@ def get_options(args):
     opts.ffmpeg_enable_gpl = args.ffmpeg_enable_gpl
     opts.log_size = args.log_size
     opts.log_single = args.log_single
+    opts.ninja_opts = args.ninja_opts
 
     # active the log
     log.configure(os.path.join(opts.build_dir, 'logs'), opts)
@@ -86,6 +87,9 @@ def get_options(args):
     if not opts.vs_install_path:
         if opts.vs_ver == "15":
             opts.vs_install_path = r'C:\Program Files (x86)\Microsoft Visual Studio\2017'
+            opts._vs_path_auto = True
+        elif opts.vs_ver == "16":
+            opts.vs_install_path = r'C:\Program Files (x86)\Microsoft Visual Studio\2019'
             opts._vs_path_auto = True
         else:
             opts.vs_install_path = r'C:\Program Files (x86)\Microsoft Visual Studio %s.0' % (opts.vs_ver,)
@@ -282,6 +286,8 @@ Examples:
                          help="Maximum log size (in kilobytes) before restarting with a new file")
     p_build.add_argument('--log-single', default=False, action='store_true',
                          help="Always start a new log file, with date & time")
+    p_build.add_argument('--ninja-opts', default='',
+                         help='Command line options to pass to ninja, e.g. to limit the use (-j 2) or for debug purpouse.')
 
     p_build.add_argument('project', nargs='+',
                          help='Project(s) to build.')

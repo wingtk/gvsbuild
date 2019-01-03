@@ -96,6 +96,7 @@ class Builder(object):
             '12': 'vs2013',
             '14': 'vs2015',
             '15': 'vs2017',
+            '16': 'vs2019',
         }
 
         self.vs_ver_year = vs_zip_parts.get(opts.vs_ver, None)
@@ -463,6 +464,7 @@ class Builder(object):
                 log.error_exit("Interrupted on %s" % (p.name, ))
             except:
                 traceback.print_exc()
+                log.end(mark_error=True)
                 if self.opts.keep:
                     self.prj_err.append(p.name)
                     self._drop_proj(p)
@@ -471,31 +473,34 @@ class Builder(object):
             self.vs_env = saved_env
             
         script_title(None)
-        if self.opts.keep:
-            if self.prj_done:
-                print('\nProject(s) built:')
-                for p in self.prj_done:
-                    print('\t%s' % (p, ))
-            
-            if self.prj_skipped:
-                print('\nProject(s) skipped (already built):')
-                for p in self.prj_skipped:
-                    print('\t%s' % (p, ))
-            
-            if self.prj_err:
-                print('\nProject(s) not built:')
-                for p in self.prj_err:
-                    print('\t%s' % (p, ))
+        if self.prj_done:
+            log.message('')
+            log.message('Project(s) built:')
+            for p in self.prj_done:
+                log.message('    %s' % (p, ))
+        
+        if self.prj_skipped:
+            log.message('')
+            log.message('Project(s) skipped (already built):')
+            for p in self.prj_skipped:
+                log.message('    %s' % (p, ))
+        
+        if self.prj_err:
+            log.message('')
+            log.message('Project(s) not built:')
+            for p in self.prj_err:
+                log.message('    %s' % (p, ))
 
-                miss = len(self.prj_err)
-                if self.prj_dropped:
-                    print('\nMissing dependecies:')
-                    for p in self.prj_dropped:
-                        print('\t%s' % (p, ))
-                    miss += len(self.prj_dropped)
+            miss = len(self.prj_err)
+            if self.prj_dropped:
+                log.message('')
+                log.message('Missing dependecies:')
+                for p in self.prj_dropped:
+                    log.message('    %s' % (p, ))
+                miss += len(self.prj_dropped)
 
-                # Don't fool appveyor
-                log.error_exit('%u project(s) missing ;(' % (miss, ))
+            # Don't fool appveyor
+            log.error_exit('%u project(s) missing ;(' % (miss, ))
         
         log.close()
 
@@ -802,6 +807,14 @@ class Builder(object):
 
     def exec_cmd(self, cmd, working_dir=None, add_path=None):
         self.__execute(self.__sub_vars(cmd), working_dir=working_dir, add_path=add_path)
+
+    def exec_ninja(self, params='', working_dir=None, add_path=None):
+        cmd = 'ninja'
+        if self.opts.ninja_opts:
+            cmd += ' ' + self.opts.ninja_opts
+        if params:
+            cmd += ' ' + params
+        self.__execute(self.__sub_vars(cmd), working_dir=working_dir, add_path=add_path, env=self.vs_env) 
 
     def install(self, build_dir, pkg_dir, *args):
         if len(args) == 1:
