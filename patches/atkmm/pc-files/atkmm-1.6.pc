@@ -1,0 +1,22 @@
+# On windows, the prefix is automagically build from the location of the .pc file
+prefix=C:/dir_placeholder
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+datarootdir=${prefix}/share
+datadir=${datarootdir}
+includedir=${prefix}/include
+
+gmmprocm4dir=${libdir}/atkmm-1.6/proc/m4
+
+docdir=${datarootdir}/doc/atkmm-1.6
+doxytagfile=${docdir}/reference/atkmm-1.6.tag
+htmlrefdir=${docdir}/reference/html
+htmlrefpub=http://library.gnome.org/devel/atkmm/unstable/
+
+Name: atkmm
+Description: C++ binding for the ATK accessibility toolkit
+Version: 2.24.2
+URL: http://www.gtkmm.org/
+Requires: atk >= 1.18 glibmm-2.4 >= 2.46.2
+Libs: -L${libdir} -latkmm-1.6
+Cflags: -I${includedir}/atkmm-1.6 -I${libdir}/atkmm-1.6/include

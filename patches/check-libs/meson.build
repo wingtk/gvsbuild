@@ -343,3 +343,15 @@ if cairomm_dep.found()
         test('cairomm', test_cairomm)
 endif
 
+# atkmm
+atkmm_required_ver = '>= 2.24.2'
+atkmm_dep = dependency('atkmm-1.6', version: atkmm_required_ver, required: check_all)
+if atkmm_dep.found()
+        test_atkmm = executable('test_atkmm',
+                sources: [ 'test_atkmm.cpp', ],
+                dependencies: [ atkmm_dep, ],
+                )
+
+        test('atkmm', test_atkmm)
+endif
+

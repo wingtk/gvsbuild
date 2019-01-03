@@ -1,0 +1,15 @@
+## This file is part of atkmm.
+
+msvc_net2013_data =			\
+	atkmm.sln			\
+	atkmm-build-defines.props	\
+	atkmm-version-paths.props	\
+	atkmm-install.props		\
+	gendef.vcxproj			\
+	gendef.vcxproj.filters		\
+	gendef/gendef.cc		\
+	atkmm/atkmm.rc			\
+	atkmm.vcxproj			\
+	atkmm.vcxproj.filters		\
+	atkmm/atkmmconfig.h		\
+	install.vcxproj

@@ -1782,6 +1782,7 @@ class Project_check_libs(NullExpander, Meson):
                     'libsig++',
                     'glibmm',
                     'cairomm',
+                    'atkmm',
                 ],
             version = '0.2.0',
             )
@@ -1921,4 +1922,20 @@ class Project_cairomm(Tarball, Project):
 
         self.install(r'.\pc-files\* lib\pkgconfig')
         self.install(r'.\COPYING share\doc\cairomm')
+
+@project_add
+class Project_atkmm(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'atkmm',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/atkmm/2.24/atkmm-2.24.2.tar.xz',
+            hash = 'ff95385759e2af23828d4056356f25376cfabc41e690ac1df055371537e458bd',
+            dependencies = ['libsig++', 'atk', 'glibmm', ],
+            )
+
+    def build(self):
+        self.exec_msbuild_gen('.', 'atkmm.sln')
+
+        self.install(r'.\pc-files\* lib\pkgconfig')
+        self.install(r'.\COPYING share\doc\atkmm')
 

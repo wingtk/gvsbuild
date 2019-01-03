@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets">
+    <Import Project="atkmm-build-defines.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+    <BinDir>$(SolutionDir)$(Configuration)\$(Platform)\bin</BinDir>
+    <InstalledReleaseDlls>$(BinDir)\atkmm$(ReleaseDllSuffix).dll</InstalledReleaseDlls>
+    <InstalledDebugDlls>$(BinDir)\atkmm$(DebugDllSuffix).dll</InstalledDebugDlls>
+    <AtkmmDoInstall>
+mkdir $(CopyDir)
+mkdir $(CopyDir)\bin
+copy $(BinDir)\atkmm-$(ApiMajorVersion).$(ApiMinorVersion).dll $(CopyDir)\bin
+copy $(BinDir)\atkmm-$(ApiMajorVersion).$(ApiMinorVersion).pdb $(CopyDir)\bin
+
+mkdir $(CopyDir)\lib\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\include
+copy $(BinDir)\atkmm-$(ApiMajorVersion).$(ApiMinorVersion).lib $(CopyDir)\lib
+
+mkdir $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm\private
+copy ..\atk\atkmm.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)
+
+copy ..\atk\atkmm\action.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm
+copy ..\atk\atkmm\component.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm
+copy ..\atk\atkmm\document.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm
+copy ..\atk\atkmm\editabletext.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm
+copy ..\atk\atkmm\hyperlink.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm
+copy ..\atk\atkmm\hypertext.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm
+copy ..\atk\atkmm\image.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm
+copy ..\atk\atkmm\implementor.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm
+copy ..\atk\atkmm\init.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm
+copy ..\atk\atkmm\noopobject.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm
+copy ..\atk\atkmm\object.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm
+copy ..\atk\atkmm\objectaccessible.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm
+copy ..\atk\atkmm\range.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm
+copy ..\atk\atkmm\relation.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm
+copy ..\atk\atkmm\relationset.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm
+copy ..\atk\atkmm\selection.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm
+copy ..\atk\atkmm\stateset.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm
+copy ..\atk\atkmm\streamablecontent.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm
+copy ..\atk\atkmm\table.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm
+copy ..\atk\atkmm\text.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm
+copy ..\atk\atkmm\value.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm
+copy ..\atk\atkmm\wrap_init.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm
+
+copy ..\atk\atkmm\private\action_p.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm\private
+copy ..\atk\atkmm\private\component_p.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm\private
+copy ..\atk\atkmm\private\document_p.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm\private
+copy ..\atk\atkmm\private\editabletext_p.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm\private
+copy ..\atk\atkmm\private\hyperlink_p.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm\private
+copy ..\atk\atkmm\private\hypertext_p.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm\private
+copy ..\atk\atkmm\private\image_p.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm\private
+copy ..\atk\atkmm\private\implementor_p.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm\private
+copy ..\atk\atkmm\private\noopobject_p.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm\private
+copy ..\atk\atkmm\private\object_p.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm\private
+copy ..\atk\atkmm\private\objectaccessible_p.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm\private
+copy ..\atk\atkmm\private\range_p.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm\private
+copy ..\atk\atkmm\private\relation_p.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm\private
+copy ..\atk\atkmm\private\relationset_p.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm\private
+copy ..\atk\atkmm\private\selection_p.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm\private
+copy ..\atk\atkmm\private\stateset_p.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm\private
+copy ..\atk\atkmm\private\streamablecontent_p.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm\private
+copy ..\atk\atkmm\private\table_p.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm\private
+copy ..\atk\atkmm\private\text_p.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm\private
+copy ..\atk\atkmm\private\value_p.h $(CopyDir)\include\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\atkmm\private
+
+copy .\atkmm\atkmmconfig.h $(CopyDir)\lib\atkmm-$(ApiMajorVersion).$(ApiMinorVersion)\include
+    </AtkmmDoInstall>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>atkmminstallprops</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <ItemGroup>
+    <BuildMacro Include="BinDir">
+      <Value>$(BinDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="InstalledReleaseDlls">
+      <Value>$(InstalledReleaseDlls)</Value>
+    </BuildMacro>
+    <BuildMacro Include="InstalledDebugDlls">
+      <Value>$(InstalledDebugDlls)</Value>
+    </BuildMacro>
+    <BuildMacro Include="AtkmmDoInstall">
+      <Value>$(AtkmmDoInstall)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>
