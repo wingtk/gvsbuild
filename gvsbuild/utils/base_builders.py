@@ -68,12 +68,12 @@ class Meson(Project):
 
         if make_tests:
             # Run ninja to build all (library, ....
-            self.builder.exec_vs('ninja', working_dir=ninja_build)
+            self.builder.exec_ninja(working_dir=ninja_build)
             # .. run the tests ...
-            self.builder.exec_vs('ninja test', working_dir=ninja_build)
+            self.builder.exec_ninja(params='test', working_dir=ninja_build)
             # .. and finally install everything
         # if we don't make the tests we simply run 'ninja install' that takes care of everything, running explicity from the build dir
-        self.builder.exec_vs('ninja install', working_dir=ninja_build)
+        self.builder.exec_ninja(params='install', working_dir=ninja_build)
 
 class CmakeProject(Project):
     def __init__(self, name, **kwargs):
@@ -114,15 +114,15 @@ class CmakeProject(Project):
         # Build
         if use_ninja:
             if make_tests:
-                self.builder.exec_vs('ninja', working_dir=work_dir)
-                self.builder.exec_vs('ninja test', working_dir=work_dir)
+                self.builder.exec_ninja(working_dir=work_dir)
+                self.builder.exec_ninja(params='test', working_dir=work_dir)
                 if do_install:
-                    self.builder.exec_vs('ninja install', working_dir=work_dir)
+                    self.builder.exec_ninja(params='install', working_dir=work_dir)
             else:
                 if do_install:
-                    self.builder.exec_vs('ninja install', working_dir=work_dir)
+                    self.builder.exec_ninja(params='install', working_dir=work_dir)
                 else:
-                    self.builder.exec_vs('ninja', working_dir=work_dir)
+                    self.builder.exec_ninja(working_dir=work_dir)
         else:
             self.builder.exec_vs('nmake /nologo', working_dir=work_dir)
             if do_install:

@@ -803,6 +803,14 @@ class Builder(object):
     def exec_cmd(self, cmd, working_dir=None, add_path=None):
         self.__execute(self.__sub_vars(cmd), working_dir=working_dir, add_path=add_path)
 
+    def exec_ninja(self, params='', working_dir=None, add_path=None):
+        cmd = 'ninja'
+        if self.opts.ninja_opts:
+            cmd += ' ' + self.opts.ninja_opts
+        if params:
+            cmd += ' ' + params
+        self.__execute(self.__sub_vars(cmd), working_dir=working_dir, add_path=add_path, env=self.vs_env) 
+
     def install(self, build_dir, pkg_dir, *args):
         if len(args) == 1:
             args = args[0].split()
