@@ -1863,6 +1863,7 @@ class Project_libsigcplusplus(Tarball, Meson):
 
     def build(self):
         Meson.build(self)
+        self.install(r'.\COPYING share\doc\libsigc++')
 
 @project_add
 class Project_glibmm(Tarball, Project):
