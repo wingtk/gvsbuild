@@ -1827,16 +1827,41 @@ class Project_dev_shell(Project):
             # We don't want this project to be built with the group 'all'
             type = GVSBUILD_IGNORE,
             )
+        self.meson = True
 
     def unpack(self):
         # Nothing to do, it's not really a project
         pass
+
+    def finalize_dep(self, builder, deps):
+        if builder.opts.skip:
+            skip = builder.opts.skip.split(',')
+            for s in skip:
+                p = Project.get_project(s)
+                if p in deps:
+                    log.log('dev-shell: skip %s' % (s, ))
+                    deps.remove(p)
+                    if s =='meson' or s == 'python':
+                        # We disable the meson management
+                        self.meson = False
 
     def build(self):
         # Do the shell
         print("")
         print("gvsbuild dev shell. Type exit to exit :)")
         print("")
+        print("The environment var GTK_BASE_DIR points to the gtk installation dir")
+        print("(%s)" % (self.builder.gtk_dir, ))
+        print("if you need it e.g. as a --prefix option")
+        print("")
+        if self.meson:
+            # Add a _meson env to use it directly
+            meson_path = Project.get_tool_path('meson') 
+            self.builder.mod_env('_MESON', 'python %s\\meson.py' % (meson_path, ))
+            print("If you need to use meson you can use the _MESON environment, e.g.")
+            print("%_MESON% configure")
+            print("")
+
         # If you need to use it as a --prefix in some build test ...
         self.builder.mod_env('GTK_BASE_DIR', self.builder.gtk_dir)
         self.builder.mod_env('PROMPT', '[ gvsbuild shell ] $P $G', subst=True)

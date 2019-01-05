@@ -82,6 +82,13 @@ class Project(object):
     def load_defaults(self, builder):
         # Used by the tools to load default paths/filenames
         pass
+    
+    def finalize_dep(self, builder, deps):
+        """
+        Used to manipulate the dependencies list, to add or remove projects
+        For the dev-shell project is used to limit the tools to use
+        """
+        pass
 
     def build(self):
         raise NotImplementedError('build')

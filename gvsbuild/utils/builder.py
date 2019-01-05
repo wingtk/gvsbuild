@@ -413,6 +413,7 @@ class Builder(object):
             for p in dep.all_dependencies:
                 deps.add(p)
             deps.add(dep)
+        proj.finalize_dep(self, deps)
         proj.all_dependencies = deps
 
     def _drop_proj(self, drop_prj):

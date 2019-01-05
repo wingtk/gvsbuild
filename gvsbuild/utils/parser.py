@@ -252,7 +252,7 @@ Examples:
                          help='Use and keep the calling environment for LIB, LIBPATH, INCLUDE and PATH')
 
     p_build.add_argument('--skip', default='',
-                         help='A comma separated list of project(s) not to build.')
+                         help='A comma separated list of project(s) not to build. For dev-shell is a list of tool not to activate.')
 
     p_build.add_argument('--make-zip', default=False, action='store_true',
                          help="Create singles zips of the projects built under $(build-dir)\\dist\\vsXXXX[-sdkVer]\\[platform]\\[configuration], " +

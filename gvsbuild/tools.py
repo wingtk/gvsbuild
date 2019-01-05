@@ -65,7 +65,7 @@ class Tool_meson(Tool):
         self.mark_deps = extract_exec(self.archive_file, self.builder.opts.tools_root_dir, dir_part = self.dir_part, check_file = self.builder.meson, check_mark=True)
 
     def get_path(self):
-        pass
+        return None, self.build_dir
 
 @tool_add
 class Tool_msys2(Tool):
