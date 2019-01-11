@@ -971,15 +971,13 @@ class Project_libffi(GitRepo, Meson):
         self.install(r'LICENSE share\doc\libffi')
 
 @project_add
-class Project_libgxps(GitRepo, Meson):
+class Project_libgxps(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'libgxps',
-            repo_url = 'https://git.gnome.org/browse/libgxps',
-            fetch_submodules = False,
-            tag = '133fe2a96e020d4ca65c6f64fb28a404050ebbfd',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libgxps/0.3/libgxps-0.3.1.tar.xz',
+            hash = '1a939fc8fcea9471b7eca46b1ac90cff89a30d26f65c7c9a375a4bf91223fa94',
             dependencies = ['meson', 'ninja', 'pkg-config', 'glib', 'libarchive', 'cairo', 'libpng', 'libjpeg-turbo', 'libtiff-4', 'gtk3', ],
-            patches = ['0001-Fixes-font-scaling-issue-when-converting-xps-to-pdf.patch'],
             )
         if self.opts.enable_gi:
             self.add_dependency('gobject-introspection')
