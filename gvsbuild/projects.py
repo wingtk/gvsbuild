@@ -1070,6 +1070,7 @@ class Project_libpsl(GitRepo, Meson):
             fetch_submodules = True,
             tag = '726d6773d431028472b621f331130b721e079aae',
             dependencies = ['python', 'meson', 'ninja', 'pkg-config', 'icu', ],
+            patches = ['0001-meson-on-msvc-icu-installs-the-libraries-with-a-d-su.patch'],
             )
 
         self.add_param('-Druntime=libicu')
