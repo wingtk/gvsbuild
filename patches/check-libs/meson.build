@@ -217,6 +217,17 @@ if libxml2_dep.found()
         test('libxml2', test_libxml2)
 endif
 
+# libyuv
+libyuv_required_ver = '>= 0.0.1724'
+libyuv_dep = dependency('libyuv', version: libyuv_required_ver, required: check_all)
+if libyuv_dep.found()
+        test_libyuv = executable('test_libyuv',
+                                [ 'test_libyuv.c', 'check_utils.c', ],
+                               dependencies: [ libyuv_dep, ],
+                                )
+        test('libyuv', test_libyuv)
+endif
+
 # pango
 pango_required_ver = '>= 1.40.14'
 pango_dep = dependency('pango', version: pango_required_ver, required: check_all)

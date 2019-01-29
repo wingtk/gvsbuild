@@ -1267,12 +1267,16 @@ class Project_libyuv(GitRepo, CmakeProject):
             repo_url = 'https://chromium.googlesource.com/libyuv/libyuv',
             fetch_submodules = False,
             tag = None,
-            dependencies = ['cmake', 'ninja', ],
+            dependencies = ['cmake', 'ninja', 'libjpeg-turbo', ],
+            patches = [
+                '001-win-build.patch',
+                ],
             )
 
     def build(self):
         CmakeProject.build(self, use_ninja=True)
 
+        self.install(r'.\pc-files\* lib\pkgconfig')
         self.install(r'.\LICENSE share\doc\libyuv')
 
 @project_add
@@ -1774,6 +1778,7 @@ class Project_check_libs(NullExpander, Meson):
                     'libpng',
                     'libtiff-4',
                     'libxml2',
+                    'libyuv',
                     'pango',
                     'zlib',
 
