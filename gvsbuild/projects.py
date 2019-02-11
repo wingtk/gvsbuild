@@ -1189,6 +1189,7 @@ class Project_libtiff4(Tarball, CmakeProject):
             archive_url = 'http://download.osgeo.org/libtiff/tiff-4.0.10.tar.gz',
             hash = '2c52d11ccaf767457db0c46795d9c7d1a8d8f76f68b0b800a3dfe45786b996e4',
             dependencies = ['cmake', 'ninja', 'libjpeg-turbo', ],
+            patches = ['remove-postfix.patch'],
             )
 
     def build(self):
