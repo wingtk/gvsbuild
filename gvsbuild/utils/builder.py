@@ -303,6 +303,7 @@ class Builder(object):
         if opts.win_sdk_ver:
             add_opts = ' %s' % (opts.win_sdk_ver, )
 
+        log.log('Running script "%s"%s' % (vcvars_bat, add_opts, ))
         if not os.path.exists(vcvars_bat):
             if exit_missing:
                 self.__dump_vs_loc();
