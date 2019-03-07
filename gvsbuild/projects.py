@@ -998,8 +998,8 @@ class Project_libjpeg_turbo(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'libjpeg-turbo',
-            archive_url = 'https://sourceforge.net/projects/libjpeg-turbo/files/2.0.1/libjpeg-turbo-2.0.1.tar.gz',
-            hash = 'e5f86cec31df1d39596e0cca619ab1b01f99025a27dafdfc97a30f3a12f866ff',
+            archive_url = 'https://sourceforge.net/projects/libjpeg-turbo/files/2.0.2/libjpeg-turbo-2.0.2.tar.gz',
+            hash = 'acb8599fe5399af114287ee5907aea4456f8f2c1cc96d26c28aebfdf5ee82fed',
             dependencies = ['cmake', 'ninja', 'nasm', ],
             )
 
