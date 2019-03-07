@@ -1499,8 +1499,8 @@ class Project_pixman(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'pixman',
-            archive_url = 'http://cairographics.org/releases/pixman-0.34.0.tar.gz',
-            hash = '21b6b249b51c6800dc9553b65106e1e37d0e25df942c90531d4c3997aa20a88e',
+            archive_url = 'http://cairographics.org/releases/pixman-0.38.0.tar.gz',
+            hash = 'a7592bef0156d7c27545487a52245669b00cf7e70054505381cff2136d890ca8',
             )
 
     def build(self):
