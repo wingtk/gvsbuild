@@ -256,8 +256,8 @@ class Project_ffmpeg(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'ffmpeg',
-            archive_url = 'http://ffmpeg.org/releases/ffmpeg-4.0.2.tar.xz',
-            hash = 'a95c0cc9eb990e94031d2183f2e6e444cc61c99f6f182d1575c433d62afb2f97',
+            archive_url = 'https://www.ffmpeg.org/releases/ffmpeg-4.1.1.tar.xz',
+            hash = '373749824dfd334d84e55dff406729edfd1606575ee44dd485d97d45ea4d2d86',
             dependencies = [ 'yasm', ],
         )
         if self.opts.ffmpeg_enable_gpl:
