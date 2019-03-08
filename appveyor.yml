@@ -8,24 +8,39 @@ environment:
     DOWNLOAD_DIR: _download_cache
     APPVEYOR_SAVE_CACHE_ON_ERROR: true
     PATH: C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Program Files\Git\cmd
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    VS_VER: "14"
   matrix:
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      VS_VER: "14"
-      PLATFORM: "x86"
-      PYTHON: C:\Python36\python.exe
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      VS_VER: "14"
-      PLATFORM: "x64"
-      PYTHON: C:\Python36-x64\python.exe
+    - PLATFORM: "x86"
+      MSVC_PLATFORM: "Win32"
+      PYTHON: \python.exe
+    - PLATFORM: "x64"
+      MSVC_PLATFORM: "x64"
+      PYTHON: -x64\python.exe
+
+install:
+  - |
+    C:\Python35%PYTHON% -m pip install --upgrade pip
+    C:\Python35%PYTHON% -m pip install wheel
+    C:\Python36%PYTHON% -m pip install --upgrade pip
+    C:\Python36%PYTHON% -m pip install wheel
+    C:\Python37%PYTHON% -m pip install --upgrade pip
+    C:\Python37%PYTHON% -m pip install wheel
 
 build_script:
-  - "%PYTHON% build.py build --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --enable-gi enchant gtk gtk3-full pycairo pygobject lz4"
+  - C:\Python36%PYTHON% build.py build --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% --enable-gi --py-wheel gtk3-full pycairo pygobject
+  - C:\Python35%PYTHON% build.py build --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% --enable-gi --py-wheel pycairo pygobject
+  - C:\Python37%PYTHON% build.py build --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% --enable-gi --py-wheel pycairo pygobject
   - set PATH=%PATH%;C:\msys64\usr\bin
-  - IF "%PLATFORM%"=="x86" tar.exe -zcf gvsbuild-vs%VS_VER%-%PLATFORM%.tar.gz -C /c/gtk-build/gtk/Win32 release
-  - IF "%PLATFORM%"=="x64" tar.exe -zcf gvsbuild-vs%VS_VER%-%PLATFORM%.tar.gz -C /c/gtk-build/gtk/x64 release
+  - tar.exe -zcf gvsbuild-vs%VS_VER%-%PLATFORM%.tar.gz -C /c/gtk-build/gtk/%MSVC_PLATFORM% release
+  - tar.exe -zxf gvsbuild-vs%VS_VER%-%PLATFORM%.tar.gz --exclude include --exclude *.pdb --exclude *.exe
+  - mkdir gtkdist
+  - mv release gtkdist/gtk3-%MSVC_PLATFORM%
 
 artifacts:
   - path: gvsbuild-vs%VS_VER%-%PLATFORM%.tar.gz
+  - path: gtkdist
+    name: gtk3-%MSVC_PLATFORM%
 
 cache:
   - '%DOWNLOAD_DIR%'
