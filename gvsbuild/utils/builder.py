@@ -368,7 +368,7 @@ class Builder(object):
         if not opts.win_sdk_ver:
             # Try lo figure the sdk version to pass it to the msbuild programs
             sdk = self.vs_env.get('WindowsSDKVersion', '')
-            if not sdk:
+            if not sdk or sdk == '\\':
                 sdk = self.vs_env.get('WindowsSDKLibVersion', '')
             if sdk:
                 # drop the last '\'
