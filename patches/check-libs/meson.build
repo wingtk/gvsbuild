@@ -240,6 +240,18 @@ if pango_dep.found()
         test('pango', test_pango)
 endif
 
+# wing
+wing_required_ver = '>= 0.104'
+wing_dep = dependency('wing-1.0', version: wing_required_ver, required: check_all)
+if wing_dep.found()
+        test_wing = executable('test_wing',
+                                [ 'test_wing.c', 'check_utils.c', ],
+                               dependencies: [ wing_dep, ],
+                                )
+
+        test('wing', test_wing)
+endif
+
 # zlib
 zlib_required_ver = '>= 1.2.11'
 zlib_dep = dependency('zlib', version: zlib_required_ver, required: check_all)
