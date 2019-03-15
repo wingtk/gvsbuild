@@ -1,0 +1,4 @@
+Name: cairomm-svg
+Description: C++ wrapper for cairo - svg support
+Requires: cairomm-1.0 cairo-svg
+Version: 1.15.3

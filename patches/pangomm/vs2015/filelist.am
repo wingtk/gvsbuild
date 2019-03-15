@@ -1,0 +1,15 @@
+## This file is part of pangomm.
+
+msvc_net2013_data =				\
+	pangomm.sln				\
+	pangomm-build-defines.props		\
+	pangomm-version-paths.props		\
+	pangomm-install.props			\
+	gendef.vcxproj				\
+	gendef.vcxproj.filters			\
+	gendef/gendef.cc			\
+	pangomm/pangomm.rc			\
+	pangomm.vcxproj				\
+	pangomm.vcxproj.filters			\
+	pangomm/pangommconfig.h			\
+	install.vcxproj

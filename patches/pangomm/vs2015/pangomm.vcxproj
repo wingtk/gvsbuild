@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>pangomm</ProjectName>
+    <ProjectGuid>{A93D607A-5C37-4AEC-BA08-6A655F6DC834}</ProjectGuid>
+    <RootNamespace>pangomm</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="pangomm-build-defines.props" />
+    <Import Project="GtkDirs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="pangomm-build-defines.props" />
+    <Import Project="GtkDirs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="pangomm-build-defines.props" />
+    <Import Project="GtkDirs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="pangomm-build-defines.props" />
+    <Import Project="GtkDirs.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <PreLinkEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</PreLinkEventUseInBuild>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
+    <PreLinkEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</PreLinkEventUseInBuild>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
+    <PreLinkEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</PreLinkEventUseInBuild>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <PreLinkEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</PreLinkEventUseInBuild>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectName)$(ReleaseDllSuffix)</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectName)$(ReleaseDllSuffix)</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)$(DebugDllSuffix)</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectName)$(DebugDllSuffix)</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;$(PangoMMBuildDefs);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <PreLinkEvent>
+      <Message>Generate pangomm def file</Message>
+      <Command>$(OutDir)\gendef.exe $(DefDir)\$(ProjectName).def $(TargetFileName) $(IntDir)*.obj</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>$(CPPDepLibsDebug);%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName)$(DebugDllSuffix).dll</OutputFile>
+      <ModuleDefinitionFile>$(IntDir)\$(ProjectName).def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <PreprocessorDefinitions>$(PangoMMBuildDefs);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <PreLinkEvent>
+      <Message>Generate pangomm def file</Message>
+      <Command>$(OutDir)\gendef.exe $(DefDir)\$(ProjectName).def $(TargetFileName) $(IntDir)*.obj</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>$(CPPDepLibsRelease);%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName)$(ReleaseDllSuffix).dll</OutputFile>
+      <ModuleDefinitionFile>$(IntDir)\$(ProjectName).def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;$(PangoMMBuildDefs);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <PreLinkEvent>
+      <Message>Generate pangomm def file</Message>
+      <Command>$(OutDir)\gendef.exe $(DefDir)\$(ProjectName).def $(TargetFileName) $(IntDir)*.obj</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>$(CPPDepLibsDebug);%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName)$(DebugDllSuffix).dll</OutputFile>
+      <ModuleDefinitionFile>$(IntDir)\$(ProjectName).def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <PreprocessorDefinitions>$(PangoMMBuildDefs);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <PreLinkEvent>
+      <Message>Generate pangomm def file</Message>
+      <Command>$(OutDir)\gendef.exe $(DefDir)\$(ProjectName).def $(TargetFileName) $(IntDir)*.obj</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>$(CPPDepLibsRelease);%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName)$(ReleaseDllSuffix).dll</OutputFile>
+      <ModuleDefinitionFile>$(IntDir)\$(ProjectName).def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\pango\pangomm\attributes.cc" />
+    <ClCompile Include="..\pango\pangomm\attriter.cc" />
+    <ClCompile Include="..\pango\pangomm\attrlist.cc" />
+    <ClCompile Include="..\pango\pangomm\cairofontmap.cc" />
+    <ClCompile Include="..\pango\pangomm\color.cc" />
+    <ClCompile Include="..\pango\pangomm\context.cc" />
+    <ClCompile Include="..\pango\pangomm\coverage.cc" />
+    <ClCompile Include="..\pango\pangomm\font.cc" />
+    <ClCompile Include="..\pango\pangomm\fontdescription.cc" />
+    <ClCompile Include="..\pango\pangomm\fontface.cc" />
+    <ClCompile Include="..\pango\pangomm\fontfamily.cc" />
+    <ClCompile Include="..\pango\pangomm\fontmap.cc" />
+    <ClCompile Include="..\pango\pangomm\fontmetrics.cc" />
+    <ClCompile Include="..\pango\pangomm\fontset.cc" />
+    <ClCompile Include="..\pango\pangomm\glyph.cc" />
+    <ClCompile Include="..\pango\pangomm\glyphstring.cc" />
+    <ClCompile Include="..\pango\pangomm\init.cc" />
+    <ClCompile Include="..\pango\pangomm\item.cc" />
+    <ClCompile Include="..\pango\pangomm\language.cc" />
+    <ClCompile Include="..\pango\pangomm\layout.cc" />
+    <ClCompile Include="..\pango\pangomm\layoutiter.cc" />
+    <ClCompile Include="..\pango\pangomm\layoutline.cc" />
+    <ClCompile Include="..\pango\pangomm\layoutrun.cc" />
+    <ClCompile Include="..\pango\pangomm\rectangle.cc" />
+    <ClCompile Include="..\pango\pangomm\renderer.cc" />
+    <ClCompile Include="..\pango\pangomm\tabarray.cc" />
+    <ClCompile Include="..\pango\pangomm\wrap_init.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\pango\pangomm\attributes.h" />
+    <ClInclude Include="..\pango\pangomm\attriter.h" />
+    <ClInclude Include="..\pango\pangomm\attrlist.h" />
+    <ClInclude Include="..\pango\pangomm\cairofontmap.h" />
+    <ClInclude Include="..\pango\pangomm\color.h" />
+    <ClInclude Include="..\pango\pangomm\context.h" />
+    <ClInclude Include="..\pango\pangomm\coverage.h" />
+    <ClInclude Include="..\pango\pangomm\font.h" />
+    <ClInclude Include="..\pango\pangomm\fontdescription.h" />
+    <ClInclude Include="..\pango\pangomm\fontface.h" />
+    <ClInclude Include="..\pango\pangomm\fontfamily.h" />
+    <ClInclude Include="..\pango\pangomm\fontmap.h" />
+    <ClInclude Include="..\pango\pangomm\fontmetrics.h" />
+    <ClInclude Include="..\pango\pangomm\fontset.h" />
+    <ClInclude Include="..\pango\pangomm\glyph.h" />
+    <ClInclude Include="..\pango\pangomm\glyphstring.h" />
+    <ClInclude Include="..\pango\pangomm\init.h" />
+    <ClInclude Include="..\pango\pangomm\item.h" />
+    <ClInclude Include="..\pango\pangomm\language.h" />
+    <ClInclude Include="..\pango\pangomm\layout.h" />
+    <ClInclude Include="..\pango\pangomm\layoutiter.h" />
+    <ClInclude Include="..\pango\pangomm\layoutline.h" />
+    <ClInclude Include="..\pango\pangomm\layoutrun.h" />
+    <ClInclude Include="..\pango\pangomm\rectangle.h" />
+    <ClInclude Include="..\pango\pangomm\renderer.h" />
+    <ClInclude Include="..\pango\pangomm\tabarray.h" />
+    <ClInclude Include="..\pango\pangomm\types.h" />
+    <ClInclude Include="..\pango\pangomm\wrap_init.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include=".\pangomm\pangomm.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="gendef.vcxproj">
+      <Project>{07324745-c9be-4d65-b08a-9c88188c0c28}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

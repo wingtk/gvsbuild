@@ -1,0 +1,20 @@
+# On windows, the prefix is automagically build from the location of the .pc file
+prefix=C:/dir_placeholder
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+datarootdir=${prefix}/share
+datadir=${datarootdir}
+includedir=${prefix}/include
+
+docdir=${datarootdir}/doc/glibmm-2.4
+doxytagfile=${docdir}/reference/glibmm-2.4.tag
+htmlrefdir=${docdir}/reference/html
+htmlrefpub=http://library.gnome.org/devel/glibmm/unstable/
+
+Name: giomm
+Description: C++ binding for gio
+Version: 2.54.1
+URL: http://www.gtkmm.org/
+Requires: gio-2.0 glibmm-2.4
+Libs: -L${libdir} -lgiomm-2.4
+Cflags: -I${includedir}/giomm-2.4 -I${libdir}/giomm-2.4/include

@@ -15,7 +15,7 @@
 
 # This (very) simple project just uses a library, getting the dependencies
 # with pkg-config, and prints the name & address of one, single, library's
-# symbol.
+# symbol (for the .c projects) or instantiate a simple class (for .c++).
 #
 # It's not meant to replace the internal tests that each (good) library should
 # have or exercise any function or operation of the software, only see if it
@@ -26,16 +26,65 @@
 # normally visible without problem).
 #
 
-project('check-libs', 'c',
-        version: '0.1.0',
+project('check-libs', 'c', 'cpp',
+        version: '0.2.0',
         default_options: [
           'buildtype=debugoptimized',
           'warning_level=1',
         ],
-        meson_version : '>= 0.42')
+        meson_version : '>= 0.49')
 
 # Set to false if you want to skip not found library, please use only in test :)
 check_all = true
+
+cc = meson.get_compiler('c')
+cpp = meson.get_compiler('cpp')
+
+if cc.get_id() == 'msvc'
+  # Compiler options taken from msvc_recommended_pragmas.h
+  # in GLib, based on _Win32_Programming_ by Rector and Newcomer
+  test_cflags = [
+  # Errors
+  '-we4002', # too many actual parameters for macro
+  '-we4003', # not enough actual parameters for macro
+  '-we4013', # 'function' undefined; assuming extern returning int
+  '-we4020', # too many actual parameters
+  '-we4021', # too few actual parameters
+  '-we4027', # function declared without formal parameter list
+  '-we4029', # declared formal parameter list different from definition
+  '-we4033', # 'function' must return a value
+  '-we4035', # 'function' : no return value
+  '-we4045', # array bounds overflow
+  '-we4047', # different levels of indirection
+  '-we4049', # terminating line number emission
+  '-we4053', # an expression of type void was used as an operand
+  '-we4071', # no function prototype given
+  '-we4819', # the file contains a character that cannot be represented in the current code page
+  '-we4129', # unrecognized character escape sequence
+  # Warnings
+  '-w14016', # no function return type; using int as default
+  '-w14010', # single-line comment contains line-continuation character
+  '-w14101', # unreferenced local variable
+  '-w14700', # Variable used without initialization
+  '-w14706', # assignment within conditional expression
+  '-w14474', # 'function': too many arguments passed for format string
+  # Disabled
+  '-wd4250', # class1' : inherits 'class2::member' via dominance
+  '-wd4251', # identifier' : class 'type' needs to have dll-interface to be used by clients of class 'type2'
+  ]
+else
+  test_cflags = []
+endif
+
+# New in 0.43
+_cflags = cc.get_supported_arguments(test_cflags)
+add_global_arguments( _cflags, language: 'c')
+
+_cppflags = cpp.get_supported_arguments(test_cflags)
+add_global_arguments( _cppflags, language: 'cpp')
+
+
+# c libs -------------------
 
 # atk
 atk_required_ver = '>= 2.24.0'
@@ -263,3 +312,105 @@ if zlib_dep.found()
 
         test('zlib', test_zlib)
 endif
+
+# c++ libs ----------
+
+# libsig++
+sigcplusplus_required_ver = '>= 2.10.0'
+sigcplusplus_dep = dependency('sigc++-2.0', version: sigcplusplus_required_ver, required: check_all)
+if sigcplusplus_dep.found()
+        test_sigcplusplus = executable('test_sigc++',
+                sources: [ 'test_sigc++.cpp',  ],
+                dependencies: [ sigcplusplus_dep, ],
+                )
+
+        test('sigcplusplus', test_sigcplusplus)
+endif
+
+# giomm
+giomm_required_ver = '>= 2.54.1'
+giomm_dep = dependency('giomm-2.4', version: giomm_required_ver, required: check_all)
+if giomm_dep.found()
+        test_giomm = executable('test_giomm',
+                sources: [ 'test_giomm.cpp', ],
+                dependencies: [ giomm_dep, ],
+                )
+
+        test('giomm', test_giomm)
+endif
+
+# glibmm
+glibmm_required_ver = '>= 2.54.1'
+glibmm_dep = dependency('glibmm-2.4', version: glibmm_required_ver, required: check_all)
+if glibmm_dep.found()
+        test_glibmm = executable('test_glibmm',
+                sources: [ 'test_glibmm.cpp', ],
+                dependencies: [ glibmm_dep, ],
+                )
+
+        test('glibmm', test_glibmm)
+endif
+
+# cairomm
+cairomm_required_ver = '>= 1.15.3'
+cairomm_dep = dependency('cairomm-1.0', version: cairomm_required_ver, required: check_all)
+if cairomm_dep.found()
+        test_cairomm = executable('test_cairomm',
+                sources: [ 'test_cairomm.cpp', ],
+                dependencies: [
+                    cairomm_dep,
+            freetype2_dep,
+        ],
+                )
+
+        test('cairomm', test_cairomm)
+endif
+
+# atkmm
+atkmm_required_ver = '>= 2.24.2'
+atkmm_dep = dependency('atkmm-1.6', version: atkmm_required_ver, required: check_all)
+if atkmm_dep.found()
+        test_atkmm = executable('test_atkmm',
+                sources: [ 'test_atkmm.cpp', ],
+                dependencies: [ atkmm_dep, ],
+                )
+
+        test('atkmm', test_atkmm)
+endif
+
+# pangomm
+pangomm_required_ver = '>= 2.40.0'
+pangomm_dep = dependency('pangomm-1.4', version: pangomm_required_ver, required: check_all)
+if pangomm_dep.found()
+        test_pangomm = executable('test_pangomm',
+                sources: [ 'test_pangomm.cpp', ],
+                dependencies: [ pangomm_dep, ],
+                )
+
+        test('pangomm', test_pangomm)
+endif
+
+# gdkmm
+gdkmm_required_ver = '>= 3.22.2'
+gdkmm_dep = dependency('gdkmm-3.0', version: gdkmm_required_ver, required: check_all)
+if gdkmm_dep.found()
+        test_gdkmm = executable('test_gdkmm',
+                sources: [ 'test_gdkmm.cpp', ],
+                dependencies: [ gdkmm_dep, ],
+                )
+
+        test('gdkmm', test_gdkmm)
+endif
+
+# gtkmm
+gtkmm_required_ver = '>= 3.22.2'
+gtkmm_dep = dependency('gtkmm-3.0', version: gtkmm_required_ver, required: check_all)
+if gtkmm_dep.found()
+        test_gtkmm = executable('test_gtkmm',
+                sources: [ 'test_gtkmm.cpp', ],
+                dependencies: [ gtkmm_dep, ],
+                )
+
+        test('gtkmm', test_gtkmm)
+endif
+

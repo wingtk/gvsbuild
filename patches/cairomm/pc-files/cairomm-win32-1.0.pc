@@ -1,0 +1,4 @@
+Name: cairomm-win32
+Description: C++ wrapper for cairo - win32 support
+Requires: cairomm-1.0 cairo-win32
+Version: 1.15.3

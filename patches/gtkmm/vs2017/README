@@ -1,0 +1,19 @@
+Building gtkmm-3.0 with Visual Studio 2013
+
+* You will need Visual Studio 2013 (MSVC 12.0). Earlier versions of the compiler, including 11.0 and earlier will not work.
+* Install the latest Win32 GTK+ Development files from ftp://ftp.gnome.org/pub/GNOME/binaries/win32/gtk+
+* Build libsigc++, glibmm, cairomm and pangomm from source.
+* Add GTK+, libsigc++, glibmm, cairomm and pangomm to the include and lib paths in Visual Studio, if they are not in
+  $(srcroot)\..\vs12\$(platform)
+* Load the MSVC_Net2013/gtkmm.sln solution.
+* Build the entire solution.
+* Run the tests.
+
+Timothy M. Shead & Cedric Gustin
+11/04/2004
+
+Armin Burgmeier
+10/02/2010
+
+Chun-wei Fan
+09/10/2015

@@ -1,0 +1,4 @@
+Name: cairomm-win32-font
+Description: C++ wrapper for cairo - win32 font support
+Requires: cairomm-1.0 cairo-win32-font
+Version: 1.15.3

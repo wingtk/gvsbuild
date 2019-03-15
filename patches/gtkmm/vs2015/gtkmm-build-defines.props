@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets">
+    <Import Project="gtkmm-version-paths.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+    <GdkMMBuildDefs>GDKMM_BUILD</GdkMMBuildDefs>
+    <GtkMMBuildDefs>GTKMM_BUILD</GtkMMBuildDefs>
+    <CPPDepLibsRelease>pangomm-1.4.lib;giomm-2.4.lib;glibmm-2.4.lib;cairomm-1.0.lib;sigc-2.0.lib</CPPDepLibsRelease>
+    <CPPDepLibsDebug>pangomm-1.4.lib;giomm-2.4.lib;glibmm-2.4.lib;cairomm-1.0.lib;sigc-2.0.lib</CPPDepLibsDebug>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>glibmmbuilddefinesprops</_PropertySheetDisplayName>
+    <OutDir>$(SolutionDir)$(Configuration)\$(PlatformName)\bin\</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)\$(PlatformName)\obj\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>.\gdkmm;..;..\gdk;$(GlibEtcInstallRoot)\include\pangomm-1.4;$(GlibEtcInstallRoot)\lib\pangomm-1.4\include;$(GlibEtcInstallRoot)\include\giomm-2.4;$(GlibEtcInstallRoot)\lib\giomm-2.4\include;$(GlibEtcInstallRoot)\include\glibmm-2.4;$(GlibEtcInstallRoot)\lib\glibmm-2.4\include;$(GlibEtcInstallRoot)\include\cairomm-1.0;$(GlibEtcInstallRoot)\lib\cairomm-1.0\include;$(GlibEtcInstallRoot)\include\sigc++-2.0;$(GlibEtcInstallRoot)\lib\sigc++-2.0\include;$(GlibEtcInstallRoot)\include\gtk-3.0;$(GlibEtcInstallRoot)\include\gdk-pixbuf-2.0;$(GlibEtcInstallRoot)\include\pango-1.0;$(GlibEtcInstallRoot)\include\gio-win32-2.0;$(GlibEtcInstallRoot)\include\glib-2.0;$(GlibEtcInstallRoot)\lib\glib-2.0\include;$(GlibEtcInstallRoot)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(GlibEtcInstallRoot)\include\cairo;$(GlibEtcInstallRoot)\include\freetype2;$(GlibEtcInstallRoot)\include\atk-1.0</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>msvc_recommended_pragmas.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <DisableSpecificWarnings>4250;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/d2Zi+ %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>gtk-3.0.lib;gdk-3.0.lib;gdk_pixbuf-2.0.lib;gobject-2.0.lib;gio-2.0.lib;glib-2.0.lib;epoxy.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(GlibEtcInstallRoot)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <BuildMacro Include="GdkMMBuildDefs">
+      <Value>$(GdkMMBuildDefs)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GtkMMBuildDefs">
+      <Value>$(GtkMMBuildDefs)</Value>
+    </BuildMacro>
+    <BuildMacro Include="CPPDepLibsRelease">
+      <Value>$(CPPDepLibsRelease)</Value>
+    </BuildMacro>
+    <BuildMacro Include="CPPDepLibsDebug">
+      <Value>$(CPPDepLibsDebug)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

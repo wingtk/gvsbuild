@@ -1781,9 +1781,15 @@ class Project_check_libs(NullExpander, Meson):
                     'libyuv',
                     'pango',
                     'zlib',
-
+                    # C++ ones
+                    'libsigc++',
+                    'glibmm',
+                    'cairomm',
+                    'atkmm',
+                    'pangomm',
+                    'gtkmm',
                 ],
-            version = '0.1.0',
+            version = '0.2.0',
             )
 
     def build(self):
@@ -1869,3 +1875,134 @@ class Project_dev_shell(Project):
         self.builder.mod_env('GTK_BASE_DIR', self.builder.gtk_dir)
         self.builder.mod_env('PROMPT', '[ gvsbuild shell ] $P $G', subst=True)
         self.builder.exec_vs("cmd", working_dir=self.builder.working_dir)
+
+@project_add
+class Project_libsigcplusplus(Tarball, Meson):
+    def __init__(self):
+        Project.__init__(self,
+            'libsigc++',
+            archive_url = 'https://download.gnome.org/sources/libsigc++/2.10/libsigc++-2.10.0.tar.xz',
+            hash = 'f843d6346260bfcb4426259e314512b99e296e8ca241d771d21ac64f28298d81',
+            dependencies = [
+                'meson',
+                'ninja',
+            ]
+        )
+
+    def build(self):
+        Meson.build(self)
+        self.install(r'.\COPYING share\doc\libsigc++')
+
+@project_add
+class Project_glibmm(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'glibmm',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glibmm/2.56/glibmm-2.56.0.tar.xz',
+            hash = '6e74fcba0d245451c58fc8a196e9d103789bc510e1eee1a9b1e816c5209e79a9',
+            dependencies = ['libsigc++', 'glib'],
+            )
+
+    def build(self):
+        self.exec_msbuild_gen('.', 'glibmm.sln')
+
+        self.install(r'.\pc-files\* lib\pkgconfig')
+        self.install(r'.\COPYING share\doc\glibmm')
+
+@project_add
+class Project_cairomm(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'cairomm',
+            archive_url = 'https://www.cairographics.org/releases/cairomm-1.15.3.tar.gz',
+            hash = 'd858a8c6981a033d8f851d58e19ec7d42d496a40fbec028028498832b6700bc8',
+            dependencies = ['libsigc++', 'cairo'],
+            patches = [
+                '00_win_drop_create.patch',
+                ],
+            )
+
+    def build(self):
+        td = self.exec_msbuild_gen('.', 'cairomm.sln')
+
+        # There isn't an install target in cairomm so it's to be done manually :(
+        bin_src = r'%s\%s\%s\bin' % (
+                    td,
+                    self.builder.opts.configuration,
+                    self.builder.opts.platform,
+                    )
+        self.install(r'%s\cairomm*.dll bin' % (bin_src, ))
+        self.install(r'%s\cairomm*.pdb bin' % (bin_src, ))
+        self.install(r'%s\cairomm*.lib lib' % (bin_src, ))
+
+        examples = [
+            'image-surface',
+            'pdf-surface',
+            'ps-surface',
+            'svg-surface',
+            'text-rotate',
+            'toy-text',
+            'user-font',
+            ]
+
+        for i in examples:
+            self.install(r'%s\%s.* libexec\installed-tests\cairomm-1.0' % (bin_src, i, ))
+
+        self.install(r'cairomm\*.h include\cairomm-1.0\cairomm')
+        self.install(r'%s\cairomm\*.h lib\cairomm-1.0\include' % (self.builder.vs_ver_year, ))
+
+        self.install(r'.\pc-files\* lib\pkgconfig')
+        self.install(r'.\COPYING share\doc\cairomm')
+
+@project_add
+class Project_atkmm(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'atkmm',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/atkmm/2.24/atkmm-2.24.2.tar.xz',
+            hash = 'ff95385759e2af23828d4056356f25376cfabc41e690ac1df055371537e458bd',
+            dependencies = ['libsigc++', 'atk', 'glibmm', ],
+            )
+
+    def build(self):
+        self.exec_msbuild_gen('.', 'atkmm.sln')
+
+        self.install(r'.\pc-files\* lib\pkgconfig')
+        self.install(r'.\COPYING share\doc\atkmm')
+
+@project_add
+class Project_pangomm(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'pangomm',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/pangomm/2.40/pangomm-2.40.1.tar.xz',
+            hash = '9762ee2a2d5781be6797448d4dd2383ce14907159b30bc12bf6b08e7227be3af',
+            dependencies = ['libsigc++', 'pango', 'cairomm', 'glibmm', ],
+            )
+
+    def build(self):
+        self.exec_msbuild_gen('.', 'pangomm.sln')
+
+        self.install(r'.\pc-files\* lib\pkgconfig')
+        self.install(r'.\COPYING share\doc\pangomm')
+
+@project_add
+class Project_gtkmm(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'gtkmm',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtkmm/3.22/gtkmm-3.22.2.tar.xz',
+            hash = '91afd98a31519536f5f397c2d79696e3d53143b80b75778521ca7b48cb280090',
+            dependencies = ['libsigc++', 'gtk3', 'pangomm', 'atkmm', ],
+            )
+
+    def build(self):
+        log.debug('Updating loader cache')
+        # gdk-pixbuf-query-loaders > C:\gtk-build\gtk\Win32\Release\lib\gdk-pixbuf-2.0\2.10.0\loaders.cache
+        cmd = r'%s\bin\gdk-pixbuf-query-loaders >%s\lib\gdk-pixbuf-2.0\2.10.0\loaders.cache' % (self.builder.gtk_dir, self.builder.gtk_dir, )
+        self.exec_cmd(cmd)
+
+        self.exec_msbuild_gen('.', 'gtkmm.sln')
+
+        self.install(r'.\pc-files\* lib\pkgconfig')
+        self.install(r'.\COPYING share\doc\gtkmm')

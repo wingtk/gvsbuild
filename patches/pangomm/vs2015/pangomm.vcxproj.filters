@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\pango\pangomm\attributes.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\pango\pangomm\attriter.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\pango\pangomm\attrlist.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\pango\pangomm\cairofontmap.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\pango\pangomm\color.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\pango\pangomm\context.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\pango\pangomm\coverage.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\pango\pangomm\font.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\pango\pangomm\fontdescription.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\pango\pangomm\fontface.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\pango\pangomm\fontfamily.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\pango\pangomm\fontmap.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\pango\pangomm\fontmetrics.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\pango\pangomm\fontset.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\pango\pangomm\glyph.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\pango\pangomm\glyphstring.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\pango\pangomm\init.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\pango\pangomm\item.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\pango\pangomm\language.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\pango\pangomm\layout.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\pango\pangomm\layoutiter.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\pango\pangomm\layoutline.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\pango\pangomm\layoutrun.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\pango\pangomm\rectangle.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\pango\pangomm\renderer.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\pango\pangomm\tabarray.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\pango\pangomm\wrap_init.cc"><Filter>Source Files</Filter></ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\pango\pangomm\attributes.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\pango\pangomm\attriter.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\pango\pangomm\attrlist.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\pango\pangomm\cairofontmap.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\pango\pangomm\color.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\pango\pangomm\context.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\pango\pangomm\coverage.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\pango\pangomm\font.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\pango\pangomm\fontdescription.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\pango\pangomm\fontface.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\pango\pangomm\fontfamily.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\pango\pangomm\fontmap.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\pango\pangomm\fontmetrics.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\pango\pangomm\fontset.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\pango\pangomm\glyph.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\pango\pangomm\glyphstring.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\pango\pangomm\init.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\pango\pangomm\item.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\pango\pangomm\language.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\pango\pangomm\layout.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\pango\pangomm\layoutiter.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\pango\pangomm\layoutline.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\pango\pangomm\layoutrun.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\pango\pangomm\rectangle.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\pango\pangomm\renderer.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\pango\pangomm\tabarray.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\pango\pangomm\types.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\pango\pangomm\wrap_init.h"><Filter>Header Files</Filter></ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include=".\pangomm\pangomm.rc"><Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

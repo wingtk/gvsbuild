@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\glib\glibmm\arrayhandle.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\balancedtree.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\base64.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\binding.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\bytes.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\bytearray.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\checksum.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\class.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\containers.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\convert.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\date.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\datetime.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\debug.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\dispatcher.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\enums.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\error.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\exception.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\exceptionhandler.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\fileutils.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\init.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\interface.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\iochannel.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\keyfile.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\main.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\markup.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\miscutils.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\module.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\nodetree.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\object.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\objectbase.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\optioncontext.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\optionentry.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\optiongroup.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\pattern.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\property.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\propertyproxy.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\propertyproxy_base.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\quark.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\random.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\regex.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\sarray.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\shell.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\signalproxy.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\signalproxy_connectionnode.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\spawn.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\streamiochannel.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\stringutils.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\thread.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\threadpool.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\threads.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\timer.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\timeval.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\timezone.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\unicode.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\uriutils.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\ustring.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\utility.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\value.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\value_basictypes.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\value_custom.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\valuearray.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\variant.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\variantdict.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\variantiter.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\varianttype.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\variant_basictypes.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\vectorutils.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\wrap.cc"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\glib\glibmm\wrap_init.cc"><Filter>Source Files</Filter></ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\glib\glibmm\arrayhandle.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\balancedtree.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\base64.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\binding.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\bytes.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\bytearray.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\checksum.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\class.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\containerhandle_shared.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\containers.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\convert.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\date.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\datetime.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\debug.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\dispatcher.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\enums.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\error.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\exception.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\exceptionhandler.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\fileutils.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\helperlist.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\i18n-lib.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\i18n.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\init.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\interface.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\iochannel.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\keyfile.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\listhandle.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\main.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\markup.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\miscutils.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\module.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\nodetree.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\object.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\objectbase.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\optioncontext.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\optionentry.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\optiongroup.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\pattern.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\property.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\propertyproxy.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\propertyproxy_base.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\quark.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\random.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\refptr.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\regex.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\sarray.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\shell.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\signalproxy.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\signalproxy_connectionnode.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\slisthandle.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\spawn.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\streamiochannel.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\stringutils.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\thread.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\threadpool.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\threads.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\timer.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\timeval.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\timezone.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\unicode.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\uriutils.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\ustring.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\utility.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\value.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\value_basictypes.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\value_custom.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\valuearray.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\variant.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\variantdict.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\variantiter.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\varianttype.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\variant_basictypes.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\vectorutils.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\weakref.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\wrap.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\glib\glibmm\wrap_init.h"><Filter>Header Files</Filter></ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include=".\glibmm\glibmm.rc"><Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

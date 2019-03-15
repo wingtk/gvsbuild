@@ -1,0 +1,368 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>glibmm</ProjectName>
+    <ProjectGuid>{58B2B53C-C4FF-47FD-817B-095E45B7F7D4}</ProjectGuid>
+    <RootNamespace>glibmm</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project=".\glibmm-build-defines.props" />
+    <Import Project="GtkDirs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project=".\glibmm-build-defines.props" />
+    <Import Project="GtkDirs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project=".\glibmm-build-defines.props" />
+    <Import Project="GtkDirs.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project=".\glibmm-build-defines.props" />
+    <Import Project="GtkDirs.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <PreLinkEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</PreLinkEventUseInBuild>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
+    <PreLinkEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</PreLinkEventUseInBuild>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <PreLinkEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</PreLinkEventUseInBuild>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
+    <PreLinkEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</PreLinkEventUseInBuild>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;$(GLibMMBuildDefs);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <PreLinkEvent>
+      <Message>Generate glibmm def file</Message>
+      <Command>$(OutDir)\gendef.exe $(DefDir)\$(ProjectName).def $(ProjectName)$(DebugDllSuffix).dll $(IntDir)*.obj</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>$(CPPDepLibsDebug);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <OutputFile>$(OutDir)\$(ProjectName)$(DebugDllSuffix).dll</OutputFile>
+      <ImportLibrary>$(TargetDir)$(ProjectName)$(DebugDllSuffix).lib</ImportLibrary>
+      <ModuleDefinitionFile>$(IntDir)\$(ProjectName).def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;$(GLibMMBuildDefs);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <PreLinkEvent>
+      <Message>Generate glibmm def file</Message>
+      <Command>$(OutDir)\gendef.exe $(DefDir)\$(ProjectName).def $(ProjectName)$(DebugDllSuffix).dll $(IntDir)*.obj</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>$(CPPDepLibsDebug);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <OutputFile>$(OutDir)\$(ProjectName)$(DebugDllSuffix).dll</OutputFile>
+      <ImportLibrary>$(TargetDir)$(ProjectName)$(DebugDllSuffix).lib</ImportLibrary>
+      <ModuleDefinitionFile>$(IntDir)\$(ProjectName).def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>$(GLibMMBuildDefs);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <OmitFramePointers>true</OmitFramePointers>
+    </ClCompile>
+    <PreLinkEvent>
+      <Message>Generate glibmm def file</Message>
+      <Command>$(OutDir)\gendef.exe $(DefDir)\$(ProjectName).def $(ProjectName)$(ReleaseDllSuffix).dll $(IntDir)*.obj</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>$(CPPDepLibsRelease);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <OutputFile>$(OutDir)\$(ProjectName)$(ReleaseDllSuffix).dll</OutputFile>
+      <ImportLibrary>$(TargetDir)$(ProjectName)$(ReleaseDllSuffix).lib</ImportLibrary>
+      <ModuleDefinitionFile>$(IntDir)\$(ProjectName).def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)\$(ProjectName)$(ReleaseDllSuffix).pdb</ProgramDatabaseFile>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <OptimizeReferences>true</OptimizeReferences>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>$(GLibMMBuildDefs);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <PreLinkEvent>
+      <Message>Generate glibmm def file</Message>
+      <Command>$(OutDir)\gendef.exe $(DefDir)\$(ProjectName).def $(ProjectName)$(ReleaseDllSuffix).dll $(IntDir)*.obj</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>$(CPPDepLibsRelease);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <OutputFile>$(OutDir)\$(ProjectName)$(ReleaseDllSuffix).dll</OutputFile>
+      <ImportLibrary>$(TargetDir)$(ProjectName)$(ReleaseDllSuffix).lib</ImportLibrary>
+      <ModuleDefinitionFile>$(IntDir)\$(ProjectName).def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)\$(ProjectName)$(ReleaseDllSuffix).pdb</ProgramDatabaseFile>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <OptimizeReferences>true</OptimizeReferences>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\glib\glibmm\arrayhandle.cc" />
+    <ClCompile Include="..\glib\glibmm\balancedtree.cc" />
+    <ClCompile Include="..\glib\glibmm\base64.cc" />
+    <ClCompile Include="..\glib\glibmm\binding.cc" />
+    <ClCompile Include="..\glib\glibmm\bytes.cc" />
+    <ClCompile Include="..\glib\glibmm\bytearray.cc" />
+    <ClCompile Include="..\glib\glibmm\checksum.cc" />
+    <ClCompile Include="..\glib\glibmm\class.cc" />
+    <ClCompile Include="..\glib\glibmm\containers.cc" />
+    <ClCompile Include="..\glib\glibmm\convert.cc" />
+    <ClCompile Include="..\glib\glibmm\date.cc" />
+    <ClCompile Include="..\glib\glibmm\datetime.cc" />
+    <ClCompile Include="..\glib\glibmm\debug.cc" />
+    <ClCompile Include="..\glib\glibmm\dispatcher.cc" />
+    <ClCompile Include="..\glib\glibmm\enums.cc" />
+    <ClCompile Include="..\glib\glibmm\error.cc" />
+    <ClCompile Include="..\glib\glibmm\exception.cc" />
+    <ClCompile Include="..\glib\glibmm\exceptionhandler.cc" />
+    <ClCompile Include="..\glib\glibmm\fileutils.cc" />
+    <ClCompile Include="..\glib\glibmm\init.cc" />
+    <ClCompile Include="..\glib\glibmm\interface.cc" />
+    <ClCompile Include="..\glib\glibmm\iochannel.cc" />
+    <ClCompile Include="..\glib\glibmm\keyfile.cc" />
+    <ClCompile Include="..\glib\glibmm\main.cc" />
+    <ClCompile Include="..\glib\glibmm\markup.cc" />
+    <ClCompile Include="..\glib\glibmm\miscutils.cc" />
+    <ClCompile Include="..\glib\glibmm\module.cc" />
+    <ClCompile Include="..\glib\glibmm\nodetree.cc" />
+    <ClCompile Include="..\glib\glibmm\object.cc" />
+    <ClCompile Include="..\glib\glibmm\objectbase.cc" />
+    <ClCompile Include="..\glib\glibmm\optioncontext.cc" />
+    <ClCompile Include="..\glib\glibmm\optionentry.cc" />
+    <ClCompile Include="..\glib\glibmm\optiongroup.cc" />
+    <ClCompile Include="..\glib\glibmm\pattern.cc" />
+    <ClCompile Include="..\glib\glibmm\property.cc" />
+    <ClCompile Include="..\glib\glibmm\propertyproxy.cc" />
+    <ClCompile Include="..\glib\glibmm\propertyproxy_base.cc" />
+    <ClCompile Include="..\glib\glibmm\quark.cc" />
+    <ClCompile Include="..\glib\glibmm\random.cc" />
+    <ClCompile Include="..\glib\glibmm\regex.cc" />
+    <ClCompile Include="..\glib\glibmm\sarray.cc" />
+    <ClCompile Include="..\glib\glibmm\shell.cc" />
+    <ClCompile Include="..\glib\glibmm\signalproxy.cc" />
+    <ClCompile Include="..\glib\glibmm\signalproxy_connectionnode.cc" />
+    <ClCompile Include="..\glib\glibmm\spawn.cc" />
+    <ClCompile Include="..\glib\glibmm\streamiochannel.cc" />
+    <ClCompile Include="..\glib\glibmm\stringutils.cc" />
+    <ClCompile Include="..\glib\glibmm\thread.cc" />
+    <ClCompile Include="..\glib\glibmm\threadpool.cc" />
+    <ClCompile Include="..\glib\glibmm\threads.cc" />
+    <ClCompile Include="..\glib\glibmm\timer.cc" />
+    <ClCompile Include="..\glib\glibmm\timeval.cc" />
+    <ClCompile Include="..\glib\glibmm\timezone.cc" />
+    <ClCompile Include="..\glib\glibmm\unicode.cc" />
+    <ClCompile Include="..\glib\glibmm\uriutils.cc" />
+    <ClCompile Include="..\glib\glibmm\ustring.cc" />
+    <ClCompile Include="..\glib\glibmm\utility.cc" />
+    <ClCompile Include="..\glib\glibmm\value.cc" />
+    <ClCompile Include="..\glib\glibmm\value_basictypes.cc" />
+    <ClCompile Include="..\glib\glibmm\value_custom.cc" />
+    <ClCompile Include="..\glib\glibmm\valuearray.cc" />
+    <ClCompile Include="..\glib\glibmm\variant.cc" />
+    <ClCompile Include="..\glib\glibmm\variantdict.cc" />
+    <ClCompile Include="..\glib\glibmm\variantiter.cc" />
+    <ClCompile Include="..\glib\glibmm\varianttype.cc" />
+    <ClCompile Include="..\glib\glibmm\variant_basictypes.cc" />
+    <ClCompile Include="..\glib\glibmm\vectorutils.cc" />
+    <ClCompile Include="..\glib\glibmm\wrap.cc" />
+    <ClCompile Include="..\glib\glibmm\wrap_init.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\glib\glibmm\arrayhandle.h" />
+    <ClInclude Include="..\glib\glibmm\balancedtree.h" />
+    <ClInclude Include="..\glib\glibmm\base64.h" />
+    <ClInclude Include="..\glib\glibmm\binding.h" />
+    <ClInclude Include="..\glib\glibmm\bytes.h" />
+    <ClInclude Include="..\glib\glibmm\bytearray.h" />
+    <ClInclude Include="..\glib\glibmm\checksum.h" />
+    <ClInclude Include="..\glib\glibmm\class.h" />
+    <ClInclude Include="..\glib\glibmm\containerhandle_shared.h" />
+    <ClInclude Include="..\glib\glibmm\containers.h" />
+    <ClInclude Include="..\glib\glibmm\convert.h" />
+    <ClInclude Include="..\glib\glibmm\date.h" />
+    <ClInclude Include="..\glib\glibmm\datetime.h" />
+    <ClInclude Include="..\glib\glibmm\debug.h" />
+    <ClInclude Include="..\glib\glibmm\dispatcher.h" />
+    <ClInclude Include="..\glib\glibmm\enums.h" />
+    <ClInclude Include="..\glib\glibmm\error.h" />
+    <ClInclude Include="..\glib\glibmm\exception.h" />
+    <ClInclude Include="..\glib\glibmm\exceptionhandler.h" />
+    <ClInclude Include="..\glib\glibmm\fileutils.h" />
+    <ClInclude Include="..\glib\glibmm\helperlist.h" />
+    <ClInclude Include="..\glib\glibmm\i18n-lib.h" />
+    <ClInclude Include="..\glib\glibmm\i18n.h" />
+    <ClInclude Include="..\glib\glibmm\init.h" />
+    <ClInclude Include="..\glib\glibmm\interface.h" />
+    <ClInclude Include="..\glib\glibmm\iochannel.h" />
+    <ClInclude Include="..\glib\glibmm\keyfile.h" />
+    <ClInclude Include="..\glib\glibmm\listhandle.h" />
+    <ClInclude Include="..\glib\glibmm\main.h" />
+    <ClInclude Include="..\glib\glibmm\markup.h" />
+    <ClInclude Include="..\glib\glibmm\miscutils.h" />
+    <ClInclude Include="..\glib\glibmm\module.h" />
+    <ClInclude Include="..\glib\glibmm\nodetree.h" />
+    <ClInclude Include="..\glib\glibmm\object.h" />
+    <ClInclude Include="..\glib\glibmm\objectbase.h" />
+    <ClInclude Include="..\glib\glibmm\optioncontext.h" />
+    <ClInclude Include="..\glib\glibmm\optionentry.h" />
+    <ClInclude Include="..\glib\glibmm\optiongroup.h" />
+    <ClInclude Include="..\glib\glibmm\pattern.h" />
+    <ClInclude Include="..\glib\glibmm\property.h" />
+    <ClInclude Include="..\glib\glibmm\propertyproxy.h" />
+    <ClInclude Include="..\glib\glibmm\propertyproxy_base.h" />
+    <ClInclude Include="..\glib\glibmm\quark.h" />
+    <ClInclude Include="..\glib\glibmm\random.h" />
+    <ClInclude Include="..\glib\glibmm\refptr.h" />
+    <ClInclude Include="..\glib\glibmm\regex.h" />
+    <ClInclude Include="..\glib\glibmm\sarray.h" />
+    <ClInclude Include="..\glib\glibmm\shell.h" />
+    <ClInclude Include="..\glib\glibmm\signalproxy.h" />
+    <ClInclude Include="..\glib\glibmm\signalproxy_connectionnode.h" />
+    <ClInclude Include="..\glib\glibmm\slisthandle.h" />
+    <ClInclude Include="..\glib\glibmm\spawn.h" />
+    <ClInclude Include="..\glib\glibmm\streamiochannel.h" />
+    <ClInclude Include="..\glib\glibmm\stringutils.h" />
+    <ClInclude Include="..\glib\glibmm\thread.h" />
+    <ClInclude Include="..\glib\glibmm\threadpool.h" />
+    <ClInclude Include="..\glib\glibmm\threads.h" />
+    <ClInclude Include="..\glib\glibmm\timer.h" />
+    <ClInclude Include="..\glib\glibmm\timeval.h" />
+    <ClInclude Include="..\glib\glibmm\timezone.h" />
+    <ClInclude Include="..\glib\glibmm\unicode.h" />
+    <ClInclude Include="..\glib\glibmm\uriutils.h" />
+    <ClInclude Include="..\glib\glibmm\ustring.h" />
+    <ClInclude Include="..\glib\glibmm\utility.h" />
+    <ClInclude Include="..\glib\glibmm\value.h" />
+    <ClInclude Include="..\glib\glibmm\value_basictypes.h" />
+    <ClInclude Include="..\glib\glibmm\value_custom.h" />
+    <ClInclude Include="..\glib\glibmm\valuearray.h" />
+    <ClInclude Include="..\glib\glibmm\variant.h" />
+    <ClInclude Include="..\glib\glibmm\variantdict.h" />
+    <ClInclude Include="..\glib\glibmm\variantiter.h" />
+    <ClInclude Include="..\glib\glibmm\varianttype.h" />
+    <ClInclude Include="..\glib\glibmm\variant_basictypes.h" />
+    <ClInclude Include="..\glib\glibmm\vectorutils.h" />
+    <ClInclude Include="..\glib\glibmm\weakref.h" />
+    <ClInclude Include="..\glib\glibmm\wrap.h" />
+    <ClInclude Include="..\glib\glibmm\wrap_init.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include=".\glibmm\glibmm.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="gendef.vcxproj">
+      <Project>{07324745-c9be-4d65-b08a-9c88188c0c28}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets">
+    <Import Project="cairomm-version-paths.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+    <CairoMMBuildDefs>CAIROMM_BUILD</CairoMMBuildDefs>
+    <CPPDepLibsRelease>sigc-2.0.lib</CPPDepLibsRelease>
+    <CPPDepLibsDebug>sigc-2.0.lib</CPPDepLibsDebug>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>cairommbuilddefinesprops</_PropertySheetDisplayName>
+    <OutDir>$(SolutionDir)$(Configuration)\$(PlatformName)\bin\</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)\$(PlatformName)\obj\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>.\cairomm;..;$(GlibEtcInstallRoot)\include\sigc++-2.0;$(GlibEtcInstallRoot)\lib\sigc++-2.0\include;$(GlibEtcInstallRoot)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(GlibEtcInstallRoot)\include\glib-2.0;$(GlibEtcInstallRoot)\include\cairo;$(GlibEtcInstallRoot)\include\freetype2</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>msvc_recommended_pragmas.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>cairo.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(GlibEtcInstallRoot)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <BuildMacro Include="CairoMMBuildDefs">
+      <Value>$(CairoMMBuildDefs)</Value>
+    </BuildMacro>
+    <BuildMacro Include="CPPDepLibsRelease">
+      <Value>$(CPPDepLibsRelease)</Value>
+    </BuildMacro>
+    <BuildMacro Include="CPPDepLibsDebug">
+      <Value>$(CPPDepLibsDebug)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

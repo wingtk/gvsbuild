@@ -1,0 +1,4 @@
+Name: cairomm-pdf
+Description: C++ wrapper for cairo - pdf support
+Requires: cairomm-1.0 cairo-pdf
+Version: 1.15.3
