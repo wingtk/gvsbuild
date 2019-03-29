@@ -730,8 +730,8 @@ class Project_gtk3_24(Project_gtk_base):
         Project.__init__(self,
             'gtk3',
             prj_dir='gtk3-24',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.24/gtk+-3.24.6.tar.xz',
-            hash = '9495439de02860e5d67cc594b5075ca11f51fe9ff67fd547315827e693ec52e0',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.24/gtk+-3.24.1.tar.xz',
+            hash = '68387be307b99aadcdc653561d7a2a7f0113b93561fb18ded7075ec9ced5b02f',
             dependencies = ['atk', 'gdk-pixbuf', 'pango', 'libepoxy'],
             )
         if Project.opts.enable_gi:
