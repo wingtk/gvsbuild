@@ -490,8 +490,8 @@ class Project_gobject_introspection(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'gobject-introspection',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gobject-introspection/1.58/gobject-introspection-1.58.0.tar.xz',
-            hash = '27c1590a32749de0a5481ce897772547043e94bccba4bc0a7edb3d8513e401ec',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gobject-introspection/1.60/gobject-introspection-1.60.0.tar.xz',
+            hash = '9efe4090cb59717126701e97062e784773f800b8d47af14c4d278ebf194df35d',
             dependencies = [
                 'ninja',
                 'meson',
@@ -1636,8 +1636,8 @@ class Project_pygobject(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'pygobject',
-            archive_url = 'https://ftp.acc.umu.se/pub/GNOME/sources/pygobject/3.28/pygobject-3.28.3.tar.xz',
-            hash = '3dd3e21015d06e00482ea665fc1733b77e754a6ab656a5db5d7f7bfaf31ad0b0',
+            archive_url = 'https://ftp.acc.umu.se/pub/GNOME/sources/pygobject/3.32/pygobject-3.32.0.tar.xz',
+            hash = '83f4d7e59fde6bc6b0d39c5e5208574802f759bc525a4cb8e7265dfcba45ef29',
             dependencies = ['python', 'pycairo', 'gobject-introspection', 'libffi'],
             )
 
