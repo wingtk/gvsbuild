@@ -39,6 +39,8 @@ class Options(object):
         self.enable_gi = False
         self.gtk3_ver = '3.22'
         self.ffmpeg_enable_gpl = False
+        # Default
+        self._load_python = False
 
 class Project(object):
     def __init__(self, name, **kwargs):
@@ -79,7 +81,7 @@ class Project(object):
     def __repr__(self):
         return repr(self.name)
 
-    def load_defaults(self, builder):
+    def load_defaults(self):
         # Used by the tools to load default paths/filenames
         pass
     
@@ -263,10 +265,11 @@ class Project(object):
         return dict(Project._dict)
 
     @staticmethod
-    def get_tool_path(tool_name):
-        p = Project._dict[tool_name]
-        if p.type == GVSBUILD_TOOL:
-            t = p.get_path()
+    def get_tool_path(tool):
+        if not isinstance(tool, Project):
+            tool = Project._dict[tool]
+        if tool.type == GVSBUILD_TOOL:
+            t = tool.get_path()
             if isinstance(t, tuple):
                 # Get the one that's not null
                 return t[0] if t[0] else t[1]
@@ -274,6 +277,24 @@ class Project(object):
                 return t
         else:
             return None
+
+    @staticmethod
+    def get_tool_executable(tool):
+        if not isinstance(tool, Project):
+            tool = Project._dict[tool]
+            
+        if tool.type == GVSBUILD_TOOL:
+            return tool.get_executable()
+        return None
+
+    @staticmethod
+    def get_tool_base_dir(tool):
+        if not isinstance(tool, Project):
+            tool = Project._dict[tool]
+            
+        if tool.type == GVSBUILD_TOOL:
+            return tool.get_base_dir()
+        return None
 
     @staticmethod
     def _file_to_version(file_name):

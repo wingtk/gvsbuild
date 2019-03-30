@@ -51,13 +51,16 @@ class Builder(object):
         # Check and normalize the platform
         if opts.platform in ('Win32', 'win32', 'x86'):
             opts.platform = 'Win32'
+            opts.x86 = True
             self.filename_arch = 'x86'
         elif opts.platform in ('x64', 'amd64', 'Amd64'):
             opts.platform = 'x64'
             self.filename_arch = 'x64'
+            opts.x86 = False
         else:
             raise Exception("Invalid target platform '%s'" % (opts.platform,))
 
+        opts.x64 = not opts.x86
         # Setup the directory, used by check vs
         self.working_dir = os.path.join(opts.build_dir, 'build', opts.platform, opts.configuration)
         self.gtk_dir = os.path.join(opts.build_dir, 'gtk', opts.platform, opts.configuration)
@@ -73,7 +76,7 @@ class Builder(object):
                         rmtree_full(opts.tools_root_dir, retry=True)
                 else:
                     log.message('Keeping tools dir (%s)' % (opts.tools_root_dir, ))
-            
+
         if not opts.use_env:
             self.__minimum_env()
 
@@ -82,14 +85,6 @@ class Builder(object):
 
         self.x86 = opts.platform == 'Win32'
         self.x64 = not self.x86
-
-        self.msbuild_opts = '/nologo /p:Platform=%(platform)s /p:PythonPath="%(python_dir)s" /p:PythonDir="%(python_dir)s" %(msbuild_opts)s ' % \
-            dict(platform=opts.platform, python_dir=opts.python_dir, configuration=opts.configuration, msbuild_opts=opts.msbuild_opts)
-
-        if log.verbose_on():
-            self.msbuild_opts += ' /v:normal'
-        else:
-            self.msbuild_opts += ' /v:minimal'
 
         # Create the year version for Visual studio
         vs_zip_parts = {
@@ -106,7 +101,6 @@ class Builder(object):
         vs_part = self.vs_ver_year
         if opts.win_sdk_ver:
             vs_part += '-' + opts.win_sdk_ver
-            self.msbuild_opts += ' /p:WindowsTargetPlatformVersion="%s"' % (opts.win_sdk_ver, )
 
         self.zip_dir = os.path.join(opts.build_dir, 'dist', vs_part, opts.platform, opts.configuration)
         if opts.make_zip:
@@ -119,6 +113,25 @@ class Builder(object):
                         rmtree_full(self.gtk_dir, retry=True)
                 self.file_built = set()
             os.makedirs(self.zip_dir, exist_ok=True)
+
+    def _create_msbuild_opts(self, python):
+        rt = []
+        rt.append('/nologo /p:Platform=%s' % self.opts.platform)
+        if python:
+            rt.append('/p:PythonPath="%(python_dir)s" /p:PythonDir="%(python_dir)s"' % dict(python_dir=python))
+
+        if log.verbose_on():
+            rt.append('/v:normal')
+        else:
+            rt.append('/v:minimal')
+
+        if self.opts.win_sdk_ver:
+            rt.append('/p:WindowsTargetPlatformVersion="%s"' % (self.opts.win_sdk_ver, ))
+
+        if self.opts.msbuild_opts:
+            rt.append(self.opts.msbuild_opts)
+
+        return ' '.join(rt)
 
     def __minimum_env(self):
         """
@@ -208,7 +221,7 @@ class Builder(object):
         if not os.path.exists(self.patch):
             log.error_exit("%s not found. Please check that you installed patch in msys2 using ``pacman -S patch``" % (self.patch,))
         log.debug("patch: %s" % (self.patch,))
-        
+
         if opts.python_dir:
             if not os.path.isfile(os.path.join(opts.python_dir, 'python.exe')):
                 log.error_exit("Executable python.exe not found at '%s'" % (self.opts.python_dir, ))
@@ -249,7 +262,7 @@ class Builder(object):
                     self.vs_env[key] = value
                 else:
                     del self.vs_env[key]
-            
+
     def __dump_vs_loc(self):
         """
         Using vswhere try to locate the vs installation path
@@ -259,14 +272,14 @@ class Builder(object):
         if not os.path.exists(vswhere):
             log.log('Could not find vswhere executable (%s)' % (vswhere, ))
             return
-        
+
         json_file = 'vs-found.json'
         if os.path.exists(json_file):
             os.remove(json_file)
-        
+
         cmd = '"%s" -all -products * -format json >%s' % (vswhere, json_file, )
         self.exec_cmd(cmd)
-        
+
         res = None
         try:
             with open(json_file, 'rt') as fi:
@@ -282,7 +295,7 @@ class Builder(object):
                 path = i.get('installationPath', r'?:\?')
                 log.message('    %s @ %s' % (disp, path, ))
             log.message('')
-                    
+
     def __check_vs_single(self, opts, vs_path, exit_missing=True):
         # Verify VS exists at the indicated location, and that it supports the required target
         add_opts = ''
@@ -313,7 +326,7 @@ class Builder(object):
 
         output = subprocess.check_output('cmd.exe /c ""%s"%s>NUL && set"' % (vcvars_bat, add_opts, ), shell=True)
         return output
-                    
+
     def __check_vs(self, opts):
         script_title('* Msvc tool')
         log.start('Checking Msvc tool')
@@ -323,10 +336,10 @@ class Builder(object):
         self.add_global_env('LIB', os.path.join(self.gtk_dir, 'lib'))
         self.add_global_env('LIBPATH', os.path.join(self.gtk_dir, 'lib'))
         self.add_global_env('PATH', os.path.join(self.gtk_dir, 'bin'))
-        
+
         if opts._vs_path_auto:
             dir_parts = [
-                'Professional', 
+                'Professional',
                 'BuildTools',
                 'Enterprise',
                 'Community',
@@ -338,7 +351,7 @@ class Builder(object):
                 if output:
                     log.log("Found '%s'" % (part, ))
                     break
-            
+
             if not output:
                 # Nothing found, see what's installed & exit
                 self.__dump_vs_loc();
@@ -378,9 +391,9 @@ class Builder(object):
                     sdk = '8.1'
                 opts.win_sdk_ver = sdk
                 log.log("Auto load win_sdk_ver: '%s'" % (sdk, ))
-                
+
         log.end()
-        
+
     def preprocess(self):
         for proj in Project.list_projects():
             if proj.archive_url:
@@ -396,7 +409,7 @@ class Builder(object):
             proj.build_dir = os.path.join(self.working_dir, proj.prj_dir)
             proj.dependencies = [Project.get_project(dep) for dep in proj.dependencies]
             proj.dependents = []
-            proj.load_defaults(self)
+            proj.load_defaults()
             proj.mark_file_calc()
             if self.opts.clean:
                 proj.clean = True
@@ -420,7 +433,7 @@ class Builder(object):
     def _drop_proj(self, drop_prj):
         """
         Delete drop_prj and all the ones that depends on this from the list of projects to build
-        """  
+        """
         drop_list = [ drop_prj, ]
         while drop_list:
             drop_prj = drop_list.pop(0)
@@ -429,27 +442,27 @@ class Builder(object):
             for p in self.projects_to_do:
                 if drop_prj in p.all_dependencies:
                     print("* > Removing %s for %s ..." % (p.name, drop_prj.name, ))
-                    # Recursive drop 
+                    # Recursive drop
                     drop_list.append(p)
                     self.projects_to_do.remove(p)
                     self.prj_dropped.append(p.name)
-    
+
     def build(self, projects):
         if self.__prepare_build(projects):
             return
 
         if self.opts.check_hash:
             return
-        
-        # List of all the project we can mark for build because of a dependend 
+
+        # List of all the project we can mark for build because of a dependend
         self.prj_to_mark = [x for x in Project._projects if x.is_project()]
-        
+
         self.prj_done = []
         self.prj_skipped = []
         self.prj_err = []
         self.prj_dropped = []
         self.projects_to_do = list(projects)
-        
+
         while self.projects_to_do:
             p = self.projects_to_do.pop(0)
             # save the vs environment
@@ -473,20 +486,20 @@ class Builder(object):
                 else:
                     log.error_exit("%s build failed" % (p.name, ))
             self.vs_env = saved_env
-            
+
         script_title(None)
         if self.prj_done:
             log.message('')
             log.message('Project(s) built:')
             for p in self.prj_done:
                 log.message('    %s' % (p, ))
-        
+
         if self.prj_skipped:
             log.message('')
             log.message('Project(s) skipped (already built):')
             for p in self.prj_skipped:
                 log.message('    %s' % (p, ))
-        
+
         if self.prj_err:
             log.message('')
             log.message('Project(s) not built:')
@@ -503,7 +516,7 @@ class Builder(object):
 
             # Don't fool appveyor
             log.error_exit('%u project(s) missing ;(' % (miss, ))
-        
+
         log.close()
 
     def __prepare_build(self, projects):
@@ -524,7 +537,7 @@ class Builder(object):
             if self.__download_one(p):
                 return True
         log.end()
-            
+
         return False
 
     def _load_built_files(self):
@@ -542,7 +555,7 @@ class Builder(object):
             if t:
                 log.message("Fast build:skipping project %s, built @ %s" % (proj.name, t, ))
                 return True
-          
+
         proj.mark_file_remove()
         log.start("Building project %s (%s)" % (proj.name, proj.version, ))
         script_title('%s (%s)' % (proj.name, proj.version, ))
@@ -556,7 +569,7 @@ class Builder(object):
         shutil.rmtree(proj.pkg_dir, ignore_errors=True)
         os.makedirs(proj.pkg_dir)
 
-        # Get the paths to add
+        # Original path, converted to list
         paths = self.vs_env['PATH'].split(';')
         # Add the paths needed
         for d in proj.all_dependencies:
@@ -788,18 +801,31 @@ class Builder(object):
                 print('Hash not present, bailing out ;(')
                 raise
         log.end()
-            
+
         print('%-*s' % (self._old_print, '%s - Download finished' % (proj.archive_file, )), )
         return self.__check_hash(proj)
 
     def __sub_vars(self, s):
         if '%' in s:
             d = dict(platform=self.opts.platform, configuration=self.opts.configuration, build_dir=self.opts.build_dir, vs_ver=self.opts.vs_ver,
-                     gtk_dir=self.gtk_dir, python_dir=self.opts.python_dir, perl_dir=self.perl_dir, msbuild_opts=self.msbuild_opts, 
+                     gtk_dir=self.gtk_dir,
                      vs_ver_year=self.vs_ver_year, )
+            python = None
             if self.__project is not None:
                 d['pkg_dir'] = self.__project.pkg_dir
                 d['build_dir'] = self.__project.build_dir
+                # Add python & perl only if the project depends on them
+                p = Project.get_project('python')
+                if p in self.__project.all_dependencies:
+                    python = Project.get_tool_path(p)
+                    d['python_dir'] = python
+
+                p = Project.get_project('perl')
+                if p in self.__project.all_dependencies:
+                    perl = Project.get_tool_base_dir(p)
+                    d['perl_dir'] = perl
+
+            d['msbuild_opts'] = self._create_msbuild_opts(python)
             return s % d
         else:
             return s
@@ -816,7 +842,7 @@ class Builder(object):
             cmd += ' ' + self.opts.ninja_opts
         if params:
             cmd += ' ' + params
-        self.__execute(self.__sub_vars(cmd), working_dir=working_dir, add_path=add_path, env=self.vs_env) 
+        self.__execute(self.__sub_vars(cmd), working_dir=working_dir, add_path=add_path, env=self.vs_env)
 
     def install(self, build_dir, pkg_dir, *args):
         if len(args) == 1:

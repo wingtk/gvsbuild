@@ -21,9 +21,12 @@ Default tools used to build the various projects
 
 import os
 import sys
+import subprocess
 
 from .utils.base_tool import Tool, tool_add
 from .utils.base_expanders import extract_exec
+from .utils.base_project import Project
+from .utils.simple_ui import log
 
 @tool_add
 class Tool_cmake(Tool):
@@ -34,17 +37,13 @@ class Tool_cmake(Tool):
             hash = 'def3bb81dfd922ce1ea2a0647645eefb60e128d520c8ca707c5996c331bc8b48',
             dir_part = 'cmake-3.7.2-win64-x64')
 
-    def load_defaults(self, builder):
-        Tool.load_defaults(self, builder)
-        # Set the builder object to point to the file to use
-        self.cmake_path = self.build_dir
+    def load_defaults(self):
+        Tool.load_defaults(self)
+        self.tool_path = os.path.join(self.build_dir, 'bin')
+        self.full_exe = os.path.join(self.tool_path, 'cmake.exe')
 
     def unpack(self):
-        destfile = os.path.join(self.cmake_path, 'bin', 'cmake.exe')
-        self.mark_deps = extract_exec(self.archive_file, self.builder.opts.tools_root_dir, dir_part = self.dir_part, check_file = destfile, check_mark=True)
-
-    def get_path(self):
-        return os.path.join(self.cmake_path, 'bin')
+        self.mark_deps = extract_exec(self.archive_file, self.opts.tools_root_dir, dir_part = self.dir_part, check_file = self.full_exe, check_mark=True)
 
 @tool_add
 class Tool_meson(Tool):
@@ -54,18 +53,12 @@ class Tool_meson(Tool):
             archive_url = 'https://github.com/mesonbuild/meson/archive/0.50.0.zip',
             archive_file_name = 'meson-0.50.0.zip',
             hash = '5e0447104a6400e108f7cdb2e71707924ccf986ac04a0cdc25300ddaa7863387',
-            dir_part = 'meson-0.50.0')
-
-    def load_defaults(self, builder):
-        Tool.load_defaults(self, builder)
-        # Set the builder object to point to the file to use
-        builder.meson = os.path.join(self.build_dir, 'meson.py')
+            dependencies = [ 'python', ],
+            dir_part = 'meson-0.50.0',
+            exe_name = 'meson.py')
 
     def unpack(self):
-        self.mark_deps = extract_exec(self.archive_file, self.builder.opts.tools_root_dir, dir_part = self.dir_part, check_file = self.builder.meson, check_mark=True)
-
-    def get_path(self):
-        return None, self.build_dir
+        self.mark_deps = extract_exec(self.archive_file, self.builder.opts.tools_root_dir, dir_part = self.dir_part, check_file = self.full_exe, check_mark=True)
 
 @tool_add
 class Tool_msys2(Tool):
@@ -73,19 +66,16 @@ class Tool_msys2(Tool):
         Tool.__init__(self,
             'msys2')
 
-    def load_defaults(self, builder):
-        Tool.load_defaults(self, builder)
-        self.msys_path = os.path.join(builder.opts.msys_dir, 'usr', 'bin')
+    def load_defaults(self):
+        Tool.load_defaults(self)
+        self.tool_path = os.path.join(self.opts.msys_dir, 'usr', 'bin')
 
     def unpack(self):
-        # Create the directory to let the --fast-build option work as expected
-        if not os.path.exists(self.build_dir):
-            os.makedirs(self.build_dir)
-            self.mark_deps = True
+        self.tool_mark()
 
     def get_path(self):
         # We always put msys at the end of path
-        return None, self.msys_path
+        return None, self.tool_path
 
 @tool_add
 class Tool_nasm(Tool):
@@ -94,19 +84,12 @@ class Tool_nasm(Tool):
             'nasm',
             archive_url = 'https://www.nasm.us/pub/nasm/releasebuilds/2.13.03/win64/nasm-2.13.03-win64.zip',
             hash = 'b3a1f896b53d07854884c2e0d6be7defba7ebd09b864bbb9e6d69ada1c3e989f',
-            dir_part = 'nasm-2.13.03')
-
-    def load_defaults(self, builder):
-        Tool.load_defaults(self, builder)
-        self.nasm_path = self.build_dir
+            dir_part = 'nasm-2.13.03',
+            exe_name = 'nasm.exe')
 
     def unpack(self):
         # We download directly the exe file so we copy it on the tool directory ...
-        destfile = os.path.join(self.build_dir, 'nasm.exe')
-        self.mark_deps = extract_exec(self.archive_file, self.builder.opts.tools_root_dir, dir_part = self.dir_part, check_file = destfile, force_dest = destfile, check_mark=True)
-
-    def get_path(self):
-        return self.nasm_path
+        self.mark_deps = extract_exec(self.archive_file, self.builder.opts.tools_root_dir, dir_part = self.dir_part, check_file = self.full_exe, force_dest = self.full_exe, check_mark=True)
 
 @tool_add
 class Tool_ninja(Tool):
@@ -115,41 +98,27 @@ class Tool_ninja(Tool):
             'ninja',
             archive_url = 'https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-win.zip',
             archive_file_name = 'ninja-win-1.8.2.zip',
-            hash = 'c80313e6c26c0b9e0c241504718e2d8bbc2798b73429933adf03fdc6d84f0e70')
-
-    def load_defaults(self, builder):
-        Tool.load_defaults(self, builder)
-        # Set the builder object to point to the path to use
-        self.ninja_path = self.build_dir
+            hash = 'c80313e6c26c0b9e0c241504718e2d8bbc2798b73429933adf03fdc6d84f0e70',
+            dir_part = 'ninja-1.8.2',
+            exe_name = 'ninja.exe')
 
     def unpack(self):
-        destfile = os.path.join(self.ninja_path, 'ninja.exe')
-        self.mark_deps = extract_exec(self.archive_file, self.ninja_path, check_file = destfile, check_mark=True)
-
-    def get_path(self):
-        return self.ninja_path
+        self.mark_deps = extract_exec(self.archive_file, self.build_dir, check_file = self.full_exe, check_mark=True)
 
 @tool_add
 class Tool_nuget(Tool):
     def __init__(self):
         Tool.__init__(self,
             'nuget',
-            archive_url = 'https://dist.nuget.org/win-x86-commandline/v4.3.0/nuget.exe',
-            archive_file_name = 'nuget-4.3.0.exe',
-            hash = '386da77a8cf2b63d1260b7020feeedabfe3b65ab31d20e6a313a530865972f3a')
-
-    def load_defaults(self, builder):
-        Tool.load_defaults(self, builder)
-        # Set the builder object to point to the .exe file to use
-        builder.nuget = os.path.join(self.build_dir, 'nuget.exe')
+            archive_url = 'https://dist.nuget.org/win-x86-commandline/v4.9.4/nuget.exe',
+            archive_file_name = 'nuget-4.9.4.exe',
+            hash = 'cb139d855d06d07e7da892e8558fe16dcaa65cb381175c506f5ed0a759eaf8f6',
+            dir_part = 'nuget-4.9.4',
+            exe_name = 'nuget.exe')
 
     def unpack(self):
         # We download directly the exe file so we copy it on the tool directory ...
-        self.mark_deps = extract_exec(self.archive_file, self.build_dir, check_file = self.builder.nuget, force_dest = self.builder.nuget, check_mark=True)
-
-    def get_path(self):
-        # No need to add the path, we use the full file name
-        pass
+        self.mark_deps = extract_exec(self.archive_file, self.build_dir, check_file = self.full_exe, force_dest = self.full_exe, check_mark=True)
 
 @tool_add
 class Tool_perl(Tool):
@@ -157,46 +126,111 @@ class Tool_perl(Tool):
         Tool.__init__(self,
             'perl',
             archive_url = 'https://github.com/wingtk/gtk-win32/releases/download/Perl-5.20/perl-5.20.0-x64.tar.xz',
-            hash = '05e01cf30bb47d3938db6169299ed49271f91c1615aeee5649174f48ff418c55')
+            hash = '05e01cf30bb47d3938db6169299ed49271f91c1615aeee5649174f48ff418c55',
+            dir_part = 'perl-5.20.0',
+            )
 
-    def load_defaults(self, builder):
-        Tool.load_defaults(self, builder)
-        # Set the builder object to point to the path to use, when we need to pass directly
-        # the executable to *make
-        builder.perl_dir = os.path.join(self.build_dir, 'x64')
+    def load_defaults(self):
+        Tool.load_defaults(self)
+        # Set the builder object to point to the path to use, when we need to pass directly the executable to *make
+        self.base_dir = os.path.join(self.build_dir, 'x64')
         # full path, added to the environment when needed
-        self.perl_path = os.path.join(builder.perl_dir, 'bin')
+        self.tool_path = os.path.join(self.base_dir, 'bin')
+        self.full_exe = os.path.join(self.tool_path, 'perl.exe')
 
     def unpack(self):
-        destfile = os.path.join(self.perl_path, 'perl.exe')
-        self.mark_deps = extract_exec(self.archive_file, self.build_dir, check_file = destfile, check_mark=True)
+        self.mark_deps = extract_exec(self.archive_file, self.build_dir, check_file = self.full_exe, check_mark=True)
 
-    def get_path(self):
-        return self.perl_path
+    def get_base_dir(self):
+        return self.base_dir
 
 @tool_add
 class Tool_python(Tool):
     def __init__(self):
         Tool.__init__(self,
-            'python')
+            'python',
+            dependencies = [ 'nuget', ],
+            )
 
-    def load_defaults(self, builder):
-        Tool.load_defaults(self, builder)
-        if builder.opts.python_dir:
-            # From the command line, hope is at least 3.4 ...
-            self.python_path = builder.opts.python_dir
+    def setup(self, install):
+        """
+        Using nuget install, locally, the specified version of python
+        """
+        version = self.opts.python_ver;
+        # Get the last version we ask
+        if version == '3.5':
+            version = '3.5.4'
+        elif version == '3.6':
+            version = '3.6.8'
+        elif version == '3.7':
+            version = '3.7.3'
+
+        if self.opts.x86:
+            name = 'pythonx86'
         else:
-            # We use the one that call the script
-            self.python_path = os.path.dirname(sys.executable)
+            name = 'python'
+        t_id = name + '.' + version
+        dest_dir = os.path.join(self.opts.tools_root_dir, t_id)
+        # directory to use for the .exe
+        self.tool_path = os.path.join(dest_dir, 'tools')
+        self.full_exe = os.path.join(self.tool_path, 'python.exe')
+
+        if install:
+            # see if it's already ok
+            rd_file = ''
+            try:
+                with open(os.path.join(dest_dir, '.wingtk-extracted-file'), 'rt') as fi:
+                    rd_file = fi.readline().strip()
+            except IOError:
+                pass
+    
+            if rd_file == t_id:
+                # Ok, exit
+                log.log("Skipping python setup on '%s'" % (dest_dir, ))
+                # We don't rebuild the projects that depends on this
+                return False
+    
+            # nuget
+            nuget = Project.get_tool_executable('nuget')
+            # Install python
+            cmd = '%s install %s -Version %s -OutputDirectory %s' % (nuget, name, version, self.opts.tools_root_dir, )
+            subprocess.check_call(cmd, shell=True)
+            py = os.path.join(self.tool_path, 'python.exe')
+    
+            # Update pip
+            cmd = py + ' -m pip install --upgrade pip'
+            subprocess.check_call(cmd, shell=True)
+    
+            # update setuptools (to use vs2017 with python 3.5)
+            cmd = py + ' -m pip install --upgrade setuptools'
+            subprocess.check_call(cmd, shell=True)
+    
+            # install/update wheel
+            cmd = py + ' -m pip install --upgrade wheel --no-warn-script-location'
+            subprocess.check_call(cmd, shell=True)
+    
+            # Mark that we have done all
+            with open(os.path.join(dest_dir, '.wingtk-extracted-file'), 'wt') as fo:
+                fo.write('%s\n' % (t_id, ))
+
+        return True
+
+    def load_defaults(self):
+        Tool.load_defaults(self)
+        self.setup(False)
 
     def unpack(self):
-        # Create the directory to let the --fast-build option work as expected
-        if not os.path.exists(self.build_dir):
-            os.makedirs(self.build_dir)
-            self.mark_deps = True
-
-    def get_path(self):
-        return self.python_path
+        if self.opts._load_python:
+            # Get python version
+            self.mark_deps = self.setup(True)
+        else:
+            if self.opts.python_dir:
+                # From the command line, hope is at least 3.4 ...
+                self.tool_path = self.opts.python_dir
+            else:
+                # We use the one that call the script
+                self.tool_path = os.path.dirname(sys.executable)
+            self.mark_deps = False
 
 @tool_add
 class Tool_yasm(Tool):
@@ -204,19 +238,13 @@ class Tool_yasm(Tool):
         Tool.__init__(self,
             'yasm',
             archive_url = 'http://www.tortall.net/projects/yasm/releases/yasm-1.3.0-win64.exe',
-            hash = 'd160b1d97266f3f28a71b4420a0ad2cd088a7977c2dd3b25af155652d8d8d91f')
-
-    def load_defaults(self, builder):
-        Tool.load_defaults(self, builder)
-        self.yasm_path = self.build_dir
+            hash = 'd160b1d97266f3f28a71b4420a0ad2cd088a7977c2dd3b25af155652d8d8d91f',
+            dir_part = 'yasm-1.3.0',
+            exe_name = 'yasm.exe')
 
     def unpack(self):
         # We download directly the exe file so we copy it on the tool directory ...
-        destfile = os.path.join(self.build_dir, 'yasm.exe')
-        self.mark_deps = extract_exec(self.archive_file, self.build_dir, check_file = destfile, force_dest = destfile, check_mark=True)
-
-    def get_path(self):
-        return self.yasm_path
+        self.mark_deps = extract_exec(self.archive_file, self.build_dir, check_file = self.full_exe, force_dest = self.full_exe, check_mark=True)
 
 @tool_add
 class Tool_go(Tool):
@@ -224,17 +252,15 @@ class Tool_go(Tool):
         Tool.__init__(self,
             'go',
             archive_url = 'https://dl.google.com/go/go1.10.windows-amd64.zip',
-            hash = '210b223031c254a6eb8fa138c3782b23af710a9959d64b551fa81edd762ea167')
+            hash = '210b223031c254a6eb8fa138c3782b23af710a9959d64b551fa81edd762ea167',
+            dir_part = 'go-1.10',
+            )
 
-    def load_defaults(self, builder):
-        Tool.load_defaults(self, builder)
-        self.go_dir = os.path.join(self.build_dir, 'go')
-        self.go_path = os.path.join(self.go_dir, 'bin')
+    def load_defaults(self):
+        Tool.load_defaults(self)
+        self.tool_path = os.path.join(self.build_dir, 'bin')
+        self.full_exe = os.path.join(self.tool_path, 'go.exe')
 
     def unpack(self):
         # We download directly the exe file so we copy it on the tool directory ...
-        destfile = os.path.join(self.go_path, 'go.exe')
-        self.mark_deps = extract_exec(self.archive_file, self.build_dir, check_file = destfile, check_mark=True)
-
-    def get_path(self):
-        return self.go_path
+        self.mark_deps = extract_exec(self.archive_file, self.build_dir, check_file = self.full_exe, check_mark=True, strip_one=True)

@@ -108,7 +108,18 @@ def extract_exec(src, dest_dir, dir_part=None, strip_one=False, check_file=None,
     elif ext == '.zip':
         # Zip file
         with zipfile.ZipFile(src) as zf:
-            zf.extractall(path=dest_dir)
+            if strip_one:
+                members = zf.infolist()
+                for m in members:
+                    if m.is_dir():
+                        continue
+                    cl = m.filename.split('/')
+                    if len(cl) > 1:
+                        m.filename = '/'.join(cl[1:])
+                        
+                    zf.extract(m, path=dest_dir)
+            else:
+                zf.extractall(path=dest_dir)
     else:
         # Ok, hoping it's a tarfile we can handle :)
         with tarfile.open(src) as tar:
@@ -224,11 +235,11 @@ class GitRepo(object):
         if self.tag:
             self.builder.exec_msys('git checkout -f %s' % self.tag, working_dir=self.build_dir)
 
-        self.create_zip()
         if self.fetch_submodules:
             log.start_verbose('Fetch submodule(s)')
             self.builder.exec_msys('git submodule update --init',  working_dir=self.build_dir)
             log.end()
+        self.create_zip()
         log.end()
 
     def update_build_dir(self):
@@ -244,11 +255,11 @@ class GitRepo(object):
             self.builder.exec_msys('git checkout -f', working_dir=self.build_dir)
             self.builder.exec_msys('git pull --rebase', working_dir=self.build_dir)
 
-        self.create_zip()
         if self.fetch_submodules:
             log.start_verbose('Update submodule(s)')
             self.builder.exec_msys('git submodule update --init', working_dir=self.build_dir)
             log.end()
+        self.create_zip()
 
         if os.path.exists(self.patch_dir):
             log.log("Copying files from %s to %s" % (self.patch_dir, self.build_dir))

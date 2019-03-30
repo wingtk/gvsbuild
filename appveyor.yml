@@ -8,18 +8,19 @@ environment:
     DOWNLOAD_DIR: _download_cache
     APPVEYOR_SAVE_CACHE_ON_ERROR: true
     PATH: C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Program Files\Git\cmd
+    PYTHON: C:\Python37\python.exe
   matrix:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       VS_VER: "14"
       PLATFORM: "x86"
-      PYTHON: C:\Python36\python.exe
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       VS_VER: "14"
       PLATFORM: "x64"
-      PYTHON: C:\Python36-x64\python.exe
 
 build_script:
-  - "%PYTHON% build.py build --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --enable-gi enchant gtk gtk3-full pycairo pygobject lz4"
+  - "%PYTHON% build.py build --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --enable-gi --py-wheel --py-egg --python-ver 3.7 enchant gtk gtk3-full pycairo pygobject lz4"
+  - "%PYTHON% build.py build --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --fast-build --clean-built --py-wheel --py-egg --python-ver 3.6 pycairo pygobject"
+  - "%PYTHON% build.py build --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --fast-build --clean-built --py-wheel --py-egg --python-ver 3.5 pycairo pygobject"
   - set PATH=%PATH%;C:\msys64\usr\bin
   - IF "%PLATFORM%"=="x86" tar.exe -zcf gvsbuild-vs%VS_VER%-%PLATFORM%.tar.gz -C /c/gtk-build/gtk/Win32 release
   - IF "%PLATFORM%"=="x64" tar.exe -zcf gvsbuild-vs%VS_VER%-%PLATFORM%.tar.gz -C /c/gtk-build/gtk/x64 release
@@ -29,6 +30,7 @@ artifacts:
 
 cache:
   - '%DOWNLOAD_DIR%'
+  - c:\gtk-build\tools
 
 deploy: off
 

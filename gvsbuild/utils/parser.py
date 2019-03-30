@@ -66,6 +66,8 @@ def get_options(args):
     opts.log_size = args.log_size
     opts.log_single = args.log_single
     opts.ninja_opts = args.ninja_opts
+    opts.python_ver = args.python_ver
+    opts.same_python = args.same_python
 
     # active the log
     log.configure(os.path.join(opts.build_dir, 'logs'), opts)
@@ -94,6 +96,9 @@ def get_options(args):
         else:
             opts.vs_install_path = r'C:\Program Files (x86)\Microsoft Visual Studio %s.0' % (opts.vs_ver,)
 
+    if opts.python_dir is None and not opts.same_python:
+        opts._load_python = True
+
     opts.projects = args.project
     Project.opts = opts
     # now add the tools/projects/groups
@@ -108,6 +113,10 @@ def get_options(args):
 
 def __get_projects_to_build(opts):
     to_build = ordered_set()
+    if opts._load_python:
+        # We use nuget to download & install the python needed for the build so we put it at the beginning
+        opts.projects.insert(0, 'python')
+        
     for name in opts.projects:
         p = Project.get_project(name)
         if not opts.no_deps:
@@ -234,8 +243,12 @@ Examples:
                                "16299, 17134 or 17763 " +
                                "depending on the VS version / installation's options. " +
                                "If you don't specify one the scripts tries to locate the used one to pass the value to the msbuild command.")
-    p_build.add_argument('--python-dir', default=os.path.dirname(sys.executable),
-                         help="The directory where you installed python.")
+    p_build.add_argument('--python-ver', default='3.7',
+                         help='Python version to download and use for the build (3.7, 3.6, 3.5 or the exact one, 3.5.2.1 or 3.8.0-a3.')
+    p_build.add_argument('--python-dir', default=None,
+                         help="The directory containing the python you want to use for the build of the projects (not the one used to run the script).")
+    p_build.add_argument('--same-python', default=False, action='store_true',
+                         help="Use for the build the same python used to run this script")
 
     p_build.add_argument('--check-hash', default=False, action='store_true',
                          help='Only check hashes of downloaded archive(s), no build')

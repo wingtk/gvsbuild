@@ -40,7 +40,7 @@ class Project_adwaita_icon_theme(Tarball, Project):
             'adwaita-icon-theme',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/adwaita-icon-theme/3.28/adwaita-icon-theme-3.28.0.tar.xz',
             hash = '7aae8c1dffd6772fd1a21a3d365a0ea28b7c3988bdbbeafbf8742cda68242150',
-            dependencies = ['librsvg'],
+            dependencies = ['librsvg', 'python', ],
             )
 
     def build(self):
@@ -258,13 +258,13 @@ class Project_ffmpeg(Tarball, Project):
             'ffmpeg',
             archive_url = 'https://www.ffmpeg.org/releases/ffmpeg-4.1.1.tar.xz',
             hash = '373749824dfd334d84e55dff406729edfd1606575ee44dd485d97d45ea4d2d86',
-            dependencies = [ 'yasm', ],
+            dependencies = [ 'yasm', 'msys2', ],
         )
         if self.opts.ffmpeg_enable_gpl:
             self.add_dependency('x264')
 
     def build(self):
-        msys_path = os.path.join(self.builder.opts.msys_dir, 'usr', 'bin')
+        msys_path = Project.get_tool_path('msys2')
         self.exec_vs(r'%s\bash build\build.sh %s %s %s %s' % (msys_path, self.pkg_dir, self.builder.gtk_dir, self.builder.opts.configuration, "enable_gpl" if self.opts.ffmpeg_enable_gpl else "disable_gpl"),
                      add_path=msys_path)
 
@@ -571,7 +571,7 @@ class Project_gsettings_desktop_schemas(Tarball, Project):
             'gsettings-desktop-schemas',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.24/gsettings-desktop-schemas-3.24.0.tar.xz',
             hash = 'f6573a3f661d22ff8a001cc2421d8647717f1c0e697e342d03c6102f29bbbb90',
-            dependencies = ['python', 'glib'],
+            dependencies = ['python', 'perl', 'glib'],
             patches = ['0001-build-win32-replace.py-Fix-replacing-items-in-files-.patch',
                        '0002-glib-mkenums-python.patch',
                        ],
@@ -602,11 +602,11 @@ class _MakeGir(object):
                 log.message('Unable to find detectenv-msvc.mak for %s' % (prj_name, ))
                 return
 
-        cmd = 'nmake -f %s-introspection-msvc.mak CFG=%s PREFIX=%s PYTHON=%s\python.exe install-introspection' % (
+        cmd = 'nmake -f %s-introspection-msvc.mak CFG=%s PREFIX=%s PYTHON=%s install-introspection' % (
                 prj_name,
                 self.builder.opts.configuration,
                 self.builder.gtk_dir,
-                self.builder.opts.python_dir,
+                Project.get_tool_executable('python'),
                 )
 
         self.push_location(b_dir)
@@ -808,6 +808,7 @@ class Project_icu(Tarball, Project):
             'icu',
             archive_url = 'http://download.icu-project.org/files/icu4c/63.1/icu4c-63_1-src.zip',
             hash = '3d957deabf75e96c35918355eac4da3e728fc222b9b4bdb2663652f76ee51772',
+            version='63.1',
             )
 
     def build(self):
@@ -817,15 +818,13 @@ class Project_icu(Tarball, Project):
             bindir += '64'
             libdir += '64'
 
-        self.push_location('.\icu')
         self.exec_msbuild(r'source\allinone\allinone.sln /t:cal')
 
+        self.install(r'.\pc-files\* lib\pkgconfig')
         self.install(r'.\LICENSE share\doc\icu')
         self.install(bindir + r'\* bin')
         self.install(libdir + r'\* lib')
         self.install(r'.\include\* include')
-
-        self.pop_location()
 
 @project_add
 class Project_jasper(Tarball, CmakeProject):
@@ -1391,7 +1390,7 @@ class Project_openssl(Tarball, Project):
             'openssl',
             archive_url = 'https://www.openssl.org/source/openssl-1.0.2r.tar.gz',
             hash = 'ae51d08bba8a83958e894946f15303ff894d75c2b8bbd44a852b64e3fe11d0d6',
-            dependencies = ['perl', 'nasm', ],
+            dependencies = ['perl', 'nasm', 'msys2', ],
             )
 
     def build(self):
@@ -1403,9 +1402,10 @@ class Project_openssl(Tarball, Project):
 
         # Note that we want to give priority to the system perl version.
         # Using the msys2 one might endup giving us a broken build
-        add_path = ';'.join([os.path.join(self.builder.perl_dir, 'bin'),
-                             os.path.join(self.builder.opts.msys_dir, 'usr', 'bin')])
-
+#        add_path = ';'.join([os.path.join(self.builder.perl_dir, 'bin'),
+#                             os.path.join(self.builder.opts.msys_dir, 'usr', 'bin')])
+        add_path = None
+        
         if self.builder.x86:
             self.exec_vs(r'%(perl_dir)s\bin\perl.exe Configure ' + debug_option + 'VC-WIN32 ' + common_options)
             self.exec_vs(r'ms\do_nasm', add_path=add_path)
@@ -1716,14 +1716,16 @@ class Project_x264(GitRepo, Project):
             'x264',
             repo_url = 'http://git.videolan.org/git/x264.git',
             fetch_submodules = False,
-            dependencies = [ 'nasm' ],
+            dependencies = [ 'nasm', 'msys2' ],
             tag = 'e9a5903edf8ca59ef20e6f4894c196f135af735e',
             patches = [ '0001-use-more-recent-version-of-config.guess.patch',
                         '0002-configure-recognize-the-msys-shell.patch' ]
             )
+
     def build(self):
-        self.exec_vs(r'%s\usr\bin\bash build\build.sh %s %s' % (self.builder.opts.msys_dir, convert_to_msys(self.builder.gtk_dir), self.builder.opts.configuration),
-                     add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
+        msys_path = Project.get_tool_path('msys2')
+        self.exec_vs(r'%s\bash build\build.sh %s %s' % (msys_path, convert_to_msys(self.builder.gtk_dir), self.builder.opts.configuration),
+                     add_path=msys_path)
 
         # use the path expected when building with a dependent project
         self.builder.exec_msys(['mv', 'libx264.dll.lib', 'libx264.lib'], working_dir=os.path.join(self.builder.gtk_dir, 'lib'))
