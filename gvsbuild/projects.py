@@ -808,6 +808,7 @@ class Project_icu(Tarball, Project):
             'icu',
             archive_url = 'http://download.icu-project.org/files/icu4c/63.1/icu4c-63_1-src.zip',
             hash = '3d957deabf75e96c35918355eac4da3e728fc222b9b4bdb2663652f76ee51772',
+            version='63.1',
             )
 
     def build(self):
@@ -820,6 +821,7 @@ class Project_icu(Tarball, Project):
         self.push_location('.\icu')
         self.exec_msbuild(r'source\allinone\allinone.sln /t:cal')
 
+        self.install(r'.\pc-files\* lib\pkgconfig')
         self.install(r'.\LICENSE share\doc\icu')
         self.install(bindir + r'\* bin')
         self.install(libdir + r'\* lib')
