@@ -264,7 +264,7 @@ class Project_ffmpeg(Tarball, Project):
             self.add_dependency('x264')
 
     def build(self):
-        msys_path = os.path.join(self.builder.opts.msys_dir, 'usr', 'bin')
+        msys_path = Project.get_tool_path('msys2')
         self.exec_vs(r'%s\bash build\build.sh %s %s %s %s' % (msys_path, self.pkg_dir, self.builder.gtk_dir, self.builder.opts.configuration, "enable_gpl" if self.opts.ffmpeg_enable_gpl else "disable_gpl"),
                      add_path=msys_path)
 
@@ -1402,9 +1402,10 @@ class Project_openssl(Tarball, Project):
 
         # Note that we want to give priority to the system perl version.
         # Using the msys2 one might endup giving us a broken build
-        add_path = ';'.join([os.path.join(self.builder.perl_dir, 'bin'),
-                             os.path.join(self.builder.opts.msys_dir, 'usr', 'bin')])
-
+#        add_path = ';'.join([os.path.join(self.builder.perl_dir, 'bin'),
+#                             os.path.join(self.builder.opts.msys_dir, 'usr', 'bin')])
+        add_path = None
+        
         if self.builder.x86:
             self.exec_vs(r'%(perl_dir)s\bin\perl.exe Configure ' + debug_option + 'VC-WIN32 ' + common_options)
             self.exec_vs(r'ms\do_nasm', add_path=add_path)
@@ -1720,9 +1721,11 @@ class Project_x264(GitRepo, Project):
             patches = [ '0001-use-more-recent-version-of-config.guess.patch',
                         '0002-configure-recognize-the-msys-shell.patch' ]
             )
+
     def build(self):
-        self.exec_vs(r'%s\usr\bin\bash build\build.sh %s %s' % (self.builder.opts.msys_dir, convert_to_msys(self.builder.gtk_dir), self.builder.opts.configuration),
-                     add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
+        msys_path = Project.get_tool_path('msys2')
+        self.exec_vs(r'%s\bash build\build.sh %s %s' % (msys_path, convert_to_msys(self.builder.gtk_dir), self.builder.opts.configuration),
+                     add_path=msys_path)
 
         # use the path expected when building with a dependent project
         self.builder.exec_msys(['mv', 'libx264.dll.lib', 'libx264.lib'], working_dir=os.path.join(self.builder.gtk_dir, 'lib'))
