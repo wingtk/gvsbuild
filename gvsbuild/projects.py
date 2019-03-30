@@ -258,7 +258,7 @@ class Project_ffmpeg(Tarball, Project):
             'ffmpeg',
             archive_url = 'https://www.ffmpeg.org/releases/ffmpeg-4.1.1.tar.xz',
             hash = '373749824dfd334d84e55dff406729edfd1606575ee44dd485d97d45ea4d2d86',
-            dependencies = [ 'yasm', ],
+            dependencies = [ 'yasm', 'msys2', ],
         )
         if self.opts.ffmpeg_enable_gpl:
             self.add_dependency('x264')
@@ -571,7 +571,7 @@ class Project_gsettings_desktop_schemas(Tarball, Project):
             'gsettings-desktop-schemas',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.24/gsettings-desktop-schemas-3.24.0.tar.xz',
             hash = 'f6573a3f661d22ff8a001cc2421d8647717f1c0e697e342d03c6102f29bbbb90',
-            dependencies = ['python', 'glib'],
+            dependencies = ['python', 'perl', 'glib'],
             patches = ['0001-build-win32-replace.py-Fix-replacing-items-in-files-.patch',
                        '0002-glib-mkenums-python.patch',
                        ],
@@ -1390,7 +1390,7 @@ class Project_openssl(Tarball, Project):
             'openssl',
             archive_url = 'https://www.openssl.org/source/openssl-1.0.2r.tar.gz',
             hash = 'ae51d08bba8a83958e894946f15303ff894d75c2b8bbd44a852b64e3fe11d0d6',
-            dependencies = ['perl', 'nasm', ],
+            dependencies = ['perl', 'nasm', 'msys2', ],
             )
 
     def build(self):
@@ -1715,7 +1715,7 @@ class Project_x264(GitRepo, Project):
             'x264',
             repo_url = 'http://git.videolan.org/git/x264.git',
             fetch_submodules = False,
-            dependencies = [ 'nasm' ],
+            dependencies = [ 'nasm', 'msys2' ],
             tag = 'e9a5903edf8ca59ef20e6f4894c196f135af735e',
             patches = [ '0001-use-more-recent-version-of-config.guess.patch',
                         '0002-configure-recognize-the-msys-shell.patch' ]
