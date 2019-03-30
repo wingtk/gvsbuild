@@ -818,7 +818,6 @@ class Project_icu(Tarball, Project):
             bindir += '64'
             libdir += '64'
 
-        self.push_location('.\icu')
         self.exec_msbuild(r'source\allinone\allinone.sln /t:cal')
 
         self.install(r'.\pc-files\* lib\pkgconfig')
@@ -826,8 +825,6 @@ class Project_icu(Tarball, Project):
         self.install(bindir + r'\* bin')
         self.install(libdir + r'\* lib')
         self.install(r'.\include\* include')
-
-        self.pop_location()
 
 @project_add
 class Project_jasper(Tarball, CmakeProject):

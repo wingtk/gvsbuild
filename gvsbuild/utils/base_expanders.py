@@ -108,7 +108,18 @@ def extract_exec(src, dest_dir, dir_part=None, strip_one=False, check_file=None,
     elif ext == '.zip':
         # Zip file
         with zipfile.ZipFile(src) as zf:
-            zf.extractall(path=dest_dir)
+            if strip_one:
+                members = zf.infolist()
+                for m in members:
+                    if m.is_dir():
+                        continue
+                    cl = m.filename.split('/')
+                    if len(cl) > 1:
+                        m.filename = '/'.join(cl[1:])
+                        
+                    zf.extract(m, path=dest_dir)
+            else:
+                zf.extractall(path=dest_dir)
     else:
         # Ok, hoping it's a tarfile we can handle :)
         with tarfile.open(src) as tar:
