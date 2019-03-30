@@ -110,10 +110,10 @@ class Tool_nuget(Tool):
     def __init__(self):
         Tool.__init__(self,
             'nuget',
-            archive_url = 'https://dist.nuget.org/win-x86-commandline/v4.3.0/nuget.exe',
-            archive_file_name = 'nuget-4.3.0.exe',
-            hash = '386da77a8cf2b63d1260b7020feeedabfe3b65ab31d20e6a313a530865972f3a',
-            dir_part = 'nuget-4.3.0',
+            archive_url = 'https://dist.nuget.org/win-x86-commandline/v4.9.4/nuget.exe',
+            archive_file_name = 'nuget-4.9.4.exe',
+            hash = 'cb139d855d06d07e7da892e8558fe16dcaa65cb381175c506f5ed0a759eaf8f6',
+            dir_part = 'nuget-4.9.4',
             exe_name = 'nuget.exe')
 
     def unpack(self):
