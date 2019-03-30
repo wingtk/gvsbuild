@@ -96,6 +96,7 @@ class Tool_ninja(Tool):
             archive_url = 'https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-win.zip',
             archive_file_name = 'ninja-win-1.8.2.zip',
             hash = 'c80313e6c26c0b9e0c241504718e2d8bbc2798b73429933adf03fdc6d84f0e70',
+            dir_part = 'ninja-1.8.2', 
             exe_name = 'ninja.exe')
 
     def unpack(self):
@@ -109,6 +110,7 @@ class Tool_nuget(Tool):
             archive_url = 'https://dist.nuget.org/win-x86-commandline/v4.3.0/nuget.exe',
             archive_file_name = 'nuget-4.3.0.exe',
             hash = '386da77a8cf2b63d1260b7020feeedabfe3b65ab31d20e6a313a530865972f3a',
+            dir_part = 'nuget-4.3.0', 
             exe_name = 'nuget.exe')
 
     def unpack(self):
@@ -121,7 +123,9 @@ class Tool_perl(Tool):
         Tool.__init__(self,
             'perl',
             archive_url = 'https://github.com/wingtk/gtk-win32/releases/download/Perl-5.20/perl-5.20.0-x64.tar.xz',
-            hash = '05e01cf30bb47d3938db6169299ed49271f91c1615aeee5649174f48ff418c55')
+            hash = '05e01cf30bb47d3938db6169299ed49271f91c1615aeee5649174f48ff418c55',
+            dir_part = 'perl-5.20.0', 
+            )
 
     def load_defaults(self):
         Tool.load_defaults(self)
@@ -163,6 +167,7 @@ class Tool_yasm(Tool):
             'yasm',
             archive_url = 'http://www.tortall.net/projects/yasm/releases/yasm-1.3.0-win64.exe',
             hash = 'd160b1d97266f3f28a71b4420a0ad2cd088a7977c2dd3b25af155652d8d8d91f',
+            dir_part = 'yasm-1.3.0', 
             exe_name = 'yasm.exe')
 
     def unpack(self):
