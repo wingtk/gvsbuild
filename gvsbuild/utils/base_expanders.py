@@ -235,11 +235,11 @@ class GitRepo(object):
         if self.tag:
             self.builder.exec_msys('git checkout -f %s' % self.tag, working_dir=self.build_dir)
 
-        self.create_zip()
         if self.fetch_submodules:
             log.start_verbose('Fetch submodule(s)')
             self.builder.exec_msys('git submodule update --init',  working_dir=self.build_dir)
             log.end()
+        self.create_zip()
         log.end()
 
     def update_build_dir(self):
@@ -255,11 +255,11 @@ class GitRepo(object):
             self.builder.exec_msys('git checkout -f', working_dir=self.build_dir)
             self.builder.exec_msys('git pull --rebase', working_dir=self.build_dir)
 
-        self.create_zip()
         if self.fetch_submodules:
             log.start_verbose('Update submodule(s)')
             self.builder.exec_msys('git submodule update --init', working_dir=self.build_dir)
             log.end()
+        self.create_zip()
 
         if os.path.exists(self.patch_dir):
             log.log("Copying files from %s to %s" % (self.patch_dir, self.build_dir))
