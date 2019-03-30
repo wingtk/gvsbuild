@@ -21,9 +21,12 @@ Default tools used to build the various projects
 
 import os
 import sys
+import subprocess
 
 from .utils.base_tool import Tool, tool_add
 from .utils.base_expanders import extract_exec
+from .utils.base_project import Project
+from .utils.simple_ui import log
 
 @tool_add
 class Tool_cmake(Tool):
@@ -51,7 +54,7 @@ class Tool_meson(Tool):
             archive_file_name = 'meson-0.50.0.zip',
             hash = '5e0447104a6400e108f7cdb2e71707924ccf986ac04a0cdc25300ddaa7863387',
             dependencies = [ 'python', ],
-            dir_part = 'meson-0.50.0', 
+            dir_part = 'meson-0.50.0',
             exe_name = 'meson.py')
 
     def unpack(self):
@@ -87,7 +90,7 @@ class Tool_nasm(Tool):
     def unpack(self):
         # We download directly the exe file so we copy it on the tool directory ...
         self.mark_deps = extract_exec(self.archive_file, self.builder.opts.tools_root_dir, dir_part = self.dir_part, check_file = self.full_exe, force_dest = self.full_exe, check_mark=True)
-    
+
 @tool_add
 class Tool_ninja(Tool):
     def __init__(self):
@@ -96,7 +99,7 @@ class Tool_ninja(Tool):
             archive_url = 'https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-win.zip',
             archive_file_name = 'ninja-win-1.8.2.zip',
             hash = 'c80313e6c26c0b9e0c241504718e2d8bbc2798b73429933adf03fdc6d84f0e70',
-            dir_part = 'ninja-1.8.2', 
+            dir_part = 'ninja-1.8.2',
             exe_name = 'ninja.exe')
 
     def unpack(self):
@@ -110,7 +113,7 @@ class Tool_nuget(Tool):
             archive_url = 'https://dist.nuget.org/win-x86-commandline/v4.3.0/nuget.exe',
             archive_file_name = 'nuget-4.3.0.exe',
             hash = '386da77a8cf2b63d1260b7020feeedabfe3b65ab31d20e6a313a530865972f3a',
-            dir_part = 'nuget-4.3.0', 
+            dir_part = 'nuget-4.3.0',
             exe_name = 'nuget.exe')
 
     def unpack(self):
@@ -124,7 +127,7 @@ class Tool_perl(Tool):
             'perl',
             archive_url = 'https://github.com/wingtk/gtk-win32/releases/download/Perl-5.20/perl-5.20.0-x64.tar.xz',
             hash = '05e01cf30bb47d3938db6169299ed49271f91c1615aeee5649174f48ff418c55',
-            dir_part = 'perl-5.20.0', 
+            dir_part = 'perl-5.20.0',
             )
 
     def load_defaults(self):
@@ -133,7 +136,7 @@ class Tool_perl(Tool):
         self.base_dir = os.path.join(self.build_dir, 'x64')
         # full path, added to the environment when needed
         self.tool_path = os.path.join(self.base_dir, 'bin')
-        self.full_exe = os.path.join(self.tool_path, 'perl.exe') 
+        self.full_exe = os.path.join(self.tool_path, 'perl.exe')
 
     def unpack(self):
         self.mark_deps = extract_exec(self.archive_file, self.build_dir, check_file = self.full_exe, check_mark=True)
@@ -145,20 +148,89 @@ class Tool_perl(Tool):
 class Tool_python(Tool):
     def __init__(self):
         Tool.__init__(self,
-            'python')
+            'python',
+            dependencies = [ 'nuget', ],
+            )
+
+    def setup(self, install):
+        """
+        Using nuget install, locally, the specified version of python
+        """
+        version = self.opts.python_ver;
+        # Get the last version we ask
+        if version == '3.5':
+            version = '3.5.4'
+        elif version == '3.6':
+            version = '3.6.8'
+        elif version == '3.7':
+            version = '3.7.3'
+
+        if self.opts.x86:
+            name = 'pythonx86'
+        else:
+            name = 'python'
+        t_id = name + '.' + version
+        dest_dir = os.path.join(self.opts.tools_root_dir, t_id)
+        # directory to use for the .exe
+        self.tool_path = os.path.join(dest_dir, 'tools')
+        self.full_exe = os.path.join(self.tool_path, 'python.exe')
+
+        if install:
+            # see if it's already ok
+            rd_file = ''
+            try:
+                with open(os.path.join(dest_dir, '.wingtk-extracted-file'), 'rt') as fi:
+                    rd_file = fi.readline().strip()
+            except IOError:
+                pass
+    
+            if rd_file == t_id:
+                # Ok, exit
+                log.log("Skipping python setup on '%s'" % (dest_dir, ))
+                # We don't rebuild the projects that depends on this
+                return False
+    
+            # nuget
+            nuget = Project.get_tool_executable('nuget')
+            # Install python
+            cmd = '%s install %s -Version %s -OutputDirectory %s' % (nuget, name, version, self.opts.tools_root_dir, )
+            subprocess.check_call(cmd, shell=True)
+            py = os.path.join(self.tool_path, 'python.exe')
+    
+            # Update pip
+            cmd = py + ' -m pip install --upgrade pip'
+            subprocess.check_call(cmd, shell=True)
+    
+            # update setuptools (to use vs2017 with python 3.5)
+            cmd = py + ' -m pip install --upgrade setuptools'
+            subprocess.check_call(cmd, shell=True)
+    
+            # install/update wheel
+            cmd = py + ' -m pip install --upgrade wheel --no-warn-script-location'
+            subprocess.check_call(cmd, shell=True)
+    
+            # Mark that we have done all
+            with open(os.path.join(dest_dir, '.wingtk-extracted-file'), 'wt') as fo:
+                fo.write('%s\n' % (t_id, ))
+
+        return True
 
     def load_defaults(self):
         Tool.load_defaults(self)
-        if self.opts.python_dir:
-            # From the command line, hope is at least 3.4 ...
-            self.tool_path = self.opts.python_dir
-        else:
-            # We use the one that call the script
-            self.tool_path = os.path.dirname(sys.executable)
-        self.full_exe = os.path.join(self.tool_path, 'python.exe')
+        self.setup(False)
 
     def unpack(self):
-        self.tool_mark()
+        if self.opts._load_python:
+            # Get python version
+            self.mark_deps = self.setup(True)
+        else:
+            if self.opts.python_dir:
+                # From the command line, hope is at least 3.4 ...
+                self.tool_path = self.opts.python_dir
+            else:
+                # We use the one that call the script
+                self.tool_path = os.path.dirname(sys.executable)
+            self.mark_deps = False
 
 @tool_add
 class Tool_yasm(Tool):
@@ -167,7 +239,7 @@ class Tool_yasm(Tool):
             'yasm',
             archive_url = 'http://www.tortall.net/projects/yasm/releases/yasm-1.3.0-win64.exe',
             hash = 'd160b1d97266f3f28a71b4420a0ad2cd088a7977c2dd3b25af155652d8d8d91f',
-            dir_part = 'yasm-1.3.0', 
+            dir_part = 'yasm-1.3.0',
             exe_name = 'yasm.exe')
 
     def unpack(self):

@@ -61,7 +61,7 @@ class Tool(Project):
     def get_executable(self):
         if self.full_exe:
             return self.full_exe
-        raise NotImplementedError('get_executable')
+        raise NotImplementedError('%s:get_executable' % (self.name, ))
     
     def get_base_dir(self):
         '''

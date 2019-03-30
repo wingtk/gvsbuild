@@ -40,7 +40,7 @@ class Project_adwaita_icon_theme(Tarball, Project):
             'adwaita-icon-theme',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/adwaita-icon-theme/3.28/adwaita-icon-theme-3.28.0.tar.xz',
             hash = '7aae8c1dffd6772fd1a21a3d365a0ea28b7c3988bdbbeafbf8742cda68242150',
-            dependencies = ['librsvg'],
+            dependencies = ['librsvg', 'python', ],
             )
 
     def build(self):
@@ -602,11 +602,11 @@ class _MakeGir(object):
                 log.message('Unable to find detectenv-msvc.mak for %s' % (prj_name, ))
                 return
 
-        cmd = 'nmake -f %s-introspection-msvc.mak CFG=%s PREFIX=%s PYTHON=%s\python.exe install-introspection' % (
+        cmd = 'nmake -f %s-introspection-msvc.mak CFG=%s PREFIX=%s PYTHON=%s install-introspection' % (
                 prj_name,
                 self.builder.opts.configuration,
                 self.builder.gtk_dir,
-                self.builder.opts.python_dir,
+                Project.get_tool_executable('python'),
                 )
 
         self.push_location(b_dir)

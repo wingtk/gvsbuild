@@ -39,6 +39,8 @@ class Options(object):
         self.enable_gi = False
         self.gtk3_ver = '3.22'
         self.ffmpeg_enable_gpl = False
+        # Default
+        self._load_python = False
 
 class Project(object):
     def __init__(self, name, **kwargs):
