@@ -38,8 +38,8 @@ class Project_adwaita_icon_theme(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'adwaita-icon-theme',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/adwaita-icon-theme/3.28/adwaita-icon-theme-3.28.0.tar.xz',
-            hash = '7aae8c1dffd6772fd1a21a3d365a0ea28b7c3988bdbbeafbf8742cda68242150',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/adwaita-icon-theme/3.32/adwaita-icon-theme-3.32.0.tar.xz',
+            hash = '698db6e407bb987baec736c6a30216dfc0317e3ca2403c7adf3a5aa46c193286',
             dependencies = ['librsvg', 'python', ],
             )
 
@@ -59,15 +59,15 @@ class Project_atk(Tarball, Meson):
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/atk/2.30/atk-2.30.0.tar.xz',
             hash = 'dd4d90d4217f2a0c1fee708a555596c2c19d26fef0952e1ead1938ab632c027b',
             dependencies = [
-                'ninja', 
-                'meson', 
-                'pkg-config', 
+                'ninja',
+                'meson',
+                'pkg-config',
                 'glib',
             ],
             )
         if self.opts.enable_gi:
             self.add_dependency('gobject-introspection')
-        
+
         self.add_param('-Dintrospection=%s' % (self.opts.enable_gi, ))
         self.add_param('-Ddocs=false')
 
@@ -371,13 +371,13 @@ class Project_gdk_pixbuf(Tarball, Meson):
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.38/gdk-pixbuf-2.38.1.tar.xz',
             hash = 'f19ff836ba991031610dcc53774e8ca436160f7d981867c8c3a37acfe493ab3a',
             dependencies = [
-                'ninja', 
-                'pkg-config', 
-                'meson', 
-                'python', 
-                'libtiff-4', 
-                'jasper', 
-                'glib', 
+                'ninja',
+                'pkg-config',
+                'meson',
+                'python',
+                'libtiff-4',
+                'jasper',
+                'glib',
                 'libpng',
             ],
             )
@@ -388,8 +388,8 @@ class Project_gdk_pixbuf(Tarball, Meson):
             enable_gi = 'false'
 
         self.add_param('-Djasper=true')
-        self.add_param('-Dnative_windows_loaders=true') 
-        self.add_param('-Dgir=%s' % (enable_gi, )) 
+        self.add_param('-Dnative_windows_loaders=true')
+        self.add_param('-Dgir=%s' % (enable_gi, ))
         self.add_param('-Dman=false')
         self.add_param('-Dx11=false')
 
@@ -534,7 +534,7 @@ class Project_graphene(GitRepo, Meson):
 
         self.add_param('-Dbenchmarks=false')
         self.add_param('-Dintrospection=%s' % (enable_gi, ))
-        
+
     def build(self):
         Meson.build(self, make_tests=True)
         self.install(r'.\LICENSE share\doc\graphene')
@@ -587,8 +587,8 @@ class Project_gsettings_desktop_schemas(Tarball, Project):
 
 class _MakeGir(object):
     """
-    Class to build, with nmake, a single project .gir/.typelib files for the 
-    gobject-introspection support, used where the meson script is not 
+    Class to build, with nmake, a single project .gir/.typelib files for the
+    gobject-introspection support, used where the meson script is not
     present (gtk % gtk3) or not update the handle it
     """
     def make_single_gir(self, prj_name, prj_dir=None):
@@ -664,8 +664,8 @@ class Project_gtk3_20(Project_gtk_base):
     def __init__(self):
         if self.opts.gtk3_ver != '3.20':
             self.ignore()
-            return 
-        
+            return
+
         Project.__init__(self,
             'gtk3',
             prj_dir='gtk3-20',
@@ -695,8 +695,8 @@ class Project_gtk3_22(Project_gtk_base):
     def __init__(self):
         if self.opts.gtk3_ver != '3.22':
             self.ignore()
-            return 
-        
+            return
+
         Project.__init__(self,
             'gtk3',
             prj_dir='gtk3-22',
@@ -725,8 +725,8 @@ class Project_gtk3_24(Project_gtk_base):
     def __init__(self):
         if self.opts.gtk3_ver != '3.24':
             self.ignore()
-            return 
-        
+            return
+
         Project.__init__(self,
             'gtk3',
             prj_dir='gtk3-24',
@@ -982,7 +982,7 @@ class Project_libgxps(Tarball, Meson):
             disable_gi = 'false'
         else:
             disable_gi = 'true'
-        
+
         self.add_param('-Ddisable-introspection=%s' % (disable_gi, ))
         self.add_param('-Dwith-liblcms2=false')
         self.add_param('-Denable-test=false')
@@ -1092,7 +1092,7 @@ class Project_librsvg(Tarball, Project, _MakeGir):
 
     def build(self):
         self.exec_msbuild_gen(r'build\win32', 'librsvg.sln')
-        
+
         if Project.opts.enable_gi:
             self.builder.mod_env('INCLUDE', '%s\\include\\glib-2.0' % (self.builder.gtk_dir, ))
             self.builder.mod_env('INCLUDE', '%s\\lib\\glib-2.0\include' % (self.builder.gtk_dir, ))
@@ -1100,7 +1100,7 @@ class Project_librsvg(Tarball, Project, _MakeGir):
             self.builder.mod_env('INCLUDE', '%s\\include\\cairo' % (self.builder.gtk_dir, ))
 
             self.make_single_gir('rsvg', prj_dir='librsvg')
-        
+
         self.install(r'.\COPYING share\doc\librsvg')
 
     def post_install(self):
@@ -1301,9 +1301,9 @@ class Project_lmdb(GitRepo, Meson):
             fetch_submodules = False,
             tag = 'meson',
             dependencies = [
-                'ninja', 
+                'ninja',
                 'meson',
-            ], 
+            ],
             )
 
     def build(self):
@@ -1405,7 +1405,7 @@ class Project_openssl(Tarball, Project):
 #        add_path = ';'.join([os.path.join(self.builder.perl_dir, 'bin'),
 #                             os.path.join(self.builder.opts.msys_dir, 'usr', 'bin')])
         add_path = None
-        
+
         if self.builder.x86:
             self.exec_vs(r'%(perl_dir)s\bin\perl.exe Configure ' + debug_option + 'VC-WIN32 ' + common_options)
             self.exec_vs(r'ms\do_nasm', add_path=add_path)
@@ -1435,7 +1435,7 @@ class Project_openssl(Tarball, Project):
         self.install(r'''.\out32dll\4758cca.pdb .\out32dll\aep.pdb .\out32dll\atalla.pdb .\out32dll\capi.pdb
                          .\out32dll\chil.pdb lib\engines .\out32dll\cswift.pdb .\out32dll\gmp.pdb
                          .\out32dll\gost.pdb .\out32dll\nuron.pdb .\out32dll\padlock.pdb .\out32dll\sureware.pdb
-		                 .\out32dll\ubsec.pdb lib\engines''')
+                     .\out32dll\ubsec.pdb lib\engines''')
         self.pop_location()
 
 @project_add
@@ -1472,15 +1472,15 @@ class Project_pango(Tarball, Meson):
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.42/pango-1.42.4.tar.xz',
             hash = '1d2b74cd63e8bd41961f2f8d952355aa0f9be6002b52c8aa7699d9f5da597c9d',
             dependencies = [
-                'ninja', 
-                'meson', 
-                'cairo', 
-                'harfbuzz', 
+                'ninja',
+                'meson',
+                'cairo',
+                'harfbuzz',
                 'fribidi',
             ],
-            patches = [ 
-                '001-ignore-help2man.patch', 
-            ], 
+            patches = [
+                '001-ignore-help2man.patch',
+            ],
             )
         if self.opts.enable_gi:
             self.add_dependency('gobject-introspection')
@@ -1533,8 +1533,8 @@ class Project_pkgconf(GitRepo, Meson):
             fetch_submodules = False,
             tag = 'pkgconf-1.5.4',
             dependencies = ['ninja', 'meson'],
-            patches = [ '0001-vs2013.patch', 
-                      ], 
+            patches = [ '0001-vs2013.patch',
+                      ],
             )
         self.add_param('-Dtests=false')
 
@@ -1861,7 +1861,7 @@ class Project_dev_shell(Project):
         print("")
         if self.meson:
             # Add a _meson env to use it directly
-            meson_path = Project.get_tool_path('meson') 
+            meson_path = Project.get_tool_path('meson')
             self.builder.mod_env('_MESON', 'python %s\\meson.py' % (meson_path, ))
             print("If you need to use meson you can use the _MESON environment, e.g.")
             print("%_MESON% configure")
