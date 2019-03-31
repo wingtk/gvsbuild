@@ -10,6 +10,12 @@ environment:
     PATH: C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Program Files\Git\cmd
     PYTHON: C:\Python37\python.exe
   matrix:
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      VS_VER: "15"
+      PLATFORM: "x86"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      VS_VER: "15"
+      PLATFORM: "x64"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       VS_VER: "14"
       PLATFORM: "x86"
