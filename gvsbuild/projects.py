@@ -565,23 +565,24 @@ class Project_grpc(GitRepo, CmakeProject):
         self.install(r'.\LICENSE share\doc\grpc')
 
 @project_add
-class Project_gsettings_desktop_schemas(Tarball, Project):
+class Project_gsettings_desktop_schemas(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'gsettings-desktop-schemas',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.24/gsettings-desktop-schemas-3.24.0.tar.xz',
-            hash = 'f6573a3f661d22ff8a001cc2421d8647717f1c0e697e342d03c6102f29bbbb90',
-            dependencies = ['python', 'perl', 'glib'],
-            patches = ['0001-build-win32-replace.py-Fix-replacing-items-in-files-.patch',
-                       '0002-glib-mkenums-python.patch',
-                       ],
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.32/gsettings-desktop-schemas-3.32.0.tar.xz',
+            hash = '2d59b4b3a548859dfae46314ee4666787a00d5c82db382e97df7aa9d0e310a35',
+            dependencies = ['meson', 'ninja', 'pkg-config', 'python', 'glib'],
             )
+        if self.opts.enable_gi:
+            self.add_dependency('gobject-introspection')
+            enable_gi = 'true'
+        else:
+            enable_gi = 'false'
+
+        self.add_param('-Dintrospection=%s' % (enable_gi, ))
 
     def build(self):
-        self.push_location(r'.\build\win32')
-        self.exec_vs(r'nmake /nologo /f gsettings-desktop-schemas-msvc.mak CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PERL="%(perl_dir)s\bin\perl.exe" PREFIX="%(gtk_dir)s"')
-        self.exec_vs(r'nmake /nologo /f gsettings-desktop-schemas-msvc.mak install CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PREFIX="%(gtk_dir)s"')
-        self.pop_location()
+        Meson.build(self)
 
         self.install(r'.\COPYING share\doc\gsettings-desktop-schemas')
 
