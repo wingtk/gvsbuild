@@ -362,8 +362,13 @@ class Builder(object):
         self.vs_env = {}
         dbg = log.debug_on()
         for l in output.splitlines():
-            # python 3 str is not bytes and no need to decode
-            k, v = (l.decode('utf-8') if isinstance(l, bytes) else l).split("=", 1)
+            # Python3 str is not bytes and no need to decode
+            l = l.decode('utf-8') if isinstance(l, bytes) else l
+            e = l.split("=", 1)
+            if len(e) < 2:
+                log.debug('vs env: ignoring %s' % (l))
+                continue
+            k, v = e
             # Be sure to have PATH in upper case because we need to manipulate it
             if k.upper() == 'PATH':
                 k = 'PATH'
