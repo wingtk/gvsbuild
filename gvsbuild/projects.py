@@ -1135,6 +1135,7 @@ class Project_libsoup(Tarball, Meson):
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.66/libsoup-2.66.1.tar.xz',
             hash = '4a2cb6c1174540af13661636035992c2b179dfcb39f4d3fa7bee3c7e355c43ff',
             dependencies = ['libxml2', 'glib-openssl', 'sqlite', 'libpsl', 'mit-kerberos'],
+            patches = ['fix-build.patch'],
             )
 
         if self.opts.enable_gi:

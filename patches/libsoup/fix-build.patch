@@ -1,0 +1,44 @@
+diff --git a/libsoup/meson.build b/libsoup/meson.build
+index 92b615f4..54fbc0a6 100644
+--- a/libsoup/meson.build
++++ b/libsoup/meson.build
+@@ -246,7 +246,7 @@ pkg.generate(libsoup,
+ libsoup_dep = declare_dependency(link_with : libsoup,
+   include_directories : configinc,
+   sources : soup_enum_h,
+-  dependencies : glib_dep)
++  dependencies : [ platform_deps, glib_dep ])
+ 
+ if enable_gnome
+   soup_gnome_api_name = 'soup-gnome-' + apiversion
+diff --git a/tests/meson.build b/tests/meson.build
+index 8176f29b..18a7aa7f 100644
+--- a/tests/meson.build
++++ b/tests/meson.build
+@@ -2,10 +2,10 @@ test_utils_name = 'test-utils'
+ 
+ if cc.get_id() == 'msvc'
+   test_utils = static_library(test_utils_name, test_utils_name + '.c',
+-    dependencies : [glib_dep, libsoup_dep])
++    dependencies : libsoup_dep)
+ else
+   test_utils = library(test_utils_name, test_utils_name + '.c',
+-    dependencies : [glib_dep, libsoup_dep])
++    dependencies : libsoup_dep)
+ endif
+ 
+ test_resources = gnome.compile_resources('soup-tests',
+@@ -108,11 +108,11 @@ foreach test: tests
+   test_target = executable(test_name,
+     sources : [ test_name + '.c', test_resources ],
+     link_with : test_utils,
+-    dependencies : [glib_dep, libsoup_dep, platform_deps])
++    dependencies : libsoup_dep)
+   # Increase the timeout as on some architectures the tests could be slower
+   # than the default 30 seconds.
+   test(test_name, test_target, env : env, is_parallel : test[1], timeout : 60)
+ endforeach
+ 
+ executable('ntlm-test-helper', 'ntlm-test-helper.c',
+-  dependencies : [glib_dep, libsoup_dep])
++  dependencies : libsoup_dep)
