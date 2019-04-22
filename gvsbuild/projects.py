@@ -821,7 +821,11 @@ class Project_icu(Tarball, Project):
 
         self.exec_msbuild(r'source\allinone\allinone.sln /t:cal')
 
-        self.install(r'.\pc-files\* lib\pkgconfig')
+        if self.builder.opts.configuration == 'debug':
+            self.install(r'.\pc-files-debug\* lib\pkgconfig')
+        else:
+            self.install(r'.\pc-files\* lib\pkgconfig')
+
         self.install(r'.\LICENSE share\doc\icu')
         self.install(bindir + r'\* bin')
         self.install(libdir + r'\* lib')
