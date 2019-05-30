@@ -230,6 +230,7 @@ class Tool_python(Tool):
             else:
                 # We use the one that call the script
                 self.tool_path = os.path.dirname(sys.executable)
+            self.full_exe = os.path.join(self.tool_path, 'python.exe')
             self.mark_deps = False
 
 @tool_add
