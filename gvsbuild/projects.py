@@ -795,8 +795,8 @@ class Project_hicolor_icon_theme(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'hicolor-icon-theme',
-            archive_url = 'http://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.15.tar.xz',
-            hash = '9cc45ac3318c31212ea2d8cb99e64020732393ee7630fa6c1810af5f987033cc',
+            archive_url = 'http://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.17.tar.xz',
+            hash = '317484352271d18cbbcfac3868eab798d67fff1b8402e740baa6ff41d588a9d8',
             )
 
     def build(self):
