@@ -258,7 +258,7 @@ class Project_ffmpeg(Tarball, Project):
             'ffmpeg',
             archive_url = 'https://www.ffmpeg.org/releases/ffmpeg-4.1.3.tar.xz',
             hash = '0c3020452880581a8face91595b239198078645e7d7184273b8bcc7758beb63d',
-            dependencies = [ 'yasm', 'msys2', ],
+            dependencies = [ 'nasm', 'msys2', ],
         )
         if self.opts.ffmpeg_enable_gpl:
             self.add_dependency('x264')
