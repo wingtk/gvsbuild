@@ -514,7 +514,7 @@ class Project_gobject_introspection(Tarball, Meson):
             log.debug("Python library path is [%s]" % (py_libs, ))
             self.builder.mod_env('LIB', py_libs, prepend=False)
 
-        Meson.build(self, meson_params='-Dpython=%s\\python.exe -Dcairo-libname=cairo-gobject.dll' % (py_dir, ))
+        Meson.build(self, meson_params='-Dpython=%s\\python.exe -Dcairo_libname=cairo-gobject.dll' % (py_dir, ))
 
 @project_add
 class Project_graphene(GitRepo, Meson):
