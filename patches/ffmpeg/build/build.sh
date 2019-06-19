@@ -37,6 +37,9 @@ export PKG_CONFIG_PATH=$gtk_dir/lib/pkgconfig:$PKG_CONFIG_PATH
     --enable-hwaccel=hevc_d3d11va \
     --enable-hwaccel=hevc_d3d11va2 \
     --enable-d3d11va \
+    --enable-nvdec \
+    --enable-hwaccel=h264_nvdec \
+    --enable-hwaccel=hevc_nvdec \
     --disable-programs \
     --disable-avformat \
     --disable-avfilter \

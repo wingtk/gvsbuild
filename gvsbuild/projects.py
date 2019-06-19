@@ -258,7 +258,7 @@ class Project_ffmpeg(Tarball, Project):
             'ffmpeg',
             archive_url = 'https://www.ffmpeg.org/releases/ffmpeg-4.1.3.tar.xz',
             hash = '0c3020452880581a8face91595b239198078645e7d7184273b8bcc7758beb63d',
-            dependencies = [ 'nasm', 'msys2', ],
+            dependencies = [ 'nasm', 'msys2', 'pkg-config', 'nv-codec-headers' ],
         )
         if self.opts.ffmpeg_enable_gpl:
             self.add_dependency('x264')
@@ -1387,6 +1387,21 @@ class Project_mit_kerberos(Tarball, Project):
         self.pop_location()
 
         self.install(r'.\NOTICE share\doc\mit-kerberos')
+
+@project_add
+class Project_nv_codec_headers(GitRepo, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'nv-codec-headers',
+            repo_url = 'http://git.videolan.org/git/ffmpeg/nv-codec-headers.git',
+            fetch_submodules = False,
+            tag = 'n9.0.18.1',
+            )
+
+    def build(self):
+        add_path = os.path.join(self.builder.opts.msys_dir, 'usr', 'bin')
+
+        self.exec_vs(r'make install PREFIX="%(gtk_dir)s"', add_path=add_path)
 
 @project_add
 class Project_openssl(Tarball, Project):
