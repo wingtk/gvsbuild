@@ -59,7 +59,7 @@ class Meson(Project):
             else:
                 add_opts = ''
             # debug info
-            add_opts += '--buildtype ' + self.builder.opts.configuration
+            add_opts += '--buildtype ' + 'debug' if self.builder.opts.configuration == 'debug' else 'debugoptimized'
             if meson_params:
                 add_opts += ' ' + meson_params
             # pyhon meson.py src_dir ninja_build_dir --prefix gtk_bin options
