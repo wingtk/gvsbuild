@@ -38,6 +38,7 @@ def get_options(args):
     opts.configuration = getattr(args, 'configuration', 'release')
     opts.build_dir = args.build_dir
     opts.archives_download_dir = args.archives_download_dir
+    opts.export_dir = args.export_dir
     opts.patches_root_dir = args.patches_root_dir
     opts.tools_root_dir = args.tools_root_dir
     opts.vs_ver = args.vs_ver
@@ -84,6 +85,8 @@ def get_options(args):
         opts.archives_download_dir = os.path.join(args.build_dir, 'src')
     if not opts.git_expand_dir:
         opts.git_expand_dir = os.path.join(opts.archives_download_dir, 'git-exp')
+    if not opts.export_dir:
+        opts.export_dir = os.path.join(args.build_dir, 'export')
     if not opts.patches_root_dir:
         opts.patches_root_dir = os.path.join(sys.path[0], 'patches')
     prop_file = os.path.join(opts.patches_root_dir, 'stack.props')
@@ -234,6 +237,10 @@ Examples:
                          help="The directory to download the source archives to. It will be created. " +
                               "If a source archive already exists here, it won't be downloaded again. " +
                               "Default is $(build-dir)\\src.")
+    p_build.add_argument('--export-dir',
+                         help="The directory to export the source archives to. It will be created. " +
+                              "It creates an archive with the source code and any possible patch. " +
+                              "Default is $(build-dir)\\export.")
     p_build.add_argument('--patches-root-dir',
                          help="The directory where you checked out https://github.com/wingtk/gvsbuild.git. Default is $(build-dir)\\github\\gvsbuild.")
     p_build.add_argument('--tools-root-dir',
