@@ -614,7 +614,7 @@ class Builder(object):
             new = cur - self.file_built
             if new:
                 # file presents, do the zip
-                zip_file = os.path.join(self.zip_dir, proj.prj_dir + '.zip')
+                zip_file = os.path.join(self.zip_dir, proj.prj_dir)
                 self.make_zip(zip_file, new)
                 # use the current file set
                 self.file_built = cur
