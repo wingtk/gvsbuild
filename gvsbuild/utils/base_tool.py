@@ -69,7 +69,10 @@ class Tool(Project):
         tool, normally not used (we update the path or use directly the executable)
         '''
         raise NotImplementedError('get_base_dir')
-        
+
+    def export(self):
+        # We do not want to export tools
+        pass
 
 def tool_add(cls):
     """
