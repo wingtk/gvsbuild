@@ -1,0 +1,157 @@
+jobs:
+
+  - job: vs2019
+    timeoutInMinutes: 90
+    strategy:
+      matrix:
+        x64-win2019:
+          vmImage: windows-2019
+          VS_VER: "16"
+          PLATFORM: "x64"
+          ARTIFACT_PATH: "gtk/x64/release"
+        x86-win2019:
+          vmImage: windows-2019
+          VS_VER: "16"
+          PLATFORM: "x86"
+          ARTIFACT_PATH: "gtk/Win32/release"
+    pool:
+      vmImage: $(vmImage)
+    variables:
+      DOWNLOAD_DIR: $(Pipeline.Workspace)\_download_cache
+      MSYS2_ROOT: $(System.Workfolder)\msys64
+      BUILD_DIR: $(System.Workfolder)\gtk-build
+    steps:
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: '3.7'
+      # The git directory contains cygwin binaries conflicting with MSYS2
+      - script: |
+          rmdir "C:\Program Files\Git" /s /q
+        displayName: Remove GIT
+      - script: |
+          choco config set cacheLocation %DOWNLOAD_DIR%
+          choco install --no-progress msys2 --params="/InstallDir:%MSYS2_ROOT% /NoPath"
+        displayName: Install MSYS2
+      - script: |
+          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --enable-gi --py-wheel --py-egg --python-ver 3.7 glib
+        displayName: gvsbuild
+      - task: ArchiveFiles@2
+        displayName: Archive release
+        inputs:
+          rootFolderOrFile: $(BUILD_DIR)\$(ARTIFACT_PATH)
+          includeRootFolder: false
+          archiveFile: '$(Build.ArtifactStagingDirectory)/gvsbuild-vs$(VS_VER)-$(PLATFORM).zip'
+      - task: PublishBuildArtifacts@1
+        displayName: Publish packages
+        inputs:
+          pathtoPublish: '$(Build.ArtifactStagingDirectory)/gvsbuild-vs$(VS_VER)-$(PLATFORM).zip'
+          artifactName: gvsbuild-vs$(VS_VER)-$(PLATFORM)
+
+  - job: vs2017
+    timeoutInMinutes: 90
+    strategy:
+      matrix:
+        x64-win2016:
+          vmImage: vs2017-win2016
+          VS_VER: "15"
+          PLATFORM: "x64"
+          ARTIFACT_PATH: "gtk/x64/release"
+        x86-win2016:
+          vmImage: vs2017-win2016
+          VS_VER: "15"
+          PLATFORM: "x86"
+          ARTIFACT_PATH: "gtk/Win32/release"
+    pool:
+      vmImage: $(vmImage)
+    variables:
+      DOWNLOAD_DIR: $(Pipeline.Workspace)\_download_cache
+      MSYS2_ROOT: $(System.Workfolder)\msys64
+      BUILD_DIR: $(System.Workfolder)\gtk-build
+    steps:
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: '3.7'
+      # The git directory contains cygwin binaries conflicting with MSYS2
+      - script: |
+          rmdir "C:\Program Files\Git" /s /q
+        displayName: Remove GIT
+      - script: |
+          choco config set cacheLocation %DOWNLOAD_DIR%
+          choco install --no-progress msys2 --params="/InstallDir:%MSYS2_ROOT% /NoPath"
+        displayName: Install MSYS2
+      - script: |
+          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --enable-gi --py-wheel --py-egg --python-ver 3.7 enchant gtk gtk3-full pycairo pygobject lz4
+          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --fast-build --clean-built --py-wheel --py-egg --python-ver 3.6 pycairo pygobject
+          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --fast-build --clean-built --py-wheel --py-egg --python-ver 3.5 pycairo pygobject
+        displayName: gvsbuild
+      - task: ArchiveFiles@2
+        displayName: Archive release
+        inputs:
+          rootFolderOrFile: $(BUILD_DIR)\$(ARTIFACT_PATH)
+          includeRootFolder: false
+          archiveFile: '$(Build.ArtifactStagingDirectory)/gvsbuild-vs$(VS_VER)-$(PLATFORM).zip'
+      - task: PublishBuildArtifacts@1
+        displayName: Publish packages
+        inputs:
+          pathtoPublish: '$(Build.ArtifactStagingDirectory)/gvsbuild-vs$(VS_VER)-$(PLATFORM).zip'
+          artifactName: gvsbuild-vs$(VS_VER)-$(PLATFORM)
+
+  - job: vs2015
+    timeoutInMinutes: 90
+    strategy:
+      matrix:
+        x64-win2012:
+          vmImage: vs2015-win2012r2
+          VS_VER: "14"
+          PLATFORM: "x64"
+          ARTIFACT_PATH: "gtk/x64/release"
+        x86-win2012:
+          vmImage: vs2015-win2012r2
+          VS_VER: "14"
+          PLATFORM: "x86"
+          ARTIFACT_PATH: "gtk/Win32/release"
+    pool:
+      vmImage: $(vmImage)
+    variables:
+      DOWNLOAD_DIR: $(Pipeline.Workspace)\_download_cache
+      MSYS2_ROOT: $(System.Workfolder)\msys64
+      BUILD_DIR: $(System.Workfolder)\gtk-build
+    steps:
+      # The git directory contains cygwin binaries conflicting with MSYS2
+      - script: |
+          rmdir "C:\Program Files\Git" /s /q
+        displayName: Remove GIT
+      - powershell: |
+          $env:ChocolateyInstall="$(System.Workfolder)\choco"
+          Set-ExecutionPolicy Bypass -Scope Process -Force; iwr https://chocolatey.org/install.ps1 -UseBasicParsing | iex
+          Write-Host "##vso[task.prependpath]${env:ChocolateyInstall}\bin"
+          choco feature enable -n allowGlobalConfirmation
+        displayName: Install choco
+      - powershell: |
+          Invoke-WebRequest https://www.python.org/ftp/python/3.7.6/python-3.7.6-amd64-webinstall.exe -OutFile C:\py3-setup.exe
+        displayName: Download Python
+      - script: |
+          c:\py3-setup.exe /quiet PrependPath=1 InstallAllUsers=1 Include_launcher=1 InstallLauncherAllUsers=1 Include_test=0 Include_doc=0 Include_dev=0 Include_debug=0 Include_tcltk=0 TargetDir=C:\Python37
+          @echo ##vso[task.prependpath]C:\Python37
+          @echo ##vso[task.prependpath]C:\Python37\Scripts
+        displayName: Install Python
+      - script: |
+          choco config set cacheLocation %DOWNLOAD_DIR%
+          choco install --no-progress msys2 --params="/InstallDir:%MSYS2_ROOT% /NoPath"
+        displayName: Install MSYS2
+      - script: |
+          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --enable-gi --py-wheel --py-egg --python-ver 3.7 enchant gtk gtk3-full pycairo pygobject lz4
+          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --fast-build --clean-built --py-wheel --py-egg --python-ver 3.6 pycairo pygobject
+          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --fast-build --clean-built --py-wheel --py-egg --python-ver 3.5 pycairo pygobject
+        displayName: gvsbuild
+      - task: ArchiveFiles@2
+        displayName: Archive release
+        inputs:
+          rootFolderOrFile: $(BUILD_DIR)\$(ARTIFACT_PATH)
+          includeRootFolder: false
+          archiveFile: '$(Build.ArtifactStagingDirectory)/gvsbuild-vs$(VS_VER)-$(PLATFORM).zip'
+      - task: PublishBuildArtifacts@1
+        displayName: Publish packages
+        inputs:
+          pathtoPublish: '$(Build.ArtifactStagingDirectory)/gvsbuild-vs$(VS_VER)-$(PLATFORM).zip'
+          artifactName: gvsbuild-vs$(VS_VER)-$(PLATFORM)
