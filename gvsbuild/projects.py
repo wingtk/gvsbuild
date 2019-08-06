@@ -589,6 +589,30 @@ class Project_gsettings_desktop_schemas(Tarball, Meson):
 
         self.install(r'.\COPYING share\doc\gsettings-desktop-schemas')
 
+@project_add
+class Project_gstreamer(Tarball, Meson):
+    def __init__(self):
+        Project.__init__(self,
+            'gstreamer',
+            archive_url = 'https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.16.0.tar.xz', 
+            hash = '0e8e2f7118be437cba879353970cf83c2acced825ecb9275ba05d9186ef07c00',
+            dependencies = ['meson', 'ninja', 'glib'],
+            )
+
+        if self.opts.enable_gi:
+            self.add_dependency('gobject-introspection')
+            enable_gi = 'enabled'
+        else:
+            enable_gi = 'disabled'
+
+        self.add_param('-Dintrospection=%s' % (enable_gi, ))            
+
+    def build(self):
+        add_path = os.path.join(self.builder.opts.msys_dir, 'usr', 'bin')
+
+        Meson.build(self, add_path=add_path, meson_params='-Dtests=disabled -Dexamples=disabled')
+        self.install(r'.\COPYING share\doc\gstreamer')
+
 class _MakeGir(object):
     """
     Class to build, with nmake, a single project .gir/.typelib files for the
