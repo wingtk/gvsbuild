@@ -40,7 +40,7 @@ class Meson(Project):
         self._ensure_params()
         self.params.append(par)
 
-    def build(self, meson_params=None, make_tests=False):
+    def build(self, meson_params=None, make_tests=False, add_path=None):
         # where we build, with ninja, the library
         ninja_build = self.build_dir + '-meson'
         # clean up and regenerate all
@@ -67,7 +67,7 @@ class Meson(Project):
             python = Project.get_tool_executable('python')
             cmd = '%s %s %s %s --prefix %s %s' % (python, meson, self._get_working_dir(), ninja_build, self.builder.gtk_dir, add_opts, )
             # build the ninja file to do everything (build the library, create the .pc file, install it, ...)
-            self.exec_vs(cmd)
+            self.exec_vs(cmd, add_path=add_path)
             log.end()
             
         if make_tests:
