@@ -642,6 +642,21 @@ class Project_gst_plugins_good(Tarball, Meson):
         Meson.build(self)
         self.install(r'.\COPYING share\doc\gst-plugins-good')
 
+@project_add
+class Project_gst_plugins_bad(Tarball, Meson):
+    def __init__(self):
+        Project.__init__(self,
+            'gst-plugins-bad',
+            archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.0.tar.xz', 
+            hash = '22139de35626ada6090bdfa3423b27b7fc15a0198331d25c95e6b12cb1072b05',
+            dependencies = ['meson', 'ninja', 'glib', 'gstreamer'],
+            patches = ['0001-wasapi-fix-symbol-redefinition-build-error.patch'],
+            )
+
+    def build(self):
+        Meson.build(self)
+        self.install(r'.\COPYING share\doc\gst-plugins-bad')
+
 class _MakeGir(object):
     """
     Class to build, with nmake, a single project .gir/.typelib files for the
