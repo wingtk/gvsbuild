@@ -613,6 +613,21 @@ class Project_gstreamer(Tarball, Meson):
         Meson.build(self, add_path=add_path, meson_params='-Dtests=disabled -Dexamples=disabled')
         self.install(r'.\COPYING share\doc\gstreamer')
 
+@project_add
+class Project_gst_plugins_base(Tarball, Meson):
+    def __init__(self):
+        Project.__init__(self,
+            'gst-plugins-base',
+            archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.16.0.tar.xz', 
+            hash = '4093aa7b51e28fb24dfd603893fead8d1b7782f088b05ed0f22a21ef176fb5ae',
+            dependencies = ['meson', 'ninja', 'glib', 'gstreamer', 'opus'],
+            patches = ['0001-meson-Don-t-try-to-find-gio-unix-on-Windows.patch'],
+            )
+
+    def build(self):
+        Meson.build(self)
+        self.install(r'.\COPYING share\doc\gst-plugins-base')
+
 class _MakeGir(object):
     """
     Class to build, with nmake, a single project .gir/.typelib files for the
