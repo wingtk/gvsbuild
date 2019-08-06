@@ -1485,6 +1485,8 @@ class Project_opus(Tarball, Project):
 
         self.install(r'include\* include')
 
+        self.install(r'.\pc-files\* lib\pkgconfig')
+        
         self.install(r'COPYING share\doc\opus')
 
 @project_add
