@@ -1210,6 +1210,7 @@ class Project_libsoup(Tarball, Meson):
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.66/libsoup-2.66.2.tar.xz',
             hash = 'bd2ea602eba642509672812f3c99b77cbec2f3de02ba1cc8cb7206bf7de0ae2a',
             dependencies = ['libxml2', 'glib-openssl', 'sqlite', 'libpsl', 'mit-kerberos'],
+            patches = ['0001-WebSockets-fix-invalid-read-when-sending-large-messa.patch'],
             )
 
         if self.opts.enable_gi:

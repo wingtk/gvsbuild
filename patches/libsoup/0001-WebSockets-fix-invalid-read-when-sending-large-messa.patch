@@ -1,0 +1,44 @@
+From 847155e586293a141a2f4ddcf4cf083d5b5cac9e Mon Sep 17 00:00:00 2001
+From: Claudio Saavedra <csaavedra@igalia.com>
+Date: Fri, 23 Aug 2019 18:58:49 +0300
+Subject: [PATCH] WebSockets: fix invalid read when sending large messages
+
+We use GByteArray, which can be reallocated, so be careful when
+keeping track of the current position in a message not to use
+potentially dangling pointers.
+
+Fixes #160
+---
+ libsoup/soup-websocket-connection.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/libsoup/soup-websocket-connection.c b/libsoup/soup-websocket-connection.c
+index 50e67fd6..345040fe 100644
+--- a/libsoup/soup-websocket-connection.c
++++ b/libsoup/soup-websocket-connection.c
+@@ -439,7 +439,7 @@ send_message (SoupWebsocketConnection *self,
+ 	gsize frame_len;
+ 	guint8 *outer;
+ 	guint8 *mask = 0;
+-	guint8 *at;
++	guint at;
+ 	GBytes *filtered_bytes;
+ 	GList *l;
+ 	GError *error = NULL;
+@@ -515,11 +515,11 @@ send_message (SoupWebsocketConnection *self,
+ 		bytes->len += 4;
+ 	}
+ 
+-	at = bytes->data + bytes->len;
++	at = bytes->len;
+ 	g_byte_array_append (bytes, data, length);
+ 
+ 	if (self->pv->connection_type == SOUP_WEBSOCKET_CONNECTION_CLIENT)
+-		xor_with_mask (mask, at, length);
++		xor_with_mask (mask, bytes->data + at, length);
+ 
+ 	frame_len = bytes->len;
+ 	queue_frame (self, flags, g_byte_array_free (bytes, FALSE),
+-- 
+2.17.1
+
