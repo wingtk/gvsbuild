@@ -1,6 +1,6 @@
-From 847155e586293a141a2f4ddcf4cf083d5b5cac9e Mon Sep 17 00:00:00 2001
-From: Claudio Saavedra <csaavedra@igalia.com>
-Date: Fri, 23 Aug 2019 18:58:49 +0300
+From 75275683a2336d276befe56e3d2568c0532284ae Mon Sep 17 00:00:00 2001
+From: Ignacio Casal Quinteiro <qignacio@amazon.com>
+Date: Mon, 26 Aug 2019 17:05:02 +0200
 Subject: [PATCH] WebSockets: fix invalid read when sending large messages
 
 We use GByteArray, which can be reallocated, so be careful when
@@ -13,19 +13,19 @@ Fixes #160
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/libsoup/soup-websocket-connection.c b/libsoup/soup-websocket-connection.c
-index 50e67fd6..345040fe 100644
+index 35eee6a6..b0b0fb50 100644
 --- a/libsoup/soup-websocket-connection.c
 +++ b/libsoup/soup-websocket-connection.c
-@@ -439,7 +439,7 @@ send_message (SoupWebsocketConnection *self,
+@@ -350,7 +350,7 @@ send_message (SoupWebsocketConnection *self,
  	gsize frame_len;
  	guint8 *outer;
  	guint8 *mask = 0;
 -	guint8 *at;
 +	guint at;
- 	GBytes *filtered_bytes;
- 	GList *l;
- 	GError *error = NULL;
-@@ -515,11 +515,11 @@ send_message (SoupWebsocketConnection *self,
+ 
+ 	if (!(soup_websocket_connection_get_state (self) == SOUP_WEBSOCKET_STATE_OPEN)) {
+ 		g_debug ("Ignoring message since the connection is closed or is closing");
+@@ -408,11 +408,11 @@ send_message (SoupWebsocketConnection *self,
  		bytes->len += 4;
  	}
  
