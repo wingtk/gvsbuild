@@ -33,6 +33,9 @@ class Group(Project):
 
     def build(self):
         pass
+    
+    def export(self):
+        pass
 
 def group_add(cls):
     """
