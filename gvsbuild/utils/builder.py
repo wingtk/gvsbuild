@@ -552,6 +552,10 @@ class Builder(object):
             log.log("Creating directory %s" % (build_dir,))
             os.makedirs(build_dir)
 
+        if not os.path.exists(self.opts.export_dir):
+            log.log("Creating export directory %s" % (self.opts.export_dir,))
+            os.makedirs(self.opts.export_dir)
+
         script_title('* Downloading')
         log.start('Downloading packages')
         for p in projects:
@@ -815,10 +819,6 @@ class Builder(object):
         if not os.path.exists(self.opts.archives_download_dir):
             log.log("Creating archives download directory %s" % (self.opts.archives_download_dir,))
             os.makedirs(self.opts.archives_download_dir)
-
-        if not os.path.exists(self.opts.export_dir):
-            log.log("Creating export directory %s" % (self.opts.export_dir,))
-            os.makedirs(self.opts.export_dir)
 
         log.start_verbose("Downloading %s" % (proj.archive_file,))
         # Setup for progress show
