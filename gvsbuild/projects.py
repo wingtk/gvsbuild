@@ -1207,10 +1207,9 @@ class Project_libsoup(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'libsoup',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.66/libsoup-2.66.2.tar.xz',
-            hash = 'bd2ea602eba642509672812f3c99b77cbec2f3de02ba1cc8cb7206bf7de0ae2a',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.68/libsoup-2.68.1.tar.xz',
+            hash = '7f0323e53b8e797baa972dfe25adf3cc6ceff06f0a26235b6c5c7b91403fbf8d',
             dependencies = ['libxml2', 'glib-openssl', 'sqlite', 'libpsl', 'mit-kerberos'],
-            patches = ['0001-WebSockets-fix-invalid-read-when-sending-large-messa.patch'],
             )
 
         if self.opts.enable_gi:
