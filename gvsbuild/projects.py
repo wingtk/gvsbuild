@@ -650,7 +650,8 @@ class Project_gst_plugins_bad(Tarball, Meson):
             archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.0.tar.xz', 
             hash = '22139de35626ada6090bdfa3423b27b7fc15a0198331d25c95e6b12cb1072b05',
             dependencies = ['meson', 'ninja', 'glib', 'gstreamer'],
-            patches = ['0001-wasapi-fix-symbol-redefinition-build-error.patch'],
+            patches = ['0001-wasapi-fix-symbol-redefinition-build-error.patch',
+                       '0001-wasapi-fix-316.patch'],
             )
 
     def build(self):
