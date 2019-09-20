@@ -1769,6 +1769,7 @@ class Project_sqlite(Tarball, Project):
         self.exec_vs(r'nmake /f Makefile.msc sqlite3.dll DYNAMIC_SHELL=1 ' + nmake_debug)
 
         self.install('sqlite3.h include')
+        self.install('sqlite3ext.h include')
         self.install('sqlite3.dll sqlite3.pdb bin')
         self.install('sqlite3.lib lib')
 
