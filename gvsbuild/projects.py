@@ -1215,12 +1215,12 @@ class Project_libsoup(Tarball, Meson):
 
         if self.opts.enable_gi:
             self.add_dependency('gobject-introspection')
-            enable_gi = 'true'
+            enable_gi = 'enabled'
         else:
-            enable_gi = 'false'
+            enable_gi = 'disabled'
 
         self.add_param('-Dintrospection=%s' % (enable_gi, ))
-        self.add_param('-Dvapi=false')
+        self.add_param('-Dvapi=disabled')
 
     def build(self):
         Meson.build(self)
