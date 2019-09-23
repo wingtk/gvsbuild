@@ -1221,6 +1221,7 @@ class Project_libsoup(Tarball, Meson):
 
         self.add_param('-Dintrospection=%s' % (enable_gi, ))
         self.add_param('-Dvapi=disabled')
+        self.add_param('-Dtls_check=false')
 
     def build(self):
         Meson.build(self)
