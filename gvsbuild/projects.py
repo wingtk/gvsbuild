@@ -1537,8 +1537,8 @@ class Project_opus(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'opus',
-            archive_url = 'https://archive.mozilla.org/pub/opus/opus-1.3.tar.gz',
-            hash = '4f3d69aefdf2dbaf9825408e452a8a414ffc60494c70633560700398820dc550',
+            archive_url = 'https://archive.mozilla.org/pub/opus/opus-1.3.1.tar.gz',
+            hash = '65b58e1e25b2a114157014736a3d9dfeaad8d41be1c8179866f144a2fb44ff9d',
             )
 
     def build(self):
