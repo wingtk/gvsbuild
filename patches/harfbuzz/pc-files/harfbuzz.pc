@@ -5,7 +5,7 @@ includedir=${prefix}/include
 
 Name: harfbuzz
 Description: HarfBuzz text shaping library
-Version: 1.8.8
+Version: 2.6.1
 
 Libs: -L${libdir} -lharfbuzz
 Cflags: -I${includedir}/harfbuzz
