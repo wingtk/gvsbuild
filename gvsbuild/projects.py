@@ -1424,9 +1424,9 @@ class Project_lz4(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'lz4',
-            archive_url = 'https://github.com/lz4/lz4/archive/v1.9.1.tar.gz',
-            archive_file_name = 'lz4-1.9.1.tar.gz',
-            hash = 'f8377c89dad5c9f266edc0be9b73595296ecafd5bfa1000de148096c50052dc4',
+            archive_url = 'https://github.com/lz4/lz4/archive/v1.9.2.tar.gz',
+            archive_file_name = 'lz4-1.9.2.tar.gz',
+            hash = '658ba6191fa44c92280d4aa2c271b0f4fbc0e34d249578dd05e50e76d0e5efcc',
             )
 
     def build(self):
