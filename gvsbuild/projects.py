@@ -445,18 +445,19 @@ class Project_glib(Tarball, Meson):
         self.install(r'.\COPYING share\doc\glib')
 
 @project_add
-class Project_glib_networking(Tarball, Project):
+class Project_glib_networking(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'glib-networking',
-            archive_url = 'https://github.com/wingtk/glib-networking/releases/download/2.50.0-openssl/glib-networking-2.50.0.tar.xz',
-            hash = 'ca116a5b9435001d0dd8cfab3743f9a5d0003dbdc99a407c66858b183f07192b',
-            dependencies = ['gsettings-desktop-schemas', 'openssl'],
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib-networking/2.62/glib-networking-2.62.0.tar.xz',
+            hash = '9321685f7956df74acb54785a6b9e1013ed1546c193a153100798007b67afbdc',
+            dependencies = ['pkg-config', 'ninja', 'meson', 'glib', 'openssl'],
             )
 
     def build(self):
-        self.exec_msbuild_gen(r'build\win32', 'glib-networking.sln')
+        Meson.build(self, meson_params='-Dgnutls=disabled -Dopenssl=enabled')
         self.install(r'.\COPYING share\doc\glib-networking')
+        self.install(r'.\LICENSE_EXCEPTION share\doc\glib-networking')
 
 @project_add
 class Project_glib_py_wrapper(NullExpander, Meson):
