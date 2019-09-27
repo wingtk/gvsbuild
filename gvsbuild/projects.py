@@ -1585,7 +1585,7 @@ class Project_pango(Tarball, Meson):
         else:
             enable_gi = 'false'
 
-        self.add_param('-Dgir=%s' % (enable_gi, ))
+        self.add_param('-Dintrospection=%s' % (enable_gi, ))
 
     def build(self):
         Meson.build(self)
