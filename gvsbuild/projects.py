@@ -38,8 +38,8 @@ class Project_adwaita_icon_theme(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'adwaita-icon-theme',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/adwaita-icon-theme/3.32/adwaita-icon-theme-3.32.0.tar.xz',
-            hash = '698db6e407bb987baec736c6a30216dfc0317e3ca2403c7adf3a5aa46c193286',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/adwaita-icon-theme/3.34/adwaita-icon-theme-3.34.0.tar.xz',
+            hash = '40b7e91f8263552b64d0f9beff33150291b086618ce498c71bf10035e48c7c7f',
             dependencies = ['librsvg', 'python', ],
             )
 
