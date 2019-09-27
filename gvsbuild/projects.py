@@ -56,8 +56,8 @@ class Project_atk(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'atk',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/atk/2.32/atk-2.32.0.tar.xz',
-            hash = 'cb41feda7fe4ef0daa024471438ea0219592baf7c291347e5a858bb64e4091cc',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/atk/2.34/atk-2.34.1.tar.xz',
+            hash = 'd4f0e3b3d21265fcf2bc371e117da51c42ede1a71f6db1c834e6976bb20997cb',
             dependencies = [
                 'ninja',
                 'meson',
