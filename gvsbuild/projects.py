@@ -795,7 +795,7 @@ class Project_gtk3_22(Project_gtk_base):
         self.exec_cmd(r'%(gtk_dir)s\bin\gtk-update-icon-cache.exe --ignore-theme-index --force "%(gtk_dir)s\share\icons\hicolor"')
 
 @project_add
-class Project_gtk3_24(Project_gtk_base):
+class Project_gtk3_24(Tarball, Meson):
     def __init__(self):
         if self.opts.gtk3_ver != '3.24':
             self.ignore()
@@ -808,21 +808,18 @@ class Project_gtk3_24(Project_gtk_base):
             hash = 'dba7658d0a2e1bfad8260f5210ca02988f233d1d86edacb95eceed7eca982895',
             dependencies = ['atk', 'gdk-pixbuf', 'pango', 'libepoxy'],
             )
-        if Project.opts.enable_gi:
+        if self.opts.enable_gi:
             self.add_dependency('gobject-introspection')
+            enable_gi = 'true'
+        else:
+            enable_gi = 'false'
+
+        self.add_param('-Dintrospection=%s' % (enable_gi, ))
 
     def build(self):
-        self.exec_msbuild_gen(r'build\win32', 'gtk+.sln',  add_pars='/p:GtkPostInstall=rem')
+        Meson.build(self, meson_params='-Dtests=false -Ddemos=false -Dexamples=false')
 
-        self.make_all_mo()
-
-    def post_install(self):
-        if Project.opts.enable_gi:
-            self.builder.mod_env('INCLUDE', '%s\\include\\cairo' % (self.builder.gtk_dir, ))
-            self.make_single_gir('gtk', prj_dir='gtk3-24')
-
-        self.exec_cmd(r'%(gtk_dir)s\bin\glib-compile-schemas.exe %(gtk_dir)s\share\glib-2.0\schemas')
-        self.exec_cmd(r'%(gtk_dir)s\bin\gtk-update-icon-cache.exe --ignore-theme-index --force "%(gtk_dir)s\share\icons\hicolor"')
+        self.install(r'.\COPYING share\doc\gtk3')
 
 @project_add
 class Project_gtksourceview3(Tarball, Project, _MakeGir):
