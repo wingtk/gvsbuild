@@ -980,14 +980,13 @@ class Project_libarchive(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'libarchive',
-            archive_url = 'https://libarchive.org/downloads/libarchive-3.3.3.tar.gz',
-            hash = 'ba7eb1781c9fbbae178c4c6bad1c6eb08edab9a1496c64833d1715d022b30e2e',
+            archive_url = 'https://libarchive.org/downloads/libarchive-3.4.0.tar.gz',
+            hash = '8643d50ed40c759f5412a3af4e353cffbce4fdf3b5cf321cb72cacf06b2d825e',
             dependencies = ['cmake', 'ninja', 'win-iconv', 'zlib', 'lz4', 'openssl', 'libxml2'],
-            patches = ['0001-Do-not-try-to-compile-with-warnings-as-errors-on-deb.patch'],
             )
 
     def build(self):
-        CmakeProject.build(self, use_ninja=True)
+        CmakeProject.build(self, cmake_params='-DENABLE_WERROR=OFF', use_ninja=True)
         # Fix the pkg-config .pc file, correcting the library's names
         file_replace(os.path.join(self.pkg_dir, 'lib', 'pkgconfig', 'libarchive.pc'),
                      [ (' -llz4',   ' -lliblz4'),
