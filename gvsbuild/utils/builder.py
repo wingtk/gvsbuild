@@ -325,7 +325,7 @@ class Builder(object):
             else:
                 return None
 
-        output = subprocess.check_output('cmd.exe /c ""%s"%s>NUL && set"' % (vcvars_bat, add_opts, ), shell=True)
+        output = subprocess.check_output('echo cmd.exe /c ""%s"%s>NUL && set"' % (vcvars_bat, add_opts, ), shell=True)
         return output
 
     def __check_vs(self, opts):
