@@ -596,8 +596,8 @@ class Project_gstreamer(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'gstreamer',
-            archive_url = 'https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.16.0.tar.xz', 
-            hash = '0e8e2f7118be437cba879353970cf83c2acced825ecb9275ba05d9186ef07c00',
+            archive_url = 'https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.16.1.tar.xz',
+            hash = '02211c3447c4daa55919c5c0f43a82a6fbb51740d57fc3af0639d46f1cf4377d',
             dependencies = ['meson', 'ninja', 'glib'],
             )
 
@@ -607,7 +607,7 @@ class Project_gstreamer(Tarball, Meson):
         else:
             enable_gi = 'disabled'
 
-        self.add_param('-Dintrospection=%s' % (enable_gi, ))            
+        self.add_param('-Dintrospection=%s' % (enable_gi, ))
 
     def build(self):
         add_path = os.path.join(self.builder.opts.msys_dir, 'usr', 'bin')
@@ -620,10 +620,9 @@ class Project_gst_plugins_base(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'gst-plugins-base',
-            archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.16.0.tar.xz', 
-            hash = '4093aa7b51e28fb24dfd603893fead8d1b7782f088b05ed0f22a21ef176fb5ae',
+            archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.16.1.tar.xz',
+            hash = '5c3cc489933d0597087c9bc6ba251c93693d64554bcc563539a084fa2d5fcb2b',
             dependencies = ['meson', 'ninja', 'glib', 'gstreamer', 'opus'],
-            patches = ['0001-meson-Don-t-try-to-find-gio-unix-on-Windows.patch'],
             )
 
     def build(self):
@@ -635,8 +634,8 @@ class Project_gst_plugins_good(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'gst-plugins-good',
-            archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.16.0.tar.xz', 
-            hash = '654adef33380d604112f702c2927574cfc285e31307b79e584113858838bb0fd',
+            archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.16.1.tar.xz',
+            hash = '9fbabe69018fcec707df0b71150168776040cde6c1a26bb5a82a136755fa8f1f',
             dependencies = ['meson', 'ninja', 'glib', 'gstreamer'],
             )
 
@@ -649,11 +648,9 @@ class Project_gst_plugins_bad(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'gst-plugins-bad',
-            archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.0.tar.xz', 
-            hash = '22139de35626ada6090bdfa3423b27b7fc15a0198331d25c95e6b12cb1072b05',
+            archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.1.tar.xz',
+            hash = '56481c95339b8985af13bac19b18bc8da7118c2a7d9440ed70e7dcd799c2adb5',
             dependencies = ['meson', 'ninja', 'glib', 'gstreamer'],
-            patches = ['0001-wasapi-fix-symbol-redefinition-build-error.patch',
-                       '0001-wasapi-fix-316.patch'],
             )
 
     def build(self):
