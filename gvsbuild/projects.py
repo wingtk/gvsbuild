@@ -1580,8 +1580,8 @@ class Project_orc(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'orc',
-            archive_url = 'https://gstreamer.freedesktop.org/src/orc/orc-0.4.30.tar.xz',
-            hash = 'ba41b92146a5691cd102eb79c026757d39e9d3b81a65810d2946a1786a1c4972',
+            archive_url = 'https://gstreamer.freedesktop.org/src/orc/orc-0.4.31.tar.xz',
+            hash = 'a0ab5f10a6a9ae7c3a6b4218246564c3bf00d657cbdf587e6d34ec3ef0616075',
             dependencies = [
                 'ninja',
                 'meson',
