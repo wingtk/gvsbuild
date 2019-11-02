@@ -598,7 +598,7 @@ class Project_gstreamer(Tarball, Meson):
             'gstreamer',
             archive_url = 'https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.16.1.tar.xz',
             hash = '02211c3447c4daa55919c5c0f43a82a6fbb51740d57fc3af0639d46f1cf4377d',
-            dependencies = ['meson', 'ninja', 'glib'],
+            dependencies = ['meson', 'ninja', 'glib', 'orc'],
             )
 
         if self.opts.enable_gi:
@@ -1554,6 +1554,23 @@ class Project_opus(Tarball, Project):
         self.install(r'.\pc-files\* lib\pkgconfig')
         
         self.install(r'COPYING share\doc\opus')
+
+@project_add
+class Project_orc(Tarball, Meson):
+    def __init__(self):
+        Project.__init__(self,
+            'orc',
+            archive_url = 'https://gstreamer.freedesktop.org/src/orc/orc-0.4.30.tar.xz',
+            hash = 'ba41b92146a5691cd102eb79c026757d39e9d3b81a65810d2946a1786a1c4972',
+            dependencies = [
+                'ninja',
+                'meson',
+            ],
+            )
+
+    def build(self):
+        Meson.build(self, meson_params='-Dbenchmarks=disabled -Dtools=enabled')
+        self.install(r'COPYING share\doc\orc')
 
 @project_add
 class Project_pango(Tarball, Meson):
