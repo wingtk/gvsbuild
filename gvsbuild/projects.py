@@ -44,6 +44,9 @@ class Project_adwaita_icon_theme(Tarball, Project):
             )
 
     def build(self):
+        # Create the destination dir, before the build
+        os.makedirs(os.path.join(self.builder.gtk_dir, 'share', 'icons', 'Adwaita'))
+        
         self.push_location(r'.\win32')
         self.exec_vs(r'nmake /nologo /f adwaita-msvc.mak CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PREFIX="%(gtk_dir)s"', add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
         self.exec_vs(r'nmake /nologo /f adwaita-msvc.mak install CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PREFIX="%(gtk_dir)s"', add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
@@ -126,7 +129,8 @@ class Project_clutter(Tarball, Project):
             )
 
     def build(self):
-        self.exec_msbuild_gen(r'build\win32', 'clutter.sln')
+        self.builder.mod_env('INCLUDE', '%s\\include\\harfbuzz' % (self.builder.gtk_dir, ))
+        self.exec_msbuild_gen(r'build\win32', 'clutter.sln', add_pars='/p:UseEnv=True')
 
         self.install(r'.\COPYING share\doc\clutter')
 
@@ -143,7 +147,8 @@ class Project_cogl(Tarball, Project):
             )
 
     def build(self):
-        self.exec_msbuild_gen(r'build\win32', 'cogl.sln')
+        self.builder.mod_env('INCLUDE', '%s\\include\\harfbuzz' % (self.builder.gtk_dir, ))
+        self.exec_msbuild_gen(r'build\win32', 'cogl.sln', add_pars='/p:UseEnv=True')
 
         self.install(r'.\COPYING share\doc\cogl')
 
@@ -729,6 +734,7 @@ class Project_gtk(Project_gtk_base):
     def post_install(self):
         if Project.opts.enable_gi:
             self.builder.mod_env('INCLUDE', '%s\\include\\cairo' % (self.builder.gtk_dir, ))
+            self.builder.mod_env('INCLUDE', '%s\\include\\harfbuzz' % (self.builder.gtk_dir, ))
             self.make_single_gir('gtk', prj_dir='gtk')
 
 @project_add
@@ -832,7 +838,8 @@ class Project_gtksourceview3(Tarball, Project, _MakeGir):
             self.add_dependency('gobject-introspection')
 
     def build(self):
-        self.exec_msbuild_gen(r'build\win32', 'gtksourceview.sln')
+        self.builder.mod_env('INCLUDE', '%s\\include\\harfbuzz' % (self.builder.gtk_dir, ))
+        self.exec_msbuild_gen(r'build\win32', 'gtksourceview.sln', add_pars='/p:UseEnv=True')
 
         self.install(r'.\COPYING share\doc\gtksourceview3')
 
@@ -1163,7 +1170,8 @@ class Project_librsvg(Tarball, Project, _MakeGir):
             self.add_dependency('gobject-introspection')
 
     def build(self):
-        self.exec_msbuild_gen(r'build\win32', 'librsvg.sln')
+        self.builder.mod_env('INCLUDE', '%s\\include\\harfbuzz' % (self.builder.gtk_dir, ))
+        self.exec_msbuild_gen(r'build\win32', 'librsvg.sln', add_pars='/p:UseEnv=True')
 
         if Project.opts.enable_gi:
             self.builder.mod_env('INCLUDE', '%s\\include\\glib-2.0' % (self.builder.gtk_dir, ))
