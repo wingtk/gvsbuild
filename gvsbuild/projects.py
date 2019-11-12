@@ -45,7 +45,7 @@ class Project_adwaita_icon_theme(Tarball, Project):
 
     def build(self):
         # Create the destination dir, before the build
-        os.makedirs(os.path.join(self.builder.gtk_dir, 'share', 'icons', 'Adwaita'))
+        os.makedirs(os.path.join(self.builder.gtk_dir, 'share', 'icons', 'Adwaita'), exist_ok=True)
         
         self.push_location(r'.\win32')
         self.exec_vs(r'nmake /nologo /f adwaita-msvc.mak CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PREFIX="%(gtk_dir)s"', add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
