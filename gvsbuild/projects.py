@@ -727,7 +727,8 @@ class Project_gtk(Project_gtk_base):
             self.add_dependency('gobject-introspection')
 
     def build(self):
-        self.exec_msbuild_gen(r'build\win32', 'gtk+.sln')
+        self.builder.mod_env('INCLUDE', '%s\\include\\harfbuzz' % (self.builder.gtk_dir, ))
+        self.exec_msbuild_gen(r'build\win32', 'gtk+.sln', add_pars='/p:UseEnv=True')
 
         self.make_all_mo()
 
