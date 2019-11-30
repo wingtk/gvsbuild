@@ -118,9 +118,49 @@ class Project(object):
         If it's not present in the directory the system start to look backward to find the first version present 
         '''
         def _msbuild_ok(self, dir_part):
-            print(self.build_dir, base_dir, dir_part, sln_file, sep='\n')
+            log.message("Checking for '%s', %s', '%s', '%s'" % (self.build_dir, base_dir, dir_part, sln_file, ))
             full = os.path.join(self.build_dir, base_dir, dir_part, sln_file)
             return os.path.exists(full)
+
+        def _msbuild_copy_dir(dst, src, search, replace):
+            os.makedirs(dst, exist_ok=True)
+            for cf in os.scandir(src):
+                src_full = os.path.join(src, cf.name)
+                dst_full = os.path.join(dst, cf.name)
+                if cf.is_file():
+                    with open(src_full, 'r') as f:
+                        content = f.read()
+                    new_content = content.replace(search, replace)
+                    if content != new_content:
+                        log.message('File changed (%s)' % (src_full, ))
+                    else:
+                        log.message('   same file (%s)' % (src_full, ))
+
+                    dst_full = os.path.join(dst, cf.name)
+                    with open(dst_full, 'w') as f:
+                        f.write(new_content)
+                elif cf.is_dir():
+                    _msbuild_copy_dir(dst_full, src_full, search, replace)
+
+        def _msbuild_copy(self, org_path, org_platform, use_ver=True):
+            ver = self.builder.opts.vs_ver
+            if ver == '16':
+                dst_platform = '142'
+            elif ver == '15':
+                dst_platform = '141'
+            else:
+                dst_platform =  ver + r'0'
+            if use_ver:
+                dst_part = 'vs' + self.builder.opts.vs_ver
+            else:
+                dst_part = self.builder.vs_ver_year
+            dst = os.path.join(self.build_dir, base_dir, dst_part)
+            src = os.path.join(self.build_dir, base_dir, org_path);
+            search = '<PlatformToolset>v%u</PlatformToolset>' % (org_platform, )
+            replace = '<PlatformToolset>v%s</PlatformToolset>' % (dst_platform, )
+            log.message("Vs solution copy: '%s' -> '%s'" % (src, dst, ))
+            _msbuild_copy_dir(dst, src, search, replace)
+            return dst_part
 
         part = 'vs' + self.builder.opts.vs_ver
         if not _msbuild_ok(self, part):
@@ -130,15 +170,19 @@ class Project(object):
 
         if not part:
             look = {
-                '12': [], 
-                '14': [ 'vs12', 'vs2013', ],
-                '15': [ 'vs14', 'vs2015', 'vs12', 'vs2013', ],
-                '16': [ 'vs15', 'vs2017', 'vs14', 'vs2015', 'vs12', 'vs2013', ],
+                '12': [],
+                '14': [ ( 'vs12', 120, True, ), ('vs2013', 120, False, ), ],
+                '15': [ ( 'vs14', 140, True, ), ('vs2015', 140, False, ),
+                        ( 'vs12', 120, True, ), ('vs2013', 120, False, ), ],
+                '16': [ ( 'vs15', 141, True, ), ('vs2017', 141, False, ),
+                        ( 'vs14', 140, True, ), ('vs2015', 140, False, ),
+                        ( 'vs12', 120, True, ), ('vs2013', 120, False, ), ],
                 }
             lst = look.get(self.builder.opts.vs_ver, [])
             for p in lst:
-                if _msbuild_ok(self, p):
-                    part = p
+                if _msbuild_ok(self, p[0]):
+                    # Found one, create the new directory with a copy, changing the platform identifier
+                    part = _msbuild_copy(self, p[0], p[1], p[2])
                     break
             if part:
                 # We log what we found because is not the default
@@ -148,6 +192,8 @@ class Project(object):
             cmd = os.path.join(base_dir, part, sln_file)
             if add_pars:
                 cmd += ' ' + add_pars
+            else:
+                cmd += ' /p:UseEnv=True'
         else:
             log.error_exit("Solution file '%s' for project '%s' not found!" % (sln_file, self.name, ))
         self.exec_msbuild(cmd, configuration, add_path)
