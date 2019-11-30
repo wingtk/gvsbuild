@@ -306,7 +306,8 @@ class Project_fontconfig(Tarball, Project):
             if content.find('<PlatformToolset>FIXME</PlatformToolset>') >= 0:
                 log.debug('patching project file %s' % (proj,))
                 if self.builder.opts.vs_ver == '16':
-                    fixme = r'142'
+                    # For now is the same as the vs2017 ...
+                    fixme = r'141'
                 elif self.builder.opts.vs_ver == '15':
                     fixme = r'141'
                 else:
@@ -726,8 +727,7 @@ class Project_gtk(Project_gtk_base):
             self.add_dependency('gobject-introspection')
 
     def build(self):
-        self.builder.mod_env('INCLUDE', '%s\\include\\harfbuzz' % (self.builder.gtk_dir, ))
-        self.exec_msbuild_gen(r'build\win32', 'gtk+.sln', add_pars='/p:UseEnv=True')
+        self.exec_msbuild_gen(r'build\win32', 'gtk+.sln')
 
         self.make_all_mo()
 
@@ -1165,9 +1165,6 @@ class Project_librsvg(Tarball, Project, _MakeGir):
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/librsvg/2.40/librsvg-2.40.20.tar.xz',
             hash = 'cff4dd3c3b78bfe99d8fcfad3b8ba1eee3289a0823c0e118d78106be6b84c92b',
             dependencies = ['libcroco', 'cairo', 'pango', 'gdk-pixbuf', 'gtk3'],
-            patches = [
-                'vs2019-support.patch'
-                ],
             )
         if Project.opts.enable_gi:
             self.add_dependency('gobject-introspection')
