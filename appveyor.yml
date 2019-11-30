@@ -34,10 +34,11 @@ build_script:
 
 artifacts:
   - path: gvsbuild-vs%VS_VER%-%PLATFORM%.tar.gz
+  - path: c:\gtk-build\build\logs\gvsbuild-log.txt
 
 cache:
-  - '%DOWNLOAD_DIR%'
-  - c:\gtk-build\tools
+  - '%DOWNLOAD_DIR%' -> appveyor.yml
+  - c:\gtk-build\tools -> appveyor.yml
 
 deploy: off
 
