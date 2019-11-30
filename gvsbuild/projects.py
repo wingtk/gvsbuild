@@ -811,6 +811,9 @@ class Project_gtk3_24(Tarball, Meson):
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.24/gtk+-3.24.11.tar.xz',
             hash = 'dba7658d0a2e1bfad8260f5210ca02988f233d1d86edacb95eceed7eca982895',
             dependencies = ['atk', 'gdk-pixbuf', 'pango', 'libepoxy'],
+            patches = [
+                'gtk_update_icon_cache.patch',
+            ],
             )
         if self.opts.enable_gi:
             self.add_dependency('gobject-introspection')

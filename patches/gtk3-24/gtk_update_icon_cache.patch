@@ -1,0 +1,34 @@
+diff -ru gtk3-24-ok/build-aux/meson/post-install.py gtk3-24-new/build-aux/meson/post-install.py
+--- gtk3-24-ok/build-aux/meson/post-install.py	2019-07-03 01:04:00.000000000 +0200
++++ gtk3-24-new/build-aux/meson/post-install.py	2019-11-12 18:53:46.896239800 +0100
+@@ -8,9 +8,9 @@
+ if 'DESTDIR' not in os.environ:
+     gtk_api_version = sys.argv[1]
+     gtk_abi_version = sys.argv[2]
+-    gtk_bindir = sys.argv[3]
+-    gtk_libdir = sys.argv[4]
+-    gtk_datadir = sys.argv[5]
++    gtk_bindir = os.path.normpath(sys.argv[3])
++    gtk_libdir = os.path.normpath(sys.argv[4])
++    gtk_datadir = os.path.normpath(sys.argv[5])
+     gtk_query_immodules = os.path.join(gtk_bindir, 'gtk-query-immodules-' + gtk_api_version)
+     gtk_update_icon_cache = os.path.join(gtk_bindir, 'gtk-update-icon-cache')
+ 
+@@ -30,9 +30,15 @@
+     subprocess.call(['glib-compile-schemas',
+                     os.path.join(gtk_datadir, 'glib-2.0', 'schemas')])
+ 
+-    print('Updating icon cache...')
+-    subprocess.call([gtk_update_icon_cache, '-q', '-t' ,'-f',
++    try:
++        print('Updating icon cache...')
++        subprocess.call([gtk_update_icon_cache, '-q', '-t' ,'-f',
+                     os.path.join(gtk_datadir, 'icons', 'hicolor')])
++    except OSError as e:
++        print("Error executing '%s'" % (gtk_update_icon_cache, ))
++        print(e)
++        print("Try to run, as elevated user:");
++        print("%s -q -t -f %s" % (gtk_update_icon_cache, os.path.join(gtk_datadir, 'icons', 'hicolor'), ))
+ 
+     print('Updating module cache for input methods...')
+     os.makedirs(gtk_immodule_dir, exist_ok=True)
