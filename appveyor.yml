@@ -37,8 +37,8 @@ artifacts:
   - path: c:\gtk-build\build\logs\gvsbuild-log.txt
 
 cache:
-  - '%DOWNLOAD_DIR%' -> appveyor.yml
-  - c:\gtk-build\tools -> appveyor.yml
+  - '%DOWNLOAD_DIR%'
+  - c:\gtk-build\tools
 
 deploy: off
 
