@@ -627,7 +627,7 @@ class Project_gst_plugins_base(Tarball, Meson):
             'gst-plugins-base',
             archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.16.1.tar.xz',
             hash = '5c3cc489933d0597087c9bc6ba251c93693d64554bcc563539a084fa2d5fcb2b',
-            dependencies = ['meson', 'ninja', 'glib', 'gstreamer', 'opus'],
+            dependencies = ['meson', 'ninja', 'gtk3', 'gstreamer', 'opus'],
             )
 
     def build(self):
@@ -641,7 +641,7 @@ class Project_gst_plugins_good(Tarball, Meson):
             'gst-plugins-good',
             archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.16.1.tar.xz',
             hash = '9fbabe69018fcec707df0b71150168776040cde6c1a26bb5a82a136755fa8f1f',
-            dependencies = ['meson', 'ninja', 'glib', 'gstreamer'],
+            dependencies = ['meson', 'ninja', 'glib', 'gstreamer', 'gst-plugins-base'],
             )
 
     def build(self):
@@ -655,8 +655,10 @@ class Project_gst_plugins_bad(Tarball, Meson):
             'gst-plugins-bad',
             archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.1.tar.xz',
             hash = '56481c95339b8985af13bac19b18bc8da7118c2a7d9440ed70e7dcd799c2adb5',
-            dependencies = ['meson', 'ninja', 'glib', 'gstreamer'],
+            dependencies = ['meson', 'ninja', 'glib', 'gstreamer', 'gst-plugins-base'],
             )
+        self.add_param('-Dcurl=disabled')
+        self.add_param('-Dcurl-ssh2=disabled')
 
     def build(self):
         Meson.build(self)
