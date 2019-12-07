@@ -1591,8 +1591,8 @@ class Project_pango(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'pango',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.44/pango-1.44.6.tar.xz',
-            hash = '3e1e41ba838737e200611ff001e3b304c2ca4cdbba63d200a20db0b0ddc0f86c',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.44/pango-1.44.7.tar.xz',
+            hash = '66a5b6cc13db73efed67b8e933584509f8ddb7b10a8a40c3850ca4a985ea1b1f',
             dependencies = [
                 'ninja',
                 'meson',
