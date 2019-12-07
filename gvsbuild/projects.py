@@ -898,6 +898,10 @@ class Project_icu(Tarball, Project):
         if not self.builder.x86:
             bindir += '64'
             libdir += '64'
+        if self.opts.vs_ver != '15':
+            # Not Vs2017, we change the platform 
+            search, replace = self._msbuild_make_search_replace(141)
+            self._msbuild_copy_dir(None, os.path.join(self.build_dir, 'source', 'allinone'), search, replace)
 
         self.exec_msbuild(r'source\allinone\allinone.sln /t:cal')
 
