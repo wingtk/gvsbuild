@@ -306,8 +306,7 @@ class Project_fontconfig(Tarball, Project):
             if content.find('<PlatformToolset>FIXME</PlatformToolset>') >= 0:
                 log.debug('patching project file %s' % (proj,))
                 if self.builder.opts.vs_ver == '16':
-                    # For now is the same as the vs2017 ...
-                    fixme = r'141'
+                    fixme = r'142'
                 elif self.builder.opts.vs_ver == '15':
                     fixme = r'141'
                 else:
@@ -899,6 +898,10 @@ class Project_icu(Tarball, Project):
         if not self.builder.x86:
             bindir += '64'
             libdir += '64'
+        if self.opts.vs_ver != '15':
+            # Not Vs2017, we change the platform 
+            search, replace = self._msbuild_make_search_replace(141)
+            self._msbuild_copy_dir(None, os.path.join(self.build_dir, 'source', 'allinone'), search, replace)
 
         self.exec_msbuild(r'source\allinone\allinone.sln /t:cal')
 
@@ -1171,6 +1174,9 @@ class Project_librsvg(Tarball, Project, _MakeGir):
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/librsvg/2.40/librsvg-2.40.20.tar.xz',
             hash = 'cff4dd3c3b78bfe99d8fcfad3b8ba1eee3289a0823c0e118d78106be6b84c92b',
             dependencies = ['libcroco', 'cairo', 'pango', 'gdk-pixbuf', 'gtk3'],
+            patches = [
+                'vs2019-support.patch'
+                ],
             )
         if Project.opts.enable_gi:
             self.add_dependency('gobject-introspection')
