@@ -306,8 +306,7 @@ class Project_fontconfig(Tarball, Project):
             if content.find('<PlatformToolset>FIXME</PlatformToolset>') >= 0:
                 log.debug('patching project file %s' % (proj,))
                 if self.builder.opts.vs_ver == '16':
-                    # For now is the same as the vs2017 ...
-                    fixme = r'141'
+                    fixme = r'142'
                 elif self.builder.opts.vs_ver == '15':
                     fixme = r'141'
                 else:
