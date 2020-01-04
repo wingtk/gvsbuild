@@ -17,10 +17,18 @@ jobs:
     pool:
       vmImage: $(vmImage)
     variables:
-      DOWNLOAD_DIR: $(Pipeline.Workspace)\_download_cache
+      CACHE_DIR: $(Pipeline.Workspace)\_download_cache
       MSYS2_ROOT: $(System.Workfolder)\msys64
       BUILD_DIR: $(System.Workfolder)\gtk-build
+      PYTHONUNBUFFERED: 1
     steps:
+      - task: Cache@2
+        inputs:
+          key: 'mycache | $(vmImage) | $(Build.SourceVersion)'
+          restoreKeys: |
+            mycache | $(vmImage)
+            mycache
+          path: $(CACHE_DIR)
       - task: UsePythonVersion@0
         inputs:
           versionSpec: '3.7'
@@ -29,11 +37,11 @@ jobs:
           rmdir "C:\Program Files\Git" /s /q
         displayName: Remove GIT
       - script: |
-          choco config set cacheLocation %DOWNLOAD_DIR%
+          choco config set cacheLocation %CACHE_DIR%
           choco install --no-progress msys2 --params="/InstallDir:%MSYS2_ROOT% /NoPath"
         displayName: Install MSYS2
       - script: |
-          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --enable-gi --py-wheel --py-egg --python-ver 3.7 glib
+          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%CACHE_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --enable-gi --py-wheel --py-egg --python-ver 3.7 glib
         displayName: gvsbuild
       - task: ArchiveFiles@2
         displayName: Archive release
@@ -64,10 +72,19 @@ jobs:
     pool:
       vmImage: $(vmImage)
     variables:
-      DOWNLOAD_DIR: $(Pipeline.Workspace)\_download_cache
+      CACHE_DIR: $(Pipeline.Workspace)\_download_cache
       MSYS2_ROOT: $(System.Workfolder)\msys64
       BUILD_DIR: $(System.Workfolder)\gtk-build
+      PYTHONUNBUFFERED: 1
+      AZP_CACHING_CONTENT_FORMAT: 'Files'  # https://github.com/microsoft/azure-pipelines-agent/issues/2595
     steps:
+      - task: Cache@2
+        inputs:
+          key: 'mycache | $(vmImage) | $(Build.SourceVersion)'
+          restoreKeys: |
+            mycache | $(vmImage)
+            mycache
+          path: $(CACHE_DIR)
       - task: UsePythonVersion@0
         inputs:
           versionSpec: '3.7'
@@ -76,13 +93,13 @@ jobs:
           rmdir "C:\Program Files\Git" /s /q
         displayName: Remove GIT
       - script: |
-          choco config set cacheLocation %DOWNLOAD_DIR%
+          choco config set cacheLocation %CACHE_DIR%
           choco install --no-progress msys2 --params="/InstallDir:%MSYS2_ROOT% /NoPath"
         displayName: Install MSYS2
       - script: |
-          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --enable-gi --py-wheel --py-egg --python-ver 3.7 enchant gtk gtk3-full pycairo pygobject lz4
-          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --fast-build --clean-built --py-wheel --py-egg --python-ver 3.6 pycairo pygobject
-          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --fast-build --clean-built --py-wheel --py-egg --python-ver 3.5 pycairo pygobject
+          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%CACHE_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --enable-gi --py-wheel --py-egg --python-ver 3.7 enchant gtk gtk3-full pycairo pygobject lz4
+          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%CACHE_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --fast-build --clean-built --py-wheel --py-egg --python-ver 3.6 pycairo pygobject
+          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%CACHE_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --fast-build --clean-built --py-wheel --py-egg --python-ver 3.5 pycairo pygobject
         displayName: gvsbuild
       - task: ArchiveFiles@2
         displayName: Archive release
@@ -113,10 +130,19 @@ jobs:
     pool:
       vmImage: $(vmImage)
     variables:
-      DOWNLOAD_DIR: $(Pipeline.Workspace)\_download_cache
+      CACHE_DIR: $(Pipeline.Workspace)\_download_cache
       MSYS2_ROOT: $(System.Workfolder)\msys64
       BUILD_DIR: $(System.Workfolder)\gtk-build
+      PYTHONUNBUFFERED: 1
+      AZP_CACHING_CONTENT_FORMAT: 'Files'  # https://github.com/microsoft/azure-pipelines-agent/issues/2595
     steps:
+      - task: Cache@2
+        inputs:
+          key: 'mycache | $(vmImage) | $(Build.SourceVersion)'
+          restoreKeys: |
+            mycache | $(vmImage)
+            mycache
+          path: $(CACHE_DIR)
       # The git directory contains cygwin binaries conflicting with MSYS2
       - script: |
           rmdir "C:\Program Files\Git" /s /q
@@ -136,13 +162,13 @@ jobs:
           @echo ##vso[task.prependpath]C:\Python37\Scripts
         displayName: Install Python
       - script: |
-          choco config set cacheLocation %DOWNLOAD_DIR%
+          choco config set cacheLocation %CACHE_DIR%
           choco install --no-progress msys2 --params="/InstallDir:%MSYS2_ROOT% /NoPath"
         displayName: Install MSYS2
       - script: |
-          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --enable-gi --py-wheel --py-egg --python-ver 3.7 enchant gtk gtk3-full pycairo pygobject lz4
-          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --fast-build --clean-built --py-wheel --py-egg --python-ver 3.6 pycairo pygobject
-          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --fast-build --clean-built --py-wheel --py-egg --python-ver 3.5 pycairo pygobject
+          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%CACHE_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --enable-gi --py-wheel --py-egg --python-ver 3.7 enchant gtk gtk3-full pycairo pygobject lz4
+          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%CACHE_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --fast-build --clean-built --py-wheel --py-egg --python-ver 3.6 pycairo pygobject
+          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%CACHE_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --fast-build --clean-built --py-wheel --py-egg --python-ver 3.5 pycairo pygobject
         displayName: gvsbuild
       - task: ArchiveFiles@2
         displayName: Archive release
