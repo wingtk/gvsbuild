@@ -31,7 +31,8 @@ from .utils.base_expanders import Tarball, GitRepo
 from .utils.base_expanders import NullExpander
 from .utils.base_project import Project, project_add
 from .utils.base_project import GVSBUILD_IGNORE
-from .utils.base_builders import Meson, MercurialCmakeProject, CmakeProject
+from .utils.base_builders import Meson, MercurialCmakeProject, CmakeProject, Rust
+
 
 @project_add
 class Project_adwaita_icon_theme(Tarball, Project):
@@ -176,6 +177,28 @@ class Project_cyrus_sasl(Tarball, Project):
                      r'LMDB_LIBPATH="%(gtk_dir)s\lib" OPENSSL_INCLUDE="%(gtk_dir)s\include" OPENSSL_LIBPATH="%(gtk_dir)s\lib" prefix="%(pkg_dir)s" CFG=' + configuration)
 
         self.install(r'.\COPYING share\doc\cyrus-sasl')
+
+
+@project_add
+class Project_dcv_color_primitives(GitRepo, Rust):
+    def __init__(self):
+        Rust.__init__(self,
+            'dcv-color-primitives',
+            repo_url = 'https://github.com/aws/dcv-color-primitives.git',
+            fetch_submodules = False,
+            tag = None,
+            dependencies = [
+                'cargo',
+            ],
+            )
+
+    def build(self):
+        Rust.build(self, make_tests=True)
+
+        self.install(r'.\cargo-build\lib\dcv_color_primitives.lib lib')
+        self.install(r'.\include\dcv_color_primitives.h include\dcv-color-primitives')
+        self.install(r'.\LICENSE share\doc\dcv-color-primitives')
+
 
 @project_add
 class Project_emeus(GitRepo, Meson):
