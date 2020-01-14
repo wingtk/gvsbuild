@@ -65,6 +65,7 @@ def get_options(args):
     opts.ffmpeg_enable_gpl = args.ffmpeg_enable_gpl
     opts.log_size = args.log_size
     opts.log_single = args.log_single
+    opts.cargo_opts = args.cargo_opts
     opts.ninja_opts = args.ninja_opts
     opts.python_ver = args.python_ver
     opts.same_python = args.same_python
@@ -301,6 +302,8 @@ Examples:
                          help="Always start a new log file, with date & time")
     p_build.add_argument('--ninja-opts', default='',
                          help='Command line options to pass to ninja, e.g. to limit the use (-j 2) or for debug purpouse.')
+    p_build.add_argument('--cargo-opts', default='',
+                         help='Command line options to pass to cargo.')
 
     p_build.add_argument('project', nargs='+',
                          help='Project(s) to build.')
