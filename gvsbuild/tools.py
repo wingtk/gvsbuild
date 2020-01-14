@@ -29,6 +29,36 @@ from .utils.base_project import Project
 from .utils.simple_ui import log
 
 @tool_add
+class Tool_cargo(Tool):
+    def __init__(self):
+        Tool.__init__(self,
+            'cargo',
+            archive_url = 'https://win.rustup.rs/x86_64',
+            archive_file_name = 'rustup-init.exe',
+            exe_name = 'cargo.exe')
+
+    def load_defaults(self):
+        Tool.load_defaults(self)
+        self.tool_path = os.path.join(self.build_dir, 'bin')
+        self.full_exe = os.path.join(self.tool_path, 'cargo.exe')
+
+    def unpack(self):
+        env = os.environ.copy()
+        env['RUSTUP_HOME'] = self.build_dir
+        env['CARGO_HOME'] = self.build_dir
+
+        rustup = os.path.join(self.build_dir, 'bin', 'rustup.exe')
+
+        subprocess.check_call('%s -y' % self.archive_file, shell=True, env=env)
+
+        # add supported targets
+        subprocess.check_call('%s target add x86_64-pc-windows-msvc' % rustup, shell=True, env=env)
+        subprocess.check_call('%s target add i686-pc-windows-msvc' % rustup, shell=True, env=env)
+
+        self.mark_deps = True
+
+
+@tool_add
 class Tool_cmake(Tool):
     def __init__(self):
         Tool.__init__(self,

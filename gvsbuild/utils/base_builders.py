@@ -137,3 +137,48 @@ class CmakeProject(Project):
 class MercurialCmakeProject(MercurialRepo, CmakeProject):
     def __init__(self, name, **kwargs):
         CmakeProject.__init__(self, name, **kwargs)
+
+class Rust(Project):
+    def __init__(self, name, **kwargs):
+        Project.__init__(self, name, **kwargs)
+        self._ensure_params()
+
+    def _ensure_params(self):
+        if not hasattr(self, 'params'):
+            self.params = []
+
+    def add_param(self, par):
+        self._ensure_params()
+        self.params.append(par)
+
+    def build(self, cargo_params=None, make_tests=False):
+        rustc_opts = {}
+
+        if cargo_params:
+            params = cargo_params[:]
+        else:
+            params = []
+
+        params.append('test' if make_tests else 'build')
+
+        if self.builder.opts.configuration == 'release':
+            # add debug symbols anyway
+            rustc_opts['RUSTFLAGS'] = '-g'
+            params.append('--release')
+            folder = 'release'
+        else:
+            folder = 'debug'
+
+        platform = '%s-pc-windows-msvc' % ('i686' if self.builder.x86 else 'x86_64')
+        cargo_build = os.path.join(self.build_dir, 'cargo-build')
+
+        params.extend(('--target=%s' % platform, '--target-dir=%s' % cargo_build))
+
+        if self.clean and os.path.exists(cargo_build):
+            log.debug("Removing cargo build dir '%s'" % cargo_build)
+            shutil.rmtree(cargo_build, onerror=_rmtree_error_handler)
+
+        self.builder.exec_cargo(params=' '.join(params), working_dir=self.build_dir, rustc_opts=rustc_opts)
+
+        shutil.copytree(os.path.join(cargo_build, platform, folder),
+                        os.path.join(cargo_build, 'lib'))

@@ -839,6 +839,21 @@ class Builder(object):
     def exec_vs(self, cmd, working_dir=None, add_path=None):
         self.__execute(self.__sub_vars(cmd), working_dir=working_dir, add_path=add_path, env=self.vs_env)
 
+    def exec_cargo(self, params='', working_dir=None, rustc_opts=None):
+        cmd = 'cargo'
+        if self.opts.cargo_opts:
+            cmd += ' ' + self.opts.cargo_opts
+        if params:
+            cmd += ' ' + params
+
+        if rustc_opts is not None:
+            env = os.environ.copy().update(rustc_opts)
+        else:
+            env = os.environ
+
+        cargo_home = Project.get_tool_path('cargo')
+        self.__execute(self.__sub_vars(cmd), working_dir=working_dir, add_path=cargo_home, env=env)
+
     def exec_cmd(self, cmd, working_dir=None, add_path=None):
         self.__execute(self.__sub_vars(cmd), working_dir=working_dir, add_path=add_path)
 
