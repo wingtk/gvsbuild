@@ -39,8 +39,8 @@ class Tool_cargo(Tool):
 
     def load_defaults(self):
         Tool.load_defaults(self)
-        self.tool_path = os.path.join(self.build_dir, 'bin')
-        self.full_exe = os.path.join(self.tool_path, 'cargo.exe')
+        self.tool_path = os.path.join(self.build_dir)
+        self.full_exe = os.path.join(self.tool_path, 'bin', 'cargo.exe')
 
     def unpack(self):
         env = os.environ.copy()
@@ -54,7 +54,7 @@ class Tool_cargo(Tool):
         # add supported targets
         subprocess.check_call('%s target add x86_64-pc-windows-msvc' % rustup, shell=True, env=env)
         subprocess.check_call('%s target add i686-pc-windows-msvc' % rustup, shell=True, env=env)
-
+        
         self.mark_deps = True
 
 
