@@ -159,8 +159,6 @@ class Rust(Project):
         else:
             params = []
 
-        params.append('test' if make_tests else 'build')
-
         if self.builder.opts.configuration == 'release':
             # add debug symbols anyway
             rustc_opts['RUSTFLAGS'] = '-g'
@@ -169,16 +167,20 @@ class Rust(Project):
         else:
             folder = 'debug'
 
-        platform = '%s-pc-windows-msvc' % ('i686' if self.builder.x86 else 'x86_64')
         cargo_build = os.path.join(self.build_dir, 'cargo-build')
 
-        params.extend(('--target=%s' % platform, '--target-dir=%s' % cargo_build))
+        params.append('--target-dir=%s' % cargo_build)
 
         if self.clean and os.path.exists(cargo_build):
             log.debug("Removing cargo build dir '%s'" % cargo_build)
             shutil.rmtree(cargo_build, onerror=_rmtree_error_handler)
 
-        self.builder.exec_cargo(params=' '.join(params), working_dir=self.build_dir, rustc_opts=rustc_opts)
+        # build
+        self.builder.exec_cargo(params=' '.join(['build'] + params), working_dir=self.build_dir, rustc_opts=rustc_opts)
 
-        shutil.copytree(os.path.join(cargo_build, platform, folder),
+        # test
+        if make_tests:
+            self.builder.exec_cargo(params=' '.join(['test'] + params), working_dir=self.build_dir, rustc_opts=rustc_opts)
+
+        shutil.copytree(os.path.join(cargo_build, folder),
                         os.path.join(cargo_build, 'lib'))

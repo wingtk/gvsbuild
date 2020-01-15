@@ -29,6 +29,7 @@ class Group_Tools(Group):
         Group.__init__(self,
             'tools',
             dependencies = [
+                'cargo',
                 'cmake',
                 'go',
                 'meson',
