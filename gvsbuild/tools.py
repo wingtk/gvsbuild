@@ -49,7 +49,7 @@ class Tool_cargo(Tool):
 
         rustup = os.path.join(self.build_dir, 'bin', 'rustup.exe')
 
-        subprocess.check_call('%s -y' % self.archive_file, shell=True, env=env)
+        subprocess.check_call('%s --no-modify-path -y' % self.archive_file, shell=True, env=env)
 
         # add supported targets
         subprocess.check_call('%s target add x86_64-pc-windows-msvc' % rustup, shell=True, env=env)
