@@ -1365,8 +1365,8 @@ class Project_libxml2(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'libxml2',
-            archive_url = 'http://xmlsoft.org/sources/libxml2-2.9.9.tar.gz',
-            hash = '94fb70890143e3c6549f265cee93ec064c80a84c42ad0f23e85ee1fd6540a871',
+            archive_url = 'http://xmlsoft.org/sources/libxml2-2.9.10.tar.gz',
+            hash = 'aafee193ffb8fe0c82d4afef6ef91972cbaf5feea100edc2f262750611b4be1f',
             dependencies = ['win-iconv', 'meson', 'ninja'],
             )
 
