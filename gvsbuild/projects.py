@@ -675,8 +675,8 @@ class Project_gst_plugins_bad(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'gst-plugins-bad',
-            archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.1.tar.xz',
-            hash = '56481c95339b8985af13bac19b18bc8da7118c2a7d9440ed70e7dcd799c2adb5',
+            archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.2.tar.xz',
+            hash = 'f1cb7aa2389569a5343661aae473f0a940a90b872001824bc47fa8072a041e74',
             dependencies = ['meson', 'ninja', 'glib', 'gstreamer', 'gst-plugins-base'],
             )
         self.add_param('-Dcurl=disabled')
