@@ -284,8 +284,8 @@ class Project_ffmpeg(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'ffmpeg',
-            archive_url = 'https://www.ffmpeg.org/releases/ffmpeg-4.2.1.tar.xz',
-            hash = 'cec7c87e9b60d174509e263ac4011b522385fd0775292e1670ecc1180c9bb6d4',
+            archive_url = 'https://www.ffmpeg.org/releases/ffmpeg-4.2.2.tar.xz',
+            hash = 'cb754255ab0ee2ea5f66f8850e1bd6ad5cac1cd855d0a2f4990fb8c668b0d29c',
             dependencies = [ 'nasm', 'msys2', 'pkg-config', 'nv-codec-headers' ],
         )
         if self.opts.ffmpeg_enable_gpl:
