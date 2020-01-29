@@ -1526,7 +1526,7 @@ class Project_openssl(Tarball, Project):
             )
 
     def build(self):
-        common_options = r'no-ssl2 no-ssl3 no-comp --openssldir=./'
+        common_options = r'no-ssl2 no-ssl3 no-comp --openssldir=%(gtk_dir)s/etc/ssl --prefix=%(gtk_dir)s'
 
         debug_option = ''
         if self.builder.opts.configuration == 'debug':
@@ -1540,35 +1540,22 @@ class Project_openssl(Tarball, Project):
 
         if self.builder.x86:
             self.exec_vs(r'%(perl_dir)s\bin\perl.exe Configure ' + debug_option + 'VC-WIN32 ' + common_options)
-            self.exec_vs(r'ms\do_nasm', add_path=add_path)
         else:
             self.exec_vs(r'%(perl_dir)s\bin\perl.exe Configure ' + debug_option + 'VC-WIN64A ' + common_options)
-            self.exec_vs(r'ms\do_win64a', add_path=add_path)
 
         try:
-            self.exec_vs(r'nmake /nologo -f ms\ntdll.mak vclean', add_path=add_path)
+            self.exec_vs(r'nmake /nologo clean', add_path=add_path)
         except:
             pass
 
-        self.exec_vs(r'nmake /nologo -f ms\ntdll.mak', add_path=add_path)
-        self.exec_vs(r'nmake /nologo -f ms\ntdll.mak test', add_path=add_path)
+        self.exec_vs(r'nmake /nologo', add_path=add_path)
+        #self.exec_vs(r'nmake /nologo test', add_path=add_path)
         self.exec_vs(r'%(perl_dir)s\bin\perl.exe mk-ca-bundle.pl -n cert.pem')
-        self.exec_vs(r'nmake /nologo -f ms\ntdll.mak install', add_path=add_path)
+        self.exec_vs(r'nmake /nologo install', add_path=add_path)
 
-        self.install(r'.\bin\* .\cert.pem bin')
+        self.install(r'.\cert.pem bin')
         self.install(r'.\LICENSE share\doc\openssl')
         self.install(r'.\pc-files\* lib\pkgconfig')
-        self.install(r'include\* include')
-
-        self.install(r'lib\* lib')
-
-        self.push_location(r'.\out32dll')
-        self.install('libeay32.pdb openssl.pdb ssleay32.pdb bin')
-        self.install(r'''.\out32dll\4758cca.pdb .\out32dll\aep.pdb .\out32dll\atalla.pdb .\out32dll\capi.pdb
-                         .\out32dll\chil.pdb lib\engines .\out32dll\cswift.pdb .\out32dll\gmp.pdb
-                         .\out32dll\gost.pdb .\out32dll\nuron.pdb .\out32dll\padlock.pdb .\out32dll\sureware.pdb
-                     .\out32dll\ubsec.pdb lib\engines''')
-        self.pop_location()
 
 @project_add
 class Project_opus(Tarball, Project):
