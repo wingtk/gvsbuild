@@ -476,8 +476,8 @@ class Project_glib_networking(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'glib-networking',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib-networking/2.62/glib-networking-2.62.0.tar.xz',
-            hash = '9321685f7956df74acb54785a6b9e1013ed1546c193a153100798007b67afbdc',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib-networking/2.62/glib-networking-2.62.3.tar.xz',
+            hash = '8ca1f86f23a76b5c7640624f7d5490705c78e81375e1741c9a1c41ce7f8f7ff7',
             dependencies = ['pkg-config', 'ninja', 'meson', 'glib', 'openssl'],
             patches = ['0001-meson-fix-assertion-when-checking-if-gio_module_dir-.patch'],
             )
