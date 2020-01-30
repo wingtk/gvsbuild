@@ -163,7 +163,8 @@ class Project_cyrus_sasl(Tarball, Project):
             dependencies = ['lmdb', 'openssl', 'mit-kerberos'],
             patches = ['0001-fix-snprintf-macro.patch',
                        '0001-Add-MIT-Kerberos-as-GSSAPI-provider.patch',
-                       '0002-Provide-a-compile-option-for-32-64-gssapi.patch'],
+                       '0002-Provide-a-compile-option-for-32-64-gssapi.patch',
+                       '0001-Fix-openssl-libs-to-point-to-the-new-openssl-1.1.1-n.patch'],
             )
 
     def build(self):
