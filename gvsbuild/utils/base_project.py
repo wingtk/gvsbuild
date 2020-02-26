@@ -289,6 +289,10 @@ class Project(object):
         # Optional for projects
         pass
 
+    def get_extra_env(self):
+        # Extra env vars for projects
+        pass
+
     @staticmethod
     def add(proj, type=GVSBUILD_IGNORE):
         if proj.name in Project._dict:
