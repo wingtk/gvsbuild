@@ -39,8 +39,8 @@ class Tool_cargo(Tool):
 
     def load_defaults(self):
         Tool.load_defaults(self)
-        self.tool_path = os.path.join(self.build_dir)
-        self.full_exe = os.path.join(self.tool_path, 'bin', 'cargo.exe')
+        self.tool_path = os.path.join(self.build_dir, 'bin')
+        self.full_exe = os.path.join(self.tool_path, 'cargo.exe')
 
     def unpack(self):
         env = os.environ.copy()
