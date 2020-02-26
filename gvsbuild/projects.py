@@ -181,23 +181,18 @@ class Project_cyrus_sasl(Tarball, Project):
 
 
 @project_add
-class Project_dcv_color_primitives(GitRepo, Rust):
+class Project_dcv_color_primitives(Tarball, Meson):
     def __init__(self):
-        Rust.__init__(self,
+        Meson.__init__(self,
             'dcv-color-primitives',
-            repo_url = 'https://github.com/aws/dcv-color-primitives.git',
-            fetch_submodules = False,
-            tag = None,
-            dependencies = [
-                'cargo',
-            ],
+            archive_url = 'https://github.com/aws/dcv-color-primitives/archive/v0.1.3.tar.gz',
+            archive_file_name = 'dcv-color-primitives-0.1.3.tar.gz'
+            hash = '3527ecb71b7c0be489210c9da7edef9b963eb1d2632f3ca69ab919d087c2b4b3',
+            dependencies = ['ninja', 'meson', 'pkg-config', 'cargo'],
             )
 
     def build(self):
-        Rust.build(self, make_tests=True)
-
-        self.install(r'.\cargo-build\lib\dcv_color_primitives.lib lib')
-        self.install(r'.\include\dcv_color_primitives.h include\dcv-color-primitives')
+        Meson.build(self, make_tests=True)
         self.install(r'.\LICENSE share\doc\dcv-color-primitives')
 
 
