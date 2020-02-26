@@ -193,7 +193,7 @@ class Project_dcv_color_primitives(Tarball, Meson):
             )
 
     def build(self):
-        Meson.build(self, make_tests=True)
+        Meson.build(self, make_tests=False)
         self.install(r'.\LICENSE share\doc\dcv-color-primitives')
 
 
