@@ -593,6 +593,12 @@ class Builder(object):
                     # Single path,  at the beginning
                     paths.insert(0, t)
 
+            extra_env = d.get_extra_env()
+            if extra_env:
+                for key in extra_env.keys():
+                    if key not in self.vs_env:
+                        self.vs_env[key] = extra_env[key]
+
         # Make the (eventually) new path
         self.vs_env['PATH'] = ';'.join(paths)
 

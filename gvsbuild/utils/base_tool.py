@@ -29,6 +29,7 @@ class Tool(Project):
         self.mark_deps = False 
         self.tool_path = None
         self.full_exe = None
+        self.extra_env = None
         Project.__init__(self, name, **kwargs)
 
     def load_defaults(self):
@@ -57,6 +58,9 @@ class Tool(Project):
             return self.tool_path
         else:
             return self.build_dir
+
+    def get_extra_env(self):
+        return self.extra_env
 
     def get_executable(self):
         if self.full_exe:

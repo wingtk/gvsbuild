@@ -42,6 +42,10 @@ class Tool_cargo(Tool):
         self.tool_path = os.path.join(self.build_dir, 'bin')
         self.full_exe = os.path.join(self.tool_path, 'cargo.exe')
 
+        self.extra_env = {}
+        self.extra_env['RUSTUP_HOME'] = self.build_dir
+        self.extra_env['CARGO_HOME'] = self.build_dir
+
     def unpack(self):
         env = os.environ.copy()
         env['RUSTUP_HOME'] = self.build_dir
