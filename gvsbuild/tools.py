@@ -58,6 +58,9 @@ class Tool_cargo(Tool):
         # add supported targets
         subprocess.check_call('%s target add x86_64-pc-windows-msvc' % rustup, shell=True, env=env)
         subprocess.check_call('%s target add i686-pc-windows-msvc' % rustup, shell=True, env=env)
+
+        # switch to the right target
+        subprocess.check_call('%s default stable-%s-pc-windows-msvc' % (rustup, 'i686' if self.opts.x86 else 'x86_64'), env=env)
         
         self.mark_deps = True
 
