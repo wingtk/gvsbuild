@@ -57,6 +57,7 @@ class Project(object):
         self.mark_file = None
         self.clean = False
         self.to_add = True
+        self.extra_env = {}
         for k in kwargs:
             setattr(self, k, kwargs[k])
         self.__working_dir = None
@@ -289,9 +290,15 @@ class Project(object):
         # Optional for projects
         pass
 
-    def get_extra_env(self):
-        # Extra env vars for projects
-        pass
+    def add_extra_env(self, key, val):
+        # Extra env vars for projects / tools
+        self.extra_env[key] = val;
+
+    def apply_extra_env(self, base_env):
+        if self.extra_env:
+            for key, val in self.extra_env.items():
+                if key not in base_env:
+                    base_env[key] = val
 
     @staticmethod
     def add(proj, type=GVSBUILD_IGNORE):
