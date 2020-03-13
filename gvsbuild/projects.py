@@ -457,8 +457,8 @@ class Project_glib(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'glib',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.62/glib-2.62.4.tar.xz',
-            hash = '4c84030d77fa9712135dfa8036ad663925655ae95b1d19399b6200e869925bbc',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.64/glib-2.64.1.tar.xz',
+            hash = '17967603bcb44b6dbaac47988d80c29a3d28519210b28157c2bd10997595bbc7',
             dependencies = ['ninja', 'meson', 'pkg-config', 'gettext', 'libffi', 'zlib'],
             patches = ['glib-package-installation-directory.patch'],
             )
