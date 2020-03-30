@@ -473,10 +473,9 @@ class Project_glib_networking(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'glib-networking',
-            archive_url = 'https://ftp.acc.umu.se/pub/gnome/sources/glib-networking/2.64/glib-networking-2.64.0.tar.xz',
-            hash = '5cda27d45447160261d4bb77fc2f9766fc8b07dbd471ba2336a5fcb38521a1ba',
+            archive_url = 'https://ftp.acc.umu.se/pub/gnome/sources/glib-networking/2.64/glib-networking-2.64.1.tar.xz',
+            hash = 'a4c346def7d817467d79a95c23b3ccf22e4df1548870726b63396400852daf72',
             dependencies = ['pkg-config', 'ninja', 'meson', 'glib', 'openssl'],
-            patches = ['0001-openssl-fix-write-loop-in-libsoup.patch'],
             )
 
     def build(self):
