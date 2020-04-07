@@ -85,6 +85,7 @@ class Log(object):
                 self.level = LOG_VERBOSE
             max_size_kb = opts.log_size
             single = opts.log_single
+            self.capture = opts.capture_out
             if single:
                 max_size_kb = 0
 
@@ -161,7 +162,10 @@ class Log(object):
         if enabled:
             print(msg)
             self._indend_check()
-        
+
+        if self.capture:
+            self._output(msg, check_indent=False)
+
         co = LogElem(msg, enabled)
         self.operations.append(co)
 
@@ -218,6 +222,26 @@ class Log(object):
             # already printed
             return
         print(msg)
+
+    def messages_dump(self, msgs, prt=False, err=None):
+        if err is not None:
+            if not err:
+                err = 'Attention! Error presents!'
+            self.message(err)
+            self.message('')
+            # with error we want to know what's happeninh
+            prt = True
+
+        lines = msgs.split('\n')
+        lines = [l.rstrip() for l in lines if l.rstrip() != '']
+        if self.fo:
+            # On the file, if active
+            for l in lines:
+                self.fo.write('    %s\n' % (l, ))
+        
+        if prt:
+            for l in lines:
+                print(l) 
 
     def log(self, msg):
         if self._verbose:
