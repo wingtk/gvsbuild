@@ -1264,18 +1264,17 @@ class Project_libsoup(Tarball, Meson):
         self.install(r'.\COPYING share\doc\libsoup')
 
 @project_add
-class Project_libssh(Tarball, Project):
+class Project_libssh(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'libssh',
-            archive_url = 'https://www.libssh.org/files/0.7/libssh-0.7.5.tar.xz',
-            hash = '54e86dd5dc20e5367e58f3caab337ce37675f863f80df85b6b1614966a337095',
-            dependencies = ['zlib','openssl'],
+            archive_url = 'https://www.libssh.org/files/0.9/libssh-0.9.3.tar.xz',
+            hash = '2c8b5f894dced58b3d629f16f3afa6562c20b4bdc894639163cf657833688f0c',
+            dependencies = ['zlib','openssl', 'cmake', 'ninja'],
             )
 
     def build(self):
-        self.exec_msbuild_gen(r'build', 'libssh-library.sln')
-
+        CmakeProject.build(self, cmake_params='-DWITH_ZLIB=ON', use_ninja=True)
         self.install(r'.\COPYING share\doc\libssh')
 
 @project_add
