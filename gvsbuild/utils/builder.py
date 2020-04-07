@@ -905,7 +905,18 @@ class Builder(object):
             else:
                 env = dict(os.environ)
             self.__add_path(env, add_path)
-        subprocess.check_call(args, cwd=working_dir, env=env, shell=True)
+        if self.opts.capture_out:
+            try:
+                res = subprocess.run(args, cwd=working_dir, env=env, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, errors='ignore')
+            except subprocess.CalledProcessError as e:
+                # Dump the lines that leads to the error
+                log.messages_dump(e.stdout, "Error building '%s'" % (self.__project.name))
+                # and let the caller handle this
+                raise
+
+            log.messages_dump(res.stdout, prt=self.opts.print_out)
+        else:
+            subprocess.check_call(args, cwd=working_dir, env=env, shell=True)
 
     def __add_path(self, env, folder):
         key = None

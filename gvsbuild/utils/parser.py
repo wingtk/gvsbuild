@@ -69,6 +69,8 @@ def get_options(args):
     opts.ninja_opts = args.ninja_opts
     opts.python_ver = args.python_ver
     opts.same_python = args.same_python
+    opts.capture_out = args.capture_out
+    opts.print_out = args.print_out
 
     # active the log
     log.configure(os.path.join(opts.build_dir, 'logs'), opts)
@@ -300,6 +302,10 @@ Examples:
                          help="Maximum log size (in kilobytes) before restarting with a new file")
     p_build.add_argument('--log-single', default=False, action='store_true',
                          help="Always start a new log file, with date & time")
+    p_build.add_argument('--capture-out', default=False, action='store_true',
+                         help="Capture the output of the build process and put it in the log file.")
+    p_build.add_argument('--print-out', default=False, action='store_true',
+                         help="With --capture-out acrive print the result of the commands also on stdout.")
     p_build.add_argument('--ninja-opts', default='',
                          help='Command line options to pass to ninja, e.g. to limit the use (-j 2) or for debug purpouse.')
     p_build.add_argument('--cargo-opts', default='',
