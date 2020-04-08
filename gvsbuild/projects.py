@@ -515,8 +515,8 @@ class Project_gobject_introspection(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'gobject-introspection',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gobject-introspection/1.62/gobject-introspection-1.62.0.tar.xz',
-            hash = 'b1ee7ed257fdbc008702bdff0ff3e78a660e7e602efa8f211dc89b9d1e7d90a2',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gobject-introspection/1.64/gobject-introspection-1.64.1.tar.xz',
+            hash = '80beae6728c134521926affff9b2e97125749b38d38744dc901f4010ee3e7fa7',
             dependencies = [
                 'ninja',
                 'meson',
