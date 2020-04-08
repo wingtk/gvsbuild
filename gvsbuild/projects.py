@@ -515,8 +515,8 @@ class Project_gobject_introspection(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'gobject-introspection',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gobject-introspection/1.62/gobject-introspection-1.62.0.tar.xz',
-            hash = 'b1ee7ed257fdbc008702bdff0ff3e78a660e7e602efa8f211dc89b9d1e7d90a2',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gobject-introspection/1.64/gobject-introspection-1.64.1.tar.xz',
+            hash = '80beae6728c134521926affff9b2e97125749b38d38744dc901f4010ee3e7fa7',
             dependencies = [
                 'ninja',
                 'meson',
@@ -1743,9 +1743,12 @@ class Project_pycairo(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'pycairo',
-            archive_url = 'https://github.com/pygobject/pycairo/releases/download/v1.18.2/pycairo-1.18.2.tar.gz',
-            hash = 'dcb853fd020729516e8828ad364084e752327d4cff8505d20b13504b32b16531',
+            archive_url = 'https://github.com/pygobject/pycairo/releases/download/v1.19.1/pycairo-1.19.1.tar.gz',
+            hash = '2c143183280feb67f5beb4e543fd49990c28e7df427301ede04fc550d3562e84',
             dependencies = ['cairo', 'python'],
+            patches = [
+                'pycairo_py3_8_load_dll.patch',
+                ],
             )
 
     def build(self):
@@ -1769,9 +1772,12 @@ class Project_pygobject(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'pygobject',
-            archive_url = 'https://ftp.acc.umu.se/pub/GNOME/sources/pygobject/3.34/pygobject-3.34.0.tar.xz',
-            hash = '87e2c9aa785f352ef111dcc5f63df9b85cf6e05e52ff04f803ffbebdacf5271a',
+            archive_url = 'https://ftp.acc.umu.se/pub/GNOME/sources/pygobject/3.36/pygobject-3.36.0.tar.xz',
+            hash = '8683d2dfb5baa9e501a9a64eeba5c2c1117eadb781ab1cd7a9d255834af6daef',
             dependencies = ['python', 'pycairo', 'gobject-introspection', 'libffi'],
+            patches = [
+                'pygobject_py3_8_load_dll.patch',
+                ],
             )
 
     def build(self):

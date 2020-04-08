@@ -1,0 +1,30 @@
+diff -ru a/gi/__init__.py b/gi/__init__.py
+--- a/gi/__init__.py	2019-12-30 12:13:06.357884400 +0100
++++ b/gi/__init__.py	2020-04-08 15:22:35.830740100 +0200
+@@ -38,6 +38,13 @@
+ if 'gobject' in sys.modules:
+     raise ImportError(_static_binding_error)
+ 
++added_dirs = []
++if os.name == 'nt' and hasattr(os, 'add_dll_directory'):
++    path = os.environ.get('PATH', '')
++    for p in path.split(os.pathsep):
++        if os.path.isfile(os.path.join(p, 'girepository-1.0-1.dll')):
++            # Found a repository dll -> add to the list
++            added_dirs.append(os.add_dll_directory(p))
+ 
+ from . import _gi
+ from ._gi import _API
+@@ -46,6 +53,12 @@
+ from ._gi import PyGIWarning
+ from ._compat import string_types
+ 
++if added_dirs:
++    # remove the added dirs
++    for d in added_dirs:
++        d.close()
++    del added_dirs
++
+ _API = _API  # pyflakes
+ PyGIDeprecationWarning = PyGIDeprecationWarning
+ PyGIWarning = PyGIWarning
