@@ -25,7 +25,7 @@ import subprocess
 import traceback
 import glob
 import hashlib
-from urllib.request import splittype, urlopen, ContentTooShortError
+from urllib.request import urlopen, ContentTooShortError
 from urllib.error import URLError
 import contextlib
 import ssl
@@ -736,7 +736,6 @@ class Builder(object):
         Returns a tuple containing the path to the newly created
         data file as well as the resulting HTTPMessage object.
         """
-        url_type, path = splittype(url)
 
         if ssl_ignore_cert:
             # ignore certificate
