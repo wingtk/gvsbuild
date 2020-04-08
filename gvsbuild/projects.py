@@ -1746,6 +1746,9 @@ class Project_pycairo(Tarball, Project):
             archive_url = 'https://github.com/pygobject/pycairo/releases/download/v1.19.1/pycairo-1.19.1.tar.gz',
             hash = '2c143183280feb67f5beb4e543fd49990c28e7df427301ede04fc550d3562e84',
             dependencies = ['cairo', 'python'],
+            patches = [
+                'pycairo_py3_8_load_dll.patch',
+                ],
             )
 
     def build(self):
@@ -1772,6 +1775,9 @@ class Project_pygobject(Tarball, Project):
             archive_url = 'https://ftp.acc.umu.se/pub/GNOME/sources/pygobject/3.36/pygobject-3.36.0.tar.xz',
             hash = '8683d2dfb5baa9e501a9a64eeba5c2c1117eadb781ab1cd7a9d255834af6daef',
             dependencies = ['python', 'pycairo', 'gobject-introspection', 'libffi'],
+            patches = [
+                'pygobject_py3_8_load_dll.patch',
+                ],
             )
 
     def build(self):
