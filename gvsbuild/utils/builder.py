@@ -71,6 +71,8 @@ class Builder(object):
                     rmtree_full(self.working_dir, retry=True)
                 with log.simple_oper('Removing destination dir (%s)' % (self.gtk_dir, )):
                     rmtree_full(self.gtk_dir, retry=True)
+                with log.simple_oper('Removing git expand dir (%s)' % (self.opts.git_expand_dir, )):
+                    rmtree_full(self.opts.git_expand_dir, retry=True)
                 if not opts.keep_tools:
                     with log.simple_oper('Removing tools dir (%s)' % (opts.tools_root_dir, )):
                         rmtree_full(opts.tools_root_dir, retry=True)
