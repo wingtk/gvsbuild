@@ -71,6 +71,7 @@ def get_options(args):
     opts.same_python = args.same_python
     opts.capture_out = args.capture_out
     opts.print_out = args.print_out
+    opts.git_expand_dir = args.git_expand_dir 
 
     # active the log
     log.configure(os.path.join(opts.build_dir, 'logs'), opts)
@@ -80,6 +81,8 @@ def get_options(args):
 
     if not opts.archives_download_dir:
         opts.archives_download_dir = os.path.join(args.build_dir, 'src')
+    if not opts.git_expand_dir:
+        opts.git_expand_dir = os.path.join(opts.archives_download_dir, 'git-exp')
     if not opts.patches_root_dir:
         opts.patches_root_dir = os.path.join(sys.path[0], 'patches')
     prop_file = os.path.join(opts.patches_root_dir, 'stack.props')
@@ -285,7 +288,8 @@ Examples:
     p_build.add_argument('--keep-tools', default=False, action='store_true',
                          help="Active only when used with --from-scratch, keep and don't delete the (common) tool directory.")
     p_build.add_argument('--fast-build', default=False, action='store_true',
-                         help="Don't build a project if it's already built and not updated. Use with caution!")
+                         help="Don't build a project if it's already built and not updated." +
+                         "Note: you can have wrong results if you change only the patches or the script (updating the tarball or the git source is handled correctly)")
     p_build.add_argument('-k', '--keep', default=False, action='store_true',
                          help="Continue the build even on errors, dropping the projects that depends on the failed ones")
     p_build.add_argument('--py-egg', default=False, action='store_true',
@@ -310,6 +314,8 @@ Examples:
                          help='Command line options to pass to ninja, e.g. to limit the use (-j 2) or for debug purpouse.')
     p_build.add_argument('--cargo-opts', default='',
                          help='Command line options to pass to cargo.')
+    p_build.add_argument('--git-expand-dir', default=None,
+                         help="The directory where the projects from git are expanded and updated.")
 
     p_build.add_argument('project', nargs='+',
                          help='Project(s) to build.')

@@ -23,6 +23,7 @@ import os
 import shutil
 import zipfile
 import tarfile
+import hashlib
 
 from .simple_ui import log
 from .utils import rmtree_full
@@ -162,6 +163,22 @@ def dirlist2set(st_dir, add_dirs=False, skipped_dir=None):
         print("Warning: (--zip-continue) No file found on '%s'" % (st_dir, ))
     return rt
 
+def make_zip_hash(files):
+    """"
+    Calculate an hash of all the files to put in a zip file
+    """
+    hash_calc = hashlib.sha256()
+    for file_name in sorted(list(files)):
+        # add also the file full path, to support only moving files in the zip
+        hash_calc.update(file_name.lower().encode('utf-8'))
+        if os.path.isfile(file_name):
+            # add the file content
+            with open(file_name, 'rb') as fi:
+                for chunk in iter(lambda: fi.read(4096), b""):
+                    hash_calc.update(chunk)
+
+    return hash_calc.hexdigest()
+
 def make_zip(name, files, skip_spc=0):
     """
     Create the name .zip using all files. skip_spc spaces are dropped
@@ -200,71 +217,116 @@ class MercurialRepo(object):
         log.end()
 
 class GitRepo(object):
+    def git_temp_hash(self, hash_val=None):
+        """
+        if hash_val is None read, else write
+        """
+        rt = None
+
+        file_name = os.path.join(self.opts.git_expand_dir, self.name + '.hash')
+        if hash_val is not None:
+            with open(file_name, 'wt') as fo:
+                fo.write('%s\n' % (hash_val, ))
+        else:
+            try:
+                with open(file_name, 'rt') as fi:
+                    rt = fi.readline().strip()
+            except IOError:
+                pass
+        return rt 
+
     def create_zip(self):
         """
         Create a .zip file with the git checkout to be able to 
         work offline and as a reference of the last correct build
         """
+        src_dir = os.path.join(self.opts.git_expand_dir, self.name)
         if self.tag:
             # name the .zip from the tag, validating it
             t_name = [ c if c.isalnum() else '_' for c in self.tag ]
             zip_post = ''.join(t_name)
         else:
-            of = os.path.join(self.build_dir, '.git-temp.rsp')
-            self.builder.exec_msys('git rev-parse --short HEAD >%s' % (of, ), working_dir=self.build_dir)
+            of = os.path.join(src_dir, '.git-temp.rsp')
+            self.builder.exec_msys('git rev-parse --short HEAD >%s' % (of, ), working_dir=src_dir)
             with open(of, 'rt') as fi:
                 zip_post = fi.readline().rstrip('\n')
             os.remove(of)
-            
+
         # Be sure to have the git .zip dir
         git_tmp_dir = os.path.join(self.builder.opts.archives_download_dir, 'git')
         if not os.path.exists(git_tmp_dir):
             log.log("Creating git archives save directory %s" % (git_tmp_dir, ))
             os.makedirs(git_tmp_dir)
-        
-        # create a .zip file with the downloaded project
-        all_files = dirlist2set(self.build_dir, add_dirs=True, skipped_dir=[ '.git', ])
-        make_zip(os.path.join(git_tmp_dir, self.prj_dir + '-' + zip_post), all_files, len(self.build_dir))
-        
+
+        # check if some file has changed
+        all_files = dirlist2set(src_dir, add_dirs=True, skipped_dir=[ '.git', ])
+        n_hash = make_zip_hash(all_files)
+        o_hash = self.git_temp_hash() if not self.clean else None
+        if o_hash != n_hash:
+            # create a .zip file with the downloaded project
+            make_zip(os.path.join(git_tmp_dir, self.prj_dir + '-' + zip_post), all_files, len(src_dir))
+            # update the hash 
+            self.git_temp_hash(n_hash)
+            # copy the git buffer to the working dir, cleaning up before copying
+            if os.path.isdir(self.build_dir):
+                rmtree_full(self.build_dir)
+            shutil.copytree(src_dir, self.build_dir)
+            return True
+
+        # No update
+        return False
+
     def unpack(self):
-        log.start('(git) Cloning %s to %s' % (self.repo_url, self.build_dir))
-
-        self.builder.exec_msys('git clone %s %s-tmp' % (self.repo_url, self.build_dir))
-        shutil.move(self.build_dir + '-tmp', self.build_dir)
-
-        if self.tag:
-            self.builder.exec_msys('git checkout -f %s' % self.tag, working_dir=self.build_dir)
-
-        if self.fetch_submodules:
-            log.start_verbose('Fetch submodule(s)')
-            self.builder.exec_msys('git submodule update --init',  working_dir=self.build_dir)
-            log.end()
-        self.create_zip()
-        log.end()
+        self.update_build_dir()
 
     def update_build_dir(self):
-        log.start('(git) Updating directory %s' % (self.build_dir,))
+        rt = None
+        if not os.path.exists(self.opts.git_expand_dir):
+            log.log("Creating git expoand directory %s" % (self.opts.git_expand_dir,))
+            os.makedirs(self.opts.git_expand_dir, exist_ok=True)
+        
+        dest = os.path.join(self.opts.git_expand_dir, self.name)
+        if self.clean:
+            if os.path.isdir(dest):
+                rmtree_full(dest)
+            
+        if os.path.isdir(dest):
+            # Update 
+            log.start('(git) Updating directory %s' % (dest, ))
 
-        # I don't like too much this, but at least we ensured it is properly cleaned up
-        self.builder.exec_msys('git clean -xdf', working_dir=self.build_dir)
+            if self.tag:
+                self.builder.exec_msys('git fetch origin', working_dir=dest)
+                self.builder.exec_msys('git checkout -f %s' % self.tag, working_dir=dest)
+            else:
+                self.builder.exec_msys('git checkout -f', working_dir=dest)
+                self.builder.exec_msys('git pull --rebase', working_dir=dest)
 
-        if self.tag:
-            self.builder.exec_msys('git fetch origin', working_dir=self.build_dir)
-            self.builder.exec_msys('git checkout -f %s' % self.tag, working_dir=self.build_dir)
+            if self.fetch_submodules:
+                log.start_verbose('Update submodule(s)')
+                self.builder.exec_msys('git submodule update --init', working_dir=dest)
+                log.end()
+            rt = self.create_zip()
         else:
-            self.builder.exec_msys('git checkout -f', working_dir=self.build_dir)
-            self.builder.exec_msys('git pull --rebase', working_dir=self.build_dir)
+            log.start('(git) Cloning %s to %s' % (self.repo_url, dest))
 
-        if self.fetch_submodules:
-            log.start_verbose('Update submodule(s)')
-            self.builder.exec_msys('git submodule update --init', working_dir=self.build_dir)
-            log.end()
-        self.create_zip()
+            self.builder.exec_msys('git clone %s %s' % (self.repo_url, dest))
 
-        if os.path.exists(self.patch_dir):
-            log.log("Copying files from %s to %s" % (self.patch_dir, self.build_dir))
-            self.builder.copy_all(self.patch_dir, self.build_dir)
+            if self.tag:
+                self.builder.exec_msys('git checkout -f %s' % self.tag, working_dir=dest)
+    
+            if self.fetch_submodules:
+                log.start_verbose('Fetch submodule(s)')
+                self.builder.exec_msys('git submodule update --init',  working_dir=dest)
+                log.end()
+            self.create_zip()
+            rt = True
+
+        if rt:
+            if os.path.exists(self.patch_dir):
+                log.log("Copying files from %s to %s" % (self.patch_dir, self.build_dir))
+                self.builder.copy_all(self.patch_dir, self.build_dir)
         log.end()
+        return rt
 
 class NullExpander(object):
     """

@@ -42,7 +42,7 @@ class Meson(Project):
 
     def build(self, meson_params=None, make_tests=False, add_path=None):
         # where we build, with ninja, the library
-        ninja_build = self.build_dir + '-meson'
+        ninja_build = os.path.join(self.build_dir, '_gvsbuild-meson')
         # clean up and regenerate all
         if self.clean and os.path.exists(ninja_build):
             log.debug("Removing meson build dir '%s'" % (ninja_build, ))
@@ -96,7 +96,7 @@ class CmakeProject(Project):
             out_of_source = True
 
         if out_of_source:
-            cmake_dir = self.build_dir + '-cmake'
+            cmake_dir = os.path.join(self.build_dir, '_gvsbuild-cmake')
 
             # clean up and regenerate all
             if self.clean and os.path.exists(cmake_dir):
