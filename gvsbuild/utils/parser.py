@@ -288,7 +288,8 @@ Examples:
     p_build.add_argument('--keep-tools', default=False, action='store_true',
                          help="Active only when used with --from-scratch, keep and don't delete the (common) tool directory.")
     p_build.add_argument('--fast-build', default=False, action='store_true',
-                         help="Don't build a project if it's already built and not updated. Use with caution!")
+                         help="Don't build a project if it's already built and not updated." +
+                         "Note: you can have wrong results if you change only the patches or the script (updating the tarball or the git source is handled correctly)")
     p_build.add_argument('-k', '--keep', default=False, action='store_true',
                          help="Continue the build even on errors, dropping the projects that depends on the failed ones")
     p_build.add_argument('--py-egg', default=False, action='store_true',
