@@ -1242,8 +1242,8 @@ class Project_libsoup(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'libsoup',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.68/libsoup-2.68.4.tar.xz',
-            hash = '2d50b12922cc516ab6a7c35844d42f9c8a331668bbdf139232743d82582b3294',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.70/libsoup-2.70.0.tar.xz',
+            hash = '54b020f74aefa438918d8e53cff62e2b1e59efe2de53e06b19a4b07b1f4d5342',
             dependencies = ['libxml2', 'glib-networking', 'sqlite', 'libpsl', 'mit-kerberos'],
             )
 
