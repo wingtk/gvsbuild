@@ -240,7 +240,7 @@ class Tool_python(Tool):
             subprocess.check_call(cmd, shell=True)
     
             # update setuptools (to use vs2017 with python 3.5)
-            cmd = py + ' -m pip install --upgrade setuptools'
+            cmd = py + ' -m pip install --upgrade setuptools --no-warn-script-location'
             subprocess.check_call(cmd, shell=True)
     
             # install/update wheel
