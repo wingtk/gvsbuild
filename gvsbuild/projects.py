@@ -1775,8 +1775,8 @@ class Project_sqlite(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'sqlite',
-            archive_url = 'https://www.sqlite.org/2016/sqlite-autoconf-3120200.tar.gz',
-            hash = 'fd00770c9afd39db555c78400e52f55e8bd6568c78be23561abb472a22d09abb',
+            archive_url = 'https://www.sqlite.org/2020/sqlite-autoconf-3310100.tar.gz',
+            hash = '62284efebc05a76f909c580ffa5c008a7d22a1287285d68b7825a2b6b51949ae',
             )
 
     def build(self):
