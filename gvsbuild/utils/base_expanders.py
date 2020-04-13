@@ -28,6 +28,27 @@ import hashlib
 from .simple_ui import log
 from .utils import rmtree_full
 
+def read_mark_file(directory, file_name='.wingtk-extracted-file'):
+    """"
+    Read a single line from file, returning an empty string on error
+    """
+    rt = ''
+    try:
+        with open(os.path.join(directory, file_name), 'rt') as fi:
+            rt = fi.readline().strip()
+    except IOError as e:
+        log.debug("Exception on reading from '%s'" % (file_name, ))
+        log.debug("%s" % (e, ))
+
+    return rt
+
+def write_mark_file(directory, val, file_name='.wingtk-extracted-file'):
+    """
+    Write the value (filename or content hash) to the mark file
+    """
+    with open(os.path.join(directory, file_name), 'wt') as fo:
+        fo.write('%s\n' % (val, ))
+
 def extract_exec(src, dest_dir, dir_part=None, strip_one=False, check_file=None, force_dest=None, check_mark=False):
     """
     Extract (or copy, in case of an exe file) from src to dest_dir,
@@ -68,13 +89,7 @@ def extract_exec(src, dest_dir, dir_part=None, strip_one=False, check_file=None,
         full_dest = dest_dir
 
     if check_mark:
-        rd_file = ''
-        try:
-            with open(os.path.join(full_dest, '.wingtk-extracted-file'), 'rt') as fi:
-                rd_file = fi.readline().strip()
-        except IOError:
-            pass
-
+        rd_file = read_mark_file(full_dest)
         wr_file = os.path.basename(src)
         if rd_file != wr_file:
             log.log('Forcing extraction of %s' % (src, ))
@@ -128,8 +143,8 @@ def extract_exec(src, dest_dir, dir_part=None, strip_one=False, check_file=None,
 
     if check_mark:
         # write the data
-        with open(os.path.join(full_dest, '.wingtk-extracted-file'), 'wt') as fo:
-            fo.write('%s\n' % (os.path.basename(src), ))
+        write_mark_file(full_dest, wr_file)
+
     # Say that we have done the extraction
     return True
 
@@ -217,23 +232,11 @@ class MercurialRepo(object):
         log.end()
 
 class GitRepo(object):
-    def git_temp_hash(self, hash_val=None):
-        """
-        if hash_val is None read, else write
-        """
-        rt = None
-
-        file_name = os.path.join(self.opts.git_expand_dir, self.name + '.hash')
-        if hash_val is not None:
-            with open(file_name, 'wt') as fo:
-                fo.write('%s\n' % (hash_val, ))
-        else:
-            try:
-                with open(file_name, 'rt') as fi:
-                    rt = fi.readline().strip()
-            except IOError:
-                pass
-        return rt 
+    def read_temp_hash(self):
+        return read_mark_file(self.opts.git_expand_dir, self.name + '.hash')
+    
+    def write_temp_hash(self, hash_val):
+        write_mark_file(self.opts.git_expand_dir, hash_val, self.name + '.hash')
 
     def create_zip(self):
         """
@@ -261,20 +264,33 @@ class GitRepo(object):
         # check if some file has changed
         all_files = dirlist2set(src_dir, add_dirs=True, skipped_dir=[ '.git', ])
         n_hash = make_zip_hash(all_files)
-        o_hash = self.git_temp_hash() if not self.clean else None
+        o_hash = self.read_temp_hash() if not self.clean else None
+        upd_build_dir = False
         if o_hash != n_hash:
             # create a .zip file with the downloaded project
             make_zip(os.path.join(git_tmp_dir, self.prj_dir + '-' + zip_post), all_files, len(src_dir))
             # update the hash 
-            self.git_temp_hash(n_hash)
+            self.write_temp_hash(n_hash)
             # copy the git buffer to the working dir, cleaning up before copying
+            upd_build_dir = True
             if os.path.isdir(self.build_dir):
                 rmtree_full(self.build_dir)
-            shutil.copytree(src_dir, self.build_dir)
-            return True
 
-        # No update
-        return False
+        if not upd_build_dir:
+            # Check if the destination dir exists
+            if not os.path.isdir(self.build_dir):
+                upd_build_dir = True
+            else:
+                o_hash = read_mark_file(self.build_dir)
+                if o_hash != n_hash:
+                    upd_build_dir = True
+                    rmtree_full(self.build_dir)
+
+        if upd_build_dir:
+            shutil.copytree(src_dir, self.build_dir)
+            write_mark_file(self.build_dir, n_hash)
+
+        return upd_build_dir
 
     def unpack(self):
         self.update_build_dir()
