@@ -199,7 +199,9 @@ class Tool_python(Tool):
         elif version == '3.6':
             version = '3.6.8'
         elif version == '3.7':
-            version = '3.7.3'
+            version = '3.7.7'
+        elif version == '3.8':
+            version = '3.8.2'
 
         if self.opts.x86:
             name = 'pythonx86'
