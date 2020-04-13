@@ -248,12 +248,16 @@ class Log(object):
             if self._output(msg):
                 return
             print(msg)
+        elif self.fo:
+            self._output(msg)
 
     def debug(self, msg):
         if self._debug:
             if self._output(msg):
                 return
             print('Debug:', msg)
+        elif self.fo:
+            self._output(msg)
 
     def verbose_on(self):
         return self._verbose
