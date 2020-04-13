@@ -1033,8 +1033,8 @@ class Project_libcroco(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libcroco',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libcroco/0.6/libcroco-0.6.11.tar.xz',
-            hash = '132b528a948586b0dfa05d7e9e059901bca5a3be675b6071a90a90b81ae5a056',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libcroco/0.6/libcroco-0.6.13.tar.xz',
+            hash = '767ec234ae7aa684695b3a735548224888132e063f92db585759b422570621d4',
             dependencies = ['glib', 'libxml2'],
             )
 
