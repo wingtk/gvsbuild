@@ -594,8 +594,8 @@ class Project_gsettings_desktop_schemas(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'gsettings-desktop-schemas',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.34/gsettings-desktop-schemas-3.34.0.tar.xz',
-            hash = '288b04260f7040b0e004a8d59c773cfb4e32df4f1b4a0f9d705c51afccc95ead',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.36/gsettings-desktop-schemas-3.36.0.tar.xz',
+            hash = '764ab683286536324533a58d4e95fc57f81adaba7d880dd0ebbbced63e960ea6',
             dependencies = ['meson', 'ninja', 'pkg-config', 'python', 'glib'],
             patches = [
                 '0003-source-for-dll-in-windows.patch',
