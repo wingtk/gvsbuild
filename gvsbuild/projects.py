@@ -1308,50 +1308,20 @@ class Project_libtiff4(Tarball, CmakeProject):
         self.install(r'.\COPYRIGHT share\doc\tiff')
 
 @project_add
-class Project_libuv(Tarball, Project):
+class Project_libuv(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'libuv',
-            archive_url = 'https://github.com/libuv/libuv/archive/v1.11.0.tar.gz',
-            archive_file_name = 'libuv-1.11.0.tar.gz',
-            hash = '6ec7eec6ecc24b1a8ffedebedb2fe9313fffb5410de89aaf784dd01080411c7a',
+            archive_url = 'https://github.com/libuv/libuv/archive/v1.35.0.tar.gz',
+            hash = 'ff84a26c79559e511f087aa67925c3b4e0f0aac60cd8039d4d38b292f208ff58',
+            dependencies = [
+                'cmake', 
+                'ninja',  
+                ],
             )
 
     def build(self):
-        rel_dir = r'Release'
-        if self.builder.opts.configuration == 'debug':
-            rel_dir = r'Debug'
-
-        platform = r'x86'
-        if self.builder.x64:
-            platform = r'x64'
-
-        tmp_python = os.getenv('PYTHON')
-        os.environ["PYTHON"] = 'c:\python27\python'
-        os.system(r'%s\vcbuild.bat build static %s %s' % (self._get_working_dir(), self.builder.opts.configuration, platform))
-        if tmp_python != None:
-            os.environ["PYTHON"] = tmp_python
-
-        self.install(r'include\pthread-barrier.h include\libuv')
-        self.install(r'include\stdint-msvc2008.h include\libuv')
-        self.install(r'include\tree.h include\libuv')
-        self.install(r'include\uv.h include\libuv')
-        self.install(r'include\uv-aix.h include\libuv')
-        self.install(r'include\uv-bsd.h include\libuv')
-        self.install(r'include\uv-darwin.h include\libuv')
-        self.install(r'include\uv-errno.h include\libuv')
-        self.install(r'include\uv-linux.h include\libuv')
-        self.install(r'include\uv-sunos.h include\libuv')
-        self.install(r'include\uv-threadpool.h include\libuv')
-        self.install(r'include\uv-unix.h include\libuv')
-        self.install(r'include\uv-version.h include\libuv')
-        self.install(r'include\uv-win.h include\libuv')
-
-        self.push_location(rel_dir)
-        self.install(r'run-benchmarks' + '.exe' + ' bin')
-        self.install(r'run-tests' + '.exe' + ' bin')
-        self.install(r'lib\libuv' + '.lib' + ' lib')
-        self.pop_location()
+        CmakeProject.build(self, use_ninja=True)
 
         self.install(r'.\LICENSE share\doc\libuv')
 
