@@ -1809,8 +1809,8 @@ class Project_wing(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'wing',
-            archive_url = 'https://gitlab.gnome.org/GNOME/wing/-/archive/v0.3.0/wing-v0.3.0.tar.gz',
-            hash = '4d0d54196aededce6afd983ce99e987c682c63e8c2b24070109f1fb126300c83',
+            archive_url = 'https://gitlab.gnome.org/GNOME/wing/-/archive/v0.3.2/wing-v0.3.2.tar.gz',
+            hash = '881eb60738359addd16de27ecd83105b3b16ba2a7e99901eb51abfb200d25a10',
             dependencies = ['ninja', 'meson', 'pkg-config', 'glib'],
             )
 
