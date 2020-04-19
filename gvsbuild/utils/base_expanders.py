@@ -295,17 +295,13 @@ class GitRepo(object):
     def unpack(self):
         self.update_build_dir()
 
-    def update_build_dir(self):
-        rt = None
-        if not os.path.exists(self.opts.git_expand_dir):
-            log.log("Creating git expoand directory %s" % (self.opts.git_expand_dir,))
-            os.makedirs(self.opts.git_expand_dir, exist_ok=True)
-        
+    def _update_dir(self, remove_dest=False):
+
         dest = os.path.join(self.opts.git_expand_dir, self.name)
-        if self.clean:
+        if self.clean or remove_dest:
             if os.path.isdir(dest):
                 rmtree_full(dest)
-            
+
         if os.path.isdir(dest):
             # Update 
             log.start('(git) Updating directory %s' % (dest, ))
@@ -336,6 +332,21 @@ class GitRepo(object):
                 log.end()
             self.create_zip()
             rt = True
+        
+        return rt
+
+    def update_build_dir(self):
+        rt = None
+        if not os.path.exists(self.opts.git_expand_dir):
+            log.log("Creating git expoand directory %s" % (self.opts.git_expand_dir,))
+            os.makedirs(self.opts.git_expand_dir, exist_ok=True)
+
+        try:
+            rt = self._update_dir()
+        except Exception as e:
+            log.message('%s:Exception %s' % (self.name, e, ))
+            log.message('Removing the destination dir ...')
+            rt = self._update_dir(remove_dest=True)
 
         if rt:
             if os.path.exists(self.patch_dir):
