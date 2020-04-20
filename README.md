@@ -121,12 +121,12 @@ $env:Path = "C:\gtk-build\gtk\x64\release\bin;" + $env:Path
 
 #### Other Options
 
- To build the 64-bit version with the Visual Studio 2017 (version 15) you need
+ To build the 64-bit version with the Visual Studio 2019 (version 16) you need
  also to tell the script the visual studio version, run:
 
  ```
  cd C:\gtk-build\github\gvsbuild
- python .\build.py build -p x64 --vs-ver 15 gtk3
+ python .\build.py build -p x64 --vs-ver 16 gtk3
  ```
 
  For more information about the possible commands run:
