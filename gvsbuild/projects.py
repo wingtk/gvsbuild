@@ -1735,6 +1735,7 @@ class Project_pycairo(Tarball, Project):
         self.install(r'.\COPYING share\doc\pycairo')
         self.install(r'.\COPYING-LGPL-2.1 share\doc\pycairo')
         self.install(r'.\COPYING-MPL-1.1 share\doc\pycairo')
+        self.install(r'.\pc-files\* lib\pkgconfig')
         self.pop_location()
 
 @project_add
@@ -1768,6 +1769,8 @@ class Project_pygobject(Tarball, Project):
         if self.builder.opts.py_egg or self.builder.opts.py_wheel:
             self.install_dir('dist', 'python')
         self.install(r'.\COPYING share\doc\pygobject')
+        self.install(r'.\gi\pygobject.h include\pygobject-3.0')
+        self.install(r'.\pc-files\* lib\pkgconfig')
         self.pop_location()
 
 @project_add

@@ -1,0 +1,9 @@
+prefix=c:/gtk-build/_bld/vs2019/gtk/x64/release
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: py3cairo
+Description: Python 3 bindings for cairo
+Version: 1.19.1
+Requires: cairo
+Cflags: -I${includedir}/pycairo
