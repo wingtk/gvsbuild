@@ -238,22 +238,27 @@ class GitRepo(object):
     def write_temp_hash(self, hash_val):
         write_mark_file(self.opts.git_expand_dir, hash_val, self.name + '.hash')
 
-    def create_zip(self):
-        """
-        Create a .zip file with the git checkout to be able to 
-        work offline and as a reference of the last correct build
-        """
-        src_dir = os.path.join(self.opts.git_expand_dir, self.name)
+    def get_tag_name(self):
         if self.tag:
             # name the .zip from the tag, validating it
             t_name = [ c if c.isalnum() else '_' for c in self.tag ]
-            zip_post = ''.join(t_name)
+            tag_name = ''.join(t_name)
         else:
             of = os.path.join(src_dir, '.git-temp.rsp')
             self.builder.exec_msys('git rev-parse --short HEAD >%s' % (of, ), working_dir=src_dir)
             with open(of, 'rt') as fi:
-                zip_post = fi.readline().rstrip('\n')
+                tag_name = fi.readline().rstrip('\n')
             os.remove(of)
+
+        return tag_name
+
+    def create_zip(self):
+        """
+        Create a .zip file with the git checkout to be able to
+        work offline and as a reference of the last correct build
+        """
+        src_dir = os.path.join(self.opts.git_expand_dir, self.name)
+        zip_post = self.get_tag_name()
 
         # Be sure to have the git .zip dir
         git_tmp_dir = os.path.join(self.builder.opts.archives_download_dir, 'git')
