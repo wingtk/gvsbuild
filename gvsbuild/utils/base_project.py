@@ -239,6 +239,27 @@ class Project(object):
             dest = os.path.basename(src)
         self.builder.install_dir(self._get_working_dir(), self.pkg_dir, src, dest)
 
+
+    def install_pc_files(self, base_dir='pc-files'):
+        '''
+        Install, setting dir & version, the .pc files 
+        '''
+        src_dir = os.path.join(self._get_working_dir(), base_dir)
+        log.debug('Copy .pc files from %s' % (src_dir, ))
+        bin_dir = os.path.join(self.builder.gtk_dir, 'bin').replace('\\', '/')
+        for f in os.scandir(src_dir):
+            if (f.is_file()):
+                log.debug(' %s' % (f.name, ))
+                with open(f.path) as fi:
+                    content = fi.read()
+                _t = content.replace('@prefix@', bin_dir)
+                content = _t
+                _t = content.replace('@version@', self.version)
+                content = _t
+
+                with open(os.path.join(self.builder.gtk_dir, 'lib', 'pkgconfig', f.name), 'wt') as fo:
+                    fo.write(content)
+
     def patch(self):
         for p in self.patches:
             name = os.path.basename(p)

@@ -1,11 +1,12 @@
-prefix=some_directory
+# On windows, the prefix is automagically build from the location of the .pc file
+prefix=@prefix@
 exec_prefix=${prefix}
 libdir=${prefix}/lib
 includedir=${prefix}/include
 
 Name: harfbuzz
 Description: HarfBuzz text shaping library
-Version: 2.6.1
+Version: @version@
 
 Libs: -L${libdir} -lharfbuzz
 Cflags: -I${includedir}/harfbuzz

@@ -1,12 +1,12 @@
 # On windows, the prefix is automagically build from the location of the .pc file
-prefix=C:/dir_placeholder
+prefix=@prefix@
 exec_prefix=${prefix}
 libdir=${prefix}/lib
 includedir=${prefix}/include
 
 Name: icu-uc
 Description: International Components for Unicode: Common and Data libraries
-Version: 63.1
+Version: @version@
 
 Libs: -L${libdir} -licuucd -licudt
 Cflags: -I${includedir}/unicode

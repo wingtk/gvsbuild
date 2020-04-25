@@ -1,4 +1,5 @@
-prefix=c:/gtk-build/_bld/vs2019/gtk/x64/release
+# On windows, the prefix is automagically build from the location of the .pc file
+prefix=@prefix@
 exec_prefix=${prefix}
 includedir=${prefix}/include
 datarootdir=${prefix}/share
@@ -13,7 +14,7 @@ Name: PyGObject
 Description: Python bindings for GObject
 Requires: gobject-2.0
 Requires.private: libffi
-Version: 3.36.0
+Version: @version@
 Cflags: -I${pygobjectincludedir}
 
 # overridesdir has now moved to the gi module

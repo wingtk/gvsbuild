@@ -115,8 +115,7 @@ class Project_cairo(Tarball, Project):
         self.install(r'.\util\cairo-gobject\cairo-gobject.h include\cairo')
         self.install(r'.\cairo-version.h include\cairo')
 
-        self.install(r'.\pc-files\* lib\pkgconfig')
-
+        self.install_pc_files()
         self.install(r'.\COPYING share\doc\cairo')
 
 @project_add
@@ -353,7 +352,7 @@ class Project_fontconfig(Tarball, Project):
         self.install('fontconfig.lib', 'lib')
         self.pop_location()
 
-        self.install(r'.\fontconfig.pc lib\pkgconfig')
+        self.install_pc_files()
         self.install(r'.\COPYING share\doc\fontconfig')
 
 @project_add
@@ -368,7 +367,7 @@ class Project_freetype(Tarball, CmakeProject):
 
     def build(self):
         CmakeProject.build(self, cmake_params='-DWITH_ZLIB=ON -DWITH_PNG=ON -DDISABLE_FORCE_DEBUG_POSTFIX=ON -DBUILD_SHARED_LIBS=ON', use_ninja=True)
-        self.install(r'.\pc-files\* lib\pkgconfig')
+        self.install_pc_files()
         self.install(r'.\docs\LICENSE.TXT share\doc\freetype')
 
 @project_add
@@ -900,7 +899,7 @@ class Project_harfbuzz(Tarball, CmakeProject):
     def build(self):
         CmakeProject.build(self, cmake_params='-DHB_HAVE_FREETYPE=ON -DHB_HAVE_GLIB=ON -DHB_HAVE_GOBJECT=ON', use_ninja=True)
 
-        self.install(r'.\pc-files\* lib\pkgconfig')
+        self.install_pc_files()
         self.install(r'.\COPYING share\doc\harfbuzz')
 
 @project_add
@@ -939,9 +938,9 @@ class Project_icu(Tarball, Project):
         self.exec_msbuild(r'source\allinone\allinone.sln /t:cal')
 
         if self.builder.opts.configuration == 'debug':
-            self.install(r'.\pc-files-debug\* lib\pkgconfig')
+            self.install_pc_files('pc-files-debug')
         else:
-            self.install(r'.\pc-files\* lib\pkgconfig')
+            self.install_pc_files()
 
         self.install(r'.\LICENSE share\doc\icu')
         self.install(bindir + r'\* bin')
@@ -1177,7 +1176,7 @@ class Project_libpng(Tarball, CmakeProject):
     def build(self):
         CmakeProject.build(self, use_ninja=True)
 
-        self.install(r'.\pc-files\* lib\pkgconfig')
+        self.install_pc_files()
         self.install('LICENSE share\doc\libpng')
 
 @project_add
@@ -1351,7 +1350,7 @@ class Project_libxml2(Tarball, Meson):
 
     def build(self):
         Meson.build(self)
-        self.install(r'.\pc-files\* lib\pkgconfig')
+        self.install_pc_files()
         self.install(r'.\COPYING share\doc\libxml2')
 
 @project_add
@@ -1371,7 +1370,7 @@ class Project_libyuv(GitRepo, CmakeProject):
     def build(self):
         CmakeProject.build(self, use_ninja=True)
 
-        self.install(r'.\pc-files\* lib\pkgconfig')
+        self.install_pc_files()
         self.install(r'.\LICENSE share\doc\libyuv')
 
 @project_add
@@ -1534,7 +1533,7 @@ class Project_openssl(Tarball, Project):
 
         self.install(r'.\cert.pem bin')
         self.install(r'.\LICENSE share\doc\openssl')
-        self.install(r'.\pc-files\* lib\pkgconfig')
+        self.install_pc_files()
 
 @project_add
 class Project_opus(Tarball, Project):
@@ -1560,8 +1559,8 @@ class Project_opus(Tarball, Project):
 
         self.install(r'include\* include')
 
-        self.install(r'.\pc-files\* lib\pkgconfig')
-        
+        self.install_pc_files()
+
         self.install(r'COPYING share\doc\opus')
 
 @project_add
@@ -1749,7 +1748,7 @@ class Project_pycairo(Tarball, Project):
         self.install(r'.\COPYING share\doc\pycairo')
         self.install(r'.\COPYING-LGPL-2.1 share\doc\pycairo')
         self.install(r'.\COPYING-MPL-1.1 share\doc\pycairo')
-        self.install(r'.\pc-files\* lib\pkgconfig')
+        self.install_pc_files()
         self.pop_location()
 
 @project_add
@@ -1784,7 +1783,7 @@ class Project_pygobject(Tarball, Project):
             self.install_dir('dist', 'python')
         self.install(r'.\COPYING share\doc\pygobject')
         self.install(r'.\gi\pygobject.h include\pygobject-3.0')
-        self.install(r'.\pc-files\* lib\pkgconfig')
+        self.install_pc_files()
         self.pop_location()
 
 @project_add
@@ -1878,7 +1877,7 @@ class Project_zlib(Tarball, Project):
         self.install(r'.\zlib1.dll .\zlib1.pdb bin')
         self.install(r'.\zlib1.lib lib')
 
-        self.install(r'.\pc-files\* lib\pkgconfig')
+        self.install_pc_files()
         self.install(r'.\README share\doc\zlib')
 
 @project_add

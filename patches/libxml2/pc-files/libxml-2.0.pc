@@ -1,11 +1,11 @@
 # On windows, the prefix is automagically build from the location of the .pc file
-prefix=C:/dir_placeholder
+prefix=@prefix@
 exec_prefix=${prefix}
 libdir=${prefix}/lib
 includedir=${prefix}/include
 
 Name: libXML
-Version: 2.9.8
+Version: @version@
 Description: libXML library version2.
 Requires:
 Libs: -L${libdir} -llibxml2

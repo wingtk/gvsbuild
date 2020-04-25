@@ -1,11 +1,12 @@
-prefix=some_directory
+# On windows, the prefix is automagically build from the location of the .pc file
+prefix=@prefix@
 exec_prefix=${prefix}
 libdir=${prefix}/lib
 includedir=${prefix}/include
 
 Name: fontconfig
 Description: Font configuration and customization library
-Version: 2.13.0
+Version: @version@
 
 Libs: -L${libdir} -lfontconfig
 Cflags: -I${includedir}
