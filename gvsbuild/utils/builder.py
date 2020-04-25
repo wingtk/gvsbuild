@@ -620,8 +620,16 @@ class Builder(object):
             # delta with the old
             new = cur - self.file_built
             if new:
-                # file presents, do the zip
-                zip_file = os.path.join(self.zip_dir, proj.prj_dir)
+                # file presents, do the zip (with the version)
+                if proj.version.startswith('git/'):
+                    t_ver = proj.version[4:]
+                else:
+                    t_ver = proj.version
+
+                _t = [ c if c.isalnum() else '_' for c in t_ver ]
+                ver_part = ''.join(_t)
+
+                zip_file = os.path.join(self.zip_dir, proj.prj_dir + '-' + ver_part)
                 self.make_zip(zip_file, new)
                 # use the current file set
                 self.file_built = cur

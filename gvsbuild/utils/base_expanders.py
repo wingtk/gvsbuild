@@ -238,7 +238,7 @@ class GitRepo(object):
     def write_temp_hash(self, hash_val):
         write_mark_file(self.opts.git_expand_dir, hash_val, self.name + '.hash')
 
-    def get_tag_name(self):
+    def get_tag_name(self, src_dir):
         if self.tag:
             # name the .zip from the tag, validating it
             t_name = [ c if c.isalnum() else '_' for c in self.tag ]
@@ -258,7 +258,7 @@ class GitRepo(object):
         work offline and as a reference of the last correct build
         """
         src_dir = os.path.join(self.opts.git_expand_dir, self.name)
-        zip_post = self.get_tag_name()
+        zip_post = self.get_tag_name(src_dir)
 
         # Be sure to have the git .zip dir
         git_tmp_dir = os.path.join(self.builder.opts.archives_download_dir, 'git')
