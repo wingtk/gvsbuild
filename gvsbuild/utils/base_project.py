@@ -244,6 +244,9 @@ class Project(object):
         '''
         Install, setting dir & version, the .pc files 
         '''
+        pkgconfig_dir = os.path.join(self.builder.gtk_dir, 'lib', 'pkgconfig')
+        self.builder.make_dir(pkgconfig_dir)
+
         src_dir = os.path.join(self._get_working_dir(), base_dir)
         log.debug('Copy .pc files from %s' % (src_dir, ))
         bin_dir = os.path.join(self.builder.gtk_dir, 'bin').replace('\\', '/')
@@ -257,7 +260,7 @@ class Project(object):
                 _t = content.replace('@version@', self.version)
                 content = _t
 
-                with open(os.path.join(self.builder.gtk_dir, 'lib', 'pkgconfig', f.name), 'wt') as fo:
+                with open(os.path.join(pkgconfig_dir, f.name), 'wt') as fo:
                     fo.write(content)
 
     def patch(self):
