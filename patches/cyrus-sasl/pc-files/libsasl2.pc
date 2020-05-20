@@ -8,5 +8,5 @@ Name: Cyrus SASL
 Description: Cyrus SASL implementation.
 Version: @version@
 
-Libs: -L${libdir} -lsasl2
+Libs: -L${libdir} -lsasl
 Cflags: -I${includedir}
