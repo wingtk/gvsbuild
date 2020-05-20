@@ -919,7 +919,7 @@ class Project_icu(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'icu',
-            archive_url = 'http://download.icu-project.org/files/icu4c/63.1/icu4c-63_1-src.zip',
+            archive_url = 'https://github.com/unicode-org/icu/releases/download/release-63-1/icu4c-63_1-src.zip',
             hash = '3d957deabf75e96c35918355eac4da3e728fc222b9b4bdb2663652f76ee51772',
             version='63.1',
             )
