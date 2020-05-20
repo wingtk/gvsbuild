@@ -177,6 +177,7 @@ class Project_cyrus_sasl(Tarball, Project):
                      r'LMDB_LIBPATH="%(gtk_dir)s\lib" OPENSSL_INCLUDE="%(gtk_dir)s\include" OPENSSL_LIBPATH="%(gtk_dir)s\lib" prefix="%(pkg_dir)s" CFG=' + configuration)
 
         self.install(r'.\COPYING share\doc\cyrus-sasl')
+        self.install_pc_files()
 
 
 @project_add
@@ -1721,6 +1722,7 @@ class Project_protobuf_c(Tarball, CmakeProject):
         CmakeProject.build(self, use_ninja=True, source_part='build-cmake')
 
         self.install(r'.\LICENSE share\doc\protobuf-c')
+        self.install_pc_files()
 
 @project_add
 class Project_pycairo(Tarball, Project):
