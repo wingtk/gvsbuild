@@ -1453,6 +1453,7 @@ class Project_lz4(Tarball, Project):
         self.install(r'visual\%(vs_ver_year)s\bin\%(platform)s_%(configuration)s\liblz4.lib lib')
 
         self.install(r'.\lib\LICENSE share\doc\lz4')
+        self.install_pc_files()
 
 @project_add
 class Project_mit_kerberos(Tarball, Project):
