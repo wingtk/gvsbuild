@@ -1,0 +1,25 @@
+From a7316dd634f40f5fa0bfdf230660945f25329c00 Mon Sep 17 00:00:00 2001
+From: Ignacio Casal Quinteiro <qignacio@amazon.com>
+Date: Thu, 30 Jan 2020 10:54:15 +0100
+Subject: [PATCH] Fix openssl libs to point to the new openssl 1.1.1 names
+
+---
+ plugins/NTMakefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/plugins/NTMakefile b/plugins/NTMakefile
+index ef24b478..661c6d07 100755
+--- a/plugins/NTMakefile
++++ b/plugins/NTMakefile
+@@ -171,7 +171,7 @@ EXTRA_FLAGS = /D TARGET_WIN_SYSTEM=$(TARGET_WIN_SYSTEM) $(EXTRA_FLAGS)
+ EXTRA_FLAGS=$(EXTRA_FLAGS) $(DB_FLAGS) $(OPENSSL_FLAGS) $(GSS_FLAGS) $(SRP_FLAGS) $(SQL_FLAGS) $(DIGEST_FLAGS) $(CRAM_FLAGS) $(LDAP_FLAGS)
+ CPPFLAGS = /I "..\win32\include" /I "." /I "..\include" $(EXTRA_FLAGS) /D "WIN32" /D "_WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL"
+ 
+-OPENSSL_LIBS=/libpath:$(OPENSSL_LIBPATH) libeay32.lib ssleay32.lib
++OPENSSL_LIBS=/libpath:$(OPENSSL_LIBPATH) libssl.lib libcrypto.lib
+ 
+ # Where to install files from this directory
+ libdir = $(prefix)\lib
+-- 
+2.17.1
+

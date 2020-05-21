@@ -1,0 +1,27 @@
+# On windows, the prefix is automagically build from the location of the .pc file
+prefix=@prefix@
+exec_prefix=${prefix}
+includedir=${prefix}/include
+datarootdir=${prefix}/share
+datadir=${datarootdir}
+
+# you can use the --variable=pygobjectincludedir argument to
+# pkg-config to get this value. You might want to use this to
+# install additional headers.
+pygobjectincludedir=${includedir}/pygobject-3.0
+
+Name: PyGObject
+Description: Python bindings for GObject
+Requires: gobject-2.0
+Requires.private: libffi
+Version: @version@
+Cflags: -I${pygobjectincludedir}
+
+# overridesdir has now moved to the gi module
+# third parties can access it in a python script:
+#
+# import gi
+# installdir = gi._overridesdir
+#
+# the version of python you run the script from
+# will determine the actual overrides path

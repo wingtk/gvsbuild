@@ -1,0 +1,12 @@
+# On windows, the prefix is automagically build from the location of the .pc file
+prefix=@prefix@
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: lz4
+Description: fast lossless compression algorithm library.
+Version: @version@
+
+Libs: -L${libdir} -llz4
+Cflags: -I${includedir}

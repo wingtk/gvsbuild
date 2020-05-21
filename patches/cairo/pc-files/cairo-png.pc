@@ -1,11 +1,12 @@
-prefix=C:/
-exec_prefix=C:/
+# On windows, the prefix is automagically build from the location of the .pc file
+prefix=@prefix@
+exec_prefix=${prefix}
 libdir=${prefix}/lib
 includedir=${prefix}/include
 
 Name: cairo-png
 Description: PNG functions for cairo graphics library
-Version: 1.15.2
+Version: @version@
 
 Requires: cairo libpng
-Cflags: -I${includedir}/cairo 
+Cflags: -I${includedir}/cairo

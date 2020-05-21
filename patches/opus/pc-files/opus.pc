@@ -1,0 +1,16 @@
+# Opus codec reference implementation pkg-config file
+# On windows, the prefix is automagically build from the location of the .pc file
+prefix=@prefix@
+exec_prefix=${prefix}
+libdir=${prefix}/lib/x86_64-linux-gnu
+includedir=${prefix}/include
+
+Name: Opus
+Description: Opus IETF audio codec (floating-point build)
+URL: http://opus-codec.org/
+Version: @version@
+Requires:
+Conflicts:
+Libs: -L${libdir} -lopus
+Libs.private: -lm
+Cflags: -I${includedir}/opus

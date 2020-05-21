@@ -158,7 +158,7 @@ endif
 
 
 # libjpeg
-libjpeg_required_ver = '>= 6.2'
+libjpeg_required_ver = '>= 2.0'
 libjpeg_dep = dependency('libjpeg', version: libjpeg_required_ver, required: check_all)
 if libjpeg_dep.found()
         test_libjpeg = executable('test_libjpeg',
@@ -171,7 +171,7 @@ endif
 
 # libjpeg_turbo
 libjpeg_turbo_required_ver = '>= 1.5.1'
-libjpeg_turbo_dep = dependency('libjpeg-turbo', version: libjpeg_turbo_required_ver, required: check_all)
+libjpeg_turbo_dep = dependency('libturbojpeg', version: libjpeg_turbo_required_ver, required: check_all)
 if libjpeg_turbo_dep.found()
         test_libjpeg_turbo = executable('test_libjpeg-turbo',
                                  [ 'test_libjpeg-turbo.c', 'check_utils.c', ],
@@ -217,6 +217,17 @@ if libxml2_dep.found()
         test('libxml2', test_libxml2)
 endif
 
+# libyuv
+libyuv_required_ver = '>= 0.0.1724'
+libyuv_dep = dependency('libyuv', version: libyuv_required_ver, required: check_all)
+if libyuv_dep.found()
+        test_libyuv = executable('test_libyuv',
+                                [ 'test_libyuv.c', 'check_utils.c', ],
+                               dependencies: [ libyuv_dep, ],
+                                )
+        test('libyuv', test_libyuv)
+endif
+
 # pango
 pango_required_ver = '>= 1.40.14'
 pango_dep = dependency('pango', version: pango_required_ver, required: check_all)
@@ -227,6 +238,18 @@ if pango_dep.found()
                                     )
 
         test('pango', test_pango)
+endif
+
+# wing
+wing_required_ver = '>= 0.104'
+wing_dep = dependency('wing-1.0', version: wing_required_ver, required: check_all)
+if wing_dep.found()
+        test_wing = executable('test_wing',
+                                [ 'test_wing.c', 'check_utils.c', ],
+                               dependencies: [ wing_dep, ],
+                                )
+
+        test('wing', test_wing)
 endif
 
 # zlib

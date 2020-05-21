@@ -13,21 +13,21 @@ environment:
       VS_VER: "14"
       PLATFORM: "x86"
       PYTHON: C:\Python36\python.exe
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      VS_VER: "14"
-      PLATFORM: "x64"
-      PYTHON: C:\Python36-x64\python.exe
+    #- APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    #  VS_VER: "14"
+    #  PLATFORM: "x64"
+    #  PYTHON: C:\Python36-x64\python.exe
 
 build_script:
   - "%PYTHON% -m pip install -U wheel"
-  - "%PYTHON% build.py build --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --enable-gi --py-wheel adwaita-icon-theme enchant gtk3 gtksourceview3 hicolor-icon-theme pygobject"
+  - "%PYTHON% build.py build --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --enable-gi --py-wheel --python-ver 3.6 adwaita-icon-theme enchant gtk3 gtksourceview3 hicolor-icon-theme pygobject"
   - "%PYTHON% -m pip install C:/gtk-build/gtk/Win32/release/python/pycairo-1.17.1-cp36-cp36m-win32.whl C:/gtk-build/gtk/Win32/release/python/PyGObject-3.28.3-cp36-cp36m-win32.whl"
   - set PATH=%PATH%;C:/gtk-build\gtk\Win32\release\bin
   - "%PYTHON% -c \"import os; print(os.getenv('PATH'))\""
   - "%PYTHON% -c \"import gi; gi.require_version('Gtk', '3.0'); from gi.repository import Gtk\""
   - set PATH=%PATH%;C:\msys64\usr\bin
   - IF "%PLATFORM%"=="x86" tar.exe -zcf gvsbuild-vs%VS_VER%-%PLATFORM%.tar.gz -C /c/gtk-build/gtk/Win32 release
-  - IF "%PLATFORM%"=="x64" tar.exe -zcf gvsbuild-vs%VS_VER%-%PLATFORM%.tar.gz -C /c/gtk-build/gtk/x64 release
+  #- IF "%PLATFORM%"=="x64" tar.exe -zcf gvsbuild-vs%VS_VER%-%PLATFORM%.tar.gz -C /c/gtk-build/gtk/x64 release
 
 artifacts:
   - path: gvsbuild-vs%VS_VER%-%PLATFORM%.tar.gz

@@ -17,6 +17,19 @@
 """
 gvsbuild deps print / .gv graph
 """
+# Verify we can import from the script directory
+try:
+    import gvsbuild.utils.utils
+except ImportError:
+    # We are probably using an embedded installation
+    print('Error importing utility (running the embedded interpreter ?), fixing paths ...')
+    import sys
+    import os
+    # Get the script dir
+    script_dir = os.path.dirname(os.path.realpath(sys.argv[0]))
+    # and add it at the beginning, emulating the standard python startup
+    sys.path.insert(0, script_dir)
+
 import argparse
 
 from gvsbuild.utils.base_project import Project, GVSBUILD_GROUP, GVSBUILD_TOOL, GVSBUILD_PROJECT

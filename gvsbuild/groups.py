@@ -29,6 +29,7 @@ class Group_Tools(Group):
         Group.__init__(self,
             'tools',
             dependencies = [
+                'cargo',
                 'cmake',
                 'go',
                 'meson',
@@ -55,6 +56,23 @@ class Group_Gtk3_Full(Group):
                 'gtksourceview3',
                 'hicolor-icon-theme',
                 'wing',
+                ],
+            )
+
+@group_add
+class Group_Tools_Check(Group):
+    '''
+    Group to use all the tools handled by the script, to see at a glance if everything
+    seems ok after (big) changes on the tools
+    '''
+    def __init__(self):
+        Group.__init__(self,
+            'tools-check',
+            dependencies = [
+                'lmdb',
+                'x264',
+                'libjpeg-turbo',
+                'grpc',
                 ],
             )
 

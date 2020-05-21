@@ -1,12 +1,12 @@
 # On windows, the prefix is automagically build from the location of the .pc file
-prefix=C:/dir_placeholder
+prefix=@prefix@
 exec_prefix=${prefix}
 libdir=${prefix}/lib
 includedir=${prefix}/include
 
 Name: libpng
 Description: Loads and saves PNG files.
-Version: 1.6.35
+Version: @version@
 
 Libs: -L${libdir} -llibpng16
 Cflags: -I${includedir}/libpng16

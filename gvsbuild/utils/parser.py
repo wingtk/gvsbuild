@@ -27,11 +27,13 @@ from .base_project import Project, GVSBUILD_PROJECT, GVSBUILD_TOOL, GVSBUILD_GRO
 from .base_project import Options
 from .builder import Builder
 from .utils import ordered_set
-from .simple_ui import error_exit, print_debug
+from .simple_ui import log
 
 def get_options(args):
     opts = Options()
 
+    opts.verbose = args.verbose
+    opts.debug = args.debug
     opts.platform = args.platform
     opts.configuration = getattr(args, 'configuration', 'release')
     opts.build_dir = args.build_dir
@@ -61,25 +63,47 @@ def get_options(args):
     opts.enable_gi = args.enable_gi
     opts.gtk3_ver = args.gtk3_ver
     opts.ffmpeg_enable_gpl = args.ffmpeg_enable_gpl
+    opts.log_size = args.log_size
+    opts.log_single = args.log_single
+    opts.cargo_opts = args.cargo_opts
+    opts.ninja_opts = args.ninja_opts
+    opts.python_ver = args.python_ver
+    opts.same_python = args.same_python
+    opts.capture_out = args.capture_out
+    opts.print_out = args.print_out
+    opts.git_expand_dir = args.git_expand_dir 
+
+    # active the log
+    log.configure(os.path.join(opts.build_dir, 'logs'), opts)
 
     if opts.make_zip and opts.no_deps:
-        error_exit('Options --make-zip and --no-deps are not compatible')
+        log.error_exit('Options --make-zip and --no-deps are not compatible')
 
     if not opts.archives_download_dir:
         opts.archives_download_dir = os.path.join(args.build_dir, 'src')
+    if not opts.git_expand_dir:
+        opts.git_expand_dir = os.path.join(opts.archives_download_dir, 'git-exp')
     if not opts.patches_root_dir:
         opts.patches_root_dir = os.path.join(sys.path[0], 'patches')
     prop_file = os.path.join(opts.patches_root_dir, 'stack.props')
     if not os.path.isfile(prop_file):
-        error_exit("Missing 'stack.prop' file on directory '%s'.\nWrong or missing --patches-root-dir option?" % (opts.patches_root_dir, ))
+        log.error_exit("Missing 'stack.prop' file on directory '%s'.\nWrong or missing --patches-root-dir option?" % (opts.patches_root_dir, ))
         
+    opts._vs_path_auto = False
     if not opts.tools_root_dir:
         opts.tools_root_dir = os.path.join(args.build_dir, 'tools')
     if not opts.vs_install_path:
         if opts.vs_ver == "15":
-            opts.vs_install_path = r'C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional'
+            opts.vs_install_path = r'C:\Program Files (x86)\Microsoft Visual Studio\2017'
+            opts._vs_path_auto = True
+        elif opts.vs_ver == "16":
+            opts.vs_install_path = r'C:\Program Files (x86)\Microsoft Visual Studio\2019'
+            opts._vs_path_auto = True
         else:
             opts.vs_install_path = r'C:\Program Files (x86)\Microsoft Visual Studio %s.0' % (opts.vs_ver,)
+
+    if opts.python_dir is None and not opts.same_python:
+        opts._load_python = True
 
     opts.projects = args.project
     Project.opts = opts
@@ -88,13 +112,17 @@ def get_options(args):
 
     for p in opts.projects:
         if not p in Project.get_names():
-            error_exit(
+            log.error_exit(
                 p + " is not a valid project name, available projects are:\n\t" + "\n\t".join(Project.get_names()))
 
     return opts
 
 def __get_projects_to_build(opts):
     to_build = ordered_set()
+    if opts._load_python:
+        # We use nuget to download & install the python needed for the build so we put it at the beginning
+        opts.projects.insert(0, 'python')
+        
     for name in opts.projects:
         p = Project.get_project(name)
         if not opts.no_deps:
@@ -109,25 +137,33 @@ def __get_projects_to_build(opts):
         to_skip = opts.skip.split(',')
         for s in to_skip:
             if not s in Project.get_names():
-                error_exit(
+                log.error_exit(
                     s + " is not a valid project name, available projects are:\n\t" + "\n\t".join(Project.get_names()))
 
             p = Project.get_project(s)
             if p in to_build:
-                print_debug('Dropped project %s' % (s, ))
+                log.debug('Dropped project %s' % (s, ))
                 to_build.remove(p)
     return to_build
 
 def do_build(args):
     opts = get_options(args)
-    print_debug("options are: %s" % (opts.__dict__,))
+    if log.debug_on():
+        log.debug("Options are:")
+        for co in sorted(opts.__dict__.keys()):
+            v = opts.__dict__[co]
+            if type(v) is str:
+                pv = "'%s'" % (v, )
+            else:
+                pv = repr(v) 
+            log.message_indent("'%s': %s, " % (co, pv, ))
     builder = Builder(opts)
     builder.preprocess()
 
     to_build = __get_projects_to_build(opts)
     if not to_build:
-        error_exit("nothing to do")
-    print_debug("building %s" % ([p.name for p in to_build],))
+        log.error_exit("nothing to do")
+    log.debug("building %s" % ([p.name for p in to_build],))
 
     builder.build(to_build)
 
@@ -202,15 +238,23 @@ Examples:
     p_build.add_argument('--tools-root-dir',
                          help="The directory where to install the downloaded tools. Default is $(build-dir)\\tools.")
     p_build.add_argument('--vs-ver', default='12',
-                         help="Visual Studio version 10,12,14, etc. Default is 12.")
+                         help="Visual Studio version 12 (vs2013), 14 (vs2015), 15 (vs2017) etc. Default is 12.")
     p_build.add_argument('--vs-install-path',
-                         help=r"The directory where you installed Visual Studio. Default is 'C:\Program Files (x86)\Microsoft Visual Studio $(build-ver).0'")
+                         help=r"The directory where you installed Visual Studio. Default is 'C:\Program Files (x86)\Microsoft Visual Studio $(vs-ver).0' (for vs-ver <= 14) " +
+                         "or 'C:\Program Files (x86)\Microsoft Visual Studio\\20xx' (2017 for vs-ver 15, 2019 for vs-ver 16, ...). "
+                         "If not set for the vs2017 version the script look automatically under Professional, BuildTools, Enterprise, Community and Preview sub directory until it finds the startup batch.")
     p_build.add_argument('--win-sdk-ver', default = None,
                          help=r"The windows sdk version to use for building, used to initialize the Visual Studio build environment. " +
-                               "It can be 8.1 (for windows 8 compatibility) or 10.0.xxxxx.0, where xxxxx, at the moment, can be 10150, 10240, 10586, 14393 or 15063 " +
-                               "depending on the VS version / installation's options.")
-    p_build.add_argument('--python-dir', default=os.path.dirname(sys.executable),
-                         help="The directory where you installed python.")
+                               "It can be 8.1 (for windows 8 compatibility) or 10.0.xxxxx.0, where xxxxx, at the moment, can be 10150, 10240, 10586, 14393, 15063 " +
+                               "16299, 17134 or 17763 " +
+                               "depending on the VS version / installation's options. " +
+                               "If you don't specify one the scripts tries to locate the used one to pass the value to the msbuild command.")
+    p_build.add_argument('--python-ver', default='3.7',
+                         help='Python version to download and use for the build (3.7, 3.6, 3.5 or the exact one, 3.5.2.1 or 3.8.0-a3.')
+    p_build.add_argument('--python-dir', default=None,
+                         help="The directory containing the python you want to use for the build of the projects (not the one used to run the script).")
+    p_build.add_argument('--same-python', default=False, action='store_true',
+                         help="Use for the build the same python used to run this script")
 
     p_build.add_argument('--check-hash', default=False, action='store_true',
                          help='Only check hashes of downloaded archive(s), no build')
@@ -227,7 +271,7 @@ Examples:
                          help='Use and keep the calling environment for LIB, LIBPATH, INCLUDE and PATH')
 
     p_build.add_argument('--skip', default='',
-                         help='A comma separated list of project(s) not to build.')
+                         help='A comma separated list of project(s) not to build. For dev-shell is a list of tool not to activate.')
 
     p_build.add_argument('--make-zip', default=False, action='store_true',
                          help="Create singles zips of the projects built under $(build-dir)\\dist\\vsXXXX[-sdkVer]\\[platform]\\[configuration], " +
@@ -244,7 +288,8 @@ Examples:
     p_build.add_argument('--keep-tools', default=False, action='store_true',
                          help="Active only when used with --from-scratch, keep and don't delete the (common) tool directory.")
     p_build.add_argument('--fast-build', default=False, action='store_true',
-                         help="Don't build a project if it's already built and not updated. Use with caution!")
+                         help="Don't build a project if it's already built and not updated." +
+                         "Note: you can have wrong results if you change only the patches or the script (updating the tarball or the git source is handled correctly)")
     p_build.add_argument('-k', '--keep', default=False, action='store_true',
                          help="Continue the build even on errors, dropping the projects that depends on the failed ones")
     p_build.add_argument('--py-egg', default=False, action='store_true',
@@ -253,10 +298,24 @@ Examples:
                          help="pycairo/pygobject: build also the wheel distribution format")
     p_build.add_argument('--enable-gi', default=False, action='store_true',
                          help="Create, for the gtk stack, the .gir/.typelib files for gobject introspection")
-    p_build.add_argument('--gtk3-ver', default='3.22', choices=['3.20', '3.22', '3.24'],
+    p_build.add_argument('--gtk3-ver', default='3.24', choices=['3.20', '3.22', '3.24'],
                          help="Gtk3 version to build")
     p_build.add_argument('--ffmpeg-enable-gpl', default=False, action='store_true',
                          help="ffmpeg: build with the gpl libraries/modules")
+    p_build.add_argument('--log-size', default=0, type=int,
+                         help="Maximum log size (in kilobytes) before restarting with a new file")
+    p_build.add_argument('--log-single', default=False, action='store_true',
+                         help="Always start a new log file, with date & time")
+    p_build.add_argument('--capture-out', default=False, action='store_true',
+                         help="Capture the output of the build process and put it in the log file.")
+    p_build.add_argument('--print-out', default=False, action='store_true',
+                         help="With --capture-out acrive print the result of the commands also on stdout.")
+    p_build.add_argument('--ninja-opts', default='',
+                         help='Command line options to pass to ninja, e.g. to limit the use (-j 2) or for debug purpouse.')
+    p_build.add_argument('--cargo-opts', default='',
+                         help='Command line options to pass to cargo.')
+    p_build.add_argument('--git-expand-dir', default=None,
+                         help="The directory where the projects from git are expanded and updated.")
 
     p_build.add_argument('project', nargs='+',
                          help='Project(s) to build.')
