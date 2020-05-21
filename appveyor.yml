@@ -21,6 +21,7 @@ environment:
 build_script:
   - "%PYTHON% -m pip install -U wheel"
   - "%PYTHON% build.py build --archives-download-dir=%DOWNLOAD_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --enable-gi --py-wheel --python-ver 3.6 adwaita-icon-theme enchant gtk3 gtksourceview3 hicolor-icon-theme pygobject"
+  - dir C:/gtk-build/gtk/Win32/release/python/
   - "%PYTHON% -m pip install C:/gtk-build/gtk/Win32/release/python/pycairo-1.17.1-cp36-cp36m-win32.whl C:/gtk-build/gtk/Win32/release/python/PyGObject-3.28.3-cp36-cp36m-win32.whl"
   - set PATH=%PATH%;C:/gtk-build\gtk\Win32\release\bin
   - "%PYTHON% -c \"import os; print(os.getenv('PATH'))\""
