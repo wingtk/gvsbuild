@@ -1053,7 +1053,7 @@ class Project_libcroco(Tarball, Project):
             )
 
     def build(self):
-        self.exec_msbuild_gen(r'build\win32', 'libcroco.sln')
+        self.exec_msbuild_gen(r'win32', 'libcroco.sln')
         self.install(r'.\COPYING share\doc\libcroco')
 
 @project_add

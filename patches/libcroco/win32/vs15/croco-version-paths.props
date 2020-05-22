@@ -20,10 +20,13 @@ See COPYRIGHTS file for copyright information.
 -->
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
-    <ApiVersion>0.6</ApiVersion>
-    <VSVer>12</VSVer>
-    <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
-    <CopyDir>..\..\..\..\libcroco-rel</CopyDir>
+    <CrocoMajorVersion>0</CrocoMajorVersion>
+    <CrocoMinorVersion>6</CrocoMinorVersion>
+    <CrocoMicroVersion>12</CrocoMicroVersion>
+    <ApiVersion>$(CrocoMajorVersion).$(CrocoMinorVersion)</ApiVersion>
+    <VSVer>15</VSVer>
+    <GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>
+    <CopyDir>..\..\..\libcroco-rel</CopyDir>
     <DefDir>$(SolutionDir)$(Configuration)\$(PlatformName)\obj\$(ProjectName)\</DefDir>
     <LibCrocoLibtoolCompatibleDllPrefix>lib</LibCrocoLibtoolCompatibleDllPrefix>
     <LibCrocoLibtoolCompatibleDllSuffix>-$(ApiVersion)-0</LibCrocoLibtoolCompatibleDllSuffix>
@@ -31,11 +34,21 @@ See COPYRIGHTS file for copyright information.
     <LibCrocoSeparateVSDllSuffix>-$(ApiVersion)</LibCrocoSeparateVSDllSuffix>
     <LibCrocoDllPrefix>$(LibCrocoSeparateVSDllPrefix)</LibCrocoDllPrefix>
     <LibCrocoDllSuffix>$(LibCrocoSeparateVSDllSuffix)</LibCrocoDllSuffix>
+    <PythonPath>c:\python34</PythonPath>
   </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>crocoversionpathsprops</_PropertySheetDisplayName>
   </PropertyGroup>
   <ItemGroup>
+    <BuildMacro Include="CrocoMajorVersion">
+      <Value>$(CrocoMajorVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="CrocoMinorVersion">
+      <Value>$(CrocoMinorVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="CrocoMicroVersion">
+      <Value>$(CrocoMicroVersion)</Value>
+    </BuildMacro>
     <BuildMacro Include="ApiVersion">
       <Value>$(ApiVersion)</Value>
     </BuildMacro>
@@ -68,6 +81,9 @@ See COPYRIGHTS file for copyright information.
     </BuildMacro>
     <BuildMacro Include="LibCrocoDllSuffix">
       <Value>$(LibCrocoDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PythonPath">
+      <Value>$(PythonPath)</Value>
     </BuildMacro>
   </ItemGroup>
 </Project>
