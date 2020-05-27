@@ -119,7 +119,7 @@ class Log(object):
                     os.rename(self.log_file, old_file)
                 
             self.operations = []
-            self.fo = open(self.log_file, 'at')
+            self.fo = open(self.log_file, 'at', encoding='utf-8')
             self._output('Script started')
             if created:
                 self.log("Log directory %s created" % (file_path, ))

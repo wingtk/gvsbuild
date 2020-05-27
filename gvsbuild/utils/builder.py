@@ -366,7 +366,14 @@ class Builder(object):
         dbg = log.debug_on()
         for l in output.splitlines():
             # Python3 str is not bytes and no need to decode
-            l = l.decode('utf-8') if isinstance(l, bytes) else l
+            if isinstance(l, bytes):
+                try:
+                    tl = l.decode('utf-8') 
+                except UnicodeDecodeError:
+                    log.message("Warning: utf-8 decode error on [%s]" % (l, ))
+                    tl = l.decode('utf-8', errors='replace')
+                l = tl
+
             e = l.split("=", 1)
             if len(e) < 2:
                 log.debug('vs env: ignoring %s' % (l))
