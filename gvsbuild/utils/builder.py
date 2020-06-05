@@ -883,7 +883,7 @@ class Builder(object):
         self.__execute(self.__sub_vars(cmd),
                        working_dir=working_dir,
                        add_path=cargo_home,
-                       env=env)
+                       env=self.vs_env)
 
     def exec_cmd(self, cmd, working_dir=None, add_path=None):
         self.__execute(self.__sub_vars(cmd), working_dir=working_dir, add_path=add_path)
