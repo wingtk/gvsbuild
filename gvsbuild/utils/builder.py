@@ -863,19 +863,19 @@ class Builder(object):
 
         env = os.environ.copy()
         env['RUSTUP_HOME'] = cargo_home
-        env['CARGO_HOME'] = cargo_home           
+        env['CARGO_HOME'] = cargo_home
         if rustc_opts is not None:
             env.update(rustc_opts)
             
         # set platform
-        rustup = os.path.join(cargo_home, 'bin', 'rustup.exe')
+        rustup = os.path.join(cargo_home, 'rustup.exe')
         self.__execute('%s default stable-%s-pc-windows-msvc' % (rustup, 'i686' if self.x86 else 'x86_64'),
                        env=env)
 
         # build
         self.__execute(self.__sub_vars(cmd),
                        working_dir=working_dir,
-                       add_path=os.path.join(cargo_home, 'bin'),
+                       add_path=cargo_home,
                        env=env)
 
     def exec_cmd(self, cmd, working_dir=None, add_path=None):
