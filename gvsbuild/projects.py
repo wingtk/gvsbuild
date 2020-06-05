@@ -195,6 +195,28 @@ class Project_dcv_color_primitives(Tarball, Meson):
         Meson.build(self, make_tests=False)
         self.install(r'.\LICENSE share\doc\dcv-color-primitives')
 
+@project_add
+class Project_quiche(GitRepo, Rust):
+    def __init__(self):
+        Rust.__init__(self,
+            'quiche',
+            repo_url = 'https://github.com/cloudflare/quiche',
+            fetch_submodules = True,
+            tag = "0.4.0",
+            dependencies = ['cargo', 'perl', 'go', 'nasm', 'cmake'],
+            patches = ['fix_boringssl_build.patch'],
+            )
+
+    def build(self):
+       Rust.build(self, make_tests = True)
+
+       self.install_pc_files()
+       self.install(r'.\include\quiche.h include\quiche')
+       self.install(r'.\cargo-build\lib\quiche.dll.lib lib\quiche')
+       self.install(r'.\cargo-build\lib\quiche.lib lib\quiche')
+       self.install(r'.\cargo-build\lib\quiche.dll bin')
+       self.install(r'.\cargo-build\lib\deps\quiche.pdb bin')
+       self.install(r'.\COPYING share\doc\quiche')
 
 @project_add
 class Project_emeus(GitRepo, Meson):
@@ -1053,7 +1075,7 @@ class Project_libcroco(Tarball, Project):
             )
 
     def build(self):
-        self.exec_msbuild_gen(r'build\win32', 'libcroco.sln')
+        self.exec_msbuild_gen(r'win32', 'libcroco.sln')
         self.install(r'.\COPYING share\doc\libcroco')
 
 @project_add

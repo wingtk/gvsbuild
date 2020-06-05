@@ -366,7 +366,14 @@ class Builder(object):
         dbg = log.debug_on()
         for l in output.splitlines():
             # Python3 str is not bytes and no need to decode
-            l = l.decode('utf-8') if isinstance(l, bytes) else l
+            if isinstance(l, bytes):
+                try:
+                    tl = l.decode('utf-8') 
+                except UnicodeDecodeError:
+                    log.message("Warning: utf-8 decode error on [%s]" % (l, ))
+                    tl = l.decode('utf-8', errors='replace')
+                l = tl
+
             e = l.split("=", 1)
             if len(e) < 2:
                 log.debug('vs env: ignoring %s' % (l))
@@ -863,20 +870,20 @@ class Builder(object):
 
         env = os.environ.copy()
         env['RUSTUP_HOME'] = cargo_home
-        env['CARGO_HOME'] = cargo_home           
+        env['CARGO_HOME'] = cargo_home
         if rustc_opts is not None:
             env.update(rustc_opts)
             
         # set platform
-        rustup = os.path.join(cargo_home, 'bin', 'rustup.exe')
+        rustup = os.path.join(cargo_home, 'rustup.exe')
         self.__execute('%s default stable-%s-pc-windows-msvc' % (rustup, 'i686' if self.x86 else 'x86_64'),
                        env=env)
 
         # build
         self.__execute(self.__sub_vars(cmd),
                        working_dir=working_dir,
-                       add_path=os.path.join(cargo_home, 'bin'),
-                       env=env)
+                       add_path=cargo_home,
+                       env=self.vs_env)
 
     def exec_cmd(self, cmd, working_dir=None, add_path=None):
         self.__execute(self.__sub_vars(cmd), working_dir=working_dir, add_path=add_path)
