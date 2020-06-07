@@ -45,6 +45,9 @@ class Group_Tools(Group):
 
 @group_add
 class Group_Gtk3_Full(Group):
+    '''
+    Base gtk/gtk3 projects
+    '''
     def __init__(self):
         Group.__init__(self,
             'gtk3-full',
@@ -52,10 +55,67 @@ class Group_Gtk3_Full(Group):
                 'adwaita-icon-theme',
                 'clutter',
                 'emeus',
+                'graphene',
+                'gsettings-desktop-schemas',
                 'gtk3',
                 'gtksourceview3',
                 'hicolor-icon-theme',
                 'wing',
+                ],
+            )
+
+@group_add
+class Group_Gtk3_Extra(Group):
+    '''
+    Gtk extra projects: gstreamer, network, ...
+    '''
+    def __init__(self):
+        Group.__init__(self,
+            'gtk3-extra',
+            dependencies = [
+                'enchant',
+                'glib-networking',
+                'glib-openssl',
+                'gst-plugins-bad',
+                'gst-plugins-base',
+                'gst-plugins-good',
+                'gst-python',
+                'gstreamer',
+                'pygobject',
+                'libgxps',
+                ],
+            )
+
+@group_add
+class Group_Script_Extra(Group):
+    '''
+    Project not belonging directly to the gtk ones, used for the ci integration
+    '''
+    def __init__(self):
+        Group.__init__(self,
+            'script-extra',
+            dependencies = [
+                'enchant',
+                'dcv-color-primitives',
+                'cyrus-sasl',
+                'ffmpeg',
+                'grpc',
+                'protobuf-c',
+                'json-c',
+                'leveldb',
+                'lgi',
+                'libcurl',
+                'libmicrohttpd',
+                'libsoup',
+                'libssh',
+                'libssh2',
+                'libuv',
+                'libyuv',
+                'libzip',
+                'luajit',
+                'portaudio',
+                'quiche',
+                'x264',
                 ],
             )
 

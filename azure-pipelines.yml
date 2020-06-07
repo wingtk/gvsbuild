@@ -55,6 +55,82 @@ jobs:
           pathtoPublish: '$(Build.ArtifactStagingDirectory)/gvsbuild-vs$(VS_VER)-$(PLATFORM).zip'
           artifactName: gvsbuild-vs$(VS_VER)-$(PLATFORM)
 
+  - job: vs2019-gtk-full
+    timeoutInMinutes: 90
+    strategy:
+      matrix:
+        x64-win2019:
+          vmImage: windows-2019
+          VS_VER: "16"
+          PLATFORM: "x64"
+    pool:
+      vmImage: $(vmImage)
+    variables:
+      CACHE_DIR: $(Pipeline.Workspace)\_download_cache
+      MSYS2_ROOT: $(System.Workfolder)\msys64
+      BUILD_DIR: $(System.Workfolder)\gtk-build
+      PYTHONUNBUFFERED: 1
+    steps:
+      - task: Cache@2
+        inputs:
+          key: 'mycache | $(vmImage) | $(Build.SourceVersion)'
+          restoreKeys: |
+            mycache | $(vmImage)
+            mycache
+          path: $(CACHE_DIR)
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: '3.7'
+      # The git directory contains cygwin binaries conflicting with MSYS2
+      - script: |
+          rmdir "C:\Program Files\Git" /s /q
+        displayName: Remove GIT
+      - script: |
+          choco config set cacheLocation %CACHE_DIR%
+          choco install --no-progress msys2 --params="/InstallDir:%MSYS2_ROOT% /NoPath"
+        displayName: Install MSYS2
+      - script: |
+          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%CACHE_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --enable-gi --py-wheel --py-egg --python-ver 3.7 gtk3-full gtk3-extra gtk
+        displayName: gvsbuild
+
+  - job: vs2019-extra
+    timeoutInMinutes: 90
+    strategy:
+      matrix:
+        x64-win2019:
+          vmImage: windows-2019
+          VS_VER: "16"
+          PLATFORM: "x64"
+    pool:
+      vmImage: $(vmImage)
+    variables:
+      CACHE_DIR: $(Pipeline.Workspace)\_download_cache
+      MSYS2_ROOT: $(System.Workfolder)\msys64
+      BUILD_DIR: $(System.Workfolder)\gtk-build
+      PYTHONUNBUFFERED: 1
+    steps:
+      - task: Cache@2
+        inputs:
+          key: 'mycache | $(vmImage) | $(Build.SourceVersion)'
+          restoreKeys: |
+            mycache | $(vmImage)
+            mycache
+          path: $(CACHE_DIR)
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: '3.7'
+      # The git directory contains cygwin binaries conflicting with MSYS2
+      - script: |
+          rmdir "C:\Program Files\Git" /s /q
+        displayName: Remove GIT
+      - script: |
+          choco config set cacheLocation %CACHE_DIR%
+          choco install --no-progress msys2 --params="/InstallDir:%MSYS2_ROOT% /NoPath"
+        displayName: Install MSYS2
+      - script: |
+          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%CACHE_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --enable-gi --python-ver 3.7 script-extra
+        displayName: gvsbuild
+
   - job: vs2017
     timeoutInMinutes: 90
     strategy:
