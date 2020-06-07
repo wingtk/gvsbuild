@@ -55,7 +55,7 @@ jobs:
           pathtoPublish: '$(Build.ArtifactStagingDirectory)/gvsbuild-vs$(VS_VER)-$(PLATFORM).zip'
           artifactName: gvsbuild-vs$(VS_VER)-$(PLATFORM)
 
-  - job: vs2019-gtk-full
+  - job: vs2019_gtk_full
     timeoutInMinutes: 90
     strategy:
       matrix:
@@ -93,7 +93,7 @@ jobs:
           python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%CACHE_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --enable-gi --py-wheel --py-egg --python-ver 3.7 gtk3-full gtk3-extra gtk
         displayName: gvsbuild
 
-  - job: vs2019-extra
+  - job: vs2019_extra
     timeoutInMinutes: 90
     strategy:
       matrix:
