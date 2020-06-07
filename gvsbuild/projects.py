@@ -203,20 +203,20 @@ class Project_quiche(GitRepo, Rust):
             repo_url = 'https://github.com/cloudflare/quiche',
             fetch_submodules = True,
             tag = "0.4.0",
-            dependencies = ['cargo', 'perl', 'go', 'nasm', 'cmake'],
+            dependencies = ['cargo', 'perl', 'go', 'nasm', 'cmake', 'ninja'],
             patches = ['fix_boringssl_build.patch'],
             )
 
     def build(self):
-       Rust.build(self, make_tests = True)
+        Rust.build(self, make_tests = True)
 
-       self.install_pc_files()
-       self.install(r'.\include\quiche.h include\quiche')
-       self.install(r'.\cargo-build\lib\quiche.dll.lib lib\quiche')
-       self.install(r'.\cargo-build\lib\quiche.lib lib\quiche')
-       self.install(r'.\cargo-build\lib\quiche.dll bin')
-       self.install(r'.\cargo-build\lib\deps\quiche.pdb bin')
-       self.install(r'.\COPYING share\doc\quiche')
+        self.install_pc_files()
+        self.install(r'.\include\quiche.h include\quiche')
+        self.install(r'.\cargo-build\lib\quiche.dll.lib lib\quiche')
+        self.install(r'.\cargo-build\lib\quiche.lib lib\quiche')
+        self.install(r'.\cargo-build\lib\quiche.dll bin')
+        self.install(r'.\cargo-build\lib\deps\quiche.pdb bin')
+        self.install(r'.\COPYING share\doc\quiche')
 
 @project_add
 class Project_emeus(GitRepo, Meson):
