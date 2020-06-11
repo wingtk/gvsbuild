@@ -19,32 +19,40 @@ HexChat developers decided that their script should focus on their specific need
 
 1. Install the following build tools and dependencies:
 
-    * [Visual Studio for Windows Desktop](http://www.visualstudio.com/downloads) - 2013, 2015 and 2017 are currently supported.
+    * [Visual Studio for Windows Desktop](http://www.visualstudio.com/downloads) - 2013, 2015, 2017, and 2019 are currently supported.
     * [msys2](https://msys2.github.io/)
-    * [Python 3.6](https://www.python.org/ftp/python/3.6.2/python-3.6.2-amd64.exe) (install in C:\Python36 or use the --python-dir option to tell the script the correct location), or other package like [Miniconda 3](https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86_64.exe)
+    * [Python 3](https://www.python.org/downloads/windows/)
+        * Python 3.6 and 3.7 tested. (install in C:\Python36 or use the --python-dir option to tell the script the correct location), or other package like [Miniconda 3](https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86_64.exe)
+        * *Note*: This Python is only used for running the `build.py` script, and is not necessarily the same used, for example, to build Python bindings, unless the `--same-python` option is used. `--python-dir` can be used to explicity set the Python to be used, or specify `--python-ver` to have NuGet download that specific version.
 
 1. Follow the instructions on the msys2 page to update the core packages. The needed packages for the script (make, diffutils, ...) are download and installed automatically if not presents in the msys2 installation.
 
 1. Clone [this repository](https://github.com/wingtk/gvsbuild) to _C:\gtk-build\github\gvsbuild_ It contains the build script, project files and patches.
 
-1. Now start a command-line window as a regular user. Go to the _gvsbuild_ directory and start building with the script. For example, to build 32-bit GTK+ 3 and its dependencies, run:
+1. Now start a command-line window as a regular user (`Command Prompt` is easiest, but `MSYS2` shell works as well if you add Git and Python to the `PATH`. Go to the _gvsbuild_ directory you cloned and start building with the script. For example, to build 32-bit GTK+ 3 and its dependencies, run:
 
     ```
     cd C:\gtk-build\github\gvsbuild
     python .\build.py build gtk3
     ```
 
-    To build the 64-bit version, run:
+    To build the 64-bit version with Visual Studio 2019, run:
 
     ```
     cd C:\gtk-build\github\gvsbuild
-    python .\build.py build -p x64 gtk3
+    python .\build.py build -p x64 --vs-ver 16 gtk3
     ```
 
     For more information about the possible commands. Run
 
     ```
     python .\build.py --help
+    ```
+    
+    For lots of build options, run:
+    
+    ```
+    python .\build.py build --help
     ```
 
     Is possible to set some parameters from a file, e.g. vs2015-release.pro, putting the @ character before the file name. The file contains the option, one per line, separated by a carriage return:
@@ -64,7 +72,7 @@ HexChat developers decided that their script should focus on their specific need
     python .\build.py build @vs2015-release.pro gtk3-full
     ```
  
-1. When the script is done, your GTK+ stack will be found under _C:\gtk-build\gtk_. Enjoy!
+1. When the script is done, your GTK+ stack will be found under _C:\gtk-build\gtk_, or the directory you specified with the `--build-dir` option. Enjoy!
 
 ## License
 
