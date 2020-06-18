@@ -266,7 +266,7 @@ class Builder(object):
                 else:
                     del self.vs_env[key]
 
-    def __dump_vs_loc(self):
+    def __find_vs_loc(self):
         """
         Using vswhere try to locate the vs installation path
         """
@@ -290,6 +290,7 @@ class Builder(object):
         except Exception as e:
             log.log('Exception reading vswhere result file (%s)' % (e, ))
 
+        path = None
         if res:
             log.message('')
             log.message('Visual studio installation(s) found:')
@@ -298,6 +299,8 @@ class Builder(object):
                 path = i.get('installationPath', r'?:\?')
                 log.message('    %s @ %s' % (disp, path, ))
             log.message('')
+
+        return path
 
     def __check_vs_single(self, opts, vs_path, exit_missing=True):
         # Verify VS exists at the indicated location, and that it supports the required target
@@ -322,7 +325,7 @@ class Builder(object):
         log.log('Running script "%s"%s' % (vcvars_bat, add_opts, ))
         if not os.path.exists(vcvars_bat):
             if exit_missing:
-                self.__dump_vs_loc();
+                self.__find_vs_loc();
                 log.error_exit("\n  '%s' could not be found.\n  Please check you have Visual Studio installed at '%s'\n  and that it supports the target platform '%s'." % (vcvars_bat, vs_path, opts.platform))
             else:
                 return None
@@ -341,19 +344,14 @@ class Builder(object):
         self.add_global_env('PATH', os.path.join(self.gtk_dir, 'bin'))
 
         if opts._vs_path_auto:
-            dir_parts = [
-                'Professional',
-                'BuildTools',
-                'Enterprise',
-                'Community',
-                'Preview',
-                ]
-            log.log('Looking for the Visual Studio version installed under %s ...' % (opts.vs_install_path, ))
-            for part in dir_parts:
-                output = self.__check_vs_single(opts, os.path.join(opts.vs_install_path, part), False)
-                if output:
-                    log.log("Found '%s'" % (part, ))
-                    break
+            path = self.__find_vs_loc()
+
+            if not path:
+                # Nothing found, see what's installed & exit
+                self.__dump_vs_loc();
+                log.error_exit("\n  Visual Studio path tool could not be found.\n  Please check you have Visual Studio installed and try again.")
+            
+            output = self.__check_vs_single(opts, path, False)
 
             if not output:
                 # Nothing found, see what's installed & exit
