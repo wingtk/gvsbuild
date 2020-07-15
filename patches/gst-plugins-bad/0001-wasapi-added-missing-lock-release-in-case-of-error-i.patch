@@ -1,0 +1,48 @@
+From 3deef6fb30f566a7d57890d6e69e83c1cab1e6d0 Mon Sep 17 00:00:00 2001
+From: Silvio Lazzeretti <silviola@amazon.com>
+Date: Wed, 15 Jul 2020 10:39:33 +0200
+Subject: [PATCH] wasapi: added missing lock release in case of error in
+ gst_wasapi_xxx_reset
+
+---
+ sys/wasapi/gstwasapisink.c | 4 ++--
+ sys/wasapi/gstwasapisrc.c  | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/sys/wasapi/gstwasapisink.c b/sys/wasapi/gstwasapisink.c
+index d21c42f90..0ecfb381b 100644
+--- a/sys/wasapi/gstwasapisink.c
++++ b/sys/wasapi/gstwasapisink.c
+@@ -715,10 +715,10 @@ gst_wasapi_sink_reset (GstAudioSink * asink)
+ 
+   GST_OBJECT_LOCK (self);
+   hr = IAudioClient_Stop (self->client);
+-  HR_FAILED_AND (hr, IAudioClient::Stop,);
++  HR_FAILED_AND (hr, IAudioClock::Stop, GST_OBJECT_UNLOCK (self); return);
+ 
+   hr = IAudioClient_Reset (self->client);
+-  HR_FAILED_AND (hr, IAudioClient::Reset,);
++  HR_FAILED_AND (hr, IAudioClock::Reset, GST_OBJECT_UNLOCK (self); return);
+ 
+   self->client_needs_restart = TRUE;
+   GST_OBJECT_UNLOCK (self);
+diff --git a/sys/wasapi/gstwasapisrc.c b/sys/wasapi/gstwasapisrc.c
+index 2286b0da9..5e0f324a1 100644
+--- a/sys/wasapi/gstwasapisrc.c
++++ b/sys/wasapi/gstwasapisrc.c
+@@ -689,10 +689,10 @@ gst_wasapi_src_reset (GstAudioSrc * asrc)
+ 
+   GST_OBJECT_LOCK (self);
+   hr = IAudioClient_Stop (self->client);
+-  HR_FAILED_RET (hr, IAudioClock::Stop,);
++  HR_FAILED_AND (hr, IAudioClock::Stop, GST_OBJECT_UNLOCK (self); return);
+ 
+   hr = IAudioClient_Reset (self->client);
+-  HR_FAILED_RET (hr, IAudioClock::Reset,);
++  HR_FAILED_AND (hr, IAudioClock::Reset, GST_OBJECT_UNLOCK (self); return);
+ 
+   self->client_needs_restart = TRUE;
+   GST_OBJECT_UNLOCK (self);
+-- 
+2.20.1.windows.1
+
