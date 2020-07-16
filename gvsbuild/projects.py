@@ -668,6 +668,7 @@ class Project_gst_plugins_base(Tarball, Meson):
             archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.16.2.tar.xz',
             hash = 'b13e73e2fe74a4166552f9577c3dcb24bed077021b9c7fa600d910ec6987816a',
             dependencies = ['meson', 'ninja', 'gtk3', 'gstreamer', 'opus'],
+            patches = ['0001-audioutilsprivate-restore-thread-priority-before-end.patch'],
             )
 
     def build(self):
@@ -696,7 +697,8 @@ class Project_gst_plugins_bad(Tarball, Meson):
             archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.2.tar.xz',
             hash = 'f1cb7aa2389569a5343661aae473f0a940a90b872001824bc47fa8072a041e74',
             dependencies = ['meson', 'ninja', 'glib', 'gstreamer', 'gst-plugins-base'],
-            patches = ['0001-wasapi-added-missing-lock-release-in-case-of-error-i.patch'],
+            patches = ['0001-wasapi-Fix-possible-deadlock-while-downwards-state-c.patch',
+                       '0002-wasapi-added-missing-lock-release-in-case-of-error-i.patch'],
             )
         self.add_param('-Dcurl=disabled')
         self.add_param('-Dcurl-ssh2=disabled')
