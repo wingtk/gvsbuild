@@ -1,0 +1,163 @@
+From 6319c574b3687ea40943b07638ca8ef4425329a1 Mon Sep 17 00:00:00 2001
+From: Silvio Lazzeretti <silviola@amazon.com>
+Date: Thu, 16 Jul 2020 14:34:51 +0200
+Subject: [PATCH] audioutilsprivate: restore thread priority before ending
+
+The priority of the thread that executes audioringbuffer_thread_func
+is incremented on Windows by the usage of the AvSetMmThreadCharacteristics
+API. This change has to be restored, as described on the documentation
+of the API (https://docs.microsoft.com/en-us/windows/win32/api/avrt/nf-avrt-avsetmmthreadcharacteristicsw#remarks),
+with a call to the AvRevertMmThreadCharacteristics. If this is not done,
+a handle will be leaked.
+---
+ gst-libs/gst/audio/gstaudiosink.c         |  6 +++-
+ gst-libs/gst/audio/gstaudiosrc.c          |  6 +++-
+ gst-libs/gst/audio/gstaudioutilsprivate.c | 44 ++++++++++++++++++++---
+ gst-libs/gst/audio/gstaudioutilsprivate.h |  5 ++-
+ 4 files changed, 53 insertions(+), 8 deletions(-)
+
+diff --git a/gst-libs/gst/audio/gstaudiosink.c b/gst-libs/gst/audio/gstaudiosink.c
+index 0aa44332e..eb7e9d5e2 100644
+--- a/gst-libs/gst/audio/gstaudiosink.c
++++ b/gst-libs/gst/audio/gstaudiosink.c
+@@ -205,6 +205,7 @@ audioringbuffer_thread_func (GstAudioRingBuffer * buf)
+   WriteFunc writefunc;
+   GstMessage *message;
+   GValue val = { 0 };
++  void *handle;
+ 
+   sink = GST_AUDIO_SINK (GST_OBJECT_PARENT (buf));
+   csink = GST_AUDIO_SINK_GET_CLASS (sink);
+@@ -220,7 +221,7 @@ audioringbuffer_thread_func (GstAudioRingBuffer * buf)
+   if (writefunc == NULL)
+     goto no_function;
+ 
+-  if (G_UNLIKELY (!__gst_audio_set_thread_priority ()))
++  if (G_UNLIKELY (!__gst_audio_set_thread_priority (&handle)))
+     GST_WARNING_OBJECT (sink, "failed to set thread priority");
+ 
+   message = gst_message_new_stream_status (GST_OBJECT_CAST (buf),
+@@ -306,6 +307,9 @@ stop_running:
+     g_value_unset (&val);
+     GST_DEBUG_OBJECT (sink, "posting LEAVE stream status");
+     gst_element_post_message (GST_ELEMENT_CAST (sink), message);
++
++    if (G_UNLIKELY (!__gst_audio_restore_thread_priority (handle)))
++      GST_WARNING_OBJECT (sink, "failed to restore thread priority");
+     return;
+   }
+ }
+diff --git a/gst-libs/gst/audio/gstaudiosrc.c b/gst-libs/gst/audio/gstaudiosrc.c
+index 77843f46b..66f7587b6 100644
+--- a/gst-libs/gst/audio/gstaudiosrc.c
++++ b/gst-libs/gst/audio/gstaudiosrc.c
+@@ -187,6 +187,7 @@ audioringbuffer_thread_func (GstAudioRingBuffer * buf)
+   ReadFunc readfunc;
+   GstMessage *message;
+   GValue val = { 0 };
++  void *handle;
+ 
+   src = GST_AUDIO_SRC (GST_OBJECT_PARENT (buf));
+   csrc = GST_AUDIO_SRC_GET_CLASS (src);
+@@ -196,7 +197,7 @@ audioringbuffer_thread_func (GstAudioRingBuffer * buf)
+   if ((readfunc = csrc->read) == NULL)
+     goto no_function;
+ 
+-  if (G_UNLIKELY (!__gst_audio_set_thread_priority ()))
++  if (G_UNLIKELY (!__gst_audio_set_thread_priority (&handle)))
+     GST_WARNING_OBJECT (src, "failed to set thread priority");
+ 
+   message = gst_message_new_stream_status (GST_OBJECT_CAST (buf),
+@@ -281,6 +282,9 @@ stop_running:
+     g_value_unset (&val);
+     GST_DEBUG_OBJECT (src, "posting LEAVE stream status");
+     gst_element_post_message (GST_ELEMENT_CAST (src), message);
++
++    if (G_UNLIKELY (!__gst_audio_restore_thread_priority (handle)))
++      GST_WARNING_OBJECT (src, "failed to restore thread priority");
+     return;
+   }
+ }
+diff --git a/gst-libs/gst/audio/gstaudioutilsprivate.c b/gst-libs/gst/audio/gstaudioutilsprivate.c
+index 629e885ab..92d581303 100644
+--- a/gst-libs/gst/audio/gstaudioutilsprivate.c
++++ b/gst-libs/gst/audio/gstaudioutilsprivate.c
+@@ -266,20 +266,54 @@ __gst_audio_init_thread_priority (void)
+  * Increases the priority of the thread it's called from
+  */
+ gboolean
+-__gst_audio_set_thread_priority (void)
++__gst_audio_set_thread_priority (void **handle)
+ {
+ #ifdef G_OS_WIN32
+   DWORD taskIndex = 0;
+ #endif
+ 
++  g_return_val_if_fail (handle != NULL, FALSE);
++
++  *handle = NULL;
++
+   if (!__gst_audio_init_thread_priority ())
+     return FALSE;
+ 
+ #ifdef G_OS_WIN32
+-  /* This is only used from ringbuffer thread functions, so we don't need to
+-   * ever need to revert the thread priorities. */
+-  return _gst_audio_avrt_tbl.AvSetMmThreadCharacteristics (TEXT ("Pro Audio"),
+-      &taskIndex) != 0;
++  /* This is only used from ringbuffer thread functions */
++  *handle = (void *)
++      _gst_audio_avrt_tbl.AvSetMmThreadCharacteristics (TEXT ("Pro Audio"),
++      &taskIndex);
++  if (*handle == 0) {
++    gchar *errorMsg = g_win32_error_message (GetLastError ());
++
++    GST_WARNING
++        ("Failed to set thread priority, AvSetMmThreadCharacteristics returned: %s",
++        errorMsg);
++    g_free (errorMsg);
++  }
++
++  return *handle != 0;
++#else
++  return TRUE;
++#endif
++}
++
++/*
++ * Restores the priority of the thread that was increased
++ * with __gst_audio_set_thread_priority.
++ * This function must be called from the same thread that called the
++ * __gst_audio_set_thread_priority function.
++ * See https://docs.microsoft.com/en-us/windows/win32/api/avrt/nf-avrt-avsetmmthreadcharacteristicsw#remarks
++ */
++gboolean
++__gst_audio_restore_thread_priority (void *handle)
++{
++#ifdef G_OS_WIN32
++  if (!handle)
++    return FALSE;
++
++  return _gst_audio_avrt_tbl.AvRevertMmThreadCharacteristics ((HANDLE) handle);
+ #else
+   return TRUE;
+ #endif
+diff --git a/gst-libs/gst/audio/gstaudioutilsprivate.h b/gst-libs/gst/audio/gstaudioutilsprivate.h
+index 4e2b61a5c..e180ed30c 100644
+--- a/gst-libs/gst/audio/gstaudioutilsprivate.h
++++ b/gst-libs/gst/audio/gstaudioutilsprivate.h
+@@ -43,7 +43,10 @@ gboolean __gst_audio_encoded_audio_convert (GstAudioInfo * fmt, gint64 bytes,
+                                             gint64 * dest_value);
+ 
+ G_GNUC_INTERNAL
+-gboolean __gst_audio_set_thread_priority   (void);
++gboolean __gst_audio_set_thread_priority   (void ** handle);
++
++G_GNUC_INTERNAL
++gboolean __gst_audio_restore_thread_priority (void * handle);
+ 
+ G_END_DECLS
+ 
+-- 
+2.20.1.windows.1
+
