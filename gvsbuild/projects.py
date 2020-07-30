@@ -2037,10 +2037,6 @@ class Project_boringssl(GitRepo, CmakeProject):
         )
 
     def build(self):
-        cmake_params = '-DCMAKE_BUILD_TYPE=Release' if self.builder.opts.configuration != 'debug' else ''
-        if self.builder.opts.platform == 'x86':
-            cmake_params += ' -DCMAKE_TOOLCHAIN_FILE=./src/util/32-bit-toolchain.cmake'
-
         # If do_install is True, the build fails
         CmakeProject.build(self, cmake_params=cmake_params, use_ninja=True, do_install=False)
 
