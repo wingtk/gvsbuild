@@ -2038,7 +2038,7 @@ class Project_boringssl(GitRepo, CmakeProject):
 
     def build(self):
         # If do_install is True, the build fails
-        CmakeProject.build(self, cmake_params=cmake_params, use_ninja=True, do_install=False)
+        CmakeProject.build(self, use_ninja=True, do_install=False)
 
         self.install(r'.\_gvsbuild-cmake\ssl.lib lib')
         self.install(r'.\_gvsbuild-cmake\crypto.lib lib')
