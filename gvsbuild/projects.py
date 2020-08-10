@@ -1122,6 +1122,7 @@ class Project_libgxps(Tarball, Meson):
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libgxps/0.3/libgxps-0.3.1.tar.xz',
             hash = '1a939fc8fcea9471b7eca46b1ac90cff89a30d26f65c7c9a375a4bf91223fa94',
             dependencies = ['meson', 'ninja', 'pkg-config', 'glib', 'libarchive', 'cairo', 'libpng', 'libjpeg-turbo', 'libtiff-4', 'gtk3', ],
+            patches = ['0001-add-support-to-wdp-images-on-windows.patch'],
             )
         if self.opts.enable_gi:
             self.add_dependency('gobject-introspection')
