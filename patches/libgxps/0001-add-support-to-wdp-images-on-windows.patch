@@ -1,0 +1,299 @@
+From 8c952240cd7838a413bf5bf3f42edc910d42660e Mon Sep 17 00:00:00 2001
+From: Vittorio Vaselli <vitvas@amazon.com>
+Date: Wed, 29 Jul 2020 11:09:26 +0200
+Subject: [PATCH] Add support to wdp images on Windows using WIC API
+
+---
+ libgxps/gxps-images.c | 259 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 259 insertions(+)
+
+diff --git a/libgxps/gxps-images.c b/libgxps/gxps-images.c
+index 50f899f..9b64eb2 100644
+--- a/libgxps/gxps-images.c
++++ b/libgxps/gxps-images.c
+@@ -44,6 +44,13 @@
+ #define METERS_PER_INCH 0.0254
+ #define CENTIMETERS_PER_INCH 2.54
+ 
++#ifdef G_OS_WIN32
++#define COBJMACROS
++#include <wincodec.h>
++#include <wincodecsdk.h>
++#include <combaseapi.h>
++#endif
++
+ /* PNG */
+ #ifdef HAVE_LIBPNG
+ 
+@@ -870,6 +877,254 @@ gxps_images_create_from_tiff (GXPSArchive *zip,
+ #endif /* #ifdef HAVE_LIBTIFF */
+ }
+ 
++#ifdef G_OS_WIN32
++static GXPSImage *
++image_create_from_byte_array (BYTE    *bytes,
++                              int      width,
++                              int      height,
++                              UINT     buffer_size,
++                              GError **error)
++{
++	int stride;
++	guchar *data;
++	GXPSImage  *image;
++
++	data = g_try_malloc (buffer_size);
++
++	if (data == NULL) {
++		g_set_error (error,
++		             GXPS_ERROR,
++		             GXPS_ERROR_IMAGE,
++		             "Error allocating data buffer for cairo surface");
++		return NULL;
++	}
++
++	memcpy (data, bytes, buffer_size);
++
++	stride = cairo_format_stride_for_width (CAIRO_FORMAT_ARGB32, width);
++
++	image = g_slice_new0 (GXPSImage);
++	image->res_x = 96;
++	image->res_y = 96;
++	image->surface = cairo_image_surface_create_for_data (data, CAIRO_FORMAT_ARGB32, width, height, stride);
++
++	if (cairo_surface_status (image->surface) != CAIRO_STATUS_SUCCESS) {
++		g_set_error (error,
++		             GXPS_ERROR,
++		             GXPS_ERROR_IMAGE,
++		             "Error creating cairo surface");
++		gxps_image_free (image);
++		g_free (data);
++		return NULL;
++	}
++
++	return image;
++}
++
++static GXPSImage *
++gxps_images_create_from_wdp (GXPSArchive *zip,
++                             const gchar *image_uri,
++                             GError     **error)
++{
++#define buffer_size 1024
++	GInputStream  *stream;
++	GXPSImage *image;
++	IID iid_imaging_factory;
++	HRESULT hr;
++	IWICImagingFactory *image_factory;
++	IWICBitmapDecoder *decoder;
++	IWICBitmapFrameDecode *decoder_frame;
++	IWICBitmap *bitmap;
++	IWICBitmapLock *bitmap_lock;
++	IStream *win_stream;
++	UINT width;
++	UINT height;
++	guchar buffer[buffer_size];
++	gsize read_bytes;
++	UINT written_bytes;
++	UINT bytes_size = 0;
++	BYTE *bytes = NULL;
++	WICRect rc_lock;
++
++	stream = gxps_archive_open (zip, image_uri);
++	if (!stream) {
++		g_set_error (error,
++			     GXPS_ERROR,
++			     GXPS_ERROR_SOURCE_NOT_FOUND,
++			     "Image source %s not found in archive",
++			     image_uri);
++		return NULL;
++	}
++
++	/* Initialize COM. */
++	hr = CoInitializeEx (NULL, COINIT_MULTITHREADED);
++	if (!SUCCEEDED (hr)) {
++		g_set_error (error,
++			     GXPS_ERROR,
++			     GXPS_ERROR_IMAGE,
++			     "Error initializing COM, hr code: %d",
++		             HRESULT_CODE (hr));
++		g_object_unref (stream);
++		return NULL;
++	} else if (hr == S_FALSE) {
++		g_warning ("COM was already initialized");
++	}
++
++	/* Initialize IID IWICImagingFactory */
++	IIDFromString (L"{ec5ec8a9-c395-4314-9c77-54d7a935ff70}",
++		       &iid_imaging_factory);
++
++	/* Create COM imaging factory. */
++	hr = CoCreateInstance (&CLSID_WICImagingFactory,
++		               NULL,
++		               CLSCTX_INPROC_SERVER,
++		               &iid_imaging_factory,
++		               (LPVOID)&image_factory);
++
++	if (!SUCCEEDED (hr)) {
++		g_set_error (error,
++		             GXPS_ERROR,
++		             GXPS_ERROR_IMAGE,
++		             "Error creating an instance of IWICImagingFactory, hr code: %d",
++		             HRESULT_CODE (hr));
++		g_object_unref (stream);
++		CoUninitialize ();
++		return NULL;
++	}
++
++	hr = CreateStreamOnHGlobal (NULL, TRUE, &win_stream);
++
++	if (!SUCCEEDED (hr)) {
++		g_set_error (error,
++		             GXPS_ERROR,
++		             GXPS_ERROR_IMAGE,
++		             "Error allocating IStream, hr code: %d",
++		             HRESULT_CODE (hr));
++		IWICImagingFactory_Release (image_factory);
++		g_object_unref (stream);
++		CoUninitialize ();
++		return NULL;
++	}
++
++	/* Write GInputStream data into IStream */
++	do {
++		read_bytes = g_input_stream_read (stream,
++						  buffer,
++						  sizeof (buffer),
++						  NULL,
++						  NULL);
++
++		IStream_Write (win_stream,
++			       buffer,
++			       read_bytes,
++			       &written_bytes);
++	} while (read_bytes > 0);
++
++	g_object_unref (stream);
++
++	hr = IWICImagingFactory_CreateDecoderFromStream (image_factory,
++		                                         win_stream,
++							 NULL,
++							 WICDecodeMetadataCacheOnDemand,
++							 &decoder);
++	IStream_Release  (win_stream);
++
++	if (!SUCCEEDED (hr)) {
++		g_set_error (error,
++			     GXPS_ERROR,
++			     GXPS_ERROR_IMAGE,
++			     "Error creating decoder from stream, hr code: %d",
++		             HRESULT_CODE (hr));
++		IWICImagingFactory_Release (image_factory);
++		CoUninitialize ();
++		return NULL;
++	}
++
++	hr = IWICBitmapDecoder_GetFrame (decoder, 0, &decoder_frame);
++	IWICBitmapDecoder_Release (decoder);
++
++	if (!SUCCEEDED(hr)) {
++		g_set_error (error,
++			     GXPS_ERROR,
++			     GXPS_ERROR_IMAGE,
++			     "Error getting frame, hr code: %d",
++			     HRESULT_CODE (hr));
++		IWICImagingFactory_Release (image_factory);
++		CoUninitialize ();
++		return NULL;
++	}
++
++	hr = IWICBitmapFrameDecode_GetSize (decoder_frame, &width, &height);
++
++	if (!SUCCEEDED (hr)) {
++		g_set_error (error,
++			     GXPS_ERROR,
++			     GXPS_ERROR_IMAGE,
++			     "Error getting image size, hr code: %d",
++			     HRESULT_CODE (hr));
++		IWICImagingFactory_Release (image_factory);
++		IWICBitmapFrameDecode_Release (decoder_frame);
++		CoUninitialize ();
++		return NULL;
++	}
++
++	hr = IWICImagingFactory_CreateBitmapFromSource (image_factory,
++						        (IWICBitmapSource *)decoder_frame,
++						        WICBitmapCacheOnDemand,
++						        &bitmap);
++	IWICImagingFactory_Release (image_factory);
++	IWICBitmapFrameDecode_Release (decoder_frame);
++
++	if (!SUCCEEDED (hr)) {
++		g_set_error (error,
++			     GXPS_ERROR,
++			     GXPS_ERROR_IMAGE,
++			     "Error creating bitmap, hr code: %d",
++			     HRESULT_CODE (hr));
++		CoUninitialize ();
++		return NULL;
++	}
++
++	rc_lock.X = 0;
++	rc_lock.Y = 0;
++	rc_lock.Width = width;
++	rc_lock.Height = height;
++
++	hr = IWICBitmap_Lock (bitmap, &rc_lock, WICBitmapLockWrite, &bitmap_lock);
++	IWICBitmap_Release (bitmap);
++
++	if (!SUCCEEDED (hr)) {
++		g_set_error (error,
++			     GXPS_ERROR,
++			     GXPS_ERROR_IMAGE,
++			     "Error locking bitmap, hr code: %d",
++			     HRESULT_CODE (hr));
++		CoUninitialize ();
++		return NULL;
++	}
++
++	hr = IWICBitmapLock_GetDataPointer (bitmap_lock, &bytes_size, &bytes);
++
++	if (!SUCCEEDED (hr)) {
++		g_set_error (error,
++			     GXPS_ERROR,
++			     GXPS_ERROR_IMAGE,
++			     "Error getting data pointer, hr code: %d",
++		             HRESULT_CODE(hr));
++		IWICBitmapLock_Release (bitmap_lock);
++		CoUninitialize ();
++		return NULL;
++	}
++
++	image = image_create_from_byte_array (bytes, width, height, bytes_size, error);
++
++	IWICBitmapLock_Release (bitmap_lock);
++	CoUninitialize ();
++
++	return image;
++}
++#endif /* #ifdef G_OS_WIN32 */
++
+ static gchar *
+ gxps_images_guess_content_type (GXPSArchive *zip,
+ 				const gchar *image_uri)
+@@ -910,9 +1165,13 @@ gxps_images_get_image (GXPSArchive *zip,
+ 	} else if (g_str_has_suffix (image_uri_lower, ".tif")) {
+ 		image = gxps_images_create_from_tiff (zip, image_uri, error);
+ 	} else if (g_str_has_suffix (image_uri_lower, "wdp")) {
++#ifdef G_OS_WIN32
++		image = gxps_images_create_from_wdp (zip, image_uri, error);
++#else
+ 		GXPS_DEBUG (g_message ("Unsupported image format windows media photo"));
+ 		g_free (image_uri_lower);
+ 		return NULL;
++#endif
+ 	}
+ 
+ 	g_free (image_uri_lower);
+-- 
+2.17.1
+
