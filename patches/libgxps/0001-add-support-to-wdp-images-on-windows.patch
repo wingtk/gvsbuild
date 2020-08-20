@@ -1,14 +1,14 @@
-From 8c952240cd7838a413bf5bf3f42edc910d42660e Mon Sep 17 00:00:00 2001
+From 6bf9be28f1d3c3340d95588bfa54465d5be151a9 Mon Sep 17 00:00:00 2001
 From: Vittorio Vaselli <vitvas@amazon.com>
 Date: Wed, 29 Jul 2020 11:09:26 +0200
 Subject: [PATCH] Add support to wdp images on Windows using WIC API
 
 ---
- libgxps/gxps-images.c | 259 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 259 insertions(+)
+ libgxps/gxps-images.c | 287 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 287 insertions(+)
 
 diff --git a/libgxps/gxps-images.c b/libgxps/gxps-images.c
-index 50f899f..9b64eb2 100644
+index 50f899f..464d848 100644
 --- a/libgxps/gxps-images.c
 +++ b/libgxps/gxps-images.c
 @@ -44,6 +44,13 @@
@@ -25,7 +25,7 @@ index 50f899f..9b64eb2 100644
  /* PNG */
  #ifdef HAVE_LIBPNG
  
-@@ -870,6 +877,254 @@ gxps_images_create_from_tiff (GXPSArchive *zip,
+@@ -870,6 +877,282 @@ gxps_images_create_from_tiff (GXPSArchive *zip,
  #endif /* #ifdef HAVE_LIBTIFF */
  }
  
@@ -40,6 +40,7 @@ index 50f899f..9b64eb2 100644
 +	int stride;
 +	guchar *data;
 +	GXPSImage  *image;
++	cairo_status_t status;
 +
 +	data = g_try_malloc (buffer_size);
 +
@@ -58,13 +59,27 @@ index 50f899f..9b64eb2 100644
 +	image = g_slice_new0 (GXPSImage);
 +	image->res_x = 96;
 +	image->res_y = 96;
-+	image->surface = cairo_image_surface_create_for_data (data, CAIRO_FORMAT_ARGB32, width, height, stride);
 +
++	image->surface = cairo_image_surface_create_for_data (data, CAIRO_FORMAT_ARGB32, width, height, stride);
 +	if (cairo_surface_status (image->surface) != CAIRO_STATUS_SUCCESS) {
 +		g_set_error (error,
 +		             GXPS_ERROR,
 +		             GXPS_ERROR_IMAGE,
 +		             "Error creating cairo surface");
++		gxps_image_free (image);
++		g_free (data);
++		return NULL;
++	}
++
++	status = cairo_surface_set_user_data (image->surface,
++	                                      &image_data_cairo_key,
++	                                      data,
++	                                      (cairo_destroy_func_t) g_free);
++	if (status) {
++		g_set_error (error,
++			     GXPS_ERROR,
++			     GXPS_ERROR_IMAGE,
++			     "Error setting surface user data");
 +		gxps_image_free (image);
 +		g_free (data);
 +		return NULL;
@@ -93,6 +108,7 @@ index 50f899f..9b64eb2 100644
 +	UINT height;
 +	guchar buffer[buffer_size];
 +	gsize read_bytes;
++	gsize nwritten;
 +	UINT written_bytes;
 +	UINT bytes_size = 0;
 +	BYTE *bytes = NULL;
@@ -164,12 +180,24 @@ index 50f899f..9b64eb2 100644
 +						  buffer,
 +						  sizeof (buffer),
 +						  NULL,
-+						  NULL);
++						  error);
++		if (read_bytes < 0) {
++			IWICImagingFactory_Release (image_factory);
++			g_object_unref (stream);
++			CoUninitialize ();
++			return NULL;
++		}
 +
-+		IStream_Write (win_stream,
-+			       buffer,
-+			       read_bytes,
-+			       &written_bytes);
++		nwritten = 0;
++
++		while (nwritten < read_bytes) {
++			IStream_Write (win_stream,
++				       buffer + nwritten,
++				       read_bytes - nwritten,
++				       &written_bytes);
++			nwritten += written_bytes;
++		}
++
 +	} while (read_bytes > 0);
 +
 +	g_object_unref (stream);
@@ -280,7 +308,7 @@ index 50f899f..9b64eb2 100644
  static gchar *
  gxps_images_guess_content_type (GXPSArchive *zip,
  				const gchar *image_uri)
-@@ -910,9 +1165,13 @@ gxps_images_get_image (GXPSArchive *zip,
+@@ -910,9 +1193,13 @@ gxps_images_get_image (GXPSArchive *zip,
  	} else if (g_str_has_suffix (image_uri_lower, ".tif")) {
  		image = gxps_images_create_from_tiff (zip, image_uri, error);
  	} else if (g_str_has_suffix (image_uri_lower, "wdp")) {
