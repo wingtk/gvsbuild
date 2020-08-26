@@ -1,4 +1,5 @@
 #  Copyright (C) 2017 - Daniele Forghieri
+#  Copyright (C) 2020 - Daniel F. Dickinson
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -32,7 +33,7 @@ except ImportError:
 
 import argparse
 
-from gvsbuild.utils.base_project import Project, GVSBUILD_GROUP, GVSBUILD_TOOL, GVSBUILD_PROJECT
+from gvsbuild.utils.base_project import Project, GVSBUILD_GROUP, GVSBUILD_TOOL, GVSBUILD_PROJECT, GVSBUILD_APPLICATION
 from gvsbuild.utils.utils import ordered_set
 # All default tools ...
 import gvsbuild.tools
@@ -40,8 +41,10 @@ import gvsbuild.tools
 import gvsbuild.projects
 # ... and groups
 import gvsbuild.groups
+# ... and applications
+import gvsbuild.applications
 
-def print_deps(flatten=False, add_all=False):
+def print_deps(flatten=False, add_all=False, no_applications=False):
     done = []
 
     def dump_single_dep(st, name, flatten):
@@ -66,6 +69,8 @@ def print_deps(flatten=False, add_all=False):
                     ty = Project._dict[d].type
                     if ty != GVSBUILD_PROJECT:
                         add = False
+                    if (ty == GVSBUILD_APPLICATION) and (not no_applications):
+                        add = True
 
                 if add:                        
                     rt = True
@@ -92,7 +97,23 @@ def print_deps(flatten=False, add_all=False):
             else:
                 print('')
 
-def make_graph(out_file, put_all = False, invert_dep = False, add_tools = False, add_groups = False, skip = ''):
+    if not no_applications:
+        apps = [ x.name for x in Project._projects if x.type == GVSBUILD_APPLICATION ]
+        print("Application dependencies:")
+        for n in apps:
+            done = []
+            if flatten:
+                print("> %s" % (n, ))
+            if dump_single_dep("", n, flatten):
+                if flatten:
+                    done.remove(n)
+                    for t in sorted(done):
+                        print("    %s" % (t, ))
+
+                else:
+                    print('')
+
+def make_graph(out_file, put_all = False, invert_dep = False, add_tools = False, add_groups = False, no_applications = False, skip = ''):
     gr_colors = [
         0x000080,   0x008000,   0x008080,   0x800000,
         0x800080,   0x808000,   0x808080,   0x0000f0,
@@ -116,6 +137,8 @@ def make_graph(out_file, put_all = False, invert_dep = False, add_tools = False,
                     add = add_tools
                 elif t.type == GVSBUILD_GROUP:
                     add = add_groups
+                elif t.type == GVSBUILD_APPLICATION:
+                    add = not no_applications
                 else:
                     add = True
 
@@ -174,6 +197,8 @@ def main():
                          help='Graph: add also the tool projects.')
     group.add_argument('--add-groups', default=False, action='store_true',
                          help='Graph: add also the group projects.')
+    group.add_argument('--no-applications', default=False, action='store_true',
+                         help='Graph: do not also add the application projects.')
     group.add_argument('-o', '--gv-file', default='wingtk.gv',
                         help='Graph: output file name.')
     group.add_argument('-i', '--invert', default=False, action='store_true',
@@ -193,11 +218,15 @@ def main():
                    invert_dep=opt.invert,
                    add_tools=opt.add_tools,
                    add_groups=opt.add_groups,
+                   no_applications=opt.no_applications,
                    skip=opt.skip,
                    )
     else:
         # simple dep print
-        print_deps(flatten=opt.flatten, add_all=opt.dep_tools)
+        print_deps(flatten=opt.flatten,
+                   add_all=opt.dep_tools,
+                   no_applications=opt.no_applications,
+                   )
 
 if __name__ == '__main__':
     main()

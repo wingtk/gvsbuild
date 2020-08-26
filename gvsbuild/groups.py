@@ -2,6 +2,7 @@
 #  Copyright (C) 2016 - Ignacio Casal Quinteiro
 #  Copyright (C) 2016 - Arnavion
 #  Copyright (C) 2017 - Daniele Forghieri
+#  Copyright (C) 2020 - Daniel F. Dickinson
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -21,7 +22,7 @@ Default groups of projects
 """
 
 from .utils.base_group import Group, group_add
-from .utils.base_project import Project, GVSBUILD_PROJECT
+from .utils.base_project import Project, GVSBUILD_PROJECT, GVSBUILD_APPLICATION
 
 @group_add
 class Group_Tools(Group):
@@ -77,9 +78,27 @@ class Group_Tools_Check(Group):
             )
 
 @group_add
-class Group_All(Group):
+class Group_All_Libraries(Group):
     def __init__(self):
         all_prj = [x.name for x in Project._projects if x.type == GVSBUILD_PROJECT]
+        Group.__init__(self,
+            'all-libraries',
+            dependencies = all_prj
+        )
+
+@group_add
+class Group_All_Applications(Group):
+    def __init__(self):
+        all_prj = [x.name for x in Project._projects if x.type == GVSBUILD_APPLICATION]
+        Group.__init__(self,
+            'all-applications',
+            dependencies = all_prj
+        )
+
+@group_add
+class Group_All(Group):
+    def __init__(self):
+        all_prj = [x.name for x in Project._projects if (x.type == GVSBUILD_PROJECT or x.type == GVSBUILD_APPLICATION)]
         Group.__init__(self,
             'all',
             dependencies = all_prj

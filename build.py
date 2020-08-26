@@ -1,6 +1,7 @@
 #  Copyright (C) 2016 - Yevgen Muntyan
 #  Copyright (C) 2016 - Ignacio Casal Quinteiro
 #  Copyright (C) 2016 - Arnavion
+#  Copyright (C) 2020 - Daniel F. Dickinson
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -40,6 +41,8 @@ import gvsbuild.tools
 import gvsbuild.projects
 # ... and groups
 import gvsbuild.groups
+# ... and applications
+import gvsbuild.applications
 
 if __name__ == '__main__':
     parser = create_parser()

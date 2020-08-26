@@ -1,6 +1,7 @@
 #  Copyright (C) 2016 - Yevgen Muntyan
 #  Copyright (C) 2016 - Ignacio Casal Quinteiro
 #  Copyright (C) 2016 - Arnavion
+#  Copyright (C) 2020 - Daniel F. Dickinson
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -23,7 +24,7 @@ import argparse
 import os
 import sys
 
-from .base_project import Project, GVSBUILD_PROJECT, GVSBUILD_TOOL, GVSBUILD_GROUP, GVSBUILD_IGNORE
+from .base_project import Project, GVSBUILD_PROJECT, GVSBUILD_TOOL, GVSBUILD_APPLICATION, GVSBUILD_GROUP, GVSBUILD_IGNORE
 from .base_project import Options
 from .builder import Builder
 from .utils import ordered_set
@@ -108,7 +109,7 @@ def get_options(args):
 
     opts.projects = args.project
     Project.opts = opts
-    # now add the tools/projects/groups
+    # now add the tools/projects/groups/applications
     Project.add_all()
 
     for p in opts.projects:
@@ -182,6 +183,7 @@ def do_list(args):
     Project.add_all()
     do_list_type(GVSBUILD_TOOL, "Available tools")
     do_list_type(GVSBUILD_PROJECT, "Available projects")
+    do_list_type(GVSBUILD_APPLICATION, "Available applications")
     do_list_type(GVSBUILD_GROUP, "Available groups")
     do_list_type(GVSBUILD_IGNORE, "Developer project(s)")
     sys.exit(0)

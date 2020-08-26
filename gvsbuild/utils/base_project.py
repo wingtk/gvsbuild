@@ -1,6 +1,7 @@
 #  Copyright (C) 2016 - Yevgen Muntyan
 #  Copyright (C) 2016 - Ignacio Casal Quinteiro
 #  Copyright (C) 2016 - Arnavion
+#  Copyright (C) 2020 - Daniel F. Dickinson
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -32,6 +33,7 @@ GVSBUILD_IGNORE = 0
 GVSBUILD_PROJECT = 1
 GVSBUILD_TOOL = 2
 GVSBUILD_GROUP = 3
+GVSBUILD_APPLICATION = 4
 
 class Options(object):
     def __init__(self):
@@ -483,9 +485,12 @@ class Project(object):
     def is_project(self):
         return self.type == GVSBUILD_PROJECT
 
+    def is_application(self):
+        return self.type == GVSBUILD_APPLICATION
+
 def project_add(cls):
     """
-    Class decorator to add the newly created Project class to the global projects/tools/groups list
+    Class decorator to add the newly created Project class to the global projects/tools/groups/applications list
     """
     Project.register(cls, GVSBUILD_PROJECT)
     return cls
