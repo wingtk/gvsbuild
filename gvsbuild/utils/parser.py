@@ -90,7 +90,7 @@ def get_options(args):
     prop_file = os.path.join(opts.patches_root_dir, 'stack.props')
     if not os.path.isfile(prop_file):
         log.error_exit("Missing 'stack.prop' file on directory '%s'.\nWrong or missing --patches-root-dir option?" % (opts.patches_root_dir, ))
-        
+
     opts._vs_path_auto = False
     if not opts.tools_root_dir:
         opts.tools_root_dir = os.path.join(args.build_dir, 'tools')
@@ -117,6 +117,10 @@ def get_options(args):
             log.error_exit(
                 p + " is not a valid project name, available projects are:\n\t" + "\n\t".join(Project.get_names()))
 
+        proj = Project.get_project(p)
+        if proj.enable_gi != False:
+            if opts.enable_gi != True:
+                raise ValueError("%s requires --enable-gi" % proj.name)
     return opts
 
 def __get_projects_to_build(opts):
@@ -124,7 +128,7 @@ def __get_projects_to_build(opts):
     if opts._load_python:
         # We use nuget to download & install the python needed for the build so we put it at the beginning
         opts.projects.insert(0, 'python')
-        
+
     for name in opts.projects:
         p = Project.get_project(name)
         if not opts.no_deps:
@@ -157,7 +161,7 @@ def do_build(args):
             if type(v) is str:
                 pv = "'%s'" % (v, )
             else:
-                pv = repr(v) 
+                pv = repr(v)
             log.message_indent("'%s': %s, " % (co, pv, ))
     builder = Builder(opts)
     builder.preprocess()
@@ -174,7 +178,7 @@ def do_list(args):
         nl = [ (x.name, x.version, ) for x in Project._projects if x.type == prj_type]
         if nl:
             nl.sort()
-            
+
             print("%s:" % (desc, ))
             for i in nl:
                 print('\t%-*s %s' % (Project.name_len, i[0], i[1], ))

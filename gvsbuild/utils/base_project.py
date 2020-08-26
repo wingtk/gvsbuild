@@ -48,7 +48,7 @@ class Project(object):
     def __init__(self, name, **kwargs):
         object.__init__(self)
         self.name = name
-        self.prj_dir = name 
+        self.prj_dir = name
         self.dependencies = []
         self.patches = []
         self.archive_url = None
@@ -60,6 +60,7 @@ class Project(object):
         self.clean = False
         self.to_add = True
         self.extra_env = {}
+        self.enable_gi = False
         for k in kwargs:
             setattr(self, k, kwargs[k])
         self.__working_dir = None
@@ -75,7 +76,7 @@ class Project(object):
     name_len = 0
     # List of class/type to add, now not at import time but after some options are parsed
     _reg_prj_list = []
-    # build option 
+    # build option
     opts = Options()
 
     def __str__(self):
@@ -87,7 +88,7 @@ class Project(object):
     def load_defaults(self):
         # Used by the tools to load default paths/filenames
         pass
-    
+
     def finalize_dep(self, builder, deps):
         """
         Used to manipulate the dependencies list, to add or remove projects
@@ -103,7 +104,7 @@ class Project(object):
 
     def add_dependency(self, dep):
         self.dependencies.append(dep)
-        
+
     def exec_cmd(self, cmd, working_dir=None, add_path=None):
         self.builder.exec_cmd(cmd, working_dir=working_dir, add_path=add_path)
 
@@ -120,7 +121,7 @@ class Project(object):
         Return the search & replace strings (converted to bytes to update the
         platfomrm Toolset version (v140, v141, ...) to use a new compiler,
         e.g. to use vs2017 solution's files for vs2019
-        
+
         The '<PlatformToolset' at the beginning is missing to handle projects
         like libmictohttpd that has a condition in the platform definition
         """
@@ -177,7 +178,7 @@ class Project(object):
     def exec_msbuild_gen(self, base_dir, sln_file, add_pars='', configuration=None, add_path=None, use_env=False):
         '''
         looks for base_dir\{vs_ver}\sln_file or base_dir\{vs_ver_tear}\sln_file for launching the msbuild commamd.
-        If it's not present in the directory the system start to look backward to find the first version present 
+        If it's not present in the directory the system start to look backward to find the first version present
         '''
         def _msbuild_ok(self, dir_part):
             full = os.path.join(self.build_dir, base_dir, dir_part, sln_file)
@@ -244,7 +245,7 @@ class Project(object):
 
     def install_pc_files(self, base_dir='pc-files'):
         '''
-        Install, setting dir & version, the .pc files 
+        Install, setting dir & version, the .pc files
         '''
         pkgconfig_dir = os.path.join(self.builder.gtk_dir, 'lib', 'pkgconfig')
         self.builder.make_dir(pkgconfig_dir)
@@ -342,11 +343,11 @@ class Project(object):
         Register the class to be added after some initialization
         """
         Project._reg_prj_list.append((cls, ty, ))
-        
+
     @staticmethod
     def add_all():
         """
-        Add all the registered class 
+        Add all the registered class
         """
         for cls, ty in Project._reg_prj_list:
             c_inst = cls()
@@ -361,7 +362,7 @@ class Project(object):
         Mark the project not to build/add to the list
         """
         self.to_add = False
-         
+
     @staticmethod
     def get_project(name):
         return Project._dict[name]
@@ -396,7 +397,7 @@ class Project(object):
     def get_tool_executable(tool):
         if not isinstance(tool, Project):
             tool = Project._dict[tool]
-            
+
         if tool.type == GVSBUILD_TOOL:
             return tool.get_executable()
         return None
@@ -405,7 +406,7 @@ class Project(object):
     def get_tool_base_dir(tool):
         if not isinstance(tool, Project):
             tool = Project._dict[tool]
-            
+
         if tool.type == GVSBUILD_TOOL:
             return tool.get_base_dir()
         return None
@@ -428,7 +429,7 @@ class Project(object):
                 re.compile('.*-([0-9a-f]+)\.'),
                 re.compile('.*([0-9]\.[0-9]+)\.'),
                 ]
-        
+
         ver = ''
         for r in Project._ver_res:
             ok = r.match(file_name)
@@ -437,7 +438,7 @@ class Project(object):
                 break
         log.debug('Version from file name:%-16s <- %s' % (ver, file_name, ))
         return ver
-            
+
     def _calc_version(self):
         if self.archive_file_name:
             self.version = Project._file_to_version(self.archive_file_name)
@@ -446,21 +447,21 @@ class Project(object):
             self.version = Project._file_to_version(name)
         else:
             if hasattr(self, 'tag') and self.tag:
-                self.version = 'git/' + self.tag 
+                self.version = 'git/' + self.tag
             elif hasattr(self, 'repo_url'):
                 self.version = 'git/master'
             else:
                 self.version = ''
-    
+
     def mark_file_calc(self):
         if not self.mark_file:
             self.mark_file = os.path.join(self.build_dir, '.wingtk-built')
-            
+
     def mark_file_remove(self):
         self.mark_file_calc()
         if os.path.isfile(self.mark_file):
             os.remove(self.mark_file)
-            
+
     def mark_file_write(self):
         self.mark_file_calc()
         try:
@@ -469,7 +470,7 @@ class Project(object):
                 fo.write('%s\n' % (now.strftime('%Y-%m-%d %H:%M:%S'), ))
         except FileNotFoundError as e:
             log.debug("Exception writing file '%s' (%s)" % (self.mark_file, e, ))
-        
+
     def mark_file_exist(self):
         rt = None
         self.mark_file_calc()
