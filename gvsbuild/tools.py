@@ -60,7 +60,7 @@ class Tool_cargo(Tool):
 
         # switch to the right target
         subprocess.check_call('%s default stable-%s-pc-windows-msvc' % (rustup, 'i686' if self.opts.x86 else 'x86_64'), env=env)
-        
+
         self.mark_deps = True
 
 
@@ -80,6 +80,28 @@ class Tool_cmake(Tool):
 
     def unpack(self):
         self.mark_deps = extract_exec(self.archive_file, self.opts.tools_root_dir, dir_part = self.dir_part, check_file = self.full_exe, check_mark=True)
+
+@tool_add
+class Tool_get_poetry(Tool):
+    # We use a newer get-poetry than the poetry we want for features not
+    # available in older get-poetry (from the stable archive)
+    def __init__(self):
+        Tool.__init__(self,
+            'get-poetry',
+            archive_url = 'https://codeload.github.com/python-poetry/poetry/tar.gz/1.1.0b2',
+            dir_part = 'poetry-1.1.0b2',
+            archive_file_name = 'get-poetry-1.1.0b2.tar.gz',
+            hash = 'f26f3cbde3307a1d02ea7a6b7dbe4c083ad91d4402dca40c0bcede182176f495',
+            exe_name = 'get-poetry.py'
+        )
+
+    def load_defaults(self):
+        Tool.load_defaults(self)
+        self.tool_path = os.path.join(self.opts.tools_root_dir, self.dir_part)
+        self.full_exe = os.path.join(self.tool_path, 'get-poetry.py')
+
+    def unpack(self):
+        self.mark_deps = extract_exec(self.archive_file, self.builder.opts.tools_root_dir, dir_part = self.dir_part, check_file = self.full_exe, check_mark=True)
 
 @tool_add
 class Tool_meson(Tool):
@@ -181,6 +203,36 @@ class Tool_perl(Tool):
         return self.base_dir
 
 @tool_add
+class Tool_poetry(Tool):
+    def __init__(self):
+        Tool.__init__(self,
+            'poetry',
+            archive_url = 'https://github.com/python-poetry/poetry/releases/download/1.0.10/poetry-1.0.10-win32.tar.gz',
+            hash = '5c60560f7c1b234b0ee0bb170c7d8402550e0ce129afee18fb06505e543cbc05',
+            exe_name = 'poetry',
+            dependencies = ['python', 'get-poetry'],
+        )
+
+    def load_defaults(self):
+        Tool.load_defaults(self)
+        self.base_dir = os.path.join(self.build_dir, 'poetry-home')
+        self.tool_path = os.path.join(self.base_dir, 'bin')
+        self.full_exe = os.path.join(self.tool_path, self.exe_name)
+        self.install_script = Project.get_tool_executable('get-poetry')
+        self.add_extra_env('POETRY_HOME', self.base_dir)
+
+    def unpack(self):
+        extract_exec(self.archive_file, self.build_dir, dir_part = self.dir_part, check_mark=True)
+
+        env = os.environ.copy()
+        env['POETRY_HOME'] = self.base_dir
+
+        python_dir = Project.get_tool_path('python')
+        subprocess.check_call('%s %s --no-modify-path -y --file %s' % (os.path.join(python_dir, 'python.exe'), self.install_script, self.archive_file), env=env, shell=True)
+
+        self.mark_deps = True
+
+@tool_add
 class Tool_python(Tool):
     def __init__(self):
         Tool.__init__(self,
@@ -221,32 +273,32 @@ class Tool_python(Tool):
                     rd_file = fi.readline().strip()
             except IOError:
                 pass
-    
+
             if rd_file == t_id:
                 # Ok, exit
                 log.log("Skipping python setup on '%s'" % (dest_dir, ))
                 # We don't rebuild the projects that depends on this
                 return False
-    
+
             # nuget
             nuget = Project.get_tool_executable('nuget')
             # Install python
             cmd = '%s install %s -Version %s -OutputDirectory %s' % (nuget, name, version, self.opts.tools_root_dir, )
             subprocess.check_call(cmd, shell=True)
             py = os.path.join(self.tool_path, 'python.exe')
-    
+
             # Update pip
             cmd = py + ' -m pip install --upgrade pip'
             subprocess.check_call(cmd, shell=True)
-    
+
             # update setuptools (to use vs2017 with python 3.5)
             cmd = py + ' -m pip install --upgrade setuptools --no-warn-script-location'
             subprocess.check_call(cmd, shell=True)
-    
+
             # install/update wheel
             cmd = py + ' -m pip install --upgrade wheel --no-warn-script-location'
             subprocess.check_call(cmd, shell=True)
-    
+
             # Mark that we have done all
             with open(os.path.join(dest_dir, '.wingtk-extracted-file'), 'wt') as fo:
                 fo.write('%s\n' % (t_id, ))
