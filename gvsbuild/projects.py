@@ -47,7 +47,7 @@ class Project_adwaita_icon_theme(Tarball, Project):
     def build(self):
         # Create the destination dir, before the build
         os.makedirs(os.path.join(self.builder.gtk_dir, 'share', 'icons', 'Adwaita'), exist_ok=True)
-        
+
         self.push_location(r'.\win32')
         self.exec_vs(r'nmake /nologo /f adwaita-msvc.mak CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PREFIX="%(gtk_dir)s"', add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
         self.exec_vs(r'nmake /nologo /f adwaita-msvc.mak install CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PREFIX="%(gtk_dir)s"', add_path=os.path.join(self.builder.opts.msys_dir, 'usr', 'bin'))
@@ -954,7 +954,7 @@ class Project_icu(Tarball, Project):
             bindir += '64'
             libdir += '64'
         if self.opts.vs_ver != '15':
-            # Not Vs2017, we change the platform 
+            # Not Vs2017, we change the platform
             search, replace = self._msbuild_make_search_replace(141)
             self._msbuild_copy_dir(None, os.path.join(self.build_dir, 'source', 'allinone'), search, replace)
 
@@ -1402,8 +1402,8 @@ class Project_libuv(Tarball, CmakeProject):
             archive_url = 'https://github.com/libuv/libuv/archive/v1.35.0.tar.gz',
             hash = 'ff84a26c79559e511f087aa67925c3b4e0f0aac60cd8039d4d38b292f208ff58',
             dependencies = [
-                'cmake', 
-                'ninja',  
+                'cmake',
+                'ninja',
                 ],
             )
 
@@ -1982,6 +1982,33 @@ class Project_x264(GitRepo, Project):
         self.builder.exec_msys(['mv', 'libx264.dll.lib', 'libx264.lib'], working_dir=os.path.join(self.builder.gtk_dir, 'lib'))
 
         self.install(r'.\COPYING share\doc\x264')
+
+@project_add
+class Project_xdg(GitRepo, Project):
+    def __init__(self):
+        GitRepo.__init__(self)
+        Project.__init__(self,
+            'xdg',
+            repo_url = 'https://github.com/srstevenson/xdg.git',
+            fetch_submodules = False,
+            tag = '4.0.1',
+            dependencies = ['python', 'poetry']
+        )
+
+    def build(self):
+        self.push_location(self.build_dir)
+        python = Project.get_tool_executable('python')
+        poetry = Project.get_tool_executable('poetry')
+        self.exec_cmd('%s %s build' % (python, poetry), working_dir=self.build_dir)
+        self.exec_cmd('%s -m pip install %s' % (python, 'dist/xdg-4.0.1-py3-none-any.whl'), working_dir=self.build_dir)
+        if self.builder.opts.py_egg:
+            self.exec_vs(r'%(python_dir)s\python.exe setup.py bdist_egg')
+        if self.builder.opts.py_wheel:
+            self.exec_vs(r'%(python_dir)s\python.exe setup.py bdist_wheel')
+        if self.builder.opts.py_egg or self.builder.opts.py_wheel:
+            self.install_dir('dist', 'python')
+        self.install(r'.\LICENCE .\README.md share\doc\xdg')
+        self.pop_location()
 
 @project_add
 class Project_zlib(Tarball, Project):
