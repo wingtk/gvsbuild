@@ -252,9 +252,14 @@ class Builder(object):
         # Env to load before the setup for the visual studio environment
         self._add_env(key, value, os.environ, prepend)
 
-    def mod_env(self, key, value, prepend=True, subst=False):
+    def add_gtk_dir(self, value):
+        return '%s\\%s' % (self.gtk_dir, value, )
+
+    def mod_env(self, key, value, prepend=True, subst=False, add_gtk=False):
         # Modify the current build environment
         # returns the old value
+        if add_gtk:
+            value = self.add_gtk_dir(value)
         return self._add_env(key, value, self.vs_env, prepend=prepend, subst=subst)
 
     def restore_env(self, saved):

@@ -1227,6 +1227,11 @@ class Project_libpsl(GitRepo, Meson):
 @project_add
 class Project_librsvg(Tarball, Project, _MakeGir):
     def __init__(self):
+
+        if not self.opts.old_rsvg:
+            self.ignore()
+            return
+
         Project.__init__(self,
             'librsvg',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/librsvg/2.40/librsvg-2.40.20.tar.xz',
@@ -1252,6 +1257,52 @@ class Project_librsvg(Tarball, Project, _MakeGir):
             self.make_single_gir('rsvg', prj_dir='librsvg')
 
         self.install(r'.\COPYING share\doc\librsvg')
+
+    def post_install(self):
+        self.exec_cmd(r'%(gtk_dir)s\bin\gdk-pixbuf-query-loaders.exe --update-cache')
+
+@project_add
+class Project_librsvg_rust(Tarball, Project):
+    def __init__(self):
+
+        if self.opts.old_rsvg:
+            self.ignore()
+            return
+
+        Project.__init__(self,
+            'librsvg',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/librsvg/2.50/librsvg-2.50.0.tar.xz',
+            hash = 'b3fadba240f09b9c9898ab20cb7311467243e607cf8f928b7c5f842474ee3df4',
+            dependencies = [
+                'cargo',
+                'libcroco',
+                'cairo',
+                'pango',
+                'gdk-pixbuf',
+            ],
+            )
+        if Project.opts.enable_gi:
+            self.add_dependency('gobject-introspection')
+
+    def build(self):
+        self.builder.mod_env('INCLUDE', 'include\\cairo', add_gtk=True)
+
+        b_dir = r'%s\%s\win32' % (self.builder.working_dir, self.name, )
+
+        cmd = 'nmake -f makefile.vc CFG=%s PREFIX=%s PYTHON=%s install' % (
+                self.builder.opts.configuration,
+                self.builder.gtk_dir,
+                Project.get_tool_executable('python'),
+                )
+
+        if Project.opts.enable_gi:
+            cmd += ' INTROSPECTION=1'
+
+        self.push_location(b_dir)
+        self.exec_vs(cmd)
+        self.pop_location()
+
+        self.install(r'.\COPYING.LIB share\doc\librsvg')
 
     def post_install(self):
         self.exec_cmd(r'%(gtk_dir)s\bin\gdk-pixbuf-query-loaders.exe --update-cache')
