@@ -1225,7 +1225,7 @@ class Project_libpsl(GitRepo, Meson):
         self.install(r'.\LICENSE share\doc\libpsl')
 
 @project_add
-class Project_librsvg(Tarball, Project, _MakeGir):
+class Project_librsvg_legacy(Tarball, Project, _MakeGir):
     def __init__(self):
 
         if not self.opts.old_rsvg:
@@ -1262,7 +1262,7 @@ class Project_librsvg(Tarball, Project, _MakeGir):
         self.exec_cmd(r'%(gtk_dir)s\bin\gdk-pixbuf-query-loaders.exe --update-cache')
 
 @project_add
-class Project_librsvg_rust(Tarball, Project):
+class Project_librsvg(Tarball, Project):
     def __init__(self):
 
         if self.opts.old_rsvg:
@@ -1275,7 +1275,6 @@ class Project_librsvg_rust(Tarball, Project):
             hash = 'b3fadba240f09b9c9898ab20cb7311467243e607cf8f928b7c5f842474ee3df4',
             dependencies = [
                 'cargo',
-                'libcroco',
                 'cairo',
                 'pango',
                 'gdk-pixbuf',
