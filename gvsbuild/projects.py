@@ -383,8 +383,8 @@ class Project_freetype(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'freetype',
-            archive_url = 'http://git.savannah.gnu.org/cgit/freetype/freetype2.git/snapshot/freetype2-098dd70cb1845b8c325ef4801c5f2e09e476b1ed.tar.gz',
-            hash = 'c891891164a716acbcf7137585c2ef1bc27599d2815b3c099a31d6a5a2e67a72',
+            archive_url = 'https://download.savannah.gnu.org/releases/freetype/freetype-2.10.4.tar.xz',
+            hash = '86a854d8905b19698bbc8f23b860bc104246ce4854dcea8e3b0fb21284f75784',
             dependencies = ['pkg-config', 'ninja', 'libpng'],
             )
 
