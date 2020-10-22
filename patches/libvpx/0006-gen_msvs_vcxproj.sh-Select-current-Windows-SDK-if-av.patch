@@ -1,0 +1,30 @@
+From 8ebae806566a5754536a083e0b06c1afbe164dff Mon Sep 17 00:00:00 2001
+From: Nirbheek Chauhan <nirbheek@centricular.com>
+Date: Tue, 26 Feb 2019 19:16:19 +0530
+Subject: [PATCH 6/8] gen_msvs_vcxproj.sh: Select current Windows SDK if
+ available
+
+If WindowsTargetPlatformVersion is omitted, Visual Studio defaults to
+the Windows 8.1 SDK. This is obviously wrong since we always use the
+latest Windows 10 SDK. Force the project file to do so.
+---
+ build/make/gen_msvs_vcxproj.sh | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/build/make/gen_msvs_vcxproj.sh b/build/make/gen_msvs_vcxproj.sh
+index 84515ec..0c9d1e3 100644
+--- a/build/make/gen_msvs_vcxproj.sh
++++ b/build/make/gen_msvs_vcxproj.sh
+@@ -300,6 +300,9 @@ generate_vcxproj() {
+         tag_content ProjectGuid "{${guid}}"
+         tag_content RootNamespace ${name}
+         tag_content Keyword ManagedCProj
++        if [ -n "${WindowsSDKVersion}" ]; then
++            tag_content WindowsTargetPlatformVersion "${WindowsSDKVersion%\\}"
++        fi
+         if [ $vs_ver -ge 12 ] && [ "${platforms[0]}" = "ARM" ]; then
+             tag_content AppContainerApplication true
+             # The application type can be one of "Windows Store",
+-- 
+2.20.1.windows.1
+

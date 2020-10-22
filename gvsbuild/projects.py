@@ -1413,6 +1413,56 @@ class Project_libuv(Tarball, CmakeProject):
         self.install(r'.\LICENSE share\doc\libuv')
 
 @project_add
+class Project_libvpx(Tarball, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'libvpx',
+            archive_url = 'https://github.com/webmproject/libvpx/archive/v1.9.0.tar.gz',
+            hash = 'd279c10e4b9316bf11a570ba16c3d55791e1ad6faa4404c67422eb631782c80a',
+            dependencies = ['yasm', 'msys2', 'libyuv', 'perl'],
+            patches = ['0006-gen_msvs_vcxproj.sh-Select-current-Windows-SDK-if-av.patch',
+                       '0001-Always-generate-pc-file.patch'],
+            )
+    def build(self):
+        configure_options = "--enable-pic --as=yasm --disable-unit-tests --size-limit=16384x16384 " \
+                            "--enable-postproc --enable-multi-res-encoding --enable-temporal-denoising " \
+                            "--enable-vp9-temporal-denoising --enable-vp9-postproc --disable-tools " \
+                            "--disable-examples --disable-docs "
+        if self.builder.opts.configuration == 'debug':
+            configure_options += '--enable-debug_libs'
+
+        if self.builder.x86:
+            target = 'x86-win32-vs'
+        else:
+            target = 'x86_64-win64-vs'
+
+        target += self.builder.opts.vs_ver
+
+        msys_path = Project.get_tool_path('msys2')
+
+        self.push_location(self.pkg_dir)
+        self.exec_vs(r'%s\bash ../libvpx/configure --target=%s --prefix=%s %s' % (msys_path, target, convert_to_msys(self.builder.gtk_dir), configure_options),
+                     add_path=msys_path)
+        self.exec_vs(r'make', add_path=msys_path)
+        self.exec_vs(r'make install', add_path=msys_path)
+        self.pop_location()
+
+        self.install(r'.\LICENSE share\doc\libvpx')
+
+    def post_install(self):
+        # LibVPX generates a static library named 'vpxmd.lib' or 'vpxmdd.lib'
+        # in an unusual directory which is not the same as expected by the vpx.pc file
+        if self.builder.opts.configuration == 'debug':
+            lib_name = 'vpxmdd.lib'
+        else:
+            lib_name = 'vpxmd.lib'
+        if self.builder.x86:
+            lib_path = 'Win32/' + lib_name
+        else:
+            lib_path = 'x64/' + lib_name
+        self.builder.exec_msys(['mv', lib_path, './vpx.lib'], working_dir=os.path.join(self.builder.gtk_dir, 'lib'))
+
+@project_add
 class Project_libxml2(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
