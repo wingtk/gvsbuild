@@ -681,7 +681,7 @@ class Project_gst_plugins_good(Tarball, Meson):
             'gst-plugins-good',
             archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.16.3.tar.xz',
             hash = 'd3a23a3fe73de673f591b7655494990c9e8a0e22a3c70d6f1dbf50198b29f85f',
-            dependencies = ['meson', 'ninja', 'glib', 'gstreamer', 'gst-plugins-base'],
+            dependencies = ['meson', 'ninja', 'glib', 'gstreamer', 'gst-plugins-base', 'libvpx'],
             )
 
     def build(self):
