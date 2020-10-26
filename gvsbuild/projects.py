@@ -640,8 +640,8 @@ class Project_gstreamer(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'gstreamer',
-            archive_url = 'https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.16.2.tar.xz',
-            hash = 'e3f044246783fd685439647373fa13ba14f7ab0b346eadd06437092f8419e94e',
+            archive_url = 'https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.16.3.tar.xz',
+            hash = '692f037968e454e508b0f71d9674e2e26c78475021407fcf8193b1c7e59543c7',
             dependencies = ['meson', 'ninja', 'glib', 'orc'],
             )
 
@@ -664,8 +664,8 @@ class Project_gst_plugins_base(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'gst-plugins-base',
-            archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.16.2.tar.xz',
-            hash = 'b13e73e2fe74a4166552f9577c3dcb24bed077021b9c7fa600d910ec6987816a',
+            archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.16.3.tar.xz',
+            hash = '9f02678b0bbbcc9eff107d3bd89d83ce92fec2154cd607c7c8bd34dc7fee491c',
             dependencies = ['meson', 'ninja', 'gtk3', 'gstreamer', 'opus'],
             patches = ['0001-audioutilsprivate-restore-thread-priority-before-end.patch'],
             )
@@ -679,8 +679,8 @@ class Project_gst_plugins_good(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'gst-plugins-good',
-            archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.16.2.tar.xz',
-            hash = '40bb3bafda25c0b739c8fc36e48380fccf61c4d3f83747e97ac3f9b0171b1319',
+            archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.16.3.tar.xz',
+            hash = 'd3a23a3fe73de673f591b7655494990c9e8a0e22a3c70d6f1dbf50198b29f85f',
             dependencies = ['meson', 'ninja', 'glib', 'gstreamer', 'gst-plugins-base'],
             )
 
@@ -693,11 +693,9 @@ class Project_gst_plugins_bad(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'gst-plugins-bad',
-            archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.2.tar.xz',
-            hash = 'f1cb7aa2389569a5343661aae473f0a940a90b872001824bc47fa8072a041e74',
+            archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.3.tar.xz',
+            hash = '84efe57011658f0a53a5d5b20f64ef109f5105dccb0808c21e069e946673514d',
             dependencies = ['meson', 'ninja', 'glib', 'gstreamer', 'gst-plugins-base'],
-            patches = ['0001-wasapi-Fix-possible-deadlock-while-downwards-state-c.patch',
-                       '0002-wasapi-added-missing-lock-release-in-case-of-error-i.patch'],
             )
         self.add_param('-Dcurl=disabled')
         self.add_param('-Dcurl-ssh2=disabled')
@@ -711,8 +709,8 @@ class Project_gst_python(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'gst-python',
-            archive_url = 'https://gstreamer.freedesktop.org/src/gst-python/gst-python-1.16.2.tar.xz',
-            hash = '208df3148d73d9f416d016564737585d8ea763d91201732d44b5fe688c6288a8',
+            archive_url = 'https://gstreamer.freedesktop.org/src/gst-python/gst-python-1.16.3.tar.xz',
+            hash = '36a00a256c25ccaaa9b965a6f09d6158dfb77558145ab6b25809938732c7161f',
             dependencies = ['meson', 'ninja', 'glib', 'gstreamer', 'pygobject'],
             )
 
