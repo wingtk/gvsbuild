@@ -53,6 +53,7 @@ class Tool(Project):
         self.unpack()
 
     def get_path(self):
+        self.load_defaults()
         if self.tool_path:
             return self.tool_path
         else:

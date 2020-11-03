@@ -233,6 +233,28 @@ class Tool_poetry(Tool):
         self.mark_deps = True
 
 @tool_add
+class Tool_pyinstaller(Tool):
+    def __init__(self):
+        Tool.__init__(self,
+            'pyinstaller',
+            dependencies = [ 'python' ],
+            )
+
+    def load_defaults(self):
+        Tool.load_defaults(self)
+        python_dir = Tool.get_tool_path('python')
+        self.tool_path = os.path.join(python_dir, 'tools', 'Scripts')
+
+    def unpack(self):
+        # python
+        python_exe = Tool.get_tool_executable('python')
+
+        # Install pyinstaller
+        cmd = python_exe + ' -m pip install pyinstaller'
+        subprocess.check_call(cmd, shell=True)
+        self.tool_mark()
+
+@tool_add
 class Tool_python(Tool):
     def __init__(self):
         Tool.__init__(self,
