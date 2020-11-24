@@ -494,8 +494,8 @@ class Project_glib_networking(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'glib-networking',
-            archive_url = 'https://ftp.acc.umu.se/pub/gnome/sources/glib-networking/2.64/glib-networking-2.64.1.tar.xz',
-            hash = 'a4c346def7d817467d79a95c23b3ccf22e4df1548870726b63396400852daf72',
+            archive_url = 'https://ftp.acc.umu.se/pub/gnome/sources/glib-networking/2.66/glib-networking-2.66.0.tar.xz',
+            hash = 'c5d7be2437fdd196eebfb70c4517b96d3ba7ec13bd496318b8f02dea383e0099',
             dependencies = ['pkg-config', 'ninja', 'meson', 'glib', 'openssl'],
             )
 
