@@ -413,8 +413,8 @@ class Project_gdk_pixbuf(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'gdk-pixbuf',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.40/gdk-pixbuf-2.40.0.tar.xz',
-            hash = '1582595099537ca8ff3b99c6804350b4c058bb8ad67411bbaae024ee7cead4e6',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.0.tar.xz',
+            hash = '73441338d1a901dc7a3940113cb0aac22776b2832f7eab8f8ec7ec5755adaec7',
             dependencies = [
                 'ninja',
                 'pkg-config',
@@ -428,13 +428,13 @@ class Project_gdk_pixbuf(Tarball, Meson):
             )
         if self.opts.enable_gi:
             self.add_dependency('gobject-introspection')
-            enable_gi = 'true'
+            enable_gi = 'enabled'
         else:
-            enable_gi = 'false'
+            enable_gi = 'disabled'
 
         self.add_param('-Djasper=true')
         self.add_param('-Dnative_windows_loaders=true')
-        self.add_param('-Dgir=%s' % (enable_gi, ))
+        self.add_param('-Dintrospection=%s' % (enable_gi, ))
         self.add_param('-Dman=false')
         self.add_param('-Dx11=false')
 
