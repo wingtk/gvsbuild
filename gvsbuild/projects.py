@@ -1010,17 +1010,17 @@ class Project_json_glib(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'json-glib',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/json-glib/1.4/json-glib-1.4.4.tar.xz',
-            hash = '720c5f4379513dc11fd97dc75336eb0c0d3338c53128044d9fabec4374f4bc47',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/json-glib/1.6/json-glib-1.6.0.tar.xz',
+            hash = '0d7c67602c4161ea7070fab6c5823afd9bd7f7bc955f652a50d3753b08494e73',
             dependencies = ['meson', 'ninja', 'pkg-config', 'python', 'glib'],
             )
         if self.opts.enable_gi:
             self.add_dependency('gobject-introspection')
-            enable_gi = 'true'
+            enable_gi = 'enabled'
         else:
-            enable_gi = 'false'
+            enable_gi = 'disabled'
 
-        self.add_param('-Ddocs=false')
+        self.add_param('-Dgtk_doc=disabled')
         self.add_param('-Dintrospection=%s' % (enable_gi, ))
 
     def build(self):
