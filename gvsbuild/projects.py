@@ -664,10 +664,9 @@ class Project_gst_plugins_base(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'gst-plugins-base',
-            archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.16.3.tar.xz',
-            hash = '9f02678b0bbbcc9eff107d3bd89d83ce92fec2154cd607c7c8bd34dc7fee491c',
+            archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.18.1.tar.xz',
+            hash = '1ba654d7de30f7284b4c7071b32f881b609733ce02ab6d9d9ea29386a036c641',
             dependencies = ['meson', 'ninja', 'gtk3', 'gstreamer', 'opus'],
-            patches = ['0001-audioutilsprivate-restore-thread-priority-before-end.patch'],
             )
 
     def build(self):
