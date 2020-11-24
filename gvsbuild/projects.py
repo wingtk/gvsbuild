@@ -640,8 +640,8 @@ class Project_gstreamer(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'gstreamer',
-            archive_url = 'https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.16.3.tar.xz',
-            hash = '692f037968e454e508b0f71d9674e2e26c78475021407fcf8193b1c7e59543c7',
+            archive_url = 'https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.18.1.tar.xz',
+            hash = '79df8de21f284a105a5c1568527f8c559c583c85c0f2bd7bdb5b0372b8beecba',
             dependencies = ['meson', 'ninja', 'glib', 'orc'],
             )
 
