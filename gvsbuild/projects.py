@@ -1815,8 +1815,8 @@ class Project_protobuf(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'protobuf',
-            archive_url = 'https://github.com/protocolbuffers/protobuf/releases/download/v3.9.2/protobuf-cpp-3.9.2.tar.gz',
-            hash = '1891110cce323fe56b509da3589f03756c7eaf462a60971cb1c4af4efb154f69',
+            archive_url = 'https://github.com/protocolbuffers/protobuf/releases/download/v3.14.0/protobuf-cpp-3.14.0.tar.gz',
+            hash = '50ec5a07c0c55d4ec536dd49021f2e194a26bfdbc531d03d1e9d4d3e27175659',
             dependencies = ['cmake', 'zlib', 'ninja', ],
             )
 
