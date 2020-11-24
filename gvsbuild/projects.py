@@ -1708,8 +1708,8 @@ class Project_pango(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'pango',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.44/pango-1.44.7.tar.xz',
-            hash = '66a5b6cc13db73efed67b8e933584509f8ddb7b10a8a40c3850ca4a985ea1b1f',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/pango/1.48/pango-1.48.0.tar.xz',
+            hash = '391f26f3341c2d7053e0fb26a956bd42360dadd825efe7088b1e9340a65e74e6',
             dependencies = [
                 'ninja',
                 'meson',
@@ -1717,15 +1717,12 @@ class Project_pango(Tarball, Meson):
                 'harfbuzz',
                 'fribidi',
             ],
-            patches = [
-                '001-ignore-help2man.patch',
-            ],
             )
         if self.opts.enable_gi:
             self.add_dependency('gobject-introspection')
-            enable_gi = 'true'
+            enable_gi = 'enabled'
         else:
-            enable_gi = 'false'
+            enable_gi = 'disabled'
 
         self.add_param('-Dintrospection=%s' % (enable_gi, ))
 
