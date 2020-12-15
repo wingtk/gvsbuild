@@ -413,8 +413,8 @@ class Project_gdk_pixbuf(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'gdk-pixbuf',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.0.tar.xz',
-            hash = '73441338d1a901dc7a3940113cb0aac22776b2832f7eab8f8ec7ec5755adaec7',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.2.tar.xz',
+            hash = '83c66a1cfd591d7680c144d2922c5955d38b4db336d7cd3ee109f7bcf9afef15',
             dependencies = [
                 'ninja',
                 'pkg-config',
