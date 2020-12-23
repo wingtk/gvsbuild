@@ -1606,7 +1606,7 @@ class Project_nv_codec_headers(GitRepo, Project):
             'nv-codec-headers',
             repo_url = 'http://git.videolan.org/git/ffmpeg/nv-codec-headers.git',
             fetch_submodules = False,
-            tag = 'n9.0.18.1',
+            tag = 'n9.0.18.4',
             )
 
     def build(self):
