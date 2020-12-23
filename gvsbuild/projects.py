@@ -1080,8 +1080,8 @@ class Project_libepoxy(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'libepoxy',
-            archive_url = 'https://github.com/anholt/libepoxy/releases/download/1.5.3/libepoxy-1.5.3.tar.xz',
-            hash = '002958c5528321edd53440235d3c44e71b5b1e09b9177e8daf677450b6c4433d',
+            archive_url = 'https://github.com/anholt/libepoxy/releases/download/1.5.5/libepoxy-1.5.5.tar.xz',
+            hash = '261663db21bcc1cc232b07ea683252ee6992982276536924271535875f5b0556',
             dependencies = ['python', 'ninja', 'meson'],
             )
 
