@@ -909,19 +909,17 @@ class Project_gtksourceview3(Tarball, Project, _MakeGir):
             self.make_single_gir('gtksourceview', prj_dir='gtksourceview3')
 
 @project_add
-class Project_harfbuzz(Tarball, CmakeProject):
+class Project_harfbuzz(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'harfbuzz',
-            archive_url = 'https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.6.7.tar.xz',
-            hash = '49e481d06cdff97bf68d99fa26bdf785331f411614485d892ea4c78eb479b218',
+            archive_url = 'https://github.com/harfbuzz/harfbuzz/releases/download/2.7.2/harfbuzz-2.7.2.tar.xz',
+            hash = 'b8c048d7c2964a12f2c80deb6634dfc836b603dd12bf0d0a3df1627698e220ce',
             dependencies = ['python', 'freetype', 'pkg-config', 'glib'],
             )
 
     def build(self):
-        CmakeProject.build(self, cmake_params='-DHB_HAVE_FREETYPE=ON -DHB_HAVE_GLIB=ON -DHB_HAVE_GOBJECT=ON', use_ninja=True)
-
-        self.install_pc_files()
+        Meson.build(self)
         self.install(r'.\COPYING share\doc\harfbuzz')
 
 @project_add
