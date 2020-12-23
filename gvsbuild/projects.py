@@ -379,18 +379,18 @@ class Project_fontconfig(Tarball, Project):
         self.install(r'.\COPYING share\doc\fontconfig')
 
 @project_add
-class Project_freetype(Tarball, CmakeProject):
+class Project_freetype(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'freetype',
-            archive_url = 'https://download.savannah.gnu.org/releases/freetype/freetype-2.10.4.tar.xz',
-            hash = '86a854d8905b19698bbc8f23b860bc104246ce4854dcea8e3b0fb21284f75784',
+            archive_url = 'http://git.savannah.gnu.org/cgit/freetype/freetype2.git/snapshot/freetype2-0d5f1dd37c056b4460a460d16fd1fbb06740e891.tar.gz',
+            hash = 'e768fa19ac50bb87659370b75766ad6ca150c32c736a9dbf5980cbf9017067f6',
             dependencies = ['pkg-config', 'ninja', 'libpng'],
+            patches = ['0001-meson-in-shared-libraries-we-need-to-export-the-meth.patch'],
             )
 
     def build(self):
-        CmakeProject.build(self, cmake_params='-DWITH_ZLIB=ON -DWITH_PNG=ON -DDISABLE_FORCE_DEBUG_POSTFIX=ON -DBUILD_SHARED_LIBS=ON', use_ninja=True)
-        self.install_pc_files()
+        Meson.build(self)
         self.install(r'.\docs\LICENSE.TXT share\doc\freetype')
 
 @project_add

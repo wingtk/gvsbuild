@@ -1,0 +1,26 @@
+From 83839816f45445af332ef006adcb243de306afd8 Mon Sep 17 00:00:00 2001
+From: Ignacio Casal Quinteiro <qignacio@amazon.com>
+Date: Wed, 23 Dec 2020 11:15:31 +0100
+Subject: [PATCH] meson: in shared libraries we need to export the methods
+
+---
+ meson.build | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meson.build b/meson.build
+index c98fea632..db3bb0eda 100644
+--- a/meson.build
++++ b/meson.build
+@@ -302,6 +302,9 @@ ft2_sources += ftoption_h
+ # Studio does).
+ ft2_defines += ['-DFT2_BUILD_LIBRARY=1']
+ 
++if host_machine.system() == 'windows'
++  ft2_defines += ['-DDLL_EXPORT=1']
++endif
+ 
+ # Ensure that the `ftoption.h` file generated above will be used to build
+ # FreeType.  Unfortunately, and very surprisingly, configure_file() does not
+-- 
+2.17.1
+
