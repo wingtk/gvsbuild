@@ -482,7 +482,8 @@ class Project_glib(Tarball, Meson):
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.66/glib-2.66.3.tar.xz',
             hash = '79f31365a99cb1cc9db028625635d1438890702acde9e2802eae0acebcf7b5b1',
             dependencies = ['ninja', 'meson', 'pkg-config', 'gettext', 'libffi', 'zlib'],
-            patches = ['glib-package-installation-directory.patch'],
+            patches = ['glib-package-installation-directory.patch',
+                       '0001-Windows-fix-FD_READ-condition-flag-still-set-on-reco.patch'],
             )
 
     def build(self):
