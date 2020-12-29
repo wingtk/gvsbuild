@@ -479,8 +479,8 @@ class Project_glib(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'glib',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.66/glib-2.66.3.tar.xz',
-            hash = '79f31365a99cb1cc9db028625635d1438890702acde9e2802eae0acebcf7b5b1',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.66/glib-2.66.4.tar.xz',
+            hash = '97df8670e32f9fd4f7392b0980e661dd625012015d58350da1e58e343f4af984',
             dependencies = ['ninja', 'meson', 'pkg-config', 'gettext', 'libffi', 'zlib'],
             patches = ['glib-package-installation-directory.patch',
                        '0001-Windows-fix-FD_READ-condition-flag-still-set-on-reco.patch'],
