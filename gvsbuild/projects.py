@@ -919,6 +919,12 @@ class Project_harfbuzz(Tarball, Meson):
             dependencies = ['python', 'freetype', 'pkg-config', 'glib'],
             )
 
+        if Project.opts.enable_gi:
+            self.add_dependency('gobject-introspection')
+            self.add_param('-Dintrospection=enabled')
+        else:
+            self.add_param('-Dintrospection=disabled')
+
     def build(self):
         Meson.build(self)
         self.install(r'.\COPYING share\doc\harfbuzz')
