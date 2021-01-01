@@ -1233,6 +1233,7 @@ class Project_librsvg_legacy(Tarball, Project, _MakeGir):
 
         Project.__init__(self,
             'librsvg',
+            prj_dir='librsvg-legacy',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/librsvg/2.40/librsvg-2.40.20.tar.xz',
             hash = 'cff4dd3c3b78bfe99d8fcfad3b8ba1eee3289a0823c0e118d78106be6b84c92b',
             dependencies = ['libcroco', 'cairo', 'pango', 'gdk-pixbuf', 'gtk3'],
@@ -1253,7 +1254,7 @@ class Project_librsvg_legacy(Tarball, Project, _MakeGir):
             self.builder.mod_env('INCLUDE', '%s\\include\\gdk-pixbuf-2.0' % (self.builder.gtk_dir, ))
             self.builder.mod_env('INCLUDE', '%s\\include\\cairo' % (self.builder.gtk_dir, ))
 
-            self.make_single_gir('rsvg', prj_dir='librsvg')
+            self.make_single_gir('rsvg', prj_dir='librsvg-legacy')
 
         self.install(r'.\COPYING share\doc\librsvg')
 
