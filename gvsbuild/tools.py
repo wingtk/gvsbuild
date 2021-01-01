@@ -20,6 +20,7 @@ Default tools used to build the various projects
 """
 
 import os
+import shutil
 import sys
 import subprocess
 
@@ -246,7 +247,14 @@ class Tool_python(Tool):
             # install/update wheel
             cmd = py + ' -m pip install --upgrade wheel --no-warn-script-location'
             subprocess.check_call(cmd, shell=True)
-    
+
+            python3 = os.path.join(self.tool_path, 'python3.exe')
+            if not os.path.exists(python3):
+                # We create a python3.exe file so meson find our python and not some other 
+                # lying around (e.g. one from the Visual Studio installation ...)
+                log.log("Create python3 copy on '%s'" % (dest_dir, ))
+                shutil.copy(self.full_exe, python3)
+
             # Mark that we have done all
             with open(os.path.join(dest_dir, '.wingtk-extracted-file'), 'wt') as fo:
                 fo.write('%s\n' % (t_id, ))
