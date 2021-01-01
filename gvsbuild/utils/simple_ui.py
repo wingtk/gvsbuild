@@ -223,6 +223,16 @@ class Log(object):
             return
         print(msg)
 
+    """
+    Like message(...) but if the log capture is active is not printed on screen
+    """
+    def info(self, msg):
+        if self._output(msg):
+            return
+        if not self.capture:
+            print(msg)
+            
+
     def messages_dump(self, msgs, prt=False, err=None):
         if err is not None:
             if not err:

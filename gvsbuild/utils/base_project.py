@@ -159,10 +159,10 @@ class Project(object):
                     content = f.read()
                 new_content = content.replace(search, replace)
                 if content != new_content:
-                    log.message('File changed (%s)' % (src_full, ))
+                    log.info('File changed (%s)' % (src_full, ))
                     write = True
                 else:
-                    log.message('   same file (%s)' % (src_full, ))
+                    log.info('   same file (%s)' % (src_full, ))
                     write = copy
 
                 if write:
@@ -179,7 +179,7 @@ class Project(object):
         '''
         def _msbuild_ok(self, dir_part):
             full = os.path.join(self.build_dir, base_dir, dir_part, sln_file)
-            log.message("Checking for '%s'" % (full, ))
+            log.info("Checking for '%s'" % (full, ))
             return os.path.exists(full)
 
         def _msbuild_copy(self, org_path, org_platform, use_ver=True):
@@ -190,7 +190,7 @@ class Project(object):
             dst = os.path.join(self.build_dir, base_dir, dst_part)
             src = os.path.join(self.build_dir, base_dir, org_path);
             search, replace = self._msbuild_make_search_replace(org_platform)
-            log.message("Vs solution copy: '%s' -> '%s'" % (src, dst, ))
+            log.info("Vs solution copy: '%s' -> '%s'" % (src, dst, ))
             self._msbuild_copy_dir(dst, src, search, replace)
             return dst_part
 
