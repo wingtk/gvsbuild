@@ -619,9 +619,6 @@ class Project_gsettings_desktop_schemas(Tarball, Meson):
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gsettings-desktop-schemas/3.38/gsettings-desktop-schemas-3.38.0.tar.xz',
             hash = '5704c8266004b296036671f223c705dc046aa694a1b1abb87c67e7d2747a8c67',
             dependencies = ['meson', 'ninja', 'pkg-config', 'python', 'glib'],
-            patches = [
-                '0003-source-for-dll-in-windows.patch',
-                ],
             )
         if self.opts.enable_gi:
             self.add_dependency('gobject-introspection')
