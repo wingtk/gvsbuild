@@ -1279,6 +1279,9 @@ class Project_librsvg(Tarball, Project):
                 'pango',
                 'gdk-pixbuf',
             ],
+            patches = [
+                '0001-keep-cairo-dep.patch',
+            ],
             )
         if Project.opts.enable_gi:
             self.add_dependency('gobject-introspection')

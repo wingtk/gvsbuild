@@ -1,0 +1,12 @@
+diff -ru librsvg-cur/win32/rsvgpc.py librsvg-new/win32/rsvgpc.py
+--- librsvg-cur/win32/rsvgpc.py	Fri Sep 04 21:35:38 2020
++++ librsvg-new/win32/rsvgpc.py	Fri Jan 01 12:34:29 2021
+@@ -20,7 +20,7 @@
+     base_pc.setup(argv)
+     pkg_replace_items = {'@RSVG_API_MAJOR_VERSION@': rsvg_api_ver,
+                          '@RSVG_API_VERSION@': rsvg_api_ver,
+-                         ' cairo': '',
++#                         ' cairo': '',
+                          '-lm': '-lcairo'}
+ 
+     pkg_replace_items.update(base_pc.base_replace_items)
