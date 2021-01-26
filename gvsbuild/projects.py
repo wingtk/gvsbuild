@@ -1489,7 +1489,7 @@ class Project_libyuv(GitRepo, CmakeProject):
             'libyuv',
             repo_url = 'https://chromium.googlesource.com/libyuv/libyuv',
             fetch_submodules = False,
-            tag = None,
+            tag = '93b1b332cd60b56ab90aea14182755e379c28a80',
             dependencies = ['cmake', 'ninja', 'libjpeg-turbo', ],
             patches = [
                 '001-win-build.patch',
