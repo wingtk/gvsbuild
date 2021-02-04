@@ -1,0 +1,43 @@
+From d32d6026c9fb545ef608e4afd964ad0dae14bef5 Mon Sep 17 00:00:00 2001
+From: Qiuhao Li <Qiuhao.Li@outlook.com>
+Date: Wed, 3 Feb 2021 22:58:51 +0800
+Subject: [PATCH] tools: check whether converter->surface is NULL
+
+Fixes #3
+---
+ tools/gxps-print-converter.c | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
+
+diff --git a/tools/gxps-print-converter.c b/tools/gxps-print-converter.c
+index a4f2e13..554b990 100644
+--- a/tools/gxps-print-converter.c
++++ b/tools/gxps-print-converter.c
+@@ -210,14 +210,17 @@ static void
+ gxps_converter_print_converter_end_document (GXPSConverter *converter)
+ {
+         GXPSPrintConverter *print_converter = GXPS_PRINT_CONVERTER (converter);
+-        cairo_status_t      status;
+-
+-        cairo_surface_finish (converter->surface);
+-        status = cairo_surface_status (converter->surface);
+-        if (status)
+-                g_printerr ("Cairo error: %s\n", cairo_status_to_string (status));
+-        cairo_surface_destroy (converter->surface);
+-        converter->surface = NULL;
++
++        if (converter->surface) {
++                cairo_status_t status;
++
++                cairo_surface_finish (converter->surface);
++                status = cairo_surface_status (converter->surface);
++                if (status)
++                        g_printerr ("Cairo error: %s\n", cairo_status_to_string (status));
++                cairo_surface_destroy (converter->surface);
++                converter->surface = NULL;
++        }
+ 
+         g_free (print_converter->filename);
+         print_converter->filename = NULL;
+-- 
+2.17.1
+
