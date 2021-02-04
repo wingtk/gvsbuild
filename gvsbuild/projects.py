@@ -1338,6 +1338,7 @@ class Project_libsoup(Tarball, Meson):
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.72/libsoup-2.72.0.tar.xz',
             hash = '170c3f8446b0f65f8e4b93603349172b1085fb8917c181d10962f02bb85f5387',
             dependencies = ['libxml2', 'glib-networking', 'sqlite', 'libpsl', 'mit-kerberos'],
+            patches = ['0001-Improve-support-for-rfc-7230.patch'],
             )
 
         if self.opts.enable_gi:
