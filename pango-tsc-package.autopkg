@@ -1,0 +1,74 @@
+configurations {
+    Toolset {
+        key : "PlatformToolset";
+        choices: { v141 };
+    };
+}
+
+nuget
+{
+   nuspec
+   {
+      id = pango-tsc-package;
+      version: 6.0.0.0;
+      title: Pango Library;
+      authors: { TechSmith Corporation, GNU };
+      owners: { TechSmith Corporation };
+      licenseUrl: "http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html";
+      projectUrl: "https://github.com/TechSmith/gtk-win32";
+      iconUrl: "http://www.techsmith.com/favicon.ico";
+      requireLicenseAcceptance: false;
+      summary: GTK Libraries ;
+      description: @"Third party cross-platform library containing pre-built libs for pango and its dependencies of cairo, fontconfig, freetype, and other GTK libs
+        6.0.0.0: Update to latest GTK libs and Visual Studio 2019
+        5.1.0.0: Updates for Visual Studio 2017";
+      copyright: "";
+      tags: { native, tsc, pango, cairo, fontconfig, freetype, vs2019 };
+   };
+
+   files
+   {
+      fontconfigInclude: { #destination = ${d_include}fontconfig;  gtk\x64\release\include\fontconfig\**; };
+      freetypeInclude: { #destination = ${d_include}freetype;      gtk\x64\release\include\freetype2\freetype\**; };
+      glibInclude:    { #destination = ${d_include}glib;    gtk\x64\release\include\glib-2.0\glib\**;   };
+      gobjectInclude: { #destination = ${d_include}gobject; gtk\x64\release\include\glib-2.0\gobject\**;   };
+      gioInclude:     { #destination = ${d_include}gio;     gtk\x64\release\include\glib-2.0\gio\**;   };
+      pangoInclude: { #destination = ${d_include}pango;     gtk\x64\release\include\pango-1.0\pango\**h; };
+      
+      Include: { #destination = ${d_include}; gtk\x64\release\include\*.h;
+                                              gtk\x64\release\include\cairo\*.h;
+                                              gtk\x64\release\include\freetype2\*.h;
+                                              gtk\x64\release\include\harfbuzz\*.h;
+                                              gtk\x64\release\include\glib-2.0\*.h;
+                                              gtk\x64\release\lib\glib-2.0\include\glibconfig.h;    };
+
+      [x64]
+      {
+         lib:   { gtk\x64\release\lib\*.lib;
+                }
+
+         bin:   { gtk\x64\release\bin\*.dll;
+                  gtk\x64\release\bin\*.pdb;
+                }
+      };
+   };
+
+   props
+   {
+      // Additional declarations to insert into consuming projects before most of the
+      // project settings. (These may be modified in visual studio by a developer
+      // consuming this package.)
+      // This node is typically not needed for most packages and may be omitted.
+   }
+
+   targets
+   {
+      // Additional declarations to insert into consuming projects after most of the
+      // project settings. (These may NOT be modified in visual studio by a developer
+      // consuming this package.)
+      // This node is often used to set defines that are required that must be set by
+      // the consuming project in order to correctly link to the libraries in this
+      // package.  Such defines may be set either globally or only set under specific
+      // conditions.
+   }
+}

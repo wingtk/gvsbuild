@@ -1,3 +1,5 @@
+For TechSmith specific instructions, see the [wiki](https://github.com/TechSmith/gtk-win32/wiki)
+
 ## Goals
 
 This python script helps you build a full GTK+ library stack for Windows using Visual Studio.

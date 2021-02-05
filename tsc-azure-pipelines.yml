@@ -1,0 +1,97 @@
+jobs:
+  - job: PangoNugetPackage
+    timeoutInMinutes: 90
+    variables:
+      CACHE_DIR: $(Pipeline.Workspace)\_download_cache
+      MSYS2_ROOT: $(System.Workfolder)\msys64
+      BUILD_DIR: $(System.Workfolder)\gtk-build
+      NUGET_FILE: pango-tsc-package.autopkg
+      PYTHONUNBUFFERED: 1
+      VS_VER: "16"
+      PLATFORM: "x64"
+      ARTIFACT_PATH: "gtk/x64/release"
+      VstsFeed: TechSmithVSTS
+    pool:
+      vmImage: windows-2019
+    steps:
+      # Reset Cache
+      - task: Cache@2
+        inputs:
+          key: 'mycache | $(Build.SourceVersion)'
+          restoreKeys: |
+            mycache
+          path: $(CACHE_DIR)
+
+      # Pick Python Version, needed for gvsbuild to work
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: '3.7'
+
+      # The git directory contains cygwin binaries conflicting with MSYS2
+      - script: |
+          rmdir "C:\Program Files\Git" /s /q
+        displayName: Remove GIT
+
+      # Install coapp  
+      - powershell: |
+          $msiPath = "$(System.Workfolder)\CoApp.Tools.Powershell.msi"
+          (new-object net.webclient).DownloadFile('http://coapp.org/files/CoApp.Tools.Powershell.msi', $msiPath)
+          Start-Process -FilePath msiexec -ArgumentList /i, $msiPath, /quiet -Wait
+        displayName: Install coapp            
+
+      # Install MYSYS2
+      - script: |
+          choco config set cacheLocation %CACHE_DIR%
+          choco install --no-progress msys2 -y --params="/InstallDir:%MSYS2_ROOT% /NoPath"
+        displayName: Install MSYS2
+
+      # Run gvsbuild
+      - script: |
+          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%CACHE_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --enable-gi --py-wheel --py-egg --python-ver 3.7 pango
+        displayName: gvsbuild
+
+      # Create Nuget Package
+      - powershell: |
+          Copy-Item "$(NUGET_FILE)" -Destination "$(BUILD_DIR)"
+          cd "$(BUILD_DIR)"
+          
+          # This is needed for the coapp tools to work
+          $env:PSModulePath = $env:PSModulePath + ';C:\Program Files (x86)\Outercurve Foundation\Modules'
+          Import-Module CoApp
+          
+          Write-NuGetPackage $(NUGET_FILE)
+        displayName: Nuget         
+        
+      # Create Zip  
+#      - task: ArchiveFiles@2
+#        displayName: Archive release
+#        inputs:
+#          rootFolderOrFile: $(BUILD_DIR)\$(ARTIFACT_PATH)
+#          includeRootFolder: false
+#          archiveFile: '$(Build.ArtifactStagingDirectory)/gvsbuild-vs$(VS_VER)-$(PLATFORM).zip'
+
+      # Stage nuget files  
+      - powershell: |
+          # Remove the symbols nupkg file since the pdbs are in the redist package
+          Remove-Item $(BUILD_DIR)\*.symbols.*.nupkg
+          Copy-Item -Path "$(BUILD_DIR)\*.nupkg" -Destination "$(Build.ArtifactStagingDirectory)"          
+        displayName: Stage Nuget Files  
+                    
+      # Publish Artifacts    
+      - task: PublishBuildArtifacts@1
+        displayName: Publish Artifacts
+        inputs:
+          pathToPublish: $(Build.ArtifactStagingDirectory)
+          artifactName: GtkBuildOutputs
+          
+      # Push Nuget Package    
+      - task: DotNetCoreCLI@2
+        displayName: Push nuget package
+        # Only publish nuget package if pipeline is manually run
+        condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'))
+        inputs:
+          command: push
+          nuGetFeedType: internal
+          packagesToPush: $(Build.ArtifactStagingDirectory)/*.nupkg
+          publishVstsFeed: $(VstsFeed) 
+          
