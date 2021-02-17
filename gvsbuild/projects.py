@@ -1630,8 +1630,8 @@ class Project_openssl(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'openssl',
-            archive_url = 'https://www.openssl.org/source/openssl-1.1.1i.tar.gz',
-            hash = 'e8be6a35fe41d10603c3cc635e93289ed00bf34b79671a3a4de64fcee00d5242',
+            archive_url = 'https://www.openssl.org/source/openssl-1.1.1j.tar.gz',
+            hash = 'aaf2fcb575cdf6491b98ab4829abf78a3dec8402b8b81efc8f23c00d443981bf',
             dependencies = ['perl', 'nasm', 'msys2', ],
             )
 
