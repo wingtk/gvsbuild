@@ -639,8 +639,8 @@ class Project_gstreamer(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'gstreamer',
-            archive_url = 'https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.18.2.tar.xz',
-            hash = '66cdeb4f970c2e55932a2f427177d438fe2c55c0b6d29e80fda80263f2ae5446',
+            archive_url = 'https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.18.3.tar.xz',
+            hash = '0c2e09e18f2df69a99b5cb3bd53c597b3cc2e35cf6c98043bb86a66f3d312100',
             dependencies = ['meson', 'ninja', 'glib', 'orc'],
             )
 
@@ -663,8 +663,8 @@ class Project_gst_plugins_base(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'gst-plugins-base',
-            archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.18.2.tar.xz',
-            hash = 'dd04fb1f7826e2f6d9b4d66fc22f19cc6a47c301e13041f0ee3d7f65c89b05ac',
+            archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.18.3.tar.xz',
+            hash = 'dbfa20283848f0347a223dd8523dfb62e09e5220b21b1d157a8b0c8b67ba9f52',
             dependencies = ['meson', 'ninja', 'gtk3', 'gstreamer', 'opus'],
             )
 
@@ -677,8 +677,8 @@ class Project_gst_plugins_good(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'gst-plugins-good',
-            archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.18.2.tar.xz',
-            hash = 'f71752dde434d9ec55fa5e8d2e2a3be3fc6eb5b34f397b065f84aead25b449a4',
+            archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.18.3.tar.xz',
+            hash = '9b3b8e05d4d6073bf929fb33e2d8f74dd81ff21fa5b50c3273c78dfa2ab9c5cb',
             dependencies = ['meson', 'ninja', 'glib', 'gstreamer', 'gst-plugins-base', 'libvpx'],
             )
 
@@ -691,8 +691,8 @@ class Project_gst_plugins_bad(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'gst-plugins-bad',
-            archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.2.tar.xz',
-            hash = '8ad5822f1118fe46a19af54422b74e3a16d79a6800dcb173b49e199a496b341a',
+            archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.3.tar.xz',
+            hash = 'b7e34b6b86272588fbd8b314dadfa6ceff895198cfb59e2950378e9e31ff22e0',
             dependencies = ['meson', 'ninja', 'glib', 'gstreamer', 'gst-plugins-base'],
             )
         self.add_param('-Dcurl=disabled')
