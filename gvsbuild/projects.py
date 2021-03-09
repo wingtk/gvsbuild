@@ -186,9 +186,9 @@ class Project_dcv_color_primitives(Tarball, Meson):
     def __init__(self):
         Meson.__init__(self,
             'dcv-color-primitives',
-            archive_url = 'https://github.com/aws/dcv-color-primitives/archive/v0.1.17.tar.gz',
-            archive_file_name = 'dcv-color-primitives-0.1.17.tar.gz',
-            hash = '390305bc3e0eeecfcfcd2e0c6db803ce9c733fa9c1b645ff44b89eddce8d490f',
+            archive_url = 'https://github.com/aws/dcv-color-primitives/archive/v0.2.0.tar.gz',
+            archive_file_name = 'dcv-color-primitives-0.2.0.tar.gz',
+            hash = 'c492e69ef1b7117317e75fb2570ca9ad55be2cc3c55adc3806277e02a3898a29',
             dependencies = ['ninja', 'meson', 'pkg-config', 'cargo'],
             )
 
