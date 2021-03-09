@@ -1117,11 +1117,9 @@ class Project_libgxps(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'libgxps',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libgxps/0.3/libgxps-0.3.1.tar.xz',
-            hash = '1a939fc8fcea9471b7eca46b1ac90cff89a30d26f65c7c9a375a4bf91223fa94',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libgxps/0.3/libgxps-0.3.2.tar.xz',
+            hash = '6d27867256a35ccf9b69253eb2a88a32baca3b97d5f4ef7f82e3667fa435251c',
             dependencies = ['meson', 'ninja', 'pkg-config', 'glib', 'libarchive', 'cairo', 'libpng', 'libjpeg-turbo', 'libtiff-4', 'gtk3', ],
-            patches = ['0001-add-support-to-wdp-images-on-windows.patch',
-                       '0001-tools-check-whether-converter-surface-is-NULL.patch'],
             )
         if self.opts.enable_gi:
             self.add_dependency('gobject-introspection')
