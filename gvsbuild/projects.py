@@ -911,8 +911,8 @@ class Project_harfbuzz(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'harfbuzz',
-            archive_url = 'https://github.com/harfbuzz/harfbuzz/releases/download/2.7.2/harfbuzz-2.7.2.tar.xz',
-            hash = 'b8c048d7c2964a12f2c80deb6634dfc836b603dd12bf0d0a3df1627698e220ce',
+            archive_url = 'https://github.com/harfbuzz/harfbuzz/releases/download/2.7.4/harfbuzz-2.7.4.tar.xz',
+            hash = '6ad11d653347bd25d8317589df4e431a2de372c0cf9be3543368e07ec23bb8e7',
             dependencies = ['python', 'freetype', 'pkg-config', 'glib'],
             )
 
