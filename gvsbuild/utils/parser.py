@@ -250,7 +250,7 @@ Examples:
                                "16299, 17134 or 17763 " +
                                "depending on the VS version / installation's options. " +
                                "If you don't specify one the scripts tries to locate the used one to pass the value to the msbuild command.")
-    p_build.add_argument('--python-ver', default='3.7',
+    p_build.add_argument('--python-ver', default='3.9',
                          help='Python version to download and use for the build (3.7, 3.6, 3.5 or the exact one, 3.5.2.1 or 3.8.0-a3.')
     p_build.add_argument('--python-dir', default=None,
                          help="The directory containing the python you want to use for the build of the projects (not the one used to run the script).")

@@ -200,9 +200,11 @@ class Tool_python(Tool):
         elif version == '3.6':
             version = '3.6.8'
         elif version == '3.7':
-            version = '3.7.7'
+            version = '3.7.9'
         elif version == '3.8':
-            version = '3.8.2'
+            version = '3.8.8'
+        elif version == '3.9':
+            version = '3.9.2'
 
         if self.opts.x86:
             name = 'pythonx86'
@@ -238,6 +240,8 @@ class Tool_python(Tool):
     
             # Update pip
             cmd = py + ' -m pip install --upgrade pip'
+            if version >= '3.6':
+                cmd += ' --no-warn-script-location'
             subprocess.check_call(cmd, shell=True)
     
             # update setuptools (to use vs2017 with python 3.5)
