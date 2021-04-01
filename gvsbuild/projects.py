@@ -564,20 +564,19 @@ class Project_gobject_introspection(Tarball, Meson):
         Meson.build(self, meson_params='-Dpython=%s\\python.exe -Dcairo_libname=cairo-gobject.dll' % (py_dir, ))
 
 @project_add
-class Project_graphene(GitRepo, Meson):
+class Project_graphene(Tarball, Meson):
     def __init__(self):
         Meson.__init__(self,
             'graphene',
-            repo_url = 'https://github.com/ebassi/graphene',
-            fetch_submodules = False,
-            tag = None,
+            archive_url = 'https://github.com/ebassi/graphene/archive/refs/tags/1.10.4.tar.gz',
+            hash = 'd73861aceda1adf13c1fbb588ce8a3b4f632bd8d41e4635d4c70e00595d85c4d',
             dependencies = ['ninja', 'meson', 'pkg-config', 'glib'],
             )
         if self.opts.enable_gi:
             self.add_dependency('gobject-introspection')
-            enable_gi = 'true'
+            enable_gi = 'enabled'
         else:
-            enable_gi = 'false'
+            enable_gi = 'disabled'
 
         self.add_param('-Dbenchmarks=false')
         self.add_param('-Dintrospection=%s' % (enable_gi, ))
