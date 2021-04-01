@@ -87,11 +87,11 @@ class Tool_meson(Tool):
     def __init__(self):
         Tool.__init__(self,
             'meson',
-            archive_url = 'https://github.com/mesonbuild/meson/archive/fd6585ecc41e1c731224cac08a3f6ef6f49ab184.zip',
-            archive_file_name = 'meson-fd6585ecc41e1c731224cac08a3f6ef6f49ab184.zip',
-            hash = '0da3de7f9354aa2819dd5851ce5137ab47c41cf6c739d59bab10223b50fcb6cf',
+            archive_url = 'https://github.com/mesonbuild/meson/archive/refs/tags/0.57.1.tar.gz',
+            archive_file_name = 'meson-0.57.1.tar.gz',
+            hash = '0c043c9b5350e9087cd4f6becf6c0d10b1d618ca3f919e0dcca2cdf342360d5d',
             dependencies = [ 'python', ],
-            dir_part = 'meson-fd6585ecc41e1c731224cac08a3f6ef6f49ab184',
+            dir_part = 'meson-0.57.1',
             exe_name = 'meson.py')
 
     def unpack(self):
