@@ -861,8 +861,8 @@ class Project_gtk3_24(Tarball, Meson):
         Project.__init__(self,
             'gtk3',
             prj_dir='gtk3-24',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.24/gtk+-3.24.26.tar.xz',
-            hash = '2cc1b2dc5cad15d25b6abd115c55ffd8331e8d4677745dd3ce6db725b4fff1e9',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.24/gtk+-3.24.28.tar.xz',
+            hash = 'b04e09763367f1ce932cd2ee3a359d4de150e1c38e7bef7d29aa72557a6b47c6',
             dependencies = ['atk', 'gdk-pixbuf', 'pango', 'libepoxy'],
             patches = [
                 'gtk_update_icon_cache.patch',
