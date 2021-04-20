@@ -1521,7 +1521,7 @@ class Project_lmdb(GitRepo, Meson):
             'lmdb',
             repo_url = 'https://github.com/wingtk/lmdb.git',
             fetch_submodules = False,
-            tag = 'meson',
+            tag = 'mdb.RE/0.9-meson',
             dependencies = [
                 'ninja',
                 'meson',
