@@ -1422,8 +1422,8 @@ class Project_libvpx(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'libvpx',
-            archive_url = 'https://github.com/webmproject/libvpx/archive/v1.9.0.tar.gz',
-            hash = 'd279c10e4b9316bf11a570ba16c3d55791e1ad6faa4404c67422eb631782c80a',
+            archive_url = 'https://github.com/webmproject/libvpx/archive/v1.10.0.tar.gz',
+            hash = '85803ccbdbdd7a3b03d930187cb055f1353596969c1f92ebec2db839fa4f834a',
             dependencies = ['yasm', 'msys2', 'libyuv', 'perl'],
             patches = ['0006-gen_msvs_vcxproj.sh-Select-current-Windows-SDK-if-av.patch',
                        '0001-Always-generate-pc-file.patch'],
