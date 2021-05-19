@@ -43,16 +43,10 @@ jobs:
       - script: |
           python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%CACHE_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --enable-gi --py-wheel --py-egg --python-ver 3.7 glib
         displayName: gvsbuild
-      - task: ArchiveFiles@2
-        displayName: Archive release
-        inputs:
-          rootFolderOrFile: $(BUILD_DIR)\$(ARTIFACT_PATH)
-          includeRootFolder: false
-          archiveFile: '$(Build.ArtifactStagingDirectory)/gvsbuild-vs$(VS_VER)-$(PLATFORM).zip'
       - task: PublishBuildArtifacts@1
         displayName: Publish packages
         inputs:
-          pathtoPublish: '$(Build.ArtifactStagingDirectory)/gvsbuild-vs$(VS_VER)-$(PLATFORM).zip'
+          pathtoPublish: $(BUILD_DIR)\$(ARTIFACT_PATH)
           artifactName: gvsbuild-vs$(VS_VER)-$(PLATFORM)
 
   - job: vs2017
@@ -101,14 +95,8 @@ jobs:
           python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%CACHE_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --fast-build --clean-built --py-wheel --py-egg --python-ver 3.6 pycairo pygobject
           python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%CACHE_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --fast-build --clean-built --py-wheel --py-egg --python-ver 3.5 pycairo pygobject
         displayName: gvsbuild
-      - task: ArchiveFiles@2
-        displayName: Archive release
-        inputs:
-          rootFolderOrFile: $(BUILD_DIR)\$(ARTIFACT_PATH)
-          includeRootFolder: false
-          archiveFile: '$(Build.ArtifactStagingDirectory)/gvsbuild-vs$(VS_VER)-$(PLATFORM).zip'
       - task: PublishBuildArtifacts@1
         displayName: Publish packages
         inputs:
-          pathtoPublish: '$(Build.ArtifactStagingDirectory)/gvsbuild-vs$(VS_VER)-$(PLATFORM).zip'
+          pathtoPublish: $(BUILD_DIR)\$(ARTIFACT_PATH)
           artifactName: gvsbuild-vs$(VS_VER)-$(PLATFORM)
