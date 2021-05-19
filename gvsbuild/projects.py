@@ -2142,3 +2142,4 @@ class Project_boringssl(GitRepo, CmakeProject):
         self.install(r'.\_gvsbuild-cmake\ssl.lib lib')
         self.install(r'.\_gvsbuild-cmake\crypto.lib lib')
         self.install(r'.\LICENSE share\doc\boringssl')
+        self.install(r'.\src\include\openssl\* include\boringssl\openssl')
