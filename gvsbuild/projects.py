@@ -2131,7 +2131,7 @@ class Project_boringssl(GitRepo, CmakeProject):
             'boringssl',
             repo_url='https://github.com/google/boringssl.git',
             fetch_submodules=False,
-            tag='197254b8c2839df603d3968cbf6901102dc715a0', #commit from master-with-bazel branch
+            tag='067cfd92f4d7da0edfa073b096d090b98a83b860', #commit from master-with-bazel branch
             dependencies=['cmake', 'go', 'perl', 'nasm', 'ninja'],
         )
 
