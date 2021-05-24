@@ -1,0 +1,47 @@
+diff --git a/BUILD.gn b/BUILD.gn
+index f27a2f4c1..95eff4106 100644
+--- a/BUILD.gn
++++ b/BUILD.gn
+@@ -140,7 +140,7 @@ group("pdfium_public_headers") {
+   ]
+ }
+ 
+-component("pdfium") {
++shared_library("pdfium") {
+   libs = []
+   configs += [ ":pdfium_core_config" ]
+   public_configs = [ ":pdfium_public_config" ]
+@@ -179,6 +179,9 @@ component("pdfium") {
+       "gdi32.lib",
+       "user32.lib",
+     ]
++    sources = [
++      "resources.rc"
++    ]
+   }
+ 
+   if (is_mac) {
+diff --git a/public/fpdfview.h b/public/fpdfview.h
+index 901d7db14..cb0a596f6 100644
+--- a/public/fpdfview.h
++++ b/public/fpdfview.h
+@@ -175,9 +175,6 @@ typedef int FPDF_ANNOT_APPEARANCEMODE;
+ // Dictionary value types.
+ typedef int FPDF_OBJECT_TYPE;
+ 
+-#if defined(COMPONENT_BUILD)
+-// FPDF_EXPORT should be consistent with |export| in the pdfium_fuzzer
+-// template in testing/fuzzers/BUILD.gn.
+ #if defined(WIN32)
+ #if defined(FPDF_IMPLEMENTATION)
+ #define FPDF_EXPORT __declspec(dllexport)
+@@ -191,9 +188,6 @@ typedef int FPDF_OBJECT_TYPE;
+ #define FPDF_EXPORT
+ #endif  // defined(FPDF_IMPLEMENTATION)
+ #endif  // defined(WIN32)
+-#else
+-#define FPDF_EXPORT
+-#endif  // defined(COMPONENT_BUILD)
+ 
+ #if defined(WIN32) && defined(FPDFSDK_EXPORTS)
+ #define FPDF_CALLCONV __stdcall
