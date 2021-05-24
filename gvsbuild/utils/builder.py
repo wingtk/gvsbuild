@@ -575,27 +575,10 @@ class Builder(object):
         """
         Build one project, return True if skipped
         """
+
         # Check if we update the tarball / git
         proj.builder = self
         self.__project = proj
-        proj.prepare_build_dir()
-        proj.export()
-
-        if self.opts.fast_build and not proj.clean:
-            t = proj.mark_file_exist()
-            if t:
-                log.message("Fast build:skipping project %s, built @ %s" % (proj.name, t, ))
-                proj.builder = None
-                self.__project = None
-                return True
-
-        proj.mark_file_remove()
-        log.start("Building project %s (%s)" % (proj.name, proj.version, ))
-        script_title('%s (%s)' % (proj.name, proj.version, ))
-
-        proj.pkg_dir = proj.build_dir + "-rel"
-        shutil.rmtree(proj.pkg_dir, ignore_errors=True)
-        os.makedirs(proj.pkg_dir)
 
         # Original path, converted to list
         paths = self.vs_env['PATH'].split(';')
@@ -619,6 +602,26 @@ class Builder(object):
 
         # Make the (eventually) new path
         self.vs_env['PATH'] = ';'.join(paths)
+
+        proj.prepare_build_dir()
+        proj.export()
+
+        if self.opts.fast_build and not proj.clean:
+            t = proj.mark_file_exist()
+            if t:
+                log.message("Fast build:skipping project %s, built @ %s" % (proj.name, t, ))
+                proj.builder = None
+                self.__project = None
+                return True
+
+        proj.mark_file_remove()
+        log.start("Building project %s (%s)" % (proj.name, proj.version, ))
+        script_title('%s (%s)' % (proj.name, proj.version, ))
+
+        proj.pkg_dir = proj.build_dir + "-rel"
+        shutil.rmtree(proj.pkg_dir, ignore_errors=True)
+        os.makedirs(proj.pkg_dir)
+
 
         proj.patch()
         skip_deps = proj.build()
