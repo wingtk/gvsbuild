@@ -64,6 +64,22 @@ class Tool_cargo(Tool):
         
         self.mark_deps = True
 
+@tool_add
+class Tool_depot(Tool):
+    def __init__(self):
+        Tool.__init__(self,
+            'depot',
+            archive_url = 'https://storage.googleapis.com/chrome-infra/depot_tools.zip',
+            dir_part = 'depot_tools')
+
+    def load_defaults(self):
+        Tool.load_defaults(self)
+        self.add_extra_env('DEPOT_TOOLS_WIN_TOOLCHAIN', '0')
+
+    def unpack(self):
+        self.tool_path = os.path.join(self.opts.tools_root_dir, "depot_tools")
+        self.mark_deps = extract_exec(self.archive_file, self.tool_path, dir_part=self.dir_part, check_file = None, check_mark=True)
+
 
 @tool_add
 class Tool_cmake(Tool):
