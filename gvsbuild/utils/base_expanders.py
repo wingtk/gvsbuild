@@ -245,6 +245,29 @@ class MercurialRepo(object):
         self.exec_cmd('hg pull -u', working_dir=self.build_dir)
         log.end()
 
+class GClientRepo(object):
+    def unpack(self):
+        log.start('(gclient) Cloning %s to %s' % (self.repo_url, self.build_dir))
+        os.mkdir(self.build_dir)
+        self.push_location(self.build_dir)
+        self.exec_vs(r'gclient config --unmanaged %s' % (self.repo_url))
+        self.exec_vs(r'gclient sync')
+        self.push_location(self.name)
+        self.exec_vs(r'git.exe checkout %s' % (self.tag, ))
+        self.exec_vs(r'gclient sync')
+        self.exec_vs(r'mkdir out')
+        log.end()
+
+    def update_build_dir(self):
+        log.start('(gclient) Updating directory %s' % (self.build_dir,))
+        rmtree_full(self.build_dir, retry=True)
+        self.unpack()
+        log.end()
+        return True
+
+    def export(self):
+       pass
+
 class GitRepo(object):
     def read_temp_hash(self):
         return read_mark_file(self.opts.git_expand_dir, self.name + '.hash')
