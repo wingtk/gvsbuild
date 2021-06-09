@@ -358,6 +358,7 @@ class Builder(object):
                 output = self.__check_vs_single(opts, os.path.join(opts.vs_install_path, part), False)
                 if output:
                     log.log("Found '%s'" % (part, ))
+                    self.vs_install_path = os.path.join(opts.vs_install_path, part)
                     break
 
             if not output:
@@ -365,6 +366,7 @@ class Builder(object):
                 self.__dump_vs_loc();
                 log.error_exit("\n  Visual Studio startup batch could not be found.\n  Please check you have Visual Studio installed under '%s\\[Professional|BuildTools|Community|...]'\n  and that it supports the target platform '%s'." % (opts.vs_install_path, opts.platform, ))
         else:
+            self.vs_install_path = opts.vs_install_path
             output = self.__check_vs_single(opts, opts.vs_install_path, True)
 
         self.vs_env = {}
@@ -719,6 +721,9 @@ class Builder(object):
         return hash_calc.hexdigest()
 
     def __check_hash(self, proj):
+        if proj.skip_hash:
+            log.message("Skipping hash check for project '%s'" % (proj.name, ))
+            return False
         if hasattr(proj, 'hash'):
             hc = self.__hashfile(proj.archive_file)
             if hc != proj.hash:
@@ -833,7 +838,7 @@ class Builder(object):
         except (ssl.SSLError, URLError) as e:
             print("Exception downloading file '%s'" % (proj.archive_url, ))
             print(e)
-            if hasattr(proj, 'hash'):
+            if hasattr(proj, 'hash') or proj.skip_hash:
                 self._old_perc = -1
                 self._old_print = 0
                 self.urlretrieve(proj.archive_url, proj.archive_file, self.__download_progress, ssl_ignore_cert=True)

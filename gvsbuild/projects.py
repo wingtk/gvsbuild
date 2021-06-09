@@ -423,10 +423,11 @@ class Project_pdfium(GClientRepo, Project):
             )
 
     def build(self):
-        self.exec_vs(r'cp ..\resources.rc .')
-        self.exec_vs(r'cp ..\args.gn out')
+        self.copy2(os.path.join('..','resources.rc'), '.')
+        self.copy2(os.path.join('..', 'args.gn'), 'out')
         if self.builder.x86:
             self.exec_vs(r'echo target_cpu="x86" >> out\args.gn')
+        self.builder.mod_env(f'{self.builder.vs_ver_year}_install', self.builder.vs_install_path)
         self.exec_vs(r'gn gen out')
         self.exec_vs(r'ninja -C out pdfium')
 

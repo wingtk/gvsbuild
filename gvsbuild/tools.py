@@ -70,6 +70,7 @@ class Tool_depot(Tool):
         Tool.__init__(self,
             'depot',
             archive_url = 'https://storage.googleapis.com/chrome-infra/depot_tools.zip',
+            skip_hash = True,
             dir_part = 'depot_tools')
 
     def load_defaults(self):

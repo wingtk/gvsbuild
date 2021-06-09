@@ -52,6 +52,7 @@ class Project(object):
         self.patches = []
         self.subproject_patches = {}
         self.archive_url = None
+        self.skip_hash = False
         self.archive_file_name = None
         self.tarbomb = False
         self.type = GVSBUILD_NONE
@@ -233,6 +234,11 @@ class Project(object):
         self.exec_msbuild(cmd, configuration, add_path)
         return part
 
+    def copy2(self, src, dest):
+        src = os.path.join(self._get_working_dir(), src)
+        dest = os.path.join(self._get_working_dir(), dest)
+        shutil.copy2(src, dest)
+
     def install(self, *args):
         self.builder.install(self._get_working_dir(), self.pkg_dir, *args)
 
@@ -240,7 +246,6 @@ class Project(object):
         if not dest:
             dest = os.path.basename(src)
         self.builder.install_dir(self._get_working_dir(), self.pkg_dir, src, dest)
-
 
     def install_pc_files(self, base_dir='pc-files'):
         '''
