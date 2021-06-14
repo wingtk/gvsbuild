@@ -432,7 +432,8 @@ class Project_pdfium(GClientRepo, Project):
         self.exec_vs(r'ninja -C out pdfium')
 
         self.install_dir(r'public', r'include\pdfium')
-        self.install(r'out\pdfium.dll.lib', r'lib\pdfium.lib')
+        self.install(r'out\pdfium.dll.lib', r'lib\pdfium')
+        self.install(r'out\pdfium.dll', r'lib\pdfium')
 
 @project_add
 class Project_gdk_pixbuf(Tarball, Meson):
