@@ -395,6 +395,21 @@ class Project_freetype(Tarball, Meson):
         self.install(r'.\docs\LICENSE.TXT share\doc\freetype')
 
 @project_add
+class Project_freerdp(Tarball, CmakeProject):
+    def __init__(self):
+        Project.__init__(self,
+            'freerdp',
+            archive_url = 'https://github.com/FreeRDP/FreeRDP/releases/download/2.3.2/freerdp-2.3.2.tar.gz',
+            hash = 'deb888034a441c7f76dc8b3ddea67fac3c0d815739fc2146e1243480ce56c91c',
+            dependencies = ['cmake', 'ninja', 'openssl', 'openh264', ],
+            )
+
+    def build(self):
+        CmakeProject.build(self, use_ninja=True, cmake_params='-DWITH_SSE2=ON -DCHANNEL_URBDRC=OFF')
+
+        self.install(r'.\LICENSE share\doc\freerdp')
+
+@project_add
 class Project_fribidi(GitRepo, Meson):
     def __init__(self):
         Project.__init__(self,
