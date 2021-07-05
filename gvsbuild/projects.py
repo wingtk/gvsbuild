@@ -1623,6 +1623,25 @@ class Project_nv_codec_headers(GitRepo, Project):
         self.exec_vs(r'make install PREFIX="%(gtk_dir)s"', add_path=add_path)
 
 @project_add
+class Project_openh264(Tarball, Meson):
+    def __init__(self):
+        Project.__init__(self,
+            'openh264',
+            archive_url = 'https://github.com/cisco/openh264/archive/refs/tags/v2.1.1.tar.gz',
+            archive_file_name = 'openh264-2.1.1.tar.gz',
+            hash = 'af173e90fce65f80722fa894e1af0d6b07572292e76de7b65273df4c0a8be678',
+            dependencies = [
+                'ninja',
+                'meson',
+                'nasm',
+            ],
+            )
+
+    def build(self):
+        Meson.build(self)
+        self.install(r'LICENSE share\doc\openh264')
+
+@project_add
 class Project_openssl(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
