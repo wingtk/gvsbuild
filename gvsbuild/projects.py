@@ -401,7 +401,7 @@ class Project_freerdp(Tarball, CmakeProject):
             'freerdp',
             archive_url = 'https://github.com/FreeRDP/FreeRDP/releases/download/2.3.2/freerdp-2.3.2.tar.gz',
             hash = 'deb888034a441c7f76dc8b3ddea67fac3c0d815739fc2146e1243480ce56c91c',
-            dependencies = ['cmake', 'ninja', 'openssl', 'openh264', ],
+            dependencies = ['cmake', 'ninja', 'openssl', 'openh264', 'ffmpeg', 'x264', 'zlib', 'libjpeg-turbo' ],
             )
 
     def build(self):
