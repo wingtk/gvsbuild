@@ -50,7 +50,9 @@ class Project(object):
         self.prj_dir = name 
         self.dependencies = []
         self.patches = []
+        self.subproject_patches = {}
         self.archive_url = None
+        self.skip_hash = False
         self.archive_file_name = None
         self.tarbomb = False
         self.type = GVSBUILD_NONE
@@ -232,6 +234,11 @@ class Project(object):
         self.exec_msbuild(cmd, configuration, add_path)
         return part
 
+    def copy2(self, src, dest):
+        src = os.path.join(self._get_working_dir(), src)
+        dest = os.path.join(self._get_working_dir(), dest)
+        shutil.copy2(src, dest)
+
     def install(self, *args):
         self.builder.install(self._get_working_dir(), self.pkg_dir, *args)
 
@@ -239,7 +246,6 @@ class Project(object):
         if not dest:
             dest = os.path.basename(src)
         self.builder.install_dir(self._get_working_dir(), self.pkg_dir, src, dest)
-
 
     def install_pc_files(self, base_dir='pc-files'):
         '''
@@ -270,11 +276,23 @@ class Project(object):
             stamp = os.path.join(self.build_dir, name + ".patch-applied")
             if not os.path.exists(stamp):
                 log.log("Applying patch %s" % (p,))
-                self.builder.exec_msys(['patch', '-p1', '-i', p], working_dir=self._get_working_dir())
+                self.builder.exec_msys(['patch', '-p1', '-i', os.path.join(self.build_dir, p)], working_dir=self._get_working_dir())
                 with open(stamp, 'w') as stampfile:
                     stampfile.write('done')
             else:
                 log.debug("patch %s already applied, skipping" % (p,))
+
+        for project, patches in self.subproject_patches.items():
+            for p in patches:
+                name = os.path.basename(p)
+                stamp = os.path.join(self.build_dir, name + ".patch-applied")
+                if not os.path.exists(stamp):
+                    log.log("Applying patch %s" % (p,))
+                    self.builder.exec_msys(['patch', '-p1', '-i', os.path.join(self.build_dir, p)], working_dir=os.path.join(self._get_working_dir(), project))
+                    with open(stamp, 'w') as stampfile:
+                        stampfile.write('done')
+                else:
+                    log.debug("patch %s already applied, skipping" % (p,))
 
     def _get_working_dir(self):
         if self.__working_dir:

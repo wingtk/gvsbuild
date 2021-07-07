@@ -358,6 +358,7 @@ class Builder(object):
                 output = self.__check_vs_single(opts, os.path.join(opts.vs_install_path, part), False)
                 if output:
                     log.log("Found '%s'" % (part, ))
+                    self.vs_install_path = os.path.join(opts.vs_install_path, part)
                     break
 
             if not output:
@@ -365,6 +366,7 @@ class Builder(object):
                 self.__dump_vs_loc();
                 log.error_exit("\n  Visual Studio startup batch could not be found.\n  Please check you have Visual Studio installed under '%s\\[Professional|BuildTools|Community|...]'\n  and that it supports the target platform '%s'." % (opts.vs_install_path, opts.platform, ))
         else:
+            self.vs_install_path = opts.vs_install_path
             output = self.__check_vs_single(opts, opts.vs_install_path, True)
 
         self.vs_env = {}
@@ -575,27 +577,10 @@ class Builder(object):
         """
         Build one project, return True if skipped
         """
+
         # Check if we update the tarball / git
         proj.builder = self
         self.__project = proj
-        proj.prepare_build_dir()
-        proj.export()
-
-        if self.opts.fast_build and not proj.clean:
-            t = proj.mark_file_exist()
-            if t:
-                log.message("Fast build:skipping project %s, built @ %s" % (proj.name, t, ))
-                proj.builder = None
-                self.__project = None
-                return True
-
-        proj.mark_file_remove()
-        log.start("Building project %s (%s)" % (proj.name, proj.version, ))
-        script_title('%s (%s)' % (proj.name, proj.version, ))
-
-        proj.pkg_dir = proj.build_dir + "-rel"
-        shutil.rmtree(proj.pkg_dir, ignore_errors=True)
-        os.makedirs(proj.pkg_dir)
 
         # Original path, converted to list
         paths = self.vs_env['PATH'].split(';')
@@ -619,6 +604,26 @@ class Builder(object):
 
         # Make the (eventually) new path
         self.vs_env['PATH'] = ';'.join(paths)
+
+        proj.prepare_build_dir()
+        proj.export()
+
+        if self.opts.fast_build and not proj.clean:
+            t = proj.mark_file_exist()
+            if t:
+                log.message("Fast build:skipping project %s, built @ %s" % (proj.name, t, ))
+                proj.builder = None
+                self.__project = None
+                return True
+
+        proj.mark_file_remove()
+        log.start("Building project %s (%s)" % (proj.name, proj.version, ))
+        script_title('%s (%s)' % (proj.name, proj.version, ))
+
+        proj.pkg_dir = proj.build_dir + "-rel"
+        shutil.rmtree(proj.pkg_dir, ignore_errors=True)
+        os.makedirs(proj.pkg_dir)
+
 
         proj.patch()
         skip_deps = proj.build()
@@ -716,6 +721,9 @@ class Builder(object):
         return hash_calc.hexdigest()
 
     def __check_hash(self, proj):
+        if proj.skip_hash:
+            log.message("Skipping hash check for project '%s'" % (proj.name, ))
+            return False
         if hasattr(proj, 'hash'):
             hc = self.__hashfile(proj.archive_file)
             if hc != proj.hash:
@@ -830,7 +838,7 @@ class Builder(object):
         except (ssl.SSLError, URLError) as e:
             print("Exception downloading file '%s'" % (proj.archive_url, ))
             print(e)
-            if hasattr(proj, 'hash'):
+            if hasattr(proj, 'hash') or proj.skip_hash:
                 self._old_perc = -1
                 self._old_print = 0
                 self.urlretrieve(proj.archive_url, proj.archive_file, self.__download_progress, ssl_ignore_cert=True)

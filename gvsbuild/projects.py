@@ -27,7 +27,7 @@ from .utils.simple_ui import log
 from .utils.utils import convert_to_msys
 from .utils.utils import file_replace
 from .utils.utils import python_find_libs_dir
-from .utils.base_expanders import Tarball, GitRepo
+from .utils.base_expanders import Tarball, GitRepo, GClientRepo
 from .utils.base_expanders import NullExpander
 from .utils.base_project import Project, project_add
 from .utils.base_project import GVSBUILD_IGNORE
@@ -423,6 +423,32 @@ class Project_fribidi(GitRepo, Meson):
     def build(self):
         Meson.build(self, meson_params='-Ddocs=false')
         self.install(r'.\COPYING share\doc\fribidi')
+
+@project_add
+class Project_pdfium(GClientRepo, Project):
+    def __init__(self):
+        Project.__init__(self,
+            'pdfium',
+            repo_url = 'https://pdfium.googlesource.com/pdfium.git',
+            fetch_submodules = False,
+            tag = 'df97b13e53d1b96151fa119e3e94db19f5df097b',
+            dependencies = ['depot', 'python', 'ninja'],
+            patches = ['shared_library.patch', 'relative_includes.patch'],
+            subproject_patches = {'build': ['rc_compiler.patch']},
+            )
+
+    def build(self):
+        self.copy2(os.path.join('..','resources.rc'), '.')
+        self.copy2(os.path.join('..', 'args.gn'), 'out')
+        if self.builder.x86:
+            self.exec_vs(r'echo target_cpu="x86" >> out\args.gn')
+        self.builder.mod_env(f'{self.builder.vs_ver_year}_install', self.builder.vs_install_path)
+        self.exec_vs(r'gn gen out')
+        self.exec_vs(r'ninja -C out pdfium')
+
+        self.install_dir(r'public', r'include\pdfium')
+        self.install(r'out\pdfium.dll.lib', r'lib\pdfium')
+        self.install(r'out\pdfium.dll', r'lib\pdfium')
 
 @project_add
 class Project_gdk_pixbuf(Tarball, Meson):
