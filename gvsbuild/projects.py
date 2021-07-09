@@ -1910,8 +1910,8 @@ class Project_pycairo(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'pycairo',
-            archive_url = 'https://github.com/pygobject/pycairo/releases/download/v1.19.1/pycairo-1.19.1.tar.gz',
-            hash = '2c143183280feb67f5beb4e543fd49990c28e7df427301ede04fc550d3562e84',
+            archive_url = 'https://github.com/pygobject/pycairo/releases/download/v1.20.1/pycairo-1.20.1.tar.gz',
+            hash = '1ee72b035b21a475e1ed648e26541b04e5d7e753d75ca79de8c583b25785531b',
             dependencies = ['cairo', 'python'],
             patches = [
                 'pycairo_py3_8_load_dll.patch',
@@ -1940,8 +1940,8 @@ class Project_pygobject(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
             'pygobject',
-            archive_url = 'https://ftp.acc.umu.se/pub/GNOME/sources/pygobject/3.36/pygobject-3.36.0.tar.xz',
-            hash = '8683d2dfb5baa9e501a9a64eeba5c2c1117eadb781ab1cd7a9d255834af6daef',
+            archive_url = 'https://download.gnome.org/sources/pygobject/3.42/pygobject-3.42.0.tar.xz',
+            hash = '9b12616e32cfc792f9dc841d9c472a41a35b85ba67d3a6eb427e307a6fe4367b',
             dependencies = ['python', 'pycairo', 'gobject-introspection', 'libffi'],
             patches = [
                 'pygobject_py3_8_load_dll.patch',
