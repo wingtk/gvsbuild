@@ -343,7 +343,7 @@ class Project_fontconfig(Tarball, Project):
     def build(self):
         #make the fontconfig files work on other compatible vs versions
         for proj in glob.glob(r'%s\*.vcxproj' % (self.build_dir,)):
-            with open(proj, 'r') as f:
+            with open(proj, 'r', encoding='utf-8') as f:
                 content = f.read()
             if content.find('<PlatformToolset>FIXME</PlatformToolset>') >= 0:
                 log.debug('patching project file %s' % (proj,))
@@ -354,7 +354,7 @@ class Project_fontconfig(Tarball, Project):
                 else:
                     fixme = self.builder.opts.vs_ver + r'0'
                 content = content.replace('<PlatformToolset>FIXME</PlatformToolset>', '<PlatformToolset>v%s</PlatformToolset>' % (fixme))
-                with open(proj, 'w') as f:
+                with open(proj, 'w', encoding='utf-8') as f:
                     f.write(content)
 
         self.exec_msbuild('fontconfig.sln /t:build')
