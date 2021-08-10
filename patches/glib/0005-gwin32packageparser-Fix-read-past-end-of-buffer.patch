@@ -1,0 +1,32 @@
+From ee9443463260cbdefbce142c6e05bacf88b487b8 Mon Sep 17 00:00:00 2001
+From: Jonathan Boeing <jonathan@claws-mail.org>
+Date: Wed, 4 Aug 2021 08:55:13 -0700
+Subject: [PATCH 5/5] gwin32packageparser: Fix read past end of buffer
+
+g_win32_package_parser_enum_packages() reads beyond the end of a buffer
+when doing a memcpy.  With app verifier enabled on Windows, it causes
+the application to crash on startup.
+
+This change limits the memcpy to the size of the source string.
+
+Fixes: #2454
+---
+ gio/gwin32packageparser.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gio/gwin32packageparser.c b/gio/gwin32packageparser.c
+index ad5302270..ee05bb1dd 100755
+--- a/gio/gwin32packageparser.c
++++ b/gio/gwin32packageparser.c
+@@ -390,7 +390,7 @@ g_win32_package_parser_enum_packages (GWin32PackageParserCallback   callback,
+       wcs_path = LoadedWindowsGetStringRawBuffer (path, NULL);
+       manifest_filename_size = wcslen (wcs_path) + wcslen (bslash_appmanifest);
+       manifest_filename = g_new (wchar_t, manifest_filename_size + 1);
+-      memcpy (manifest_filename, wcs_path, manifest_filename_size * sizeof (wchar_t));
++      memcpy (manifest_filename, wcs_path, wcslen (wcs_path) * sizeof (wchar_t));
+       memcpy (&manifest_filename[wcslen (wcs_path)], bslash_appmanifest, (wcslen (bslash_appmanifest) + 1) * sizeof (wchar_t));
+ 
+       memset (sax, 0, sizeof (*sax));
+-- 
+2.17.1
+

@@ -1,0 +1,41 @@
+From d6a734a44ccf8a3a56cc2ddb39956c1f4c117eb2 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=D0=A0=D1=83=D1=81=D0=BB=D0=B0=D0=BD=20=D0=98=D0=B6=D0=B1?=
+ =?UTF-8?q?=D1=83=D0=BB=D0=B0=D1=82=D0=BE=D0=B2?= <lrn1986@gmail.com>
+Date: Sat, 31 Jul 2021 10:50:12 +0000
+Subject: [PATCH 1/5] GWin32RegistryKey: Change STATUS_SUCCESS handling
+
+This function can, in fact, return STATUS_SUCCESS. We shouldn't
+assert that it doesn't.
+
+For now interpret it just like STATUS_PENDING (i.e. APC will be called),
+see how it goes (it isn't documented how the function behaves in this
+case, we have to play it by ear).
+
+Note that while we *can* use a better-documented RegNotifyChangeKeyValue() here,
+it communicates back to us via event objects, which means that the registry
+watcher would have to interact with the main loop directly and insert its
+events (plural; one event per key) there. That would make the API more complicated.
+Whereas the internal NT function communicates by calling an APC - we're good
+as long as something somewhere puts the thread in alertable state.
+---
+ gio/gwin32registrykey.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/gio/gwin32registrykey.c b/gio/gwin32registrykey.c
+index 398d8f45b..d1ac09041 100644
+--- a/gio/gwin32registrykey.c
++++ b/gio/gwin32registrykey.c
+@@ -2550,9 +2550,7 @@ g_win32_registry_key_watch (GWin32RegistryKey                   *key,
+                                            0,
+                                            TRUE);
+ 
+-  g_assert (status != STATUS_SUCCESS);
+-
+-  if (status == STATUS_PENDING)
++  if (status == STATUS_PENDING || status == STATUS_SUCCESS)
+     return TRUE;
+ 
+   g_atomic_int_set (&key->priv->change_indicator, G_WIN32_KEY_UNKNOWN);
+-- 
+2.17.1
+

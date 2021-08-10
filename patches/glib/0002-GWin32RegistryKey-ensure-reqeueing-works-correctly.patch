@@ -1,0 +1,47 @@
+From 22e5e428de9cd8a760f1a6f9ab7362fa4ecce851 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=D0=A0=D1=83=D1=81=D0=BB=D0=B0=D0=BD=20=D0=98=D0=B6=D0=B1?=
+ =?UTF-8?q?=D1=83=D0=BB=D0=B0=D1=82=D0=BE=D0=B2?= <lrn1986@gmail.com>
+Date: Sat, 31 Jul 2021 10:57:44 +0000
+Subject: [PATCH 2/5] GWin32RegistryKey: ensure reqeueing works correctly
+
+If a key watch is renewed from the key watch callback, it results
+in the callback being NULL, since we clear it after we call it.
+
+Rearrange the function to make sure that the changes done by the
+callback function are preserved properly.
+---
+ gio/gwin32registrykey.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/gio/gwin32registrykey.c b/gio/gwin32registrykey.c
+index d1ac09041..5e2b006dd 100644
+--- a/gio/gwin32registrykey.c
++++ b/gio/gwin32registrykey.c
+@@ -2425,17 +2425,20 @@ key_changed (PVOID            closure,
+              ULONG            reserved)
+ {
+   GWin32RegistryKey *key = G_WIN32_REGISTRY_KEY (closure);
++  gpointer user_data;
++  GWin32RegistryKeyWatchCallbackFunc callback;
++
++  callback = g_steal_pointer (&key->priv->callback);
++  user_data = g_steal_pointer (&key->priv->user_data);
+ 
+   g_free (status_block);
+   g_atomic_int_set (&key->priv->change_indicator, G_WIN32_KEY_CHANGED);
+   g_atomic_int_set (&key->priv->watch_indicator, G_WIN32_KEY_UNWATCHED);
+   key->priv->update_flags = G_WIN32_REGISTRY_UPDATED_NOTHING;
+ 
+-  if (key->priv->callback)
+-    key->priv->callback (key, key->priv->user_data);
++  if (callback)
++    callback (key, user_data);
+ 
+-  key->priv->callback = NULL;
+-  key->priv->user_data = NULL;
+   g_object_unref (key);
+ }
+ 
+-- 
+2.17.1
+

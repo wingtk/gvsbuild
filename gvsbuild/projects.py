@@ -496,10 +496,15 @@ class Project_glib(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'glib',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.68/glib-2.68.1.tar.xz',
-            hash = '241654b96bd36b88aaa12814efc4843b578e55d47440103727959ac346944333',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.68/glib-2.68.3.tar.xz',
+            hash = 'e7e1a3c20c026109c45c9ec4a31d8dcebc22e86c69486993e565817d64be3138',
             dependencies = ['ninja', 'meson', 'pkg-config', 'gettext', 'libffi', 'zlib'],
-            patches = ['glib-package-installation-directory.patch'],
+            patches = ['glib-package-installation-directory.patch',
+                       '0001-GWin32RegistryKey-Change-STATUS_SUCCESS-handling.patch',
+                       '0002-GWin32RegistryKey-ensure-reqeueing-works-correctly.patch',
+                       '0003-GWin32AppInfo-re-trigger-registry-watcher-from-the-c.patch',
+                       '0004-GWin32AppInfo-Fix-missing-initialization.patch',
+                       '0005-gwin32packageparser-Fix-read-past-end-of-buffer.patch'],
             )
 
     def build(self):

@@ -1,0 +1,36 @@
+From 771a6e557a9a52953aa6f4c4c907ab1049d71009 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=D0=A0=D1=83=D1=81=D0=BB=D0=B0=D0=BD=20=D0=98=D0=B6=D0=B1?=
+ =?UTF-8?q?=D1=83=D0=BB=D0=B0=D1=82=D0=BE=D0=B2?= <lrn1986@gmail.com>
+Date: Mon, 2 Aug 2021 14:19:35 +0000
+Subject: [PATCH 4/5] GWin32AppInfo: Fix missing initialization
+
+The value should be initialized to NULL before calling
+g_win32_registry_key_get_value_w(), to ensure that cleanup
+can be done unconditionally afterward.
+---
+ gio/gwin32appinfo.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/gio/gwin32appinfo.c b/gio/gwin32appinfo.c
+index 4074f402c..3468dfee0 100644
+--- a/gio/gwin32appinfo.c
++++ b/gio/gwin32appinfo.c
+@@ -1629,6 +1629,7 @@ process_uwp_verbs (GList                    *verbs,
+           continue;
+         }
+ 
++      acid = NULL;
+       got_value = g_win32_registry_key_get_value_w (key,
+                                                     g_win32_registry_get_os_dirs_w (),
+                                                     TRUE,
+@@ -3634,6 +3635,7 @@ grab_registry_string (GWin32RegistryKey  *handler_appkey,
+   if (*destination != NULL)
+     return;
+ 
++  value = NULL;
+   if (g_win32_registry_key_get_value_w (handler_appkey,
+                                         NULL,
+                                         TRUE,
+-- 
+2.17.1
+
