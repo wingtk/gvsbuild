@@ -504,7 +504,8 @@ class Project_glib(Tarball, Meson):
                        '0002-GWin32RegistryKey-ensure-reqeueing-works-correctly.patch',
                        '0003-GWin32AppInfo-re-trigger-registry-watcher-from-the-c.patch',
                        '0004-GWin32AppInfo-Fix-missing-initialization.patch',
-                       '0005-gwin32packageparser-Fix-read-past-end-of-buffer.patch'],
+                       '0005-gwin32packageparser-Fix-read-past-end-of-buffer.patch',
+                       '0001-registrysettingsbackend-fix-crash.patch'],
             )
 
     def build(self):
