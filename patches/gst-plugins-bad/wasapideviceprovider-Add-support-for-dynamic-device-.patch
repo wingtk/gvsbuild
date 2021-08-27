@@ -1,0 +1,1231 @@
+From c2f1c214aad86196bca416579f66922845df8ba8 Mon Sep 17 00:00:00 2001
+From: Ignazio Pillai <ignazp@amazon.com>
+Date: Thu, 26 Aug 2021 18:06:38 +0200
+Subject: [PATCH] wasapideviceprovider: Add support for dynamic device
+ add/remove
+
+backported from https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/-/merge_requests/2484
+---
+ sys/wasapi/gstmmdeviceenumerator.cpp | 472 +++++++++++++++++++++++++++
+ sys/wasapi/gstmmdeviceenumerator.h   |  69 ++++
+ sys/wasapi/gstwasapidevice.c         | 205 +++++++++++-
+ sys/wasapi/gstwasapidevice.h         |   2 +
+ sys/wasapi/gstwasapisink.c           |  24 +-
+ sys/wasapi/gstwasapisink.h           |   2 +
+ sys/wasapi/gstwasapisrc.c            |  23 +-
+ sys/wasapi/gstwasapisrc.h            |   2 +
+ sys/wasapi/gstwasapiutil.c           |  77 ++---
+ sys/wasapi/gstwasapiutil.h           |  13 +-
+ sys/wasapi/meson.build               |   2 +
+ 11 files changed, 825 insertions(+), 66 deletions(-)
+ create mode 100644 sys/wasapi/gstmmdeviceenumerator.cpp
+ create mode 100644 sys/wasapi/gstmmdeviceenumerator.h
+
+diff --git a/sys/wasapi/gstmmdeviceenumerator.cpp b/sys/wasapi/gstmmdeviceenumerator.cpp
+new file mode 100644
+index 000000000..1826b7fe1
+--- /dev/null
++++ b/sys/wasapi/gstmmdeviceenumerator.cpp
+@@ -0,0 +1,472 @@
++/* GStreamer
++ * Copyright (C) 2021 Seungha Yang <seungha@centricular.com>
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Library General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Library General Public License for more details.
++ *
++ * You should have received a copy of the GNU Library General Public
++ * License along with this library; if not, write to the
++ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
++ * Boston, MA 02110-1301, USA.
++ */
++
++#ifdef HAVE_CONFIG_H
++#include "config.h"
++#endif
++
++#include "gstmmdeviceenumerator.h"
++
++#ifndef INITGUID
++#include <initguid.h>
++#endif
++
++/* *INDENT-OFF* */
++G_BEGIN_DECLS
++
++GST_DEBUG_CATEGORY_EXTERN (gst_wasapi_debug);
++#define GST_CAT_DEFAULT gst_wasapi_debug
++
++G_END_DECLS
++
++/* IMMNotificationClient implementation */
++class GstIMMNotificationClient : public IMMNotificationClient
++{
++public:
++  static HRESULT
++  CreateInstance (GstMMDeviceEnumerator * enumerator,
++      const GstMMNotificationClientCallbacks * callbacks,
++      gpointer user_data,
++      IMMNotificationClient ** client)
++  {
++    GstIMMNotificationClient *self;
++
++    self = new GstIMMNotificationClient ();
++
++    self->callbacks_ = *callbacks;
++    self->user_data_ = user_data;
++    g_weak_ref_set (&self->enumerator_, enumerator);
++
++    *client = (IMMNotificationClient *) self;
++
++    return S_OK;
++  }
++
++  /* IUnknown */
++  STDMETHODIMP
++  QueryInterface (REFIID riid, void ** object)
++  {
++    if (!object)
++      return E_POINTER;
++
++    if (riid == IID_IUnknown) {
++      *object = static_cast<IUnknown *> (this);
++    } else if (riid == __uuidof(IMMNotificationClient)) {
++      *object = static_cast<IMMNotificationClient *> (this);
++    } else {
++      *object = nullptr;
++      return E_NOINTERFACE;
++    }
++
++    AddRef ();
++
++    return S_OK;
++  }
++
++  STDMETHODIMP_ (ULONG)
++  AddRef (void)
++  {
++    GST_TRACE ("%p, %d", this, (guint) ref_count_);
++    return InterlockedIncrement (&ref_count_);
++  }
++
++  STDMETHODIMP_ (ULONG)
++  Release (void)
++  {
++    ULONG ref_count;
++
++    GST_TRACE ("%p, %d", this, (guint) ref_count_);
++    ref_count = InterlockedDecrement (&ref_count_);
++
++    if (ref_count == 0) {
++      GST_TRACE ("Delete instance %p", this);
++      delete this;
++    }
++
++    return ref_count;
++  }
++
++  /* IMMNotificationClient */
++  STDMETHODIMP
++  OnDeviceStateChanged (LPCWSTR device_id, DWORD new_state)
++  {
++    GstMMDeviceEnumerator *listener;
++    HRESULT hr;
++
++    if (!callbacks_.device_state_changed)
++      return S_OK;
++
++    listener = (GstMMDeviceEnumerator *) g_weak_ref_get (&enumerator_);
++    if (!listener)
++      return S_OK;
++
++    hr = callbacks_.device_state_changed (listener, device_id, new_state,
++        user_data_);
++    gst_object_unref (listener);
++
++    return hr;
++  }
++
++  STDMETHODIMP
++  OnDeviceAdded (LPCWSTR device_id)
++  {
++    GstMMDeviceEnumerator *listener;
++    HRESULT hr;
++
++    if (!callbacks_.device_added)
++      return S_OK;
++
++    listener = (GstMMDeviceEnumerator *) g_weak_ref_get (&enumerator_);
++    if (!listener)
++      return S_OK;
++
++    hr = callbacks_.device_added (listener, device_id, user_data_);
++    gst_object_unref (listener);
++
++    return hr;
++  }
++
++  STDMETHODIMP
++  OnDeviceRemoved (LPCWSTR device_id)
++  {
++    GstMMDeviceEnumerator *listener;
++    HRESULT hr;
++
++    if (!callbacks_.device_removed)
++      return S_OK;
++
++    listener = (GstMMDeviceEnumerator *) g_weak_ref_get (&enumerator_);
++    if (!listener)
++      return S_OK;
++
++    hr = callbacks_.device_removed (listener, device_id, user_data_);
++    gst_object_unref (listener);
++
++    return hr;
++  }
++
++  STDMETHODIMP
++  OnDefaultDeviceChanged (EDataFlow flow, ERole role, LPCWSTR default_device_id)
++  {
++    GstMMDeviceEnumerator *listener;
++    HRESULT hr;
++
++    if (!callbacks_.default_device_changed)
++      return S_OK;
++
++    listener = (GstMMDeviceEnumerator *) g_weak_ref_get (&enumerator_);
++    if (!listener)
++      return S_OK;
++
++    hr = callbacks_.default_device_changed (listener,
++        flow, role, default_device_id, user_data_);
++    gst_object_unref (listener);
++
++    return hr;
++  }
++
++  STDMETHODIMP
++  OnPropertyValueChanged (LPCWSTR device_id, const PROPERTYKEY key)
++  {
++    GstMMDeviceEnumerator *listener;
++    HRESULT hr;
++
++    if (!callbacks_.property_value_changed)
++      return S_OK;
++
++    listener = (GstMMDeviceEnumerator *) g_weak_ref_get (&enumerator_);
++    if (!device_id)
++      return S_OK;
++
++    hr = callbacks_.property_value_changed (listener,
++        device_id, key, user_data_);
++    gst_object_unref (listener);
++
++    return hr;
++  }
++
++private:
++  GstIMMNotificationClient ()
++    : ref_count_ (1)
++  {
++    g_weak_ref_init (&enumerator_, nullptr);
++  }
++
++  virtual ~GstIMMNotificationClient ()
++  {
++    g_weak_ref_clear (&enumerator_);
++  }
++
++private:
++  ULONG ref_count_;
++  GstMMNotificationClientCallbacks callbacks_;
++  gpointer user_data_;
++  GWeakRef enumerator_;
++};
++/* *INDENT-ON* */
++
++struct _GstMMDeviceEnumerator
++{
++  GstObject parent;
++
++  IMMDeviceEnumerator *handle;
++  IMMNotificationClient *client;
++
++  GMutex lock;
++  GCond cond;
++
++  GThread *thread;
++  GMainContext *context;
++  GMainLoop *loop;
++
++  gboolean running;
++};
++
++static void gst_mm_device_enumerator_constructed (GObject * object);
++static void gst_mm_device_enumerator_finalize (GObject * object);
++
++static gpointer
++gst_mm_device_enumerator_thread_func (GstMMDeviceEnumerator * self);
++
++#define gst_mm_device_enumerator_parent_class parent_class
++G_DEFINE_TYPE (GstMMDeviceEnumerator,
++    gst_mm_device_enumerator, GST_TYPE_OBJECT);
++
++static void
++gst_mm_device_enumerator_class_init (GstMMDeviceEnumeratorClass * klass)
++{
++  GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
++
++  gobject_class->constructed = gst_mm_device_enumerator_constructed;
++  gobject_class->finalize = gst_mm_device_enumerator_finalize;
++}
++
++static void
++gst_mm_device_enumerator_init (GstMMDeviceEnumerator * self)
++{
++  g_mutex_init (&self->lock);
++  g_cond_init (&self->cond);
++  self->context = g_main_context_new ();
++  self->loop = g_main_loop_new (self->context, FALSE);
++}
++
++static void
++gst_mm_device_enumerator_constructed (GObject * object)
++{
++  GstMMDeviceEnumerator *self = GST_MM_DEVICE_ENUMERATOR (object);
++
++  g_mutex_lock (&self->lock);
++  self->thread = g_thread_new ("GstMMDeviceEnumerator",
++      (GThreadFunc) gst_mm_device_enumerator_thread_func, self);
++  while (!g_main_loop_is_running (self->loop))
++    g_cond_wait (&self->cond, &self->lock);
++  g_mutex_unlock (&self->lock);
++}
++
++static void
++gst_mm_device_enumerator_finalize (GObject * object)
++{
++  GstMMDeviceEnumerator *self = GST_MM_DEVICE_ENUMERATOR (object);
++
++  g_main_loop_quit (self->loop);
++  g_thread_join (self->thread);
++  g_main_loop_unref (self->loop);
++  g_main_context_unref (self->context);
++
++  g_mutex_clear (&self->lock);
++  g_cond_clear (&self->cond);
++
++  G_OBJECT_CLASS (parent_class)->finalize (object);
++}
++
++static gboolean
++loop_running_cb (GstMMDeviceEnumerator * self)
++{
++  g_mutex_lock (&self->lock);
++  g_cond_signal (&self->cond);
++  g_mutex_unlock (&self->lock);
++
++  return G_SOURCE_REMOVE;
++}
++
++static gpointer
++gst_mm_device_enumerator_thread_func (GstMMDeviceEnumerator * self)
++{
++  GSource *idle_source;
++  IMMDeviceEnumerator *enumerator = nullptr;
++  HRESULT hr;
++
++  CoInitializeEx (NULL, COINIT_MULTITHREADED);
++  g_main_context_push_thread_default (self->context);
++
++  idle_source = g_idle_source_new ();
++  g_source_set_callback (idle_source,
++      (GSourceFunc) loop_running_cb, self, nullptr);
++  g_source_attach (idle_source, self->context);
++  g_source_unref (idle_source);
++
++  hr = CoCreateInstance (__uuidof (MMDeviceEnumerator),
++      nullptr, CLSCTX_ALL, IID_PPV_ARGS (&enumerator));
++  if (FAILED (hr)) {
++    GST_ERROR_OBJECT (self, "Failed to create IMMDeviceEnumerator instance");
++    goto run_loop;
++  }
++
++  self->handle = enumerator;
++
++run_loop:
++  GST_INFO_OBJECT (self, "Starting loop");
++  g_main_loop_run (self->loop);
++  GST_INFO_OBJECT (self, "Stopped loop");
++
++  if (self->client && self->handle) {
++    self->handle->UnregisterEndpointNotificationCallback (self->client);
++
++    self->client->Release ();
++  }
++
++  if (self->handle)
++    self->handle->Release ();
++
++  g_main_context_pop_thread_default (self->context);
++  CoUninitialize ();
++
++  return nullptr;
++}
++
++GstMMDeviceEnumerator *
++gst_mm_device_enumerator_new (void)
++{
++  GstMMDeviceEnumerator *self;
++
++  self = (GstMMDeviceEnumerator *) g_object_new (GST_TYPE_MM_DEVICE_ENUMERATOR,
++      nullptr);
++
++  if (!self->handle) {
++    gst_object_unref (self);
++    return nullptr;
++  }
++
++  gst_object_ref_sink (self);
++
++  return self;
++}
++
++IMMDeviceEnumerator *
++gst_mm_device_enumerator_get_handle (GstMMDeviceEnumerator * enumerator)
++{
++  g_return_val_if_fail (GST_IS_MM_DEVICE_ENUMERATOR (enumerator), nullptr);
++
++  return enumerator->handle;
++}
++
++typedef struct
++{
++  GstMMDeviceEnumerator *self;
++  GstMMNotificationClientCallbacks *callbacks;
++  gpointer user_data;
++
++  gboolean handled;
++  GMutex lock;
++  GCond cond;
++
++  gboolean ret;
++} SetNotificationCallbackData;
++
++static gboolean
++set_notification_callback (SetNotificationCallbackData * data)
++{
++  GstMMDeviceEnumerator *self = data->self;
++  HRESULT hr;
++
++  g_mutex_lock (&data->lock);
++  g_mutex_lock (&self->lock);
++
++  data->ret = TRUE;
++
++  if (self->client) {
++    self->handle->UnregisterEndpointNotificationCallback (self->client);
++    self->client->Release ();
++    self->client = nullptr;
++  }
++
++  if (data->callbacks) {
++    IMMNotificationClient *client;
++
++    hr = GstIMMNotificationClient::CreateInstance (self, data->callbacks,
++        data->user_data, &client);
++    if (FAILED (hr)) {
++      GST_ERROR_OBJECT (self,
++          "Failed to create IMMNotificationClient instance");
++      data->ret = FALSE;
++      goto out;
++    }
++
++    hr = self->handle->RegisterEndpointNotificationCallback (client);
++    if (FAILED (hr)) {
++      GST_ERROR_OBJECT (self, "Failed to register callback");
++      client->Release ();
++      data->ret = FALSE;
++      goto out;
++    }
++
++    self->client = client;
++  }
++
++out:
++  data->handled = TRUE;
++  g_cond_signal (&data->cond);
++  g_mutex_unlock (&self->lock);
++  g_mutex_unlock (&data->lock);
++
++  return G_SOURCE_REMOVE;
++}
++
++gboolean
++gst_mm_device_enumerator_set_notification_callback (GstMMDeviceEnumerator *
++    enumerator, GstMMNotificationClientCallbacks * callbacks,
++    gpointer user_data)
++{
++  SetNotificationCallbackData data;
++  gboolean ret;
++
++  g_return_val_if_fail (GST_IS_MM_DEVICE_ENUMERATOR (enumerator), FALSE);
++
++  data.self = enumerator;
++  data.callbacks = callbacks;
++  data.user_data = user_data;
++  data.handled = FALSE;
++
++  g_mutex_init (&data.lock);
++  g_cond_init (&data.cond);
++
++  g_main_context_invoke (enumerator->context,
++      (GSourceFunc) set_notification_callback, &data);
++  g_mutex_lock (&data.lock);
++  while (!data.handled)
++    g_cond_wait (&data.cond, &data.lock);
++  g_mutex_unlock (&data.lock);
++
++  ret = data.ret;
++
++  g_mutex_clear (&data.lock);
++  g_cond_clear (&data.cond);
++
++  return ret;
++}
+diff --git a/sys/wasapi/gstmmdeviceenumerator.h b/sys/wasapi/gstmmdeviceenumerator.h
+new file mode 100644
+index 000000000..d3f7b07a9
+--- /dev/null
++++ b/sys/wasapi/gstmmdeviceenumerator.h
+@@ -0,0 +1,69 @@
++/*
++ * Copyright (C) 2021 Seungha Yang <seungha@centricular.com>
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Library General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Library General Public License for more details.
++ *
++ * You should have received a copy of the GNU Library General Public
++ * License along with this library; if not, write to the
++ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
++ * Boston, MA 02110-1301, USA.
++ */
++
++#ifndef __GST_MM_DEVICE_ENUMERATOR_H__
++#define __GST_MM_DEVICE_ENUMERATOR_H__
++
++#include <gst/gst.h>
++#include <mmdeviceapi.h>
++
++G_BEGIN_DECLS
++
++#define GST_TYPE_MM_DEVICE_ENUMERATOR (gst_mm_device_enumerator_get_type ())
++G_DECLARE_FINAL_TYPE (GstMMDeviceEnumerator, gst_mm_device_enumerator,
++    GST, MM_DEVICE_ENUMERATOR, GstObject);
++
++typedef struct
++{
++  HRESULT (*device_state_changed)    (GstMMDeviceEnumerator * enumerator,
++                                      LPCWSTR device_id,
++                                      DWORD new_state,
++                                      gpointer user_data);
++
++  HRESULT (*device_added)            (GstMMDeviceEnumerator * enumerator,
++                                      LPCWSTR device_id,
++                                      gpointer user_data);
++
++  HRESULT (*device_removed)          (GstMMDeviceEnumerator * provider,
++                                      LPCWSTR device_id,
++                                      gpointer user_data);
++
++  HRESULT (*default_device_changed)  (GstMMDeviceEnumerator * provider,
++                                      EDataFlow flow,
++                                      ERole role,
++                                      LPCWSTR default_device_id,
++                                      gpointer user_data);
++
++  HRESULT (*property_value_changed)  (GstMMDeviceEnumerator * provider,
++                                      LPCWSTR device_id,
++                                      const PROPERTYKEY key,
++                                      gpointer user_data);
++} GstMMNotificationClientCallbacks;
++
++GstMMDeviceEnumerator * gst_mm_device_enumerator_new (void);
++
++IMMDeviceEnumerator * gst_mm_device_enumerator_get_handle (GstMMDeviceEnumerator * enumerator);
++
++gboolean gst_mm_device_enumerator_set_notification_callback (GstMMDeviceEnumerator * enumerator,
++                                                             GstMMNotificationClientCallbacks * callbacks,
++                                                             gpointer user_data);
++
++G_END_DECLS
++
++#endif /* __GST_MM_DEVICE_ENUMERATOR_H__ */
+diff --git a/sys/wasapi/gstwasapidevice.c b/sys/wasapi/gstwasapidevice.c
+index 4e6379c3e..c13fc6a8a 100644
+--- a/sys/wasapi/gstwasapidevice.c
++++ b/sys/wasapi/gstwasapidevice.c
+@@ -1,5 +1,6 @@
+ /* GStreamer
+  * Copyright (C) 2018 Nirbheek Chauhan <nirbheek@centricular.com>
++ * Copyright (C) 2021 Seungha Yang <seungha@centricular.com>
+  *
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Library General Public
+@@ -23,11 +24,27 @@
+ 
+ #include "gstwasapidevice.h"
+ 
++GST_DEBUG_CATEGORY_EXTERN (gst_wasapi_debug);
++#define GST_CAT_DEFAULT gst_wasapi_debug
++
+ G_DEFINE_TYPE (GstWasapiDeviceProvider, gst_wasapi_device_provider,
+     GST_TYPE_DEVICE_PROVIDER);
+ 
+ static void gst_wasapi_device_provider_finalize (GObject * object);
+ static GList *gst_wasapi_device_provider_probe (GstDeviceProvider * provider);
++static gboolean gst_wasapi_device_provider_start (GstDeviceProvider * provider);
++static void gst_wasapi_device_provider_stop (GstDeviceProvider * provider);
++
++static HRESULT
++gst_wasapi_device_provider_device_added (GstMMDeviceEnumerator * enumerator,
++    LPCWSTR device_id, gpointer user_data);
++static HRESULT
++gst_wasapi_device_provider_device_removed (GstMMDeviceEnumerator * enumerator,
++    LPCWSTR device_id, gpointer user_data);
++static HRESULT
++gst_wasapi_device_provider_default_device_changed (GstMMDeviceEnumerator *
++    enumerator, EDataFlow flow, ERole role, LPCWSTR device_id,
++    gpointer user_data);
+ 
+ static void
+ gst_wasapi_device_provider_class_init (GstWasapiDeviceProviderClass * klass)
+@@ -38,6 +55,8 @@ gst_wasapi_device_provider_class_init (GstWasapiDeviceProviderClass * klass)
+   gobject_class->finalize = gst_wasapi_device_provider_finalize;
+ 
+   dm_class->probe = gst_wasapi_device_provider_probe;
++  dm_class->start = gst_wasapi_device_provider_start;
++  dm_class->stop = gst_wasapi_device_provider_stop;
+ 
+   gst_device_provider_class_set_static_metadata (dm_class,
+       "WASAPI (Windows Audio Session API) Device Provider",
+@@ -46,15 +65,68 @@ gst_wasapi_device_provider_class_init (GstWasapiDeviceProviderClass * klass)
+ }
+ 
+ static void
+-gst_wasapi_device_provider_init (GstWasapiDeviceProvider * provider)
++gst_wasapi_device_provider_init (GstWasapiDeviceProvider * self)
+ {
+-  CoInitializeEx (NULL, COINIT_MULTITHREADED);
++  self->enumerator = gst_mm_device_enumerator_new ();
++}
++
++static gboolean
++gst_wasapi_device_provider_start (GstDeviceProvider * provider)
++{
++  GstWasapiDeviceProvider *self = GST_WASAPI_DEVICE_PROVIDER (provider);
++  GstMMNotificationClientCallbacks callbacks = { NULL, };
++  GList *devices = NULL;
++  GList *iter;
++
++  if (!self->enumerator) {
++    GST_WARNING_OBJECT (self, "Enumerator wasn't configured");
++    return FALSE;
++  }
++
++  callbacks.device_added = gst_wasapi_device_provider_device_added;
++  callbacks.device_removed = gst_wasapi_device_provider_device_removed;
++  callbacks.default_device_changed =
++      gst_wasapi_device_provider_default_device_changed;
++
++  if (!gst_mm_device_enumerator_set_notification_callback (self->enumerator,
++          &callbacks, self)) {
++    GST_WARNING_OBJECT (self, "Failed to set callbacks");
++    return FALSE;
++  }
++
++  /* baseclass will not call probe() once it's started, but we can get
++   * notification only add/remove or change case. To this manually */
++  devices = gst_wasapi_device_provider_probe (provider);
++  if (devices) {
++    for (iter = devices; iter; iter = g_list_next (iter)) {
++      gst_device_provider_device_add (provider, GST_DEVICE (iter->data));
++    }
++
++    g_list_free (devices);
++  }
++
++  return TRUE;
++}
++
++static void
++gst_wasapi_device_provider_stop (GstDeviceProvider * provider)
++{
++  GstWasapiDeviceProvider *self = GST_WASAPI_DEVICE_PROVIDER (provider);
++
++  if (self->enumerator) {
++    gst_mm_device_enumerator_set_notification_callback (self->enumerator,
++        NULL, NULL);
++  }
+ }
+ 
+ static void
+ gst_wasapi_device_provider_finalize (GObject * object)
+ {
+-  CoUninitialize ();
++  GstWasapiDeviceProvider *self = GST_WASAPI_DEVICE_PROVIDER (object);
++
++  gst_clear_object (&self->enumerator);
++
++  G_OBJECT_CLASS (gst_wasapi_device_provider_parent_class)->finalize (object);
+ }
+ 
+ static GList *
+@@ -63,12 +135,137 @@ gst_wasapi_device_provider_probe (GstDeviceProvider * provider)
+   GstWasapiDeviceProvider *self = GST_WASAPI_DEVICE_PROVIDER (provider);
+   GList *devices = NULL;
+ 
+-  if (!gst_wasapi_util_get_devices (GST_OBJECT (self), TRUE, &devices))
++  if (!gst_wasapi_util_get_devices (self->enumerator, TRUE, &devices))
+     GST_ERROR_OBJECT (self, "Failed to enumerate devices");
+ 
+   return devices;
+ }
+ 
++static gboolean
++gst_wasapi_device_is_in_list (GList * list, GstDevice * device)
++{
++  GList *iter;
++  GstStructure *s;
++  const gchar *device_id;
++  gboolean found = FALSE;
++
++  s = gst_device_get_properties (device);
++  g_assert (s);
++
++  device_id = gst_structure_get_string (s, "device.strid");
++  g_assert (device_id);
++
++  for (iter = list; iter; iter = g_list_next (iter)) {
++    GstStructure *other_s;
++    const gchar *other_id;
++
++    other_s = gst_device_get_properties (GST_DEVICE (iter->data));
++    g_assert (other_s);
++
++    other_id = gst_structure_get_string (other_s, "device.strid");
++    g_assert (other_id);
++
++    if (g_ascii_strcasecmp (device_id, other_id) == 0) {
++      found = TRUE;
++    }
++
++    gst_structure_free (other_s);
++    if (found)
++      break;
++  }
++
++  gst_structure_free (s);
++
++  return found;
++}
++
++static void
++gst_wasapi_device_provider_update_devices (GstWasapiDeviceProvider * self)
++{
++  GstDeviceProvider *provider = GST_DEVICE_PROVIDER_CAST (self);
++  GList *prev_devices = NULL;
++  GList *new_devices = NULL;
++  GList *to_add = NULL;
++  GList *to_remove = NULL;
++  GList *iter;
++
++  GST_OBJECT_LOCK (self);
++  prev_devices = g_list_copy_deep (provider->devices,
++      (GCopyFunc) gst_object_ref, NULL);
++  GST_OBJECT_UNLOCK (self);
++
++  new_devices = gst_wasapi_device_provider_probe (provider);
++
++  /* Ownership of GstDevice for gst_device_provider_device_add()
++   * and gst_device_provider_device_remove() is a bit complicated.
++   * Remove floating reference here for things to be clear */
++  for (iter = new_devices; iter; iter = g_list_next (iter))
++    gst_object_ref_sink (iter->data);
++
++  /* Check newly added devices */
++  for (iter = new_devices; iter; iter = g_list_next (iter)) {
++    if (!gst_wasapi_device_is_in_list (prev_devices, GST_DEVICE (iter->data))) {
++      to_add = g_list_prepend (to_add, gst_object_ref (iter->data));
++    }
++  }
++
++  /* Check removed device */
++  for (iter = prev_devices; iter; iter = g_list_next (iter)) {
++    if (!gst_wasapi_device_is_in_list (new_devices, GST_DEVICE (iter->data))) {
++      to_remove = g_list_prepend (to_remove, gst_object_ref (iter->data));
++    }
++  }
++
++  for (iter = to_remove; iter; iter = g_list_next (iter))
++    gst_device_provider_device_remove (provider, GST_DEVICE (iter->data));
++
++  for (iter = to_add; iter; iter = g_list_next (iter))
++    gst_device_provider_device_add (provider, GST_DEVICE (iter->data));
++
++  if (prev_devices)
++    g_list_free_full (prev_devices, (GDestroyNotify) gst_object_unref);
++
++  if (to_add)
++    g_list_free_full (to_add, (GDestroyNotify) gst_object_unref);
++
++  if (to_remove)
++    g_list_free_full (to_remove, (GDestroyNotify) gst_object_unref);
++}
++
++static HRESULT
++gst_wasapi_device_provider_device_added (GstMMDeviceEnumerator * enumerator,
++    LPCWSTR device_id, gpointer user_data)
++{
++  GstWasapiDeviceProvider *self = GST_WASAPI_DEVICE_PROVIDER (user_data);
++
++  gst_wasapi_device_provider_update_devices (self);
++
++  return S_OK;
++}
++
++static HRESULT
++gst_wasapi_device_provider_device_removed (GstMMDeviceEnumerator * enumerator,
++    LPCWSTR device_id, gpointer user_data)
++{
++  GstWasapiDeviceProvider *self = GST_WASAPI_DEVICE_PROVIDER (user_data);
++
++  gst_wasapi_device_provider_update_devices (self);
++
++  return S_OK;
++}
++
++static HRESULT
++gst_wasapi_device_provider_default_device_changed (GstMMDeviceEnumerator *
++    enumerator, EDataFlow flow, ERole role, LPCWSTR device_id,
++    gpointer user_data)
++{
++  GstWasapiDeviceProvider *self = GST_WASAPI_DEVICE_PROVIDER (user_data);
++
++  gst_wasapi_device_provider_update_devices (self);
++
++  return S_OK;
++}
++
+ /* GstWasapiDevice begins */
+ 
+ enum
+diff --git a/sys/wasapi/gstwasapidevice.h b/sys/wasapi/gstwasapidevice.h
+index 60d454b81..55eddd06b 100644
+--- a/sys/wasapi/gstwasapidevice.h
++++ b/sys/wasapi/gstwasapidevice.h
+@@ -38,6 +38,8 @@ typedef struct _GstWasapiDeviceProviderClass GstWasapiDeviceProviderClass;
+ struct _GstWasapiDeviceProvider
+ {
+   GstDeviceProvider parent;
++
++  GstMMDeviceEnumerator *enumerator;
+ };
+ 
+ struct _GstWasapiDeviceProviderClass
+diff --git a/sys/wasapi/gstwasapisink.c b/sys/wasapi/gstwasapisink.c
+index 1d114a2d7..b10d39110 100644
+--- a/sys/wasapi/gstwasapisink.c
++++ b/sys/wasapi/gstwasapisink.c
+@@ -180,7 +180,7 @@ gst_wasapi_sink_init (GstWasapiSink * self)
+   self->cancellable = CreateEvent (NULL, TRUE, FALSE, NULL);
+   self->client_needs_restart = FALSE;
+ 
+-  CoInitializeEx (NULL, COINIT_MULTITHREADED);
++  self->enumerator = gst_mm_device_enumerator_new ();
+ }
+ 
+ static void
+@@ -208,6 +208,8 @@ gst_wasapi_sink_dispose (GObject * object)
+     self->render_client = NULL;
+   }
+ 
++  gst_clear_object (&self->enumerator);
++
+   G_OBJECT_CLASS (gst_wasapi_sink_parent_class)->dispose (object);
+ }
+ 
+@@ -219,8 +221,6 @@ gst_wasapi_sink_finalize (GObject * object)
+   CoTaskMemFree (self->mix_format);
+   self->mix_format = NULL;
+ 
+-  CoUninitialize ();
+-
+   if (self->cached_caps != NULL) {
+     gst_caps_unref (self->cached_caps);
+     self->cached_caps = NULL;
+@@ -412,8 +412,10 @@ gst_wasapi_sink_open (GstAudioSink * asink)
+    * even if the old device was unplugged. We need to handle this somehow.
+    * For example, perhaps we should automatically switch to the new device if
+    * the default device is changed and a device isn't explicitly selected. */
+-  if (!gst_wasapi_util_get_device_client (GST_ELEMENT (self), eRender,
+-          self->role, self->device_strid, &device, &client)) {
++  if (!gst_wasapi_util_get_device (self->enumerator, eRender,
++          self->role, self->device_strid, &device)
++      || !gst_wasapi_util_get_audio_client (GST_ELEMENT (self),
++          device, &client)) {
+     if (!self->device_strid)
+       GST_ELEMENT_ERROR (self, RESOURCE, OPEN_WRITE, (NULL),
+           ("Failed to get default device"));
+@@ -483,7 +485,12 @@ gst_wasapi_sink_prepare (GstAudioSink * asink, GstAudioRingBufferSpec * spec)
+   guint bpf, rate, devicep_frames;
+   HRESULT hr;
+ 
+-  CoInitializeEx (NULL, COINIT_MULTITHREADED);
++  if (!self->client) {
++    GST_DEBUG_OBJECT (self, "no IAudioClient, creating a new one");
++    if (!gst_wasapi_util_get_audio_client (GST_ELEMENT (self),
++            self->device, &self->client))
++      goto beach;
++  }
+ 
+   if (gst_wasapi_sink_can_audioclient3 (self)) {
+     if (!gst_wasapi_util_initialize_audioclient3 (GST_ELEMENT (self), spec,
+@@ -590,7 +597,8 @@ gst_wasapi_sink_unprepare (GstAudioSink * asink)
+   GstWasapiSink *self = GST_WASAPI_SINK (asink);
+ 
+   if (self->client != NULL) {
+-    IAudioClient_Stop (self->client);
++    IUnknown_Release (self->client);
++    self->client = NULL;
+   }
+ 
+   if (self->render_client != NULL) {
+@@ -598,8 +606,6 @@ gst_wasapi_sink_unprepare (GstAudioSink * asink)
+     self->render_client = NULL;
+   }
+ 
+-  CoUninitialize ();
+-
+   return TRUE;
+ }
+ 
+diff --git a/sys/wasapi/gstwasapisink.h b/sys/wasapi/gstwasapisink.h
+index 76ec38fb1..4aac69efc 100644
+--- a/sys/wasapi/gstwasapisink.h
++++ b/sys/wasapi/gstwasapisink.h
+@@ -40,6 +40,8 @@ struct _GstWasapiSink
+ {
+   GstAudioSink parent;
+ 
++  GstMMDeviceEnumerator *enumerator;
++
+   IMMDevice *device;
+   IAudioClient *client;
+   IAudioRenderClient *render_client;
+diff --git a/sys/wasapi/gstwasapisrc.c b/sys/wasapi/gstwasapisrc.c
+index db6917036..8bdff3be0 100644
+--- a/sys/wasapi/gstwasapisrc.c
++++ b/sys/wasapi/gstwasapisrc.c
+@@ -199,7 +199,7 @@ gst_wasapi_src_init (GstWasapiSrc * self)
+   self->loopback_event_handle = CreateEvent (NULL, FALSE, FALSE, NULL);
+   self->loopback_cancellable = CreateEvent (NULL, TRUE, FALSE, NULL);
+ 
+-  CoInitializeEx (NULL, COINIT_MULTITHREADED);
++  self->enumerator = gst_mm_device_enumerator_new ();
+ }
+ 
+ static void
+@@ -247,6 +247,8 @@ gst_wasapi_src_dispose (GObject * object)
+     self->loopback_cancellable = NULL;
+   }
+ 
++  gst_clear_object (&self->enumerator);
++
+   G_OBJECT_CLASS (parent_class)->dispose (object);
+ }
+ 
+@@ -258,8 +260,6 @@ gst_wasapi_src_finalize (GObject * object)
+   CoTaskMemFree (self->mix_format);
+   self->mix_format = NULL;
+ 
+-  CoUninitialize ();
+-
+   g_clear_pointer (&self->cached_caps, gst_caps_unref);
+   g_clear_pointer (&self->positions, g_free);
+   g_clear_pointer (&self->device_strid, g_free);
+@@ -426,9 +426,11 @@ gst_wasapi_src_open (GstAudioSrc * asrc)
+    * even if the old device was unplugged. We need to handle this somehow.
+    * For example, perhaps we should automatically switch to the new device if
+    * the default device is changed and a device isn't explicitly selected. */
+-  if (!gst_wasapi_util_get_device_client (GST_ELEMENT (self),
++  if (!gst_wasapi_util_get_device (self->enumerator,
+           self->loopback ? eRender : eCapture, self->role, self->device_strid,
+-          &device, &client)) {
++          &device)
++      || !gst_wasapi_util_get_audio_client (GST_ELEMENT (self),
++          device, &client)) {
+     if (!self->device_strid)
+       GST_ELEMENT_ERROR (self, RESOURCE, OPEN_READ, (NULL),
+           ("Failed to get default device"));
+@@ -445,9 +447,10 @@ gst_wasapi_src_open (GstAudioSrc * asrc)
+    * we will keep pusing silence data to into wasapi client so that make audio
+    * client report audio data in any case
+    */
+-  if (!gst_wasapi_util_get_device_client (GST_ELEMENT (self),
+-          eRender, self->role, self->device_strid,
+-          &loopback_device, &self->loopback_client)) {
++  if (!gst_wasapi_util_get_device (self->enumerator,
++          eRender, self->role, self->device_strid, &loopback_device)
++      || !gst_wasapi_util_get_audio_client (GST_ELEMENT (self),
++          loopback_device, &self->loopback_client)) {
+     if (!self->device_strid)
+       GST_ELEMENT_ERROR (self, RESOURCE, OPEN_READ, (NULL),
+           ("Failed to get default device for loopback"));
+@@ -601,8 +604,6 @@ gst_wasapi_src_prepare (GstAudioSrc * asrc, GstAudioRingBufferSpec * spec)
+   guint bpf, rate, devicep_frames, buffer_frames;
+   HRESULT hr;
+ 
+-  CoInitializeEx (NULL, COINIT_MULTITHREADED);
+-
+   if (gst_wasapi_src_can_audioclient3 (self)) {
+     if (!gst_wasapi_util_initialize_audioclient3 (GST_ELEMENT (self), spec,
+             (IAudioClient3 *) self->client, self->mix_format, self->low_latency,
+@@ -741,8 +742,6 @@ gst_wasapi_src_unprepare (GstAudioSrc * asrc)
+ 
+   self->client_clock_freq = 0;
+ 
+-  CoUninitialize ();
+-
+   return TRUE;
+ }
+ 
+diff --git a/sys/wasapi/gstwasapisrc.h b/sys/wasapi/gstwasapisrc.h
+index 53dacd91f..8b78b7f17 100644
+--- a/sys/wasapi/gstwasapisrc.h
++++ b/sys/wasapi/gstwasapisrc.h
+@@ -40,6 +40,8 @@ struct _GstWasapiSrc
+ {
+   GstAudioSrc parent;
+ 
++  GstMMDeviceEnumerator *enumerator;
++
+   IMMDevice *device;
+   IAudioClient *client;
+   IAudioClock *client_clock;
+diff --git a/sys/wasapi/gstwasapiutil.c b/sys/wasapi/gstwasapiutil.c
+index 5d7ff38c4..b59f5f193 100644
+--- a/sys/wasapi/gstwasapiutil.c
++++ b/sys/wasapi/gstwasapiutil.c
+@@ -305,39 +305,29 @@ gst_wasapi_util_hresult_to_string (HRESULT hr)
+   return error_text;
+ }
+ 
+-static IMMDeviceEnumerator *
+-gst_wasapi_util_get_device_enumerator (GstObject * self)
+-{
+-  HRESULT hr;
+-  IMMDeviceEnumerator *enumerator = NULL;
+-
+-  hr = CoCreateInstance (&CLSID_MMDeviceEnumerator, NULL, CLSCTX_ALL,
+-      &IID_IMMDeviceEnumerator, (void **) &enumerator);
+-  HR_FAILED_RET (hr, CoCreateInstance (MMDeviceEnumerator), NULL);
+-
+-  return enumerator;
+-}
+-
+ gboolean
+-gst_wasapi_util_get_devices (GstObject * self, gboolean active,
+-    GList ** devices)
++gst_wasapi_util_get_devices (GstMMDeviceEnumerator * self,
++    gboolean active, GList ** devices)
+ {
+   gboolean res = FALSE;
+   static GstStaticCaps scaps = GST_STATIC_CAPS (GST_WASAPI_STATIC_CAPS);
+   DWORD dwStateMask = active ? DEVICE_STATE_ACTIVE : DEVICE_STATEMASK_ALL;
+   IMMDeviceCollection *device_collection = NULL;
+-  IMMDeviceEnumerator *enumerator = NULL;
++  IMMDeviceEnumerator *enum_handle = NULL;
+   const gchar *device_class, *element_name;
+   guint ii, count;
+   HRESULT hr;
+ 
+   *devices = NULL;
+ 
+-  enumerator = gst_wasapi_util_get_device_enumerator (self);
+-  if (!enumerator)
++  if (!self)
++    return FALSE;
++
++  enum_handle = gst_mm_device_enumerator_get_handle (self);
++  if (!enum_handle)
+     return FALSE;
+ 
+-  hr = IMMDeviceEnumerator_EnumAudioEndpoints (enumerator, eAll, dwStateMask,
++  hr = IMMDeviceEnumerator_EnumAudioEndpoints (enum_handle, eAll, dwStateMask,
+       &device_collection);
+   HR_FAILED_GOTO (hr, IMMDeviceEnumerator::EnumAudioEndpoints, err);
+ 
+@@ -459,8 +449,6 @@ gst_wasapi_util_get_devices (GstObject * self, gboolean active,
+   res = TRUE;
+ 
+ err:
+-  if (enumerator)
+-    IUnknown_Release (enumerator);
+   if (device_collection)
+     IUnknown_Release (device_collection);
+   return res;
+@@ -533,25 +521,28 @@ out:
+ }
+ 
+ gboolean
+-gst_wasapi_util_get_device_client (GstElement * self,
++gst_wasapi_util_get_device (GstMMDeviceEnumerator * self,
+     gint data_flow, gint role, const wchar_t * device_strid,
+-    IMMDevice ** ret_device, IAudioClient ** ret_client)
++    IMMDevice ** ret_device)
+ {
+   gboolean res = FALSE;
+   HRESULT hr;
+-  IMMDeviceEnumerator *enumerator = NULL;
++  IMMDeviceEnumerator *enum_handle = NULL;
+   IMMDevice *device = NULL;
+-  IAudioClient *client = NULL;
+ 
+-  if (!(enumerator = gst_wasapi_util_get_device_enumerator (GST_OBJECT (self))))
+-    goto beach;
++  if (!self)
++    return FALSE;
++
++  enum_handle = gst_mm_device_enumerator_get_handle (self);
++  if (!enum_handle)
++    return FALSE;
+ 
+   if (!device_strid) {
+-    hr = IMMDeviceEnumerator_GetDefaultAudioEndpoint (enumerator, data_flow,
++    hr = IMMDeviceEnumerator_GetDefaultAudioEndpoint (enum_handle, data_flow,
+         role, &device);
+     HR_FAILED_GOTO (hr, IMMDeviceEnumerator::GetDefaultAudioEndpoint, beach);
+   } else {
+-    hr = IMMDeviceEnumerator_GetDevice (enumerator, device_strid, &device);
++    hr = IMMDeviceEnumerator_GetDevice (enum_handle, device_strid, &device);
+     if (hr != S_OK) {
+       gchar *msg = gst_wasapi_util_hresult_to_string (hr);
+       GST_ERROR_OBJECT (self, "IMMDeviceEnumerator::GetDevice (%S) failed"
+@@ -561,6 +552,26 @@ gst_wasapi_util_get_device_client (GstElement * self,
+     }
+   }
+ 
++  IUnknown_AddRef (device);
++  *ret_device = device;
++
++  res = TRUE;
++
++beach:
++  if (device != NULL)
++    IUnknown_Release (device);
++
++  return res;
++}
++
++gboolean
++gst_wasapi_util_get_audio_client (GstElement * self,
++    IMMDevice * device, IAudioClient ** ret_client)
++{
++  IAudioClient *client = NULL;
++  gboolean res = FALSE;
++  HRESULT hr;
++
+   if (gst_wasapi_util_have_audioclient3 ())
+     hr = IMMDevice_Activate (device, &IID_IAudioClient3, CLSCTX_ALL, NULL,
+         (void **) &client);
+@@ -570,9 +581,7 @@ gst_wasapi_util_get_device_client (GstElement * self,
+   HR_FAILED_GOTO (hr, IMMDevice::Activate (IID_IAudioClient), beach);
+ 
+   IUnknown_AddRef (client);
+-  IUnknown_AddRef (device);
+   *ret_client = client;
+-  *ret_device = device;
+ 
+   res = TRUE;
+ 
+@@ -580,12 +589,6 @@ beach:
+   if (client != NULL)
+     IUnknown_Release (client);
+ 
+-  if (device != NULL)
+-    IUnknown_Release (device);
+-
+-  if (enumerator != NULL)
+-    IUnknown_Release (enumerator);
+-
+   return res;
+ }
+ 
+diff --git a/sys/wasapi/gstwasapiutil.h b/sys/wasapi/gstwasapiutil.h
+index 4e560e6bd..70f241980 100644
+--- a/sys/wasapi/gstwasapiutil.h
++++ b/sys/wasapi/gstwasapiutil.h
+@@ -29,6 +29,7 @@
+ #include <audioclient.h>
+ 
+ #include "gstaudioclient3.h"
++#include "gstmmdeviceenumerator.h"
+ 
+ /* Static Caps shared between source, sink, and device provider */
+ #define GST_WASAPI_STATIC_CAPS "audio/x-raw, " \
+@@ -92,12 +93,16 @@ gint gst_wasapi_erole_to_device_role (gint erole);
+ 
+ gchar *gst_wasapi_util_hresult_to_string (HRESULT hr);
+ 
+-gboolean gst_wasapi_util_get_devices (GstObject * element, gboolean active,
+-    GList ** devices);
++gboolean gst_wasapi_util_get_devices (GstMMDeviceEnumerator * enumerator,
++                                      gboolean active,
++                                      GList ** devices);
+ 
+-gboolean gst_wasapi_util_get_device_client (GstElement * element,
++gboolean gst_wasapi_util_get_device (GstMMDeviceEnumerator * enumerator,
+     gint data_flow, gint role, const wchar_t * device_strid,
+-    IMMDevice ** ret_device, IAudioClient ** ret_client);
++    IMMDevice ** ret_device);
++
++gboolean gst_wasapi_util_get_audio_client (GstElement * self,
++    IMMDevice * device, IAudioClient ** ret_client);
+ 
+ gboolean gst_wasapi_util_get_device_format (GstElement * element,
+     gint device_mode, IMMDevice * device, IAudioClient * client,
+diff --git a/sys/wasapi/meson.build b/sys/wasapi/meson.build
+index 9adc3d690..3fdd73a2f 100644
+--- a/sys/wasapi/meson.build
++++ b/sys/wasapi/meson.build
+@@ -1,4 +1,5 @@
+ wasapi_sources = [
++  'gstmmdeviceenumerator.cpp',
+   'gstwasapi.c',
+   'gstwasapisrc.c',
+   'gstwasapisink.c',
+@@ -30,6 +31,7 @@ if ole32_dep.found() and ksuser_dep.found() and have_audioclient_h
+   gstwasapi = library('gstwasapi',
+     wasapi_sources,
+     c_args : gst_plugins_bad_args + wasapi_args,
++    cpp_args: gst_plugins_bad_args,
+     include_directories : [configinc],
+     dependencies : [gstaudio_dep, ole32_dep, ksuser_dep],
+     install : true,
+-- 
+2.30.2.windows.1
+

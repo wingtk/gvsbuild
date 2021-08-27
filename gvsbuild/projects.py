@@ -714,6 +714,7 @@ class Project_gst_plugins_bad(Tarball, Meson):
             archive_url = 'https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.4.tar.xz',
             hash = '74e806bc5595b18c70e9ca93571e27e79dfb808e5d2e7967afa952b52e99c85f',
             dependencies = ['meson', 'ninja', 'glib', 'gstreamer', 'gst-plugins-base'],
+            patches = ['wasapideviceprovider-Add-support-for-dynamic-device-.patch'],
             )
         self.add_param('-Dcurl=disabled')
         self.add_param('-Dcurl-ssh2=disabled')
