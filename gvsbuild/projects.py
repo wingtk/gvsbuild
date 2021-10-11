@@ -449,7 +449,6 @@ class Project_gdk_pixbuf(Tarball, Meson):
         else:
             enable_gi = 'disabled'
 
-        self.add_param('-Djasper=true')
         self.add_param('-Dnative_windows_loaders=true')
         self.add_param('-Dintrospection=%s' % (enable_gi, ))
         self.add_param('-Dman=false')
@@ -992,26 +991,6 @@ class Project_icu(Tarball, Project):
         self.install(bindir + r'\* bin')
         self.install(libdir + r'\* lib')
         self.install(r'.\include\* include')
-
-@project_add
-class Project_jasper(Tarball, CmakeProject):
-    def __init__(self):
-        Project.__init__(self,
-            'jasper',
-            archive_url = 'http://www.ece.uvic.ca/~frodo/jasper/software/jasper-2.0.14.tar.gz',
-            hash = '2a1f61e55afe8b4ce8115e1508c5d7cb314d56dfcc2dd323f90c072f88ccf57b',
-            dependencies = ['cmake', 'ninja', 'libjpeg-turbo', ],
-            patches = [
-                    '001-dont-use-pkg-full-path.patch',
-                    '002-dont-install-msvc-runtime.patch',
-                ]
-            )
-
-    def build(self):
-        CmakeProject.build(self, use_ninja=True)
-
-        self.install(r'.\COPYRIGHT share\doc\jasper')
-        self.install(r'.\LICENSE share\doc\jasper')
 
 @project_add
 class Project_jsonc(Tarball, Project):
