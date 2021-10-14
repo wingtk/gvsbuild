@@ -1629,6 +1629,21 @@ class Project_mit_kerberos(Tarball, Project):
         self.install(r'.\NOTICE share\doc\mit-kerberos')
 
 @project_add
+class Project_nghttp2(Tarball, CmakeProject):
+    def __init__(self):
+        Project.__init__(self,
+            'nghttp2',
+            archive_url = 'https://github.com/nghttp2/nghttp2/releases/download/v1.45.1/nghttp2-1.45.1.tar.xz',
+            hash = 'abdc4addccadbc7d89abe27c4d6427d78e57d139f69c1f45749227393c68bf79',
+            dependencies = ['cmake', 'zlib', 'ninja', ],
+            )
+
+    def build(self):
+        CmakeProject.build(self, use_ninja=True)
+
+        self.install(r'.\COPYING share\doc\nghttp2')
+
+@project_add
 class Project_nv_codec_headers(GitRepo, Project):
     def __init__(self):
         Project.__init__(self,
