@@ -1,0 +1,53 @@
+From c4d8575c304c1433161ed36b32ad069a122f7377 Mon Sep 17 00:00:00 2001
+From: Chun-wei Fan <fanchunwei@src.gnome.org>
+Date: Wed, 13 Oct 2021 11:41:31 +0800
+Subject: [PATCH 2/2] gtk: Fix building version resource on Windows 11 SDK
+
+The rc.exe that comes with the Windows 11 SDK does not allow one to include
+winuser.h directly in the .rc scripts, so make sure that we do not try to
+generate the final gtk.rc with it, but instead include windows.h with
+WIN32_LEAN_AND_MEAN defined.
+---
+ gtk/Makefile.am          | 1 -
+ gtk/gen-rc.py            | 1 -
+ gtk/gtk-win32.rc.body.in | 3 ++-
+ 3 files changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/gtk/Makefile.am b/gtk/Makefile.am
+index 074fb35f40..057c21d6c8 100644
+--- a/gtk/Makefile.am
++++ b/gtk/Makefile.am
+@@ -44,7 +44,6 @@ gtk-win32-res.o : gtk-win32.rc libgtk3.manifest
+ 	$(WINDRES) gtk-win32.rc $@
+ 
+ gtk-win32.rc: gtk-win32.rc.body
+-	echo "#include <winuser.h>" >>$@
+ 	cat $< >>$@
+ 	echo "ISOLATIONAWARE_MANIFEST_RESOURCE_ID RT_MANIFEST libgtk3.manifest" >>$@
+ 
+diff --git a/gtk/gen-rc.py b/gtk/gen-rc.py
+index 4bbac33553..671a375e1e 100644
+--- a/gtk/gen-rc.py
++++ b/gtk/gen-rc.py
+@@ -11,7 +11,6 @@ old_msvc = sys.argv[3]
+ with open(out_file, 'w', encoding='utf-8') as o:
+     if old_msvc is not None and old_msvc == "1":
+         o.write("#define ISOLATION_AWARE_ENABLED 1\n")
+-    o.write('#include <winuser.h>\n')
+ 
+     with open(in_file, 'r', encoding='utf-8') as f:
+         for line in f:
+diff --git a/gtk/gtk-win32.rc.body.in b/gtk/gtk-win32.rc.body.in
+index 3834e16efc..49ff3423a2 100644
+--- a/gtk/gtk-win32.rc.body.in
++++ b/gtk/gtk-win32.rc.body.in
+@@ -1,4 +1,5 @@
+-#include <winver.h>
++#define WIN32_LEAN_AND_MEAN
++#include <windows.h>
+ 
+ VS_VERSION_INFO VERSIONINFO
+   FILEVERSION @GTK_MAJOR_VERSION@,@GTK_MINOR_VERSION@,@GTK_MICRO_VERSION@,0
+-- 
+2.17.1
+
