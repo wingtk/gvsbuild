@@ -494,20 +494,14 @@ class Project_glib(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'glib',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.68/glib-2.68.3.tar.xz',
-            hash = 'e7e1a3c20c026109c45c9ec4a31d8dcebc22e86c69486993e565817d64be3138',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.70/glib-2.70.0.tar.xz',
+            hash = '200d7df811c5ba634afbf109f14bb40ba7fde670e89389885da14e27c0840742',
             dependencies = ['ninja', 'meson', 'pkg-config', 'gettext', 'libffi', 'zlib'],
-            patches = ['glib-package-installation-directory.patch',
-                       '0001-GWin32RegistryKey-Change-STATUS_SUCCESS-handling.patch',
-                       '0002-GWin32RegistryKey-ensure-reqeueing-works-correctly.patch',
-                       '0003-GWin32AppInfo-re-trigger-registry-watcher-from-the-c.patch',
-                       '0004-GWin32AppInfo-Fix-missing-initialization.patch',
-                       '0005-gwin32packageparser-Fix-read-past-end-of-buffer.patch',
-                       '0001-registrysettingsbackend-fix-crash.patch'],
+            patches = ['glib-package-installation-directory.patch'],
             )
 
     def build(self):
-        Meson.build(self, meson_params='-Dinternal_pcre=true')
+        Meson.build(self)
         self.install(r'.\COPYING share\doc\glib')
 
 @project_add
