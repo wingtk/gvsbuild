@@ -1357,6 +1357,33 @@ class Project_libsoup(Tarball, Meson):
         self.install(r'.\COPYING share\doc\libsoup')
 
 @project_add
+class Project_libsoup3(Tarball, Meson):
+    def __init__(self):
+        Project.__init__(self,
+            'libsoup3',
+            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/3.0/libsoup-3.0.1.tar.xz',
+            hash = '6f0c316d10f8458b96f564c7644be3c2011bd75ad5054c8db26afb0c9a91bc47',
+            dependencies = ['libxml2', 'glib-networking', 'sqlite', 'libpsl', 'mit-kerberos'],
+            )
+
+        if self.opts.enable_gi:
+            self.add_dependency('gobject-introspection')
+            enable_gi = 'enabled'
+        else:
+            enable_gi = 'disabled'
+
+        self.add_param('-Dintrospection=%s' % (enable_gi, ))
+        self.add_param('-Dvapi=disabled')
+        self.add_param('-Dsysprof=disabled')
+        self.add_param('-Dtls_check=false')
+        self.add_param('-Dtests=false')
+
+    def build(self):
+        Meson.build(self)
+
+        self.install(r'.\COPYING share\doc\libsoup3')
+
+@project_add
 class Project_libssh(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
