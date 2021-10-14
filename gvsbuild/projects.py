@@ -1265,8 +1265,8 @@ class Project_librsvg(Tarball, Project):
 
         Project.__init__(self,
             'librsvg',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/librsvg/2.50/librsvg-2.50.3.tar.xz',
-            hash = 'a4298a98e3a95fdd73c858c17d4dd018525fb09dbb13bbd668a0c2243989e958',
+            archive_url = 'https://download.gnome.org/sources/librsvg/2.52/librsvg-2.52.1.tar.xz',
+            hash = '949dffcb0414865409e17a6c89ae30bc8bb014a51fba5186f73d1a46c6c5ccde',
             dependencies = [
                 'cargo',
                 'cairo',
