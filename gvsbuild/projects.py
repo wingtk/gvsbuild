@@ -1357,7 +1357,7 @@ class Project_libsoup3(Tarball, Meson):
             'libsoup3',
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/3.0/libsoup-3.0.1.tar.xz',
             hash = '6f0c316d10f8458b96f564c7644be3c2011bd75ad5054c8db26afb0c9a91bc47',
-            dependencies = ['libxml2', 'glib-networking', 'sqlite', 'libpsl', 'mit-kerberos'],
+            dependencies = ['libxml2', 'glib-networking', 'sqlite', 'libpsl', 'mit-kerberos', 'nghttp2'],
             )
 
         if self.opts.enable_gi:
