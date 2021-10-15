@@ -414,9 +414,8 @@ class Project_fribidi(GitRepo, Meson):
     def __init__(self):
         Project.__init__(self,
             'fribidi',
-            repo_url = 'https://github.com/fribidi/fribidi.git',
-            fetch_submodules = False,
-            tag = 'f2c9d50722cb60d0cdec3b1bafba9029770e86b4',
+            archive_url = 'https://github.com/fribidi/fribidi/releases/download/v1.0.11/fribidi-1.0.11.tar.xz',
+            hash = '30f93e9c63ee627d1a2cedcf59ac34d45bf30240982f99e44c6e015466b4e73d',
             dependencies = ['ninja', 'meson'],
             )
 
