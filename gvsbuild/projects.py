@@ -410,7 +410,7 @@ class Project_freerdp(Tarball, CmakeProject):
         self.install(r'.\LICENSE share\doc\freerdp')
 
 @project_add
-class Project_fribidi(GitRepo, Meson):
+class Project_fribidi(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'fribidi',
