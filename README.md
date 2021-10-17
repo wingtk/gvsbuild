@@ -1,29 +1,36 @@
-## Goals
+# gvsbuild
 
-This python script helps you build a full GTK+ library stack for Windows using Visual Studio.
+This python script helps you build a full [GTK](https://www.gtk.org/) library stack for Windows using Visual Studio.
 
-The powershell script was originally [developed by the HexChat developers](https://github.com/hexchat/gtk-win32), make sure to check their page for more information about the original script.
+The script supports multiple versions of Visual Studio - at the moment we are focusing on VS 2017, but we include projects for other versions and we gladly accept patches.
 
-HexChat developers decided that their script should focus on their specific needs, this fork tries to be a bit more generic, in particular it pursues the following goals
+The script focuses on GTK and the surrounding ecosystem (e.g. GStreamer), however we are pretty liberal about adding more libraries to the script, with the disclaimer that each contributor is responsible for keeping the additional libraries up to date.
+For now the list of projects is simply defined in the [projects.py](https://github.com/wingtk/gvsbuild/blob/master/gvsbuild/projects.py) file. If the number of libraries increases, we will consider making this more configurable and easily extensible.
 
-1. Build GTK+ 3 - we want to focus on the current version of GTK
-1. Support multiple version of Visual Studio - at the moment we are focusing on VS 2017, but we include projects for other versions and we gladly accept patches
-1. We try to follow as much as possible the conventions of the upstream MSVC projects by Fan Chun-wei - [Compiling the GTK+ (and Clutter) stack using Visual C++ 2008 and later](https://wiki.gnome.org/Projects/GTK/Win32/MSVCCompilationOfGTKStack).
-1. We are pretty liberal about adding more libraries to the script - at some point we will need to make the set of libraries that are built configurable and easily extensible, but right now we are ok with adding libraries that are useful to the users of this script
-1. We try to fetch tarballs from their original locations - if patches are needed we try to fork the project on github and host a patched tarball there
-1. We check sha256 hashes of the downloaded files: if error arise check that the download is not been interrupted: a partial file is likely to miss the hash check. Delete the file and try again.
-1. The download is done using the ssl certificate (handled by the system), in case of error the download is tried again without the certificate.
-1. We try to download also the tools needed and using them from a local directory, without any installation. Actually we use directly, among others, cmake, meson, ninja, nuget and perl.
+The script requires a working installation of [Visual Studio for Windows Desktop](http://www.visualstudio.com), [Python 3](https://www.python.org) and [msys2](https://msys2.github.io).
+The script will download any additional tools required to build the libraries and will use them from a local directory, without any installation. As of today these tools include cmake, meson, ninja, nuget and perl.
+
+The script fetches source tarballs for the projects from their original locations, however in some cases it might be necessary to host a patched tarball on github.
+To ensure integrity of the downloaded files, the script checks the SHA256 hash of each download. Downloads are done using TLS, using SSL certificates provided by the system, but in case of error the download is tried again ignoring certificate errors.
+
+## Prerequisites
+
+Download and install the following build tools and dependencies:
+
+1. [Visual Studio for Windows Desktop](http://www.visualstudio.com/downloads)
+
+    The following Visual Studio versions are supported: 2013 (not for all projects), 2015, 2017 and 2019
+
+1. [Python 3](https://www.python.org/downloads/windows/)
+
+    We suggest to install Python in C:\Python3x, for example C:\Python310. Alternatively you can use the `--python-dir` option to tell the script the correct location of your Python installation.
+    Other Python distributions like [Miniconda 3](https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86_64.exe) should also work.
+
+1. [msys2](https://msys2.github.io/)
+
+    Follow the instructions on the msys2 page to update the core packages. The packages by the build script (make, diffutils, ...) are download and installed automatically if not presents in the msys2 installation.
 
 ## Building
-
-1. Install the following build tools and dependencies:
-
-    * [Visual Studio for Windows Desktop](http://www.visualstudio.com/downloads) - 2013 (not for all projects), 2015, 2017 and 2019 are currently supported.
-    * [msys2](https://msys2.github.io/)
-    * [Latest Python 3](https://www.python.org/downloads/windows/) (install in C:\Python3x, for example C:\Python310, or use the --python-dir option to tell the script the correct location), or other package like [Miniconda 3](https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86_64.exe)
-
-1. Follow the instructions on the msys2 page to update the core packages. The needed packages for the script (make, diffutils, ...) are download and installed automatically if not presents in the msys2 installation.
 
 1. Clone [this repository](https://github.com/wingtk/gvsbuild) to _C:\gtk-build\github\gvsbuild_ It contains the build script, project files and patches.
 
@@ -79,15 +86,18 @@ HexChat developers decided that their script should focus on their specific need
 
 1. When the script is done, your GTK+ stack will be found under _C:\gtk-build\gtk_. Enjoy!
 
-## License
 
-This build script is licensed under the GPL2.0 license, see the COPYING file for the full text.
+For a complete list of the options accepted by the build command, run:
 
-The binaries produced by the build script are licensed under the license terms of the project that gets built (ie glib is LGPL so you can use glib.dll built with this script under the terms of LGPL).
+```
+python .\build.py build --help
+```
 
-Patches included in the repository are licensed under the license terms of the project they apply to.
+## Troubleshooting
 
-## Dependency print / graph
+If the download of a tarball fails a partial file will not pass the hash check. Delete the file and try again.
+
+## Dependency Graph
 
 To see and analyze the dependency between the various projects, in text or in a Graphviz format, use the script deps.py:
 
@@ -97,4 +107,18 @@ To see and analyze the dependency between the various projects, in text or in a 
     ```
 
 Without option a simple dependency of all the projects is printed, as usual with --help a summary of the options/commands is printed.
+
+## License
+
+This build script is licensed under the GPL2.0 license, see the COPYING file for the full text.
+
+The binaries produced by the build script are licensed under the license terms of the project that gets built (ie glib is LGPL so you can use glib.dll built with this script under the terms of LGPL).
+
+Patches included in the repository are licensed under the license terms of the project they apply to.
+
+## Credits
+
+This tool originated from a powershell [developed by the HexChat developers](https://github.com/hexchat/gtk-win32), make sure to check their page for more information about the original script.
+
+Compiling the GTK stack on MSVC would not be possible without the incredible work by Fan Chun-wei - Check the [Compiling the GTK+ (and Clutter) stack using Visual C++ 2008 and later](https://wiki.gnome.org/Projects/GTK/Win32/MSVCCompilationOfGTKStack) for more information on how this works.
 
