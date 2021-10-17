@@ -897,29 +897,27 @@ class Project_gtk3_24(Tarball, Meson):
 
         self.install(r'.\COPYING share\doc\gtk3')
 
+
 @project_add
-class Project_gtksourceview3(Tarball, Project, _MakeGir):
+class Project_gtksourceview(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
-            'gtksourceview3',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/gtksourceview/3.22/gtksourceview-3.22.2.tar.xz',
-            hash = '6ce84231dd0931cc747708434ca2f344c65a092dd6e1a800283fe0748773af5e',
-            dependencies = ['perl', 'gtk3'],
+            'gtksourceview',
+            archive_url = 'https://download.gnome.org/sources/gtksourceview/4.8/gtksourceview-4.8.2.tar.xz',
+            hash = '842de7e5cb52000fd810e4be39cd9fe29ffa87477f15da85c18f7b82d45637cc',
+            dependencies = ['python', 'gtk3', 'pkg-config'],
             )
         if Project.opts.enable_gi:
             self.add_dependency('gobject-introspection')
+        else:
+            self.add_param('-Dgir=false')
+        self.add_param('-Dvapi=false')
+        self.add_param('--backend=vs')
 
     def build(self):
-        self.builder.mod_env('INCLUDE', '%s\\include\\harfbuzz' % (self.builder.gtk_dir, ))
-        self.exec_msbuild_gen(r'build\win32', 'gtksourceview.sln', add_pars='/p:UseEnv=True')
+        Meson.build(self)
+        self.install(r'.\COPYING share\doc\gtksourceview')
 
-        self.install(r'.\COPYING share\doc\gtksourceview3')
-
-    def post_install(self):
-        if Project.opts.enable_gi:
-            self.builder.mod_env('INCLUDE', '%s\\include\\gtk-3.0' % (self.builder.gtk_dir, ))
-            self.builder.mod_env('INCLUDE', '%s\\include\\cairo' % (self.builder.gtk_dir, ))
-            self.make_single_gir('gtksourceview', prj_dir='gtksourceview3')
 
 @project_add
 class Project_harfbuzz(Tarball, Meson):
@@ -940,6 +938,7 @@ class Project_harfbuzz(Tarball, Meson):
     def build(self):
         Meson.build(self)
         self.install(r'.\COPYING share\doc\harfbuzz')
+
 
 @project_add
 class Project_hicolor_icon_theme(Tarball, Project):
