@@ -905,14 +905,13 @@ class Project_gtksourceview(Tarball, Meson):
             'gtksourceview',
             archive_url = 'https://download.gnome.org/sources/gtksourceview/4.8/gtksourceview-4.8.2.tar.xz',
             hash = '842de7e5cb52000fd810e4be39cd9fe29ffa87477f15da85c18f7b82d45637cc',
-            dependencies = ['python', 'gtk3', 'pkg-config'],
+            dependencies = ['python', 'meson', 'ninja', 'gtk3', 'pkg-config'],
             )
         if Project.opts.enable_gi:
             self.add_dependency('gobject-introspection')
         else:
             self.add_param('-Dgir=false')
         self.add_param('-Dvapi=false')
-        self.add_param('--backend=vs')
 
     def build(self):
         Meson.build(self)
