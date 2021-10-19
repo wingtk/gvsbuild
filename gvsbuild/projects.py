@@ -496,7 +496,8 @@ class Project_glib(Tarball, Meson):
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.70/glib-2.70.0.tar.xz',
             hash = '200d7df811c5ba634afbf109f14bb40ba7fde670e89389885da14e27c0840742',
             dependencies = ['ninja', 'meson', 'pkg-config', 'gettext', 'libffi', 'zlib'],
-            patches = ['glib-package-installation-directory.patch'],
+            patches = ['glib-package-installation-directory.patch',
+                       '0001-libpcre-add-a-fallback-url.patch'],
             )
 
     def build(self):
