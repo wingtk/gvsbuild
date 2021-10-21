@@ -463,6 +463,20 @@ class Project_gdk_pixbuf(Tarball, Meson):
         self.exec_cmd(r'%(gtk_dir)s\bin\gdk-pixbuf-query-loaders.exe --update-cache')
 
 @project_add
+class Project_gdl(GitRepo, Meson):
+    def __init__(self):
+        Project.__init__(self,
+            'gdl',
+             repo_url='https://gitlab.gnome.org/GNOME/gdl.git',
+             tag='09d970bd98b8c686ebc7de2f8b582a1357545f74',
+             fetch_submodules=False,
+             dependencies=['gtk3']
+        )
+
+    def build(self):
+        Meson.build(self)
+
+@project_add
 class Project_gettext(Tarball, Project):
     def __init__(self):
         Project.__init__(self,
