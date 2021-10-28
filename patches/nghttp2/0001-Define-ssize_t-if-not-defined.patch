@@ -1,0 +1,28 @@
+From 4cec2653c36e04b14c189c304849626422285db3 Mon Sep 17 00:00:00 2001
+From: Ignacio Casal Quinteiro <qignacio@amazon.com>
+Date: Thu, 28 Oct 2021 11:58:52 +0200
+Subject: [PATCH] Define ssize_t if not defined
+
+---
+ lib/includes/nghttp2/nghttp2.h | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/lib/includes/nghttp2/nghttp2.h b/lib/includes/nghttp2/nghttp2.h
+index 04321a65..70450291 100644
+--- a/lib/includes/nghttp2/nghttp2.h
++++ b/lib/includes/nghttp2/nghttp2.h
+@@ -29,6 +29,11 @@
+    libcurl) */
+ #if (defined(_WIN32) || defined(__WIN32__)) && !defined(WIN32)
+ #  define WIN32
++
++#ifndef ssize_t
++#define ssize_t int
++#endif
++
+ #endif
+ 
+ /* Compatibility for non-Clang compilers */
+-- 
+2.25.1
+

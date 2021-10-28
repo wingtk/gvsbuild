@@ -1636,6 +1636,7 @@ class Project_nghttp2(Tarball, CmakeProject):
             archive_url = 'https://github.com/nghttp2/nghttp2/releases/download/v1.45.1/nghttp2-1.45.1.tar.xz',
             hash = 'abdc4addccadbc7d89abe27c4d6427d78e57d139f69c1f45749227393c68bf79',
             dependencies = ['cmake', 'zlib', 'ninja', ],
+            patches = ['0001-Define-ssize_t-if-not-defined.patch'],
             )
 
     def build(self):
