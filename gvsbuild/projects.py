@@ -1820,18 +1820,15 @@ class Project_pixman(Tarball, Project):
         self.install(r'.\COPYING share\doc\pixman')
 
 @project_add
-class Project_pkgconf(GitRepo, Meson):
+class Project_pkgconf(Tarball, Meson):
     def __init__(self):
-        GitRepo.__init__(self)
         Project.__init__(self,
             'pkg-config',
             prj_dir = 'pkgconf',
-            repo_url = 'https://github.com/pkgconf/pkgconf.git',
-            fetch_submodules = False,
-            tag = 'pkgconf-1.5.4',
+            archive_url = 'https://distfiles.dereferenced.org/pkgconf/pkgconf-1.8.0.tar.gz',
+            hash = 'd7b6fdb522d81c11f5a0e0a0629a9f5480809ec90e595058674c1517822dfb8c',
             dependencies = ['ninja', 'meson'],
-            patches = [ '0001-vs2013.patch',
-                      ],
+            patches = ['0001-vs2013.patch'],
             )
         self.add_param('-Dtests=false')
 
