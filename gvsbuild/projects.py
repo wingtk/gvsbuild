@@ -1901,69 +1901,34 @@ class Project_protobuf_c(Tarball, CmakeProject):
         self.install_pc_files()
 
 @project_add
-class Project_pycairo(Tarball, Project):
+class Project_pycairo(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'pycairo',
             archive_url = 'https://github.com/pygobject/pycairo/releases/download/v1.20.1/pycairo-1.20.1.tar.gz',
             hash = '1ee72b035b21a475e1ed648e26541b04e5d7e753d75ca79de8c583b25785531b',
             dependencies = ['cairo', 'python'],
-            patches = [
-                'pycairo_py3_8_load_dll.patch',
-                ],
             )
 
     def build(self):
-        cairo_inc = os.path.join(self.builder.gtk_dir, 'include', 'cairo')
-        self.builder.mod_env('INCLUDE', cairo_inc)
-        self.push_location(self.build_dir)
-        self.exec_vs(r'%(python_dir)s\python.exe setup.py install')
-        if self.builder.opts.py_egg:
-            self.exec_vs(r'%(python_dir)s\python.exe setup.py bdist_egg')
-        if self.builder.opts.py_wheel:
-            self.exec_vs(r'%(python_dir)s\python.exe setup.py bdist_wheel')
-        if self.builder.opts.py_egg or self.builder.opts.py_wheel:
-            self.install_dir('dist', 'python')
+        Meson.build(self)
         self.install(r'.\COPYING share\doc\pycairo')
         self.install(r'.\COPYING-LGPL-2.1 share\doc\pycairo')
         self.install(r'.\COPYING-MPL-1.1 share\doc\pycairo')
-        self.install_pc_files()
-        self.pop_location()
 
 @project_add
-class Project_pygobject(Tarball, Project):
+class Project_pygobject(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'pygobject',
             archive_url = 'https://download.gnome.org/sources/pygobject/3.42/pygobject-3.42.0.tar.xz',
             hash = '9b12616e32cfc792f9dc841d9c472a41a35b85ba67d3a6eb427e307a6fe4367b',
             dependencies = ['python', 'pycairo', 'gobject-introspection', 'libffi'],
-            patches = [
-                'pygobject_py3_8_load_dll.patch',
-                ],
             )
 
     def build(self):
-        gtk_dir = self.builder.gtk_dir
-        add_inc = [
-            os.path.join(gtk_dir, 'include', 'cairo'),
-            os.path.join(gtk_dir, 'include', 'gobject-introspection-1.0'),
-            os.path.join(gtk_dir, 'include', 'glib-2.0'),
-            os.path.join(gtk_dir, 'lib', 'glib-2.0', 'include'),
-        ]
-        self.builder.mod_env('INCLUDE', ";".join(add_inc))
-        self.push_location(self.build_dir)
-        self.exec_vs(r'%(python_dir)s\python.exe setup.py install')
-        if self.builder.opts.py_egg:
-            self.exec_vs(r'%(python_dir)s\python.exe setup.py bdist_egg')
-        if self.builder.opts.py_wheel:
-            self.exec_vs(r'%(python_dir)s\python.exe setup.py bdist_wheel')
-        if self.builder.opts.py_egg or self.builder.opts.py_wheel:
-            self.install_dir('dist', 'python')
+        Meson.build(self)
         self.install(r'.\COPYING share\doc\pygobject')
-        self.install(r'.\gi\pygobject.h include\pygobject-3.0')
-        self.install_pc_files()
-        self.pop_location()
 
 @project_add
 class Project_sqlite(Tarball, Project):
