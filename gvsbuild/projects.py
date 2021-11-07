@@ -330,53 +330,17 @@ class Project_ffmpeg(Tarball, Project):
         self.builder.exec_msys(['mv', 'swscale.lib', '../lib/'], working_dir=os.path.join(self.builder.gtk_dir, 'bin'))
 
 @project_add
-class Project_fontconfig(Tarball, Project):
+class Project_fontconfig(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'fontconfig',
-            archive_url = 'https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.0.tar.gz',
-            hash = 'a6ca290637d8b2c4e1dd40549b179202977593f7481ec83ddfb1765ad90037ba',
+            archive_url = 'https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.94.tar.gz',
+            hash = '246d1640a7e54fba697b28e4445f4d9eb63dda1b511d19986249368ee7191882',
             dependencies = ['freetype', 'libxml2'],
-            patches = ['fontconfig.patch'],
             )
 
     def build(self):
-        #make the fontconfig files work on other compatible vs versions
-        for proj in glob.glob(r'%s\*.vcxproj' % (self.build_dir,)):
-            with open(proj, 'r', encoding='utf-8') as f:
-                content = f.read()
-            if content.find('<PlatformToolset>FIXME</PlatformToolset>') >= 0:
-                log.debug('patching project file %s' % (proj,))
-                if self.builder.opts.vs_ver == '16':
-                    fixme = r'142'
-                elif self.builder.opts.vs_ver == '15':
-                    fixme = r'141'
-                else:
-                    fixme = self.builder.opts.vs_ver + r'0'
-                content = content.replace('<PlatformToolset>FIXME</PlatformToolset>', '<PlatformToolset>v%s</PlatformToolset>' % (fixme))
-                with open(proj, 'w', encoding='utf-8') as f:
-                    f.write(content)
-
-        self.exec_msbuild('fontconfig.sln /t:build')
-
-        if self.builder.x86:
-            rel_dir = r'.\%(configuration)s'
-        else:
-            rel_dir = r'.\x64\%(configuration)s'
-
-        self.push_location(rel_dir)
-        self.install('fontconfig.dll', 'fontconfig.pdb', 'fc-cache.exe', 'fc-cache.pdb', 'fc-cat.exe', 'fc-cat.pdb', 'fc-list.exe', 'fc-list.pdb',
-                     'fc-match.exe', 'fc-match.pdb', 'fc-query.exe', 'fc-query.pdb', 'fc-scan.exe', 'fc-scan.pdb', 'bin')
-        self.pop_location()
-
-        self.install(r'fonts.conf fonts.dtd etc\fonts')
-        self.install(r'.\fontconfig\fcfreetype.h .\fontconfig\fcprivate.h .\fontconfig\fontconfig.h include\fontconfig')
-
-        self.push_location(rel_dir)
-        self.install('fontconfig.lib', 'lib')
-        self.pop_location()
-
-        self.install_pc_files()
+        Meson.build(self)
         self.install(r'.\COPYING share\doc\fontconfig')
 
 @project_add
