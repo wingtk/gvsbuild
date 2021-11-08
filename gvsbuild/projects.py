@@ -493,8 +493,8 @@ class Project_glib(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'glib',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.70/glib-2.70.0.tar.xz',
-            hash = '200d7df811c5ba634afbf109f14bb40ba7fde670e89389885da14e27c0840742',
+            archive_url = 'https://download.gnome.org/sources/glib/2.70/glib-2.70.1.tar.xz',
+            hash = 'f9b7bce7f51753a1f43853bbcaca8bf09e15e994268e29cfd7a76f65636263c0',
             dependencies = ['ninja', 'meson', 'pkg-config', 'gettext', 'libffi', 'zlib'],
             patches = ['glib-package-installation-directory.patch',
                        '0001-libpcre-add-a-fallback-url.patch'],
@@ -924,8 +924,8 @@ class Project_harfbuzz(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
             'harfbuzz',
-            archive_url = 'https://github.com/harfbuzz/harfbuzz/releases/download/3.0.0/harfbuzz-3.0.0.tar.xz',
-            hash = '036b0ee118451539783ec7864148bb4106be42a2eb964df4e83e6703ec46f3d9',
+            archive_url = 'https://github.com/harfbuzz/harfbuzz/releases/download/3.1.1/harfbuzz-3.1.1.tar.xz',
+            hash = 'f3f3247bdeabf36765acc237a5f651e651e4e9706582b9cc2cf6c9b8102dfa93',
             dependencies = ['python', 'freetype', 'pkg-config', 'glib'],
             )
 
@@ -1410,10 +1410,9 @@ class Project_libtiff4(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(self,
             'libtiff-4',
-            archive_url = 'http://download.osgeo.org/libtiff/tiff-4.2.0.tar.gz',
-            hash = 'eb0484e568ead8fa23b513e9b0041df7e327f4ee2d22db5a533929dfc19633cb',
+            archive_url = 'http://download.osgeo.org/libtiff/tiff-4.3.0.tar.gz',
+            hash = '0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8',
             dependencies = ['cmake', 'ninja', 'libjpeg-turbo', ],
-            patches = ['remove-postfix.patch'],
             )
 
     def build(self):
@@ -1821,18 +1820,15 @@ class Project_pixman(Tarball, Project):
         self.install(r'.\COPYING share\doc\pixman')
 
 @project_add
-class Project_pkgconf(GitRepo, Meson):
+class Project_pkgconf(Tarball, Meson):
     def __init__(self):
-        GitRepo.__init__(self)
         Project.__init__(self,
             'pkg-config',
             prj_dir = 'pkgconf',
-            repo_url = 'https://github.com/pkgconf/pkgconf.git',
-            fetch_submodules = False,
-            tag = 'pkgconf-1.5.4',
+            archive_url = 'https://distfiles.dereferenced.org/pkgconf/pkgconf-1.8.0.tar.gz',
+            hash = 'd7b6fdb522d81c11f5a0e0a0629a9f5480809ec90e595058674c1517822dfb8c',
             dependencies = ['ninja', 'meson'],
-            patches = [ '0001-vs2013.patch',
-                      ],
+            patches = ['0001-vs2013.patch'],
             )
         self.add_param('-Dtests=false')
 
