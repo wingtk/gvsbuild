@@ -1,0 +1,113 @@
+From 61ac4f053e6f6475831705ca616d791c11a63439 Mon Sep 17 00:00:00 2001
+From: Francesco Conti <fconti@amazon.com>
+Date: Mon, 15 Nov 2021 15:07:56 +0100
+Subject: [PATCH 2/2] Loading certificates from Windows root and ca stores
+
+---
+ meson.build                        |  2 ++
+ tls/openssl/gtlsdatabase-openssl.c | 48 ++++++++++++++++++++++++++++++
+ tls/openssl/meson.build            |  2 +-
+ 3 files changed, 51 insertions(+), 1 deletion(-)
+
+diff --git a/meson.build b/meson.build
+index b018ca7..15c5131 100644
+--- a/meson.build
++++ b/meson.build
+@@ -192,6 +192,8 @@ endif
+ if backends.contains('openssl')
+   if ['darwin', 'ios'].contains(host_system)
+     security_dep = dependency('appleframeworks', modules : ['Security'])
++  elif ['windows'].contains(host_system)
++    security_dep = cc.find_library('crypt32')
+   endif
+ 
+   subdir('tls/openssl')
+diff --git a/tls/openssl/gtlsdatabase-openssl.c b/tls/openssl/gtlsdatabase-openssl.c
+index 65709fc..16588c2 100644
+--- a/tls/openssl/gtlsdatabase-openssl.c
++++ b/tls/openssl/gtlsdatabase-openssl.c
+@@ -35,6 +35,10 @@
+ #include <Security/Security.h>
+ #endif
+ 
++#ifdef G_OS_WIN32
++#include <wincrypt.h>
++#endif
++
+ typedef struct
+ {
+   /*
+@@ -180,6 +184,36 @@ g_tls_database_openssl_verify_chain (GTlsDatabase             *database,
+   return result;
+ }
+ 
++#ifdef G_OS_WIN32
++static gboolean
++g_tls_database_openssl_add_cert_from_store (const gunichar2 *source_cert_store_name,
++                                            X509_STORE      *store)
++{
++  HANDLE store_handle;
++  PCCERT_CONTEXT cert_context = NULL;
++
++  store_handle = CertOpenSystemStoreW (0, source_cert_store_name);
++  if (store_handle == NULL)
++    return FALSE;
++
++  while (cert_context = CertEnumCertificatesInStore (store_handle, cert_context))
++    {
++      X509 *x;
++      const unsigned char *pdata;
++
++      pdata = (const unsigned char *)cert_context->pbCertEncoded;
++
++      x = d2i_X509 (NULL, &pdata, cert_context->cbCertEncoded);
++      if (x)
++        X509_STORE_add_cert (store, x);
++    }
++
++  CertCloseStore (store_handle, 0);
++
++  return TRUE;
++}
++#endif
++
+ static gboolean
+ g_tls_database_openssl_populate_trust_list (GTlsDatabaseOpenssl  *self,
+                                             X509_STORE           *store,
+@@ -221,6 +255,20 @@ g_tls_database_openssl_populate_trust_list (GTlsDatabaseOpenssl  *self,
+     }
+ 
+   CFRelease (anchors);
++#elif defined(G_OS_WIN32)
++  if (!g_tls_database_openssl_add_cert_from_store (L"ROOT", store))
++    {
++      g_set_error_literal (error, G_TLS_ERROR, G_TLS_ERROR_MISC,
++                           _("Could not get root certificate store"));
++      return FALSE;
++    }
++
++  if (!g_tls_database_openssl_add_cert_from_store (L"CA", store))
++    {
++      g_set_error_literal (error, G_TLS_ERROR, G_TLS_ERROR_MISC,
++                           _("Could not get CA certificate store"));
++      return FALSE;
++    }
+ #else
+   if (!X509_STORE_set_default_paths (store))
+     {
+diff --git a/tls/openssl/meson.build b/tls/openssl/meson.build
+index fe01e18..c90ca5b 100644
+--- a/tls/openssl/meson.build
++++ b/tls/openssl/meson.build
+@@ -23,7 +23,7 @@ deps = [
+   tlsbase_dep,
+ ]
+ 
+-if ['darwin', 'ios'].contains(host_system)
++if ['darwin', 'ios', 'windows'].contains(host_system)
+   deps += [
+     security_dep,
+   ]
+-- 
+2.25.1
+

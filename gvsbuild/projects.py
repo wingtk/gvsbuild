@@ -476,6 +476,8 @@ class Project_glib_networking(Tarball, Meson):
             archive_url = 'https://ftp.acc.umu.se/pub/gnome/sources/glib-networking/2.70/glib-networking-2.70.0.tar.xz',
             hash = '66b408e7afa86c582fe38963db56133869ab4b57d34e48ec56aba621940d6f35',
             dependencies = ['pkg-config', 'ninja', 'meson', 'glib', 'openssl'],
+            patches = ['0001-Do-not-load-certificates-from-default-paths-on-MacOS.patch',
+                       '0002-Loading-certificates-from-Windows-root-and-ca-stores.patch'],
             )
 
     def build(self):
