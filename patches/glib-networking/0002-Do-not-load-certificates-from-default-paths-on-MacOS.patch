@@ -1,0 +1,36 @@
+From 1b162152ef11e896972548850c640062a6aff21c Mon Sep 17 00:00:00 2001
+From: Francesco Conti <fconti@amazon.com>
+Date: Mon, 15 Nov 2021 15:05:51 +0100
+Subject: [PATCH 2/3] Do not load certificates from default paths on MacOS
+
+Since the root certificates are already loaded it is not
+necessary to load the certificates from the defualt paths
+---
+ tls/openssl/gtlsdatabase-openssl.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/tls/openssl/gtlsdatabase-openssl.c b/tls/openssl/gtlsdatabase-openssl.c
+index 6cf2f49..f9a883e 100644
+--- a/tls/openssl/gtlsdatabase-openssl.c
++++ b/tls/openssl/gtlsdatabase-openssl.c
+@@ -221,8 +221,7 @@ g_tls_database_openssl_populate_trust_list (GTlsDatabaseOpenssl  *self,
+     }
+ 
+   CFRelease (anchors);
+-#endif
+-
++#else
+   if (!X509_STORE_set_default_paths (store))
+     {
+       g_set_error (error, G_TLS_ERROR, G_TLS_ERROR_MISC,
+@@ -230,6 +229,7 @@ g_tls_database_openssl_populate_trust_list (GTlsDatabaseOpenssl  *self,
+                    ERR_error_string (ERR_get_error (), NULL));
+       return FALSE;
+     }
++#endif
+ 
+   return TRUE;
+ }
+-- 
+2.25.1
+
