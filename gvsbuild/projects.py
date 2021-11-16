@@ -498,21 +498,6 @@ class Project_glib_py_wrapper(NullExpander, Meson):
         Meson.build(self)
 
 @project_add
-class Project_glib_openssl(Tarball, Meson):
-    def __init__(self):
-        Project.__init__(self,
-            'glib-openssl',
-            archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/glib-openssl/2.50/glib-openssl-2.50.8.tar.xz',
-            hash = '869f08e4e9a719c1df411c2fb5554400f6b24a9db0cb94c4359db8dad18d185f',
-            dependencies = ['pkg-config', 'ninja', 'meson', 'glib', 'openssl'],
-            )
-
-    def build(self):
-        Meson.build(self)
-        self.install(r'.\COPYING share\doc\glib-openssl')
-        self.install(r'.\LICENSE_EXCEPTION share\doc\glib-openssl')
-
-@project_add
 class Project_gobject_introspection(Tarball, Meson):
     def __init__(self):
         Project.__init__(self,
