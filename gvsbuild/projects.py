@@ -1310,6 +1310,7 @@ class Project_libsoup3(Tarball, Meson):
             archive_url = 'http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/3.0/libsoup-3.0.3.tar.xz',
             hash = '5165b04dadae3027e9a2882d868694b4586affd778c194982ae4de2373d2e25e',
             dependencies = ['libxml2', 'glib-networking', 'sqlite', 'libpsl', 'mit-kerberos', 'nghttp2'],
+            patches = ['0001-server-message-proxy-the-peer-certificate-and-peer-c.patch'],
             )
 
         if self.opts.enable_gi:
