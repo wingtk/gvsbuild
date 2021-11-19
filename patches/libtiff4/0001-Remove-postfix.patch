@@ -1,0 +1,28 @@
+From c9499eb35743eed72c028ae71fb07f1f8a14567b Mon Sep 17 00:00:00 2001
+From: Ignacio Casal Quinteiro <qignacio@amazon.com>
+Date: Fri, 19 Nov 2021 14:53:30 +0100
+Subject: [PATCH] Remove postfix
+
+---
+ cmake/WindowsSupport.cmake | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/cmake/WindowsSupport.cmake b/cmake/WindowsSupport.cmake
+index 93c13094..7ecd2b4a 100644
+--- a/cmake/WindowsSupport.cmake
++++ b/cmake/WindowsSupport.cmake
+@@ -23,11 +23,6 @@
+ # LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
+ # OF THIS SOFTWARE.
+ 
+-# Debug postfix
+-if(MSVC)
+-    set(CMAKE_DEBUG_POSTFIX "d")
+-endif()
+-
+ # Win32 file I/O
+ set(win32_io_default OFF)
+ if(WIN32)
+-- 
+2.25.1
+
