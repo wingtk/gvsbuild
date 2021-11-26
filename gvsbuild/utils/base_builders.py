@@ -61,6 +61,8 @@ class Meson(Project):
             # pyhon meson.py src_dir ninja_build_dir --prefix gtk_bin options
             meson = Project.get_tool_executable('meson')
             python = Project.get_tool_executable('python')
+            if " " in python:
+                python = f"\"{python}\""
             cmd = '%s %s %s %s --prefix %s %s' % (python, meson, self._get_working_dir(), ninja_build, self.builder.gtk_dir, add_opts, )
             # build the ninja file to do everything (build the library, create the .pc file, install it, ...)
             self.exec_vs(cmd, add_path=add_path)
