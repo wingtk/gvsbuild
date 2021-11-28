@@ -1,0 +1,1 @@
+Resolve-Path -Path (get-childitem C:\gtk-build\gtk\x64\release -Recurse -Filter *atk*).Fullname
