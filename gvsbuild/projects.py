@@ -1225,6 +1225,7 @@ class Project_librsvg(Tarball, Project):
             ],
             patches = [
                 '0001-keep-cairo-dep.patch',
+                'bcrypt.patch',
             ],
             )
         if Project.opts.enable_gi:

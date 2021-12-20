@@ -1,0 +1,11 @@
+diff -ur a/win32/config-msvc.mak b/win32/config-msvc.mak
+--- a/win32/config-msvc.mak	2021-09-14 02:16:20.000000000 +0200
++++ b/win32/config-msvc.mak	2021-12-20 18:00:56.810592600 +0100
+@@ -118,6 +118,7 @@
+ 	libxml2.lib			\
+ 	advapi32.lib			\
+ 	userenv.lib			\
++	bcrypt.lib			\
+ 	ws2_32.lib
+ 
+ RSVG_PIXBUF_LOADER_CFLAGS =			\
