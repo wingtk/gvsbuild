@@ -7,7 +7,23 @@ name: CI
 
 jobs:
 
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
+    steps:
+      - uses: actions/checkout@v2.4.0
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Set up Python
+        uses: actions/setup-python@v2.3.1
+        with:
+          python-version: ${{ env.python_version }}
+      - name: Lint with Pre-commit
+        uses: pre-commit/action@v2.0.3
+
   build:
+    needs: lint
     name: build GTK binaries with gvsbuild
     runs-on: windows-latest
     timeout-minutes: 60

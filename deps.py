@@ -14,17 +14,18 @@
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 #
 
-"""
-gvsbuild deps print / .gv graph
-"""
+"""gvsbuild deps print / .gv graph."""
 # Verify we can import from the script directory
 try:
     import gvsbuild.utils.utils
 except ImportError:
     # We are probably using an embedded installation
-    print('Error importing utility (running the embedded interpreter ?), fixing paths ...')
-    import sys
+    print(
+        "Error importing utility (running the embedded interpreter ?), fixing paths ..."
+    )
     import os
+    import sys
+
     # Get the script dir
     script_dir = os.path.dirname(os.path.realpath(sys.argv[0]))
     # and add it at the beginning, emulating the standard python startup
@@ -32,14 +33,17 @@ except ImportError:
 
 import argparse
 
-from gvsbuild.utils.base_project import Project, GVSBUILD_GROUP, GVSBUILD_TOOL, GVSBUILD_PROJECT
-from gvsbuild.utils.utils import ordered_set
-# All default tools ...
-import gvsbuild.tools
-# projects ...
-import gvsbuild.projects
-# ... and groups
 import gvsbuild.groups
+import gvsbuild.projects
+import gvsbuild.tools
+from gvsbuild.utils.base_project import (
+    GVSBUILD_GROUP,
+    GVSBUILD_PROJECT,
+    GVSBUILD_TOOL,
+    Project,
+)
+from gvsbuild.utils.utils import ordered_set
+
 
 def print_deps(flatten=False, add_all=False):
     done = []
@@ -51,9 +55,15 @@ def print_deps(flatten=False, add_all=False):
         else:
             if st:
                 # dependency
-                print("%s%s" % (st, name, ))
+                print(
+                    "%s%s"
+                    % (
+                        st,
+                        name,
+                    )
+                )
             else:
-                print("  > %s" % (name, ))
+                print("  > {}".format(name))
                 st = "   "
             done.append(name)
 
@@ -67,46 +77,77 @@ def print_deps(flatten=False, add_all=False):
                     if ty != GVSBUILD_PROJECT:
                         add = False
 
-                if add:                        
+                if add:
                     rt = True
                     if d in done:
                         if not flatten:
-                            print("%s    %s *" % (st, d, ))
+                            print(
+                                "%s    %s *"
+                                % (
+                                    st,
+                                    d,
+                                )
+                            )
                     else:
                         done.append(d)
                         dump_single_dep(st + "    ", d, flatten)
         return rt
 
-    prj = [ x.name for x in Project._projects if x.type == GVSBUILD_PROJECT ]
+    prj = [x.name for x in Project._projects if x.type == GVSBUILD_PROJECT]
     print("Projects dependencies:")
     for n in prj:
         done = []
         if flatten:
-            print("> %s" % (n, ))
+            print("> {}".format(n))
         if dump_single_dep("", n, flatten):
             if flatten:
                 done.remove(n)
                 for t in sorted(done):
-                    print("    %s" % (t, ))
+                    print("    {}".format(t))
 
             else:
-                print('')
+                print("")
 
-def make_graph(out_file, put_all = False, invert_dep = False, add_tools = False, add_groups = False, skip = ''):
+
+def make_graph(
+    out_file,
+    put_all=False,
+    invert_dep=False,
+    add_tools=False,
+    add_groups=False,
+    skip="",
+):
     gr_colors = [
-        0x000080,   0x008000,   0x008080,   0x800000,
-        0x800080,   0x808000,   0x808080,   0x0000f0,
-        0x00f000,   0x00f0f0,   0xf00000,   0xf000f0,
-        0xf0f000,   0xf00080,   0xf08000,   0xf08080,
-        0x80f000,   0x80f080,   0x00f080,   0x0080f0,
-        0x8000f0,   0x8080f0 ]
+        0x000080,
+        0x008000,
+        0x008080,
+        0x800000,
+        0x800080,
+        0x808000,
+        0x808080,
+        0x0000F0,
+        0x00F000,
+        0x00F0F0,
+        0xF00000,
+        0xF000F0,
+        0xF0F000,
+        0xF00080,
+        0xF08000,
+        0xF08080,
+        0x80F000,
+        0x80F080,
+        0x00F080,
+        0x0080F0,
+        0x8000F0,
+        0x8080F0,
+    ]
     gr_index = 0
 
-    to_skip = set(skip.split(','))
+    to_skip = set(skip.split(","))
     with open(out_file, "wt") as fo:
-        print('Writing file %s' % (out_file, ))
+        print("Writing file {}".format(out_file))
         used = set()
-        fo.write('digraph gtk3dep {\n')
+        fo.write("digraph gtk3dep {\n")
         for n in Project._names:
             if n not in to_skip:
                 t = Project._dict[n]
@@ -125,12 +166,32 @@ def make_graph(out_file, put_all = False, invert_dep = False, add_tools = False,
                         gr_index %= len(gr_colors)
                         for d in t.dependencies:
                             if d in to_skip:
-                                print("Skip '%s' for '%s'" % (d, n, ))
+                                print(
+                                    "Skip '%s' for '%s'"
+                                    % (
+                                        d,
+                                        n,
+                                    )
+                                )
                             else:
                                 if invert_dep:
-                                    fo.write('    "%s" -> "%s" [color="#%06x"];\n' % (d, n, gr_colors[gr_index], ))
+                                    fo.write(
+                                        '    "%s" -> "%s" [color="#%06x"];\n'
+                                        % (
+                                            d,
+                                            n,
+                                            gr_colors[gr_index],
+                                        )
+                                    )
                                 else:
-                                    fo.write('    "%s" -> "%s" [color="#%06x"];\n' % (n, d, gr_colors[gr_index], ))
+                                    fo.write(
+                                        '    "%s" -> "%s" [color="#%06x"];\n'
+                                        % (
+                                            n,
+                                            d,
+                                            gr_colors[gr_index],
+                                        )
+                                    )
                                 used.add(d)
                 else:
                     used.add(t.name)
@@ -139,12 +200,19 @@ def make_graph(out_file, put_all = False, invert_dep = False, add_tools = False,
             # Puts all projects that are not referenced from others
             for n in Project._names:
                 if n not in used:
-                    fo.write('    "%s" -> "%s" [color="#c00080"];\n' % ('BUILD', n, ))
+                    fo.write(
+                        '    "%s" -> "%s" [color="#c00080"];\n'
+                        % (
+                            "BUILD",
+                            n,
+                        )
+                    )
 
-        fo.write('};\n')
+        fo.write("};\n")
+
 
 def compute_deps(proj):
-    if hasattr(proj, 'all_dependencies'):
+    if hasattr(proj, "all_dependencies"):
         return
     deps = ordered_set()
     for dep in proj.dependencies:
@@ -154,32 +222,69 @@ def compute_deps(proj):
         deps.add(dep)
     proj.all_dependencies = deps
 
-def main():
-    parser = argparse.ArgumentParser(description = "Gvsbuild dependency print / analyze")
 
-    group = parser.add_argument_group('Dependencies print (default)')
+def main():
+    parser = argparse.ArgumentParser(description="Gvsbuild dependency print / analyze")
+
+    group = parser.add_argument_group("Dependencies print (default)")
     # Simple dep dump
-    group.add_argument('-f', '--flatten', default=False, action='store_true',
-                         help='Flatten (and sort) the dependencies dump of the single project.')
-    group.add_argument('--dep-tools', default=False, action='store_true',
-                         help='Add also the tool projects.')
+    group.add_argument(
+        "-f",
+        "--flatten",
+        default=False,
+        action="store_true",
+        help="Flatten (and sort) the dependencies dump of the single project.",
+    )
+    group.add_argument(
+        "--dep-tools",
+        default=False,
+        action="store_true",
+        help="Add also the tool projects.",
+    )
 
     # .gv (dot) graph of dependencies
-    group = parser.add_argument_group('Graph file (.gv, dot format) of the dependencies')
-    group.add_argument('-g', '--graph', default=False, action='store_true',
-                         help='Create a .gv graph of the dependencies.')
-    group.add_argument('-a', '--all', default=False, action='store_true',
-                         help='Graph: add also all unreferenced projects to the graph.')
-    group.add_argument('--add-tools', default=False, action='store_true',
-                         help='Graph: add also the tool projects.')
-    group.add_argument('--add-groups', default=False, action='store_true',
-                         help='Graph: add also the group projects.')
-    group.add_argument('-o', '--gv-file', default='wingtk.gv',
-                        help='Graph: output file name.')
-    group.add_argument('-i', '--invert', default=False, action='store_true',
-                         help='Graph: invert the dependency track.')
-    group.add_argument('--skip', default='',
-                         help='A comma separated list of project(s) not to handle.')
+    group = parser.add_argument_group(
+        "Graph file (.gv, dot format) of the dependencies"
+    )
+    group.add_argument(
+        "-g",
+        "--graph",
+        default=False,
+        action="store_true",
+        help="Create a .gv graph of the dependencies.",
+    )
+    group.add_argument(
+        "-a",
+        "--all",
+        default=False,
+        action="store_true",
+        help="Graph: add also all unreferenced projects to the graph.",
+    )
+    group.add_argument(
+        "--add-tools",
+        default=False,
+        action="store_true",
+        help="Graph: add also the tool projects.",
+    )
+    group.add_argument(
+        "--add-groups",
+        default=False,
+        action="store_true",
+        help="Graph: add also the group projects.",
+    )
+    group.add_argument(
+        "-o", "--gv-file", default="wingtk.gv", help="Graph: output file name."
+    )
+    group.add_argument(
+        "-i",
+        "--invert",
+        default=False,
+        action="store_true",
+        help="Graph: invert the dependency track.",
+    )
+    group.add_argument(
+        "--skip", default="", help="A comma separated list of project(s) not to handle."
+    )
 
     # get the option(s)
     opt = parser.parse_args()
@@ -188,16 +293,18 @@ def main():
     # do what's asked
     if opt.graph:
         # .gv graph
-        make_graph(out_file=opt.gv_file,
-                   put_all=opt.all,
-                   invert_dep=opt.invert,
-                   add_tools=opt.add_tools,
-                   add_groups=opt.add_groups,
-                   skip=opt.skip,
-                   )
+        make_graph(
+            out_file=opt.gv_file,
+            put_all=opt.all,
+            invert_dep=opt.invert,
+            add_tools=opt.add_tools,
+            add_groups=opt.add_groups,
+            skip=opt.skip,
+        )
     else:
         # simple dep print
         print_deps(flatten=opt.flatten, add_all=opt.dep_tools)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

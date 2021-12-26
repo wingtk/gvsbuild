@@ -15,13 +15,12 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-"""
-Base tool class, from the project one
-"""
+"""Base tool class, from the project one."""
 
 import os
 
-from .base_project import Project, GVSBUILD_TOOL
+from .base_project import GVSBUILD_TOOL, Project
+
 
 class Tool(Project):
     def __init__(self, name, **kwargs):
@@ -36,7 +35,7 @@ class Tool(Project):
             self.build_dir = os.path.join(self.opts.tools_root_dir, self.dir_part)
         else:
             self.build_dir = os.path.join(self.opts.tools_root_dir, self.name)
-        if hasattr(self, 'exe_name'):
+        if hasattr(self, "exe_name"):
             self.full_exe = os.path.join(self.build_dir, self.exe_name)
 
     def tool_mark(self):
@@ -44,7 +43,7 @@ class Tool(Project):
         if not os.path.exists(self.build_dir):
             os.makedirs(self.build_dir)
             self.mark_deps = True
-        
+
     def build(self):
         # All the work is done in the unpack & we don't force the rebuild of all projects that uses this tool
         return not self.mark_deps
@@ -61,22 +60,21 @@ class Tool(Project):
     def get_executable(self):
         if self.full_exe:
             return self.full_exe
-        raise NotImplementedError('%s:get_executable' % (self.name, ))
-    
+        raise NotImplementedError("{}:get_executable".format(self.name))
+
     def get_base_dir(self):
-        '''
-        Base directory for the tool, used for perl to have the dir to pass to the *make
-        tool, normally not used (we update the path or use directly the executable)
-        '''
-        raise NotImplementedError('get_base_dir')
+        """Base directory for the tool, used for perl to have the dir to pass
+        to the *make tool, normally not used (we update the path or use
+        directly the executable)"""
+        raise NotImplementedError("get_base_dir")
 
     def export(self):
         # We do not want to export tools
         pass
 
+
 def tool_add(cls):
-    """
-    Class decorator to add the newly created Toolp class to the global projects/tools/groups list
-    """
+    """Class decorator to add the newly created Toolp class to the global
+    projects/tools/groups list."""
     Project.register(cls, GVSBUILD_TOOL)
     return cls

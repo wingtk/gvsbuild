@@ -16,71 +16,72 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-"""
-Default groups of projects
-"""
+"""Default groups of projects."""
 
 from .utils.base_group import Group, group_add
-from .utils.base_project import Project, GVSBUILD_PROJECT
+from .utils.base_project import GVSBUILD_PROJECT, Project
+
 
 @group_add
 class Group_Tools(Group):
     def __init__(self):
-        Group.__init__(self,
-            'tools',
-            dependencies = [
-                'cargo',
-                'cmake',
-                'go',
-                'meson',
-                'msys2',
-                'nasm',
-                'ninja',
-                'nuget',
-                'perl',
-                'python',
-                'yasm',
-                ],
-            )
+        Group.__init__(
+            self,
+            "tools",
+            dependencies=[
+                "cargo",
+                "cmake",
+                "go",
+                "meson",
+                "msys2",
+                "nasm",
+                "ninja",
+                "nuget",
+                "perl",
+                "python",
+                "yasm",
+            ],
+        )
+
 
 @group_add
 class Group_Gtk3_Full(Group):
     def __init__(self):
-        Group.__init__(self,
-            'gtk3-full',
-            dependencies = [
-                'adwaita-icon-theme',
-                'clutter',
-                'emeus',
-                'gtk3',
-                'gtksourceview',
-                'hicolor-icon-theme',
-                'wing',
-                ],
-            )
+        Group.__init__(
+            self,
+            "gtk3-full",
+            dependencies=[
+                "adwaita-icon-theme",
+                "clutter",
+                "emeus",
+                "gtk3",
+                "gtksourceview",
+                "hicolor-icon-theme",
+                "wing",
+            ],
+        )
+
 
 @group_add
 class Group_Tools_Check(Group):
-    '''
-    Group to use all the tools handled by the script, to see at a glance if everything
-    seems ok after (big) changes on the tools
-    '''
+    """Group to use all the tools handled by the script, to see at a glance if
+    everything seems ok after (big) changes on the tools."""
+
     def __init__(self):
-        Group.__init__(self,
-            'tools-check',
-            dependencies = [
-                'lmdb',
-                'x264',
-                'libjpeg-turbo',
-                'grpc',
-                ],
-            )
+        Group.__init__(
+            self,
+            "tools-check",
+            dependencies=[
+                "lmdb",
+                "x264",
+                "libjpeg-turbo",
+                "grpc",
+            ],
+        )
+
 
 @group_add
 class Group_All(Group):
     def __init__(self):
         all_prj = [x.name for x in Project._projects if x.type == GVSBUILD_PROJECT]
-        Group.__init__(self,
-            'all',
-            dependencies = all_prj
-        )
+        Group.__init__(self, "all", dependencies=all_prj)

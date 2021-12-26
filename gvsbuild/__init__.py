@@ -1,3 +1,1 @@
-"""
-Build projects & tools lists
-"""
+"""Build projects & tools lists."""

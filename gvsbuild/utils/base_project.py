@@ -15,17 +15,15 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-"""
-Base project class, used also for tools
-"""
+"""Base project class, used also for tools."""
 
-import os
-import shutil
-import re
 import datetime
+import os
+import re
+import shutil
 
-from .utils import _rmtree_error_handler
 from .simple_ui import log
+from .utils import _rmtree_error_handler
 
 GVSBUILD_NONE = -1
 GVSBUILD_IGNORE = 0
@@ -33,21 +31,23 @@ GVSBUILD_PROJECT = 1
 GVSBUILD_TOOL = 2
 GVSBUILD_GROUP = 3
 
+
 class Options(object):
     def __init__(self):
         # Only the one used by the projects
         self.enable_gi = False
-        self.gtk3_ver = '3.22'
+        self.gtk3_ver = "3.22"
         self.ffmpeg_enable_gpl = False
         # Default
         self._load_python = False
         self.old_rsvg = False
 
+
 class Project(object):
     def __init__(self, name, **kwargs):
         object.__init__(self)
         self.name = name
-        self.prj_dir = name 
+        self.prj_dir = name
         self.dependencies = []
         self.patches = []
         self.archive_url = None
@@ -74,7 +74,7 @@ class Project(object):
     name_len = 0
     # List of class/type to add, now not at import time but after some options are parsed
     _reg_prj_list = []
-    # build option 
+    # build option
     opts = Options()
 
     def __str__(self):
@@ -86,59 +86,65 @@ class Project(object):
     def load_defaults(self):
         # Used by the tools to load default paths/filenames
         pass
-    
+
     def finalize_dep(self, builder, deps):
-        """
-        Used to manipulate the dependencies list, to add or remove projects
-        For the dev-shell project is used to limit the tools to use
-        """
+        """Used to manipulate the dependencies list, to add or remove projects
+        For the dev-shell project is used to limit the tools to use."""
         pass
 
     def build(self):
-        raise NotImplementedError('build')
+        raise NotImplementedError("build")
 
     def post_install(self):
         pass
 
     def add_dependency(self, dep):
         self.dependencies.append(dep)
-        
+
     def exec_cmd(self, cmd, working_dir=None, add_path=None):
         self.builder.exec_cmd(cmd, working_dir=working_dir, add_path=add_path)
 
     def exec_vs(self, cmd, add_path=None):
-        self.builder.exec_vs(cmd, working_dir=self._get_working_dir(), add_path=add_path)
+        self.builder.exec_vs(
+            cmd, working_dir=self._get_working_dir(), add_path=add_path
+        )
 
     def exec_msbuild(self, cmd, configuration=None, add_path=None):
         if not configuration:
-            configuration = '%(configuration)s'
-        self.exec_vs('msbuild ' + cmd + ' /p:Configuration=' + configuration + ' %(msbuild_opts)s', add_path=add_path)
+            configuration = "%(configuration)s"
+        self.exec_vs(
+            "msbuild "
+            + cmd
+            + " /p:Configuration="
+            + configuration
+            + " %(msbuild_opts)s",
+            add_path=add_path,
+        )
 
     def _msbuild_make_search_replace(self, org_platform):
-        """
-        Return the search & replace strings (converted to bytes to update the
-        platfomrm Toolset version (v140, v141, ...) to use a new compiler,
-        e.g. to use vs2017 solution's files for vs2019
-        
-        The '<PlatformToolset' at the beginning is missing to handle projects
-        like libmictohttpd that has a condition in the platform definition
+        """Return the search & replace strings (converted to bytes to update
+        the platfomrm Toolset version (v140, v141, ...) to use a new compiler,
+        e.g. to use vs2017 solution's files for vs2019.
+
+        The '<PlatformToolset' at the beginning is missing to handle
+        projects like libmictohttpd that has a condition in the platform
+        definition
         """
 
         ver = self.builder.opts.vs_ver
-        if ver == '16':
-            dst_platform = '142'
-        elif ver == '15':
-            dst_platform = '141'
+        if ver == "16":
+            dst_platform = "142"
+        elif ver == "15":
+            dst_platform = "141"
         else:
-            dst_platform =  ver + r'0'
-        search = ('>v%u</PlatformToolset>' % (org_platform, )).encode('utf-8')
-        replace = ('>v%s</PlatformToolset>' % (dst_platform, )).encode('utf-8')
+            dst_platform = ver + r"0"
+        search = (">v%u</PlatformToolset>" % (org_platform,)).encode("utf-8")
+        replace = (">v{}</PlatformToolset>".format(dst_platform)).encode("utf-8")
 
         return search, replace
 
     def _msbuild_copy_dir(self, dst, src, search, replace):
-        """
-        Converts & copy a directory of a vs solution to be use with a new
+        """Converts & copy a directory of a vs solution to be use with a new
         platform toolset & visual studio version.
 
         If dst is None the change is made in place
@@ -156,46 +162,65 @@ class Project(object):
             dst_full = os.path.join(dst, cf.name)
 
             if cf.is_file():
-                with open(src_full, 'rb') as f:
+                with open(src_full, "rb") as f:
                     content = f.read()
                 new_content = content.replace(search, replace)
                 if content != new_content:
-                    log.info('File changed (%s)' % (src_full, ))
+                    log.info("File changed ({})".format(src_full))
                     write = True
                 else:
-                    log.info('   same file (%s)' % (src_full, ))
+                    log.info("   same file ({})".format(src_full))
                     write = copy
 
                 if write:
                     dst_full = os.path.join(dst, cf.name)
-                    with open(dst_full, 'wb') as f:
+                    with open(dst_full, "wb") as f:
                         f.write(new_content)
             elif cf.is_dir():
-                self._msbuild_copy_dir(dst_full if copy else None, src_full, search, replace)
+                self._msbuild_copy_dir(
+                    dst_full if copy else None, src_full, search, replace
+                )
 
-    def exec_msbuild_gen(self, base_dir, sln_file, add_pars='', configuration=None, add_path=None, use_env=False):
-        '''
-        looks for base_dir\{vs_ver}\sln_file or base_dir\{vs_ver_tear}\sln_file for launching the msbuild commamd.
-        If it's not present in the directory the system start to look backward to find the first version present 
-        '''
+    def exec_msbuild_gen(
+        self,
+        base_dir,
+        sln_file,
+        add_pars="",
+        configuration=None,
+        add_path=None,
+        use_env=False,
+    ):
+        r"""looks for base_dir\{vs_ver}\sln_file or
+        base_dir\{vs_ver_tear}\sln_file for launching the msbuild commamd.
+
+        If it's not present in the directory the system start to look
+        backward to find the first version present
+        """
+
         def _msbuild_ok(self, dir_part):
             full = os.path.join(self.build_dir, base_dir, dir_part, sln_file)
-            log.info("Checking for '%s'" % (full, ))
+            log.info("Checking for '{}'".format(full))
             return os.path.exists(full)
 
         def _msbuild_copy(self, org_path, org_platform, use_ver=True):
             if use_ver:
-                dst_part = 'vs' + self.builder.opts.vs_ver
+                dst_part = "vs" + self.builder.opts.vs_ver
             else:
                 dst_part = self.builder.vs_ver_year
             dst = os.path.join(self.build_dir, base_dir, dst_part)
-            src = os.path.join(self.build_dir, base_dir, org_path);
+            src = os.path.join(self.build_dir, base_dir, org_path)
             search, replace = self._msbuild_make_search_replace(org_platform)
-            log.info("Vs solution copy: '%s' -> '%s'" % (src, dst, ))
+            log.info(
+                "Vs solution copy: '%s' -> '%s'"
+                % (
+                    src,
+                    dst,
+                )
+            )
             self._msbuild_copy_dir(dst, src, search, replace)
             return dst_part
 
-        part = 'vs' + self.builder.opts.vs_ver
+        part = "vs" + self.builder.opts.vs_ver
         if not _msbuild_ok(self, part):
             part = self.builder.vs_ver_year
             if not _msbuild_ok(self, part):
@@ -203,14 +228,74 @@ class Project(object):
 
         if not part:
             look = {
-                '12': [],
-                '14': [ ( 'vs12', 120, True, ), ('vs2013', 120, False, ), ],
-                '15': [ ( 'vs14', 140, True, ), ('vs2015', 140, False, ),
-                        ( 'vs12', 120, True, ), ('vs2013', 120, False, ), ],
-                '16': [ ( 'vs15', 141, True, ), ('vs2017', 141, False, ),
-                        ( 'vs14', 140, True, ), ('vs2015', 140, False, ),
-                        ( 'vs12', 120, True, ), ('vs2013', 120, False, ), ],
-                }
+                "12": [],
+                "14": [
+                    (
+                        "vs12",
+                        120,
+                        True,
+                    ),
+                    (
+                        "vs2013",
+                        120,
+                        False,
+                    ),
+                ],
+                "15": [
+                    (
+                        "vs14",
+                        140,
+                        True,
+                    ),
+                    (
+                        "vs2015",
+                        140,
+                        False,
+                    ),
+                    (
+                        "vs12",
+                        120,
+                        True,
+                    ),
+                    (
+                        "vs2013",
+                        120,
+                        False,
+                    ),
+                ],
+                "16": [
+                    (
+                        "vs15",
+                        141,
+                        True,
+                    ),
+                    (
+                        "vs2017",
+                        141,
+                        False,
+                    ),
+                    (
+                        "vs14",
+                        140,
+                        True,
+                    ),
+                    (
+                        "vs2015",
+                        140,
+                        False,
+                    ),
+                    (
+                        "vs12",
+                        120,
+                        True,
+                    ),
+                    (
+                        "vs2013",
+                        120,
+                        False,
+                    ),
+                ],
+            }
             lst = look.get(self.builder.opts.vs_ver, [])
             for p in lst:
                 if _msbuild_ok(self, p[0]):
@@ -219,16 +304,28 @@ class Project(object):
                     break
             if part:
                 # We log what we found because is not the default
-                log.log('Project %s, using %s directory' % (self.name, part, ))
+                log.log(
+                    "Project %s, using %s directory"
+                    % (
+                        self.name,
+                        part,
+                    )
+                )
 
         if part:
             cmd = os.path.join(base_dir, part, sln_file)
             if add_pars:
-                cmd += ' ' + add_pars
+                cmd += " " + add_pars
             if use_env:
-                cmd += ' /p:UseEnv=True'
+                cmd += " /p:UseEnv=True"
         else:
-            log.error_exit("Solution file '%s' for project '%s' not found!" % (sln_file, self.name, ))
+            log.error_exit(
+                "Solution file '%s' for project '%s' not found!"
+                % (
+                    sln_file,
+                    self.name,
+                )
+            )
         self.exec_msbuild(cmd, configuration, add_path)
         return part
 
@@ -240,28 +337,25 @@ class Project(object):
             dest = os.path.basename(src)
         self.builder.install_dir(self._get_working_dir(), self.pkg_dir, src, dest)
 
-
-    def install_pc_files(self, base_dir='pc-files'):
-        '''
-        Install, setting dir & version, the .pc files 
-        '''
-        pkgconfig_dir = os.path.join(self.builder.gtk_dir, 'lib', 'pkgconfig')
+    def install_pc_files(self, base_dir="pc-files"):
+        """Install, setting dir & version, the .pc files."""
+        pkgconfig_dir = os.path.join(self.builder.gtk_dir, "lib", "pkgconfig")
         self.builder.make_dir(pkgconfig_dir)
 
         src_dir = os.path.join(self._get_working_dir(), base_dir)
-        log.debug('Copy .pc files from %s' % (src_dir, ))
-        bin_dir = os.path.join(self.builder.gtk_dir, 'bin').replace('\\', '/')
+        log.debug("Copy .pc files from {}".format(src_dir))
+        bin_dir = os.path.join(self.builder.gtk_dir, "bin").replace("\\", "/")
         for f in os.scandir(src_dir):
-            if (f.is_file()):
-                log.debug(' %s' % (f.name, ))
+            if f.is_file():
+                log.debug(" {}".format(f.name))
                 with open(f.path) as fi:
                     content = fi.read()
-                _t = content.replace('@prefix@', bin_dir)
+                _t = content.replace("@prefix@", bin_dir)
                 content = _t
-                _t = content.replace('@version@', self.version)
+                _t = content.replace("@version@", self.version)
                 content = _t
 
-                with open(os.path.join(pkgconfig_dir, f.name), 'wt') as fo:
+                with open(os.path.join(pkgconfig_dir, f.name), "wt") as fo:
                     fo.write(content)
 
     def patch(self):
@@ -269,12 +363,14 @@ class Project(object):
             name = os.path.basename(p)
             stamp = os.path.join(self.build_dir, name + ".patch-applied")
             if not os.path.exists(stamp):
-                log.log("Applying patch %s" % (p,))
-                self.builder.exec_msys(['patch', '-p1', '-i', p], working_dir=self._get_working_dir())
-                with open(stamp, 'w') as stampfile:
-                    stampfile.write('done')
+                log.log("Applying patch {}".format(p))
+                self.builder.exec_msys(
+                    ["patch", "-p1", "-i", p], working_dir=self._get_working_dir()
+                )
+                with open(stamp, "w") as stampfile:
+                    stampfile.write("done")
             else:
-                log.debug("patch %s already applied, skipping" % (p,))
+                log.debug("patch {} already applied, skipping".format(p))
 
     def _get_working_dir(self):
         if self.__working_dir:
@@ -293,16 +389,22 @@ class Project(object):
             shutil.rmtree(self.build_dir, onerror=_rmtree_error_handler)
 
         if os.path.exists(self.build_dir):
-            log.debug("directory %s already exists" % (self.build_dir,))
+            log.debug("directory {} already exists".format(self.build_dir))
             if self.update_build_dir():
                 self.mark_file_remove()
                 if os.path.exists(self.patch_dir):
-                    log.log("Copying files from %s to %s" % (self.patch_dir, self.build_dir))
+                    log.log(
+                        "Copying files from {} to {}".format(
+                            self.patch_dir, self.build_dir
+                        )
+                    )
                     self.builder.copy_all(self.patch_dir, self.build_dir)
         else:
             self.unpack()
             if os.path.exists(self.patch_dir):
-                log.log("Copying files from %s to %s" % (self.patch_dir, self.build_dir))
+                log.log(
+                    "Copying files from {} to {}".format(self.patch_dir, self.build_dir)
+                )
                 self.builder.copy_all(self.patch_dir, self.build_dir)
 
     def update_build_dir(self):
@@ -320,7 +422,7 @@ class Project(object):
 
     def add_extra_env(self, key, val):
         # Extra env vars for projects / tools
-        self.extra_env[key] = val;
+        self.extra_env[key] = val
 
     def apply_extra_env(self, base_env):
         if self.extra_env:
@@ -331,7 +433,7 @@ class Project(object):
     @staticmethod
     def add(proj, type=GVSBUILD_IGNORE):
         if proj.name in Project._dict:
-            log.error_exit("Project '%s' already present!" % (proj.name, ))
+            log.error_exit("Project '{}' already present!".format(proj.name))
         Project._projects.append(proj)
         Project._names.append(proj.name)
         Project._dict[proj.name] = proj
@@ -340,16 +442,17 @@ class Project(object):
 
     @staticmethod
     def register(cls, ty):
-        """
-        Register the class to be added after some initialization
-        """
-        Project._reg_prj_list.append((cls, ty, ))
-        
+        """Register the class to be added after some initialization."""
+        Project._reg_prj_list.append(
+            (
+                cls,
+                ty,
+            )
+        )
+
     @staticmethod
     def add_all():
-        """
-        Add all the registered class 
-        """
+        """Add all the registered class."""
         for cls, ty in Project._reg_prj_list:
             c_inst = cls()
             if c_inst.to_add:
@@ -359,11 +462,9 @@ class Project(object):
         del Project._reg_prj_list
 
     def ignore(self):
-        """
-        Mark the project not to build/add to the list
-        """
+        """Mark the project not to build/add to the list."""
         self.to_add = False
-         
+
     @staticmethod
     def get_project(name):
         return Project._dict[name]
@@ -398,7 +499,7 @@ class Project(object):
     def get_tool_executable(tool):
         if not isinstance(tool, Project):
             tool = Project._dict[tool]
-            
+
         if tool.type == GVSBUILD_TOOL:
             return tool.get_executable()
         return None
@@ -407,7 +508,7 @@ class Project(object):
     def get_tool_base_dir(tool):
         if not isinstance(tool, Project):
             tool = Project._dict[tool]
-            
+
         if tool.type == GVSBUILD_TOOL:
             return tool.get_base_dir()
         return None
@@ -416,30 +517,36 @@ class Project(object):
     def _file_to_version(file_name):
         if not Project._ver_res:
             Project._ver_res = [
-                re.compile('.*_v([0-9]+_[0-9]+)\.'),
-                re.compile('.*-([0-9+]\.[0-9]+\.[0-9]+-[0-9]+)\.'),
-                re.compile('.*-([0-9+]\.[0-9]+\.[0-9]+)-'),
-                re.compile('.*-([0-9+]\.[0-9]+\.[0-9]+[a-z])\.'),
-                re.compile('.*-([0-9+]\.[0-9]+\.[0-9]+)\.'),
-                re.compile('.*-([0-9+]\.[0-9]+)\.'),
-                re.compile('.*_([0-9+]\.[0-9]+\.[0-9]+)\.'),
-                re.compile('^([0-9+]\.[0-9]+\.[0-9]+)\.'),
-                re.compile('^v([0-9+]\.[0-9]+\.[0-9]+\.[0-9]+)\.'),
-                re.compile('^v([0-9+]\.[0-9]+\.[0-9]+)\.'),
-                re.compile('^v([0-9+]\.[0-9]+)\.'),
-                re.compile('.*-([0-9a-f]+)\.'),
-                re.compile('.*([0-9]\.[0-9]+)\.'),
-                ]
-        
-        ver = ''
+                re.compile(r".*_v([0-9]+_[0-9]+)\."),
+                re.compile(r".*-([0-9+]\.[0-9]+\.[0-9]+-[0-9]+)\."),
+                re.compile(r".*-([0-9+]\.[0-9]+\.[0-9]+)-"),
+                re.compile(r".*-([0-9+]\.[0-9]+\.[0-9]+[a-z])\."),
+                re.compile(r".*-([0-9+]\.[0-9]+\.[0-9]+)\."),
+                re.compile(r".*-([0-9+]\.[0-9]+)\."),
+                re.compile(r".*_([0-9+]\.[0-9]+\.[0-9]+)\."),
+                re.compile(r"^([0-9+]\.[0-9]+\.[0-9]+)\."),
+                re.compile(r"^v([0-9+]\.[0-9]+\.[0-9]+\.[0-9]+)\."),
+                re.compile(r"^v([0-9+]\.[0-9]+\.[0-9]+)\."),
+                re.compile(r"^v([0-9+]\.[0-9]+)\."),
+                re.compile(r".*-([0-9a-f]+)\."),
+                re.compile(r".*([0-9]\.[0-9]+)\."),
+            ]
+
+        ver = ""
         for r in Project._ver_res:
             ok = r.match(file_name)
             if ok:
                 ver = ok.group(1)
                 break
-        log.debug('Version from file name:%-16s <- %s' % (ver, file_name, ))
+        log.debug(
+            "Version from file name:%-16s <- %s"
+            % (
+                ver,
+                file_name,
+            )
+        )
         return ver
-            
+
     def _calc_version(self):
         if self.archive_file_name:
             self.version = Project._file_to_version(self.archive_file_name)
@@ -447,49 +554,55 @@ class Project(object):
             _t, name = os.path.split(self.archive_url)
             self.version = Project._file_to_version(name)
         else:
-            if hasattr(self, 'tag') and self.tag:
-                self.version = 'git/' + self.tag 
-            elif hasattr(self, 'repo_url'):
-                self.version = 'git/master'
+            if hasattr(self, "tag") and self.tag:
+                self.version = "git/" + self.tag
+            elif hasattr(self, "repo_url"):
+                self.version = "git/master"
             else:
-                self.version = ''
-    
+                self.version = ""
+
     def mark_file_calc(self):
         if not self.mark_file:
-            self.mark_file = os.path.join(self.build_dir, '.wingtk-built')
-            
+            self.mark_file = os.path.join(self.build_dir, ".wingtk-built")
+
     def mark_file_remove(self):
         self.mark_file_calc()
         if os.path.isfile(self.mark_file):
             os.remove(self.mark_file)
-            
+
     def mark_file_write(self):
         self.mark_file_calc()
         try:
-            with open(self.mark_file, 'wt') as fo:
+            with open(self.mark_file, "wt") as fo:
                 now = datetime.datetime.now().replace(microsecond=0)
-                fo.write('%s\n' % (now.strftime('%Y-%m-%d %H:%M:%S'), ))
+                fo.write("{}\n".format(now.strftime("%Y-%m-%d %H:%M:%S")))
         except FileNotFoundError as e:
-            log.debug("Exception writing file '%s' (%s)" % (self.mark_file, e, ))
-        
+            log.debug(
+                "Exception writing file '%s' (%s)"
+                % (
+                    self.mark_file,
+                    e,
+                )
+            )
+
     def mark_file_exist(self):
         rt = None
         self.mark_file_calc()
         if os.path.isfile(self.mark_file):
             try:
-                with open(self.mark_file, 'rt') as fi:
-                    rt = fi.readline().strip('\n')
+                with open(self.mark_file, "rt") as fi:
+                    rt = fi.readline().strip("\n")
             except IOError as e:
-                print("Exception reading file '%s'" % (self.mark_file, ))
+                print("Exception reading file '{}'".format(self.mark_file))
                 print(e)
         return rt
 
     def is_project(self):
         return self.type == GVSBUILD_PROJECT
 
+
 def project_add(cls):
-    """
-    Class decorator to add the newly created Project class to the global projects/tools/groups list
-    """
+    """Class decorator to add the newly created Project class to the global
+    projects/tools/groups list."""
     Project.register(cls, GVSBUILD_PROJECT)
     return cls
