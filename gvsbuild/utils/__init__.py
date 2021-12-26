@@ -1,3 +1,1 @@
-"""
-Build utils & support
-"""
+"""Build utils & support."""

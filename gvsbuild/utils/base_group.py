@@ -16,12 +16,11 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-"""
-Base group class, from the project one, as a placeholder to build more than
-one project from a single one
-"""
+"""Base group class, from the project one, as a placeholder to build more than
+one project from a single one."""
 
-from .base_project import Project, GVSBUILD_GROUP
+from .base_project import GVSBUILD_GROUP, Project
+
 
 class Group(Project):
     def __init__(self, name, **kwargs):
@@ -33,13 +32,13 @@ class Group(Project):
 
     def build(self):
         pass
-    
+
     def export(self):
         pass
 
+
 def group_add(cls):
-    """
-    Class decorator to add the newly created Group class to the global projects/tools/groups list
-    """
+    """Class decorator to add the newly created Group class to the global
+    projects/tools/groups list."""
     Project.register(cls, GVSBUILD_GROUP)
     return cls
