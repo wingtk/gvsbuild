@@ -19,7 +19,7 @@
 
 # Verify we can import from the script directory
 try:
-    import gvsbuild.utils.utils
+    import gvsbuild.utils.utils  # noqa: F401
 except ImportError:
     # We are probably using an embedded installation
     print("Error importing utility, fixing paths ...")
@@ -31,9 +31,9 @@ except ImportError:
     # and add it at the beginning, emulating the standard python startup
     sys.path.insert(0, script_dir)
 
-import gvsbuild.groups
-import gvsbuild.projects
-import gvsbuild.tools
+import gvsbuild.groups  # noqa: F401
+import gvsbuild.projects  # noqa: F401
+import gvsbuild.tools  # noqa: F401
 from gvsbuild.utils.parser import create_parser
 
 if __name__ == "__main__":

@@ -33,9 +33,9 @@ except ImportError:
 
 import argparse
 
-import gvsbuild.groups
-import gvsbuild.projects
-import gvsbuild.tools
+import gvsbuild.groups  # noqa: F401
+import gvsbuild.projects  # noqa: F401
+import gvsbuild.tools  # noqa: F401
 from gvsbuild.utils.base_project import (
     GVSBUILD_GROUP,
     GVSBUILD_PROJECT,
