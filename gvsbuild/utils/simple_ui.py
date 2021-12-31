@@ -274,15 +274,15 @@ class Log(object):
             prt = True
 
         lines = msgs.split("\n")
-        lines = [l.rstrip() for l in lines if l.rstrip() != ""]
+        lines = [line.rstrip() for line in lines if line.rstrip() != ""]
         if self.fo:
             # On the file, if active
-            for l in lines:
-                self.fo.write("    {}\n".format(l))
+            for line in lines:
+                self.fo.write("    {}\n".format(line))
 
         if prt:
-            for l in lines:
-                print(l)
+            for line in lines:
+                print(line)
 
     def log(self, msg):
         if self._verbose:
@@ -335,7 +335,7 @@ if __name__ == "__main__":
     log.start("Test #2, nested")
     time.sleep(0.5)
     log.end()
-    with log.simple_oper("Test with context manager") as l:
+    with log.simple_oper("Test with context manager"):
         time.sleep(0.35)
         with log.simple_oper("Second test with context manager"):
             time.sleep(0.15)
