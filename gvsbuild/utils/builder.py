@@ -806,7 +806,6 @@ class Builder(object):
             self.__copy_to(f, destdir)
 
     def __copy_to(self, src, destdir):
-        # log.debug("__copy_to %s %s" % (src, destdir))
         self.make_dir(destdir)
         for f in glob.glob(src):
             if os.path.isdir(f):

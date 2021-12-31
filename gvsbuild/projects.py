@@ -2056,7 +2056,6 @@ class Project_openssl(Tarball, Project):
             pass
 
         self.exec_vs(r"nmake /nologo", add_path=add_path)
-        # self.exec_vs(r'nmake /nologo test', add_path=add_path)
         self.exec_vs(r"%(perl_dir)s\bin\perl.exe mk-ca-bundle.pl -n cert.pem")
         self.exec_vs(r"nmake /nologo install", add_path=add_path)
 
