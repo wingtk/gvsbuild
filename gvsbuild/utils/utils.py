@@ -48,7 +48,7 @@ def rmtree_full(dest_dir, retry=False):
             try:
                 shutil.rmtree(dest_dir, onerror=_rmtree_error_handler)
                 break
-            except:
+            except:  # noqa: E722
                 # wait a little, don't ask me why ;(
                 time.sleep(delay)
     else:
