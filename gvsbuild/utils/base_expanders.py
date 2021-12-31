@@ -28,7 +28,7 @@ from .utils import rmtree_full
 
 
 def read_mark_file(directory, file_name=".wingtk-extracted-file"):
-    """ " Read a single line from file, returning an empty string on error."""
+    """Read a single line from file, returning an empty string on error."""
     rt = ""
     try:
         with open(os.path.join(directory, file_name), "rt") as fi:
@@ -209,7 +209,7 @@ def dirlist2set(st_dir, add_dirs=False, skipped_dir=None):
 
 
 def make_zip_hash(files):
-    """ " Calculate an hash of all the files to put in a zip file."""
+    """Calculate an hash of all the files to put in a zip file."""
     hash_calc = hashlib.sha256()
     for file_name in sorted(list(files)):
         # add also the file full path, to support only moving files in the zip

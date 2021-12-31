@@ -64,7 +64,7 @@ class LogElem(object):
 
 
 class Log(object):
-    """ " Simple log class, used mainly to time the execution of the script."""
+    """Simple log class, used mainly to time the execution of the script."""
 
     _verbose = False
     _debug = False
