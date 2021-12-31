@@ -98,7 +98,7 @@ class ordered_set(set):
         self.__list = list()
 
     def add(self, o):
-        if not o in self:
+        if o not in self:
             set.add(self, o)
             self.__list.append(o)
 

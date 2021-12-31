@@ -131,7 +131,7 @@ def get_options(args):
     Project.add_all()
 
     for p in opts.projects:
-        if not p in Project.get_names():
+        if p not in Project.get_names():
             log.error_exit(
                 p
                 + " is not a valid project name, available projects are:\n\t"
@@ -160,7 +160,7 @@ def __get_projects_to_build(opts):
     if opts.skip:
         to_skip = opts.skip.split(",")
         for s in to_skip:
-            if not s in Project.get_names():
+            if s not in Project.get_names():
                 log.error_exit(
                     s
                     + " is not a valid project name, available projects are:\n\t"
