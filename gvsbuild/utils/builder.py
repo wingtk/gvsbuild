@@ -598,7 +598,7 @@ class Builder(object):
             except KeyboardInterrupt:
                 traceback.print_exc()
                 log.error_exit("Interrupted on {}".format(p.name))
-            except:
+            except:  # noqa E722
                 traceback.print_exc()
                 log.end(mark_error=True)
                 if self.opts.keep:

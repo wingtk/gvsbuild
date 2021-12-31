@@ -2052,7 +2052,7 @@ class Project_openssl(Tarball, Project):
 
         try:
             self.exec_vs(r"nmake /nologo clean", add_path=add_path)
-        except:
+        except:  # noqa E722
             pass
 
         self.exec_vs(r"nmake /nologo", add_path=add_path)
