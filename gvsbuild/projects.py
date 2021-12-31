@@ -19,9 +19,8 @@
 
 import glob
 import os
-import shutil
 
-from .utils.base_builders import CmakeProject, MercurialCmakeProject, Meson, Rust
+from .utils.base_builders import CmakeProject, Meson, Rust
 from .utils.base_expanders import GitRepo, NullExpander, Tarball
 from .utils.base_project import GVSBUILD_IGNORE, Project, project_add
 from .utils.simple_ui import log

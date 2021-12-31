@@ -20,7 +20,7 @@
 import os
 import shutil
 
-from .base_expanders import MercurialRepo, Tarball
+from .base_expanders import MercurialRepo
 from .base_project import Project
 from .simple_ui import log
 from .utils import _rmtree_error_handler
