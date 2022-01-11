@@ -942,9 +942,10 @@ class Project_gtk3_20(Project_gtk_base):
             self.add_dependency("gobject-introspection")
 
     def build(self):
-        self.exec_msbuild_gen(
-            r"build\win32", "gtk+.sln", add_pars="/p:GtkPostInstall=rem"
+        self.builder.mod_env(
+            "INCLUDE", "{}\\include\\harfbuzz".format(self.builder.gtk_dir)
         )
+        self.exec_msbuild_gen(r"build\win32", "gtk+.sln", add_pars="/p:UseEnv=True /p:GtkPostInstall=rem")
 
         self.make_all_mo()
 
@@ -982,9 +983,10 @@ class Project_gtk3_22(Project_gtk_base):
             self.add_dependency("gobject-introspection")
 
     def build(self):
-        self.exec_msbuild_gen(
-            r"build\win32", "gtk+.sln", add_pars="/p:GtkPostInstall=rem"
+        self.builder.mod_env(
+            "INCLUDE", "{}\\include\\harfbuzz".format(self.builder.gtk_dir)
         )
+        self.exec_msbuild_gen(r"build\win32", "gtk+.sln", add_pars="/p:UseEnv=True /p:GtkPostInstall=rem")
 
         self.make_all_mo()
 
