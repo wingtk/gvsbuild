@@ -9,7 +9,7 @@ diff -ru a/gi/__init__.py b/gi/__init__.py
 +if os.name == 'nt' and hasattr(os, 'add_dll_directory'):
 +    path = os.environ.get('PATH', '')
 +    for p in path.split(os.pathsep):
-+        if os.path.isfile(os.path.join(p, 'girepository-1.0-1.dll')):
++        if p != "" and os.path.isfile(os.path.join(p, 'girepository-1.0-1.dll')):
 +            # Found a repository dll -> add to the list
 +            added_dirs.append(os.add_dll_directory(p))
  
