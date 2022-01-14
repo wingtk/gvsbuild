@@ -7,7 +7,7 @@ diff -ru a/cairo/__init__.py b/cairo/__init__.py
 +if os.name == 'nt' and hasattr(os, 'add_dll_directory'):
 +    path = os.environ.get('PATH', '')
 +    for p in path.split(os.pathsep):
-+        if os.path.isfile(os.path.join(p, 'cairo.dll')):
++        if p != "" and os.path.isfile(os.path.join(p, 'cairo.dll')):
 +            # Found a cairo.dll -> add to the list
 +            added_dirs.append(os.add_dll_directory(p))
  from ._cairo import *  # noqa: F401,F403
