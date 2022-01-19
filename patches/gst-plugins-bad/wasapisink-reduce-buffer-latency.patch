@@ -1,0 +1,46 @@
+partial backport of https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1529
+
+wasapisink: reduce buffer latency in shared low-latency mode
+
+cap WASAPI buffer usage at the period size, as there is no need to
+fill the WASAPI buffer beyond the first device period. the ringbuffer
+thread has an entire period to wake up and refill the buffer before
+WASAPI will consume it again. the default buffer size is 25ms, which
+introduces 15ms of extra latency beyond the 10ms default period.
+
+diff --git a/sys/wasapi/gstwasapisink.c b/sys/wasapi/gstwasapisink.c
+--- a/sys/wasapi/gstwasapisink.c
++++ b/sys/wasapi/gstwasapisink.c
+@@ -473,6 +473,9 @@ gst_wasapi_sink_get_can_frames (GstWasapiSink * self)
+   GST_DEBUG_OBJECT (self, "%i unread frames (padding)", n_frames_padding);
+ 
+   /* We can write out these many frames */
++  if (n_frames_padding > self->buffer_frame_count) {
++    return 0;
++  }
+   return self->buffer_frame_count - n_frames_padding;
+ }
+ 
+@@ -515,6 +518,13 @@ gst_wasapi_sink_prepare (GstAudioSink * asink, GstAudioRingBufferSpec * spec)
+       "frames, bpf is %i bytes, rate is %i Hz", self->buffer_frame_count,
+       devicep_frames, bpf, rate);
+ 
++  /* In low-latency shared mode, restrict buffer to one device period */
++  if (self->low_latency && self->sharemode == AUDCLNT_SHAREMODE_SHARED) {
++    self->buffer_frame_count = MIN (self->buffer_frame_count, devicep_frames);
++    GST_INFO_OBJECT (self, "low-latency buffer size capped at %i frames",
++        self->buffer_frame_count);
++  }
++
+   /* Actual latency-time/buffer-time will be different now */
+   spec->segsize = devicep_frames * bpf;
+ 
+@@ -672,7 +682,7 @@ gst_wasapi_sink_write (GstAudioSink * asink, gpointer data, guint length)
+       goto err;
+     }
+ 
+-    if (can_frames == 0) {
++    while (can_frames == 0) {
+       dwWaitResult = WaitForMultipleObjects (2, event_handle, FALSE, INFINITE);
+       if (dwWaitResult != WAIT_OBJECT_0 && dwWaitResult != WAIT_OBJECT_0 + 1) {
+         GST_ERROR_OBJECT (self, "Error waiting for event handle: %x",
