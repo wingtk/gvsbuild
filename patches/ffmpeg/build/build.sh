@@ -48,7 +48,7 @@ export PKG_CONFIG_PATH=$gtk_dir/lib/pkgconfig:$PKG_CONFIG_PATH
  --disable-avdevice \
  --disable-swresample \
  --extra-cflags="$extra_cflags" \
- "$extra_flags"
+ $extra_flags
 
 make
 make install
