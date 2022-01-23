@@ -1,0 +1,122 @@
+#  Copyright (C) 2016 - Yevgen Muntyan
+#  Copyright (C) 2016 - Ignacio Casal Quinteiro
+#  Copyright (C) 2016 - Arnavion
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, see <http://www.gnu.org/licenses/>.
+
+from gvsbuild.utils.base_builders import MakeGir
+from gvsbuild.utils.base_expanders import Tarball
+from gvsbuild.utils.base_project import Project, project_add
+
+
+@project_add
+class LibrsvgLegacy(Tarball, Project, MakeGir):
+    def __init__(self):
+
+        if not self.opts.old_rsvg:
+            self.ignore()
+            return
+
+        Project.__init__(
+            self,
+            "librsvg",
+            prj_dir="librsvg-legacy",
+            archive_url="http://ftp.acc.umu.se/pub/GNOME/sources/librsvg/2.40/librsvg-2.40.20.tar.xz",
+            hash="cff4dd3c3b78bfe99d8fcfad3b8ba1eee3289a0823c0e118d78106be6b84c92b",
+            dependencies=["libcroco", "cairo", "pango", "gdk-pixbuf", "gtk3"],
+            patches=["vs2019-support.patch"],
+        )
+        if Project.opts.enable_gi:
+            self.add_dependency("gobject-introspection")
+
+    def build(self):
+        self.builder.mod_env(
+            "INCLUDE", "{}\\include\\harfbuzz".format(self.builder.gtk_dir)
+        )
+        self.exec_msbuild_gen(r"build\win32", "librsvg.sln", add_pars="/p:UseEnv=True")
+
+        if Project.opts.enable_gi:
+            self.builder.mod_env(
+                "INCLUDE", "{}\\include\\glib-2.0".format(self.builder.gtk_dir)
+            )
+            self.builder.mod_env(
+                "INCLUDE", "{}\\lib\\glib-2.0\\include".format(self.builder.gtk_dir)
+            )
+            self.builder.mod_env(
+                "INCLUDE", "{}\\include\\gdk-pixbuf-2.0".format(self.builder.gtk_dir)
+            )
+            self.builder.mod_env(
+                "INCLUDE", "{}\\include\\cairo".format(self.builder.gtk_dir)
+            )
+
+            self.make_single_gir("rsvg", prj_dir="librsvg-legacy")
+
+        self.install(r".\COPYING share\doc\librsvg")
+
+    def post_install(self):
+        self.exec_cmd(r"%(gtk_dir)s\bin\gdk-pixbuf-query-loaders.exe --update-cache")
+
+
+@project_add
+class Librsvg(Tarball, Project):
+    def __init__(self):
+
+        if self.opts.old_rsvg:
+            self.ignore()
+            return
+
+        Project.__init__(
+            self,
+            "librsvg",
+            archive_url="https://download.gnome.org/sources/librsvg/2.52/librsvg-2.52.2.tar.xz",
+            hash="03d2887c18ffb906e1a60f97fe46a7169f69aa28d6db5d285748f3618b093427",
+            dependencies=[
+                "cargo",
+                "cairo",
+                "pango",
+                "gdk-pixbuf",
+            ],
+            patches=[
+                "0001-keep-cairo-dep.patch",
+                "bcrypt.patch",
+            ],
+        )
+        if Project.opts.enable_gi:
+            self.add_dependency("gobject-introspection")
+
+    def build(self):
+        self.builder.mod_env("INCLUDE", "include\\cairo", add_gtk=True)
+
+        b_dir = r"{}\{}\win32".format(
+            self.builder.working_dir,
+            self.name,
+        )
+
+        cmd = "nmake -f makefile.vc CFG={} PREFIX={} PYTHON={} install".format(
+            self.builder.opts.configuration,
+            self.builder.gtk_dir,
+            Project.get_tool_executable("python"),
+        )
+
+        if Project.opts.enable_gi:
+            cmd += " INTROSPECTION=1"
+
+        self.push_location(b_dir)
+        self.exec_vs(cmd)
+        self.pop_location()
+
+        self.install(r".\COPYING.LIB share\doc\librsvg")
+
+    def post_install(self):
+        self.exec_cmd(r"%(gtk_dir)s\bin\gdk-pixbuf-query-loaders.exe --update-cache")

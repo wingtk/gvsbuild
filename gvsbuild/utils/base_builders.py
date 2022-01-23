@@ -217,3 +217,37 @@ class Rust(Project):
         shutil.copytree(
             os.path.join(cargo_build, folder), os.path.join(cargo_build, "lib")
         )
+
+
+class MakeGir(object):
+    """Class to build, with nmake, a single project .gir/.typelib files for the
+    gobject-introspection support, used where the meson script is not present
+    (gtk % gtk3) or not update the handle it."""
+
+    def make_single_gir(self, prj_name, prj_dir=None):
+        if not prj_dir:
+            prj_dir = prj_name
+
+        b_dir = r"{}\{}\build\win32".format(
+            self.builder.working_dir,
+            prj_dir,
+        )
+        if not os.path.isfile(os.path.join(b_dir, "detectenv-msvc.mak")):
+            b_dir = r"{}\{}\win32".format(
+                self.builder.working_dir,
+                prj_dir,
+            )
+            if not os.path.isfile(os.path.join(b_dir, "detectenv-msvc.mak")):
+                log.message("Unable to find detectenv-msvc.mak for {}".format(prj_name))
+                return
+
+        cmd = "nmake -f {}-introspection-msvc.mak CFG={} PREFIX={} PYTHON={} install-introspection".format(
+            prj_name,
+            self.builder.opts.configuration,
+            self.builder.gtk_dir,
+            Project.get_tool_executable("python"),
+        )
+
+        self.push_location(b_dir)
+        self.exec_vs(cmd)
+        self.pop_location()
