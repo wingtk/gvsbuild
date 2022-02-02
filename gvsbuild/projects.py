@@ -373,8 +373,8 @@ class Project_ffmpeg(Tarball, Project):
             r"%s\bash build\build.sh %s %s %s %s"
             % (
                 msys_path,
-                self.pkg_dir,
-                self.builder.gtk_dir,
+                convert_to_msys(self.pkg_dir),
+                convert_to_msys(self.builder.gtk_dir),
                 self.builder.opts.configuration,
                 "enable_gpl" if self.opts.ffmpeg_enable_gpl else "disable_gpl",
             ),
