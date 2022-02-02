@@ -559,12 +559,11 @@ class Project_glib(Tarball, Meson):
         Project.__init__(
             self,
             "glib",
-            archive_url="https://download.gnome.org/sources/glib/2.70/glib-2.70.1.tar.xz",
-            hash="f9b7bce7f51753a1f43853bbcaca8bf09e15e994268e29cfd7a76f65636263c0",
+            archive_url="https://download.gnome.org/sources/glib/2.70/glib-2.70.3.tar.xz",
+            hash="233fa4841c1e19e396db7607d58f6b75ba3313c50bf0fce07b2e3532d5eb7d46",
             dependencies=["ninja", "meson", "pkg-config", "gettext", "libffi", "zlib"],
             patches=[
                 "glib-package-installation-directory.patch",
-                "0001-libpcre-add-a-fallback-url.patch",
                 "0001-_g_stat_size-return-goffset.patch",
             ],
         )
