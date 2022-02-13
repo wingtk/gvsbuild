@@ -260,9 +260,9 @@ class Tool_python(Tool):
         elif version == "3.8":
             version = "3.8.12"
         elif version == "3.9":
-            version = "3.9.7"
+            version = "3.9.10"
         elif version == "3.10":
-            version = "3.10.0"
+            version = "3.10.2"
 
         if self.opts.x86:
             name = "pythonx86"
