@@ -95,7 +95,7 @@ class Gtk320(Project_gtk_base):
             self,
             "gtk3",
             prj_dir="gtk3-20",
-            archive_url="http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.20/gtk+-3.20.10.tar.xz",
+            archive_url="https://download.gnome.org/sources/gtk%2B/3.20/gtk%2B-3.20.10.tar.xz",
             hash="e81da1af1c5c1fee87ba439770e17272fa5c06e64572939814da406859e56b70",
             dependencies=["atk", "gdk-pixbuf", "pango", "libepoxy"],
             patches=["gtk3-clip-retry-if-opened-by-others.patch"],
@@ -139,7 +139,7 @@ class Gtk322(Project_gtk_base):
             self,
             "gtk3",
             prj_dir="gtk3-22",
-            archive_url="http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/3.22/gtk+-3.22.30.tar.xz",
+            archive_url="https://download.gnome.org/sources/gtk%2B/3.22/gtk%2B-3.22.30.tar.xz",
             hash="a1a4a5c12703d4e1ccda28333b87ff462741dc365131fbc94c218ae81d9a6567",
             dependencies=["atk", "gdk-pixbuf", "pango", "libepoxy"],
         )
@@ -203,3 +203,32 @@ class Gtk324(Tarball, Meson):
         Meson.build(self, meson_params="-Dtests=false -Ddemos=false -Dexamples=false")
 
         self.install(r".\COPYING share\doc\gtk3")
+
+
+@project_add
+class Gtk4(Tarball, Meson):
+    def __init__(self):
+        Project.__init__(
+            self,
+            "gtk4",
+            prj_dir="gtk4",
+            archive_url="https://download.gnome.org/sources/gtk/4.6/gtk-4.6.1.tar.xz",
+            hash="d85508d21cbbcd63d568a7862af5ecd63b978d7d5799cbe404c91d2389d0ec5f",
+            dependencies=["gdk-pixbuf", "pango", "libepoxy", "graphene"],
+            patches=[],
+        )
+        if self.opts.enable_gi:
+            self.add_dependency("gobject-introspection")
+            enable_gi = "enabled"
+        else:
+            enable_gi = "disabled"
+
+        self.add_param("-Dintrospection={}".format(enable_gi))
+
+    def build(self):
+        Meson.build(
+            self,
+            meson_params="-Dbuild-tests=false -Ddemos=false -Dbuild-examples=false -Dmedia-gstreamer=disabled",
+        )
+
+        self.install(r".\COPYING share\doc\gtk4")
