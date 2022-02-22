@@ -79,8 +79,8 @@ class Librsvg(Tarball, Project):
         Project.__init__(
             self,
             "librsvg",
-            archive_url="https://download.gnome.org/sources/librsvg/2.52/librsvg-2.52.2.tar.xz",
-            hash="03d2887c18ffb906e1a60f97fe46a7169f69aa28d6db5d285748f3618b093427",
+            archive_url="https://download.gnome.org/sources/librsvg/2.52/librsvg-2.52.6.tar.xz",
+            hash="a3f939a1e6a3a60408244632d0323f8c3b20eb4b7b000536e2e5bd93b8effaad",
             dependencies=[
                 "cargo",
                 "cairo",
