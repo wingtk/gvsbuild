@@ -26,8 +26,8 @@ class Graphene(Tarball, Meson):
         Meson.__init__(
             self,
             "graphene",
-            archive_url="https://github.com/ebassi/graphene/archive/refs/tags/1.10.4.tar.gz",
-            hash="d73861aceda1adf13c1fbb588ce8a3b4f632bd8d41e4635d4c70e00595d85c4d",
+            archive_url="https://github.com/ebassi/graphene/archive/refs/tags/1.10.6.tar.gz",
+            hash="7eba972751d404316a9b59a7c1e0782de263c3cf9dd5ebf1503ba9b8354cc948",
             dependencies=["ninja", "meson", "pkg-config", "glib"],
         )
         if self.opts.enable_gi:
@@ -36,7 +36,6 @@ class Graphene(Tarball, Meson):
         else:
             enable_gi = "disabled"
 
-        self.add_param("-Dbenchmarks=false")
         self.add_param("-Dintrospection={}".format(enable_gi))
 
     def build(self):
