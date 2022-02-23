@@ -3,19 +3,19 @@
 ![CI](https://github.com/wingtk/gvsbuild/workflows/CI/badge.svg)
 
 This python script helps you build a full [GTK](https://www.gtk.org/) library
-stack for Windows using Visual Studio.
+stack for Windows using Visual Studio. Currently, GTK 3 (3.20, 3.22, 3.24) and
+GTK 4 (4.6) are supported.
 
 The script supports multiple versions of Visual Studio - at the moment we are
 focusing on VS 2019, but we include projects for other versions, and we gladly
 accept patches.
 
-The script focuses on GTK and the surrounding ecosystem (e.g. GStreamer),
-however we are pretty liberal about adding more libraries to the script, with
-the disclaimer that each contributor is responsible for keeping the additional
-libraries up to date. For now the list of projects is simply defined in the
-[projects.py](https://github.com/wingtk/gvsbuild/blob/master/gvsbuild/projects.py)
-file. If the number of libraries increases, we will consider making this more
-configurable and easily extensible.
+The script focuses on GTK and the surrounding ecosystem (e.g. GStreamer).
+However, we are open to adding more libraries as long as the contributor takes
+on the responsibility for keeping it up to date. The supported projects are
+modules in the
+[projects](https://github.com/wingtk/gvsbuild/blob/master/gvsbuild/projects)
+directory.
 
 The script requires a working installation of [Visual Studio for Windows
 Desktop](http://www.visualstudio.com), [Python 3](https://www.python.org) and
@@ -111,6 +111,13 @@ In the same PowerShell terminal, execute:
 cd C:\gtk-build\github\gvsbuild
 python .\build.py build -p=x64 --vs-ver=16 --msys-dir=C:\tools\msys64 --gtk3-ver=3.24 gtk3
 ```
+
+Alternatively, if you want to build GTK 4, execute:
+```PowerShell
+cd C:\gtk-build\github\gvsbuild
+python .\build.py build -p=x64 --vs-ver=16 --msys-dir=C:\tools\msys64 gtk4 
+```
+
 Grab a coffee, the build will take a few minutes to complete.
 
 #### Add GTK to Your Path
