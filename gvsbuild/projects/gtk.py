@@ -187,8 +187,6 @@ class Gtk324(Tarball, Meson):
             dependencies=["atk", "gdk-pixbuf", "pango", "libepoxy"],
             patches=[
                 "gtk_update_icon_cache.patch",
-                "0001-gtk-generate-uac-manifest.py-Fix-UAC-manifest-.rc.patch",
-                "0002-gtk-Fix-building-version-resource-on-Windows-11-SDK.patch",
             ],
         )
         if self.opts.enable_gi:
