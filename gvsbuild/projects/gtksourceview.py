@@ -16,16 +16,16 @@
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 from gvsbuild.utils.base_builders import Meson
-from gvsbuild.utils.base_expanders import Tarball
+from gvsbuild.utils.base_expanders import GitRepo, Tarball
 from gvsbuild.utils.base_project import Project, project_add
 
 
 @project_add
-class GtkSourceView(Tarball, Meson):
+class GtkSourceView4(Tarball, Meson):
     def __init__(self):
         Project.__init__(
             self,
-            "gtksourceview",
+            "gtksourceview4",
             archive_url="https://download.gnome.org/sources/gtksourceview/4.8/gtksourceview-4.8.2.tar.xz",
             hash="842de7e5cb52000fd810e4be39cd9fe29ffa87477f15da85c18f7b82d45637cc",
             dependencies=["python", "meson", "ninja", "gtk3", "pkg-config"],
@@ -38,4 +38,26 @@ class GtkSourceView(Tarball, Meson):
 
     def build(self):
         Meson.build(self)
-        self.install(r".\COPYING share\doc\gtksourceview")
+        self.install(r".\COPYING share\doc\gtksourceview4")
+
+
+@project_add
+class GtkSourceView5(GitRepo, Meson):
+    def __init__(self):
+        Project.__init__(
+            self,
+            "gtksourceview5",
+            repo_url="https://gitlab.gnome.org/GNOME/gtksourceview",
+            fetch_submodules=False,
+            tag=None,
+            dependencies=["python", "meson", "ninja", "gtk4", "pkg-config"],
+        )
+        if Project.opts.enable_gi:
+            self.add_dependency("gobject-introspection")
+        else:
+            self.add_param("-Dgir=false")
+        self.add_param("-Dvapi=false")
+
+    def build(self):
+        Meson.build(self)
+        self.install(r".\COPYING share\doc\gtksourceview5")

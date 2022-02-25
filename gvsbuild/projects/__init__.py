@@ -33,7 +33,7 @@ from gvsbuild.projects.gstreamer import (
     Orc,
 )
 from gvsbuild.projects.gtk import Gtk, Gtk4, Gtk320, Gtk322, Gtk324
-from gvsbuild.projects.gtksourceview import GtkSourceView
+from gvsbuild.projects.gtksourceview import GtkSourceView4, GtkSourceView5
 from gvsbuild.projects.harfbuzz import Harfbuzz
 from gvsbuild.projects.hicolor_icon_theme import HicolorIconTheme
 from gvsbuild.projects.icu import Icu
