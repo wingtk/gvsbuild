@@ -55,7 +55,7 @@ class Group_Gtk3_Full(Group):
                 "clutter",
                 "emeus",
                 "gtk3",
-                "gtksourceview",
+                "gtksourceview4",
                 "hicolor-icon-theme",
                 "wing",
             ],
