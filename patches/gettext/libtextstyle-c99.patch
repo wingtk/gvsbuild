@@ -1,0 +1,259 @@
+--- a/libtextstyle/adhoc-tests/hello.c	2019-08-18 00:32:02.000000000 +0800
++++ b/libtextstyle/adhoc-tests/hello.c	2020-07-28 15:46:01.005947000 +0800
+@@ -29,6 +29,7 @@
+ {
+   const char *program_name = argv[0];
+   int i;
++  styled_ostream_t stream;
+ 
+   /* Parse the command-line arguments.  */
+   for (i = 1; i < argc; i++)
+@@ -71,7 +72,7 @@
+     style_file_name = NULL;
+ 
+   /* Create a terminal output stream that uses this style file.  */
+-  styled_ostream_t stream =
++  stream =
+     (color_mode == color_html
+      ? html_styled_ostream_create (file_ostream_create (stdout),
+                                    style_file_name)
+--- a/libtextstyle/lib/fatal-signal.c	2020-07-06 04:12:31.000000000 +0800
++++ b/libtextstyle/lib/fatal-signal.c	2020-07-28 15:28:18.933361400 +0800
+@@ -213,9 +213,10 @@
+ void
+ at_fatal_signal (action_t action)
+ {
++  static bool cleanup_initialized = false;
++
+   gl_lock_lock (at_fatal_signal_lock);
+ 
+-  static bool cleanup_initialized = false;
+   if (!cleanup_initialized)
+     {
+       init_fatal_signals ();
+--- a/libtextstyle/lib/gettimeofday.c	2020-07-26 23:31:02.000000000 +0800
++++ b/libtextstyle/lib/gettimeofday.c	2020-07-28 15:43:50.814286100 +0800
+@@ -35,7 +35,7 @@
+ # undef LoadLibrary
+ # define LoadLibrary LoadLibraryA
+ 
+-# if !(_WIN32_WINNT >= _WIN32_WINNT_WIN8)
++# if !(_WIN32_WINNT >= 0x0602)
+ 
+ /* Avoid warnings from gcc -Wcast-function-type.  */
+ #  define GetProcAddress \
+@@ -79,6 +79,9 @@
+ {
+ #undef gettimeofday
+ #ifdef WINDOWS_NATIVE
++  ULONGLONG since_1601;
++  ULONGLONG since_1970;
++  ULONGLONG microseconds_since_1970;
+ 
+   /* On native Windows, there are two ways to get the current time:
+      GetSystemTimeAsFileTime
+@@ -94,7 +97,7 @@
+      <http://www.windowstimestamp.com/description>.  */
+   FILETIME current_time;
+ 
+-# if !(_WIN32_WINNT >= _WIN32_WINNT_WIN8)
++# if !(_WIN32_WINNT >= 0x0602)
+   if (!initialized)
+     initialize ();
+ # endif
+@@ -105,14 +108,14 @@
+ 
+   /* Convert from FILETIME to 'struct timeval'.  */
+   /* FILETIME: <https://docs.microsoft.com/en-us/windows/desktop/api/minwinbase/ns-minwinbase-filetime> */
+-  ULONGLONG since_1601 =
++  since_1601 =
+     ((ULONGLONG) current_time.dwHighDateTime << 32)
+     | (ULONGLONG) current_time.dwLowDateTime;
+   /* Between 1601-01-01 and 1970-01-01 there were 280 normal years and 89 leap
+      years, in total 134774 days.  */
+-  ULONGLONG since_1970 =
++  since_1970 =
+     since_1601 - (ULONGLONG) 134774 * (ULONGLONG) 86400 * (ULONGLONG) 10000000;
+-  ULONGLONG microseconds_since_1970 = since_1970 / (ULONGLONG) 10;
++  microseconds_since_1970 = since_1970 / (ULONGLONG) 10;
+   tv->tv_sec = microseconds_since_1970 / (ULONGLONG) 1000000;
+   tv->tv_usec = microseconds_since_1970 % (ULONGLONG) 1000000;
+ 
+--- a/libtextstyle/lib/html-ostream.oo.c	2020-04-11 18:01:49.000000000 +0800
++++ b/libtextstyle/lib/html-ostream.oo.c	2020-07-28 15:29:51.471455000 +0800
+@@ -203,12 +203,13 @@
+ 
+                 if (uc == '\n')
+                   {
++                    size_t prev_class_stack_size;
+                     verify_invariants (stream);
+                     /* Emit </span> tags to follow the decrease of the class stack
+                        from last_class_stack_size to 0.  Then emit the newline.
+                        Then prepare for emitting <span> tags to go back from 0
+                        to curr_class_stack_size.  */
+-                    size_t prev_class_stack_size = stream->curr_class_stack_size;
++                    prev_class_stack_size = stream->curr_class_stack_size;
+                     stream->curr_class_stack_size = 0;
+                     emit_pending_spans (stream, false);
+                     stream->curr_class_stack_size = prev_class_stack_size;
+@@ -285,12 +286,14 @@
+ static void
+ html_ostream::flush (html_ostream_t stream, ostream_flush_scope_t scope)
+ {
++  size_t prev_class_stack_size;
++
+   verify_invariants (stream);
+   /* stream->buf[] contains only a few bytes that don't correspond to a
+      character.  Can't flush it.  */
+   /* Close the open <span> tags, and prepare for reopening the same <span>
+      tags.  */
+-  size_t prev_class_stack_size = stream->curr_class_stack_size;
++  prev_class_stack_size = stream->curr_class_stack_size;
+   stream->curr_class_stack_size = 0;
+   emit_pending_spans (stream, false);
+   stream->curr_class_stack_size = prev_class_stack_size;
+--- a/libtextstyle/lib/stat-w32.c	2020-06-27 04:00:42.000000000 +0800
++++ b/libtextstyle/lib/stat-w32.c	2020-07-28 15:25:58.404593800 +0800
+@@ -149,6 +149,7 @@
+   DWORD type = GetFileType (h);
+   if (type == FILE_TYPE_DISK)
+     {
++      unsigned int mode;
+ #if !(_WIN32_WINNT >= _WIN32_WINNT_VISTA)
+       if (!initialized)
+         initialize ();
+@@ -245,7 +246,7 @@
+ #endif
+ 
+       /* st_mode.  */
+-      unsigned int mode =
++      mode =
+         /* XXX How to handle FILE_ATTRIBUTE_REPARSE_POINT ?  */
+         ((info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) ? _S_IFDIR | S_IEXEC_UGO : _S_IFREG)
+         | S_IREAD_UGO
+--- a/libtextstyle/lib/stat.c	2020-06-27 04:00:42.000000000 +0800
++++ b/libtextstyle/lib/stat.c	2020-07-28 15:24:12.289160300 +0800
+@@ -89,9 +89,10 @@
+         q++;
+       if (q > p && *q != '\0')
+         {
++          const char *r;
+           /* Found the next slash at q.  */
+           q++;
+-          const char *r = q;
++          r = q;
+           while (*r != '\0' && !ISSLASH (*r))
+             r++;
+           if (r > q && *r == '\0')
+@@ -112,6 +113,13 @@
+ rpl_stat (char const *name, struct stat *buf)
+ {
+ #ifdef WINDOWS_NATIVE
++  size_t len;
++  size_t drive_prefix_len;
++  size_t rlen;
++  bool check_dir = false;
++  const char *rname;
++  char *malloca_rname;
++
+   /* Fill the fields ourselves, because the original stat function returns
+      values for st_atime, st_mtime, st_ctime that depend on the current time
+      zone.  See
+@@ -130,13 +138,12 @@
+         name++;
+     }
+ 
+-  size_t len = strlen (name);
+-  size_t drive_prefix_len = (HAS_DEVICE (name) ? 2 : 0);
++  len = strlen (name);
++  drive_prefix_len = (HAS_DEVICE (name) ? 2 : 0);
+ 
+   /* Remove trailing slashes (except the very first one, at position
+      drive_prefix_len), but remember their presence.  */
+-  size_t rlen;
+-  bool check_dir = false;
++  check_dir = false;
+ 
+   rlen = len;
+   while (rlen > drive_prefix_len && ISSLASH (name[rlen-1]))
+@@ -161,8 +168,6 @@
+       return -1;
+     }
+ 
+-  const char *rname;
+-  char *malloca_rname;
+   if (rlen == len)
+     {
+       rname = name;
+@@ -229,6 +234,10 @@
+ 
+     /* Fallback.  */
+     {
++      WIN32_FIND_DATA info;
++      HANDLE h;
++      unsigned int mode;
++
+       /* Approach based on the directory entry.  */
+ 
+       if (strchr (rname, '?') != NULL || strchr (rname, '*') != NULL)
+@@ -250,8 +259,7 @@
+          <https://docs.microsoft.com/en-us/windows/desktop/api/fileapi/nf-fileapi-findfirstfileexa>
+          <https://docs.microsoft.com/en-us/windows/desktop/api/minwinbase/ne-minwinbase-findex_info_levels>
+          <https://docs.microsoft.com/en-us/windows/desktop/api/minwinbase/ns-minwinbase-_win32_find_dataa>  */
+-      WIN32_FIND_DATA info;
+-      HANDLE h = FindFirstFile (rname, &info);
++      h = FindFirstFile (rname, &info);
+       if (h == INVALID_HANDLE_VALUE)
+         goto failed;
+ 
+@@ -280,7 +288,7 @@
+ # endif
+ 
+       /* st_mode.  */
+-      unsigned int mode =
++      mode =
+         /* XXX How to handle FILE_ATTRIBUTE_REPARSE_POINT ?  */
+         ((info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) ? _S_IFDIR | S_IEXEC_UGO : _S_IFREG)
+         | S_IREAD_UGO
+--- a/libtextstyle/lib/html-ostream.c	2020-04-12 04:29:49.000000000 +0800
++++ b/libtextstyle/lib/html-ostream.c	2020-07-28 15:30:12.790408600 +0800
+@@ -202,12 +202,13 @@
+ 
+                 if (uc == '\n')
+                   {
++                    size_t prev_class_stack_size;
+                     verify_invariants (stream);
+                     /* Emit </span> tags to follow the decrease of the class stack
+                        from last_class_stack_size to 0.  Then emit the newline.
+                        Then prepare for emitting <span> tags to go back from 0
+                        to curr_class_stack_size.  */
+-                    size_t prev_class_stack_size = stream->curr_class_stack_size;
++                    prev_class_stack_size = stream->curr_class_stack_size;
+                     stream->curr_class_stack_size = 0;
+                     emit_pending_spans (stream, false);
+                     stream->curr_class_stack_size = prev_class_stack_size;
+@@ -284,12 +285,14 @@
+ static void
+ html_ostream__flush (html_ostream_t stream, ostream_flush_scope_t scope)
+ {
++  size_t prev_class_stack_size;
++
+   verify_invariants (stream);
+   /* stream->buf[] contains only a few bytes that don't correspond to a
+      character.  Can't flush it.  */
+   /* Close the open <span> tags, and prepare for reopening the same <span>
+      tags.  */
+-  size_t prev_class_stack_size = stream->curr_class_stack_size;
++  prev_class_stack_size = stream->curr_class_stack_size;
+   stream->curr_class_stack_size = 0;
+   emit_pending_spans (stream, false);
+   stream->curr_class_stack_size = prev_class_stack_size;
+@@ -436,7 +439,7 @@
+   return stream;
+ }
+ 
+-#line 440 "html-ostream.c"
++#line 443 "html-ostream.c"
+ 
+ const struct html_ostream_implementation html_ostream_vtable =
+ {

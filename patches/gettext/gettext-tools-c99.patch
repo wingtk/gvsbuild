@@ -1,0 +1,1072 @@
+--- a/gettext-tools/gnulib-lib/clean-temp.c	2020-07-06 04:10:30.000000000 +0800
++++ b/gettext-tools/gnulib-lib/clean-temp.c	2020-07-28 16:24:01.491114200 +0800
+@@ -272,16 +272,16 @@
+ asyncsafe_fclose_variant (struct closeable_fd *element, FILE *fp,
+                           int (*fclose_variant) (FILE *))
+ {
++  sigset_t saved_mask;
++  int ret;
++  int saved_errno;
++
+   if (fileno (fp) != element->fd)
+     abort ();
+ 
+   /* Flush buffered data first, to minimize the duration of the spin lock.  */
+   fflush (fp);
+ 
+-  sigset_t saved_mask;
+-  int ret;
+-  int saved_errno;
+-
+   asyncsafe_spin_lock (&element->lock, fatal_signal_set, &saved_mask);
+   if (!element->closed)
+     {
+@@ -430,9 +430,10 @@
+ void
+ unregister_temporary_file (const char *absolute_file_name)
+ {
++  gl_list_t list;
+   gl_lock_lock (file_cleanup_list_lock);
+ 
+-  gl_list_t list = file_cleanup_list;
++  list = file_cleanup_list;
+   if (list != NULL)
+     {
+       gl_list_node_t node = gl_list_search (list, absolute_file_name);
+@@ -493,13 +494,14 @@
+ create_temp_dir (const char *prefix, const char *parentdir,
+                  bool cleanup_verbose)
+ {
+-  gl_lock_lock (dir_cleanup_list_lock);
+-
+   struct tempdir * volatile *tmpdirp = NULL;
+   struct tempdir *tmpdir;
+   size_t i;
+   char *xtemplate;
+   char *tmpdirname;
++  int saved_errno;
++
++  gl_lock_lock (dir_cleanup_list_lock);
+ 
+   /* See whether it can take the slot of an earlier temporary directory
+      already cleaned up.  */
+@@ -581,7 +583,7 @@
+     }
+   block_fatal_signals ();
+   tmpdirname = mkdtemp (xtemplate);
+-  int saved_errno = errno;
++  saved_errno = errno;
+   if (tmpdirname != NULL)
+     {
+       tmpdir->dirname = tmpdirname;
+@@ -636,11 +638,12 @@
+                       const char *absolute_file_name)
+ {
+   struct tempdir *tmpdir = (struct tempdir *)dir;
++  gl_list_t list;
++  gl_list_node_t node;
+ 
+   gl_lock_lock (dir_cleanup_list_lock);
+ 
+-  gl_list_t list = tmpdir->files;
+-  gl_list_node_t node;
++  list = tmpdir->files;
+ 
+   node = gl_list_search (list, absolute_file_name);
+   if (node != NULL)
+@@ -681,11 +684,12 @@
+                         const char *absolute_dir_name)
+ {
+   struct tempdir *tmpdir = (struct tempdir *)dir;
++  gl_list_t list;
++  gl_list_node_t node;
+ 
+   gl_lock_lock (dir_cleanup_list_lock);
+ 
+-  gl_list_t list = tmpdir->subdirs;
+-  gl_list_node_t node;
++  list = tmpdir->subdirs;
+ 
+   node = gl_list_search (list, absolute_dir_name);
+   if (node != NULL)
+@@ -792,12 +796,14 @@
+ int
+ cleanup_temp_dir (struct temp_dir *dir)
+ {
+-  gl_lock_lock (dir_cleanup_list_lock);
+-
+-  struct tempdir *tmpdir = (struct tempdir *)dir;
++  struct tempdir *tmpdir;
+   int err = 0;
+   size_t i;
+ 
++  gl_lock_lock (dir_cleanup_list_lock);
++
++  tmpdir = (struct tempdir *)dir;
++
+   err |= cleanup_temp_dir_contents (dir);
+   err |= do_rmdir (tmpdir->dirname, dir->cleanup_verbose);
+ 
+@@ -866,13 +872,15 @@
+ static void
+ register_fd (int fd)
+ {
++  struct closeable_fd *element;
++
+   gl_lock_lock (descriptors_lock);
+ 
+   if (descriptors == NULL)
+     descriptors = gl_list_create_empty (GL_LINKED_LIST, NULL, NULL, NULL,
+                                         false);
+ 
+-  struct closeable_fd *element = XMALLOC (struct closeable_fd);
++  element = XMALLOC (struct closeable_fd);
+   element->fd = fd;
+   element->closed = false;
+   asyncsafe_spin_init (&element->lock);
+@@ -990,15 +998,18 @@
+ gen_register_open_temp (char *file_name_tmpl, int suffixlen,
+                         int flags, mode_t mode)
+ {
++  struct try_create_file_params params;
++  int fd;
++  int saved_errno;
++
+   block_fatal_signals ();
+ 
+-  struct try_create_file_params params;
+   params.flags = flags;
+   params.mode = mode;
+ 
+-  int fd = try_tempname (file_name_tmpl, suffixlen, &params, try_create_file);
++  fd = try_tempname (file_name_tmpl, suffixlen, &params, try_create_file);
+ 
+-  int saved_errno = errno;
++  saved_errno = errno;
+   if (fd >= 0)
+     {
+       init_clean_temp ();
+@@ -1018,31 +1029,38 @@
+ int
+ close_temp (int fd)
+ {
++  int result = 0;
++  int saved_errno = 0;
++  bool found = false;
++  gl_list_iterator_t iter;
++  const void *elt;
++  gl_list_node_t node;
++  gl_list_t list;
++
+   if (fd < 0)
+     return close (fd);
+ 
+   init_fatal_signal_set ();
+ 
+-  int result = 0;
+-  int saved_errno = 0;
+-
+   gl_lock_lock (descriptors_lock);
+ 
+-  gl_list_t list = descriptors;
++  list = descriptors;
+   if (list == NULL)
+     /* descriptors should already contain fd.  */
+     abort ();
+ 
+   /* Search through the list, and clean it up on the fly.  */
+-  bool found = false;
+-  gl_list_iterator_t iter = gl_list_iterator (list);
+-  const void *elt;
+-  gl_list_node_t node;
++  iter = gl_list_iterator (list);
+   if (gl_list_iterator_next (&iter, &elt, &node))
+     for (;;)
+       {
+         struct closeable_fd *element = (struct closeable_fd *) elt;
+ 
++        bool free_this_node;
++        struct closeable_fd *element_to_free;
++        gl_list_node_t node_to_free;
++        bool have_next;
++
+         /* Close the file descriptor, avoiding races with the signal
+            handler.  */
+         if (element->fd == fd)
+@@ -1052,11 +1070,11 @@
+             saved_errno = errno;
+           }
+ 
+-        bool free_this_node = element->done;
+-        struct closeable_fd *element_to_free = element;
+-        gl_list_node_t node_to_free = node;
++        free_this_node = element->done;
++        element_to_free = element;
++        node_to_free = node;
+ 
+-        bool have_next = gl_list_iterator_next (&iter, &elt, &node);
++        have_next = gl_list_iterator_next (&iter, &elt, &node);
+ 
+         if (free_this_node)
+           {
+@@ -1082,29 +1100,38 @@
+ fclose_variant_temp (FILE *fp, int (*fclose_variant) (FILE *))
+ {
+   int fd = fileno (fp);
+-
+-  init_fatal_signal_set ();
+-
+   int result = 0;
+   int saved_errno = 0;
++  bool found;
++  gl_list_iterator_t iter;
++  const void *elt;
++  gl_list_node_t node;
++  gl_list_t list;
++
++  init_fatal_signal_set ();
+ 
+   gl_lock_lock (descriptors_lock);
+ 
+-  gl_list_t list = descriptors;
++  list = descriptors;
+   if (list == NULL)
+     /* descriptors should already contain fd.  */
+     abort ();
+ 
+   /* Search through the list, and clean it up on the fly.  */
+-  bool found = false;
+-  gl_list_iterator_t iter = gl_list_iterator (list);
+-  const void *elt;
+-  gl_list_node_t node;
++  found = false;
++  iter = gl_list_iterator (list);
++
+   if (gl_list_iterator_next (&iter, &elt, &node))
+     for (;;)
+       {
+         struct closeable_fd *element = (struct closeable_fd *) elt;
+ 
++        bool free_this_node;
++        struct closeable_fd *element_to_free;
++        gl_list_node_t node_to_free;
++
++        bool have_next;
++
+         /* Close the file descriptor and the stream, avoiding races with the
+            signal handler.  */
+         if (element->fd == fd)
+@@ -1114,11 +1141,11 @@
+             saved_errno = errno;
+           }
+ 
+-        bool free_this_node = element->done;
+-        struct closeable_fd *element_to_free = element;
+-        gl_list_node_t node_to_free = node;
++        free_this_node = element->done;
++        element_to_free = element;
++        node_to_free = node;
+ 
+-        bool have_next = gl_list_iterator_next (&iter, &elt, &node);
++        have_next = gl_list_iterator_next (&iter, &elt, &node);
+ 
+         if (free_this_node)
+           {
+--- a/gettext-tools/gnulib-lib/copy-file.c	2020-06-27 03:39:36.000000000 +0800
++++ b/gettext-tools/gnulib-lib/copy-file.c	2020-07-28 15:59:04.130569400 +0800
+@@ -51,6 +51,8 @@
+   struct stat statbuf;
+   int mode;
+   int dest_fd;
++  off_t inbytes;
++  bool empty_regular_file;
+ 
+   src_fd = open (src_filename, O_RDONLY | O_BINARY | O_CLOEXEC);
+   if (src_fd < 0)
+@@ -62,8 +64,8 @@
+     }
+ 
+   mode = statbuf.st_mode & 07777;
+-  off_t inbytes = S_ISREG (statbuf.st_mode) ? statbuf.st_size : -1;
+-  bool empty_regular_file = inbytes == 0;
++  inbytes = S_ISREG (statbuf.st_mode) ? statbuf.st_size : -1;
++  empty_regular_file = inbytes == 0;
+ 
+   dest_fd = open (dest_filename,
+                   O_WRONLY | O_CREAT | O_TRUNC | O_BINARY | O_CLOEXEC,
+@@ -78,9 +80,12 @@
+   while (0 < inbytes)
+     {
+       size_t copy_max = -1;
++      size_t len;
++      ssize_t copied;
++
+       copy_max -= copy_max % IO_SIZE;
+-      size_t len = inbytes < copy_max ? inbytes : copy_max;
+-      ssize_t copied = copy_file_range (src_fd, NULL, dest_fd, NULL, len, 0);
++      len = inbytes < copy_max ? inbytes : copy_max;
++      copied = copy_file_range (src_fd, NULL, dest_fd, NULL, len, 0);
+       if (copied <= 0)
+         break;
+       inbytes -= copied;
+--- a/gettext-tools/gnulib-lib/diffseq.h	2020-04-11 17:59:36.000000000 +0800
++++ b/gettext-tools/gnulib-lib/diffseq.h	2020-07-28 15:51:54.180349600 +0800
+@@ -208,6 +208,7 @@
+     {
+       OFFSET d;                 /* Active diagonal. */
+       bool big_snake _GL_UNUSED = false;
++      bool heuristic;
+ 
+       /* Extend the top-down search by an edit step in each diagonal. */
+       if (fmin > dmin)
+@@ -279,9 +280,9 @@
+         continue;
+ 
+ #ifdef USE_HEURISTIC
+-      bool heuristic = ctxt->heuristic;
++      heuristic = ctxt->heuristic;
+ #else
+-      bool heuristic = false;
++      heuristic = false;
+ #endif
+ 
+       /* Heuristic: check occasionally for a diagonal that has made lots
+--- a/gettext-tools/gnulib-lib/fatal-signal.c	2020-07-06 04:10:31.000000000 +0800
++++ b/gettext-tools/gnulib-lib/fatal-signal.c	2020-07-28 15:50:20.470317900 +0800
+@@ -213,9 +213,10 @@
+ void
+ at_fatal_signal (action_t action)
+ {
++  static bool cleanup_initialized = false;
++
+   gl_lock_lock (at_fatal_signal_lock);
+ 
+-  static bool cleanup_initialized = false;
+   if (!cleanup_initialized)
+     {
+       init_fatal_signals ();
+--- a/gettext-tools/gnulib-lib/fnmatch.c	2020-06-27 03:52:53.000000000 +0800
++++ b/gettext-tools/gnulib-lib/fnmatch.c	2020-07-28 16:52:48.779023600 +0800
+@@ -63,6 +63,14 @@
+ extern int fnmatch (const char *pattern, const char *string, int flags);
+ #endif
+ 
++#if defined (_MSC_VER)
++#ifdef _DEBUG
++#pragma comment(lib, "msvcprtd")
++#else
++#pragma comment(lib, "msvcprt")
++#endif
++#endif
++
+ #ifdef _LIBC
+ # if __GNUC__ < 7
+ #  define FALLTHROUGH ((void) 0)
+@@ -239,6 +247,7 @@
+       wchar_t *wstring_malloc = NULL;
+       wchar_t *wstring;
+       size_t alloca_used = 0;
++      int res;
+ 
+       /* Convert the strings into wide characters.  */
+       memset (&ps, '\0', sizeof (ps));
+@@ -332,9 +341,9 @@
+           (void) mbsrtowcs (wstring, &string, n + 1, &ps);
+         }
+ 
+-      int res = internal_fnwmatch (wpattern, wstring, wstring + n,
+-                                   flags & FNM_PERIOD, flags, NULL,
+-                                   alloca_used);
++      res = internal_fnwmatch (wpattern, wstring, wstring + n,
++                               flags & FNM_PERIOD, flags, NULL,
++                               alloca_used);
+ 
+       free (wstring_malloc);
+       free (wpattern_malloc);
+--- a/gettext-tools/gnulib-lib/fnmatch_loop.c	2020-06-27 03:57:10.000000000 +0800
++++ b/gettext-tools/gnulib-lib/fnmatch_loop.c	2020-07-28 16:34:50.084208300 +0800
+@@ -1032,13 +1032,14 @@
+         if (level-- == 0)
+           {
+             /* This means we found the end of the pattern.  */
+-#define NEW_PATTERN \
++            #define NEW_PATTERN \
+             struct patternlist *newp;                                         \
+             size_t plen = (opt == L_('?') || opt == L_('@')                   \
+                            ? pattern_len : (p - startp + 1UL));               \
+             ptrdiff_t slen = FLEXSIZEOF (struct patternlist, str, 0);         \
+             ptrdiff_t new_used = alloca_used + slen;                          \
+             ptrdiff_t plensize;                                               \
++            bool malloced;                                                    \
+             if (INT_MULTIPLY_WRAPV (plen, sizeof (CHAR), &plensize)           \
+                 || INT_ADD_WRAPV (new_used, plensize, &new_used))             \
+               {                                                               \
+@@ -1046,7 +1047,7 @@
+                 goto out;                                                     \
+               }                                                               \
+             slen += plensize;                                                 \
+-            bool malloced = ! __libc_use_alloca (new_used);                   \
++            malloced = ! __libc_use_alloca (new_used);                        \
+             if (__glibc_unlikely (malloced))                                  \
+               {                                                               \
+                 newp = malloc (slen);                                         \
+@@ -1064,6 +1065,7 @@
+             *((CHAR *) MEMPCPY (newp->str, startp, p - startp)) = L_('\0');   \
+             *lastp = newp;                                                    \
+             lastp = &newp->next
++
+             NEW_PATTERN;
+             break;
+           }
+--- a/gettext-tools/gnulib-lib/gettimeofday.c	2020-07-26 23:29:00.000000000 +0800
++++ b/gettext-tools/gnulib-lib/gettimeofday.c	2020-07-28 16:29:13.975653400 +0800
+@@ -35,7 +35,7 @@
+ # undef LoadLibrary
+ # define LoadLibrary LoadLibraryA
+ 
+-# if !(_WIN32_WINNT >= _WIN32_WINNT_WIN8)
++# if !(_WIN32_WINNT >= 0x0602)
+ 
+ /* Avoid warnings from gcc -Wcast-function-type.  */
+ #  define GetProcAddress \
+@@ -79,6 +79,9 @@
+ {
+ #undef gettimeofday
+ #ifdef WINDOWS_NATIVE
++  ULONGLONG since_1601;
++  ULONGLONG since_1970;
++  ULONGLONG microseconds_since_1970;
+ 
+   /* On native Windows, there are two ways to get the current time:
+      GetSystemTimeAsFileTime
+@@ -94,7 +97,7 @@
+      <http://www.windowstimestamp.com/description>.  */
+   FILETIME current_time;
+ 
+-# if !(_WIN32_WINNT >= _WIN32_WINNT_WIN8)
++# if !(_WIN32_WINNT >= 0x0602)
+   if (!initialized)
+     initialize ();
+ # endif
+@@ -105,14 +108,14 @@
+ 
+   /* Convert from FILETIME to 'struct timeval'.  */
+   /* FILETIME: <https://docs.microsoft.com/en-us/windows/desktop/api/minwinbase/ns-minwinbase-filetime> */
+-  ULONGLONG since_1601 =
++  since_1601 =
+     ((ULONGLONG) current_time.dwHighDateTime << 32)
+     | (ULONGLONG) current_time.dwLowDateTime;
+   /* Between 1601-01-01 and 1970-01-01 there were 280 normal years and 89 leap
+      years, in total 134774 days.  */
+-  ULONGLONG since_1970 =
++  since_1970 =
+     since_1601 - (ULONGLONG) 134774 * (ULONGLONG) 86400 * (ULONGLONG) 10000000;
+-  ULONGLONG microseconds_since_1970 = since_1970 / (ULONGLONG) 10;
++  microseconds_since_1970 = since_1970 / (ULONGLONG) 10;
+   tv->tv_sec = microseconds_since_1970 / (ULONGLONG) 1000000;
+   tv->tv_usec = microseconds_since_1970 % (ULONGLONG) 1000000;
+ 
+--- a/gettext-tools/gnulib-lib/stat-w32.c	2020-07-28 16:31:31.238581300 +0800
++++ b/gettext-tools/gnulib-lib/stat-w32.c	2020-07-28 16:32:48.826455300 +0800
+@@ -149,6 +149,7 @@
+   DWORD type = GetFileType (h);
+   if (type == FILE_TYPE_DISK)
+     {
++      unsigned int mode;
+ #if !(_WIN32_WINNT >= _WIN32_WINNT_VISTA)
+       if (!initialized)
+         initialize ();
+@@ -245,7 +246,7 @@
+ #endif
+ 
+       /* st_mode.  */
+-      unsigned int mode =
++      mode =
+         /* XXX How to handle FILE_ATTRIBUTE_REPARSE_POINT ?  */
+         ((info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) ? _S_IFDIR | S_IEXEC_UGO : _S_IFREG)
+         | S_IREAD_UGO
+--- a/gettext-tools/gnulib-lib/stat.c	2020-07-28 16:31:40.321365500 +0800
++++ b/gettext-tools/gnulib-lib/stat.c	2020-07-28 16:29:35.320072400 +0800
+@@ -89,9 +89,10 @@
+         q++;
+       if (q > p && *q != '\0')
+         {
++          const char *r;
+           /* Found the next slash at q.  */
+           q++;
+-          const char *r = q;
++          r = q;
+           while (*r != '\0' && !ISSLASH (*r))
+             r++;
+           if (r > q && *r == '\0')
+@@ -112,6 +113,13 @@
+ rpl_stat (char const *name, struct stat *buf)
+ {
+ #ifdef WINDOWS_NATIVE
++  size_t len;
++  size_t drive_prefix_len;
++  size_t rlen;
++  bool check_dir = false;
++  const char *rname;
++  char *malloca_rname;
++
+   /* Fill the fields ourselves, because the original stat function returns
+      values for st_atime, st_mtime, st_ctime that depend on the current time
+      zone.  See
+@@ -130,13 +138,12 @@
+         name++;
+     }
+ 
+-  size_t len = strlen (name);
+-  size_t drive_prefix_len = (HAS_DEVICE (name) ? 2 : 0);
++  len = strlen (name);
++  drive_prefix_len = (HAS_DEVICE (name) ? 2 : 0);
+ 
+   /* Remove trailing slashes (except the very first one, at position
+      drive_prefix_len), but remember their presence.  */
+-  size_t rlen;
+-  bool check_dir = false;
++  check_dir = false;
+ 
+   rlen = len;
+   while (rlen > drive_prefix_len && ISSLASH (name[rlen-1]))
+@@ -161,8 +168,6 @@
+       return -1;
+     }
+ 
+-  const char *rname;
+-  char *malloca_rname;
+   if (rlen == len)
+     {
+       rname = name;
+@@ -229,6 +234,10 @@
+ 
+     /* Fallback.  */
+     {
++      WIN32_FIND_DATA info;
++      HANDLE h;
++      unsigned int mode;
++
+       /* Approach based on the directory entry.  */
+ 
+       if (strchr (rname, '?') != NULL || strchr (rname, '*') != NULL)
+@@ -250,8 +259,7 @@
+          <https://docs.microsoft.com/en-us/windows/desktop/api/fileapi/nf-fileapi-findfirstfileexa>
+          <https://docs.microsoft.com/en-us/windows/desktop/api/minwinbase/ne-minwinbase-findex_info_levels>
+          <https://docs.microsoft.com/en-us/windows/desktop/api/minwinbase/ns-minwinbase-_win32_find_dataa>  */
+-      WIN32_FIND_DATA info;
+-      HANDLE h = FindFirstFile (rname, &info);
++      h = FindFirstFile (rname, &info);
+       if (h == INVALID_HANDLE_VALUE)
+         goto failed;
+ 
+@@ -280,7 +288,7 @@
+ # endif
+ 
+       /* st_mode.  */
+-      unsigned int mode =
++      mode =
+         /* XXX How to handle FILE_ATTRIBUTE_REPARSE_POINT ?  */
+         ((info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) ? _S_IFDIR | S_IEXEC_UGO : _S_IFREG)
+         | S_IREAD_UGO
+--- a/gettext-tools/gnulib-lib/supersede.c	2020-07-06 05:46:47.000000000 +0800
++++ b/gettext-tools/gnulib-lib/supersede.c	2020-07-28 16:21:47.103923600 +0800
+@@ -60,10 +60,12 @@
+   /* The temporary file needs to be in the same directory, otherwise the
+      final rename may fail.  */
+   char *temp_filename = (char *) malloc (canon_filename_length + 7 + 1);
++  int fd;
++
+   memcpy (temp_filename, canon_filename, canon_filename_length);
+   memcpy (temp_filename + canon_filename_length, ".XXXXXX", 7 + 1);
+ 
+-  int fd = gen_register_open_temp (temp_filename, 0, flags, mode);
++  fd = gen_register_open_temp (temp_filename, 0, flags, mode);
+   if (fd < 0)
+     return -1;
+ 
+@@ -358,6 +360,8 @@
+ int
+ close_supersede (int fd, const struct supersede_final_action *action)
+ {
++  int ret;
++
+   if (fd < 0)
+     {
+       int saved_errno = errno;
+@@ -367,7 +371,6 @@
+       return fd;
+     }
+ 
+-  int ret;
+   if (action->final_rename_temp != NULL)
+     ret = close_temp (fd);
+   else
+@@ -383,6 +386,10 @@
+   /* Parse the mode.  */
+   int open_direction = 0;
+   int open_flags = 0;
++  mode_t open_mode;
++  int fd;
++  FILE *stream;
++
+   {
+     const char *p = mode;
+ 
+@@ -422,14 +429,14 @@
+       }
+   }
+ 
+-  mode_t open_mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
+-  int fd = open_supersede (filename, open_direction | open_flags, open_mode,
++  open_mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
++  fd = open_supersede (filename, open_direction | open_flags, open_mode,
+                            supersede_if_exists, supersede_if_does_not_exist,
+                            action);
+   if (fd < 0)
+     return NULL;
+ 
+-  FILE *stream = fdopen (fd, mode);
++  stream = fdopen (fd, mode);
+   if (stream == NULL)
+     {
+       int saved_errno = errno;
+@@ -443,9 +450,10 @@
+ int
+ fclose_supersede (FILE *stream, const struct supersede_final_action *action)
+ {
++  int ret;
++
+   if (stream == NULL)
+     return -1;
+-  int ret;
+   if (action->final_rename_temp != NULL)
+     ret = fclose_temp (stream);
+   else
+@@ -457,9 +465,10 @@
+ int
+ fwriteerror_supersede (FILE *stream, const struct supersede_final_action *action)
+ {
++  int ret;
++
+   if (stream == NULL)
+     return -1;
+-  int ret;
+   if (action->final_rename_temp != NULL)
+     ret = fclose_temp (stream);
+   else
+--- a/gettext-tools/gnulib-lib/tempname.c	2020-06-27 03:57:21.000000000 +0800
++++ b/gettext-tools/gnulib-lib/tempname.c	2020-07-28 16:19:56.001954600 +0800
+@@ -212,9 +212,9 @@
+ {
+   static int (*const tryfunc[]) (char *, void *) =
+     {
+-      [__GT_FILE] = try_file,
+-      [__GT_DIR] = try_dir,
+-      [__GT_NOCREATE] = try_nocreate
++      try_file,
++      try_dir,
++      try_nocreate
+     };
+   return try_tempname_len (tmpl, suffixlen, &flags, tryfunc[kind],
+                            x_suffix_len);
+@@ -274,7 +274,9 @@
+ 
+   for (count = 0; count < attempts; ++count)
+     {
+-      for (size_t i = 0; i < x_suffix_len; i++)
++      size_t i = 0;
++
++      for (i = 0; i < x_suffix_len; i++)
+         {
+           if (vdigits == 0)
+             {
+--- a/gettext-tools/gnulib-lib/utime.c	2020-06-27 03:57:22.000000000 +0800
++++ b/gettext-tools/gnulib-lib/utime.c	2020-07-28 16:42:03.978666700 +0800
+@@ -38,6 +38,16 @@
+ int
+ _gl_utimens_windows (const char *name, struct timespec ts[2])
+ {
++  size_t len;
++  size_t drive_prefix_len;
++
++  size_t rlen;
++  bool check_dir = false;
++
++  const char *rname;
++  char *malloca_rname;  
++  DWORD error;
++  HANDLE handle;
+   /* POSIX <https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap04.html#tag_04_13>
+      specifies: "More than two leading <slash> characters shall be treated as
+      a single <slash> character."  */
+@@ -48,13 +58,11 @@
+         name++;
+     }
+ 
+-  size_t len = strlen (name);
+-  size_t drive_prefix_len = (HAS_DEVICE (name) ? 2 : 0);
++  len = strlen (name);
++  drive_prefix_len = (HAS_DEVICE (name) ? 2 : 0);
+ 
+   /* Remove trailing slashes (except the very first one, at position
+      drive_prefix_len), but remember their presence.  */
+-  size_t rlen;
+-  bool check_dir = false;
+ 
+   rlen = len;
+   while (rlen > drive_prefix_len && ISSLASH (name[rlen-1]))
+@@ -65,8 +73,6 @@
+       rlen--;
+     }
+ 
+-  const char *rname;
+-  char *malloca_rname;
+   if (rlen == len)
+     {
+       rname = name;
+@@ -85,13 +91,11 @@
+       rname = malloca_rname;
+     }
+ 
+-  DWORD error;
+-
+   /* Open a handle to the file.
+      CreateFile
+      <https://docs.microsoft.com/en-us/windows/desktop/api/fileapi/nf-fileapi-createfilea>
+      <https://docs.microsoft.com/en-us/windows/desktop/FileIO/creating-and-opening-files>  */
+-  HANDLE handle =
++  handle =
+     CreateFile (rname,
+                 FILE_READ_ATTRIBUTES | FILE_WRITE_ATTRIBUTES,
+                 FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+--- a/gettext-tools/gnulib-tests/filenamecat-lgpl.c	2020-07-28 17:30:14.763246800 +0800
++++ b/gettext-tools/gnulib-tests/filenamecat-lgpl.c	2020-07-28 17:30:28.944774900 +0800
+@@ -52,6 +52,7 @@
+   size_t dirlen = dirbase - dir + dirbaselen;
+   size_t baselen = strlen (base);
+   char sep = '\0';
++  char *p_concat;
+   if (dirbaselen)
+     {
+       /* DIR is not a file system root, so separate with / if needed.  */
+@@ -68,7 +69,7 @@
+       sep = '.';
+     }
+ 
+-  char *p_concat = malloc (dirlen + (sep != '\0')  + baselen + 1);
++  p_concat = malloc (dirlen + (sep != '\0')  + baselen + 1);
+   if (p_concat == NULL)
+     return NULL;
+ 
+--- a/gettext-tools/gnulib-tests/timespec-add.c	2020-04-11 17:59:47.000000000 +0800
++++ b/gettext-tools/gnulib-tests/timespec-add.c	2020-07-28 17:31:39.722571300 +0800
+@@ -36,8 +36,8 @@
+ 
+   if (0 <= nsd)
+     {
+-      rns = nsd;
+       time_t bs1;
++      rns = nsd;
+       if (!INT_ADD_WRAPV (bs, 1, &bs1))
+         bs = bs1;
+       else if (rs < 0)
+--- a/gettext-tools/gnulib-tests/timespec-sub.c	2020-04-11 17:59:47.000000000 +0800
++++ b/gettext-tools/gnulib-tests/timespec-sub.c	2020-07-28 17:31:33.551596900 +0800
+@@ -36,8 +36,8 @@
+ 
+   if (ns < 0)
+     {
+-      rns = ns + TIMESPEC_HZ;
+       time_t bs1;
++      rns = ns + TIMESPEC_HZ;
+       if (!INT_ADD_WRAPV (bs, 1, &bs1))
+         bs = bs1;
+       else if (- TYPE_SIGNED (time_t) < rs)
+--- a/gettext-tools/libgettextpo/diffseq.h	2020-04-11 18:00:55.000000000 +0800
++++ b/gettext-tools/libgettextpo/diffseq.h	2020-07-28 17:23:31.577487900 +0800
+@@ -208,6 +208,7 @@
+     {
+       OFFSET d;                 /* Active diagonal. */
+       bool big_snake _GL_UNUSED = false;
++      bool heuristic;
+ 
+       /* Extend the top-down search by an edit step in each diagonal. */
+       if (fmin > dmin)
+@@ -279,9 +280,9 @@
+         continue;
+ 
+ #ifdef USE_HEURISTIC
+-      bool heuristic = ctxt->heuristic;
++      heuristic = ctxt->heuristic;
+ #else
+-      bool heuristic = false;
++      heuristic = false;
+ #endif
+ 
+       /* Heuristic: check occasionally for a diagonal that has made lots
+--- a/gettext-tools/libgettextpo/stat-w32.c	2020-06-27 03:59:40.000000000 +0800
++++ b/gettext-tools/libgettextpo/stat-w32.c	2020-07-28 17:26:27.307336000 +0800
+@@ -149,6 +149,7 @@
+   DWORD type = GetFileType (h);
+   if (type == FILE_TYPE_DISK)
+     {
++      unsigned int mode;
+ #if !(_WIN32_WINNT >= _WIN32_WINNT_VISTA)
+       if (!initialized)
+         initialize ();
+@@ -245,7 +246,7 @@
+ #endif
+ 
+       /* st_mode.  */
+-      unsigned int mode =
++      mode =
+         /* XXX How to handle FILE_ATTRIBUTE_REPARSE_POINT ?  */
+         ((info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) ? _S_IFDIR | S_IEXEC_UGO : _S_IFREG)
+         | S_IREAD_UGO
+--- a/gettext-tools/libgettextpo/stat.c	2020-06-27 03:59:40.000000000 +0800
++++ b/gettext-tools/libgettextpo/stat.c	2020-07-28 17:26:21.452955000 +0800
+@@ -89,9 +89,10 @@
+         q++;
+       if (q > p && *q != '\0')
+         {
++          const char *r;
+           /* Found the next slash at q.  */
+           q++;
+-          const char *r = q;
++          r = q;
+           while (*r != '\0' && !ISSLASH (*r))
+             r++;
+           if (r > q && *r == '\0')
+@@ -112,6 +113,13 @@
+ rpl_stat (char const *name, struct stat *buf)
+ {
+ #ifdef WINDOWS_NATIVE
++  size_t len;
++  size_t drive_prefix_len;
++  size_t rlen;
++  bool check_dir = false;
++  const char *rname;
++  char *malloca_rname;
++
+   /* Fill the fields ourselves, because the original stat function returns
+      values for st_atime, st_mtime, st_ctime that depend on the current time
+      zone.  See
+@@ -130,13 +138,12 @@
+         name++;
+     }
+ 
+-  size_t len = strlen (name);
+-  size_t drive_prefix_len = (HAS_DEVICE (name) ? 2 : 0);
++  len = strlen (name);
++  drive_prefix_len = (HAS_DEVICE (name) ? 2 : 0);
+ 
+   /* Remove trailing slashes (except the very first one, at position
+      drive_prefix_len), but remember their presence.  */
+-  size_t rlen;
+-  bool check_dir = false;
++  check_dir = false;
+ 
+   rlen = len;
+   while (rlen > drive_prefix_len && ISSLASH (name[rlen-1]))
+@@ -161,8 +168,6 @@
+       return -1;
+     }
+ 
+-  const char *rname;
+-  char *malloca_rname;
+   if (rlen == len)
+     {
+       rname = name;
+@@ -229,6 +234,10 @@
+ 
+     /* Fallback.  */
+     {
++      WIN32_FIND_DATA info;
++      HANDLE h;
++      unsigned int mode;
++
+       /* Approach based on the directory entry.  */
+ 
+       if (strchr (rname, '?') != NULL || strchr (rname, '*') != NULL)
+@@ -250,8 +259,7 @@
+          <https://docs.microsoft.com/en-us/windows/desktop/api/fileapi/nf-fileapi-findfirstfileexa>
+          <https://docs.microsoft.com/en-us/windows/desktop/api/minwinbase/ne-minwinbase-findex_info_levels>
+          <https://docs.microsoft.com/en-us/windows/desktop/api/minwinbase/ns-minwinbase-_win32_find_dataa>  */
+-      WIN32_FIND_DATA info;
+-      HANDLE h = FindFirstFile (rname, &info);
++      h = FindFirstFile (rname, &info);
+       if (h == INVALID_HANDLE_VALUE)
+         goto failed;
+ 
+@@ -280,7 +288,7 @@
+ # endif
+ 
+       /* st_mode.  */
+-      unsigned int mode =
++      mode =
+         /* XXX How to handle FILE_ATTRIBUTE_REPARSE_POINT ?  */
+         ((info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) ? _S_IFDIR | S_IEXEC_UGO : _S_IFREG)
+         | S_IREAD_UGO
+--- a/gettext-tools/libgrep/regcomp.c	2020-04-11 18:00:37.000000000 +0800
++++ b/gettext-tools/libgrep/regcomp.c	2020-07-28 16:57:46.900225500 +0800
+@@ -3657,6 +3657,7 @@
+ #endif /* not RE_ENABLE_I18N */
+   reg_errcode_t ret;
+   bin_tree_t *tree;
++  re_token_t br_token;
+ 
+   sbcset = (re_bitset_ptr_t) calloc (sizeof (bitset_t), 1);
+   if (__glibc_unlikely (sbcset == NULL))
+@@ -3706,7 +3707,9 @@
+ #endif
+ 
+   /* Build a tree for simple bracket.  */
+-  re_token_t br_token = { .type = SIMPLE_BRACKET, .opr.sbcset = sbcset };
++  br_token.type = SIMPLE_BRACKET;
++  br_token.opr.sbcset = sbcset;
++
+   tree = create_token_tree (dfa, NULL, NULL, &br_token);
+   if (__glibc_unlikely (tree == NULL))
+     goto build_word_op_espace;
+@@ -3797,7 +3800,9 @@
+ create_tree (re_dfa_t *dfa, bin_tree_t *left, bin_tree_t *right,
+ 	     re_token_type_t type)
+ {
+-  re_token_t t = { .type = type };
++  re_token_t t;
++  t.type = type;
++
+   return create_token_tree (dfa, left, right, &t);
+ }
+ 
+--- a/gettext-tools/libgrep/regexec.c	2020-04-11 18:00:37.000000000 +0800
++++ b/gettext-tools/libgrep/regexec.c	2020-07-28 17:00:50.849641700 +0800
+@@ -597,7 +597,7 @@
+   Idx extra_nmatch;
+   bool sb;
+   int ch;
+-  re_match_context_t mctx = { .dfa = dfa };
++  re_match_context_t mctx = {0, dfa, };
+   char *fastmap = ((preg->fastmap != NULL && preg->fastmap_accurate
+ 		    && start != last_start && !preg->can_be_null)
+ 		   ? preg->fastmap : NULL);
+@@ -3274,6 +3274,8 @@
+     bitset_t dests_ch[SBC_MAX];
+   } *dests_alloc;
+ 
++  size_t ndests_max;
++
+   /* We build DFA states which corresponds to the destination nodes
+      from 'state'.  'dests_node[i]' represents the nodes which i-th
+      destination state contains, and 'dests_ch[i]' represents the
+@@ -3317,7 +3319,7 @@
+     goto out_free;
+ 
+   /* Avoid arithmetic overflow in size calculation.  */
+-  size_t ndests_max
++  ndests_max
+     = ((SIZE_MAX - (sizeof (re_node_set) + sizeof (bitset_t)) * SBC_MAX)
+        / (3 * sizeof (re_dfastate_t *)));
+   if (__glibc_unlikely (ndests_max < ndests))
+--- a/gettext-tools/src/format.c	2020-07-28 17:06:31.027352400 +0800
++++ b/gettext-tools/src/format.c	2020-07-28 17:07:19.875252100 +0800
+@@ -22,7 +22,10 @@
+ /* Specification.  */
+ #include "format.h"
+ 
++#if !defined (_MSC_VER) || !defined (__cplusplus) || (_MSC_VER >= 1800)
+ #include <stdbool.h>
++#endif
++
+ #include <stdio.h>
+ #include <stdlib.h>
+ 
+--- a/gettext-tools/src/format.h	2020-06-06 22:03:32.000000000 +0800
++++ b/gettext-tools/src/format.h	2020-07-28 17:08:17.862525600 +0800
+@@ -18,7 +18,9 @@
+ #ifndef _FORMAT_H
+ #define _FORMAT_H
+ 
++#if !defined (_MSC_VER) || !defined (__cplusplus) || (_MSC_VER >= 1800)
+ #include <stdbool.h>
++#endif
+ 
+ #include "pos.h"        /* Get lex_pos_ty.  */
+ #include "message.h"    /* Get NFORMATS.  */
+--- a/gettext-tools/src/x-lua.c	2020-04-11 17:57:01.000000000 +0800
++++ b/gettext-tools/src/x-lua.c	2020-07-28 17:18:05.654678500 +0800
+@@ -282,9 +282,9 @@
+ 
+           if (c == '[')
+             {
+-              c = phase1_getc ();
+-
+               int esigns = 0;
++
++              c = phase1_getc ();
+               while (c == '=')
+                 {
+                   esigns++;
+@@ -713,10 +713,11 @@
+           break;
+ 
+         case '[':
+-          c = phase1_getc ();
++		{
++          int esigns = 0;
+ 
++          c = phase1_getc ();
+           /* Count the number of equal signs.  */
+-          int esigns = 0;
+           while (c == '=')
+             {
+               esigns++;
+@@ -762,10 +763,10 @@
+                 }
+               if (c == ']')
+                 {
+-                  c = phase1_getc ();
++                  int esigns2 = 0;
+ 
++                  c = phase1_getc ();
+                   /* Count the number of equal signs.  */
+-                  int esigns2 = 0;
+                   while (c == '=')
+                     {
+                       esigns2++;
+@@ -803,6 +804,7 @@
+               else
+                 string_add (c);
+             }
++		}
+           break;
+ 
+         case ']':
+--- a/gettext-tools/src/xgettext.c	2020-07-06 04:47:41.000000000 +0800
++++ b/gettext-tools/src/xgettext.c	2020-07-28 17:16:07.806479800 +0800
+@@ -29,7 +29,11 @@
+ #include <stdio.h>
+ #include <time.h>
+ #include <stdlib.h>
++
++#if !defined (_MSC_VER) || !defined (__cplusplus) || (_MSC_VER >= 1800)
+ #include <stdbool.h>
++#endif
++
+ #include <string.h>
+ #include <sys/stat.h>
+ #include <locale.h>
+--- a/gettext-tools/src/xgettext.h	2020-06-06 22:03:32.000000000 +0800
++++ b/gettext-tools/src/xgettext.h	2020-07-28 17:15:59.821248700 +0800
+@@ -19,7 +19,10 @@
+ #ifndef _XGETTEXT_H
+ #define _XGETTEXT_H
+ 
++#if !defined (_MSC_VER) || !defined (__cplusplus) || (_MSC_VER >= 1800)
+ #include <stdbool.h>
++#endif
++
+ #include <stddef.h>
+ 
+ #include "message.h"
