@@ -15,6 +15,8 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
+import os
+
 from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import Project, project_add
 
@@ -25,25 +27,75 @@ class Gettext(Tarball, Project):
         Project.__init__(
             self,
             "gettext",
-            archive_url="http://ftp.gnu.org/pub/gnu/gettext/gettext-0.19.7.tar.gz",
-            hash="5386d2a40500295783c6a52121adcf42a25519e2d23675950619c9e69558c23f",
-            dependencies=["win-iconv"],
+            archive_url="http://ftp.gnu.org/pub/gnu/gettext/gettext-0.21.tar.xz",
+            hash="d20fcbb537e02dcf1383197ba05bd0734ef7bf5db06bdb241eb69b7d16b73192",
+            dependencies=["python", "win-iconv"],
             patches=[
-                "0001-gettext-runtime-Add-pre-configured-headers-for-MSVC-.patch",
-                "0001-gettext-tools-Add-pre-configured-headers-and-sources.patch",
-                "0001-gettext-tools-gnulib-lib-libxml-Check-for-_WIN32-as-.patch",
-                "0001-gettext-tools-Make-private-headers-C-friendly.patch",
-                "0001-gettext-tools-src-x-lua.c-Fix-C99ism.patch",
-                "0002-gettext-tools-gnulib-lib-Declare-items-at-top-of-blo.patch",
-                "0004-gettext-runtime-intl-plural-exp.h-Match-up-declarati.patch",
-                "0005-gettext-runtime-intl-printf-parse.c-Fix-build-on-Vis.patch",
-                "0006-gettext-intrinsics.patch",
+                "gettext-runtime-c99.patch",
+                "gettext-tools-c99.patch",
+                "gettext-tools-gnulib-memset.patch",
+                "libtextstyle-c99.patch",
             ],
         )
 
     def build(self):
-        self.exec_msbuild_gen(r"build\win32", "gettext.sln")
+        self.push_location(r".\nmake")
+        self.exec_vs(
+            r'nmake /nologo /f Makefile.vc CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PREFIX="%(gtk_dir)s"',
+            add_path=os.path.join(self.builder.opts.msys_dir, "usr", "bin"),
+        )
+        self.pop_location()
+
+        self.push_location(
+            r".\nmake\vs%s\%s\%s"
+            % (
+                self.builder.opts.vs_ver,
+                self.builder.opts.configuration,
+                self.builder.opts.platform,
+            )
+        )
+        self.install(r".\asprintf.dll bin")
+        self.install(r".\asprintf.pdb bin")
+        self.install(r".\intl.dll bin")
+        self.install(r".\intl.pdb bin")
+        self.install(r".\envsubst.exe bin")
+        self.install(r".\envsubst.pdb bin")
+        self.install(r".\gettext.exe bin")
+        self.install(r".\gettext.pdb bin")
+        self.install(r".\ngettext.exe bin")
+        self.install(r".\ngettext.pdb bin")
+        self.install(r".\gettextpo.dll bin")
+        self.install(r".\gettextpo.pdb bin")
+        self.install(r".\gettextlib-*.dll bin")
+        self.install(r".\gettextlib-*.pdb bin")
+        self.install(r".\gettextsrc-*.dll bin")
+        self.install(r".\gettextsrc-*.pdb bin")
+        self.install(r".\msg*.exe bin")
+        self.install(r".\msg*.pdb bin")
+        self.install(r".\xgettext.exe bin")
+        self.install(r".\xgettext.pdb bin")
+        self.install(r".\recode-sr-latin.exe bin")
+        self.install(r".\recode-sr-latin.pdb bin")
+        self.install(r".\textstyle.dll bin")
+        self.install(r".\textstyle.pdb bin")
+
+        self.install(r".\asprintf.lib lib")
+        self.install(r".\intl.lib lib")
+        self.install(r".\gettextpo.lib lib")
+        self.pop_location()
+
+        self.push_location(r".\msvc")
+        self.install(r".\gettext-runtime\libasprintf\autosprintf.h include")
+        self.install(r".\gettext-runtime\intl\libgnuintl.h include")
+        self.install(r".\gettext-tools\libgettextpo\gettext-po.h include")
+        self.pop_location()
 
         self.install(r".\gettext-tools\its\*.its share\gettext\its")
         self.install(r".\gettext-tools\its\*.loc share\gettext\its")
         self.install(r".\COPYING share\doc\gettext")
+
+    def post_install(self):
+        self.builder.exec_msys(
+            ["mv", "libgnuintl.h", "libintl.h"],
+            working_dir=os.path.join(self.builder.gtk_dir, "include"),
+        )
