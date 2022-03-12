@@ -32,6 +32,7 @@ class GLib(Tarball, Meson):
             patches=[
                 "glib-package-installation-directory.patch",
                 "0001-_g_stat_size-return-goffset.patch",
+                "0002-pcre-add-fallback-url.patch",
             ],
         )
 
