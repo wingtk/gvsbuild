@@ -40,9 +40,6 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install visual studio tools
-        run: choco install visualstudio2019-workload-vctools
-
       # Temporarily move the preinstalled git, it causes errors related to cygwin.
       - name: Move git binary
         run: move "C:\Program Files\Git\usr\bin" "C:\Program Files\Git\usr\notbin"
@@ -50,7 +47,7 @@ jobs:
 
       - name: Build
         run: >
-          python .\build.py build -p=x64 --vs-ver=16 --msys-dir=C:\msys64 --enable-gi
+          python .\build.py build -p=x64 --vs-ver=17 --msys-dir=C:\msys64 --enable-gi
           --py-wheel --gtk3-ver=3.24 gtk3 graphene gobject-introspection pycairo
           pygobject adwaita-icon-theme hicolor-icon-theme gtksourceview4
 

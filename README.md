@@ -7,7 +7,7 @@ stack for Windows using Visual Studio. Currently, GTK 3 (3.20, 3.22, 3.24) and
 GTK 4 (4.6) are supported.
 
 The script supports multiple versions of Visual Studio - at the moment we are
-focusing on VS 2019, but we include projects for other versions, and we gladly
+focusing on VS 2022, but we include projects for other versions, and we gladly
 accept patches.
 
 The script focuses on GTK and the surrounding ecosystem (e.g. GStreamer).
@@ -67,17 +67,17 @@ choco install msys2
 ### Building GTK
 
 First we will install the gvsbuild dependencies:
-1. Visual C++ build tools workload for Visual Studio 2019 Build Tools
+1. Visual C++ build tools workload for Visual Studio 2022 Build Tools
 2. Python
 
-#### Install Visual Studio 2019
+#### Install Visual Studio 2022
 With your admin PowerShell terminal:
 
 ```PowerShell
-choco install visualstudio2019-workload-vctools
+choco install visualstudio2022-workload-vctools
 ```
 
-Note: Visual Studio versions 2013 (not for all projects), 2015, 2017, and 2019 are currently supported.
+Note: Visual Studio versions 2013 (not for all projects), 2015, 2017, 2019, and 2022 are currently supported.
 
 #### Install the Latest Python
 
@@ -109,13 +109,13 @@ In the same PowerShell terminal, execute:
 
 ```PowerShell
 cd C:\gtk-build\github\gvsbuild
-python .\build.py build -p=x64 --vs-ver=16 --msys-dir=C:\tools\msys64 --gtk3-ver=3.24 gtk3
+python .\build.py build -p=x64 --vs-ver=17 --msys-dir=C:\tools\msys64 --gtk3-ver=3.24 gtk3
 ```
 
 Alternatively, if you want to build GTK 4, execute:
 ```PowerShell
 cd C:\gtk-build\github\gvsbuild
-python .\build.py build -p=x64 --vs-ver=16 --msys-dir=C:\tools\msys64 gtk4 
+python .\build.py build -p=x64 --vs-ver=17 --msys-dir=C:\tools\msys64 gtk4 
 ```
 
 Grab a coffee, the build will take a few minutes to complete.
@@ -128,12 +128,12 @@ $env:Path = "C:\gtk-build\gtk\x64\release\bin;" + $env:Path
 
 #### Other Options
 
- To build the 64-bit version with the Visual Studio 2019 (version 16) you need
+ To build the 64-bit version with the Visual Studio 2022 (version 17) you need
  also to tell the script the visual studio version, run:
 
  ```
  cd C:\gtk-build\github\gvsbuild
- python .\build.py build -p x64 --vs-ver 16 gtk3
+ python .\build.py build -p x64 --vs-ver 17 gtk3
  ```
 
  For more information about the possible commands run:

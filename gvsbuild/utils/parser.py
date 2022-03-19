@@ -114,6 +114,11 @@ def get_options(args):
                 r"C:\Program Files (x86)\Microsoft Visual Studio\2019"
             )
             opts._vs_path_auto = True
+        elif opts.vs_ver == "17":
+            opts.vs_install_path = (
+                r"C:\Program Files (x86)\Microsoft Visual Studio\2022"
+            )
+            opts._vs_path_auto = True
         else:
             opts.vs_install_path = (
                 r"C:\Program Files (x86)\Microsoft Visual Studio {}.0".format(
@@ -326,8 +331,8 @@ Examples:
     )
     p_build.add_argument(
         "--vs-ver",
-        default="12",
-        help="Visual Studio version 12 (vs2013), 14 (vs2015), 15 (vs2017), 16 (vs2019). Default is 12.",
+        default="17",
+        help="Visual Studio version 12 (vs2013), 14 (vs2015), 15 (vs2017), 16 (vs2019), 17 (vs2022). Default is 17.",
     )
     p_build.add_argument(
         "--vs-install-path",
@@ -347,7 +352,7 @@ Examples:
     p_build.add_argument(
         "--python-ver",
         default="3.10",
-        help="Python version to download and use for the build (3.10, 3.9, 3.8, 3.7, or the exact one, 3.5.2.1 or 3.8.0-a3.",
+        help="Python version to download and use for the build (3.10, 3.9, 3.8, 3.7, or the exact one, 3.10.2 or 3.8.0-a3.",
     )
     p_build.add_argument(
         "--python-dir",
