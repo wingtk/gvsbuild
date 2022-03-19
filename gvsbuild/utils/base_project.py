@@ -123,7 +123,7 @@ class Project(object):
 
     def _msbuild_make_search_replace(self, org_platform):
         """Return the search & replace strings (converted to bytes to update
-        the platfomrm Toolset version (v140, v141, ...) to use a new compiler,
+        the platform Toolset version (v140, v141, ...) to use a new compiler,
         e.g. to use vs2017 solution's files for vs2019.
 
         The '<PlatformToolset' at the beginning is missing to handle
@@ -132,6 +132,8 @@ class Project(object):
         """
 
         ver = self.builder.opts.vs_ver
+        if ver == "17":
+            dst_platform = "143"
         if ver == "16":
             dst_platform = "142"
         elif ver == "15":
