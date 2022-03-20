@@ -315,6 +315,10 @@ class Tool_python(Tool):
             cmd = py + " -m pip install --upgrade wheel --no-warn-script-location"
             subprocess.check_call(cmd, shell=True)
 
+            # install/update build
+            cmd = py + " -m pip install --upgrade build --no-warn-script-location"
+            subprocess.check_call(cmd, shell=True)
+
             python3 = os.path.join(self.tool_path, "python3.exe")
             if not os.path.exists(python3):
                 # We create a python3.exe file so meson find our python and not some other

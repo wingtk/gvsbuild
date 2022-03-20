@@ -64,7 +64,6 @@ def get_options(args):
     opts.fast_build = args.fast_build
     opts.keep = args.keep
     opts.clean_built = args.clean_built
-    opts.py_egg = args.py_egg
     opts.py_wheel = args.py_wheel
     opts.enable_gi = args.enable_gi
     opts.gtk3_ver = args.gtk3_ver
@@ -446,12 +445,6 @@ Examples:
         default=False,
         action="store_true",
         help="Continue the build even on errors, dropping the projects that depends on the failed ones",
-    )
-    p_build.add_argument(
-        "--py-egg",
-        default=False,
-        action="store_true",
-        help="pycairo/pygobject: build also the egg distribution format",
     )
     p_build.add_argument(
         "--py-wheel",
