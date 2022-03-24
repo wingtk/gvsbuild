@@ -79,18 +79,15 @@ class Librsvg(Tarball, Project):
         Project.__init__(
             self,
             "librsvg",
-            archive_url="https://download.gnome.org/sources/librsvg/2.52/librsvg-2.52.6.tar.xz",
-            hash="a3f939a1e6a3a60408244632d0323f8c3b20eb4b7b000536e2e5bd93b8effaad",
+            archive_url="https://download.gnome.org/sources/librsvg/2.54/librsvg-2.54.0.tar.xz",
+            hash="baf8ebc147f146b4261bb3d0cd0fac944bf8dbb4b1f2347d23341f974dcc3085",
             dependencies=[
                 "cargo",
                 "cairo",
                 "pango",
                 "gdk-pixbuf",
             ],
-            patches=[
-                "0001-keep-cairo-dep.patch",
-                "bcrypt.patch",
-            ],
+            patches=[],
         )
         if Project.opts.enable_gi:
             self.add_dependency("gobject-introspection")
