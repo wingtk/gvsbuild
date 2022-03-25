@@ -26,8 +26,8 @@ class GdkPixbuf(Tarball, Meson):
         Project.__init__(
             self,
             "gdk-pixbuf",
-            archive_url="http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.6.tar.xz",
-            hash="c4a6b75b7ed8f58ca48da830b9fa00ed96d668d3ab4b1f723dcf902f78bde77f",
+            archive_url="http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.8.tar.xz",
+            hash="84acea3acb2411b29134b32015a5b1aaa62844b19c4b1ef8b8971c6b0759f4c6",
             dependencies=[
                 "ninja",
                 "pkg-config",
@@ -37,7 +37,6 @@ class GdkPixbuf(Tarball, Meson):
                 "glib",
                 "libpng",
             ],
-            patches=["115.diff"],
         )
         if self.opts.enable_gi:
             self.add_dependency("gobject-introspection")
