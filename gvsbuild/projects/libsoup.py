@@ -62,8 +62,8 @@ class Libsoup3(Tarball, Meson):
         Project.__init__(
             self,
             "libsoup3",
-            archive_url="http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/3.0/libsoup-3.0.4.tar.xz",
-            hash="5bd38b5e091f707fd7fa3ed7c37aacca3f8e16c65787f1cc17dc38d1dcde567b",
+            archive_url="http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/3.0/libsoup-3.0.5.tar.xz",
+            hash="f5d143db6830b3825edc2a1c4449d639273b0bfa017a4970871962d9bca22145",
             dependencies=[
                 "libxml2",
                 "glib-networking",
@@ -71,11 +71,6 @@ class Libsoup3(Tarball, Meson):
                 "libpsl",
                 "mit-kerberos",
                 "nghttp2",
-            ],
-            patches=[
-                "0001-server-message-proxy-the-peer-certificate-and-peer-c.patch",
-                "0001-Handle-potential-g_uri_unescape_string-failures.patch",
-                "0001-server-fix-crash-when-sending-an-invalid-percent-enc.patch",
             ],
         )
 
