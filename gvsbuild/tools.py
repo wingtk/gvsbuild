@@ -256,13 +256,13 @@ class Tool_python(Tool):
         version = self.opts.python_ver
         # Get the last version we ask
         if version == "3.7":
-            version = "3.7.12"
+            version = "3.7.13"
         elif version == "3.8":
-            version = "3.8.12"
+            version = "3.8.13"
         elif version == "3.9":
-            version = "3.9.10"
+            version = "3.9.12"
         elif version == "3.10":
-            version = "3.10.2"
+            version = "3.10.4"
 
         if self.opts.x86:
             name = "pythonx86"
