@@ -115,9 +115,7 @@ def get_options(args):
             )
             opts._vs_path_auto = True
         elif opts.vs_ver == "17":
-            opts.vs_install_path = (
-                r"C:\Program Files (x86)\Microsoft Visual Studio\2022"
-            )
+            opts.vs_install_path = r"C:\Program Files\Microsoft Visual Studio\2022"
             opts._vs_path_auto = True
         else:
             opts.vs_install_path = (
