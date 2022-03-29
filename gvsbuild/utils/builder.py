@@ -149,9 +149,7 @@ class Builder(object):
             )
 
         if self.opts.net_target_framework:
-            rt.append(
-                '/p:TargetFrameworks="{}"'.format(self.opts.net_target_framework)
-            )
+            rt.append('/p:TargetFrameworks="{}"'.format(self.opts.net_target_framework))
 
         if self.opts.msbuild_opts:
             rt.append(self.opts.msbuild_opts)
