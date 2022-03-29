@@ -29,6 +29,7 @@ class Harfbuzz(Tarball, Meson):
             archive_url="https://github.com/harfbuzz/harfbuzz/releases/download/4.1.0/harfbuzz-4.1.0.tar.xz",
             hash="f7984ff4241d4d135f318a93aa902d910a170a8265b7eaf93b5d9a504eed40c8",
             dependencies=["python", "freetype", "pkg-config", "glib"],
+            patches=["0001-meson-find-icu-using-pkgconfig.patch"],
         )
 
         if Project.opts.enable_gi:
