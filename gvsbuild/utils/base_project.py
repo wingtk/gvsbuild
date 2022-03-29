@@ -134,7 +134,7 @@ class Project(object):
         ver = self.builder.opts.vs_ver
         if ver == "17":
             dst_platform = "143"
-        if ver == "16":
+        elif ver == "16":
             dst_platform = "142"
         elif ver == "15":
             dst_platform = "141"
