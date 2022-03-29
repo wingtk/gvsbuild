@@ -1,0 +1,36 @@
+From 472b784a6e074c229c1875935542aaf8a28cbf57 Mon Sep 17 00:00:00 2001
+From: Ignacio Casal Quinteiro <qignacio@amazon.com>
+Date: Tue, 29 Mar 2022 16:24:53 +0200
+Subject: [PATCH] meson: find icu using pkgconfig
+
+---
+ meson.build | 13 +++----------
+ 1 file changed, 3 insertions(+), 10 deletions(-)
+
+diff --git a/meson.build b/meson.build
+index 29d9fd583..5519f3fee 100644
+--- a/meson.build
++++ b/meson.build
+@@ -93,16 +93,9 @@ gobject_dep = dependency('gobject-2.0', required: get_option('gobject'))
+ graphite2_dep = dependency('graphite2', required: get_option('graphite2'))
+ graphite_dep = dependency('graphite2', required: get_option('graphite'))
+ 
+-if cpp.get_argument_syntax() == 'msvc'
+-  icu_dep = dependency('ICU',
+-                       required: get_option('icu'),
+-                       components: 'uc',
+-                       method: 'cmake')
+-else
+-  icu_dep = dependency('icu-uc',
+-                       required: get_option('icu'),
+-                       method: 'pkg-config')
+-endif
++icu_dep = dependency('icu-uc',
++                     required: get_option('icu'),
++                     method: 'pkg-config')
+ 
+ if icu_dep.found() and icu_dep.type_name() == 'pkgconfig'
+   icu_defs = icu_dep.get_variable(pkgconfig: 'DEFS', default_value: '').split()
+-- 
+2.25.1
+
