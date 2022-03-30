@@ -72,6 +72,9 @@ class Libsoup3(Tarball, Meson):
                 "mit-kerberos",
                 "nghttp2",
             ],
+            patches=[
+                "0001-server-message-proxy-the-peer-certificate-and-peer-c.patch",
+            ],
         )
 
         if self.opts.enable_gi:
