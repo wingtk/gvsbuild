@@ -40,6 +40,7 @@ class Libarchive(Tarball, CmakeProject):
                 "openssl",
                 "libxml2",
             ],
+            patches=["0001-ZIP-reader-fix-possible-out-of-bounds-read-in-zipx_l.patch"],
         )
 
     def build(self):
