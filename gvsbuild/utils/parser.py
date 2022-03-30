@@ -50,6 +50,7 @@ def get_options(args):
     opts.vs_install_path = args.vs_install_path
     opts.win_sdk_ver = args.win_sdk_ver
     opts.net_target_framework = args.net_target_framework
+    opts.net_target_framework_version = args.net_target_framework_version
     opts.python_dir = args.python_dir
     opts.msys_dir = args.msys_dir
     opts.clean = args.clean
@@ -352,6 +353,11 @@ Examples:
         "--net-target-framework",
         default=None,
         help=".net target framework. If set then TargetFrameworks parameter is passed down to msbuild with the specific target. i.e net45",
+    )
+    p_build.add_argument(
+        "--net-target-framework-version",
+        default=None,
+        help=".net target framework version. If set then TargetFrameworkVersion parameter is passed down to msbuild with the specific version. i.e v4.6.2",
     )
     p_build.add_argument(
         "--python-ver",
