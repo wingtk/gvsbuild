@@ -26,8 +26,8 @@ class Libsoup(Tarball, Meson):
         Project.__init__(
             self,
             "libsoup",
-            archive_url="http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/2.72/libsoup-2.72.0.tar.xz",
-            hash="170c3f8446b0f65f8e4b93603349172b1085fb8917c181d10962f02bb85f5387",
+            archive_url="https://download.gnome.org/sources/libsoup/2.74/libsoup-2.74.2.tar.xz",
+            hash="f0a427656e5fe19e1df71c107e88dfa1b2e673c25c547b7823b6018b40d01159",
             dependencies=[
                 "libxml2",
                 "glib-networking",
@@ -62,8 +62,8 @@ class Libsoup3(Tarball, Meson):
         Project.__init__(
             self,
             "libsoup3",
-            archive_url="http://ftp.acc.umu.se/pub/GNOME/sources/libsoup/3.0/libsoup-3.0.5.tar.xz",
-            hash="f5d143db6830b3825edc2a1c4449d639273b0bfa017a4970871962d9bca22145",
+            archive_url="https://download.gnome.org/sources/libsoup/3.0/libsoup-3.0.6.tar.xz",
+            hash="b45d59f840b9acf9bb45fd45854e3ef672f57e3ab957401c3ad8d7502ac23da6",
             dependencies=[
                 "libxml2",
                 "glib-networking",
