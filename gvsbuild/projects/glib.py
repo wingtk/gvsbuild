@@ -31,7 +31,6 @@ class GLib(Tarball, Meson):
             dependencies=["ninja", "meson", "pkg-config", "gettext", "libffi", "zlib"],
             patches=[
                 "glib-package-installation-directory.patch",
-                "0001-_g_stat_size-return-goffset.patch",
                 "0002-pcre-add-fallback-url.patch",
             ],
         )
