@@ -46,8 +46,8 @@ class GLibNetworking(Tarball, Meson):
         Project.__init__(
             self,
             "glib-networking",
-            archive_url="https://ftp.acc.umu.se/pub/gnome/sources/glib-networking/2.70/glib-networking-2.70.0.tar.xz",
-            hash="66b408e7afa86c582fe38963db56133869ab4b57d34e48ec56aba621940d6f35",
+            archive_url="https://download.gnome.org/sources/glib-networking/2.72/glib-networking-2.72.0.tar.xz",
+            hash="100aaebb369285041de52da422b6b716789d5e4d7549a3a71ba587b932e0823b",
             dependencies=["pkg-config", "ninja", "meson", "glib", "openssl"],
             patches=[
                 "0001-Do-not-load-certificates-from-default-paths-on-MacOS.patch",
