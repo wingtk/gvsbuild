@@ -215,7 +215,7 @@ class Rust(Project):
         )
 
 
-class MakeGir(object):
+class MakeGir:
     """Class to build, with nmake, a single project .gir/.typelib files for the
     gobject-introspection support, used where the meson script is not present
     (gtk % gtk3) or not update the handle it."""

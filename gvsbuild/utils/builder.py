@@ -38,7 +38,7 @@ from .simple_ui import log, script_title
 from .utils import ordered_set, rmtree_full
 
 
-class Builder(object):
+class Builder:
     def __init__(self, opts):
         self.opts = opts
 
@@ -323,7 +323,7 @@ class Builder(object):
 
         res = None
         try:
-            with open(json_file, "rt") as fi:
+            with open(json_file) as fi:
                 res = json.load(fi)
         except Exception as e:
             log.log(f"Exception reading vswhere result file ({e})")
@@ -936,8 +936,7 @@ class Builder(object):
         log.end()
 
         print(
-            "%-*s"
-            % (self._old_print, "{} - Download finished".format(proj.archive_file)),
+            "%-*s" % (self._old_print, f"{proj.archive_file} - Download finished"),
         )
         return self.__check_hash(proj)
 

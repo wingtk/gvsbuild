@@ -56,7 +56,7 @@ def rmtree_full(dest_dir, retry=False):
 
 
 def read_file(file_name):
-    with open(file_name, "rt") as fi:
+    with open(file_name) as fi:
         rt = [line.rstrip("\n") for line in fi]
     return rt
 
@@ -133,7 +133,7 @@ def python_find_libs_dir(org_dir):
     orig_file = os.path.join(chk, "orig-prefix.txt")
     if os.path.isfile(orig_file):
         # Read and see whats happening
-        with open(orig_file, "rt") as fi:
+        with open(orig_file) as fi:
             org_dir = fi.read()
 
     # Let's see if now is ok ..

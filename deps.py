@@ -86,12 +86,12 @@ def print_deps(flatten=False, add_all=False):
     for n in prj:
         done = []
         if flatten:
-            print("> {}".format(n))
+            print(f"> {n}")
         if dump_single_dep("", n, flatten):
             if flatten:
                 done.remove(n)
                 for t in sorted(done):
-                    print("    {}".format(t))
+                    print(f"    {t}")
 
             else:
                 print("")
@@ -133,7 +133,7 @@ def make_graph(
 
     to_skip = set(skip.split(","))
     with open(out_file, "wt") as fo:
-        print("Writing file {}".format(out_file))
+        print(f"Writing file {out_file}")
         used = set()
         fo.write("digraph gtk3dep {\n")
         for n in Project._names:

@@ -32,7 +32,7 @@ GVSBUILD_TOOL = 2
 GVSBUILD_GROUP = 3
 
 
-class Options(object):
+class Options:
     def __init__(self):
         # Only the one used by the projects
         self.enable_gi = False
@@ -43,7 +43,7 @@ class Options(object):
         self.old_rsvg = False
 
 
-class Project(object):
+class Project:
     def __init__(self, name, **kwargs):
         object.__init__(self)
         self.name = name
@@ -564,9 +564,9 @@ class Project(object):
         self.mark_file_calc()
         if os.path.isfile(self.mark_file):
             try:
-                with open(self.mark_file, "rt") as fi:
+                with open(self.mark_file) as fi:
                     rt = fi.readline().strip("\n")
-            except IOError as e:
+            except OSError as e:
                 print(f"Exception reading file '{self.mark_file}'")
                 print(e)
         return rt

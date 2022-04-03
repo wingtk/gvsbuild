@@ -31,9 +31,9 @@ def read_mark_file(directory, file_name=".wingtk-extracted-file"):
     """Read a single line from file, returning an empty string on error."""
     rt = ""
     try:
-        with open(os.path.join(directory, file_name), "rt") as fi:
+        with open(os.path.join(directory, file_name)) as fi:
             rt = fi.readline().strip()
-    except IOError as e:
+    except OSError as e:
         log.debug(f"Exception on reading from '{file_name}'")
         log.debug(f"{e}")
 
@@ -219,7 +219,7 @@ def make_zip(name, files, skip_spc=0):
     log.end()
 
 
-class Tarball(object):
+class Tarball:
     def update_build_dir(self):
         log.start_verbose(f"(tar) Updating {self.archive_file}")
         rt = extract_exec(
@@ -261,7 +261,7 @@ class Tarball(object):
         log.end()
 
 
-class MercurialRepo(object):
+class MercurialRepo:
     def unpack(self):
         log.start_verbose(f"(hg) Cloning {self.repo_url} to {self.build_dir}")
         self.exec_cmd(f"hg clone {self.repo_url} {self.build_dir}-tmp")
@@ -274,7 +274,7 @@ class MercurialRepo(object):
         log.end()
 
 
-class GitRepo(object):
+class GitRepo:
     def read_temp_hash(self):
         return read_mark_file(self.opts.git_expand_dir, self.name + ".hash")
 
@@ -291,7 +291,7 @@ class GitRepo(object):
             self.builder.exec_msys(
                 f"git rev-parse --short HEAD >{of}", working_dir=src_dir
             )
-            with open(of, "rt") as fi:
+            with open(of) as fi:
                 tag_name = fi.readline().rstrip("\n")
             os.remove(of)
 
@@ -437,7 +437,7 @@ class GitRepo(object):
         log.end()
 
 
-class NullExpander(object):
+class NullExpander:
     """Null expander to use when all the source are present in the script and
     nothing must be downloaded."""
 
