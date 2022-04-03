@@ -15,7 +15,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-"""Various downloader / unpacker (tar, git, hg, ...)"""
+"""Various downloader / unpacker (tar, git, ...)"""
 
 import hashlib
 import os
@@ -258,19 +258,6 @@ class Tarball:
                     arcname="patches/" + os.path.basename(p),
                 )
 
-        log.end()
-
-
-class MercurialRepo:
-    def unpack(self):
-        log.start_verbose(f"(hg) Cloning {self.repo_url} to {self.build_dir}")
-        self.exec_cmd(f"hg clone {self.repo_url} {self.build_dir}-tmp")
-        shutil.move(self.build_dir + "-tmp", self.build_dir)
-        log.end()
-
-    def update_build_dir(self):
-        log.start_verbose(f"(hg) Updating directory {self.build_dir}")
-        self.exec_cmd("hg pull -u", working_dir=self.build_dir)
         log.end()
 
 
