@@ -46,7 +46,7 @@ class Gtk(Project_gtk_base):
         Project.__init__(
             self,
             "gtk",
-            archive_url="http://ftp.acc.umu.se/pub/GNOME/sources/gtk+/2.24/gtk+-2.24.31.tar.xz",
+            archive_url="https://download.gnome.org/sources/gtk+/2.24/gtk+-2.24.31.tar.xz",
             hash="68c1922732c7efc08df4656a5366dcc3afdc8791513400dac276009b40954658",
             dependencies=["atk", "gdk-pixbuf", "pango"],
             patches=[

@@ -25,7 +25,7 @@ class Libcroco(Tarball, Project):
         Project.__init__(
             self,
             "libcroco",
-            archive_url="http://ftp.acc.umu.se/pub/GNOME/sources/libcroco/0.6/libcroco-0.6.13.tar.xz",
+            archive_url="https://download.gnome.org/sources/libcroco/0.6/libcroco-0.6.13.tar.xz",
             hash="767ec234ae7aa684695b3a735548224888132e063f92db585759b422570621d4",
             dependencies=["glib", "libxml2"],
         )

@@ -32,7 +32,7 @@ class LibrsvgLegacy(Tarball, Project, MakeGir):
             self,
             "librsvg",
             prj_dir="librsvg-legacy",
-            archive_url="http://ftp.acc.umu.se/pub/GNOME/sources/librsvg/2.40/librsvg-2.40.20.tar.xz",
+            archive_url="https://download.gnome.org/sources/librsvg/2.40/librsvg-2.40.20.tar.xz",
             hash="cff4dd3c3b78bfe99d8fcfad3b8ba1eee3289a0823c0e118d78106be6b84c92b",
             dependencies=["libcroco", "cairo", "pango", "gdk-pixbuf", "gtk3"],
             patches=["vs2019-support.patch"],

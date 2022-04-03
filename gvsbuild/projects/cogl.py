@@ -25,7 +25,7 @@ class Cogl(Tarball, Project):
         Project.__init__(
             self,
             "cogl",
-            archive_url="http://ftp.acc.umu.se/pub/GNOME/sources/cogl/1.22/cogl-1.22.6.tar.xz",
+            archive_url="https://download.gnome.org/sources/cogl/1.22/cogl-1.22.6.tar.xz",
             hash="6d134bd3e48c067507167c001200b275997fb9c68b08b48ff038211c8c251b75",
             dependencies=["python", "glib", "cairo", "pango", "gdk-pixbuf"],
             patches=[

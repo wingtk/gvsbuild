@@ -26,7 +26,7 @@ class Libgxps(Tarball, Meson):
         Project.__init__(
             self,
             "libgxps",
-            archive_url="http://ftp.acc.umu.se/pub/GNOME/sources/libgxps/0.3/libgxps-0.3.2.tar.xz",
+            archive_url="https://download.gnome.org/sources/libgxps/0.3/libgxps-0.3.2.tar.xz",
             hash="6d27867256a35ccf9b69253eb2a88a32baca3b97d5f4ef7f82e3667fa435251c",
             dependencies=[
                 "meson",

@@ -25,7 +25,7 @@ class Clutter(Tarball, Project):
         Project.__init__(
             self,
             "clutter",
-            archive_url="http://ftp.acc.umu.se/pub/GNOME/sources/clutter/1.26/clutter-1.26.4.tar.xz",
+            archive_url="https://download.gnome.org/sources/clutter/1.26/clutter-1.26.4.tar.xz",
             hash="8b48fac159843f556d0a6be3dbfc6b083fc6d9c58a20a49a6b4919ab4263c4e6",
             dependencies=["atk", "cogl", "json-glib"],
         )
