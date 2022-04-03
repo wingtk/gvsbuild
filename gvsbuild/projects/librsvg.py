@@ -41,24 +41,20 @@ class LibrsvgLegacy(Tarball, Project, MakeGir):
             self.add_dependency("gobject-introspection")
 
     def build(self):
-        self.builder.mod_env(
-            "INCLUDE", "{}\\include\\harfbuzz".format(self.builder.gtk_dir)
-        )
+        self.builder.mod_env("INCLUDE", f"{self.builder.gtk_dir}\\include\\harfbuzz")
         self.exec_msbuild_gen(r"build\win32", "librsvg.sln", add_pars="/p:UseEnv=True")
 
         if Project.opts.enable_gi:
             self.builder.mod_env(
-                "INCLUDE", "{}\\include\\glib-2.0".format(self.builder.gtk_dir)
+                "INCLUDE", f"{self.builder.gtk_dir}\\include\\glib-2.0"
             )
             self.builder.mod_env(
-                "INCLUDE", "{}\\lib\\glib-2.0\\include".format(self.builder.gtk_dir)
+                "INCLUDE", f"{self.builder.gtk_dir}\\lib\\glib-2.0\\include"
             )
             self.builder.mod_env(
-                "INCLUDE", "{}\\include\\gdk-pixbuf-2.0".format(self.builder.gtk_dir)
+                "INCLUDE", f"{self.builder.gtk_dir}\\include\\gdk-pixbuf-2.0"
             )
-            self.builder.mod_env(
-                "INCLUDE", "{}\\include\\cairo".format(self.builder.gtk_dir)
-            )
+            self.builder.mod_env("INCLUDE", f"{self.builder.gtk_dir}\\include\\cairo")
 
             self.make_single_gir("rsvg", prj_dir="librsvg-legacy")
 
@@ -95,16 +91,9 @@ class Librsvg(Tarball, Project):
     def build(self):
         self.builder.mod_env("INCLUDE", "include\\cairo", add_gtk=True)
 
-        b_dir = r"{}\{}\win32".format(
-            self.builder.working_dir,
-            self.name,
-        )
+        b_dir = f"{self.builder.working_dir}\\{self.name}\\win32"
 
-        cmd = "nmake -f makefile.vc CFG={} PREFIX={} PYTHON={} install".format(
-            self.builder.opts.configuration,
-            self.builder.gtk_dir,
-            Project.get_tool_executable("python"),
-        )
+        cmd = f'nmake -f makefile.vc CFG={self.builder.opts.configuration} PREFIX={self.builder.gtk_dir} PYTHON={Project.get_tool_executable("python")} install'
 
         if Project.opts.enable_gi:
             cmd += " INTROSPECTION=1"

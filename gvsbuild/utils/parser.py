@@ -173,7 +173,7 @@ def __get_projects_to_build(opts):
 
             p = Project.get_project(s)
             if p in to_build:
-                log.debug("Dropped project {}".format(s))
+                log.debug(f"Dropped project {s}")
                 to_build.remove(p)
     return to_build
 
@@ -185,23 +185,17 @@ def do_build(args):
         for co in sorted(opts.__dict__.keys()):
             v = opts.__dict__[co]
             if type(v) is str:
-                pv = "'{}'".format(v)
+                pv = f"'{v}'"
             else:
                 pv = repr(v)
-            log.message_indent(
-                "'%s': %s, "
-                % (
-                    co,
-                    pv,
-                )
-            )
+            log.message_indent(f"'{co}': {pv}, ")
     builder = Builder(opts)
     builder.preprocess()
 
     to_build = __get_projects_to_build(opts)
     if not to_build:
         log.error_exit("nothing to do")
-    log.debug("building {}".format([p.name for p in to_build]))
+    log.debug(f"building {[p.name for p in to_build]}")
 
     builder.build(to_build)
 
@@ -219,7 +213,7 @@ def do_list(args):
         if nl:
             nl.sort()
 
-            print("{}:".format(desc))
+            print(f"{desc}:")
             for i in nl:
                 print(
                     "\t%-*s %s"

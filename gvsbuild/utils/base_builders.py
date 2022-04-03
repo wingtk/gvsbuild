@@ -114,7 +114,7 @@ class CmakeProject(Project):
             + cmake_config
         )
         if cmake_params:
-            cmd += " " + cmake_params
+            cmd += f" {cmake_params}"
         if use_ninja and out_of_source is None:
             # For ninja the default is build out of source
             out_of_source = True
@@ -127,10 +127,7 @@ class CmakeProject(Project):
                 src_full = os.path.join(self.build_dir, source_part)
             else:
                 src_full = self.build_dir
-            cmd += " -B{} -H{}".format(
-                cmake_dir,
-                src_full,
-            )
+            cmd += f" -B{cmake_dir} -H{src_full}"
             work_dir = cmake_dir
         else:
             work_dir = self._get_working_dir()
@@ -146,11 +143,10 @@ class CmakeProject(Project):
                 self.builder.exec_ninja(params="test", working_dir=work_dir)
                 if do_install:
                     self.builder.exec_ninja(params="install", working_dir=work_dir)
+            elif do_install:
+                self.builder.exec_ninja(params="install", working_dir=work_dir)
             else:
-                if do_install:
-                    self.builder.exec_ninja(params="install", working_dir=work_dir)
-                else:
-                    self.builder.exec_ninja(working_dir=work_dir)
+                self.builder.exec_ninja(working_dir=work_dir)
         else:
             self.builder.exec_vs("nmake /nologo", working_dir=work_dir)
             if do_install:
@@ -193,10 +189,10 @@ class Rust(Project):
 
         cargo_build = os.path.join(self.build_dir, "cargo-build")
 
-        params.append("--target-dir=%s" % cargo_build)
+        params.append(f"--target-dir={cargo_build}")
 
         if self.clean and os.path.exists(cargo_build):
-            log.debug("Removing cargo build dir '%s'" % cargo_build)
+            log.debug(f"Removing cargo build dir '{cargo_build}'")
             shutil.rmtree(cargo_build, onerror=_rmtree_error_handler)
 
         # build
@@ -238,7 +234,7 @@ class MakeGir(object):
                 prj_dir,
             )
             if not os.path.isfile(os.path.join(b_dir, "detectenv-msvc.mak")):
-                log.message("Unable to find detectenv-msvc.mak for {}".format(prj_name))
+                log.message(f"Unable to find detectenv-msvc.mak for {prj_name}")
                 return
 
         cmd = "nmake -f {}-introspection-msvc.mak CFG={} PREFIX={} PYTHON={} install-introspection".format(

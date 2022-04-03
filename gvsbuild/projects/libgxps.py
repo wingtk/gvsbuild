@@ -47,7 +47,7 @@ class Libgxps(Tarball, Meson):
         else:
             disable_gi = "true"
 
-        self.add_param("-Ddisable-introspection={}".format(disable_gi))
+        self.add_param(f"-Ddisable-introspection={disable_gi}")
         self.add_param("-Dwith-liblcms2=false")
         self.add_param("-Denable-test=false")
 

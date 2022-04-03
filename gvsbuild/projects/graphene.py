@@ -36,7 +36,7 @@ class Graphene(Tarball, Meson):
         else:
             enable_gi = "disabled"
 
-        self.add_param("-Dintrospection={}".format(enable_gi))
+        self.add_param(f"-Dintrospection={enable_gi}")
 
     def build(self):
         Meson.build(self, make_tests=True)

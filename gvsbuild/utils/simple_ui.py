@@ -124,7 +124,7 @@ class Log(object):
             self.fo = open(self.log_file, "at", encoding="utf-8")
             self._output("Script started")
             if created:
-                self.log("Log directory {} created".format(file_path))
+                self.log(f"Log directory {file_path} created")
             if opts and not self._debug:
                 # Dump some information
                 self._output_val("Configuration", opts.configuration)
@@ -148,7 +148,7 @@ class Log(object):
             if not co.indent:
                 # not yet logged
                 self.operations.pop()
-                self._output("{} ...".format(co.msg), check_indent=False)
+                self._output(f"{co.msg} ...", check_indent=False)
                 co.indent = True
                 self.operations.append(co)
 
@@ -156,9 +156,7 @@ class Log(object):
         while self.operations:
             self.end()
 
-        self._output(
-            "Script ended correctly ({} s)".format(self._get_delta(self.st_time))
-        )
+        self._output(f"Script ended correctly ({self._get_delta(self.st_time)} s)")
         # The \n is correct, to separate other build's logs
         self._output("--------\n")
         self.fo.close()
@@ -187,15 +185,9 @@ class Log(object):
             co = self.operations.pop()
             if co.enabled:
                 if mark_error:
-                    out_msg = "*** Error: {} ({} s)".format(
-                        co.msg,
-                        self._get_delta(co.tim),
-                    )
+                    out_msg = f"*** Error: {co.msg} ({self._get_delta(co.tim)} s)"
                 else:
-                    out_msg = "{} - Ended in {} s".format(
-                        co.msg,
-                        self._get_delta(co.tim),
-                    )
+                    out_msg = f"{co.msg} - Ended in {self._get_delta(co.tim)} s"
                 self._output(out_msg, check_indent=False)
                 if force_print:
                     print(out_msg)
@@ -213,13 +205,7 @@ class Log(object):
             msg = " " * len(self.operations) * 2 + msg
             if add_date:
                 now_val = datetime.datetime.now()
-                self.fo.write(
-                    "%s %s\n"
-                    % (
-                        now_val.strftime("%Y-%m-%d %H:%M:%S"),
-                        msg,
-                    )
-                )
+                self.fo.write(f"{now_val.strftime('%Y-%m-%d %H:%M:%S')} {msg}\n")
             else:
                 self.fo.write(
                     "%19s %s\n"
@@ -246,7 +232,7 @@ class Log(object):
     def message_indent(self, msg):
         if self._output(msg, add_date=False):
             return
-        print("  {}".format(msg))
+        print(f"  {msg}")
 
     def message(self, msg):
         if self._output(msg):
@@ -278,7 +264,7 @@ class Log(object):
         if self.fo:
             # On the file, if active
             for line in lines:
-                self.fo.write("    {}\n".format(line))
+                self.fo.write(f"    {line}\n")
 
         if prt:
             for line in lines:

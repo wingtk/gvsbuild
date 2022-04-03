@@ -49,7 +49,7 @@ class GObjectIntrospection(Tarball, Meson):
         py_dir = Project.get_tool_path("python")
         py_libs = python_find_libs_dir(py_dir)
         if py_libs:
-            log.debug("Python library path is [{}]".format(py_libs))
+            log.debug(f"Python library path is [{py_libs}]")
             self.builder.mod_env("LIB", py_libs, prepend=False)
 
         Meson.build(

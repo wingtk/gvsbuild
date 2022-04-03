@@ -66,20 +66,16 @@ class Gtk(Project_gtk_base):
             self.add_dependency("gobject-introspection")
 
     def build(self):
-        self.builder.mod_env(
-            "INCLUDE", "{}\\include\\harfbuzz".format(self.builder.gtk_dir)
-        )
+        self.builder.mod_env("INCLUDE", f"{self.builder.gtk_dir}\\include\\harfbuzz")
         self.exec_msbuild_gen(r"build\win32", "gtk+.sln", add_pars="/p:UseEnv=True")
 
         self.make_all_mo()
 
     def post_install(self):
         if Project.opts.enable_gi:
+            self.builder.mod_env("INCLUDE", f"{self.builder.gtk_dir}\\include\\cairo")
             self.builder.mod_env(
-                "INCLUDE", "{}\\include\\cairo".format(self.builder.gtk_dir)
-            )
-            self.builder.mod_env(
-                "INCLUDE", "{}\\include\\harfbuzz".format(self.builder.gtk_dir)
+                "INCLUDE", f"{self.builder.gtk_dir}\\include\\harfbuzz"
             )
             self.make_single_gir("gtk", prj_dir="gtk")
 
@@ -104,9 +100,7 @@ class Gtk320(Project_gtk_base):
             self.add_dependency("gobject-introspection")
 
     def build(self):
-        self.builder.mod_env(
-            "INCLUDE", "{}\\include\\harfbuzz".format(self.builder.gtk_dir)
-        )
+        self.builder.mod_env("INCLUDE", f"{self.builder.gtk_dir}\\include\\harfbuzz")
         self.exec_msbuild_gen(
             r"build\win32", "gtk+.sln", add_pars="/p:UseEnv=True /p:GtkPostInstall=rem"
         )
@@ -115,9 +109,7 @@ class Gtk320(Project_gtk_base):
 
     def post_install(self):
         if Project.opts.enable_gi:
-            self.builder.mod_env(
-                "INCLUDE", "{}\\include\\cairo".format(self.builder.gtk_dir)
-            )
+            self.builder.mod_env("INCLUDE", f"{self.builder.gtk_dir}\\include\\cairo")
             self.make_single_gir("gtk", prj_dir="gtk3-20")
 
         self.exec_cmd(
@@ -147,9 +139,7 @@ class Gtk322(Project_gtk_base):
             self.add_dependency("gobject-introspection")
 
     def build(self):
-        self.builder.mod_env(
-            "INCLUDE", "{}\\include\\harfbuzz".format(self.builder.gtk_dir)
-        )
+        self.builder.mod_env("INCLUDE", f"{self.builder.gtk_dir}\\include\\harfbuzz")
         self.exec_msbuild_gen(
             r"build\win32", "gtk+.sln", add_pars="/p:UseEnv=True /p:GtkPostInstall=rem"
         )
@@ -158,9 +148,7 @@ class Gtk322(Project_gtk_base):
 
     def post_install(self):
         if Project.opts.enable_gi:
-            self.builder.mod_env(
-                "INCLUDE", "{}\\include\\cairo".format(self.builder.gtk_dir)
-            )
+            self.builder.mod_env("INCLUDE", f"{self.builder.gtk_dir}\\include\\cairo")
             self.make_single_gir("gtk", prj_dir="gtk3-22")
 
         self.exec_cmd(
@@ -195,7 +183,7 @@ class Gtk324(Tarball, Meson):
         else:
             enable_gi = "false"
 
-        self.add_param("-Dintrospection={}".format(enable_gi))
+        self.add_param(f"-Dintrospection={enable_gi}")
 
     def build(self):
         Meson.build(self, meson_params="-Dtests=false -Ddemos=false -Dexamples=false")
@@ -221,7 +209,7 @@ class Gtk4(Tarball, Meson):
         else:
             enable_gi = "disabled"
 
-        self.add_param("-Dintrospection={}".format(enable_gi))
+        self.add_param(f"-Dintrospection={enable_gi}")
 
     def build(self):
         Meson.build(

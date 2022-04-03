@@ -54,7 +54,7 @@ class Builder(object):
             self.filename_arch = "x64"
             opts.x86 = False
         else:
-            raise Exception("Invalid target platform '{}'".format(opts.platform))
+            raise Exception(f"Invalid target platform '{opts.platform}'")
 
         opts.x64 = not opts.x86
         # Setup the directory, used by check vs
@@ -68,24 +68,20 @@ class Builder(object):
         if opts.from_scratch:
             with log.simple_oper("Cleanup build directories"):
                 with log.simple_oper(
-                    "Removing working/building dir ({})".format(self.working_dir)
+                    f"Removing working/building dir ({self.working_dir})"
                 ):
                     rmtree_full(self.working_dir, retry=True)
-                with log.simple_oper(
-                    "Removing destination dir ({})".format(self.gtk_dir)
-                ):
+                with log.simple_oper(f"Removing destination dir ({self.gtk_dir})"):
                     rmtree_full(self.gtk_dir, retry=True)
                 with log.simple_oper(
-                    "Removing git expand dir ({})".format(self.opts.git_expand_dir)
+                    f"Removing git expand dir ({self.opts.git_expand_dir})"
                 ):
                     rmtree_full(self.opts.git_expand_dir, retry=True)
                 if not opts.keep_tools:
-                    with log.simple_oper(
-                        "Removing tools dir ({})".format(opts.tools_root_dir)
-                    ):
+                    with log.simple_oper(f"Removing tools dir ({opts.tools_root_dir})"):
                         rmtree_full(opts.tools_root_dir, retry=True)
                 else:
-                    log.message("Keeping tools dir ({})".format(opts.tools_root_dir))
+                    log.message(f"Keeping tools dir ({opts.tools_root_dir})")
 
         if not opts.use_env:
             self.__minimum_env()
@@ -105,13 +101,13 @@ class Builder(object):
             "17": "vs2022",
         }
 
-        self.vs_ver_year = vs_zip_parts.get(opts.vs_ver, None)
+        self.vs_ver_year = vs_zip_parts.get(opts.vs_ver)
         if not self.vs_ver_year:
-            self.vs_ver_year = "ms-cl-{}".format(opts.vs_ver)
+            self.vs_ver_year = f"ms-cl-{opts.vs_ver}"
 
         vs_part = self.vs_ver_year
         if opts.win_sdk_ver:
-            vs_part += "-" + opts.win_sdk_ver
+            vs_part += f"-{opts.win_sdk_ver}"
 
         self.zip_dir = os.path.join(
             opts.build_dir, "dist", vs_part, opts.platform, opts.configuration
@@ -122,16 +118,14 @@ class Builder(object):
             else:
                 # Remove the destination dir before starting anything
                 if os.path.isdir(self.gtk_dir):
-                    with log.simple_oper(
-                        "Removing build dir ({})".format(self.gtk_dir)
-                    ):
+                    with log.simple_oper(f"Removing build dir ({self.gtk_dir})"):
                         rmtree_full(self.gtk_dir, retry=True)
                 self.file_built = set()
             os.makedirs(self.zip_dir, exist_ok=True)
 
     def _create_msbuild_opts(self, python):
         rt = []
-        rt.append("/nologo /p:Platform=%s" % self.opts.platform)
+        rt.append(f"/nologo /p:Platform={self.opts.platform}")
         if python:
             rt.append(
                 '/p:PythonPath="%(python_dir)s" /p:PythonDir="%(python_dir)s"'
@@ -144,18 +138,14 @@ class Builder(object):
             rt.append("/v:minimal")
 
         if self.opts.win_sdk_ver:
-            rt.append(
-                '/p:WindowsTargetPlatformVersion="{}"'.format(self.opts.win_sdk_ver)
-            )
+            rt.append(f'/p:WindowsTargetPlatformVersion="{self.opts.win_sdk_ver}"')
 
         if self.opts.net_target_framework:
-            rt.append('/p:TargetFrameworks="{}"'.format(self.opts.net_target_framework))
+            rt.append(f'/p:TargetFrameworks="{self.opts.net_target_framework}"')
 
         if self.opts.net_target_framework_version:
             rt.append(
-                '/p:TargetFrameworkVersion="{}"'.format(
-                    self.opts.net_target_framework_version
-                )
+                f'/p:TargetFrameworkVersion="{self.opts.net_target_framework_version}"'
             )
 
         if self.opts.msbuild_opts:
@@ -175,11 +165,11 @@ class Builder(object):
         win_dir = os.environ.get("SYSTEMROOT", r"c:\windows").lower()
 
         win_dir = win_dir.replace("\\", "\\\\")
-        log.debug("windir -> {}".format(win_dir))
+        log.debug(f"windir -> {win_dir}")
 
         chk_re = [
-            re.compile("^{}\\\\".format(win_dir)),
-            re.compile("^{}$".format(win_dir)),
+            re.compile(f"^{win_dir}\\\\"),
+            re.compile(f"^{win_dir}$"),
             re.compile("\\\\git\\\\"),
             re.compile("\\\\git$"),
         ]
@@ -191,7 +181,7 @@ class Builder(object):
             k = os.path.normpath(k).lower()
             if k in mp:
                 # already present
-                log.debug("   Already present: '{}'".format(k))
+                log.debug(f"   Already present: '{k}'")
                 continue
 
             add = False
@@ -201,13 +191,13 @@ class Builder(object):
                     add = True
                     break
             if add:
-                log.debug("Add '{}'".format(k))
+                log.debug(f"Add '{k}'")
             else:
-                log.debug("   Skip '{}'".format(k))
+                log.debug(f"   Skip '{k}'")
 
         log.debug("Final path:")
         for i in mp:
-            log.debug("    {}".format(i))
+            log.debug(f"    {i}")
         os.environ["PATH"] = ";".join(mp)
 
         os.environ["LIB"] = ""
@@ -227,7 +217,7 @@ class Builder(object):
         missing = []
         for prog, pkg in msys_pkg:
             if not os.path.isfile(os.path.join(base_dir, "usr", "bin", prog + ".exe")):
-                log.log("msys: missing package {}".format(pkg))
+                log.log(f"msys: missing package {pkg}")
                 missing.append(pkg)
         return missing
 
@@ -244,7 +234,7 @@ class Builder(object):
                 + " ".join(missing)
                 + '"'
             )
-            log.debug("Updating msys2 with '{}'".format(cmd))
+            log.debug(f"Updating msys2 with '{cmd}'")
             subprocess.check_call(cmd, shell=True)
             missing = self.__msys_missing(opts.msys_dir)
             if missing:
@@ -261,14 +251,12 @@ class Builder(object):
                 "%s not found. Please check that you installed patch in msys2 using ``pacman -S patch``"
                 % (self.patch,)
             )
-        log.debug("patch: {}".format(self.patch))
+        log.debug(f"patch: {self.patch}")
 
         if opts.python_dir:
             if not os.path.isfile(os.path.join(opts.python_dir, "python.exe")):
                 log.error_exit(
-                    "Executable python.exe not found at '{}'".format(
-                        self.opts.python_dir
-                    )
+                    f"Executable python.exe not found at '{self.opts.python_dir}'"
                 )
         log.end()
 
@@ -298,10 +286,7 @@ class Builder(object):
         self._add_env(key, value, os.environ, prepend)
 
     def add_gtk_dir(self, value):
-        return "{}\\{}".format(
-            self.gtk_dir,
-            value,
-        )
+        return f"{self.gtk_dir}\\{value}"
 
     def mod_env(self, key, value, prepend=True, subst=False, add_gtk=False):
         # Modify the current build environment
@@ -326,17 +311,14 @@ class Builder(object):
         )
         log.log("Trying to find Visual Studio installations ...")
         if not os.path.exists(vswhere):
-            log.log("Could not find vswhere executable ({})".format(vswhere))
+            log.log(f"Could not find vswhere executable ({vswhere})")
             return
 
         json_file = "vs-found.json"
         if os.path.exists(json_file):
             os.remove(json_file)
 
-        cmd = '"{}" -all -products * -format json >{}'.format(
-            vswhere,
-            json_file,
-        )
+        cmd = f'"{vswhere}" -all -products * -format json >{json_file}'
         self.exec_cmd(cmd)
 
         res = None
@@ -344,7 +326,7 @@ class Builder(object):
             with open(json_file, "rt") as fi:
                 res = json.load(fi)
         except Exception as e:
-            log.log("Exception reading vswhere result file ({})".format(e))
+            log.log(f"Exception reading vswhere result file ({e})")
 
         if res:
             log.message("")
@@ -352,13 +334,7 @@ class Builder(object):
             for i in res:
                 disp = i.get("displayName", "?")
                 path = i.get("installationPath", r"?:\?")
-                log.message(
-                    "    %s @ %s"
-                    % (
-                        disp,
-                        path,
-                    )
-                )
+                log.message(f"    {disp} @ {path}")
             log.message("")
 
     def __check_vs_single(self, opts, vs_path, exit_missing=True):
@@ -385,15 +361,9 @@ class Builder(object):
                 )
 
         if opts.win_sdk_ver:
-            add_opts = " {}".format(opts.win_sdk_ver)
+            add_opts = f" {opts.win_sdk_ver}"
 
-        log.log(
-            'Running script "%s"%s'
-            % (
-                vcvars_bat,
-                add_opts,
-            )
-        )
+        log.log(f'Running script "{vcvars_bat}"{add_opts}')
         if not os.path.exists(vcvars_bat):
             if exit_missing:
                 self.__dump_vs_loc()
@@ -405,11 +375,7 @@ class Builder(object):
                 return None
 
         output = subprocess.check_output(
-            'cmd.exe /c ""%s"%s>NUL && set"'
-            % (
-                vcvars_bat,
-                add_opts,
-            ),
+            f'cmd.exe /c ""{vcvars_bat}"{add_opts}>NUL && set"',
             shell=True,
         )
         return output
@@ -441,7 +407,7 @@ class Builder(object):
                     opts, os.path.join(opts.vs_install_path, part), False
                 )
                 if output:
-                    log.log("Found '{}'".format(part))
+                    log.log(f"Found '{part}'")
                     break
 
             if not output:
@@ -465,13 +431,13 @@ class Builder(object):
                 try:
                     decoded_line = line.decode("utf-8")
                 except UnicodeDecodeError:
-                    log.message("Warning: utf-8 decode error on [{}]".format(line))
+                    log.message(f"Warning: utf-8 decode error on [{line}]")
                     decoded_line = line.decode("utf-8", errors="replace")
                 line = decoded_line
 
             e = line.split("=", 1)
             if len(e) < 2:
-                log.debug("vs env: ignoring %s" % (line))
+                log.debug(f"vs env: ignoring {line}")
                 continue
             k, v = e
             # Be sure to have PATH in upper case because we need to manipulate it
@@ -481,18 +447,12 @@ class Builder(object):
             if dbg:
                 vl = v.split(";")
                 if len(vl) > 1:
-                    log.debug("vs env: {}: [".format(k))
+                    log.debug(f"vs env: {k}: [")
                     for i in vl:
                         log.message_indent("  " + i)
                     log.message_indent("]")
                 else:
-                    log.debug(
-                        "vs env:%s -> [%s]"
-                        % (
-                            k,
-                            v,
-                        )
-                    )
+                    log.debug(f"vs env:{k} -> [{v}]")
 
         if not opts.win_sdk_ver:
             # Try lo figure the sdk version to pass it to the msbuild programs
@@ -506,7 +466,7 @@ class Builder(object):
                 if sdk == "winv6.3":
                     sdk = "8.1"
                 opts.win_sdk_ver = sdk
-                log.log("Auto load win_sdk_ver: '{}'".format(sdk))
+                log.log(f"Auto load win_sdk_ver: '{sdk}'")
 
         log.end()
 
@@ -535,9 +495,7 @@ class Builder(object):
 
         for proj in Project.list_projects():
             self.__compute_deps(proj)
-            log.debug(
-                "{} => {}".format(proj.name, [d.name for d in proj.all_dependencies])
-            )
+            log.debug(f"{proj.name} => {[d.name for d in proj.all_dependencies]}")
 
     def __compute_deps(self, proj):
         if hasattr(proj, "all_dependencies"):
@@ -560,16 +518,10 @@ class Builder(object):
         while drop_list:
             drop_prj = drop_list.pop(0)
 
-            print("* Removing {} dependents ...".format(drop_prj.name))
+            print(f"* Removing {drop_prj.name} dependents ...")
             for p in self.projects_to_do:
                 if drop_prj in p.all_dependencies:
-                    print(
-                        "* > Removing %s for %s ..."
-                        % (
-                            p.name,
-                            drop_prj.name,
-                        )
-                    )
+                    print(f"* > Removing {p.name} for {drop_prj.name} ...")
                     # Recursive drop
                     drop_list.append(p)
                     self.projects_to_do.remove(p)
@@ -608,7 +560,7 @@ class Builder(object):
                     self.prj_done.append(msg)
             except KeyboardInterrupt:
                 traceback.print_exc()
-                log.error_exit("Interrupted on {}".format(p.name))
+                log.error_exit(f"Interrupted on {p.name}")
             except:  # noqa E722
                 traceback.print_exc()
                 log.end(mark_error=True)
@@ -616,7 +568,7 @@ class Builder(object):
                     self.prj_err.append(p.name)
                     self._drop_proj(p)
                 else:
-                    log.error_exit("{} build failed".format(p.name))
+                    log.error_exit(f"{p.name} build failed")
             self.vs_env = saved_env
 
         script_title(None)
@@ -624,26 +576,26 @@ class Builder(object):
             log.message("")
             log.message("Project(s) built:")
             for p in self.prj_done:
-                log.message("    {}".format(p))
+                log.message(f"    {p}")
 
         if self.prj_skipped:
             log.message("")
             log.message("Project(s) skipped (already built):")
             for p in self.prj_skipped:
-                log.message("    {}".format(p))
+                log.message(f"    {p}")
 
         if self.prj_err:
             log.message("")
             log.message("Project(s) not built:")
             for p in self.prj_err:
-                log.message("    {}".format(p))
+                log.message(f"    {p}")
 
             miss = len(self.prj_err)
             if self.prj_dropped:
                 log.message("")
                 log.message("Missing dependecies:")
                 for p in self.prj_dropped:
-                    log.message("    {}".format(p))
+                    log.message(f"    {p}")
                 miss += len(self.prj_dropped)
 
             # Don't fool appveyor
@@ -653,7 +605,7 @@ class Builder(object):
 
     def __prepare_build(self, projects):
         if not os.path.exists(self.working_dir):
-            log.log("Creating working directory {}".format(self.working_dir))
+            log.log(f"Creating working directory {self.working_dir}")
             os.makedirs(self.working_dir)
 
         shutil.copy(
@@ -664,11 +616,11 @@ class Builder(object):
             self.working_dir, "..", "..", "..", "gtk", self.opts.platform
         )
         if not os.path.exists(build_dir):
-            log.log("Creating directory {}".format(build_dir))
+            log.log(f"Creating directory {build_dir}")
             os.makedirs(build_dir)
 
         if not os.path.exists(self.opts.export_dir):
-            log.log("Creating export directory {}".format(self.opts.export_dir))
+            log.log(f"Creating export directory {self.opts.export_dir}")
             os.makedirs(self.opts.export_dir)
 
         script_title("* Downloading")
@@ -696,32 +648,14 @@ class Builder(object):
         if self.opts.fast_build and not proj.clean:
             t = proj.mark_file_exist()
             if t:
-                log.message(
-                    "Fast build:skipping project %s, built @ %s"
-                    % (
-                        proj.name,
-                        t,
-                    )
-                )
+                log.message(f"Fast build:skipping project {proj.name}, built @ {t}")
                 proj.builder = None
                 self.__project = None
                 return True
 
         proj.mark_file_remove()
-        log.start(
-            "Building project %s (%s)"
-            % (
-                proj.name,
-                proj.version,
-            )
-        )
-        script_title(
-            "%s (%s)"
-            % (
-                proj.name,
-                proj.version,
-            )
-        )
+        log.start(f"Building project {proj.name} ({proj.version})")
+        script_title(f"{proj.name} ({proj.version})")
 
         proj.pkg_dir = proj.build_dir + "-rel"
         shutil.rmtree(proj.pkg_dir, ignore_errors=True)
@@ -753,7 +687,7 @@ class Builder(object):
         proj.patch()
         skip_deps = proj.build()
 
-        log.debug("copying {} to {}".format(proj.pkg_dir, self.gtk_dir))
+        log.debug(f"copying {proj.pkg_dir} to {self.gtk_dir}")
         self.copy_all(proj.pkg_dir, self.gtk_dir)
         shutil.rmtree(proj.pkg_dir, ignore_errors=True)
 
@@ -783,7 +717,7 @@ class Builder(object):
                 self.file_built = cur
             else:
                 # No file preentt
-                log.log("{}:zip not needed (tool?)".format(proj.name))
+                log.log(f"{proj.name}:zip not needed (tool?)")
 
         # Drop the mark file for all the projects that depends on this so we rebuild them
         if not skip_deps:
@@ -792,8 +726,8 @@ class Builder(object):
                 if proj in p.all_dependencies:
                     if first:
                         first = False
-                        log.debug("Forcing build of {} dependent".format(proj.name))
-                    log.debug(" > Mark {} ...".format(p.name))
+                        log.debug(f"Forcing build of {proj.name} dependent")
+                    log.debug(f" > Mark {p.name} ...")
                     p.mark_file_remove()
                     self.prj_to_mark.remove(p)
 
@@ -813,7 +747,7 @@ class Builder(object):
 
     def copy_all(self, srcdir, destdir):
         self.make_dir(destdir)
-        for f in glob.glob("{}\\*".format(srcdir)):
+        for f in glob.glob(f"{srcdir}\\*"):
             self.__copy_to(f, destdir)
 
     def __copy_to(self, src, destdir):
@@ -831,10 +765,10 @@ class Builder(object):
     def __copy(self, src, destdir):
         if os.path.isdir(src):
             dst = os.path.join(destdir, os.path.basename(src))
-            log.debug("copying '{}' to '{}'".format(src, dst))
+            log.debug(f"copying '{src}' to '{dst}'")
             shutil.copytree(src, dst)
         else:
-            log.debug("copying '{}' to '{}'".format(src, destdir))
+            log.debug(f"copying '{src}' to '{destdir}'")
             shutil.copy(src, destdir)
 
     def __hashfile(self, file_name):
@@ -860,21 +794,9 @@ class Builder(object):
 
             # Print the correct hash
             if self.opts.check_hash:
-                log.message(
-                    "Hash ok on %s (%s)"
-                    % (
-                        proj.archive_file,
-                        hc,
-                    )
-                )
+                log.message(f"Hash ok on {proj.archive_file} ({hc})")
             else:
-                log.debug(
-                    "Hash ok on %s (%s)"
-                    % (
-                        proj.archive_file,
-                        hc,
-                    )
-                )
+                log.debug(f"Hash ok on {proj.archive_file} ({hc})")
         return False
 
     def __download_progress(self, count, block_size, total_size):
@@ -928,7 +850,7 @@ class Builder(object):
             # let the library does the work
             ssl_ctx = None
 
-        msg = "Opening {} ...".format(url)
+        msg = f"Opening {url} ..."
         print(msg, end="\r")
         with contextlib.closing(urlopen(url, None, context=ssl_ctx)) as fp:
             print(
@@ -972,14 +894,12 @@ class Builder(object):
     def __download_one(self, proj):
         if not proj.archive_file:
             log.debug(
-                "archive file is not specified for project {}, skipping".format(
-                    proj.name
-                )
+                f"archive file is not specified for project {proj.name}, skipping"
             )
             return False
 
         if os.path.exists(proj.archive_file):
-            log.debug("archive {} already exists".format(proj.archive_file))
+            log.debug(f"archive {proj.archive_file} already exists")
             return self.__check_hash(proj)
 
         if not os.path.exists(self.opts.archives_download_dir):
@@ -989,7 +909,7 @@ class Builder(object):
             )
             os.makedirs(self.opts.archives_download_dir)
 
-        log.start_verbose("Downloading {}".format(proj.archive_file))
+        log.start_verbose(f"Downloading {proj.archive_file}")
         # Setup for progress show
         self._downloading_file = proj.archive_file
         self._old_perc = -1
@@ -999,7 +919,7 @@ class Builder(object):
                 proj.archive_url, proj.archive_file, self.__download_progress
             )
         except (ssl.SSLError, URLError) as e:
-            print("Exception downloading file '{}'".format(proj.archive_url))
+            print(f"Exception downloading file '{proj.archive_url}'")
             print(e)
             if hasattr(proj, "hash"):
                 self._old_perc = -1
@@ -1113,13 +1033,13 @@ class Builder(object):
         self.make_dir(dest)
         for f in args[:-1]:
             src = os.path.join(self.__sub_vars(build_dir), self.__sub_vars(f))
-            log.debug("copying {} to {}".format(src, dest))
+            log.debug(f"copying {src} to {dest}")
             self.__copy_to(src, dest)
 
     def install_dir(self, build_dir, pkg_dir, src, dest):
         src = os.path.join(build_dir, self.__sub_vars(src))
         dest = os.path.join(pkg_dir, self.__sub_vars(dest))
-        log.debug("copying {} content to {}".format(src, dest))
+        log.debug(f"copying {src} content to {dest}")
         self.copy_all(src, dest)
 
     def exec_msys(self, args, working_dir=None):
@@ -1130,7 +1050,7 @@ class Builder(object):
         )
 
     def __execute(self, args, working_dir=None, add_path=None, env=None):
-        log.debug("running {}, cwd={}, path+={}".format(args, working_dir, add_path))
+        log.debug(f"running {args}, cwd={working_dir}, path+={add_path}")
         if add_path:
             if env is not None:
                 env = dict(env)
@@ -1152,9 +1072,7 @@ class Builder(object):
                 )
             except subprocess.CalledProcessError as e:
                 # Dump the lines that leads to the error
-                log.messages_dump(
-                    e.stdout, "Error building '%s'" % (self.__project.name)
-                )
+                log.messages_dump(e.stdout, f"Error building '{self.__project.name}'")
                 # and let the caller handle this
                 raise
 
@@ -1173,4 +1091,4 @@ class Builder(object):
         else:
             key = "path"
             env[key] = folder
-        log.debug("Changed path env variable to '%s'" % env[key])
+        log.debug(f"Changed path env variable to '{env[key]}'")

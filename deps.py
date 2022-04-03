@@ -55,15 +55,9 @@ def print_deps(flatten=False, add_all=False):
         else:
             if st:
                 # dependency
-                print(
-                    "%s%s"
-                    % (
-                        st,
-                        name,
-                    )
-                )
+                print(f"{st}{name}")
             else:
-                print("  > {}".format(name))
+                print(f"  > {name}")
                 st = "   "
             done.append(name)
 
@@ -81,16 +75,10 @@ def print_deps(flatten=False, add_all=False):
                     rt = True
                     if d in done:
                         if not flatten:
-                            print(
-                                "%s    %s *"
-                                % (
-                                    st,
-                                    d,
-                                )
-                            )
+                            print(f"{st}    {d} *")
                     else:
                         done.append(d)
-                        dump_single_dep(st + "    ", d, flatten)
+                        dump_single_dep(f"{st}    ", d, flatten)
         return rt
 
     prj = [x.name for x in Project._projects if x.type == GVSBUILD_PROJECT]

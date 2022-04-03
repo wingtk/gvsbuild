@@ -141,7 +141,7 @@ class Project(object):
         else:
             dst_platform = ver + r"0"
         search = (">v%u</PlatformToolset>" % (org_platform,)).encode("utf-8")
-        replace = (">v{}</PlatformToolset>".format(dst_platform)).encode("utf-8")
+        replace = f">v{dst_platform}</PlatformToolset>".encode("utf-8")
 
         return search, replace
 
@@ -168,10 +168,10 @@ class Project(object):
                     content = f.read()
                 new_content = content.replace(search, replace)
                 if content != new_content:
-                    log.info("File changed ({})".format(src_full))
+                    log.info(f"File changed ({src_full})")
                     write = True
                 else:
-                    log.info("   same file ({})".format(src_full))
+                    log.info(f"   same file ({src_full})")
                     write = copy
 
                 if write:
@@ -201,7 +201,7 @@ class Project(object):
 
         def _msbuild_ok(self, dir_part):
             full = os.path.join(self.build_dir, base_dir, dir_part, sln_file)
-            log.info("Checking for '{}'".format(full))
+            log.info(f"Checking for '{full}'")
             return os.path.exists(full)
 
         def _msbuild_copy(self, org_path, org_platform, use_ver=True):
@@ -212,13 +212,7 @@ class Project(object):
             dst = os.path.join(self.build_dir, base_dir, dst_part)
             src = os.path.join(self.build_dir, base_dir, org_path)
             search, replace = self._msbuild_make_search_replace(org_platform)
-            log.info(
-                "Vs solution copy: '%s' -> '%s'"
-                % (
-                    src,
-                    dst,
-                )
-            )
+            log.info(f"Vs solution copy: '{src}' -> '{dst}'")
             self._msbuild_copy_dir(dst, src, search, replace)
             return dst_part
 
@@ -306,13 +300,7 @@ class Project(object):
                     break
             if part:
                 # We log what we found because is not the default
-                log.log(
-                    "Project %s, using %s directory"
-                    % (
-                        self.name,
-                        part,
-                    )
-                )
+                log.log(f"Project {self.name}, using {part} directory")
 
         if part:
             cmd = os.path.join(base_dir, part, sln_file)
@@ -322,11 +310,7 @@ class Project(object):
                 cmd += " /p:UseEnv=True"
         else:
             log.error_exit(
-                "Solution file '%s' for project '%s' not found!"
-                % (
-                    sln_file,
-                    self.name,
-                )
+                f"Solution file '{sln_file}' for project '{self.name}' not found!"
             )
         self.exec_msbuild(cmd, configuration, add_path)
         return part
@@ -345,11 +329,11 @@ class Project(object):
         self.builder.make_dir(pkgconfig_dir)
 
         src_dir = os.path.join(self._get_working_dir(), base_dir)
-        log.debug("Copy .pc files from {}".format(src_dir))
+        log.debug(f"Copy .pc files from {src_dir}")
         bin_dir = os.path.join(self.builder.gtk_dir, "bin").replace("\\", "/")
         for f in os.scandir(src_dir):
             if f.is_file():
-                log.debug(" {}".format(f.name))
+                log.debug(f" {f.name}")
                 with open(f.path) as fi:
                     content = fi.read()
                 _t = content.replace("@prefix@", bin_dir)
@@ -365,14 +349,14 @@ class Project(object):
             name = os.path.basename(p)
             stamp = os.path.join(self.build_dir, name + ".patch-applied")
             if not os.path.exists(stamp):
-                log.log("Applying patch {}".format(p))
+                log.log(f"Applying patch {p}")
                 self.builder.exec_msys(
                     ["patch", "-p1", "-i", p], working_dir=self._get_working_dir()
                 )
                 with open(stamp, "w") as stampfile:
                     stampfile.write("done")
             else:
-                log.debug("patch {} already applied, skipping".format(p))
+                log.debug(f"patch {p} already applied, skipping")
 
     def _get_working_dir(self):
         if self.__working_dir:
@@ -391,22 +375,16 @@ class Project(object):
             shutil.rmtree(self.build_dir, onerror=_rmtree_error_handler)
 
         if os.path.exists(self.build_dir):
-            log.debug("directory {} already exists".format(self.build_dir))
+            log.debug(f"directory {self.build_dir} already exists")
             if self.update_build_dir():
                 self.mark_file_remove()
                 if os.path.exists(self.patch_dir):
-                    log.log(
-                        "Copying files from {} to {}".format(
-                            self.patch_dir, self.build_dir
-                        )
-                    )
+                    log.log(f"Copying files from {self.patch_dir} to {self.build_dir}")
                     self.builder.copy_all(self.patch_dir, self.build_dir)
         else:
             self.unpack()
             if os.path.exists(self.patch_dir):
-                log.log(
-                    "Copying files from {} to {}".format(self.patch_dir, self.build_dir)
-                )
+                log.log(f"Copying files from {self.patch_dir} to {self.build_dir}")
                 self.builder.copy_all(self.patch_dir, self.build_dir)
 
     def update_build_dir(self):
@@ -435,7 +413,7 @@ class Project(object):
     @staticmethod
     def add(proj, type=GVSBUILD_IGNORE):
         if proj.name in Project._dict:
-            log.error_exit("Project '{}' already present!".format(proj.name))
+            log.error_exit(f"Project '{proj.name}' already present!")
         Project._projects.append(proj)
         Project._names.append(proj.name)
         Project._dict[proj.name] = proj
@@ -577,15 +555,9 @@ class Project(object):
         try:
             with open(self.mark_file, "wt") as fo:
                 now = datetime.datetime.now().replace(microsecond=0)
-                fo.write("{}\n".format(now.strftime("%Y-%m-%d %H:%M:%S")))
+                fo.write(f"{now.strftime('%Y-%m-%d %H:%M:%S')}\n")
         except FileNotFoundError as e:
-            log.debug(
-                "Exception writing file '%s' (%s)"
-                % (
-                    self.mark_file,
-                    e,
-                )
-            )
+            log.debug(f"Exception writing file '{self.mark_file}' ({e})")
 
     def mark_file_exist(self):
         rt = None
@@ -595,7 +567,7 @@ class Project(object):
                 with open(self.mark_file, "rt") as fi:
                     rt = fi.readline().strip("\n")
             except IOError as e:
-                print("Exception reading file '{}'".format(self.mark_file))
+                print(f"Exception reading file '{self.mark_file}'")
                 print(e)
         return rt
 

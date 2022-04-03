@@ -43,9 +43,9 @@ class DevShell(Project):
             for s in skip:
                 p = Project.get_project(s)
                 if p in deps:
-                    log.log("dev-shell: skip {}".format(s))
+                    log.log(f"dev-shell: skip {s}")
                     deps.remove(p)
-                    if s == "meson" or s == "python":
+                    if s in ["meson", "python"]:
                         # We disable the meson management
                         self.meson = False
 
@@ -55,13 +55,13 @@ class DevShell(Project):
         print("gvsbuild dev shell. Type exit to exit :)")
         print("")
         print("The environment var GTK_BASE_DIR points to the gtk installation dir")
-        print("({})".format(self.builder.gtk_dir))
+        print(f"({self.builder.gtk_dir})")
         print("if you need it e.g. as a --prefix option")
         print("")
         if self.meson:
             # Add a _meson env to use it directly
             meson_path = Project.get_tool_path("meson")
-            self.builder.mod_env("_MESON", "python {}\\meson.py".format(meson_path))
+            self.builder.mod_env("_MESON", f"python {meson_path}\\meson.py")
             print("If you need to use meson you can use the _MESON environment, e.g.")
             print("%_MESON% configure")
             print("")

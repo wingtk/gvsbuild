@@ -34,8 +34,8 @@ def read_mark_file(directory, file_name=".wingtk-extracted-file"):
         with open(os.path.join(directory, file_name), "rt") as fi:
             rt = fi.readline().strip()
     except IOError as e:
-        log.debug("Exception on reading from '{}'".format(file_name))
-        log.debug("{}".format(e))
+        log.debug(f"Exception on reading from '{file_name}'")
+        log.debug(f"{e}")
 
     return rt
 
@@ -43,7 +43,7 @@ def read_mark_file(directory, file_name=".wingtk-extracted-file"):
 def write_mark_file(directory, val, file_name=".wingtk-extracted-file"):
     """Write the value (filename or content hash) to the mark file."""
     with open(os.path.join(directory, file_name), "wt") as fo:
-        fo.write("{}\n".format(val))
+        fo.write(f"{val}\n")
 
 
 def extract_exec(
@@ -98,7 +98,7 @@ def extract_exec(
         rd_file = read_mark_file(full_dest)
         wr_file = os.path.basename(src)
         if rd_file != wr_file:
-            log.log("Forcing extraction of {}".format(src))
+            log.log(f"Forcing extraction of {src}")
             rmtree_full(full_dest, retry=True)
             check_file = None
         else:
@@ -109,27 +109,15 @@ def extract_exec(
         if check_file:
             # look for the specific file
             if os.path.isfile(check_file):
-                log.debug(
-                    "Skipping %s handling, %s present"
-                    % (
-                        src,
-                        check_file,
-                    )
-                )
+                log.debug(f"Skipping {src} handling, {check_file} present")
                 return False
         else:
             # If the directory exist we are ok
             if os.path.exists(full_dest):
-                log.debug("Skipping {} handling, directory exists".format(src))
+                log.debug(f"Skipping {src} handling, directory exists")
                 return False
 
-    log.log(
-        "Extracting %s to %s"
-        % (
-            src,
-            full_dest,
-        )
-    )
+    log.log(f"Extracting {src} to {full_dest}")
     os.makedirs(full_dest, exist_ok=True)
 
     _n, ext = os.path.splitext(src.lower())
@@ -184,13 +172,7 @@ def dirlist2set(st_dir, add_dirs=False, skipped_dir=None):
                 returned_set.add(full)
             elif cf.is_dir():
                 if cf.name.lower() in skipped_dir:
-                    log.debug(
-                        "  Skipped dir '%s' (from '%s')"
-                        % (
-                            cf.name,
-                            dir_name,
-                        )
-                    )
+                    log.debug(f"  Skipped dir '{cf.name}' (from '{dir_name}')")
                 else:
                     if add_dirs:
                         returned_set.add(full)
@@ -201,10 +183,10 @@ def dirlist2set(st_dir, add_dirs=False, skipped_dir=None):
         skipped_dir = []
     skipped_dir.append("__pycache__")
     try:
-        log.debug("Getting file list from '{}'".format(st_dir))
+        log.debug(f"Getting file list from '{st_dir}'")
         _load_single_dir(st_dir, rt, set(skipped_dir))
     except FileNotFoundError:
-        print("Warning: (--zip-continue) No file found on '{}'".format(st_dir))
+        print(f"Warning: (--zip-continue) No file found on '{st_dir}'")
     return rt
 
 
@@ -230,13 +212,7 @@ def make_zip(name, files, skip_spc=0):
     to avoid to have the full path (e.g. from
     c:\\data\temp\build\\my_arch we want to save only mt_arch
     """
-    log.start_verbose(
-        "Creating zip file %s with %u files"
-        % (
-            name,
-            len(files),
-        )
-    )
+    log.start_verbose(f"Creating zip file {name} with {len(files)} files")
     with zipfile.ZipFile(name + ".zip", "w", compression=zipfile.ZIP_DEFLATED) as zf:
         for f in sorted(list(files)):
             zf.write(f, arcname=f[skip_spc:])
@@ -245,7 +221,7 @@ def make_zip(name, files, skip_spc=0):
 
 class Tarball(object):
     def update_build_dir(self):
-        log.start_verbose("(tar) Updating {}".format(self.archive_file))
+        log.start_verbose(f"(tar) Updating {self.archive_file}")
         rt = extract_exec(
             self.archive_file,
             self.build_dir,
@@ -256,7 +232,7 @@ class Tarball(object):
         return rt
 
     def unpack(self):
-        log.start_verbose("(tar) Extracting {}".format(self.archive_file))
+        log.start_verbose(f"(tar) Extracting {self.archive_file}")
         extract_exec(
             self.archive_file,
             self.build_dir,
@@ -266,17 +242,17 @@ class Tarball(object):
         log.end()
 
     def export(self):
-        log.start("(tar) Exporting {}".format(self.name))
+        log.start(f"(tar) Exporting {self.name}")
 
         path = os.path.join(self.export_dir, self.name + ".zip")
         with zipfile.ZipFile(path, "w") as zipped_path:
-            log.log("(tar) Exporting %s" % self.archive_file)
+            log.log(f"(tar) Exporting {self.archive_file}")
             zipped_path.write(
                 self.archive_file, arcname=os.path.basename(self.archive_file)
             )
 
             for p in self.patches:
-                log.log("(tar) Exporting %s" % p)
+                log.log(f"(tar) Exporting {p}")
                 zipped_path.write(
                     os.path.join(self.build_dir, p),
                     arcname="patches/" + os.path.basename(p),
@@ -287,13 +263,13 @@ class Tarball(object):
 
 class MercurialRepo(object):
     def unpack(self):
-        log.start_verbose("(hg) Cloning {} to {}".format(self.repo_url, self.build_dir))
-        self.exec_cmd("hg clone {} {}-tmp".format(self.repo_url, self.build_dir))
+        log.start_verbose(f"(hg) Cloning {self.repo_url} to {self.build_dir}")
+        self.exec_cmd(f"hg clone {self.repo_url} {self.build_dir}-tmp")
         shutil.move(self.build_dir + "-tmp", self.build_dir)
         log.end()
 
     def update_build_dir(self):
-        log.start_verbose("(hg) Updating directory {}".format(self.build_dir))
+        log.start_verbose(f"(hg) Updating directory {self.build_dir}")
         self.exec_cmd("hg pull -u", working_dir=self.build_dir)
         log.end()
 
@@ -313,7 +289,7 @@ class GitRepo(object):
         else:
             of = os.path.join(src_dir, ".git-temp.rsp")
             self.builder.exec_msys(
-                "git rev-parse --short HEAD >{}".format(of), working_dir=src_dir
+                f"git rev-parse --short HEAD >{of}", working_dir=src_dir
             )
             with open(of, "rt") as fi:
                 tag_name = fi.readline().rstrip("\n")
@@ -330,7 +306,7 @@ class GitRepo(object):
         # Be sure to have the git .zip dir
         git_tmp_dir = os.path.join(self.builder.opts.archives_download_dir, "git")
         if not os.path.exists(git_tmp_dir):
-            log.log("Creating git archives save directory {}".format(git_tmp_dir))
+            log.log(f"Creating git archives save directory {git_tmp_dir}")
             os.makedirs(git_tmp_dir)
 
         # check if some file has changed
@@ -386,13 +362,11 @@ class GitRepo(object):
 
         if os.path.isdir(dest):
             # Update
-            log.start("(git) Updating directory {}".format(dest))
+            log.start(f"(git) Updating directory {dest}")
 
             if self.tag:
                 self.builder.exec_msys("git fetch origin", working_dir=dest)
-                self.builder.exec_msys(
-                    "git checkout -f %s" % self.tag, working_dir=dest
-                )
+                self.builder.exec_msys(f"git checkout -f {self.tag}", working_dir=dest)
             else:
                 self.builder.exec_msys("git checkout -f", working_dir=dest)
                 self.builder.exec_msys("git pull --rebase", working_dir=dest)
@@ -403,14 +377,12 @@ class GitRepo(object):
                 log.end()
             rt = self.create_zip()
         else:
-            log.start("(git) Cloning {} to {}".format(self.repo_url, dest))
+            log.start(f"(git) Cloning {self.repo_url} to {dest}")
 
-            self.builder.exec_msys("git clone {} {}".format(self.repo_url, dest))
+            self.builder.exec_msys(f"git clone {self.repo_url} {dest}")
 
             if self.tag:
-                self.builder.exec_msys(
-                    "git checkout -f %s" % self.tag, working_dir=dest
-                )
+                self.builder.exec_msys(f"git checkout -f {self.tag}", working_dir=dest)
 
             if self.fetch_submodules:
                 log.start_verbose("Fetch submodule(s)")
@@ -424,49 +396,39 @@ class GitRepo(object):
     def update_build_dir(self):
         rt = None
         if not os.path.exists(self.opts.git_expand_dir):
-            log.log(
-                "Creating git expoand directory {}".format(self.opts.git_expand_dir)
-            )
+            log.log(f"Creating git expoand directory {self.opts.git_expand_dir}")
             os.makedirs(self.opts.git_expand_dir, exist_ok=True)
 
         try:
             rt = self._update_dir()
         except Exception as e:
-            log.message(
-                "%s:Exception %s"
-                % (
-                    self.name,
-                    e,
-                )
-            )
+            log.message(f"{self.name}:Exception {e}")
             log.message("Removing the destination dir ...")
             rt = self._update_dir(remove_dest=True)
 
         if rt:
             if os.path.exists(self.patch_dir):
-                log.log(
-                    "Copying files from {} to {}".format(self.patch_dir, self.build_dir)
-                )
+                log.log(f"Copying files from {self.patch_dir} to {self.build_dir}")
                 self.builder.copy_all(self.patch_dir, self.build_dir)
         log.end()
         return rt
 
     def export(self):
-        log.start("(git) Exporting directory {}".format(self.build_dir))
+        log.start(f"(git) Exporting directory {self.build_dir}")
 
         src_dir = os.path.join(self.opts.git_expand_dir, self.name)
         filename = self.name + "-" + self.get_tag_name(src_dir) + ".zip"
         self.builder.exec_msys(
-            "git archive -o %s HEAD" % filename, working_dir=self.build_dir
+            f"git archive -o {filename} HEAD", working_dir=self.build_dir
         )
 
         path = os.path.join(self.export_dir, self.name + ".zip")
         with zipfile.ZipFile(path, "w") as zipped_path:
-            log.log("(git) Exporting %s" % filename)
+            log.log(f"(git) Exporting {filename}")
             zipped_path.write(os.path.join(self.build_dir, filename), arcname=filename)
 
             for p in self.patches:
-                log.log("(git) Exporting %s" % p)
+                log.log(f"(git) Exporting {p}")
                 zipped_path.write(
                     os.path.join(self.build_dir, p),
                     arcname="patches/" + os.path.basename(p),

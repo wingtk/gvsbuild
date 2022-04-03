@@ -45,7 +45,7 @@ class GdkPixbuf(Tarball, Meson):
             enable_gi = "disabled"
 
         self.add_param("-Dnative_windows_loaders=true")
-        self.add_param("-Dintrospection={}".format(enable_gi))
+        self.add_param(f"-Dintrospection={enable_gi}")
         self.add_param("-Dman=false")
         self.add_param("-Dx11=false")
 

@@ -32,12 +32,9 @@ class Pixman(Tarball, Project):
         )
 
     def build(self):
-        optimizations = "SSE2=on SSSE3=on"
-        if self.builder.x64:
-            # FIXME: cairo fails to build due to missing symbols if I enable MMX on 64bit
-            optimizations += " MMX=off"
-        else:
-            optimizations += " MMX=on"
+        optimizations = "SSE2=on SSSE3=on" + (
+            " MMX=off" if self.builder.x64 else " MMX=on"
+        )
 
         add_path = os.path.join(self.builder.opts.msys_dir, "usr", "bin")
 
