@@ -39,7 +39,7 @@ class Atk(Tarball, Meson):
         Project.__init__(
             self,
             "atk",
-            archive_url="http://ftp.acc.umu.se/pub/GNOME/sources/atk/2.36/atk-2.36.0.tar.xz",
+            archive_url="https://download.gnome.org/sources/atk/2.36/atk-2.36.0.tar.xz",
             hash="fb76247e369402be23f1f5c65d38a9639c1164d934e40f6a9cf3c9e96b652788",
             dependencies=[
                 "ninja",

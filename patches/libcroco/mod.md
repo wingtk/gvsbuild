@@ -1,4 +1,4 @@
- * Download [libcroco 1.38.1](http://ftp.acc.umu.se/pub/GNOME/sources/libcroco/0.6/libcroco-0.6.11.tar.xz)
+ * Download [libcroco 1.38.1](https://download.gnome.org/sources/libcroco/0.6/libcroco-0.6.11.tar.xz)
  * In `build\win32\vs12\croco-version-paths.props`, replace:
 	* `<GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\vs$(VSVer)\$(Platform)</GlibEtcInstallRoot>` with
 `<GlibEtcInstallRoot>$(SolutionDir)\..\..\..\..\..\..\..\gtk\$(Platform)\$(Configuration)</GlibEtcInstallRoot>`
