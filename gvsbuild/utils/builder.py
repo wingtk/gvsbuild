@@ -417,9 +417,18 @@ class Builder:
                 "Looking for the Visual Studio version installed under %s ..."
                 % (opts.vs_install_path,)
             )
+
             for part in dir_parts:
+                if (
+                    part == "BuildTools"
+                    and opts.vs_install_path
+                    == r"C:\Program Files\Microsoft Visual Studio\2022"
+                ):
+                    vs_path = r"C:\Program Files (x86)\Microsoft Visual Studio\2022"
+                else:
+                    vs_path = opts.vs_install_path
                 output = self.__check_vs_single(
-                    opts, os.path.join(opts.vs_install_path, part), False
+                    opts, os.path.join(vs_path, part), False
                 )
                 if output:
                     log.log(f"Found '{part}'")
