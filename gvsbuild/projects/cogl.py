@@ -35,9 +35,7 @@ class Cogl(Tarball, Project):
         )
 
     def build(self):
-        self.builder.mod_env(
-            "INCLUDE", "{}\\include\\harfbuzz".format(self.builder.gtk_dir)
-        )
+        self.builder.mod_env("INCLUDE", f"{self.builder.gtk_dir}\\include\\harfbuzz")
         self.exec_msbuild_gen(r"build\win32", "cogl.sln", add_pars="/p:UseEnv=True")
 
         self.install(r".\COPYING share\doc\cogl")

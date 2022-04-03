@@ -52,7 +52,7 @@ class GStreamer(Tarball, Meson):
         else:
             enable_gi = "disabled"
 
-        self.add_param("-Dintrospection={}".format(enable_gi))
+        self.add_param(f"-Dintrospection={enable_gi}")
 
     def build(self):
         add_path = os.path.join(self.builder.opts.msys_dir, "usr", "bin")

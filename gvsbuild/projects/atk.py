@@ -51,7 +51,7 @@ class Atk(Tarball, Meson):
         if self.opts.enable_gi:
             self.add_dependency("gobject-introspection")
 
-        self.add_param("-Dintrospection={}".format(self.opts.enable_gi))
+        self.add_param(f"-Dintrospection={self.opts.enable_gi}")
         self.add_param("-Ddocs=false")
 
     def build(self, **kwargs):

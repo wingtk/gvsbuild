@@ -28,7 +28,7 @@ def convert_to_msys(path):
     path = path
     if path[1] != ":":
         raise Exception("oops")
-    path = "/" + path[0] + path[2:].replace("\\", "/")
+    path = f"/{path[0]}" + path[2:].replace("\\", "/")
     return path
 
 
@@ -37,7 +37,7 @@ def _rmtree_error_handler(func, path, exc_info):
         # Is the error an access error ?
         os.chmod(path, stat.S_IWUSR)
         func(path)
-        log.debug("rmtree:read-only file/path ({})".format(path))
+        log.debug(f"rmtree:read-only file/path ({path})")
     else:
         raise
 
@@ -64,7 +64,7 @@ def read_file(file_name):
 def write_file(file_name, content):
     with open(file_name, "wt") as fo:
         for i in content:
-            fo.write("{}\n".format(i))
+            fo.write(f"{i}\n")
 
 
 def file_replace(file_name, chg_list, make_bak=True):

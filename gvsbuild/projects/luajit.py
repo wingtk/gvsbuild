@@ -31,10 +31,7 @@ class Luajit(Tarball, Project):
         )
 
     def build(self):
-        option = ""
-        if self.builder.opts.configuration == "debug":
-            option = "debug"
-
+        option = "debug" if self.builder.opts.configuration == "debug" else ""
         self.push_location("src")
 
         self.exec_vs(r".\msvcbuild " + option)

@@ -39,7 +39,7 @@ class Emeus(GitRepo, Meson):
             enable_gi = "false"
 
         self.add_param("-Ddocs=false")
-        self.add_param("-Dintrospection={}".format(enable_gi))
+        self.add_param(f"-Dintrospection={enable_gi}")
 
     def build(self):
         Meson.build(self, make_tests=True)

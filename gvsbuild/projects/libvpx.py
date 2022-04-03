@@ -78,10 +78,7 @@ class Libvpx(Tarball, Project):
             lib_name = "vpxmdd.lib"
         else:
             lib_name = "vpxmd.lib"
-        if self.builder.x86:
-            lib_path = "Win32/" + lib_name
-        else:
-            lib_path = "x64/" + lib_name
+        lib_path = f"Win32/{lib_name}" if self.builder.x86 else f"x64/{lib_name}"
         self.builder.exec_msys(
             ["mv", lib_path, "./vpx.lib"],
             working_dir=os.path.join(self.builder.gtk_dir, "lib"),

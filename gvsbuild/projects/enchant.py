@@ -31,10 +31,7 @@ class Enchant(Tarball, Project):
         )
 
     def build(self):
-        x64_param = ""
-        if self.builder.x64:
-            x64_param = "X64=1"
-
+        x64_param = "X64=1" if self.builder.x64 else ""
         self.push_location(r".\src")
 
         # Exec nmake /nologo -f makefile.mak clean

@@ -44,7 +44,7 @@ class Libsoup(Tarball, Meson):
         else:
             enable_gi = "disabled"
 
-        self.add_param("-Dintrospection={}".format(enable_gi))
+        self.add_param(f"-Dintrospection={enable_gi}")
         self.add_param("-Dvapi=disabled")
         self.add_param("-Dsysprof=disabled")
         self.add_param("-Dtls_check=false")
@@ -83,7 +83,7 @@ class Libsoup3(Tarball, Meson):
         else:
             enable_gi = "disabled"
 
-        self.add_param("-Dintrospection={}".format(enable_gi))
+        self.add_param(f"-Dintrospection={enable_gi}")
         self.add_param("-Dvapi=disabled")
         self.add_param("-Dsysprof=disabled")
         self.add_param("-Dtls_check=false")

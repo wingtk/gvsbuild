@@ -60,7 +60,7 @@ class Tool(Project):
     def get_executable(self):
         if self.full_exe:
             return self.full_exe
-        raise NotImplementedError("{}:get_executable".format(self.name))
+        raise NotImplementedError(f"{self.name}:get_executable")
 
     def get_base_dir(self):
         """Base directory for the tool, used for perl to have the dir to pass

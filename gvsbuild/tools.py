@@ -55,21 +55,21 @@ class Tool_cargo(Tool):
         rustup = os.path.join(self.build_dir, "bin", "rustup.exe")
 
         subprocess.check_call(
-            "%s --no-modify-path -y" % self.archive_file, shell=True, env=env
+            f"{self.archive_file} --no-modify-path -y", shell=True, env=env
         )
 
         # add supported targets
         subprocess.check_call(
-            "%s target add x86_64-pc-windows-msvc" % rustup, shell=True, env=env
+            f"{rustup} target add x86_64-pc-windows-msvc", shell=True, env=env
         )
+
         subprocess.check_call(
-            "%s target add i686-pc-windows-msvc" % rustup, shell=True, env=env
+            f"{rustup} target add i686-pc-windows-msvc", shell=True, env=env
         )
 
         # switch to the right target
         subprocess.check_call(
-            "%s default stable-%s-pc-windows-msvc"
-            % (rustup, "i686" if self.opts.x86 else "x86_64"),
+            f'{rustup} default stable-{"i686" if self.opts.x86 else "x86_64"}-pc-windows-msvc',
             env=env,
         )
 
@@ -285,7 +285,7 @@ class Tool_python(Tool):
 
             if rd_file == t_id:
                 # Ok, exit
-                log.log("Skipping python setup on '{}'".format(dest_dir))
+                log.log(f"Skipping python setup on '{dest_dir}'")
                 # We don't rebuild the projects that depends on this
                 return False
 
@@ -323,12 +323,12 @@ class Tool_python(Tool):
             if not os.path.exists(python3):
                 # We create a python3.exe file so meson find our python and not some other
                 # lying around (e.g. one from the Visual Studio installation ...)
-                log.log("Create python3 copy on '{}'".format(dest_dir))
+                log.log(f"Create python3 copy on '{dest_dir}'")
                 shutil.copy(self.full_exe, python3)
 
             # Mark that we have done all
             with open(os.path.join(dest_dir, ".wingtk-extracted-file"), "wt") as fo:
-                fo.write("{}\n".format(t_id))
+                fo.write(f"{t_id}\n")
 
         return True
 
