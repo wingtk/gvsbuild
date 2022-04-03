@@ -55,7 +55,7 @@ LOG_VERBOSE = 2
 LOG_DEBUG = 3
 
 
-class LogElem(object):
+class LogElem:
     def __init__(self, msg, enabled, tim=None):
         self.msg = msg
         self.tim = tim if tim else datetime.datetime.now()
@@ -63,7 +63,7 @@ class LogElem(object):
         self.enabled = enabled
 
 
-class Log(object):
+class Log:
     """Simple log class, used mainly to time the execution of the script."""
 
     _verbose = False

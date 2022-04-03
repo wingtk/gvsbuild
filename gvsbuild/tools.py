@@ -278,9 +278,9 @@ class Tool_python(Tool):
             # see if it's already ok
             rd_file = ""
             try:
-                with open(os.path.join(dest_dir, ".wingtk-extracted-file"), "rt") as fi:
+                with open(os.path.join(dest_dir, ".wingtk-extracted-file")) as fi:
                     rd_file = fi.readline().strip()
-            except IOError:
+            except OSError:
                 pass
 
             if rd_file == t_id:
