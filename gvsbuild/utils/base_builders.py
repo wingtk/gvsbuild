@@ -20,7 +20,6 @@
 import os
 import shutil
 
-from .base_expanders import MercurialRepo
 from .base_project import Project
 from .simple_ui import log
 from .utils import _rmtree_error_handler
@@ -151,11 +150,6 @@ class CmakeProject(Project):
             self.builder.exec_vs("nmake /nologo", working_dir=work_dir)
             if do_install:
                 self.builder.exec_vs("nmake /nologo install", working_dir=work_dir)
-
-
-class MercurialCmakeProject(MercurialRepo, CmakeProject):
-    def __init__(self, name, **kwargs):
-        CmakeProject.__init__(self, name, **kwargs)
 
 
 class Rust(Project):
