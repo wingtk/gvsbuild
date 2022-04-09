@@ -19,7 +19,7 @@
 """Default groups of projects."""
 
 from .utils.base_group import Group, group_add
-from .utils.base_project import GVSBUILD_PROJECT, Project
+from .utils.base_project import Project, ProjectType
 
 
 @group_add
@@ -83,5 +83,5 @@ class Group_Tools_Check(Group):
 @group_add
 class Group_All(Group):
     def __init__(self):
-        all_prj = [x.name for x in Project._projects if x.type == GVSBUILD_PROJECT]
+        all_prj = [x.name for x in Project._projects if x.type == ProjectType.PROJECT]
         Group.__init__(self, "all", dependencies=all_prj)

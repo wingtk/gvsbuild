@@ -36,12 +36,7 @@ import argparse
 import gvsbuild.groups  # noqa: F401
 import gvsbuild.projects  # noqa: F401
 import gvsbuild.tools  # noqa: F401
-from gvsbuild.utils.base_project import (
-    GVSBUILD_GROUP,
-    GVSBUILD_PROJECT,
-    GVSBUILD_TOOL,
-    Project,
-)
+from gvsbuild.utils.base_project import Project, ProjectType
 from gvsbuild.utils.utils import ordered_set
 
 
@@ -68,7 +63,7 @@ def print_deps(flatten=False, add_all=False):
                 add = True
                 if not add_all:
                     ty = Project._dict[d].type
-                    if ty != GVSBUILD_PROJECT:
+                    if ty != ProjectType.PROJECT:
                         add = False
 
                 if add:
@@ -81,7 +76,7 @@ def print_deps(flatten=False, add_all=False):
                         dump_single_dep(f"{st}    ", d, flatten)
         return rt
 
-    prj = [x.name for x in Project._projects if x.type == GVSBUILD_PROJECT]
+    prj = [x.name for x in Project._projects if x.type == ProjectType.PROJECT]
     print("Projects dependencies:")
     for n in prj:
         done = []
@@ -141,9 +136,9 @@ def make_graph(
                 t = Project._dict[n]
 
                 add = True
-                if t.type == GVSBUILD_TOOL:
+                if t.type == ProjectType.TOOL:
                     add = add_tools
-                elif t.type == GVSBUILD_GROUP:
+                elif t.type == ProjectType.GROUP:
                     add = add_groups
                 else:
                     add = True

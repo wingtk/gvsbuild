@@ -21,14 +21,7 @@ import argparse
 import os
 import sys
 
-from .base_project import (
-    GVSBUILD_GROUP,
-    GVSBUILD_IGNORE,
-    GVSBUILD_PROJECT,
-    GVSBUILD_TOOL,
-    Options,
-    Project,
-)
+from .base_project import Options, Project, ProjectType
 from .builder import Builder
 from .simple_ui import log
 from .utils import ordered_set
@@ -121,9 +114,7 @@ def get_options(args):
             opts._vs_path_auto = True
         else:
             opts.vs_install_path = (
-                r"C:\Program Files (x86)\Microsoft Visual Studio {}.0".format(
-                    opts.vs_ver
-                )
+                f"C:\\Program Files (x86)\\Microsoft Visual Studio {opts.vs_ver}.0"
             )
 
     if opts.python_dir is None and not opts.same_python:
@@ -226,10 +217,10 @@ def do_list(args):
 
     # now add the tools/projects/groups
     Project.add_all()
-    do_list_type(GVSBUILD_TOOL, "Available tools")
-    do_list_type(GVSBUILD_PROJECT, "Available projects")
-    do_list_type(GVSBUILD_GROUP, "Available groups")
-    do_list_type(GVSBUILD_IGNORE, "Developer project(s)")
+    do_list_type(ProjectType.TOOL, "Available tools")
+    do_list_type(ProjectType.PROJECT, "Available projects")
+    do_list_type(ProjectType.GROUP, "Available groups")
+    do_list_type(ProjectType.IGNORE, "Developer project(s)")
     sys.exit(0)
 
 

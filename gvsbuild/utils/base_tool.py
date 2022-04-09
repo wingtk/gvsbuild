@@ -19,7 +19,7 @@
 
 import os
 
-from .base_project import GVSBUILD_TOOL, Project
+from .base_project import Project, ProjectType
 
 
 class Tool(Project):
@@ -76,5 +76,5 @@ class Tool(Project):
 def tool_add(cls):
     """Class decorator to add the newly created Toolp class to the global
     projects/tools/groups list."""
-    Project.register(cls, GVSBUILD_TOOL)
+    Project.register(cls, ProjectType.TOOL)
     return cls
