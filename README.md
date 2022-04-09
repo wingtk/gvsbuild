@@ -180,6 +180,21 @@ python .\build.py build --help
 If the download of a tarball fails a partial file will not pass the hash check.
 Delete the file and try again.
 
+## OpenSSL
+
+In addition to the setup instructions above, to build OpenSSL you also need the
+Visual C++ 2013 Redistributable Package installed. To install it, open PowerShell
+as administrator and execute:
+
+```PowerShell
+choco install vcredist2013
+```
+
+Similar to other packages, you can build OpenSSL by executing:
+```
+python .\build.py build openssl
+```
+
 ## Dependency Graph
 
 To see and analyze the dependency between the various projects, in text or in a
@@ -207,12 +222,13 @@ project they apply to.
 
 ## Credits
 
-This tool originated from a powershell [developed by the HexChat
-developers](https://github.com/hexchat/gtk-win32), make sure to check their page
-for more information about the original script.
+This tool originated from a gtk-win32 PowerShell script created by the
+[HexChat](https://hexchat.github.io/) developers for building it for Windows.
+Although this project is now archived, you can explore the original project if you
+are interested in the history at https://github.com/hexchat/gtk-win32.
 
 Compiling the GTK stack on MSVC would not be possible without the incredible
-work by Fan Chun-wei - Check the [Compiling the GTK+ (and Clutter) stack using
+work by [Fan Chun-wei](https://github.com/fanc999). If you are interested in more
+details of how this works, please see [Compiling the GTK+ (and Clutter) stack using
 Visual C++ 2008 and
-later](https://wiki.gnome.org/Projects/GTK/Win32/MSVCCompilationOfGTKStack) for
-more information on how this works.
+later](https://wiki.gnome.org/Projects/GTK/Win32/MSVCCompilationOfGTKStack).
