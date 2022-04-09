@@ -135,14 +135,14 @@ class Project:
         """
 
         ver = self.builder.opts.vs_ver
-        if ver == "17":
-            dst_platform = "143"
+        if ver == "15":
+            dst_platform = "141"
         elif ver == "16":
             dst_platform = "142"
-        elif ver == "15":
-            dst_platform = "141"
+        elif ver == "17":
+            dst_platform = "143"
         else:
-            dst_platform = ver + r"0"
+            dst_platform = f"{ver}0"
         search = (">v%u</PlatformToolset>" % (org_platform,)).encode("utf-8")
         replace = f">v{dst_platform}</PlatformToolset>".encode("utf-8")
 
@@ -209,7 +209,7 @@ class Project:
 
         def _msbuild_copy(self, org_path, org_platform, use_ver=True):
             if use_ver:
-                dst_part = "vs" + self.builder.opts.vs_ver
+                dst_part = f"vs{self.builder.opts.vs_ver}"
             else:
                 dst_part = self.builder.vs_ver_year
             dst = os.path.join(self.build_dir, base_dir, dst_part)
@@ -350,7 +350,7 @@ class Project:
     def patch(self):
         for p in self.patches:
             name = os.path.basename(p)
-            stamp = os.path.join(self.build_dir, name + ".patch-applied")
+            stamp = os.path.join(self.build_dir, f"{name}.patch-applied")
             if not os.path.exists(stamp):
                 log.log(f"Applying patch {p}")
                 self.builder.exec_msys(
@@ -536,13 +536,12 @@ class Project:
         elif self.archive_url:
             _t, name = os.path.split(self.archive_url)
             self.version = Project._file_to_version(name)
+        elif hasattr(self, "tag") and self.tag:
+            self.version = f"git/{self.tag}"
+        elif hasattr(self, "repo_url"):
+            self.version = "git/master"
         else:
-            if hasattr(self, "tag") and self.tag:
-                self.version = "git/" + self.tag
-            elif hasattr(self, "repo_url"):
-                self.version = "git/master"
-            else:
-                self.version = ""
+            self.version = ""
 
     def mark_file_calc(self):
         if not self.mark_file:
