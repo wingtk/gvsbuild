@@ -222,7 +222,7 @@ def do_list(args):
 def seperate_name_and_major_version(name: str) -> tuple[str, Optional[str]]:
     # https://regex101.com/r/1c4iLx/2
     m = re.search(r"([a-z-]*\d{3}|[a-z-]*\d{0})(\d$)?", name)
-    return m[0], m[2]
+    return m[1], m[2]
 
 
 def do_outdated(args):
@@ -235,7 +235,7 @@ def do_outdated(args):
     Project.add_all()
     projects = get_project_by_type(ProjectType.PROJECT)
     print("Looking for projects that are out-of-date, please submit a PR!")
-    print(f"\t{'Project Name':<{Project.name_len}} {'Current':<40} {'Latest':<40}")
+    print(f"\t{'Project Name':<{Project.name_len}} {'Current':<45} {'Latest':<45}")
     try:
         for project in projects:
             # glib-py-wrapper is vendored in gvsbuild
@@ -261,7 +261,7 @@ def do_outdated(args):
                         project[1]
                     ):
                         print(
-                            f"\t{project[0]:<{Project.name_len}} {project[1]:<40} {str(latest_version):<40}"
+                            f"\t{project[0]:<{Project.name_len}} {project[1]:<45} {str(latest_version):<45}"
                         )
                         break
             except packaging.version.InvalidVersion:
