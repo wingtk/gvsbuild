@@ -23,7 +23,6 @@ import re
 import sys
 from typing import Optional
 
-import packaging
 
 from .base_project import Options, Project, ProjectType
 from .builder import Builder
@@ -228,8 +227,9 @@ def seperate_name_and_major_version(name: str) -> tuple[str, Optional[str]]:
 def do_outdated(args):
     try:
         import lastversion
+        import packaging
     except ImportError:
-        print("Please pip install lastversion in your Python environment")
+        print("Please pip install -r requirements.txt in your Python environment")
         sys.exit(0)
 
     Project.add_all()
