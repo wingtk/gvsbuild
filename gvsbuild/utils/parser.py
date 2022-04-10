@@ -21,6 +21,7 @@ import argparse
 import os
 import re
 import sys
+from typing import Optional
 
 import packaging
 
@@ -221,9 +222,10 @@ def do_list(args):
     sys.exit(0)
 
 
-def remove_trailing_number(name: str) -> str:
-    # https://regex101.com/r/iC1Zun/1
-    return re.search(r"([a-z-]*)", name)[0]
+def seperate_name_and_major_version(name: str) -> tuple[str, Optional[str]]:
+    # https://regex101.com/r/1c4iLx/2
+    m = re.search(r"([a-z-]*\d{3}|[a-z-]*\d{0})(\d$)?", name)
+    return m[0], m[2]
 
 
 def do_outdated(args):
@@ -236,25 +238,33 @@ def do_outdated(args):
     Project.add_all()
     projects = get_project_by_type(ProjectType.PROJECT)
     print("Looking for projects that are out-of-date, please submit a PR!")
-    print(f"\t{'Project Name':<{Project.name_len}} {'Current':<25} {'Latest':<25}")
+    print(f"\t{'Project Name':<{Project.name_len}} {'Current':<40} {'Latest':<40}")
     try:
         for project in projects:
+            # glib-py-wrapper is vendored in gvsbuild
             if project[0] == "glib-py-wrapper":
                 continue
-            project_name = remove_trailing_number(project[0])
+            name_and_major = seperate_name_and_major_version(project[0])
             repo_list = [
-                f"https://gitlab.gnome.org/GNOME/{project_name}",
-                f"https://gitlab.freedesktop.org/{project_name}/{project_name}",
-                project_name,
+                f"https://gitlab.gnome.org/GNOME/{name_and_major[0]}",
+                f"https://gitlab.freedesktop.org/{name_and_major[0]}/{name_and_major[0]}",
+                name_and_major[0],
             ]
             try:
                 for repo in repo_list:
-                    latest_version = lastversion.has_update(
-                        repo=repo, current_version=project[1]
-                    )
-                    if latest_version:
+                    if name_and_major[1]:
+                        latest_version = lastversion.latest(
+                            repo=repo, major=name_and_major[1]
+                        )
+                    else:
+                        latest_version = lastversion.latest(
+                            repo=repo,
+                        )
+                    if latest_version and latest_version > packaging.version.parse(
+                        project[1]
+                    ):
                         print(
-                            f"\t{project[0]:<{Project.name_len}} {project[1]:<25} {str(latest_version):<25}"
+                            f"\t{project[0]:<{Project.name_len}} {project[1]:<40} {str(latest_version):<40}"
                         )
                         break
             except packaging.version.InvalidVersion:
