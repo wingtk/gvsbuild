@@ -41,11 +41,11 @@ class Project_gtk_base(Tarball, Project, MakeGir):
 
 
 @project_add
-class Gtk(Project_gtk_base):
+class Gtk2(Project_gtk_base):
     def __init__(self):
         Project.__init__(
             self,
-            "gtk",
+            "gtk2",
             archive_url="https://download.gnome.org/sources/gtk+/2.24/gtk+-2.24.31.tar.xz",
             hash="68c1922732c7efc08df4656a5366dcc3afdc8791513400dac276009b40954658",
             dependencies=["atk", "gdk-pixbuf", "pango"],
