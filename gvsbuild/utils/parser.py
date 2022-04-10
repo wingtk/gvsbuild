@@ -179,10 +179,7 @@ def do_build(args):
         log.debug("Options are:")
         for co in sorted(opts.__dict__.keys()):
             v = opts.__dict__[co]
-            if type(v) is str:
-                pv = f"'{v}'"
-            else:
-                pv = repr(v)
+            pv = f"'{v}'" if type(v) is str else repr(v)
             log.message_indent(f"'{co}': {pv}, ")
     builder = Builder(opts)
     builder.preprocess()
