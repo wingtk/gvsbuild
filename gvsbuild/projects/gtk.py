@@ -25,8 +25,12 @@ from gvsbuild.utils.base_project import Project, project_add
 
 class Project_gtk_base(Tarball, Project, MakeGir):
     def make_all_mo(self):
-        mo = "gtk20.mo" if self.name == "gtk" else "gtk30.mo"
-
+        if self.name == "gtk2":
+            mo = "gtk20.mo"
+        elif self.name == "gtk3":
+            mo = "gtk30.mo"
+        else:
+            mo = "gtk40.mo"
         localedir = os.path.join(self.pkg_dir, "share", "locale")
         self.push_location(r".\po")
         for fp in glob.glob(os.path.join(self.build_dir, "po", "*.po")):
