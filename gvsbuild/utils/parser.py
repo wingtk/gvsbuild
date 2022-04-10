@@ -19,7 +19,10 @@
 
 import argparse
 import os
+import re
 import sys
+
+import packaging
 
 from .base_project import Options, Project, ProjectType
 from .builder import Builder
@@ -191,29 +194,23 @@ def do_build(args):
     builder.build(to_build)
 
 
+def get_project_by_type(prj_type):
+    return [
+        (project.name, project.version)
+        for project in Project._projects
+        if project.type == prj_type
+    ]
+
+
 def do_list(args):
     def do_list_type(prj_type, desc):
-        nl = [
-            (
-                x.name,
-                x.version,
-            )
-            for x in Project._projects
-            if x.type == prj_type
-        ]
-        if nl:
-            nl.sort()
+        projects = get_project_by_type(prj_type)
+        if projects:
+            projects.sort()
 
             print(f"{desc}:")
-            for i in nl:
-                print(
-                    "\t%-*s %s"
-                    % (
-                        Project.name_len,
-                        i[0],
-                        i[1],
-                    )
-                )
+            for project in projects:
+                print(f"\t{project[0]:<{Project.name_len}} {project[1]}")
 
     # now add the tools/projects/groups
     Project.add_all()
@@ -222,6 +219,48 @@ def do_list(args):
     do_list_type(ProjectType.GROUP, "Available groups")
     do_list_type(ProjectType.IGNORE, "Developer project(s)")
     sys.exit(0)
+
+
+def remove_trailing_number(name: str) -> str:
+    # https://regex101.com/r/iC1Zun/1
+    return re.search(r"([a-z-]*)", name)[0]
+
+
+def do_outdated(args):
+    try:
+        import lastversion
+    except ImportError:
+        print("Please pip install lastversion in your Python environment")
+        sys.exit(0)
+
+    Project.add_all()
+    projects = get_project_by_type(ProjectType.PROJECT)
+    print("Looking for projects that are out-of-date, please submit a PR!")
+    print(f"\t{'Project Name':<{Project.name_len}} {'Current':<25} {'Latest':<25}")
+    try:
+        for project in projects:
+            if project[0] == "glib-py-wrapper":
+                continue
+            project_name = remove_trailing_number(project[0])
+            repo_list = [
+                f"https://gitlab.gnome.org/GNOME/{project_name}",
+                f"https://gitlab.freedesktop.org/{project_name}/{project_name}",
+                project_name,
+            ]
+            try:
+                for repo in repo_list:
+                    latest_version = lastversion.has_update(
+                        repo=repo, current_version=project[1]
+                    )
+                    if latest_version:
+                        print(
+                            f"\t{project[0]:<{Project.name_len}} {project[1]:<25} {str(latest_version):<25}"
+                        )
+                        break
+            except packaging.version.InvalidVersion:
+                print(f"Project {project[0]} does not have a valid version")
+    except lastversion.utils.ApiCredentialsError:
+        print("Set GITHUB_API_TOKEN=xxxxxxxxxxxxxxx environmental variable")
 
 
 def create_parser():
@@ -522,5 +561,12 @@ Examples:
 
     p_list = subparsers.add_parser("list", help="list available projects")
     p_list.set_defaults(func=do_list)
+
+    # ==============================================================================
+    # check
+    # ==============================================================================
+
+    p_outdated = subparsers.add_parser("outdated", help="list out of date projects")
+    p_outdated.set_defaults(func=do_outdated)
 
     return parser
