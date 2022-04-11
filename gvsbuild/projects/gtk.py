@@ -46,8 +46,8 @@ class Gtk(Project_gtk_base):
         Project.__init__(
             self,
             "gtk",
-            archive_url="https://download.gnome.org/sources/gtk+/2.24/gtk+-2.24.31.tar.xz",
-            hash="68c1922732c7efc08df4656a5366dcc3afdc8791513400dac276009b40954658",
+            archive_url="https://download.gnome.org/sources/gtk+/2.24/gtk+-2.24.33.tar.xz",
+            hash="ac2ac757f5942d318a311a54b0c80b5ef295f299c2a73c632f6bfb1ff49cc6da",
             dependencies=["atk", "gdk-pixbuf", "pango"],
             patches=[
                 "gtk-revert-scrolldc-commit.patch",
@@ -55,9 +55,6 @@ class Gtk(Project_gtk_base):
                 "gtk-accel.patch",
                 # https://github.com/hexchat/hexchat/issues/1007
                 "gtk-multimonitor.patch",
-                # These two will be in 2.24.33
-                "bfdac2f70e005b2504cc3f4ebbdab328974d005a.patch",
-                "61162225f712df648f38fd12bc0817cfa9f79a64.patch",
                 # https://github.com/hexchat/hexchat/issues/2077
                 "0001-GDK-W32-Remove-WS_EX_LAYERED-from-an-opaque-window.patch",
             ],
