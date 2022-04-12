@@ -68,7 +68,6 @@ def get_options(args):
     opts.clean_built = args.clean_built
     opts.py_wheel = args.py_wheel
     opts.enable_gi = args.enable_gi
-    opts.gtk3_ver = args.gtk3_ver
     opts.ffmpeg_enable_gpl = args.ffmpeg_enable_gpl
     opts.log_size = args.log_size
     opts.log_single = args.log_single
@@ -466,12 +465,6 @@ Examples:
         default=False,
         action="store_true",
         help="Create, for the gtk stack, the .gir/.typelib files for gobject introspection",
-    )
-    p_build.add_argument(
-        "--gtk3-ver",
-        default="3.24",
-        choices=["3.20", "3.22", "3.24"],
-        help="Gtk3 version to build",
     )
     p_build.add_argument(
         "--ffmpeg-enable-gpl",
