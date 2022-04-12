@@ -23,7 +23,6 @@ import re
 import sys
 from typing import Optional
 
-
 from .base_project import Options, Project, ProjectType
 from .builder import Builder
 from .simple_ui import log
@@ -283,8 +282,8 @@ Examples:
     build.py build --no-deps glib
         Build glib only.
 
-    build.py build --skip gtk,pycairo,pygobject,pygtk all
-        Build everything except gtk, pycairo, pygobject & pygtk
+    build.py build --skip gtk3,pycairo,pygobject all
+        Build everything except gtk3, pycairo, and pygobject
     """,
     )
 

@@ -81,7 +81,7 @@ class Gtk2(Project_gtk_base):
             self.builder.mod_env(
                 "INCLUDE", f"{self.builder.gtk_dir}\\include\\harfbuzz"
             )
-            self.make_single_gir("gtk", prj_dir="gtk")
+            self.make_single_gir("gtk2", prj_dir="gtk2")
 
 
 @project_add

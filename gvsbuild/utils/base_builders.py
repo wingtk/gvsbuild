@@ -212,7 +212,7 @@ class Rust(Project):
 class MakeGir:
     """Class to build, with nmake, a single project .gir/.typelib files for the
     gobject-introspection support, used where the meson script is not present
-    (gtk % gtk3) or not update the handle it."""
+    (gtk2 % gtk3) or not update the handle it."""
 
     def make_single_gir(self, prj_name, prj_dir=None):
         if not prj_dir:
