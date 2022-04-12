@@ -81,95 +81,12 @@ class Gtk(Project_gtk_base):
 
 
 @project_add
-class Gtk320(Project_gtk_base):
+class Gtk3(Tarball, Meson):
     def __init__(self):
-        if self.opts.gtk3_ver != "3.20":
-            self.ignore()
-            return
-
         Project.__init__(
             self,
             "gtk3",
-            prj_dir="gtk3-20",
-            archive_url="https://download.gnome.org/sources/gtk%2B/3.20/gtk%2B-3.20.10.tar.xz",
-            hash="e81da1af1c5c1fee87ba439770e17272fa5c06e64572939814da406859e56b70",
-            dependencies=["atk", "gdk-pixbuf", "pango", "libepoxy"],
-            patches=["gtk3-clip-retry-if-opened-by-others.patch"],
-        )
-        if Project.opts.enable_gi:
-            self.add_dependency("gobject-introspection")
-
-    def build(self):
-        self.builder.mod_env("INCLUDE", f"{self.builder.gtk_dir}\\include\\harfbuzz")
-        self.exec_msbuild_gen(
-            r"build\win32", "gtk+.sln", add_pars="/p:UseEnv=True /p:GtkPostInstall=rem"
-        )
-
-        self.make_all_mo()
-
-    def post_install(self):
-        if Project.opts.enable_gi:
-            self.builder.mod_env("INCLUDE", f"{self.builder.gtk_dir}\\include\\cairo")
-            self.make_single_gir("gtk", prj_dir="gtk3-20")
-
-        self.exec_cmd(
-            r"%(gtk_dir)s\bin\glib-compile-schemas.exe %(gtk_dir)s\share\glib-2.0\schemas"
-        )
-        self.exec_cmd(
-            r'%(gtk_dir)s\bin\gtk-update-icon-cache.exe --ignore-theme-index --force "%(gtk_dir)s\share\icons\hicolor"'
-        )
-
-
-@project_add
-class Gtk322(Project_gtk_base):
-    def __init__(self):
-        if self.opts.gtk3_ver != "3.22":
-            self.ignore()
-            return
-
-        Project.__init__(
-            self,
-            "gtk3",
-            prj_dir="gtk3-22",
-            archive_url="https://download.gnome.org/sources/gtk%2B/3.22/gtk%2B-3.22.30.tar.xz",
-            hash="a1a4a5c12703d4e1ccda28333b87ff462741dc365131fbc94c218ae81d9a6567",
-            dependencies=["atk", "gdk-pixbuf", "pango", "libepoxy"],
-        )
-        if Project.opts.enable_gi:
-            self.add_dependency("gobject-introspection")
-
-    def build(self):
-        self.builder.mod_env("INCLUDE", f"{self.builder.gtk_dir}\\include\\harfbuzz")
-        self.exec_msbuild_gen(
-            r"build\win32", "gtk+.sln", add_pars="/p:UseEnv=True /p:GtkPostInstall=rem"
-        )
-
-        self.make_all_mo()
-
-    def post_install(self):
-        if Project.opts.enable_gi:
-            self.builder.mod_env("INCLUDE", f"{self.builder.gtk_dir}\\include\\cairo")
-            self.make_single_gir("gtk", prj_dir="gtk3-22")
-
-        self.exec_cmd(
-            r"%(gtk_dir)s\bin\glib-compile-schemas.exe %(gtk_dir)s\share\glib-2.0\schemas"
-        )
-        self.exec_cmd(
-            r'%(gtk_dir)s\bin\gtk-update-icon-cache.exe --ignore-theme-index --force "%(gtk_dir)s\share\icons\hicolor"'
-        )
-
-
-@project_add
-class Gtk324(Tarball, Meson):
-    def __init__(self):
-        if self.opts.gtk3_ver != "3.24":
-            self.ignore()
-            return
-
-        Project.__init__(
-            self,
-            "gtk3",
-            prj_dir="gtk3-24",
+            prj_dir="gtk3",
             archive_url="https://download.gnome.org/sources/gtk%2B/3.24/gtk%2B-3.24.33.tar.xz",
             hash="588b06522e25d1579e989b6f9d8a1bdbf2fe13cde01a04e904ff346a225e7801",
             dependencies=["atk", "gdk-pixbuf", "pango", "libepoxy"],

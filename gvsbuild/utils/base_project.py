@@ -36,7 +36,6 @@ class Options:
     def __init__(self):
         # Only the one used by the projects
         self.enable_gi = False
-        self.gtk3_ver = "3.22"
         self.ffmpeg_enable_gpl = False
         # Default
         self._load_python = False
