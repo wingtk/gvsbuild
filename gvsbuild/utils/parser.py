@@ -19,16 +19,11 @@
 
 import argparse
 import os
+import re
 import sys
+from typing import Optional
 
-from .base_project import (
-    GVSBUILD_GROUP,
-    GVSBUILD_IGNORE,
-    GVSBUILD_PROJECT,
-    GVSBUILD_TOOL,
-    Options,
-    Project,
-)
+from .base_project import Options, Project, ProjectType
 from .builder import Builder
 from .simple_ui import log
 from .utils import ordered_set
@@ -120,9 +115,7 @@ def get_options(args):
             opts._vs_path_auto = True
         else:
             opts.vs_install_path = (
-                r"C:\Program Files (x86)\Microsoft Visual Studio {}.0".format(
-                    opts.vs_ver
-                )
+                f"C:\\Program Files (x86)\\Microsoft Visual Studio {opts.vs_ver}.0"
             )
 
     if opts.python_dir is None and not opts.same_python:
@@ -183,10 +176,7 @@ def do_build(args):
         log.debug("Options are:")
         for co in sorted(opts.__dict__.keys()):
             v = opts.__dict__[co]
-            if type(v) is str:
-                pv = f"'{v}'"
-            else:
-                pv = repr(v)
+            pv = f"'{v}'" if type(v) is str else repr(v)
             log.message_indent(f"'{co}': {pv}, ")
     builder = Builder(opts)
     builder.preprocess()
@@ -199,37 +189,83 @@ def do_build(args):
     builder.build(to_build)
 
 
+def get_project_by_type(prj_type):
+    return [
+        (project.name, project.version)
+        for project in Project._projects
+        if project.type == prj_type
+    ]
+
+
 def do_list(args):
     def do_list_type(prj_type, desc):
-        nl = [
-            (
-                x.name,
-                x.version,
-            )
-            for x in Project._projects
-            if x.type == prj_type
-        ]
-        if nl:
-            nl.sort()
+        projects = get_project_by_type(prj_type)
+        if projects:
+            projects.sort()
 
             print(f"{desc}:")
-            for i in nl:
-                print(
-                    "\t%-*s %s"
-                    % (
-                        Project.name_len,
-                        i[0],
-                        i[1],
-                    )
-                )
+            for project in projects:
+                print(f"\t{project[0]:<{Project.name_len}} {project[1]}")
 
     # now add the tools/projects/groups
     Project.add_all()
-    do_list_type(GVSBUILD_TOOL, "Available tools")
-    do_list_type(GVSBUILD_PROJECT, "Available projects")
-    do_list_type(GVSBUILD_GROUP, "Available groups")
-    do_list_type(GVSBUILD_IGNORE, "Developer project(s)")
+    do_list_type(ProjectType.TOOL, "Available tools")
+    do_list_type(ProjectType.PROJECT, "Available projects")
+    do_list_type(ProjectType.GROUP, "Available groups")
+    do_list_type(ProjectType.IGNORE, "Developer project(s)")
     sys.exit(0)
+
+
+def seperate_name_and_major_version(name: str) -> tuple[str, Optional[str]]:
+    # https://regex101.com/r/1c4iLx/2
+    m = re.search(r"([a-z-]*\d{3}|[a-z-]*\d{0})(\d$)?", name)
+    return m[1], m[2]
+
+
+def do_outdated(args):
+    try:
+        import lastversion
+        import packaging
+    except ImportError:
+        print("Please pip install -r requirements.txt in your Python environment")
+        sys.exit(0)
+
+    Project.add_all()
+    projects = get_project_by_type(ProjectType.PROJECT)
+    print("Looking for projects that are out-of-date, please submit a PR!")
+    print(f"\t{'Project Name':<{Project.name_len}} {'Current':<45} {'Latest':<45}")
+    try:
+        for project in projects:
+            # glib-py-wrapper is vendored in gvsbuild
+            if project[0] == "glib-py-wrapper":
+                continue
+            name_and_major = seperate_name_and_major_version(project[0])
+            repo_list = [
+                f"https://gitlab.gnome.org/GNOME/{name_and_major[0]}",
+                f"https://gitlab.freedesktop.org/{name_and_major[0]}/{name_and_major[0]}",
+                name_and_major[0],
+            ]
+            try:
+                for repo in repo_list:
+                    if name_and_major[1]:
+                        latest_version = lastversion.latest(
+                            repo=repo, major=name_and_major[1]
+                        )
+                    else:
+                        latest_version = lastversion.latest(
+                            repo=repo,
+                        )
+                    if latest_version and latest_version > packaging.version.parse(
+                        project[1]
+                    ):
+                        print(
+                            f"\t{project[0]:<{Project.name_len}} {project[1]:<45} {str(latest_version):<45}"
+                        )
+                        break
+            except packaging.version.InvalidVersion:
+                print(f"Project {project[0]} does not have a valid version")
+    except lastversion.utils.ApiCredentialsError:
+        print("Set GITHUB_API_TOKEN=xxxxxxxxxxxxxxx environmental variable")
 
 
 def create_parser():
@@ -245,8 +281,8 @@ Examples:
     build.py build --no-deps glib
         Build glib only.
 
-    build.py build --skip gtk,pycairo,pygobject,pygtk all
-        Build everything except gtk, pycairo, pygobject & pygtk
+    build.py build --skip gtk3,pycairo,pygobject all
+        Build everything except gtk3, pycairo, and pygobject
     """,
     )
 
@@ -524,5 +560,12 @@ Examples:
 
     p_list = subparsers.add_parser("list", help="list available projects")
     p_list.set_defaults(func=do_list)
+
+    # ==============================================================================
+    # check
+    # ==============================================================================
+
+    p_outdated = subparsers.add_parser("outdated", help="list out of date projects")
+    p_outdated.set_defaults(func=do_outdated)
 
     return parser

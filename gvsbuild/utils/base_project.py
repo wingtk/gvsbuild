@@ -21,15 +21,18 @@ import datetime
 import os
 import re
 import shutil
+from enum import Enum
 
 from .simple_ui import log
 from .utils import _rmtree_error_handler
 
-GVSBUILD_NONE = -1
-GVSBUILD_IGNORE = 0
-GVSBUILD_PROJECT = 1
-GVSBUILD_TOOL = 2
-GVSBUILD_GROUP = 3
+
+class ProjectType(Enum):
+    NONE = -1
+    IGNORE = 0
+    PROJECT = 1
+    TOOL = 2
+    GROUP = 3
 
 
 class Options:
@@ -52,7 +55,7 @@ class Project:
         self.archive_url = None
         self.archive_file_name = None
         self.tarbomb = False
-        self.type = GVSBUILD_NONE
+        self.type = ProjectType.NONE
         self.version = None
         self.mark_file = None
         self.clean = False
@@ -131,14 +134,14 @@ class Project:
         """
 
         ver = self.builder.opts.vs_ver
-        if ver == "17":
-            dst_platform = "143"
+        if ver == "15":
+            dst_platform = "141"
         elif ver == "16":
             dst_platform = "142"
-        elif ver == "15":
-            dst_platform = "141"
+        elif ver == "17":
+            dst_platform = "143"
         else:
-            dst_platform = ver + r"0"
+            dst_platform = f"{ver}0"
         search = (">v%u</PlatformToolset>" % (org_platform,)).encode("utf-8")
         replace = f">v{dst_platform}</PlatformToolset>".encode("utf-8")
 
@@ -205,7 +208,7 @@ class Project:
 
         def _msbuild_copy(self, org_path, org_platform, use_ver=True):
             if use_ver:
-                dst_part = "vs" + self.builder.opts.vs_ver
+                dst_part = f"vs{self.builder.opts.vs_ver}"
             else:
                 dst_part = self.builder.vs_ver_year
             dst = os.path.join(self.build_dir, base_dir, dst_part)
@@ -346,7 +349,7 @@ class Project:
     def patch(self):
         for p in self.patches:
             name = os.path.basename(p)
-            stamp = os.path.join(self.build_dir, name + ".patch-applied")
+            stamp = os.path.join(self.build_dir, f"{name}.patch-applied")
             if not os.path.exists(stamp):
                 log.log(f"Applying patch {p}")
                 self.builder.exec_msys(
@@ -410,13 +413,13 @@ class Project:
                     base_env[key] = val
 
     @staticmethod
-    def add(proj, type=GVSBUILD_IGNORE):
+    def add(proj, type=ProjectType.IGNORE):
         if proj.name in Project._dict:
             log.error_exit(f"Project '{proj.name}' already present!")
         Project._projects.append(proj)
         Project._names.append(proj.name)
         Project._dict[proj.name] = proj
-        if proj.type == GVSBUILD_NONE:
+        if proj.type == ProjectType.NONE:
             proj.type = type
 
     @staticmethod
@@ -464,7 +467,7 @@ class Project:
     def get_tool_path(tool):
         if not isinstance(tool, Project):
             tool = Project._dict[tool]
-        if tool.type == GVSBUILD_TOOL:
+        if tool.type == ProjectType.TOOL:
             t = tool.get_path()
             if isinstance(t, tuple):
                 # Get the one that's not null
@@ -479,7 +482,7 @@ class Project:
         if not isinstance(tool, Project):
             tool = Project._dict[tool]
 
-        if tool.type == GVSBUILD_TOOL:
+        if tool.type == ProjectType.TOOL:
             return tool.get_executable()
         return None
 
@@ -488,7 +491,7 @@ class Project:
         if not isinstance(tool, Project):
             tool = Project._dict[tool]
 
-        if tool.type == GVSBUILD_TOOL:
+        if tool.type == ProjectType.TOOL:
             return tool.get_base_dir()
         return None
 
@@ -532,13 +535,12 @@ class Project:
         elif self.archive_url:
             _t, name = os.path.split(self.archive_url)
             self.version = Project._file_to_version(name)
+        elif hasattr(self, "tag") and self.tag:
+            self.version = f"git/{self.tag}"
+        elif hasattr(self, "repo_url"):
+            self.version = "git/master"
         else:
-            if hasattr(self, "tag") and self.tag:
-                self.version = "git/" + self.tag
-            elif hasattr(self, "repo_url"):
-                self.version = "git/master"
-            else:
-                self.version = ""
+            self.version = ""
 
     def mark_file_calc(self):
         if not self.mark_file:
@@ -571,11 +573,11 @@ class Project:
         return rt
 
     def is_project(self):
-        return self.type == GVSBUILD_PROJECT
+        return self.type == ProjectType.PROJECT
 
 
 def project_add(cls):
     """Class decorator to add the newly created Project class to the global
     projects/tools/groups list."""
-    Project.register(cls, GVSBUILD_PROJECT)
+    Project.register(cls, ProjectType.PROJECT)
     return cls

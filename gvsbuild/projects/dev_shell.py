@@ -15,7 +15,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-from gvsbuild.utils.base_project import GVSBUILD_IGNORE, Project, project_add
+from gvsbuild.utils.base_project import Project, ProjectType, project_add
 from gvsbuild.utils.simple_ui import log
 
 
@@ -29,7 +29,7 @@ class DevShell(Project):
             dependencies=["tools"],
             version="0.1.0",
             # We don't want this project to be built with the group 'all'
-            type=GVSBUILD_IGNORE,
+            type=ProjectType.IGNORE,
         )
         self.meson = True
 

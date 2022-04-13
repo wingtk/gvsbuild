@@ -19,7 +19,7 @@
 """Base group class, from the project one, as a placeholder to build more than
 one project from a single one."""
 
-from .base_project import GVSBUILD_GROUP, Project
+from .base_project import Project, ProjectType
 
 
 class Group(Project):
@@ -40,5 +40,5 @@ class Group(Project):
 def group_add(cls):
     """Class decorator to add the newly created Group class to the global
     projects/tools/groups list."""
-    Project.register(cls, GVSBUILD_GROUP)
+    Project.register(cls, ProjectType.GROUP)
     return cls

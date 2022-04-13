@@ -25,8 +25,12 @@ from gvsbuild.utils.base_project import Project, project_add
 
 class Project_gtk_base(Tarball, Project, MakeGir):
     def make_all_mo(self):
-        mo = "gtk20.mo" if self.name == "gtk" else "gtk30.mo"
-
+        if self.name == "gtk2":
+            mo = "gtk20.mo"
+        elif self.name == "gtk3":
+            mo = "gtk30.mo"
+        else:
+            mo = "gtk40.mo"
         localedir = os.path.join(self.pkg_dir, "share", "locale")
         self.push_location(r".\po")
         for fp in glob.glob(os.path.join(self.build_dir, "po", "*.po")):
@@ -41,11 +45,11 @@ class Project_gtk_base(Tarball, Project, MakeGir):
 
 
 @project_add
-class Gtk(Project_gtk_base):
+class Gtk2(Project_gtk_base):
     def __init__(self):
         Project.__init__(
             self,
-            "gtk",
+            "gtk2",
             archive_url="https://download.gnome.org/sources/gtk+/2.24/gtk+-2.24.33.tar.xz",
             hash="ac2ac757f5942d318a311a54b0c80b5ef295f299c2a73c632f6bfb1ff49cc6da",
             dependencies=["atk", "gdk-pixbuf", "pango"],
@@ -74,7 +78,7 @@ class Gtk(Project_gtk_base):
             self.builder.mod_env(
                 "INCLUDE", f"{self.builder.gtk_dir}\\include\\harfbuzz"
             )
-            self.make_single_gir("gtk", prj_dir="gtk")
+            self.make_single_gir("gtk2", prj_dir="gtk2")
 
 
 @project_add
