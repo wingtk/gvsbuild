@@ -109,7 +109,7 @@ In the same PowerShell terminal, execute:
 
 ```PowerShell
 cd C:\gtk-build\github\gvsbuild
-python .\build.py build -p=x64 --vs-ver=17 --msys-dir=C:\tools\msys64 --gtk3-ver=3.24 gtk3
+python .\build.py build -p=x64 --vs-ver=17 --msys-dir=C:\tools\msys64 gtk3
 ```
 
 Alternatively, if you want to build GTK 4, execute:
