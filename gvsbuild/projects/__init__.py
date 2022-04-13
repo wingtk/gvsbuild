@@ -32,7 +32,6 @@ from gvsbuild.projects.gstreamer import (
     GStreamer,
     Orc,
 )
-
 from gvsbuild.projects.gtk import Gtk2, Gtk3, Gtk4
 from gvsbuild.projects.gtksourceview import GtkSourceView4, GtkSourceView5
 from gvsbuild.projects.harfbuzz import Harfbuzz
