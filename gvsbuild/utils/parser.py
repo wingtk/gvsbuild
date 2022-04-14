@@ -317,9 +317,9 @@ Examples:
     p_build.add_argument(
         "-p",
         "--platform",
-        default="x86",
+        default="x64",
         choices=["x86", "x64"],
-        help="Platform to build for, x86 or x64. Default is x86.",
+        help="Platform to build for, x86 or x64. Default is x64.",
     )
     p_build.add_argument(
         "-c",
