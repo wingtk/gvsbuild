@@ -1,0 +1,13 @@
+diff --git a/giscanner/utils.py b/giscanner/utils.py
+--- a/giscanner/utils.py	(revision 4d8881a69a8fa16fe4d8e2c24c4d9dc0ae1e0289)
++++ b/giscanner/utils.py	(date 1649898950661)
+@@ -307,10 +307,6 @@
+                 for path in os.environ.get('GI_EXTRA_BASE_DLL_DIRS').split(os.pathsep):
+                     self._add_dll_dir(path)
+
+-            for path in giscanner.pkgconfig.libs_only_L(pkgs, True):
+-                libpath = path.replace('-L', '')
+-                self._add_dll_dir(libpath)
+-
+             for path in giscanner.pkgconfig.bindir(pkgs):
+                 self._add_dll_dir(path)

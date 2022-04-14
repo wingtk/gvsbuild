@@ -37,6 +37,8 @@ class GObjectIntrospection(Tarball, Meson):
                 "pkg-config",
                 "glib",
             ],
+            # https://gitlab.gnome.org/GNOME/gobject-introspection/-/issues/427
+            patches=["incorrect-giscanner-path.patch"],
         )
 
     def build(self):
