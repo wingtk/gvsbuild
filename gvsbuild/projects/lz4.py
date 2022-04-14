@@ -32,7 +32,6 @@ class Lz4(Tarball, Meson):
             dependencies=["ninja", "meson"],
         )
         self.add_param("-Ddefault_library=shared")
-        self.add_param("-Dbin_programs=true")
 
     def build(self, **kwargs):
         Meson.build(self)
