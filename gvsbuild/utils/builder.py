@@ -126,8 +126,7 @@ class Builder:
             os.makedirs(self.zip_dir, exist_ok=True)
 
     def _create_msbuild_opts(self, python):
-        rt = []
-        rt.append(f"/nologo /p:Platform={self.opts.platform}")
+        rt = [f"/nologo /p:Platform={self.opts.platform}"]
         if python:
             rt.append(
                 '/p:PythonPath="%(python_dir)s" /p:PythonDir="%(python_dir)s"'
@@ -266,10 +265,10 @@ class Builder:
             log.error_exit(
                 f"{str(self.patch)} not found. Please check that you installed patch in msys2 using ``pacman -S patch``"
             )
+
         log.debug(f"patch: {self.patch}")
 
-        if opts.python_dir:
-            if not Path.is_file(Path(opts.python_dir) / "python.exe"):
+        if opts.python_dir and not Path.is_file(Path(opts.python_dir) / "python.exe"):
                 log.error_exit(
                     f"Executable python.exe not found at '{self.opts.python_dir}'"
                 )
@@ -279,15 +278,9 @@ class Builder:
         # env manipulation helper fun
         # returns a tuple with the old (key, value, ) to let the script restore it if needed
         org_env = env.get(key, None)
-        if subst:
-            te = None
-        else:
-            te = org_env
+        te = None if subst else org_env
         if te:
-            if prepend:
-                env[key] = value + ";" + te
-            else:
-                env[key] = te + ";" + value
+            env[key] = f"{value};{te}" if prepend else f"{te};{value}"
         else:
             # not set or forced
             env[key] = value
@@ -354,7 +347,6 @@ class Builder:
 
     def __check_vs_single(self, opts, vs_path, exit_missing=True):
         # Verify VS exists at the indicated location, and that it supports the required target
-        add_opts = ""
         if opts.platform == "Win32":
             vcvars_bat = os.path.join(vs_path, "VC", "bin", "vcvars32.bat")
             # make sure it works with VS 2017+
@@ -375,25 +367,31 @@ class Builder:
                     vs_path, "VC", "Auxiliary", "Build", "vcvars64.bat"
                 )
 
-        if opts.win_sdk_ver:
-            add_opts = f" {opts.win_sdk_ver}"
-
-        log.log(f'Running script "{vcvars_bat}"{add_opts}')
+        add_opts = f" {opts.win_sdk_ver}" if opts.win_sdk_ver else ""
+        log.log(
+            'Running script "%s"%s'
+            % (
+                vcvars_bat,
+                add_opts,
+            )
+        )
         if not os.path.exists(vcvars_bat):
-            if exit_missing:
-                self.__dump_vs_loc()
-                log.error_exit(
-                    "\n  '%s' could not be found.\n  Please check you have Visual Studio installed at '%s'\n  and that it supports the target platform '%s'."
-                    % (vcvars_bat, vs_path, opts.platform)
-                )
-            else:
+            if not exit_missing:
                 return None
 
-        output = subprocess.check_output(
-            f'cmd.exe /c ""{vcvars_bat}"{add_opts}>NUL && set"',
+            self.__dump_vs_loc()
+            log.error_exit(
+                "\n  '%s' could not be found.\n  Please check you have Visual Studio installed at '%s'\n  and that it supports the target platform '%s'."
+                % (vcvars_bat, vs_path, opts.platform)
+            )
+        return subprocess.check_output(
+            'cmd.exe /c ""%s"%s>NUL && set"'
+            % (
+                vcvars_bat,
+                add_opts,
+            ),
             shell=True,
         )
-        return output
 
     def __check_vs(self, opts):
         script_title("* Msvc tool")
@@ -585,7 +583,7 @@ class Builder:
             except KeyboardInterrupt:
                 traceback.print_exc()
                 log.error_exit(f"Interrupted on {p.name}")
-            except:  # noqa E722
+            except Exception:
                 traceback.print_exc()
                 log.end(mark_error=True)
                 if self.opts.keep:
