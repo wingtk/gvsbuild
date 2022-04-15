@@ -269,9 +269,9 @@ class Builder:
         log.debug(f"patch: {self.patch}")
 
         if opts.python_dir and not Path.is_file(Path(opts.python_dir) / "python.exe"):
-                log.error_exit(
-                    f"Executable python.exe not found at '{self.opts.python_dir}'"
-                )
+            log.error_exit(
+                f"Executable python.exe not found at '{self.opts.python_dir}'"
+            )
         log.end()
 
     def _add_env(self, key, value, env, prepend=True, subst=False):
@@ -339,7 +339,7 @@ class Builder:
 
     def __extract_paths(self, res):
         log.message("")
-        log.message("Visual studio installation(s) found:")
+        log.message("Visual Studio installation(s) found:")
         paths = []
         for i in res:
             disp = i.get("displayName", "?")
@@ -412,6 +412,7 @@ class Builder:
             opts.vs_install_path = self.__find_vs_path_with_vs_version(
                 self.__dump_vs_loc()
             )
+        log.message(f"Using Visual Studio at {opts.vs_install_path}")
         output = self.__check_good_vs_install(opts, opts.vs_install_path, True)
 
         self.vs_env = {}
