@@ -29,6 +29,8 @@ import ssl
 import subprocess
 import time
 import traceback
+from pathlib import Path
+from typing import Optional
 from urllib.error import URLError
 from urllib.request import ContentTooShortError, urlopen
 
@@ -205,7 +207,7 @@ class Builder:
         os.environ["INCLUDE"] = ""
         log.end()
 
-    def __msys_missing(self, base_dir):
+    def __msys_missing(self, base_dir: Path) -> Optional[list]:
         msys_pkg = [
             ("patch", "patch"),
             ("make", "make"),
@@ -216,7 +218,7 @@ class Builder:
         ]
         missing = []
         for prog, pkg in msys_pkg:
-            if not os.path.isfile(os.path.join(base_dir, "usr", "bin", prog + ".exe")):
+            if not Path.is_file(base_dir / "usr" / "bin" / f"{prog}.exe"):
                 log.log(f"msys: missing package {pkg}")
                 missing.append(pkg)
         return missing
@@ -224,19 +226,32 @@ class Builder:
     def __check_tools(self, opts):
         script_title("* Msys tool")
         log.start("Checking msys tool")
+        msys_path = Path(opts.msys_dir)
+        if not Path.exists(msys_path):
+            msys_paths = [
+                Path(r"C:\msys64"),
+                Path(r"C:\msys32"),
+                Path(r"C:\tools\msys64"),
+                Path(r"C:\tools\msys32"),
+            ]
+            for path in msys_paths:
+                if Path.exists(path):
+                    msys_path = path
+                    break
+        log.message(f"Using {msys_path} for msys installation")
         # what's missing ?
-        missing = self.__msys_missing(opts.msys_dir)
+        missing = self.__msys_missing(msys_path)
         if missing:
             # install using pacman
             cmd = (
-                os.path.join(opts.msys_dir, "usr", "bin", "bash")
+                str(msys_path / "usr" / "bin" / "bash")
                 + ' -l -c "pacman --noconfirm -S '
                 + " ".join(missing)
                 + '"'
             )
             log.debug(f"Updating msys2 with '{cmd}'")
             subprocess.check_call(cmd, shell=True)
-            missing = self.__msys_missing(opts.msys_dir)
+            missing = self.__msys_missing(msys_path)
             if missing:
                 # oops
                 cmd = "pacman -S " + " ".join(missing)
@@ -245,16 +260,15 @@ class Builder:
                     % (cmd,)
                 )
 
-        self.patch = os.path.join(opts.msys_dir, "usr", "bin", "patch.exe")
-        if not os.path.exists(self.patch):
+        self.patch = msys_path / "usr" / "bin" / "patch.exe"
+        if not Path.exists(self.patch):
             log.error_exit(
-                "%s not found. Please check that you installed patch in msys2 using ``pacman -S patch``"
-                % (self.patch,)
+                f"{str(self.patch)} not found. Please check that you installed patch in msys2 using ``pacman -S patch``"
             )
         log.debug(f"patch: {self.patch}")
 
         if opts.python_dir:
-            if not os.path.isfile(os.path.join(opts.python_dir, "python.exe")):
+            if not Path.is_file(Path(opts.python_dir) / "python.exe"):
                 log.error_exit(
                     f"Executable python.exe not found at '{self.opts.python_dir}'"
                 )
