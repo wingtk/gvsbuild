@@ -653,7 +653,7 @@ class Builder:
         log.start(f"Building project {proj.name} ({proj.version})")
         script_title(f"{proj.name} ({proj.version})")
 
-        proj.pkg_dir = proj.build_dir + "-rel"
+        proj.pkg_dir = f"{proj.build_dir}-rel"
         shutil.rmtree(proj.pkg_dir, ignore_errors=True)
         os.makedirs(proj.pkg_dir)
 
@@ -698,21 +698,8 @@ class Builder:
             # delta with the old
             new = cur - self.file_built
             if new:
-                # file presents, do the zip (with the version)
-                if proj.version.startswith("git/"):
-                    t_ver = proj.version[4:]
-                else:
-                    t_ver = proj.version
-
-                _t = [c if c.isalnum() else "_" for c in t_ver]
-                ver_part = "".join(_t)
-
-                zip_file = os.path.join(self.zip_dir, proj.prj_dir + "-" + ver_part)
-                self.make_zip(zip_file, new)
-                # use the current file set
-                self.file_built = cur
+                self.__build_zip(proj, new, cur)
             else:
-                # No file preentt
                 log.log(f"{proj.name}:zip not needed (tool?)")
 
         # Drop the mark file for all the projects that depends on this so we rebuild them
@@ -733,6 +720,16 @@ class Builder:
         script_title(None)
         log.end()
         return False
+
+    def __build_zip(self, proj, new, cur):
+        t_ver = proj.version[4:] if proj.version.startswith("git/") else proj.version
+        _t = [c if c.isalnum() else "_" for c in t_ver]
+        ver_part = "".join(_t)
+
+        zip_file = os.path.join(self.zip_dir, f"{proj.prj_dir}-{ver_part}")
+        self.make_zip(zip_file, new)
+        # use the current file set
+        self.file_built = cur
 
     def make_zip(self, name, files):
         make_zip(name, files, skip_spc=len(self.gtk_dir))
