@@ -372,13 +372,7 @@ class Builder:
                 )
 
         add_opts = f" {opts.win_sdk_ver}" if opts.win_sdk_ver else ""
-        log.log(
-            'Running script "%s"%s'
-            % (
-                vcvars_bat,
-                add_opts,
-            )
-        )
+        log.log(f'Running script "{vcvars_bat}"{add_opts}')
         if not os.path.exists(vcvars_bat):
             if not exit_missing:
                 return None
