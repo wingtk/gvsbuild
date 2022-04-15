@@ -91,7 +91,7 @@ class Builder:
         self.x86 = opts.platform == "Win32"
         self.x64 = not self.x86
 
-        # Create the year version for Visual studio
+        # Create the year version for Visual Studio
         vs_zip_parts = {
             "12": "vs2013",
             "14": "vs2015",
@@ -389,6 +389,7 @@ class Builder:
                 add_opts,
             ),
             shell=True,
+            text=True,
         )
 
     def __find_vs_path_with_vs_version(self, paths):
@@ -416,15 +417,6 @@ class Builder:
         self.vs_env = {}
         dbg = log.debug_on()
         for line in output.splitlines():
-            # Python3 str is not bytes and no need to decode
-            if isinstance(line, bytes):
-                try:
-                    decoded_line = line.decode("utf-8")
-                except UnicodeDecodeError:
-                    log.message(f"Warning: utf-8 decode error on [{line}]")
-                    decoded_line = line.decode("utf-8", errors="replace")
-                line = decoded_line
-
             e = line.split("=", 1)
             if len(e) < 2:
                 log.debug(f"vs env: ignoring {line}")
