@@ -26,8 +26,8 @@ class GLib(Tarball, Meson):
         Project.__init__(
             self,
             "glib",
-            archive_url="https://download.gnome.org/sources/glib/2.72/glib-2.72.0.tar.xz",
-            hash="d7bef0d4c4e7a62e08efb8e5f252a01357007b9588a87ff2b463a3857011f79d",
+            archive_url="https://download.gnome.org/sources/glib/2.72/glib-2.72.1.tar.xz",
+            hash="f9b7bce7f51753a1f43853bbcaca8bf09e15e994268e29cfd7a76f65636263c0",
             dependencies=["ninja", "meson", "pkg-config", "gettext", "libffi", "zlib"],
             patches=[
                 "glib-package-installation-directory.patch",
