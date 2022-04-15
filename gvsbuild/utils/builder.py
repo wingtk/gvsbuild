@@ -56,7 +56,7 @@ class Builder:
             self.filename_arch = "x64"
             opts.x86 = False
         else:
-            raise Exception(f"Invalid target platform '{opts.platform}'")
+            raise NameError(f"Invalid target platform '{opts.platform}'")
 
         opts.x64 = not opts.x86
         # Setup the directory, used by check vs
@@ -87,9 +87,6 @@ class Builder:
 
         if not opts.use_env:
             self.__minimum_env()
-
-        self.__check_tools(opts)
-        self.__check_vs(opts)
 
         self.x86 = opts.platform == "Win32"
         self.x64 = not self.x86
@@ -124,6 +121,9 @@ class Builder:
                         rmtree_full(self.gtk_dir, retry=True)
                 self.file_built = set()
             os.makedirs(self.zip_dir, exist_ok=True)
+
+        self.__check_tools(opts)
+        self.__check_vs(opts)
 
     def _create_msbuild_opts(self, python):
         rt = [f"/nologo /p:Platform={self.opts.platform}"]
@@ -313,7 +313,6 @@ class Builder:
                     del self.vs_env[key]
 
     def __dump_vs_loc(self):
-        """Using vswhere try to locate the vs installation path."""
         vswhere = r"%s\Microsoft Visual Studio\Installer\vswhere.exe" % (
             os.environ.get("ProgramFiles(x86)", r"C:\Program Files (x86)")
         )
@@ -329,23 +328,28 @@ class Builder:
         cmd = f'"{vswhere}" -all -products * -format json >{json_file}'
         self.exec_cmd(cmd)
 
-        res = None
         try:
             with open(json_file) as fi:
-                res = json.load(fi)
-        except Exception as e:
+                vs_installs = json.load(fi)
+        except (IOError, OSError) as e:
             log.log(f"Exception reading vswhere result file ({e})")
 
-        if res:
-            log.message("")
-            log.message("Visual studio installation(s) found:")
-            for i in res:
-                disp = i.get("displayName", "?")
-                path = i.get("installationPath", r"?:\?")
-                log.message(f"    {disp} @ {path}")
-            log.message("")
+        if vs_installs:
+            return self.__extract_paths(vs_installs)
 
-    def __check_vs_single(self, opts, vs_path, exit_missing=True):
+    def __extract_paths(self, res):
+        log.message("")
+        log.message("Visual studio installation(s) found:")
+        paths = []
+        for i in res:
+            disp = i.get("displayName", "?")
+            path = i.get("installationPath", r"?:\?")
+            log.message(f"    {disp} @ {path}")
+            paths.append(path)
+        log.message("")
+        return paths
+
+    def __check_good_vs_install(self, opts, vs_path, exit_missing=True):
         # Verify VS exists at the indicated location, and that it supports the required target
         if opts.platform == "Win32":
             vcvars_bat = os.path.join(vs_path, "VC", "bin", "vcvars32.bat")
@@ -393,57 +397,27 @@ class Builder:
             shell=True,
         )
 
+    def __find_vs_path_with_vs_version(self, paths):
+        for path in paths:
+            if self.vs_ver_year[-4:] in path or self.opts.vs_ver in path:
+                return path
+        log.debug(f"Can't find vs-ver {self.opts.vs_ver} in found VS installations.")
+
     def __check_vs(self, opts):
         script_title("* Msvc tool")
         log.start("Checking Msvc tool")
 
-        # Add to the environment the gtk paths so meson can find everything
+        # Add to the environment the GTK paths so meson can find everything
         self.add_global_env("INCLUDE", os.path.join(self.gtk_dir, "include"))
         self.add_global_env("LIB", os.path.join(self.gtk_dir, "lib"))
         self.add_global_env("LIBPATH", os.path.join(self.gtk_dir, "lib"))
         self.add_global_env("PATH", os.path.join(self.gtk_dir, "bin"))
 
-        if opts._vs_path_auto:
-            dir_parts = [
-                "Professional",
-                "BuildTools",
-                "Enterprise",
-                "Community",
-                "Preview",
-            ]
-            log.log(
-                "Looking for the Visual Studio version installed under %s ..."
-                % (opts.vs_install_path,)
-            )
-
-            for part in dir_parts:
-                if (
-                    part == "BuildTools"
-                    and opts.vs_install_path
-                    == r"C:\Program Files\Microsoft Visual Studio\2022"
-                ):
-                    vs_path = r"C:\Program Files (x86)\Microsoft Visual Studio\2022"
-                else:
-                    vs_path = opts.vs_install_path
-                output = self.__check_vs_single(
-                    opts, os.path.join(vs_path, part), False
-                )
-                if output:
-                    log.log(f"Found '{part}'")
-                    break
-
-            if not output:
-                # Nothing found, see what's installed & exit
+        if not opts.vs_install_path:
+            opts.vs_install_path = self.__find_vs_path_with_vs_version(
                 self.__dump_vs_loc()
-                log.error_exit(
-                    "\n  Visual Studio startup batch could not be found.\n  Please check you have Visual Studio installed under '%s\\[Professional|BuildTools|Community|...]'\n  and that it supports the target platform '%s'."
-                    % (
-                        opts.vs_install_path,
-                        opts.platform,
-                    )
-                )
-        else:
-            output = self.__check_vs_single(opts, opts.vs_install_path, True)
+            )
+        output = self.__check_good_vs_install(opts, opts.vs_install_path, True)
 
         self.vs_env = {}
         dbg = log.debug_on()
@@ -471,7 +445,7 @@ class Builder:
                 if len(vl) > 1:
                     log.debug(f"vs env: {k}: [")
                     for i in vl:
-                        log.message_indent("  " + i)
+                        log.message_indent(f"  {i}")
                     log.message_indent("]")
                 else:
                     log.debug(f"vs env:{k} -> [{v}]")
@@ -926,9 +900,9 @@ class Builder:
 
         if not os.path.exists(self.opts.archives_download_dir):
             log.log(
-                "Creating archives download directory %s"
-                % (self.opts.archives_download_dir,)
+                f"Creating archives download directory {self.opts.archives_download_dir}"
             )
+
             os.makedirs(self.opts.archives_download_dir)
 
         log.start_verbose(f"Downloading {proj.archive_file}")
@@ -1073,10 +1047,7 @@ class Builder:
     def __execute(self, args, working_dir=None, add_path=None, env=None):
         log.debug(f"running {args}, cwd={working_dir}, path+={add_path}")
         if add_path:
-            if env is not None:
-                env = dict(env)
-            else:
-                env = dict(os.environ)
+            env = dict(env) if env is not None else dict(os.environ)
             self.__add_path(env, add_path)
         if self.opts.capture_out:
             try:
@@ -1102,13 +1073,9 @@ class Builder:
             subprocess.check_call(args, cwd=working_dir, env=env, shell=True)
 
     def __add_path(self, env, folder):
-        key = None
-        for k in env:
-            if k.lower() == "path":
-                key = k
-                break
+        key = next((k for k in env if k.lower() == "path"), None)
         if key:
-            env[key] = env[key] + ";" + folder
+            env[key] = f"{env[key]};{folder}"
         else:
             key = "path"
             env[key] = folder

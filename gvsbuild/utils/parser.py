@@ -96,27 +96,8 @@ def get_options(args):
             % (opts.patches_root_dir,)
         )
 
-    opts._vs_path_auto = False
     if not opts.tools_root_dir:
         opts.tools_root_dir = os.path.join(args.build_dir, "tools")
-    if not opts.vs_install_path:
-        if opts.vs_ver == "15":
-            opts.vs_install_path = (
-                r"C:\Program Files (x86)\Microsoft Visual Studio\2017"
-            )
-            opts._vs_path_auto = True
-        elif opts.vs_ver == "16":
-            opts.vs_install_path = (
-                r"C:\Program Files (x86)\Microsoft Visual Studio\2019"
-            )
-            opts._vs_path_auto = True
-        elif opts.vs_ver == "17":
-            opts.vs_install_path = r"C:\Program Files\Microsoft Visual Studio\2022"
-            opts._vs_path_auto = True
-        else:
-            opts.vs_install_path = (
-                f"C:\\Program Files (x86)\\Microsoft Visual Studio {opts.vs_ver}.0"
-            )
 
     if opts.python_dir is None and not opts.same_python:
         opts._load_python = True
