@@ -836,13 +836,7 @@ class Builder:
         data file as well as the resulting HTTPMessage object.
         """
 
-        if ssl_ignore_cert:
-            # ignore certificate
-            ssl_ctx = ssl._create_unverified_context()
-        else:
-            # let the library does the work
-            ssl_ctx = None
-
+        ssl_ctx = ssl._create_unverified_context() if ssl_ignore_cert else None
         msg = f"Opening {url} ..."
         print(msg, end="\r")
         with contextlib.closing(urlopen(url, None, context=ssl_ctx)) as fp:
@@ -857,14 +851,15 @@ class Builder:
             headers = fp.info()
 
             with open(filename, "wb") as tfp:
-                result = filename, headers
-                bs = 1024 * 8
-                size = -1
                 read = 0
                 blocknum = 0
-                if "content-length" in headers:
-                    size = int(headers["Content-Length"])
-
+                result = filename, headers
+                size = (
+                    int(headers["Content-Length"])
+                    if "content-length" in headers
+                    else -1
+                )
+                bs = 1024 * 8
                 reporthook(blocknum, bs, size)
 
                 while True:
