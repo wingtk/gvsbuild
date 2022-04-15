@@ -16,7 +16,7 @@
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 from gvsbuild.utils.base_builders import Meson
-from gvsbuild.utils.base_expanders import GitRepo, Tarball
+from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import Project, project_add
 
 
@@ -26,8 +26,8 @@ class GtkSourceView4(Tarball, Meson):
         Project.__init__(
             self,
             "gtksourceview4",
-            archive_url="https://download.gnome.org/sources/gtksourceview/4.8/gtksourceview-4.8.2.tar.xz",
-            hash="842de7e5cb52000fd810e4be39cd9fe29ffa87477f15da85c18f7b82d45637cc",
+            archive_url="https://download.gnome.org/sources/gtksourceview/4.8/gtksourceview-4.8.3.tar.xz",
+            hash="c30019506320ca2474d834cced1e2217ea533e00eb2a3f4eb7879007940ec682",
             dependencies=["python", "meson", "ninja", "gtk3", "pkg-config"],
         )
         if Project.opts.enable_gi:
@@ -42,14 +42,13 @@ class GtkSourceView4(Tarball, Meson):
 
 
 @project_add
-class GtkSourceView5(GitRepo, Meson):
+class GtkSourceView5(Tarball, Meson):
     def __init__(self):
         Project.__init__(
             self,
             "gtksourceview5",
-            repo_url="https://gitlab.gnome.org/GNOME/gtksourceview",
-            fetch_submodules=False,
-            tag=None,
+            archive_url="https://download.gnome.org/sources/gtksourceview/5.4/gtksourceview-5.4.0.tar.xz",
+            hash="003bc217e670a8ec8aa3aece994b70e70b7d6b8074938adda21718555d84e637",
             dependencies=["python", "meson", "ninja", "gtk4", "pkg-config"],
         )
         if Project.opts.enable_gi:
