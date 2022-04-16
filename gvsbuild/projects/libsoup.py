@@ -21,11 +21,11 @@ from gvsbuild.utils.base_project import Project, project_add
 
 
 @project_add
-class Libsoup(Tarball, Meson):
+class Libsoup2(Tarball, Meson):
     def __init__(self):
         Project.__init__(
             self,
-            "libsoup",
+            "libsoup2",
             archive_url="https://download.gnome.org/sources/libsoup/2.74/libsoup-2.74.2.tar.xz",
             hash="f0a427656e5fe19e1df71c107e88dfa1b2e673c25c547b7823b6018b40d01159",
             dependencies=[
@@ -53,7 +53,7 @@ class Libsoup(Tarball, Meson):
     def build(self):
         Meson.build(self)
 
-        self.install(r".\COPYING share\doc\libsoup")
+        self.install(r".\COPYING share\doc\libsoup2")
 
 
 @project_add
