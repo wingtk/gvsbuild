@@ -216,7 +216,10 @@ def do_list(args):
     sys.exit(0)
 
 
-def seperate_name_and_major_version(name: str) -> tuple[str, Optional[str]]:
+def separate_name_and_major_version(name: str) -> tuple[str, Optional[str]]:
+    # Exceptions where ending with a simple digit is part of the library name
+    if name in {"nghttp2", "ssh2", "libxml2", "libtiff-4"}:
+        return name, None
     # https://regex101.com/r/1c4iLx/2
     m = re.search(r"([a-z-]*\d{3}|[a-z-]*\d{0})(\d$)?", name)
     return m[1], m[2]
@@ -240,7 +243,7 @@ def do_outdated(args):
             # glib-py-wrapper is vendored in gvsbuild
             if project[0] == "glib-py-wrapper" or not project[1]:
                 continue
-            name_and_major = seperate_name_and_major_version(project[0])
+            name_and_major = separate_name_and_major_version(project[0])
             repos = {
                 "adwaita-icon-theme": "https://gitlab.gnome.org/GNOME/adwaita-icon-theme",
                 "atk": "https://gitlab.gnome.org/GNOME/atk",
@@ -256,8 +259,8 @@ def do_outdated(args):
                 "glib-networking": "https://gitlab.gnome.org/GNOME/glib-networking",
                 "glib-py-wrapper": "https://gitlab.gnome.org/GNOME/glib-py-wrapper",
                 "gobject-introspection": "https://gitlab.gnome.org/GNOME/gobject-introspection",
+                "graphene": "ebassi/graphene",
                 "gsettings-desktop-schemas": "https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas",
-                "gtk2": "https://gitlab.gnome.org/GNOME/gtk",
                 "gtk3": "https://gitlab.gnome.org/GNOME/gtk",
                 "gtk4": "https://gitlab.gnome.org/GNOME/gtk",
                 "gtksourceview4": "https://gitlab.gnome.org/GNOME/gtksourceview",
@@ -279,8 +282,8 @@ def do_outdated(args):
                 "wing": "https://gitlab.gnome.org/GNOME/wing",
             }
             try:
-                repo = repos.get(project[0], project[0])
-                if name_and_major[1] and project[0] != "nghttp2":
+                repo = repos.get(project[0], name_and_major[0])
+                if name_and_major[1]:
                     latest_version = lastversion.latest(
                         repo=repo, major=name_and_major[1]
                     )
