@@ -228,7 +228,7 @@ def separate_name_and_major_version(name: str) -> tuple[str, Optional[str]]:
 def do_outdated(args):
     try:
         import lastversion
-        import packaging
+        from packaging import version
     except ImportError:
         print("Please pip install -r requirements.txt in your Python environment")
         sys.exit(0)
@@ -295,11 +295,11 @@ def do_outdated(args):
                     print(
                         f"\t{project[0]:<{Project.name_len}} {project[1]:<45} {'No release found':<45}"
                     )
-                elif latest_version > packaging.version.parse(project[1]):
+                elif version.parse(str(latest_version)) > version.parse(project[1]):
                     print(
                         f"\t{project[0]:<{Project.name_len}} {project[1]:<45} {str(latest_version):<45}"
                     )
-            except packaging.version.InvalidVersion:
+            except version.InvalidVersion:
                 print(f"Project {project[0]} does not have a valid version")
     except lastversion.utils.ApiCredentialsError:
         print("Set GITHUB_API_TOKEN=xxxxxxxxxxxxxxx environmental variable")
