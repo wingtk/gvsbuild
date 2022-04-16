@@ -238,31 +238,64 @@ def do_outdated(args):
     try:
         for project in projects:
             # glib-py-wrapper is vendored in gvsbuild
-            if project[0] == "glib-py-wrapper":
+            if project[0] == "glib-py-wrapper" or not project[1]:
                 continue
             name_and_major = seperate_name_and_major_version(project[0])
-            repo_list = [
-                f"https://gitlab.gnome.org/GNOME/{name_and_major[0]}",
-                f"https://gitlab.freedesktop.org/{name_and_major[0]}/{name_and_major[0]}",
-                name_and_major[0],
-            ]
+            repos = {
+                "adwaita-icon-theme": "https://gitlab.gnome.org/GNOME/adwaita-icon-theme",
+                "atk": "https://gitlab.gnome.org/GNOME/atk",
+                "boringssl": "https://github.com/google/boringssl",
+                "clutter": "https://gitlab.gnome.org/GNOME/clutter",
+                "cogl": "https://gitlab.gnome.org/Archive/cogl",
+                "emeus": "https://github.com/ebassi/emeus",
+                "fontconfig": "https://gitlab.freedesktop.org/fontconfig/fontconfig",
+                "freetype": "https://gitlab.freedesktop.org/freetype/freetype",
+                "gdk-pixbuf": "https://gitlab.gnome.org/GNOME/gdk-pixbuf",
+                "gettext": "autotools-mirror/gettext",
+                "glib": "https://gitlab.gnome.org/GNOME/glib",
+                "glib-networking": "https://gitlab.gnome.org/GNOME/glib-networking",
+                "glib-py-wrapper": "https://gitlab.gnome.org/GNOME/glib-py-wrapper",
+                "gobject-introspection": "https://gitlab.gnome.org/GNOME/gobject-introspection",
+                "gsettings-desktop-schemas": "https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas",
+                "gtk2": "https://gitlab.gnome.org/GNOME/gtk",
+                "gtk3": "https://gitlab.gnome.org/GNOME/gtk",
+                "gtk4": "https://gitlab.gnome.org/GNOME/gtk",
+                "gtksourceview4": "https://gitlab.gnome.org/GNOME/gtksourceview",
+                "gtksourceview5": "https://gitlab.gnome.org/GNOME/gtksourceview",
+                "hicolor-icon-theme": "https://gitlab.freedesktop.org/xdg/default-icon-theme",
+                "json-glib": "https://gitlab.gnome.org/GNOME/json-glib",
+                "libcurl": "https://github.com/curl/curl",
+                "libmicrohttpd": "https://github.com/Karlson2k/libmicrohttpd",
+                "libsoup2": "https://gitlab.gnome.org/GNOME/libsoup",
+                "libsoup3": "https://gitlab.gnome.org/GNOME/libsoup",
+                "libssh": "libssh/libssh-mirror",
+                "libssh2": "libssh2/libssh2",
+                "libtiff-4": "https://gitlab.com/libtiff/libtiff",
+                "libxml2": "https://gitlab.gnome.org/GNOME/libxml2",
+                "pango": "https://gitlab.gnome.org/GNOME/pango",
+                "pixman": "https://gitlab.freedesktop.org/pixman/pixman",
+                "pkg-config": "pkgconf",
+                "pygobject": "https://gitlab.gnome.org/GNOME/pygobject",
+                "wing": "https://gitlab.gnome.org/GNOME/wing",
+            }
             try:
-                for repo in repo_list:
-                    if name_and_major[1]:
-                        latest_version = lastversion.latest(
-                            repo=repo, major=name_and_major[1]
-                        )
-                    else:
-                        latest_version = lastversion.latest(
-                            repo=repo,
-                        )
-                    if latest_version and latest_version > packaging.version.parse(
-                        project[1]
-                    ):
-                        print(
-                            f"\t{project[0]:<{Project.name_len}} {project[1]:<45} {str(latest_version):<45}"
-                        )
-                        break
+                repo = repos.get(project[0], project[0])
+                if name_and_major[1] and project[0] != "nghttp2":
+                    latest_version = lastversion.latest(
+                        repo=repo, major=name_and_major[1]
+                    )
+                else:
+                    latest_version = lastversion.latest(
+                        repo=repo,
+                    )
+                if not latest_version:
+                    print(
+                        f"\t{project[0]:<{Project.name_len}} {project[1]:<45} {'No release found':<45}"
+                    )
+                elif latest_version > packaging.version.parse(project[1]):
+                    print(
+                        f"\t{project[0]:<{Project.name_len}} {project[1]:<45} {str(latest_version):<45}"
+                    )
             except packaging.version.InvalidVersion:
                 print(f"Project {project[0]} does not have a valid version")
     except lastversion.utils.ApiCredentialsError:
