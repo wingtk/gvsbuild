@@ -175,10 +175,10 @@ class Tool_ninja(Tool):
         Tool.__init__(
             self,
             "ninja",
-            archive_url="https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-win.zip",
-            archive_file_name="ninja-win-1.8.2.zip",
-            hash="c80313e6c26c0b9e0c241504718e2d8bbc2798b73429933adf03fdc6d84f0e70",
-            dir_part="ninja-1.8.2",
+            archive_url="https://github.com/ninja-build/ninja/releases/download/v1.10.2/ninja-win.zip",
+            archive_file_name="ninja-win-1.10.2.zip",
+            hash="bbde850d247d2737c5764c927d1071cbb1f1957dcabda4a130fa8547c12c695f",
+            dir_part="ninja-1.10.2",
             exe_name="ninja.exe",
         )
 
