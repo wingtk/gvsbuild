@@ -380,9 +380,9 @@ class Tool_go(Tool):
         Tool.__init__(
             self,
             "go",
-            archive_url="https://dl.google.com/go/go1.10.windows-amd64.zip",
-            hash="210b223031c254a6eb8fa138c3782b23af710a9959d64b551fa81edd762ea167",
-            dir_part="go-1.10",
+            archive_url="https://go.dev/dl/go1.18.1.windows-amd64.zip",
+            hash="c30bc3f1f7314a953fe208bd9cd5e24bd9403392a6c556ced3677f9f70f71fe1",
+            dir_part="go-1.18",
         )
 
     def load_defaults(self):
