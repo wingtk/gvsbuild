@@ -82,9 +82,9 @@ class Tool_cmake(Tool):
         Tool.__init__(
             self,
             "cmake",
-            archive_url="https://cmake.org/files/v3.20/cmake-3.20.0-windows-x86_64.zip",
-            hash="056378cb599353479c3a8aa2654454b8a3eaa3c8c0872928ba7e09c3ec50774c",
-            dir_part="cmake-3.20.0-windows-x86_64",
+            archive_url="https://github.com/Kitware/CMake/releases/download/v3.23.1/cmake-3.23.1-windows-x86_64.zip",
+            hash="9b509cc4eb7191dc128cfa3f2170036f9cbc7d9d5f93ff7fafc5b2d77b3b40dc",
+            dir_part="cmake-3.23.1-windows-x86_64",
         )
 
     def load_defaults(self):
