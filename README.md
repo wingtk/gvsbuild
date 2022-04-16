@@ -192,7 +192,7 @@ choco install vcredist2013
 
 Similar to other packages, you can build OpenSSL by executing:
 ```
-python .\build.py build openssl
+python .\build.py build openssl1
 ```
 
 ## Dependency Graph
