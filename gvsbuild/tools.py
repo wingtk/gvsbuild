@@ -265,7 +265,7 @@ class Tool_python(Tool):
             version = "3.10.4"
 
         name = "pythonx86" if self.opts.x86 else "python"
-        t_id = f"{name}.{self.version}"
+        t_id = f"{name}.{version}"
         dest_dir = os.path.join(self.opts.tools_root_dir, t_id)
         # directory to use for the .exe
         self.tool_path = os.path.join(dest_dir, "tools")
@@ -289,7 +289,7 @@ class Tool_python(Tool):
             # nuget
             nuget = Project.get_tool_executable("nuget")
             # Install python
-            cmd = f"{nuget} install {name} -Version {self.version} -OutputDirectory {self.opts.tools_root_dir}"
+            cmd = f"{nuget} install {name} -Version {version} -OutputDirectory {self.opts.tools_root_dir}"
 
             subprocess.check_call(cmd, shell=True)
             py = os.path.join(self.tool_path, "python.exe")
