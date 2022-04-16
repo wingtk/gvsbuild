@@ -232,7 +232,8 @@ def do_outdated(args):
 
     Project.add_all()
     projects = get_project_by_type(ProjectType.PROJECT)
-    print("Looking for projects that are out-of-date, please submit a PR!")
+    projects.extend(get_project_by_type(ProjectType.TOOL))
+    print("Looking for projects and tools that are out-of-date, please submit a PR!")
     print(f"\t{'Project Name':<{Project.name_len}} {'Current':<45} {'Latest':<45}")
     try:
         for project in projects:
@@ -565,7 +566,9 @@ Examples:
     # check
     # ==============================================================================
 
-    p_outdated = subparsers.add_parser("outdated", help="list out of date projects")
+    p_outdated = subparsers.add_parser(
+        "outdated", help="list out of date projects and tools"
+    )
     p_outdated.set_defaults(func=do_outdated)
 
     return parser
