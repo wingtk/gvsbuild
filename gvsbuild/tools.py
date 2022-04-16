@@ -264,11 +264,8 @@ class Tool_python(Tool):
         elif version == "3.10":
             version = "3.10.4"
 
-        if self.opts.x86:
-            name = "pythonx86"
-        else:
-            name = "python"
-        t_id = name + "." + version
+        name = "pythonx86" if self.opts.x86 else "python"
+        t_id = f"{name}.{self.version}"
         dest_dir = os.path.join(self.opts.tools_root_dir, t_id)
         # directory to use for the .exe
         self.tool_path = os.path.join(dest_dir, "tools")
@@ -286,37 +283,19 @@ class Tool_python(Tool):
             if rd_file == t_id:
                 # Ok, exit
                 log.log(f"Skipping python setup on '{dest_dir}'")
-                # We don't rebuild the projects that depends on this
+                # We don't rebuild the projects that depend on this
                 return False
 
             # nuget
             nuget = Project.get_tool_executable("nuget")
             # Install python
-            cmd = "{} install {} -Version {} -OutputDirectory {}".format(
-                nuget,
-                name,
-                version,
-                self.opts.tools_root_dir,
-            )
+            cmd = f"{nuget} install {name} -Version {self.version} -OutputDirectory {self.opts.tools_root_dir}"
+
             subprocess.check_call(cmd, shell=True)
             py = os.path.join(self.tool_path, "python.exe")
 
             # Update pip
-            cmd = py + " -m pip install --upgrade pip"
-            if version >= "3.6":
-                cmd += " --no-warn-script-location"
-            subprocess.check_call(cmd, shell=True)
-
-            # update setuptools (to use vs2017 with python 3.5)
-            cmd = py + " -m pip install --upgrade setuptools --no-warn-script-location"
-            subprocess.check_call(cmd, shell=True)
-
-            # install/update wheel
-            cmd = py + " -m pip install --upgrade wheel --no-warn-script-location"
-            subprocess.check_call(cmd, shell=True)
-
-            # install/update build
-            cmd = py + " -m pip install --upgrade build --no-warn-script-location"
+            cmd = f"{py} -m pip install --upgrade pip setuptools wheel build --no-warn-script-location"
             subprocess.check_call(cmd, shell=True)
 
             python3 = os.path.join(self.tool_path, "python3.exe")
@@ -341,12 +320,7 @@ class Tool_python(Tool):
             # Get python version
             self.mark_deps = self.setup(True)
         else:
-            if self.opts.python_dir:
-                # From the command line, hope is at least 3.4 ...
-                self.tool_path = self.opts.python_dir
-            else:
-                # We use the one that call the script
-                self.tool_path = os.path.dirname(sys.executable)
+            self.tool_path = self.opts.python_dir or os.path.dirname(sys.executable)
             self.full_exe = os.path.join(self.tool_path, "python.exe")
             self.mark_deps = False
 

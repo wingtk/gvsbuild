@@ -52,10 +52,7 @@ class Tool(Project):
         self.unpack()
 
     def get_path(self):
-        if self.tool_path:
-            return self.tool_path
-        else:
-            return self.build_dir
+        return self.tool_path or self.build_dir
 
     def get_executable(self):
         if self.full_exe:
