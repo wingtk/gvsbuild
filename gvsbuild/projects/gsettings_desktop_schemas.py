@@ -26,8 +26,8 @@ class GSettingsDesktopSchemas(Tarball, Meson):
         Project.__init__(
             self,
             "gsettings-desktop-schemas",
-            archive_url="https://download.gnome.org/sources/gsettings-desktop-schemas/40/gsettings-desktop-schemas-40.0.tar.xz",
-            hash="f1b83bf023c0261eacd0ed36066b76f4a520bbcb14bb69c402b7959257125685",
+            archive_url="https://download.gnome.org/sources/gsettings-desktop-schemas/42/gsettings-desktop-schemas-42.0.tar.xz",
+            hash="6686335a9ed623f7ae2276fefa50a410d4e71d4231880824714070cb317323d2",
             dependencies=["meson", "ninja", "pkg-config", "python", "glib"],
         )
         if self.opts.enable_gi:
