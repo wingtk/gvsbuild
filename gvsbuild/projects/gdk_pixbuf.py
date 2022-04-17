@@ -47,12 +47,8 @@ class GdkPixbuf(Tarball, Meson):
         self.add_param("-Dnative_windows_loaders=true")
         self.add_param(f"-Dintrospection={enable_gi}")
         self.add_param("-Dman=false")
-        self.add_param("-Dx11=false")
 
     def build(self):
-        # We can experiment with a couple of options to give to meson:
-        #    -Dbuiltin_loaders=all|windows
-        #        Buld the loader inside the library
         Meson.build(self)
         self.install(r".\COPYING share\doc\gdk-pixbuf")
 
