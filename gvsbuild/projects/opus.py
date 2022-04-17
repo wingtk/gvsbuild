@@ -15,39 +15,25 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-import os
-
-from gvsbuild.utils.base_expanders import Tarball
+from gvsbuild.utils.base_builders import Meson
+from gvsbuild.utils.base_expanders import GitRepo
 from gvsbuild.utils.base_project import Project, project_add
 
 
 @project_add
-class Opus(Tarball, Project):
+class Opus(GitRepo, Meson):
     def __init__(self):
         Project.__init__(
             self,
             "opus",
-            archive_url="https://archive.mozilla.org/pub/opus/opus-1.3.1.tar.gz",
-            hash="65b58e1e25b2a114157014736a3d9dfeaad8d41be1c8179866f144a2fb44ff9d",
+            repo_url="https://github.com/xiph/opus",
+            tag="ccaaffa9a3ee427e9401c4dcf6462e378d9a4694",
+            fetch_submodules=False,
         )
+
+        self.add_param("-Dtests=disabled")
+        self.add_param("-Ddocs=disabled")
 
     def build(self):
-        configuration = "ReleaseDLL"
-        if self.builder.opts.configuration == "debug":
-            configuration = "DebugDLL"
-
-        td = self.exec_msbuild_gen(r".\win32", "opus.sln", configuration=configuration)
-        bin_dir = os.path.join(
-            r".\win32", td, self.builder.opts.platform, configuration
-        )
-
-        self.install(bin_dir + r"\opus.dll bin")
-        self.install(bin_dir + r"\opus.pdb bin")
-
-        self.install(bin_dir + r"\opus.lib lib")
-
-        self.install(r"include\* include")
-
-        self.install_pc_files()
-
+        Meson.build(self)
         self.install(r"COPYING share\doc\opus")
