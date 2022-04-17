@@ -25,8 +25,8 @@ class Cogl(Tarball, Project):
         Project.__init__(
             self,
             "cogl",
-            archive_url="https://download.gnome.org/sources/cogl/1.22/cogl-1.22.6.tar.xz",
-            hash="6d134bd3e48c067507167c001200b275997fb9c68b08b48ff038211c8c251b75",
+            archive_url="https://download.gnome.org/sources/cogl/1.22/cogl-1.22.8.tar.xz",
+            hash="a805b2b019184710ff53d0496f9f0ce6dcca420c141a0f4f6fcc02131581d759",
             dependencies=["python", "glib", "cairo", "pango", "gdk-pixbuf"],
             patches=[
                 "001-cogl-missing-symbols.patch",
