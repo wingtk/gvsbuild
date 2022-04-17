@@ -17,7 +17,7 @@
 
 import os
 
-from gvsbuild.utils.base_expanders import GitRepo, Tarball
+from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import Project, project_add
 from gvsbuild.utils.utils import convert_to_msys
 
@@ -74,14 +74,13 @@ class Ffmpeg(Tarball, Project):
 
 
 @project_add
-class Project_nv_codec_headers(GitRepo, Project):
+class Project_nv_codec_headers(Tarball, Project):
     def __init__(self):
         Project.__init__(
             self,
             "nv-codec-headers",
-            repo_url="http://git.videolan.org/git/ffmpeg/nv-codec-headers.git",
-            fetch_submodules=False,
-            tag="n9.0.18.4",
+            archive_url="https://github.com/FFmpeg/nv-codec-headers/releases/download/n11.1.5.1/nv-codec-headers-11.1.5.1.tar.gz",
+            hash="a28cdde3ac0e9e02c2dde7a1b4de5333b4ac6148a8332ca712da243a3361a0d9",
         )
 
     def build(self):
