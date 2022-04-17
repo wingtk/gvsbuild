@@ -26,8 +26,8 @@ class Freetype(Tarball, Meson):
         Project.__init__(
             self,
             "freetype",
-            archive_url="http://git.savannah.gnu.org/cgit/freetype/freetype2.git/snapshot/freetype2-0d5f1dd37c056b4460a460d16fd1fbb06740e891.tar.gz",
-            hash="e768fa19ac50bb87659370b75766ad6ca150c32c736a9dbf5980cbf9017067f6",
+            archive_url="https://gitlab.freedesktop.org/freetype/freetype/-/archive/VER-2-12-0/freetype-VER-2-12-0.tar.gz",
+            hash="11b13952b78e55f399a5f185c9c46e3bec0da3989066ce76c984d446a8ef7090",
             dependencies=["pkg-config", "ninja", "libpng"],
             patches=["0001-meson-in-shared-libraries-we-need-to-export-the-meth.patch"],
         )
