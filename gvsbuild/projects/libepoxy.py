@@ -26,12 +26,12 @@ class Libepoxy(Tarball, Meson):
         Project.__init__(
             self,
             "libepoxy",
-            archive_url="https://github.com/anholt/libepoxy/releases/download/1.5.5/libepoxy-1.5.5.tar.xz",
-            hash="261663db21bcc1cc232b07ea683252ee6992982276536924271535875f5b0556",
+            archive_url="https://github.com/anholt/libepoxy/archive/refs/tags/1.5.10.tar.gz",
+            hash="a7ced37f4102b745ac86d6a70a9da399cc139ff168ba6b8002b4d8d43c900c15",
+            archive_filename="libepoxy-1.5.10.tar.gz",
             dependencies=["python", "ninja", "meson"],
         )
 
     def build(self):
         Meson.build(self)
-
         self.install(r"COPYING share\doc\libepoxy")
