@@ -31,11 +31,7 @@ class X264(GitRepo, Project):
             repo_url="http://git.videolan.org/git/x264.git",
             fetch_submodules=False,
             dependencies=["nasm", "msys2"],
-            tag="e9a5903edf8ca59ef20e6f4894c196f135af735e",
-            patches=[
-                "0001-use-more-recent-version-of-config.guess.patch",
-                "0002-configure-recognize-the-msys-shell.patch",
-            ],
+            tag="bfc87b7a330f75f5c9a21e56081e4b20344f139e",
         )
 
     def build(self):

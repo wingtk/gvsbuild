@@ -17,7 +17,7 @@
 
 import os
 
-from gvsbuild.utils.base_expanders import GitRepo, Tarball
+from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import Project, project_add
 from gvsbuild.utils.utils import convert_to_msys
 
@@ -28,8 +28,8 @@ class Ffmpeg(Tarball, Project):
         Project.__init__(
             self,
             "ffmpeg",
-            archive_url="https://www.ffmpeg.org/releases/ffmpeg-4.4.1.tar.xz",
-            hash="eadbad9e9ab30b25f5520fbfde99fae4a92a1ae3c0257a8d68569a4651e30e02",
+            archive_url="https://ffmpeg.org/releases/ffmpeg-5.0.1.tar.xz",
+            hash="ef2efae259ce80a240de48ec85ecb062cecca26e4352ffb3fda562c21a93007b",
             dependencies=["nasm", "msys2", "pkg-config", "nv-codec-headers"],
         )
         if self.opts.ffmpeg_enable_gpl:
@@ -74,14 +74,13 @@ class Ffmpeg(Tarball, Project):
 
 
 @project_add
-class Project_nv_codec_headers(GitRepo, Project):
+class Project_nv_codec_headers(Tarball, Project):
     def __init__(self):
         Project.__init__(
             self,
             "nv-codec-headers",
-            repo_url="http://git.videolan.org/git/ffmpeg/nv-codec-headers.git",
-            fetch_submodules=False,
-            tag="n9.0.18.4",
+            archive_url="https://github.com/FFmpeg/nv-codec-headers/releases/download/n11.1.5.1/nv-codec-headers-11.1.5.1.tar.gz",
+            hash="a28cdde3ac0e9e02c2dde7a1b4de5333b4ac6148a8332ca712da243a3361a0d9",
         )
 
     def build(self):
