@@ -381,7 +381,7 @@ class Tool_go(Tool):
             self,
             "go",
             archive_url="https://go.dev/dl/go1.18.1.windows-amd64.zip",
-            hash="ba64098aac462a5d9ed3a2dbadae7142aed211bb4b6d54dd1e41b7aa89044dfe",
+            hash="c30bc3f1f7314a953fe208bd9cd5e24bd9403392a6c556ced3677f9f70f71fe1",
             dir_part="go-1.18",
         )
 
