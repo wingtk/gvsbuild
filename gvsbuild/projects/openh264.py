@@ -26,9 +26,9 @@ class OpenH264(Tarball, Meson):
         Project.__init__(
             self,
             "openh264",
-            archive_url="https://github.com/cisco/openh264/archive/refs/tags/v2.1.1.tar.gz",
-            archive_file_name="openh264-2.1.1.tar.gz",
-            hash="af173e90fce65f80722fa894e1af0d6b07572292e76de7b65273df4c0a8be678",
+            archive_url="https://github.com/cisco/openh264/archive/refs/tags/v2.2.0.tar.gz",
+            archive_file_name="openh264-2.2.0.tar.gz",
+            hash="e4e5c8ba48e64ba6ce61e8b6e2b76b2d870c74c270147649082feabb40f25905",
             dependencies=[
                 "ninja",
                 "meson",
