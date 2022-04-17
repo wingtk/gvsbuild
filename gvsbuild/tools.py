@@ -194,10 +194,10 @@ class Tool_nuget(Tool):
         Tool.__init__(
             self,
             "nuget",
-            archive_url="https://dist.nuget.org/win-x86-commandline/v5.4.0/nuget.exe",
-            archive_file_name="nuget-5.4.0.exe",
-            hash="880f8d306a65932b11f7edd7768b57d20e78fc618b21d785b303da27facc9a70",
-            dir_part="nuget-5.4.0",
+            archive_url="https://dist.nuget.org/win-x86-commandline/v6.1.0/nuget.exe",
+            archive_file_name="nuget-6.1.0.exe",
+            hash="432d322b16ffab3fed5d24ab7ea30ae10c555a00339a9bf53060aa4b2aee7925",
+            dir_part="nuget-6.1.0",
             exe_name="nuget.exe",
         )
 
