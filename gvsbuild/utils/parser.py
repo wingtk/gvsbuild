@@ -275,6 +275,7 @@ def do_outdated(args):
                 "libssh2": "libssh2/libssh2",
                 "libtiff-4": "https://gitlab.com/libtiff/libtiff",
                 "libxml2": "https://gitlab.gnome.org/GNOME/libxml2",
+                "orc": "https://gitlab.freedesktop.org/gstreamer/orc",
                 "pango": "https://gitlab.gnome.org/GNOME/pango",
                 "pixman": "https://gitlab.freedesktop.org/pixman/pixman",
                 "pkg-config": "pkgconf",
