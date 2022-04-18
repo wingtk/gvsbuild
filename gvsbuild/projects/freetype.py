@@ -28,6 +28,7 @@ class Freetype(Tarball, Meson):
             "freetype",
             archive_url="https://gitlab.freedesktop.org/freetype/freetype/-/archive/VER-2-12-0/freetype-VER-2-12-0.tar.gz",
             hash="11b13952b78e55f399a5f185c9c46e3bec0da3989066ce76c984d446a8ef7090",
+            version="2.12.0",
             dependencies=["pkg-config", "ninja", "libpng"],
             patches=["0001-meson-in-shared-libraries-we-need-to-export-the-meth.patch"],
         )

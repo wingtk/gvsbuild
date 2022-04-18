@@ -240,8 +240,8 @@ def do_outdated(args):
     print(f"\t{'Project Name':<{Project.name_len}} {'Current':<45} {'Latest':<45}")
     try:
         for project in projects:
-            # glib-py-wrapper is vendored in gvsbuild
-            if project[0] == "glib-py-wrapper" or not project[1]:
+            # glib-py-wrapper and check-libs are vendored in gvsbuild
+            if project[0] in ("glib-py-wrapper", "check-libs") or not project[1]:
                 continue
             name_and_major = separate_name_and_major_version(project[0])
             repos = {
@@ -267,6 +267,7 @@ def do_outdated(args):
                 "gtksourceview5": "https://gitlab.gnome.org/GNOME/gtksourceview",
                 "hicolor-icon-theme": "https://gitlab.freedesktop.org/xdg/default-icon-theme",
                 "json-glib": "https://gitlab.gnome.org/GNOME/json-glib",
+                "libcroco": "https://gitlab.gnome.org/Archive/libcroco",
                 "libcurl": "https://github.com/curl/curl",
                 "libmicrohttpd": "https://github.com/Karlson2k/libmicrohttpd",
                 "libsoup2": "https://gitlab.gnome.org/GNOME/libsoup",
