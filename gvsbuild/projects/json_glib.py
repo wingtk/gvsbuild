@@ -26,8 +26,8 @@ class JsonGLib(Tarball, Meson):
         Project.__init__(
             self,
             "json-glib",
-            archive_url="https://download.gnome.org/sources/json-glib/1.6/json-glib-1.6.2.tar.xz",
-            hash="a33d66c6d038bda46b910c6c6d59c4e15db014e363dc997a0414c2e07d134f24",
+            archive_url="https://download.gnome.org/sources/json-glib/1.6/json-glib-1.6.6.tar.xz",
+            hash="96ec98be7a91f6dde33636720e3da2ff6ecbb90e76ccaa49497f31a6855a490e",
             dependencies=["meson", "ninja", "pkg-config", "python", "glib"],
         )
         if self.opts.enable_gi:
