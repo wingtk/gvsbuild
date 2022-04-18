@@ -52,7 +52,7 @@ from gvsbuild.projects.libmicrohttpd import Libmicrohttpd
 from gvsbuild.projects.libpng import Libpng
 from gvsbuild.projects.libpsl import Libpsl
 from gvsbuild.projects.librsvg import Librsvg, LibrsvgLegacy
-from gvsbuild.projects.libsoup import Libsoup, Libsoup3
+from gvsbuild.projects.libsoup import Libsoup2, Libsoup3
 from gvsbuild.projects.libssh import Libssh, Libssh2
 from gvsbuild.projects.libtiff import Libtiff4
 from gvsbuild.projects.libuv import Libuv
@@ -66,7 +66,7 @@ from gvsbuild.projects.lz4 import Lz4
 from gvsbuild.projects.mit_kerberos import Kerberos
 from gvsbuild.projects.nghttp2 import Nghttp2
 from gvsbuild.projects.openh264 import OpenH264
-from gvsbuild.projects.openssl import OpenSSL
+from gvsbuild.projects.openssl import OpenSSL1
 from gvsbuild.projects.opus import Opus
 from gvsbuild.projects.pango import Pango
 from gvsbuild.projects.pixman import Pixman
