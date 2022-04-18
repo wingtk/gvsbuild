@@ -15,36 +15,24 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
+from gvsbuild.utils.base_builders import Meson
 from gvsbuild.utils.base_expanders import GitRepo
 from gvsbuild.utils.base_project import Project, project_add
 
 
 @project_add
-class Lgi(GitRepo, Project):
+class Lgi(GitRepo, Meson):
     def __init__(self):
-        GitRepo.__init__(self)
         Project.__init__(
             self,
             "lgi",
             repo_url="https://github.com/pavouk/lgi.git",
             fetch_submodules=False,
-            tag="2dd5db9678913ba08e54931b59cd97e550c7459e",
+            tag="4a12286ffd5ec162a50efeff3c4896d6cd14c43c",
             dependencies=["luajit", "gobject-introspection"],
-            patches=["fix-loading-non-libtool-style-libs.patch"],
         )
+        self.add_param("-Dtests=false")
 
     def build(self):
-        self.push_location("lgi")
-
-        self.exec_vs(
-            r'nmake -f .\Makefile-msvc.mak corelgilua51.dll version.lua PREFIX="%(gtk_dir)s'
-        )
-
-        self.install(r"corelgilua51.dll lib\lua\lgi")
-        self.install(r".\*.lua share\lua\lgi")
-        self.install(r".\override\*.lua share\lua\lgi\override")
-
-        self.pop_location()
-
+        Meson.build(self)
         self.install(r"LICENSE share\doc\lgi")
-        self.install(r"lgi.lua share\lua")
