@@ -237,6 +237,7 @@ class Builder:
             for path in msys_paths:
                 if Path.exists(path):
                     msys_path = path
+                    self.opts.msys_dir = str(msys_path)
                     break
         log.message(f"Using {msys_path} for msys installation")
         # what's missing ?
