@@ -109,13 +109,13 @@ In the same PowerShell terminal, execute:
 
 ```PowerShell
 cd C:\gtk-build\github\gvsbuild
-python .\build.py build -p=x64 --vs-ver=17 --msys-dir=C:\tools\msys64 gtk3
+python .\build.py build gtk3
 ```
 
 Alternatively, if you want to build GTK 4, execute:
 ```PowerShell
 cd C:\gtk-build\github\gvsbuild
-python .\build.py build -p=x64 --vs-ver=17 --msys-dir=C:\tools\msys64 gtk4 
+python .\build.py build gtk4 
 ```
 
 Grab a coffee, the build will take a few minutes to complete.
@@ -127,14 +127,6 @@ $env:Path = "C:\gtk-build\gtk\x64\release\bin;" + $env:Path
 ```
 
 #### Other Options
-
- To build the 64-bit version with the Visual Studio 2022 (version 17) you need
- also to tell the script the visual studio version, run:
-
- ```
- cd C:\gtk-build\github\gvsbuild
- python .\build.py build -p x64 --vs-ver 17 gtk3
- ```
 
  For more information about the possible commands run:
 
@@ -168,12 +160,6 @@ $env:Path = "C:\gtk-build\gtk\x64\release\bin;" + $env:Path
  ```
  python .\build.py build @vs2015-release.pro gtk3-full
  ```
-
-For a complete list of the options accepted by the build command, run:
-
-```
-python .\build.py build --help
-```
 
 ## Troubleshooting
 
