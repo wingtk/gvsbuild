@@ -399,7 +399,7 @@ class Builder:
         script_title("* Msvc tool")
         log.start("Checking Msvc tool")
 
-        # Add to the environment the gtk2 paths so meson can find everything
+        # Add to the environment the gtk paths so meson can find everything
         self.add_global_env("INCLUDE", os.path.join(self.gtk_dir, "include"))
         self.add_global_env("LIB", os.path.join(self.gtk_dir, "lib"))
         self.add_global_env("LIBPATH", os.path.join(self.gtk_dir, "lib"))
@@ -628,7 +628,7 @@ class Builder:
         )
 
         build_dir = os.path.join(
-            self.working_dir, "..", "..", "..", "gtk2", self.opts.platform
+            self.working_dir, "..", "..", "..", "gtk", self.opts.platform
         )
         if not os.path.exists(build_dir):
             log.log(f"Creating directory {build_dir}")
