@@ -26,14 +26,11 @@ class Portaudio(Tarball, CmakeProject):
         Project.__init__(
             self,
             "portaudio",
-            archive_url="http://www.portaudio.com/archives/pa_stable_v190600_20161030.tgz",
+            archive_url="http://files.portaudio.com/archives/pa_stable_v190700_20210406.tgz",
+            hash="47efbf42c77c19a05d22e627d42873e991ec0c1357219c0d74ce6a2948cb2def",
             dependencies=[
                 "cmake",
                 "ninja",
-            ],
-            patches=[
-                "0001-Do-not-add-suffice-to-the-library-name.patch",
-                "0001-Fix-MSVC-check.patch",
             ],
         )
 
@@ -42,14 +39,5 @@ class Portaudio(Tarball, CmakeProject):
             self,
             cmake_params="-DPA_DLL_LINK_WITH_STATIC_RUNTIME=off",
             use_ninja=True,
-            do_install=False,
             out_of_source=False,
         )
-
-        self.install(r"portaudio.dll bin")
-        self.install(r"portaudio.pdb bin")
-        self.install(r"portaudio.lib lib")
-
-        self.install(r".\include\* include")
-
-        self.install(r".\LICENSE.txt share\doc\portaudio")
