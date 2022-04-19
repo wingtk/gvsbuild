@@ -16,19 +16,18 @@
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 from gvsbuild.utils.base_builders import Meson
-from gvsbuild.utils.base_expanders import GitRepo
+from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import Project, project_add
 
 
 @project_add
-class Libpsl(GitRepo, Meson):
+class Libpsl(Tarball, Meson):
     def __init__(self):
         Project.__init__(
             self,
             "libpsl",
-            repo_url="https://github.com/rockdaboot/libpsl.git",
-            fetch_submodules=True,
-            tag="b32e81367ce91388e94bd34c54e7297063857d66",
+            archive_url="https://github.com/rockdaboot/libpsl/releases/download/0.21.1/libpsl-0.21.1.tar.gz",
+            hash="ac6ce1e1fbd4d0254c4ddb9d37f1fa99dec83619c1253328155206b896210d4c",
             dependencies=[
                 "python",
                 "meson",
