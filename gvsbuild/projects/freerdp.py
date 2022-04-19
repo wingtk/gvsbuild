@@ -31,7 +31,7 @@ class FreeRDP(Tarball, CmakeProject):
             dependencies=[
                 "cmake",
                 "ninja",
-                "openssl1",
+                "openssl",
                 "openh264",
                 "ffmpeg",
                 "x264",
