@@ -66,7 +66,7 @@ from gvsbuild.projects.lz4 import Lz4
 from gvsbuild.projects.mit_kerberos import Kerberos
 from gvsbuild.projects.nghttp2 import Nghttp2
 from gvsbuild.projects.openh264 import OpenH264
-from gvsbuild.projects.openssl import OpenSSL1
+from gvsbuild.projects.openssl import OpenSSL
 from gvsbuild.projects.opus import Opus
 from gvsbuild.projects.pango import Pango
 from gvsbuild.projects.pixman import Pixman

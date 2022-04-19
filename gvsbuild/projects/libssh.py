@@ -28,7 +28,7 @@ class Libssh(Tarball, CmakeProject):
             "libssh",
             archive_url="https://www.libssh.org/files/0.9/libssh-0.9.3.tar.xz",
             hash="2c8b5f894dced58b3d629f16f3afa6562c20b4bdc894639163cf657833688f0c",
-            dependencies=["zlib", "openssl1", "cmake", "ninja"],
+            dependencies=["zlib", "openssl", "cmake", "ninja"],
         )
 
     def build(self):

@@ -37,7 +37,7 @@ class Libarchive(Tarball, CmakeProject):
                 "win-iconv",
                 "zlib",
                 "lz4",
-                "openssl1",
+                "openssl",
                 "libxml2",
             ],
             patches=["0001-ZIP-reader-fix-possible-out-of-bounds-read-in-zipx_l.patch"],

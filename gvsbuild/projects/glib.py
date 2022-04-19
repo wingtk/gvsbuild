@@ -48,7 +48,7 @@ class GLibNetworking(Tarball, Meson):
             "glib-networking",
             archive_url="https://download.gnome.org/sources/glib-networking/2.72/glib-networking-2.72.0.tar.xz",
             hash="100aaebb369285041de52da422b6b716789d5e4d7549a3a71ba587b932e0823b",
-            dependencies=["pkg-config", "ninja", "meson", "glib", "openssl1"],
+            dependencies=["pkg-config", "ninja", "meson", "glib", "openssl"],
             patches=[
                 "0001-Do-not-load-certificates-from-default-paths-on-MacOS.patch",
                 "0002-Loading-certificates-from-Windows-root-and-ca-stores.patch",
