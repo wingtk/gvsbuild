@@ -35,7 +35,6 @@ class Libsoup2(Tarball, Meson):
                 "libpsl",
                 "mit-kerberos",
             ],
-            patches=["0001-Improve-support-for-rfc-7230.patch"],
         )
 
         if self.opts.enable_gi:
