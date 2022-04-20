@@ -39,14 +39,9 @@ class Fribidi(Tarball, Meson):
         Project.__init__(
             self,
             "fribidi",
-            archive_url="https://github.com/fribidi/fribidi/releases/download/v1.0.11/fribidi-1.0.11.tar.xz",
-            hash="30f93e9c63ee627d1a2cedcf59ac34d45bf30240982f99e44c6e015466b4e73d",
+            archive_url="https://github.com/fribidi/fribidi/releases/download/v1.0.12/fribidi-1.0.12.tar.xz",
+            hash="0cd233f97fc8c67bb3ac27ce8440def5d3ffacf516765b91c2cc654498293495",
             dependencies=["ninja", "meson"],
-            patches=[
-                "0001-Fix-the-stack-buffer-overflow-issue.patch",
-                "0002-Protected-against-garbage-in-the-CapRTL-encoder.patch",
-                "0003-Fix-SEGV-issue-in-fribidi_remove_bidi_marks.patch",
-            ],
         )
 
     def build(self):
