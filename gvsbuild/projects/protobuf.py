@@ -53,8 +53,8 @@ class ProtobufC(Tarball, CmakeProject):
         Project.__init__(
             self,
             "protobuf-c",
-            archive_url="https://github.com/protobuf-c/protobuf-c/releases/download/v1.3.3/protobuf-c-1.3.3.tar.gz",
-            hash="22956606ef50c60de1fabc13a78fbc50830a0447d780467d3c519f84ad527e78",
+            archive_url="https://github.com/protobuf-c/protobuf-c/releases/download/v1.4.0/protobuf-c-1.4.0.tar.gz",
+            hash="26d98ee9bf18a6eba0d3f855ddec31dbe857667d269bc0b6017335572f85bbcb",
             dependencies=[
                 "cmake",
                 "protobuf",
