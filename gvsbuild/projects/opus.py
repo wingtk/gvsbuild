@@ -29,6 +29,11 @@ class Opus(GitRepo, Meson):
             repo_url="https://github.com/xiph/opus",
             tag="ccaaffa9a3ee427e9401c4dcf6462e378d9a4694",
             fetch_submodules=False,
+            dependencies=[
+                "ninja",
+                "meson",
+                "pkg-config",
+            ],
         )
 
         self.add_param("-Dtests=disabled")
