@@ -40,7 +40,7 @@ class Libyuv(GitRepo, CmakeProject):
         )
 
     def build(self):
-        CmakeProject.build(self, use_ninja=True)
+        CmakeProject.build(self, use_ninja=False)
 
         self.install_pc_files()
         self.install(r".\LICENSE share\doc\libyuv")
