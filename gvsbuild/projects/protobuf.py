@@ -26,8 +26,8 @@ class Protobuf(Tarball, CmakeProject):
         Project.__init__(
             self,
             "protobuf",
-            archive_url="https://github.com/protocolbuffers/protobuf/releases/download/v3.20.0/protobuf-cpp-3.20.0.tar.gz",
-            hash="4cfa0276b3ba4e8bb239326213fc9acfb6ac100cdfc55aeec30a551525547f9e",
+            archive_url="https://github.com/protocolbuffers/protobuf/releases/download/v3.15.8/protobuf-cpp-3.15.8.tar.gz",
+            hash="9b57647b898e45253c98fae35146f6a5e9e788817d29019f9280270c951a0038",
             dependencies=[
                 "cmake",
                 "zlib",
