@@ -41,8 +41,7 @@ class Luajit(Tarball, Project):
         )
         self.install(r".\luajit.exe .\lua51.dll .\lua51.pdb bin")
         self.install(r".\lua51.lib lib")
-
         self.pop_location()
 
-        self.install(r".\etc\luajit.pc lib\pkgconfig")
         self.install(r".\README .\COPYRIGHT share\doc\luajit")
+        self.install_pc_files()

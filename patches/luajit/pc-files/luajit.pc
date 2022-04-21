@@ -1,0 +1,12 @@
+# On windows, the prefix is automagically build from the location of the .pc file
+prefix=@prefix@
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: LuaJIT
+Description: Just-In-Time (JIT) compiler for the Lua programming language.
+Version: @version@
+
+Libs: -L${libdir} -llua51
+Cflags: -I${includedir}/luajit-2.1

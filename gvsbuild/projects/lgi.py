@@ -32,6 +32,7 @@ class Lgi(GitRepo, Meson):
             dependencies=["luajit", "gobject-introspection"],
         )
         self.add_param("-Dtests=false")
+        self.add_param("-Dlua-bin=luajit")
 
     def build(self):
         Meson.build(self)
