@@ -8,7 +8,7 @@ from gvsbuild.projects.check_libs import CheckLibs
 from gvsbuild.projects.clutter import Clutter
 from gvsbuild.projects.cogl import Cogl
 from gvsbuild.projects.cyrus_sasl import CyrusSasl
-from gvsbuild.projects.dcv_color_primities import DcvColorPrimitives
+from gvsbuild.projects.dcv_color_primitives import DcvColorPrimitives
 from gvsbuild.projects.dev_shell import DevShell
 from gvsbuild.projects.emeus import Emeus
 from gvsbuild.projects.enchant import Enchant
