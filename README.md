@@ -3,8 +3,7 @@
 ![CI](https://github.com/wingtk/gvsbuild/workflows/CI/badge.svg)
 
 This python script helps you build a full [GTK](https://www.gtk.org/) library
-stack for Windows using Visual Studio. Currently, GTK 3 (3.20, 3.22, 3.24) and
-GTK 4 (4.6) are supported.
+stack for Windows using Visual Studio. Currently, GTK 3 and GTK 4 are supported.
 
 The script supports multiple versions of Visual Studio - at the moment we are
 focusing on VS 2022, but we include projects for other versions, and we gladly
