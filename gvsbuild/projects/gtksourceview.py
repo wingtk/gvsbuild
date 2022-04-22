@@ -47,14 +47,14 @@ class GtkSourceView5(Tarball, Meson):
         Project.__init__(
             self,
             "gtksourceview5",
-            archive_url="https://download.gnome.org/sources/gtksourceview/5.4/gtksourceview-5.4.0.tar.xz",
-            hash="003bc217e670a8ec8aa3aece994b70e70b7d6b8074938adda21718555d84e637",
+            archive_url="https://download.gnome.org/sources/gtksourceview/5.4/gtksourceview-5.4.1.tar.xz",
+            hash="eb3584099cfa0adc9a0b1ede08def6320bd099e79e74a2d0aefb4057cd93d68e",
             dependencies=["python", "meson", "ninja", "gtk4", "pkg-config"],
         )
         if Project.opts.enable_gi:
             self.add_dependency("gobject-introspection")
         else:
-            self.add_param("-Dgir=false")
+            self.add_param("-Dintrospection=disabled")
         self.add_param("-Dvapi=false")
 
     def build(self):
