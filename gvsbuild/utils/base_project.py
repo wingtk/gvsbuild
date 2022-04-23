@@ -22,7 +22,7 @@ import os
 import re
 import shutil
 from enum import Enum
-from typing import Dict, Generic, List, TypeVar
+from typing import Dict, Generic, List, Tuple, TypeVar
 
 from .simple_ui import log
 from .utils import _rmtree_error_handler
@@ -78,7 +78,7 @@ class Project(Generic[P]):
     _ver_res = None
     name_len = 0
     # List of class/type to add, now not at import time but after some options are parsed
-    _reg_prj_list: List[tuple[P, ProjectType]] = []
+    _reg_prj_list: List[Tuple[P, ProjectType]] = []
     # build option
     opts = Options()
 
