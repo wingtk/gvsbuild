@@ -73,7 +73,6 @@ def get_options(args):
     opts.capture_out = args.capture_out
     opts.print_out = args.print_out
     opts.git_expand_dir = args.git_expand_dir
-    opts.old_rsvg = args.old_rsvg
 
     # active the log
     log.configure(os.path.join(opts.build_dir, "logs"), opts)
@@ -565,13 +564,6 @@ Examples:
         default=None,
         help="The directory where the projects from git are expanded and updated.",
     )
-    p_build.add_argument(
-        "--old-rsvg",
-        default=False,
-        action="store_true",
-        help="rsvg: use old version (2.40.20), pre rust",
-    )
-
     p_build.add_argument("project", nargs="+", help="Project(s) to build.")
 
     # ==============================================================================
