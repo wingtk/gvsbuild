@@ -75,7 +75,6 @@ class Group_Tools_Check(Group):
                 "lmdb",
                 "x264",
                 "libjpeg-turbo",
-                "grpc",
             ],
         )
 
