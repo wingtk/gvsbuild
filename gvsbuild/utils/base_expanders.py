@@ -81,7 +81,7 @@ def extract_exec(
                 if tarinfo.isdir():
                     continue
                 else:
-                    raise Exception(
+                    raise NotADirectoryError(
                         "Cannot strip directory prefix from tar with top level files"
                     )
             tarinfo.name = "/".join(path[1:])
@@ -244,7 +244,7 @@ class Tarball:
     def export(self):
         log.start(f"(tar) Exporting {self.name}")
 
-        path = os.path.join(self.export_dir, self.name + ".zip")
+        path = os.path.join(self.export_dir, f"{self.name}.zip")
         with zipfile.ZipFile(path, "w") as zipped_path:
             log.log(f"(tar) Exporting {self.archive_file}")
             zipped_path.write(
@@ -255,7 +255,7 @@ class Tarball:
                 log.log(f"(tar) Exporting {p}")
                 zipped_path.write(
                     os.path.join(self.build_dir, p),
-                    arcname="patches/" + os.path.basename(p),
+                    arcname=f"patches/{os.path.basename(p)}",
                 )
 
         log.end()
@@ -263,10 +263,10 @@ class Tarball:
 
 class GitRepo:
     def read_temp_hash(self):
-        return read_mark_file(self.opts.git_expand_dir, self.name + ".hash")
+        return read_mark_file(self.opts.git_expand_dir, f"{self.name}.hash")
 
     def write_temp_hash(self, hash_val):
-        write_mark_file(self.opts.git_expand_dir, hash_val, self.name + ".hash")
+        write_mark_file(self.opts.git_expand_dir, hash_val, f"{self.name}.hash")
 
     def get_tag_name(self, src_dir):
         if self.tag:
@@ -305,15 +305,16 @@ class GitRepo:
             ],
         )
         n_hash = make_zip_hash(all_files)
-        o_hash = self.read_temp_hash() if not self.clean else None
+        o_hash = None if self.clean else self.read_temp_hash()
         upd_build_dir = False
         if o_hash != n_hash:
             # create a .zip file with the downloaded project
             make_zip(
-                os.path.join(git_tmp_dir, self.prj_dir + "-" + zip_post),
+                os.path.join(git_tmp_dir, f"{self.prj_dir}-{zip_post}"),
                 all_files,
                 len(src_dir),
             )
+
             # update the hash
             self.write_temp_hash(n_hash)
             # copy the git buffer to the working dir, cleaning up before copying
@@ -322,15 +323,14 @@ class GitRepo:
                 rmtree_full(self.build_dir)
 
         if not upd_build_dir:
-            # Check if the destination dir exists
-            if not os.path.isdir(self.build_dir):
-                upd_build_dir = True
-            else:
+            if os.path.isdir(self.build_dir):
                 o_hash = read_mark_file(self.build_dir)
                 if o_hash != n_hash:
                     upd_build_dir = True
                     rmtree_full(self.build_dir)
 
+            else:
+                upd_build_dir = True
         if upd_build_dir:
             shutil.copytree(src_dir, self.build_dir)
             write_mark_file(self.build_dir, n_hash)
@@ -343,42 +343,42 @@ class GitRepo:
     def _update_dir(self, remove_dest=False):
 
         dest = os.path.join(self.opts.git_expand_dir, self.name)
-        if self.clean or remove_dest:
-            if os.path.isdir(dest):
-                rmtree_full(dest)
+        if (self.clean or remove_dest) and os.path.isdir(dest):
+            rmtree_full(dest)
 
-        if os.path.isdir(dest):
-            # Update
-            log.start(f"(git) Updating directory {dest}")
+        if not os.path.isdir(dest):
+            return self._clone_and_checkout(dest)
+        # Update
+        log.start(f"(git) Updating directory {dest}")
 
-            if self.tag:
-                self.builder.exec_msys("git fetch origin", working_dir=dest)
-                self.builder.exec_msys(f"git checkout -f {self.tag}", working_dir=dest)
-            else:
-                self.builder.exec_msys("git checkout -f", working_dir=dest)
-                self.builder.exec_msys("git pull --rebase", working_dir=dest)
-
-            if self.fetch_submodules:
-                log.start_verbose("Update submodule(s)")
-                self.builder.exec_msys("git submodule update --init", working_dir=dest)
-                log.end()
-            rt = self.create_zip()
+        if self.tag:
+            self.builder.exec_msys("git fetch origin", working_dir=dest)
+            self.builder.exec_msys(f"git checkout -f {self.tag}", working_dir=dest)
         else:
-            log.start(f"(git) Cloning {self.repo_url} to {dest}")
+            self.builder.exec_msys("git checkout -f", working_dir=dest)
+            self.builder.exec_msys("git pull --rebase", working_dir=dest)
 
-            self.builder.exec_msys(f"git clone {self.repo_url} {dest}")
+        if self.fetch_submodules:
+            self._update_submodules("Update submodule(s)", dest)
+        return self.create_zip()
 
-            if self.tag:
-                self.builder.exec_msys(f"git checkout -f {self.tag}", working_dir=dest)
+    def _clone_and_checkout(self, dest):
+        log.start(f"(git) Cloning {self.repo_url} to {dest}")
 
-            if self.fetch_submodules:
-                log.start_verbose("Fetch submodule(s)")
-                self.builder.exec_msys("git submodule update --init", working_dir=dest)
-                log.end()
-            self.create_zip()
-            rt = True
+        self.builder.exec_msys(f"git clone {self.repo_url} {dest}")
 
-        return rt
+        if self.tag:
+            self.builder.exec_msys(f"git checkout -f {self.tag}", working_dir=dest)
+
+        if self.fetch_submodules:
+            self._update_submodules("Fetch submodule(s)", dest)
+        self.create_zip()
+        return True
+
+    def _update_submodules(self, log_value, dest):
+        log.start_verbose(log_value)
+        self.builder.exec_msys("git submodule update --init", working_dir=dest)
+        log.end()
 
     def update_build_dir(self):
         rt = None
@@ -403,12 +403,12 @@ class GitRepo:
         log.start(f"(git) Exporting directory {self.build_dir}")
 
         src_dir = os.path.join(self.opts.git_expand_dir, self.name)
-        filename = self.name + "-" + self.get_tag_name(src_dir) + ".zip"
+        filename = f"{self.name}-{self.get_tag_name(src_dir)}.zip"
         self.builder.exec_msys(
             f"git archive -o {filename} HEAD", working_dir=self.build_dir
         )
 
-        path = os.path.join(self.export_dir, self.name + ".zip")
+        path = os.path.join(self.export_dir, f"{self.name}.zip")
         with zipfile.ZipFile(path, "w") as zipped_path:
             log.log(f"(git) Exporting {filename}")
             zipped_path.write(os.path.join(self.build_dir, filename), arcname=filename)
@@ -417,7 +417,7 @@ class GitRepo:
                 log.log(f"(git) Exporting {p}")
                 zipped_path.write(
                     os.path.join(self.build_dir, p),
-                    arcname="patches/" + os.path.basename(p),
+                    arcname=f"patches/{os.path.basename(p)}",
                 )
 
         log.end()

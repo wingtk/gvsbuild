@@ -252,13 +252,13 @@ class Builder:
             log.debug(f"Updating msys2 with '{cmd}'")
             subprocess.check_call(cmd, shell=True)
             missing = self.__msys_missing(msys_path)
-            if missing:
-                # oops
-                cmd = "pacman -S " + " ".join(missing)
-                log.error_exit(
-                    "Missing package(s) from msys2 installation, try with\n    '%s'\nin a msys2 shell."
-                    % (cmd,)
-                )
+        if missing:
+            # oops
+            cmd = "pacman -S " + " ".join(missing)
+            log.error_exit(
+                "Missing package(s) from msys2 installation, try with\n    '%s'\nin a msys2 shell."
+                % (cmd,)
+            )
 
         self.patch = msys_path / "usr" / "bin" / "patch.exe"
         if not Path.exists(self.patch):
@@ -785,8 +785,7 @@ class Builder:
             # Percentage
             perc = (100 * c_size) // total_size
             if perc != self._old_perc:
-                if perc > 100:
-                    perc = 100
+                perc = min(perc, 100)
                 self._old_perc = perc
                 sp = "%s (%u k) - %u%%" % (
                     self._downloading_file,
@@ -916,34 +915,33 @@ class Builder:
         return self.__check_hash(proj)
 
     def __sub_vars(self, s):
-        if "%" in s:
-            d = dict(
-                platform=self.opts.platform,
-                configuration=self.opts.configuration,
-                build_dir=self.opts.build_dir,
-                vs_ver=self.opts.vs_ver,
-                gtk_dir=self.gtk_dir,
-                vs_ver_year=self.vs_ver_year,
-            )
-            python = None
-            if self.__project is not None:
-                d["pkg_dir"] = self.__project.pkg_dir
-                d["build_dir"] = self.__project.build_dir
-                # Add python & perl only if the project depends on them
-                p = Project.get_project("python")
-                if p in self.__project.all_dependencies:
-                    python = Project.get_tool_path(p)
-                    d["python_dir"] = python
-
-                p = Project.get_project("perl")
-                if p in self.__project.all_dependencies:
-                    perl = Project.get_tool_base_dir(p)
-                    d["perl_dir"] = perl
-
-            d["msbuild_opts"] = self._create_msbuild_opts(python)
-            return s % d
-        else:
+        if "%" not in s:
             return s
+        d = dict(
+            platform=self.opts.platform,
+            configuration=self.opts.configuration,
+            build_dir=self.opts.build_dir,
+            vs_ver=self.opts.vs_ver,
+            gtk_dir=self.gtk_dir,
+            vs_ver_year=self.vs_ver_year,
+        )
+        python = None
+        if self.__project is not None:
+            d["pkg_dir"] = self.__project.pkg_dir
+            d["build_dir"] = self.__project.build_dir
+            # Add python & perl only if the project depends on them
+            p = Project.get_project("python")
+            if p in self.__project.all_dependencies:
+                python = Project.get_tool_path(p)
+                d["python_dir"] = python
+
+            p = Project.get_project("perl")
+            if p in self.__project.all_dependencies:
+                perl = Project.get_tool_base_dir(p)
+                d["perl_dir"] = perl
+
+        d["msbuild_opts"] = self._create_msbuild_opts(python)
+        return s % d
 
     def exec_vs(self, cmd, working_dir=None, add_path=None):
         self.__execute(
@@ -971,8 +969,7 @@ class Builder:
         # set platform
         rustup = os.path.join(cargo_home, "rustup.exe")
         self.__execute(
-            "%s default stable-%s-pc-windows-msvc"
-            % (rustup, "i686" if self.x86 else "x86_64"),
+            f'{rustup} default stable-{"i686" if self.x86 else "x86_64"}-pc-windows-msvc',
             env=env,
         )
 
@@ -990,9 +987,9 @@ class Builder:
     def exec_ninja(self, params="", working_dir=None, add_path=None):
         cmd = "ninja"
         if self.opts.ninja_opts:
-            cmd += " " + self.opts.ninja_opts
+            cmd += f" {self.opts.ninja_opts}"
         if params:
-            cmd += " " + params
+            cmd += f" {params}"
         self.__execute(
             self.__sub_vars(cmd),
             working_dir=working_dir,

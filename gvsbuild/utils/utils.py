@@ -27,7 +27,7 @@ from .simple_ui import log
 def convert_to_msys(path):
     path = path
     if path[1] != ":":
-        raise Exception("oops")
+        raise NotADirectoryError("Path doesn't contain a drive letter like C:")
     path = f"/{path[0]}" + path[2:].replace("\\", "/")
     return path
 
@@ -48,7 +48,7 @@ def rmtree_full(dest_dir, retry=False):
             try:
                 shutil.rmtree(dest_dir, onerror=_rmtree_error_handler)
                 break
-            except:  # noqa: E722
+            except WindowsError:
                 # wait a little, don't ask me why ;(
                 time.sleep(delay)
     else:
