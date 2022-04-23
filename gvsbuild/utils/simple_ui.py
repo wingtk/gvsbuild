@@ -293,7 +293,7 @@ class Log:
         return self._debug
 
     def error_exit(self, msg):
-        self._output("Error:" + msg)
+        self._output(f"Error:{msg}")
         print("Error:", msg, file=sys.stderr)
         sys.exit(1)
 

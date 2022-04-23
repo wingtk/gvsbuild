@@ -213,7 +213,7 @@ def make_zip(name, files, skip_spc=0):
     c:\\data\temp\build\\my_arch we want to save only mt_arch
     """
     log.start_verbose(f"Creating zip file {name} with {len(files)} files")
-    with zipfile.ZipFile(name + ".zip", "w", compression=zipfile.ZIP_DEFLATED) as zf:
+    with zipfile.ZipFile(f"{name}.zip", "w", compression=zipfile.ZIP_DEFLATED) as zf:
         for f in sorted(list(files)):
             zf.write(f, arcname=f[skip_spc:])
     log.end()

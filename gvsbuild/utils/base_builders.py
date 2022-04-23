@@ -218,25 +218,14 @@ class MakeGir:
         if not prj_dir:
             prj_dir = prj_name
 
-        b_dir = r"{}\{}\build\win32".format(
-            self.builder.working_dir,
-            prj_dir,
-        )
+        b_dir = f"{self.builder.working_dir}\\{prj_dir}\\build\\win32"
         if not os.path.isfile(os.path.join(b_dir, "detectenv-msvc.mak")):
-            b_dir = r"{}\{}\win32".format(
-                self.builder.working_dir,
-                prj_dir,
-            )
+            b_dir = f"{self.builder.working_dir}\\{prj_dir}\\win32"
             if not os.path.isfile(os.path.join(b_dir, "detectenv-msvc.mak")):
                 log.message(f"Unable to find detectenv-msvc.mak for {prj_name}")
                 return
 
-        cmd = "nmake -f {}-introspection-msvc.mak CFG={} PREFIX={} PYTHON={} install-introspection".format(
-            prj_name,
-            self.builder.opts.configuration,
-            self.builder.gtk_dir,
-            Project.get_tool_executable("python"),
-        )
+        cmd = f'nmake -f {prj_name}-introspection-msvc.mak CFG={self.builder.opts.configuration} PREFIX={self.builder.gtk_dir} PYTHON={Project.get_tool_executable("python")} install-introspection'
 
         self.push_location(b_dir)
         self.exec_vs(cmd)

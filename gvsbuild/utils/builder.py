@@ -956,9 +956,9 @@ class Builder:
     def exec_cargo(self, params="", working_dir=None, rustc_opts=None):
         cmd = "cargo"
         if self.opts.cargo_opts:
-            cmd += " " + self.opts.cargo_opts
+            cmd += f" {self.opts.cargo_opts}"
         if params:
-            cmd += " " + params
+            cmd += f" {params}"
 
         cargo_home = Project.get_tool_path("cargo")
 

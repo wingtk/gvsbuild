@@ -88,7 +88,7 @@ def file_replace(file_name, chg_list, make_bak=True):
         fc = nw
     if chg:
         if make_bak:
-            write_file(file_name + ".bak", sv)
+            write_file(f"{file_name}.bak", sv)
         write_file(file_name, fc)
 
 
