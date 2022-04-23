@@ -47,11 +47,7 @@ class Libvpx(Tarball, Project):
         if self.builder.opts.configuration == "debug":
             configure_options += "--enable-debug_libs"
 
-        if self.builder.x86:
-            target = "x86-win32-vs"
-        else:
-            target = "x86_64-win64-vs"
-
+        target = "x86-win32-vs" if self.builder.x86 else "x86_64-win64-vs"
         target += self.builder.opts.vs_ver
 
         msys_path = Project.get_tool_path("msys2")

@@ -393,10 +393,9 @@ class GitRepo:
             log.message("Removing the destination dir ...")
             rt = self._update_dir(remove_dest=True)
 
-        if rt:
-            if os.path.exists(self.patch_dir):
-                log.log(f"Copying files from {self.patch_dir} to {self.build_dir}")
-                self.builder.copy_all(self.patch_dir, self.build_dir)
+        if rt and os.path.exists(self.patch_dir):
+            log.log(f"Copying files from {self.patch_dir} to {self.build_dir}")
+            self.builder.copy_all(self.patch_dir, self.build_dir)
         log.end()
         return rt
 

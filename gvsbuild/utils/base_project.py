@@ -470,15 +470,10 @@ class Project(Generic[P]):
     def get_tool_path(tool):
         if not isinstance(tool, Project):
             tool = Project._dict[tool]
-        if tool.type == ProjectType.TOOL:
-            t = tool.get_path()
-            if isinstance(t, tuple):
-                # Get the one that's not null
-                return t[0] if t[0] else t[1]
-            else:
-                return t
-        else:
+        if tool.type != ProjectType.TOOL:
             return None
+        t = tool.get_path()
+        return t[0] or t[1] if isinstance(t, tuple) else t
 
     @staticmethod
     def get_tool_executable(tool):

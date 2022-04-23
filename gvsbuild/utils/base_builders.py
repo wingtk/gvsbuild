@@ -168,11 +168,7 @@ class Rust(Project):
     def build(self, cargo_params=None, make_tests=False):
         rustc_opts = {}
 
-        if cargo_params:
-            params = cargo_params[:]
-        else:
-            params = []
-
+        params = cargo_params[:] if cargo_params else []
         if self.builder.opts.configuration == "release":
             # add debug symbols anyway
             rustc_opts["RUSTFLAGS"] = "-g"
