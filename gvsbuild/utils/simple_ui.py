@@ -40,13 +40,12 @@ def script_title(new_title):
             buf = ctypes.create_unicode_buffer(256)
             ctypes.windll.kernel32.GetConsoleTitleW(buf, 256)
             _script_org_title = buf.value
-        ctypes.windll.kernel32.SetConsoleTitleW("gvsbuild " + new_title)
-    else:
+        ctypes.windll.kernel32.SetConsoleTitleW(f"gvsbuild {new_title}")
+    elif _script_org_title is not None:
         # Restore old title
-        if _script_org_title is not None:
-            ctypes.windll.kernel32.SetConsoleTitleW(_script_org_title)
-            # cleanup if we want to call the function again
-            _script_org_title = None
+        ctypes.windll.kernel32.SetConsoleTitleW(_script_org_title)
+        # cleanup if we want to call the function again
+        _script_org_title = None
 
 
 # Log levels
@@ -58,7 +57,7 @@ LOG_DEBUG = 3
 class LogElem:
     def __init__(self, msg, enabled, tim=None):
         self.msg = msg
-        self.tim = tim if tim else datetime.datetime.now()
+        self.tim = tim or datetime.datetime.now()
         self.indent = not enabled
         self.enabled = enabled
 
@@ -85,53 +84,54 @@ class Log:
             elif opts.verbose:
                 self._verbose = True
                 self.level = LOG_VERBOSE
-            max_size_kb = opts.log_size
             single = opts.log_single
             self.capture = opts.capture_out
-            if single:
-                max_size_kb = 0
-
+            max_size_kb = 0 if single else opts.log_size
         if file_path:
-            if not os.path.exists(file_path):
-                created = True
-                os.makedirs(file_path)
-            else:
-                created = False
+            self._create_log(file_path, single, max_size_kb, opts)
 
-            if single:
-                file_name = self.st_time.strftime("gvsbuild-log-%Y%m%d-%H%M%S.txt")
-            else:
-                file_name = "gvsbuild-log.txt"
+    def _create_log(self, file_path, single, max_size_kb, opts):
+        if not os.path.exists(file_path):
+            created = True
+            os.makedirs(file_path)
+        else:
+            created = False
 
-            self.log_file = os.path.join(file_path, file_name)
-            if max_size_kb:
+        file_name = (
+            self.st_time.strftime("gvsbuild-log-%Y%m%d-%H%M%S.txt")
+            if single
+            else "gvsbuild-log.txt"
+        )
+
+        self.log_file = os.path.join(file_path, file_name)
+        if max_size_kb:
+            try:
+                c_size = os.path.getsize(self.log_file) / 1024
+            except Exception as e:
+                print("Exception reading log file size (%s)", self.log_file)
+                print(e)
+                c_size = 0
+
+            if c_size > max_size_kb:
+                old_file = os.path.join(file_path, "gvsbuild-log.old.txt")
                 try:
-                    c_size = os.path.getsize(self.log_file) / 1024
-                except Exception as e:
-                    print("Exception reading log file size (%s)", self.log_file)
-                    print(e)
-                    c_size = 0
+                    os.remove(old_file)
+                except FileNotFoundError:
+                    pass
+                os.rename(self.log_file, old_file)
 
-                if c_size > max_size_kb:
-                    old_file = os.path.join(file_path, "gvsbuild-log.old.txt")
-                    try:
-                        os.remove(old_file)
-                    except FileNotFoundError:
-                        pass
-                    os.rename(self.log_file, old_file)
-
-            self.operations = []
-            self.fo = open(self.log_file, "at", encoding="utf-8")
-            self._output("Script started")
-            if created:
-                self.log(f"Log directory {file_path} created")
-            if opts and not self._debug:
-                # Dump some information
-                self._output_val("Configuration", opts.configuration)
-                self._output_val("Platform", opts.platform)
-                self._output_val("Vs ver", opts.vs_ver)
-                self._output_val("Vs path", opts.vs_install_path)
-                self._output_val("Sdk ver", opts.win_sdk_ver)
+        self.operations = []
+        self.fo = open(self.log_file, "at", encoding="utf-8")
+        self._output("Script started")
+        if created:
+            self.log(f"Log directory {file_path} created")
+        if opts and not self._debug:
+            # Dump some information
+            self._output_val("Configuration", opts.configuration)
+            self._output_val("Platform", opts.platform)
+            self._output_val("Vs ver", opts.vs_ver)
+            self._output_val("Vs path", opts.vs_install_path)
+            self._output_val("Sdk ver", opts.win_sdk_ver)
 
     def _get_delta(self, start, end=None):
         if not end:

@@ -44,47 +44,39 @@ class Meson(Project):
 
         # First we check if we need to generate the meson build files
         if not os.path.isfile(os.path.join(ninja_build, "build.ninja")):
-            log.start_verbose("Generating meson directory")
-            self.builder.make_dir(ninja_build)
-            # base params
-            self._ensure_params()
-            if self.params:
-                add_opts = " ".join(self.params) + " "
-            else:
-                add_opts = ""
-            # debug info
-            add_opts += "--buildtype " + (
-                "debug"
-                if self.builder.opts.configuration == "debug"
-                else "debugoptimized"
-            )
-            if meson_params:
-                add_opts += " " + meson_params
-            # pyhon meson.py src_dir ninja_build_dir --prefix gtk_bin options
-            meson = Project.get_tool_executable("meson")
-            python = Project.get_tool_executable("python")
-            if " " in python:
-                python = f'"{python}"'
-            cmd = "{} {} {} {} --prefix {} {}".format(
-                python,
-                meson,
-                self._get_working_dir(),
-                ninja_build,
-                self.builder.gtk_dir,
-                add_opts,
-            )
-            # build the ninja file to do everything (build the library, create the .pc file, install it, ...)
-            self.exec_vs(cmd, add_path=add_path)
-            log.end()
-
+            self._setup_meson_and_ninja(ninja_build, meson_params, add_path)
         if make_tests:
             # Run ninja to build all (library, ....
             self.builder.exec_ninja(working_dir=ninja_build)
             # .. run the tests ...
             self.builder.exec_ninja(params="test", working_dir=ninja_build)
             # .. and finally install everything
-        # if we don't make the tests we simply run 'ninja install' that takes care of everything, running explicity from the build dir
+        # if we don't make the tests we simply run 'ninja install' that takes care of everything,
+        # running explicitly from the build dir
         self.builder.exec_ninja(params="install", working_dir=ninja_build)
+
+    def _setup_meson_and_ninja(self, ninja_build, meson_params, add_path):
+        log.start_verbose("Generating meson directory")
+        self.builder.make_dir(ninja_build)
+        # base params
+        self._ensure_params()
+        add_opts = " ".join(self.params) + " " if self.params else ""
+        # debug info
+        add_opts += "--buildtype " + (
+            "debug" if self.builder.opts.configuration == "debug" else "debugoptimized"
+        )
+        if meson_params:
+            add_opts += f" {meson_params}"
+        # pyhon meson.py src_dir ninja_build_dir --prefix gtk_bin options
+        meson = Project.get_tool_executable("meson")
+        python = Project.get_tool_executable("python")
+        if " " in python:
+            python = f'"{python}"'
+        cmd = f"{python} {meson} {self._get_working_dir()} {ninja_build} --prefix {self.builder.gtk_dir} {add_opts}"
+
+        # build the ninja file to do everything (build the library, create the .pc file, install it, ...)
+        self.exec_vs(cmd, add_path=add_path)
+        log.end()
 
 
 class CmakeProject(Project):
