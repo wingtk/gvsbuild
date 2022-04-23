@@ -22,7 +22,6 @@ from gvsbuild.projects.gettext import Gettext
 from gvsbuild.projects.glib import GLib, GLibNetworking, GLibPyWrapper
 from gvsbuild.projects.gobject_introspection import GObjectIntrospection
 from gvsbuild.projects.graphene import Graphene
-from gvsbuild.projects.grpc import Grpc
 from gvsbuild.projects.gsettings_desktop_schemas import GSettingsDesktopSchemas
 from gvsbuild.projects.gstreamer import (
     GstPluginsBad,
