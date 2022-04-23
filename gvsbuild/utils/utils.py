@@ -95,7 +95,7 @@ def file_replace(file_name, chg_list, make_bak=True):
 class ordered_set(set):
     def __init__(self):
         set.__init__(self)
-        self.__list = list()
+        self.__list = []
 
     def add(self, o):
         if o not in self:
