@@ -22,6 +22,7 @@ import os
 import re
 import shutil
 from enum import Enum
+from typing import Dict, Generic, List, TypeVar
 
 from .simple_ui import log
 from .utils import _rmtree_error_handler
@@ -44,7 +45,10 @@ class Options:
         self._load_python = False
 
 
-class Project:
+P = TypeVar("P")
+
+
+class Project(Generic[P]):
     def __init__(self, name, **kwargs):
         object.__init__(self)
         self.name = name
@@ -68,13 +72,13 @@ class Project:
         if len(self.name) > Project.name_len:
             Project.name_len = len(self.name)
 
-    _projects = []
-    _names = []
-    _dict = {}
+    _projects: List[P] = []
+    _names: List[str] = []
+    _dict: Dict[str, P] = {}
     _ver_res = None
     name_len = 0
     # List of class/type to add, now not at import time but after some options are parsed
-    _reg_prj_list = []
+    _reg_prj_list: List[tuple[P, ProjectType]] = []
     # build option
     opts = Options()
 
