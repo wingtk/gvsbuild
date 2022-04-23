@@ -58,11 +58,11 @@ def extract_exec(
     """Extract (or copy, in case of an exe file) from src to dest_dir, handling
     the strip of the first part of the path in case of the tarbombs.
 
-    dir_part is a piece, present in the tar/zip file, added to the desst_dir for
+    dir_part is a piece, present in the tar/zip file, added to the dest_dir for
     the checks
 
     if check_file is passed and is present in the filesystem the extract is
-    skipped (tool alreay installed)
+    skipped (tool already installed)
 
     force_dest can be used only on the exe file and set the destination name
 
@@ -383,7 +383,7 @@ class GitRepo:
     def update_build_dir(self):
         rt = None
         if not os.path.exists(self.opts.git_expand_dir):
-            log.log(f"Creating git expoand directory {self.opts.git_expand_dir}")
+            log.log(f"Creating git expand directory {self.opts.git_expand_dir}")
             os.makedirs(self.opts.git_expand_dir, exist_ok=True)
 
         try:

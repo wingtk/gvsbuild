@@ -67,7 +67,7 @@ class Meson(Project):
         )
         if meson_params:
             add_opts += f" {meson_params}"
-        # pyhon meson.py src_dir ninja_build_dir --prefix gtk_bin options
+        # python meson.py src_dir ninja_build_dir --prefix gtk_bin options
         meson = Project.get_tool_executable("meson")
         python = Project.get_tool_executable("python")
         if " " in python:
