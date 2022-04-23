@@ -42,7 +42,6 @@ class Options:
         self.ffmpeg_enable_gpl = False
         # Default
         self._load_python = False
-        self.old_rsvg = False
 
 
 class Project:
