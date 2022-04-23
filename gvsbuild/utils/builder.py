@@ -31,8 +31,8 @@ import time
 import traceback
 from pathlib import Path
 from typing import Optional
-from urllib.error import URLError
-from urllib.request import ContentTooShortError, urlopen
+from urllib.error import ContentTooShortError, URLError
+from urllib.request import urlopen
 
 from .base_expanders import dirlist2set, make_zip
 from .base_project import Project

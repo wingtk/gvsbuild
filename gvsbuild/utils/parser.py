@@ -21,7 +21,7 @@ import argparse
 import os
 import re
 import sys
-from typing import Optional
+from typing import Any, Tuple, Union
 
 from .base_project import Options, Project, ProjectType
 from .builder import Builder
@@ -196,13 +196,13 @@ def do_list(args):
     sys.exit(0)
 
 
-def separate_name_and_major_version(name: str) -> tuple[str, Optional[str]]:
+def separate_name_and_major_version(name: str) -> Tuple[Union[str, Any], ...]:
     # Exceptions where ending with a simple digit is part of the library name
     if name in {"nghttp2", "ssh2", "libxml2", "libtiff-4"}:
         return name, None
     # https://regex101.com/r/1c4iLx/2
-    m = re.search(r"([a-z-]*\d{3}|[a-z-]*\d{0})(\d$)?", name)
-    return m[1], m[2]
+    match = re.search(r"([a-z-]*\d{3}|[a-z-]*\d{0})(\d$)?", name)
+    return match.group(1, 2) if match else (None, None)
 
 
 def do_outdated(args):
