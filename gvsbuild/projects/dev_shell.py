@@ -37,6 +37,10 @@ class DevShell(Project):
         # Nothing to do, it's not really a project
         pass
 
+    def export(self):
+        # Nothing to do, it's not really a project
+        pass
+
     def finalize_dep(self, builder, deps):
         if builder.opts.skip:
             skip = builder.opts.skip.split(",")
