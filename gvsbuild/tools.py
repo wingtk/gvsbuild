@@ -29,7 +29,7 @@ from .utils.simple_ui import log
 
 
 @tool_add
-class Tool_cargo(Tool):
+class ToolCargo(Tool):
     def __init__(self):
         Tool.__init__(
             self,
@@ -77,7 +77,7 @@ class Tool_cargo(Tool):
 
 
 @tool_add
-class Tool_cmake(Tool):
+class ToolCmake(Tool):
     def __init__(self):
         Tool.__init__(
             self,
@@ -103,7 +103,7 @@ class Tool_cmake(Tool):
 
 
 @tool_add
-class Tool_meson(Tool):
+class ToolMeson(Tool):
     def __init__(self):
         Tool.__init__(
             self,
@@ -129,7 +129,7 @@ class Tool_meson(Tool):
 
 
 @tool_add
-class Tool_msys2(Tool):
+class ToolMsys2(Tool):
     def __init__(self):
         Tool.__init__(self, "msys2")
 
@@ -146,7 +146,7 @@ class Tool_msys2(Tool):
 
 
 @tool_add
-class Tool_nasm(Tool):
+class ToolNasm(Tool):
     def __init__(self):
         Tool.__init__(
             self,
@@ -170,7 +170,7 @@ class Tool_nasm(Tool):
 
 
 @tool_add
-class Tool_ninja(Tool):
+class ToolNinja(Tool):
     def __init__(self):
         Tool.__init__(
             self,
@@ -189,7 +189,7 @@ class Tool_ninja(Tool):
 
 
 @tool_add
-class Tool_nuget(Tool):
+class ToolNuget(Tool):
     def __init__(self):
         Tool.__init__(
             self,
@@ -213,7 +213,7 @@ class Tool_nuget(Tool):
 
 
 @tool_add
-class Tool_perl(Tool):
+class ToolPerl(Tool):
     def __init__(self):
         Tool.__init__(
             self,
@@ -241,7 +241,7 @@ class Tool_perl(Tool):
 
 
 @tool_add
-class Tool_python(Tool):
+class ToolPython(Tool):
     def __init__(self):
         Tool.__init__(
             self,
@@ -326,7 +326,7 @@ class Tool_python(Tool):
 
 
 @tool_add
-class Tool_yasm(Tool):
+class ToolYasm(Tool):
     def __init__(self):
         Tool.__init__(
             self,
@@ -349,7 +349,7 @@ class Tool_yasm(Tool):
 
 
 @tool_add
-class Tool_go(Tool):
+class ToolGo(Tool):
     def __init__(self):
         Tool.__init__(
             self,
