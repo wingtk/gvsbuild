@@ -108,13 +108,13 @@ class ToolMeson(Tool):
         Tool.__init__(
             self,
             "meson",
-            archive_url="https://github.com/mesonbuild/meson/archive/refs/tags/0.62.0.tar.gz",
-            archive_file_name="meson-0.62.0.tar.gz",
-            hash="72ac3bab701dfd597604de29cc74baaa1cc0ad8ca26ae23d5288de26abfe1c80",
+            archive_url="https://github.com/mesonbuild/meson/archive/refs/tags/0.62.1.tar.gz",
+            archive_file_name="meson-0.62.1.tar.gz",
+            hash="9fb52e66dbc613479a5f70e46cc2e8faf5aa65e09313f2c71fa63b8afd018107",
             dependencies=[
                 "python",
             ],
-            dir_part="meson-0.62.0",
+            dir_part="meson-0.62.1",
             exe_name="meson.py",
         )
 
