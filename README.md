@@ -108,13 +108,19 @@ In the same PowerShell terminal, execute:
 
 ```PowerShell
 cd C:\gtk-build\github\gvsbuild
-python .\build.py build gtk3
+python -m venv .venv
+.\.venv\Scripts\activate.ps1
+pip install .
+gvsbuild build gtk3
 ```
 
 Alternatively, if you want to build GTK 4, execute:
 ```PowerShell
 cd C:\gtk-build\github\gvsbuild
-python .\build.py build gtk4 
+python -m venv .venv
+.\.venv\Scripts\activate.ps1
+pip install .
+gvsbuild build gtk4
 ```
 
 Grab a coffee, the build will take a few minutes to complete.
@@ -130,13 +136,13 @@ $env:Path = "C:\gtk-build\gtk\x64\release\bin;" + $env:Path
  For more information about the possible commands run:
 
  ```
- python .\build.py --help
+ gvsbuild --help
  ```
 
  To get detailed help on the build command run:
 
  ```
- python .\build.py build --help
+ gvsbuild build --help
  ```
 
  Is possible to set some parameters from a file, e.g. vs2015-release.pro, putting
@@ -157,7 +163,7 @@ $env:Path = "C:\gtk-build\gtk\x64\release\bin;" + $env:Path
  it:
 
  ```
- python .\build.py build @vs2015-release.pro gtk3-full
+ gvsbuild build @vs2015-release.pro gtk3-full
  ```
 
 ## Troubleshooting
@@ -177,7 +183,7 @@ choco install vcredist2013
 
 Similar to other packages, you can build OpenSSL by executing:
 ```
-python .\build.py build openssl
+gvsbuild build openssl
 ```
 
 ## Dependency Graph
