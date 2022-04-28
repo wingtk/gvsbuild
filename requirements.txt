@@ -1,3 +1,0 @@
-pre-commit==2.16.0
-lastversion==2.4.2
-packaging==21.3

@@ -210,7 +210,7 @@ def do_outdated(args):
         import lastversion
         from packaging import version
     except ImportError:
-        print("Please pip install -r requirements.txt in your Python environment")
+        print("Please pip install .[outdated] in your Python environment")
         sys.exit(0)
 
     Project.add_all()
@@ -294,13 +294,13 @@ def create_parser():
         fromfile_prefix_chars="@",
         epilog="""
 Examples:
-    build.py build libpng libffi
+    gvsbuild build libpng libffi
         Build libpng, libffi, and their dependencies (zlib).
 
-    build.py build --no-deps glib
+    gvsbuild build --no-deps glib
         Build glib only.
 
-    build.py build --skip gtk3,pycairo,pygobject all
+    gvsbuild build --skip gtk3,pycairo,pygobject all
         Build everything except gtk3, pycairo, and pygobject
     """,
     )
@@ -574,7 +574,7 @@ Examples:
     p_list.set_defaults(func=do_list)
 
     # ==============================================================================
-    # check
+    # outdated
     # ==============================================================================
 
     p_outdated = subparsers.add_parser(
