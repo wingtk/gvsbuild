@@ -12,11 +12,11 @@ jobs:
     timeout-minutes: 10
     if: "!contains(github.event.head_commit.message, 'skip ci')"
     steps:
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/checkout@v3.0.2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - name: Set up Python
-        uses: actions/setup-python@v2.3.1
+        uses: actions/setup-python@v3.1.2
         with:
           python-version: ${{ env.python_version }}
       - name: Lint with Pre-commit
@@ -31,30 +31,37 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3.0.2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-
       - name: Set up Python
-        uses: actions/setup-python@v2.2.2
+        uses: actions/setup-python@v3.1.2
         with:
           python-version: '3.10'
-
+      - name: Use Python Dependency Cache
+        uses: actions/cache@v3.0.2
+        with:
+          path: ~\AppData\Local\pip\Cache
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: ${{ runner.os }}-poetry-
+      - name: Install Poetry
+        run: python -m pip install poetry==1.1.13
+      - name: Configure Poetry
+        run: poetry config virtualenvs.in-project true
+      - name: Install Python Dependencies
+        run: poetry install
       # Temporarily move the preinstalled git, it causes errors related to cygwin.
       - name: Move git binary
         run: move "C:\Program Files\Git\usr\bin" "C:\Program Files\Git\usr\notbin"
         shell: cmd
-
       - name: Build
         run: >
-          python .\build.py build -p=x64 --vs-ver=17 --msys-dir=C:\msys64 --enable-gi
-          --py-wheel gtk3 graphene gobject-introspection pycairo
-          pygobject adwaita-icon-theme hicolor-icon-theme gtksourceview4
-
+          poetry run gvsbuild build --enable-gi --py-wheel gtk3 graphene
+          gobject-introspection pycairo pygobject adwaita-icon-theme hicolor-icon-theme
+          gtksourceview4
       - name: Copy wheels to the build directory
         if: steps.cache.outputs.cache-hit != 'true'
         run: Get-ChildItem C:\gtk-build\build\x64\release\*\dist\*.whl | ForEach-Object -process { cp $_ C:\gtk-build\gtk\x64\release\ }
-
       - name: Restore git binary
         run: move "C:\Program Files\Git\usr\notbin" "C:\Program Files\Git\usr\bin"
         shell: cmd
