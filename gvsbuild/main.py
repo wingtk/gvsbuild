@@ -15,6 +15,26 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
+
+"""Main build script."""
+
+# Verify we can import from the script directory
+try:
+    import gvsbuild.utils.utils  # noqa: F401
+except ImportError:
+    # We are probably using an embedded installation
+    print("Error importing utility, fixing paths ...")
+    import os
+    import sys
+
+    # Get the script dir
+    script_dir = os.path.dirname(os.path.realpath(sys.argv[0]))
+    # and add it at the beginning, emulating the standard python startup
+    sys.path.insert(0, script_dir)
+
+import gvsbuild.groups  # noqa: F401
+import gvsbuild.projects  # noqa: F401
+import gvsbuild.tools  # noqa: F401
 from gvsbuild.utils.parser import create_parser
 
 
