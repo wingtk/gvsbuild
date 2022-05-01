@@ -26,8 +26,8 @@ class FreeRDP(Tarball, CmakeProject):
         Project.__init__(
             self,
             "freerdp",
-            archive_url="https://github.com/FreeRDP/FreeRDP/releases/download/2.6.1/freerdp-2.6.1.tar.gz",
-            hash="e4b3b93d102bc03164f592d26d7a06d6de648bf78b1e3dcbd8d62941431c1f28",
+            archive_url="https://github.com/FreeRDP/FreeRDP/releases/download/2.7.0/freerdp-2.7.0.tar.gz",
+            hash="89000728b6e66ac37db018d6dc5f0981b530fd550ab748877ff42892dd0c166b",
             dependencies=[
                 "cmake",
                 "ninja",
