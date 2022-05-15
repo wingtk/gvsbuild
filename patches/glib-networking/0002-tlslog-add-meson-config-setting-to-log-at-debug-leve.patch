@@ -1,0 +1,161 @@
+From 9ddaffca48423d29bc2b1933ffa609e8312f21b0 Mon Sep 17 00:00:00 2001
+From: Ignacio Casal Quinteiro <qignacio@amazon.com>
+Date: Fri, 13 May 2022 15:20:09 +0200
+Subject: [PATCH 2/2] tlslog: add meson config setting to log at debug level
+
+Otherwise this becomes expensive when doing lots of read/writes
+and endups consuming quite a bit of CPU.
+
+Partially fixes #188
+---
+ .gitlab-ci.yml           |  3 ++
+ .gitlab-ci/test-msvc.bat |  2 +-
+ meson.build              |  1 +
+ meson_options.txt        |  1 +
+ tls/base/gtlslog.c       | 65 +++++++++++++++++++++-------------------
+ 5 files changed, 40 insertions(+), 32 deletions(-)
+
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 40aa4af..52cfe8a 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -13,6 +13,7 @@ fedora-x86_64:
+             -Dopenssl=enabled
+             -Dlibproxy=enabled
+             -Dgnome_proxy=enabled
++            -Ddebug_logs=true
+             -Dwerror=true
+             _build/
+     - meson compile -C _build/
+@@ -38,6 +39,7 @@ fedora-x86_64-asan:
+             -Dopenssl=enabled
+             -Dlibproxy=enabled
+             -Dgnome_proxy=enabled
++            -Ddebug_logs=true
+             -Dwerror=true
+             _build/
+     - meson compile -C _build/
+@@ -54,6 +56,7 @@ fedora-x86_64-scan-build:
+             -Dopenssl=enabled
+             -Dlibproxy=enabled
+             -Dgnome_proxy=enabled
++            -Ddebug_logs=true
+             -Dwerror=true
+             _build/
+     - scan-build meson compile -C _build/
+diff --git a/.gitlab-ci/test-msvc.bat b/.gitlab-ci/test-msvc.bat
+index 66412b4..da10623 100644
+--- a/.gitlab-ci/test-msvc.bat
++++ b/.gitlab-ci/test-msvc.bat
+@@ -27,7 +27,7 @@ set PKG_CONFIG_PATH=%DEPS_DIR%\lib\pkgconfig
+ 
+ :: FIXME: make warnings fatal
+ pip3 install --upgrade --user meson==0.60.0  || goto :error
+-meson build -Dgnutls=disabled -Dopenssl=enabled || goto :error
++meson build -Dgnutls=disabled -Dopenssl=enabled -Ddebug_logs=true || goto :error
+ ninja -C build || goto :error
+ 
+ meson test -C build --timeout-multiplier=10 || goto :error
+diff --git a/meson.build b/meson.build
+index 5335d89..754e163 100644
+--- a/meson.build
++++ b/meson.build
+@@ -21,6 +21,7 @@ host_system = host_machine.system()
+ config_h = configuration_data()
+ 
+ config_h.set_quoted('GETTEXT_PACKAGE', meson.project_name())
++config_h.set10('ENABLE_DEBUG_LOGS', get_option('debug_logs'))
+ 
+ # compiler flags
+ common_flags = [
+diff --git a/meson_options.txt b/meson_options.txt
+index aaf6227..0621c52 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -7,3 +7,4 @@ option('libproxy', type: 'feature', value: 'auto', description: 'support for lib
+ option('gnome_proxy', type: 'feature', value: 'auto', description: 'support for GNOME desktop proxy configuration')
+ option('installed_tests', type: 'boolean', value: false, description: 'enable installed tests')
+ option('static_modules', type: 'boolean', value: false, description: 'build static modules')
++option('debug_logs', type: 'boolean', value: false, description: 'enable debug log messages')
+diff --git a/tls/base/gtlslog.c b/tls/base/gtlslog.c
+index cf3ab05..04baff3 100644
+--- a/tls/base/gtlslog.c
++++ b/tls/base/gtlslog.c
+@@ -39,40 +39,43 @@ void g_tls_log (GLogLevelFlags  level,
+                 const gchar    *format,
+                 ...)
+ {
+-  gchar *header = NULL;
+-  gchar *message = NULL;
+-  gchar *thread = NULL;
+-  va_list args;
+-  int ret;
++  if (level < G_LOG_LEVEL_DEBUG || ENABLE_DEBUG_LOGS)
++    {
++      gchar *header = NULL;
++      gchar *message = NULL;
++      gchar *thread = NULL;
++      va_list args;
++      int ret;
+ 
+-  va_start (args, format);
+-  ret = g_vasprintf (&message, format, args);
+-  va_end (args);
++      va_start (args, format);
++      ret = g_vasprintf (&message, format, args);
++      va_end (args);
+ 
+-  if (ret <= 0)
+-    goto out;
++      if (ret <= 0)
++        goto out;
+ 
+-  if (conn && G_IS_TLS_CONNECTION (conn)) {
+-    if (G_IS_TLS_CLIENT_CONNECTION (conn))
+-      header = g_strdup_printf ("CLIENT[%p]: ", conn);
+-    else if (G_IS_TLS_SERVER_CONNECTION (conn))
+-      header = g_strdup_printf ("SERVER[%p]: ", conn);
+-    else
+-      g_assert_not_reached ();
+-  } else {
+-    header = g_strdup ("");
+-  }
++      if (conn && G_IS_TLS_CONNECTION (conn)) {
++        if (G_IS_TLS_CLIENT_CONNECTION (conn))
++          header = g_strdup_printf ("CLIENT[%p]: ", conn);
++        else if (G_IS_TLS_SERVER_CONNECTION (conn))
++          header = g_strdup_printf ("SERVER[%p]: ", conn);
++        else
++          g_assert_not_reached ();
++      } else {
++        header = g_strdup ("");
++      }
+ 
+-  thread = g_strdup_printf ("%p", g_thread_self ());
+-  g_log_structured (G_LOG_DOMAIN, level,
+-                    "GLIB_NET_THREAD", thread,
+-                    "CODE_FILE", file,
+-                    "CODE_LINE", line,
+-                    "CODE_FUNC", func,
+-                    "MESSAGE", "%s%s", header, message);
++      thread = g_strdup_printf ("%p", g_thread_self ());
++      g_log_structured (G_LOG_DOMAIN, level,
++                        "GLIB_NET_THREAD", thread,
++                        "CODE_FILE", file,
++                        "CODE_LINE", line,
++                        "CODE_FUNC", func,
++                        "MESSAGE", "%s%s", header, message);
+ 
+-out:
+-  g_free (header);
+-  g_free (message);
+-  g_free (thread);
++    out:
++      g_free (header);
++      g_free (message);
++      g_free (thread);
++    }
+ }
+-- 
+2.25.1
+

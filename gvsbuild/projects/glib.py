@@ -49,6 +49,10 @@ class GLibNetworking(Tarball, Meson):
             archive_url="https://download.gnome.org/sources/glib-networking/2.72/glib-networking-2.72.0.tar.xz",
             hash="100aaebb369285041de52da422b6b716789d5e4d7549a3a71ba587b932e0823b",
             dependencies=["pkg-config", "ninja", "meson", "glib", "openssl"],
+            patches=[
+                "0001-Mark-strings-for-translation-and-translate-just-in-e.patch",
+                "0002-tlslog-add-meson-config-setting-to-log-at-debug-leve.patch",
+            ],
         )
 
     def build(self):
