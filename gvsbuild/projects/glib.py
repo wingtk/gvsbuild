@@ -33,6 +33,7 @@ class GLib(Tarball, Meson):
                 "glib-package-installation-directory.patch",
                 "0002-pcre-add-fallback-url.patch",
                 "0001-gtask-use-strdup_printf-in-g_task_return-only-if-nee.patch",
+                "0001-Fix-global-and-local-variables-hidden-by-local-varia.patch",
             ],
         )
 
