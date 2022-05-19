@@ -29,8 +29,8 @@ class Libarchive(Tarball, CmakeProject):
         Project.__init__(
             self,
             "libarchive",
-            archive_url="https://libarchive.org/downloads/libarchive-3.6.0.tar.xz",
-            hash="df283917799cb88659a5b33c0a598f04352d61936abcd8a48fe7b64e74950de7",
+            archive_url="https://libarchive.org/downloads/libarchive-3.6.1.tar.xz",
+            hash="5a411aceb978f43e626f0c2d1812ddd8807b645ed892453acabd532376c148e6",
             dependencies=[
                 "cmake",
                 "ninja",
@@ -40,7 +40,7 @@ class Libarchive(Tarball, CmakeProject):
                 "openssl",
                 "libxml2",
             ],
-            patches=["0001-ZIP-reader-fix-possible-out-of-bounds-read-in-zipx_l.patch"],
+            patches=[],
         )
 
     def build(self):
