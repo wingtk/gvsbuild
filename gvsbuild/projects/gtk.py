@@ -88,8 +88,8 @@ class Gtk3(Tarball, Meson):
             self,
             "gtk3",
             prj_dir="gtk3",
-            archive_url="https://download.gnome.org/sources/gtk%2B/3.24/gtk%2B-3.24.33.tar.xz",
-            hash="588b06522e25d1579e989b6f9d8a1bdbf2fe13cde01a04e904ff346a225e7801",
+            archive_url="https://download.gnome.org/sources/gtk%2B/3.24/gtk%2B-3.24.34.tar.xz",
+            hash="dbc69f90ddc821b8d1441f00374dc1da4323a2eafa9078e61edbe5eeefa852ec",
             dependencies=["atk", "gdk-pixbuf", "pango", "libepoxy"],
             patches=[
                 "gtk_update_icon_cache.patch",
