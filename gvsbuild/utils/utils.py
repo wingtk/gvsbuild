@@ -20,6 +20,7 @@ import re
 import shutil
 import stat
 import time
+from pathlib import Path
 
 from .simple_ui import log
 
@@ -142,3 +143,7 @@ def python_find_libs_dir(org_dir):
         return cur
 
     return None
+
+
+def get_project_root() -> Path:
+    return Path(__file__).parent.parent.parent

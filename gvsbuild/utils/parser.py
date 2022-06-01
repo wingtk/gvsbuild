@@ -26,7 +26,7 @@ from typing import Any, Tuple, Union
 from .base_project import Options, Project, ProjectType
 from .builder import Builder
 from .simple_ui import log
-from .utils import ordered_set
+from .utils import get_project_root, ordered_set
 
 
 def get_options(args):
@@ -87,9 +87,7 @@ def get_options(args):
     if not opts.export_dir:
         opts.export_dir = os.path.join(args.build_dir, "export")
     if not opts.patches_root_dir:
-        opts.patches_root_dir = os.path.join(
-            opts.build_dir, "github", "gvsbuild", "patches"
-        )
+        opts.patches_root_dir = os.path.join(get_project_root(), "patches")
     prop_file = os.path.join(opts.patches_root_dir, "stack.props")
     if not os.path.isfile(prop_file):
         log.error_exit(
