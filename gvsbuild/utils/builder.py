@@ -329,7 +329,7 @@ class Builder:
         self.exec_cmd(cmd)
 
         try:
-            with open(json_file) as fi:
+            with open(json_file, encoding='ISO-8859-1') as fi:
                 vs_installs = json.load(fi)
         except (IOError, OSError) as e:
             log.log(f"Exception reading vswhere result file ({e})")
