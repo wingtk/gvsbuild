@@ -79,3 +79,4 @@ from gvsbuild.projects.win_iconv import WinIconv
 from gvsbuild.projects.wing import Wing
 from gvsbuild.projects.x264 import X264
 from gvsbuild.projects.zlib import Zlib
+from gvsbuild.projects.libadwaita import Libadwaitaa
