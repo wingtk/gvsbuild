@@ -34,14 +34,13 @@ class Libadwaita(Tarball, Meson):
                 "pkg-config",
                 "glib",
                 "gtk4",
-
             ],
         )
         gir = "disabled"
         if self.opts.enable_gi:
             self.add_dependency("gobject-introspection")
             gir = "enabled"
-        
+
         self.add_param(f"-Dintrospection={gir}")
         self.add_param("-Dgtk_doc=false")
 

@@ -40,6 +40,7 @@ from gvsbuild.projects.json_glib import JsonGLib
 from gvsbuild.projects.jsonc import Jsonc
 from gvsbuild.projects.leveldb import LevelDB
 from gvsbuild.projects.lgi import Lgi
+from gvsbuild.projects.libadwaita import Libadwaita
 from gvsbuild.projects.libarchive import Libarchive
 from gvsbuild.projects.libcroco import Libcroco
 from gvsbuild.projects.libcurl import Libcurl
@@ -79,4 +80,3 @@ from gvsbuild.projects.win_iconv import WinIconv
 from gvsbuild.projects.wing import Wing
 from gvsbuild.projects.x264 import X264
 from gvsbuild.projects.zlib import Zlib
-from gvsbuild.projects.libadwaita import Libadwaitaa
