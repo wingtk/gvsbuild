@@ -1,6 +1,7 @@
 #  Copyright (C) 2016 - Yevgen Muntyan
 #  Copyright (C) 2016 - Ignacio Casal Quinteiro
 #  Copyright (C) 2016 - Arnavion
+#  Copyright (C) 2022 - Nefo Fortressia
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
