@@ -604,8 +604,9 @@ class Builder:
                     pdb_name = os.path.join(parent, noextension_name, ".pdb")
                     if not os.path.exist(pdb_name):
                         pdb_name = ""
-                    os.system(
-                        f"ducible {os.path.join(self.__project.pkg_dir, file)} {pdb_name}"
+                    proj.exec_cmd(
+                        "ducible",
+                        f"{os.path.join(self.__project.pkg_dir, file)} {pdb_name}",
                     )
 
     def __prepare_build(self, projects):
