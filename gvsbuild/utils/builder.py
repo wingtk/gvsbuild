@@ -586,6 +586,28 @@ class Builder:
 
         log.close()
 
+    def __make_folder_reproducible(self, parent):
+        """Iterate over DLL and EXE files inside of 'parent' and make them
+        reproducible with the help of ducible.
+
+        'parent' needs to be an absolute path
+        """
+        proj = self.__project
+
+        for file in os.listdir(parent):
+            path = os.path.join(proj.pkg_dir, file)
+            if os.path.isdir(path):
+                self.__make_folder_reproducible(path)
+            else:
+                if file.endswith(".exe") or file.endswith(".dll"):
+                    noextension_name = file[:-4]
+                    pdb_name = os.path.join(parent, noextension_name, ".pdb")
+                    if not os.path.exist(pdb_name):
+                        pdb_name = ""
+                    os.system(
+                        f"ducible {os.path.join(self.__project.pkg_dir, file)} {pdb_name}"
+                    )
+
     def __prepare_build(self, projects):
         if not os.path.exists(self.working_dir):
             log.log(f"Creating working directory {self.working_dir}")
@@ -669,7 +691,10 @@ class Builder:
 
         proj.patch()
         skip_deps = proj.build()
-
+        log.debug(
+            f"patching binaries in {proj.pkg_dir} with ducible (https://github.com/jasonwhite/ducible) for reproducibility"
+        )
+        self.__make_folder_reproducible(proj.pkg_dir)
         log.debug(f"copying {proj.pkg_dir} to {self.gtk_dir}")
         self.copy_all(proj.pkg_dir, self.gtk_dir)
         shutil.rmtree(proj.pkg_dir, ignore_errors=True)
