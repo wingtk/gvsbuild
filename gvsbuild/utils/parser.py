@@ -289,15 +289,8 @@ def do_outdated(args):
 
 def do_ducible(args):
     # TODO: Make ducible not depending on build's options
-    opts = get_options(args)
-    if log.debug_on():
-        log.debug("Options are:")
-        for co in sorted(opts.__dict__.keys()):
-            v = opts.__dict__[co]
-            pv = f"'{v}'" if type(v) is str else repr(v)
-            log.message_indent(f"'{co}': {pv}, ")
 
-    builder = Builder(opts)
+    builder = Builder({})
     # TODO: Allow user to specify the packages they want to patch
     log.debug("patching builds")
 

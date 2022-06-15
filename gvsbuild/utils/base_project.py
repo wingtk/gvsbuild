@@ -559,6 +559,7 @@ class Project(Generic[P]):
             log.debug(f"Exception writing file '{self.mark_file}' ({e})")
 
     def mark_file_exist(self):
+        """Check if the mark file (.wingtk-built) exists."""
         rt = None
         self.mark_file_calc()
         if os.path.isfile(self.mark_file):
