@@ -40,6 +40,7 @@ class Group_Tools(Group):
                 "perl",
                 "python",
                 "yasm",
+                "ducible",
             ],
         )
 
