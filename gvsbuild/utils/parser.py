@@ -287,6 +287,23 @@ def do_outdated(args):
         print("Set GITHUB_API_TOKEN=xxxxxxxxxxxxxxx environmental variable")
 
 
+def do_ducible(args):
+    # TODO: Make ducible not depending on build's options
+    opts = get_options(args)
+    if log.debug_on():
+        log.debug("Options are:")
+        for co in sorted(opts.__dict__.keys()):
+            v = opts.__dict__[co]
+            pv = f"'{v}'" if type(v) is str else repr(v)
+            log.message_indent(f"'{co}': {pv}, ")
+
+    builder = Builder(opts)
+    # TODO: Allow user to specify the packages they want to patch
+    log.debug("patching builds")
+
+    builder.ducible()
+
+
 def create_parser():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -581,5 +598,15 @@ Examples:
         "outdated", help="list out of date projects and tools"
     )
     p_outdated.set_defaults(func=do_outdated)
+
+    # ==============================================================================
+    # ducible
+    # ==============================================================================
+
+    p_ducible = subparsers.add_parser(
+        "ducible", help="patch already built packages to make them reproducible"
+    )
+
+    p_ducible.set_defaults(func=do_ducible)
 
     return parser

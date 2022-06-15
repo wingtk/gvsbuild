@@ -609,6 +609,22 @@ class Builder:
                         f"{os.path.join(self.__project.pkg_dir, file)} {pdb_name}",
                     )
 
+    def ducible(self, projects=None):
+        if projects:
+            for project in projects:
+                self.__make_project_reproducible(project.pkg_dir)
+            else:
+                self.ducible(self.get_already_built_projects(self))
+
+    def get_already_built_projects(self):
+        return filter(os.os.listdir(self.gtk_dir), self.__filter_already_built_projects)
+
+    def __filter_already_built_projects(self, file):
+        if os.path.isdir(os.path.join(self.gtk_dir, file)):
+            return Project.get_project(file).mark_file_exist()
+        else:
+            return False
+
     def __prepare_build(self, projects):
         if not os.path.exists(self.working_dir):
             log.log(f"Creating working directory {self.working_dir}")
