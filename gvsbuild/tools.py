@@ -383,6 +383,16 @@ class ToolDucible(Tool):
             "ducible",
             archive_url="https://github.com/jasonwhite/ducible/releases/download/v1.2.2/ducible-windows-x64-Release.zip",
             dir_part="ducible-1.2.2",
-            hash=" ec08374bd8c9af81bbed6aa76e3afbd918623018fb2c5773edd9caf80a961160",
+            hash="ec08374bd8c9af81bbed6aa76e3afbd918623018fb2c5773edd9caf80a961160",
             exe_name="ducible.exe",
+        )
+
+    def unpack(self):
+        # We download directly the exe file so we copy it on the tool directory ...
+        self.mark_deps = extract_exec(
+            self.archive_file,
+            self.build_dir,
+            check_file=self.full_exe,
+            check_mark=True,
+            strip_one=True,
         )
