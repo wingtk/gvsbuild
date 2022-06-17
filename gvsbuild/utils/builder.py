@@ -41,7 +41,7 @@ from .utils import ordered_set, rmtree_full
 
 
 class Builder:
-    def __init__(self, opts):
+    def __init__(self, opts, build=True):
         self.opts = opts
 
         script_title("* Setup")
@@ -67,7 +67,7 @@ class Builder:
             opts.build_dir, "gtk", opts.platform, opts.configuration
         )
 
-        if opts.from_scratch:
+        if hasattr(opts, "from_scratch") and opts.from_scratch:
             with log.simple_oper("Cleanup build directories"):
                 with log.simple_oper(
                     f"Removing working/building dir ({self.working_dir})"
@@ -85,32 +85,33 @@ class Builder:
                 else:
                     log.message(f"Keeping tools dir ({opts.tools_root_dir})")
 
-        if not opts.use_env:
+        if hasattr(opts, "use_env") and not opts.use_env:
             self.__minimum_env()
 
         self.x86 = opts.platform == "Win32"
         self.x64 = not self.x86
+        if build:
+            # Create the year version for Visual Studio
+            vs_zip_parts = {
+                "12": "vs2013",
+                "14": "vs2015",
+                "15": "vs2017",
+                "16": "vs2019",
+                "17": "vs2022",
+            }
 
-        # Create the year version for Visual Studio
-        vs_zip_parts = {
-            "12": "vs2013",
-            "14": "vs2015",
-            "15": "vs2017",
-            "16": "vs2019",
-            "17": "vs2022",
-        }
+            self.vs_ver_year = vs_zip_parts.get(opts.vs_ver)
+            if not self.vs_ver_year:
+                self.vs_ver_year = f"ms-cl-{opts.vs_ver}"
 
-        self.vs_ver_year = vs_zip_parts.get(opts.vs_ver)
-        if not self.vs_ver_year:
-            self.vs_ver_year = f"ms-cl-{opts.vs_ver}"
+            vs_part = self.vs_ver_year
+            if opts.win_sdk_ver:
+                vs_part += f"-{opts.win_sdk_ver}"
 
-        vs_part = self.vs_ver_year
-        if opts.win_sdk_ver:
-            vs_part += f"-{opts.win_sdk_ver}"
+            self.zip_dir = os.path.join(
+                opts.build_dir, "dist", vs_part, opts.platform, opts.configuration
+            )
 
-        self.zip_dir = os.path.join(
-            opts.build_dir, "dist", vs_part, opts.platform, opts.configuration
-        )
         if opts.make_zip:
             if opts.zip_continue:
                 self.file_built = self._load_built_files()
@@ -121,9 +122,9 @@ class Builder:
                         rmtree_full(self.gtk_dir, retry=True)
                 self.file_built = set()
             os.makedirs(self.zip_dir, exist_ok=True)
-
-        self.__check_tools(opts)
-        self.__check_vs(opts)
+        if build:
+            self.__check_tools(opts)
+            self.__check_vs(opts)
 
     def _create_msbuild_opts(self, python):
         rt = [f"/nologo /p:Platform={self.opts.platform}"]
@@ -592,38 +593,46 @@ class Builder:
 
         'parent' needs to be an absolute path
         """
-        proj = self.__project
 
-        for file in os.listdir(parent):
-            path = os.path.join(proj.pkg_dir, file)
-            if os.path.isdir(path):
-                self.__make_folder_reproducible(path)
-            else:
-                if file.endswith(".exe") or file.endswith(".dll"):
-                    noextension_name = file[:-4]
-                    pdb_name = os.path.join(parent, noextension_name, ".pdb")
-                    if not os.path.exist(pdb_name):
-                        pdb_name = ""
-                    proj.exec_cmd(
-                        "ducible",
-                        f"{os.path.join(self.__project.pkg_dir, file)} {pdb_name}",
-                    )
+        paths = Path(parent).glob("**/.+(exe|dll)")
+        files = [p for p in paths if p.is_file()]
+        for file in files:
+            pdb = file.with_suffix(".pdb")
+            if not pdb.exists():
+                pdb = ""
+            image = Path(parent) / file
+
+            subprocess.run(f"ducible {image} {pdb}", shell=True)
 
     def ducible(self, projects=None):
         if projects:
             for project in projects:
-                self.__make_project_reproducible(project.pkg_dir)
-            else:
-                self.ducible(self.get_already_built_projects(self))
+                self.__project = self.__get_project(project)
+                self.__make_folder_reproducible(self.__project.get_working_dir())
+        else:
+            self.ducible(self.get_already_built_projects())
 
     def get_already_built_projects(self):
-        return filter(os.os.listdir(self.gtk_dir), self.__filter_already_built_projects)
+        folder = filter(
+            self.__filter_already_built_projects, os.listdir(self.working_dir)
+        )
+
+        return folder
 
     def __filter_already_built_projects(self, file):
-        if os.path.isdir(os.path.join(self.gtk_dir, file)):
-            return Project.get_project(file).mark_file_exist()
+        if os.path.isdir(os.path.join(self.working_dir, file)):
+
+            if self.__get_project(file).mark_file_exist():
+                return True
+            else:
+                return False
         else:
             return False
+
+    def __get_project(self, file):
+        proj = Project(file)
+        proj.build_dir = os.path.join(self.working_dir, proj.prj_dir)
+        return proj
 
     def __prepare_build(self, projects):
         if not os.path.exists(self.working_dir):

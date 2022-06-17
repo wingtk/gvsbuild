@@ -31,16 +31,22 @@ from .utils import get_project_root, ordered_set
 
 def get_options(args):
     opts = Options()
-
-    opts.verbose = args.verbose
-    opts.debug = args.debug
     opts.platform = args.platform
-    opts.configuration = getattr(args, "configuration", "release")
-    opts.build_dir = args.build_dir
-    opts.archives_download_dir = args.archives_download_dir
-    opts.export_dir = args.export_dir
-    opts.patches_root_dir = args.patches_root_dir
+    opts.no_deps = args.no_deps
+    opts.verbose = args.verbose
+    opts.fast_build = args.fast_build
     opts.tools_root_dir = args.tools_root_dir
+    opts.build_dir = args.build_dir
+    opts.configuration = getattr(args, "configuration", "release")
+    opts.make_zip = args.make_zip
+    return opts
+
+
+def get_build_options(args, opts):
+    opts.debug = args.debug
+    opts.export_dir = args.export_dir
+    opts.archives_download_dir = args.archives_download_dir
+    opts.patches_root_dir = args.patches_root_dir
     opts.vs_ver = args.vs_ver
     opts.vs_install_path = args.vs_install_path
     opts.win_sdk_ver = args.win_sdk_ver
@@ -51,14 +57,11 @@ def get_options(args):
     opts.clean = args.clean
     opts.msbuild_opts = args.msbuild_opts
     opts.use_env = args.use_env
-    opts.no_deps = args.no_deps
     opts.check_hash = args.check_hash
     opts.skip = args.skip
-    opts.make_zip = args.make_zip
     opts.zip_continue = args.zip_continue
     opts.from_scratch = args.from_scratch
     opts.keep_tools = args.keep_tools
-    opts.fast_build = args.fast_build
     opts.keep = args.keep
     opts.clean_built = args.clean_built
     opts.py_wheel = args.py_wheel
@@ -110,7 +113,7 @@ def get_options(args):
         if p not in Project.get_names():
             log.error_exit(
                 p
-                + " is not a valid project name, available projects are:\n\t"
+                + "is not a valid project name, available projects are:\n\t"
                 + "\n\t".join(Project.get_names())
             )
 
@@ -139,7 +142,7 @@ def __get_projects_to_build(opts):
             if s not in Project.get_names():
                 log.error_exit(
                     s
-                    + " is not a valid project name, available projects are:\n\t"
+                    + "is not a valid project name, available projects are:\n\t"
                     + "\n\t".join(Project.get_names())
                 )
 
@@ -151,7 +154,7 @@ def __get_projects_to_build(opts):
 
 
 def do_build(args):
-    opts = get_options(args)
+    opts = get_build_options(args, get_options(args))
     if log.debug_on():
         log.debug("Options are:")
         for co in sorted(opts.__dict__.keys()):
@@ -289,8 +292,9 @@ def do_outdated(args):
 
 def do_ducible(args):
     # TODO: Make ducible not depending on build's options
+    opts = get_options(args)
 
-    builder = Builder({})
+    builder = Builder(opts, build=False)
     # TODO: Allow user to specify the packages they want to patch
     log.debug("patching builds")
 
@@ -597,9 +601,56 @@ Examples:
     # ==============================================================================
 
     p_ducible = subparsers.add_parser(
-        "ducible", help="patch already built packages to make them reproducible"
+        "ducible",
+        help="patch already built packages with Ducible to make them reproducible",
+    )
+    p_ducible.add_argument(
+        "--build-dir",
+        default=r"C:\gtk-build",
+        help="The directory where the sources were downloaded and built.",
     )
 
+    p_ducible.add_argument(
+        "-p",
+        "--platform",
+        default="x64",
+        choices=["x86", "x64"],
+        help="Platform the packages were built for, x86 or x64. Default is x64.",
+    )
+    p_ducible.add_argument(
+        "--no-deps",
+        default=False,
+        action="store_true",
+        help="Do not also patch the dependencies of the selected project(s)",
+    )
+
+    p_ducible.add_argument(
+        "--fast-build",
+        default=False,
+        action="store_true",
+        help="Don't patch a project if it's already patches."
+        + "Note: you can have wrong results if you change only the script",
+    )
+    p_ducible.add_argument(
+        "--tools-root-dir",
+        help="The directory where to install the downloaded tools. Default is $(build-dir)\\tools.",
+    )
+    p_ducible.add_argument(
+        "-c",
+        "--configuration",
+        default="release",
+        choices=["release", "debug"],
+        help="Which release configuration folder to patch, release or debug. Default is release.",
+    )
+    p_ducible.add_argument(
+        "--make-zip",
+        default=False,
+        action="store_true",
+        help="Create singles zips of the projects patched under $(build-dir)\\dist\\vsXXXX[-sdkVer]\\[platform]\\[configuration], "
+        + "for example 'c:\\gtk-build\\dist\\vs2015-8.1\\win32\\release'. "
+        + "NOTE: the destination dir (e.g. 'c:\\gtk-build\\gtk\\win32\\release') "
+        + "will be cleared completely before the build!",
+    )
     p_ducible.set_defaults(func=do_ducible)
 
     return parser

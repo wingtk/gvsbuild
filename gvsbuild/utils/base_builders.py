@@ -72,7 +72,7 @@ class Meson(Project):
         python = Project.get_tool_executable("python")
         if " " in python:
             python = f'"{python}"'
-        cmd = f"{python} {meson} {self._get_working_dir()} {ninja_build} --prefix {self.builder.gtk_dir} {add_opts}"
+        cmd = f"{python} {meson} {self.get_working_dir()} {ninja_build} --prefix {self.builder.gtk_dir} {add_opts}"
 
         # build the ninja file to do everything (build the library, create the .pc file, install it, ...)
         self.exec_vs(cmd, add_path=add_path)
@@ -121,7 +121,7 @@ class CmakeProject(Project):
             cmd += f" -B{cmake_dir} -H{src_full}"
             work_dir = cmake_dir
         else:
-            work_dir = self._get_working_dir()
+            work_dir = self.get_working_dir()
 
         # Generate the files used to build
         log.start_verbose("Generating/updating cmake files")
