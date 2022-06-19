@@ -79,12 +79,13 @@ class ToolCargo(Tool):
 @tool_add
 class ToolCmake(Tool):
     def __init__(self):
+        self.version = "3.23.2"
         Tool.__init__(
             self,
             "cmake",
-            archive_url="https://github.com/Kitware/CMake/releases/download/v3.23.1/cmake-3.23.1-windows-x86_64.zip",
-            hash="9b509cc4eb7191dc128cfa3f2170036f9cbc7d9d5f93ff7fafc5b2d77b3b40dc",
-            dir_part="cmake-3.23.1-windows-x86_64",
+            archive_url=f"https://github.com/Kitware/CMake/releases/download/v{self.version}/cmake-{self.version}-windows-x86_64.zip",
+            hash="2329387f3166b84c25091c86389fb891193967740c9bcf01e7f6d3306f7ffda0",
+            dir_part=f"cmake-{self.version}-windows-x86_64",
         )
 
     def load_defaults(self):
@@ -105,16 +106,17 @@ class ToolCmake(Tool):
 @tool_add
 class ToolMeson(Tool):
     def __init__(self):
+        self.version = "0.62.2"
         Tool.__init__(
             self,
             "meson",
-            archive_url="https://github.com/mesonbuild/meson/archive/refs/tags/0.62.1.tar.gz",
-            archive_file_name="meson-0.62.1.tar.gz",
-            hash="9fb52e66dbc613479a5f70e46cc2e8faf5aa65e09313f2c71fa63b8afd018107",
+            archive_url=f"https://github.com/mesonbuild/meson/archive/refs/tags/{self.version}.tar.gz",
+            archive_file_name=f"meson-{self.version}.tar.gz",
+            hash="97108f4d9bb16bc758c44749bd25ec7d42c6a762961efbed8b7589a2a3551ea6",
             dependencies=[
                 "python",
             ],
-            dir_part="meson-0.62.1",
+            dir_part="meson-0.62.2",
             exe_name="meson.py",
         )
 
@@ -172,13 +174,14 @@ class ToolNasm(Tool):
 @tool_add
 class ToolNinja(Tool):
     def __init__(self):
+        self.version = "1.11.0"
         Tool.__init__(
             self,
             "ninja",
-            archive_url="https://github.com/ninja-build/ninja/releases/download/v1.10.2/ninja-win.zip",
-            archive_file_name="ninja-win-1.10.2.zip",
-            hash="bbde850d247d2737c5764c927d1071cbb1f1957dcabda4a130fa8547c12c695f",
-            dir_part="ninja-1.10.2",
+            archive_url=f"https://github.com/ninja-build/ninja/releases/download/v{self.version}/ninja-win.zip",
+            archive_file_name=f"ninja-win-{self.version}.zip",
+            hash="d0ee3da143211aa447e750085876c9b9d7bcdd637ab5b2c5b41349c617f22f3b",
+            dir_part=f"ninja-{self.version}",
             exe_name="ninja.exe",
         )
 
@@ -191,13 +194,14 @@ class ToolNinja(Tool):
 @tool_add
 class ToolNuget(Tool):
     def __init__(self):
+        self.version = "6.2.1"
         Tool.__init__(
             self,
             "nuget",
-            archive_url="https://dist.nuget.org/win-x86-commandline/v6.1.0/nuget.exe",
-            archive_file_name="nuget-6.1.0.exe",
-            hash="432d322b16ffab3fed5d24ab7ea30ae10c555a00339a9bf53060aa4b2aee7925",
-            dir_part="nuget-6.1.0",
+            archive_url=f"https://dist.nuget.org/win-x86-commandline/v{self.version}/nuget.exe",
+            archive_file_name=f"nuget-{self.version}.exe",
+            hash="a79f342e739fdb3903a92218767e7813e04930dff463621b6d2be2d468b84e05",
+            dir_part=f"nuget-{self.version}",
             exe_name="nuget.exe",
         )
 
@@ -260,9 +264,9 @@ class ToolPython(Tool):
         elif version == "3.8":
             version = "3.8.13"
         elif version == "3.9":
-            version = "3.9.12"
+            version = "3.9.13"
         elif version == "3.10":
-            version = "3.10.4"
+            version = "3.10.5"
 
         name = "pythonx86" if self.opts.x86 else "python"
         t_id = f"{name}.{version}"
@@ -354,8 +358,8 @@ class ToolGo(Tool):
         Tool.__init__(
             self,
             "go",
-            archive_url="https://go.dev/dl/go1.18.1.windows-amd64.zip",
-            hash="c30bc3f1f7314a953fe208bd9cd5e24bd9403392a6c556ced3677f9f70f71fe1",
+            archive_url="https://go.dev/dl/go1.18.3.windows-amd64.zip",
+            hash="9c46023f3ad0300fcfd1e62f2b6c2dfd9667b1f2f5c7a720b14b792af831f071",
             dir_part="go-1.18",
         )
 
