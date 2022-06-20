@@ -1,20 +1,20 @@
-From bb54e02ac108122f561204d527440e1892e18260 Mon Sep 17 00:00:00 2001
+From a74107417d6aa373df88b4c680a77ae3c65fb6e3 Mon Sep 17 00:00:00 2001
 From: Elias Carotti <eliascrt@amazon.it>
 Date: Thu, 26 May 2022 21:17:43 +0000
 Subject: [PATCH] Added support for MB_INFO
 
 ---
- libavcodec/libx264.c | 24 +++++++++++++++++++
+ libavcodec/libx264.c | 23 ++++++++++++++++++
  libavutil/Makefile   |  4 ++++
  libavutil/frame.h    | 10 ++++++++
  libavutil/mb_info.c  | 41 +++++++++++++++++++++++++++++++
  libavutil/mb_info.h  | 57 ++++++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 136 insertions(+)
+ 5 files changed, 135 insertions(+)
  create mode 100644 libavutil/mb_info.c
  create mode 100644 libavutil/mb_info.h
 
 diff --git a/libavcodec/libx264.c b/libavcodec/libx264.c
-index c5e0231b12..3e1807c5ee 100644
+index c5e0231b12..d3d0728aad 100644
 --- a/libavcodec/libx264.c
 +++ b/libavcodec/libx264.c
 @@ -27,6 +27,7 @@
@@ -64,18 +64,17 @@ index c5e0231b12..3e1807c5ee 100644
      do {
          if (x264_encoder_encode(x4->enc, &nal, &nnal, frame? &x4->pic: NULL, &pic_out) < 0)
              return AVERROR_EXTERNAL;
-@@ -966,6 +985,10 @@ static av_cold int X264_init(AVCodecContext *avctx)
+@@ -966,6 +985,9 @@ static av_cold int X264_init(AVCodecContext *avctx)
          }
      }
  
 +    x4->params.analyse.b_mb_info = x4->mb_info;
 +    x4->params.analyse.b_fast_pskip = 1;
-+    printf("MB info is: %s\n", x4->mb_info ? "enabled" : "disabled");
 +
      // update AVCodecContext with x264 parameters
      avctx->has_b_frames = x4->params.i_bframe ?
          x4->params.i_bframe_pyramid ? 2 : 1 : 0;
-@@ -1173,6 +1196,7 @@ static const AVOption options[] = {
+@@ -1173,6 +1195,7 @@ static const AVOption options[] = {
      { "noise_reduction", "Noise reduction",                               OFFSET(noise_reduction), AV_OPT_TYPE_INT, { .i64 = -1 }, INT_MIN, INT_MAX, VE },
      { "udu_sei",      "Use user data unregistered SEI if available",      OFFSET(udu_sei),  AV_OPT_TYPE_BOOL,   { .i64 = 0 }, 0, 1, VE },
      { "x264-params",  "Override the x264 configuration using a :-separated list of key=value parameters", OFFSET(x264_params), AV_OPT_TYPE_DICT, { 0 }, 0, 0, VE },
