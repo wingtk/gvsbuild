@@ -1,0 +1,66 @@
+From d9e16a4e4ce55f3dfb35c2358ef6d97a90cbba1e Mon Sep 17 00:00:00 2001
+From: Ignazio Pillai <ignazp@amazon.com>
+Date: Wed, 29 Jun 2022 15:10:20 +0200
+Subject: [PATCH] wasapi: Implement default audio channel mask
+
+Some multichannel capture devices does not provide a channel mask value
+which will result in a pipeline failure due to the empty channel mask.
+
+Fixes https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/-/merge_requests/2177
+---
+ .../sys/wasapi/gstwasapiutil.c                | 32 +++++++++++++++++++
+ 1 file changed, 32 insertions(+)
+
+diff --git a/sys/wasapi/gstwasapiutil.c b/sys/wasapi/gstwasapiutil.c
+index b59f5f1936..69a16b5216 100644
+--- a/sys/wasapi/gstwasapiutil.c
++++ b/sys/wasapi/gstwasapiutil.c
+@@ -82,6 +82,27 @@ const IID IID_IAudioRenderClient = { 0xf294acfc, 0x3146, 0x4483,
+   {0xa7, 0xbf, 0xad, 0xdc, 0xa7, 0xc2, 0x60, 0xe2}
+ };
+ 
++static DWORD default_ch_masks[] = {
++  0,
++  KSAUDIO_SPEAKER_MONO,
++  /* 2ch */
++  KSAUDIO_SPEAKER_STEREO,
++  /* 2.1ch */
++  /* KSAUDIO_SPEAKER_3POINT0 ? */
++  KSAUDIO_SPEAKER_2POINT1,
++  /* 4ch */
++  /* KSAUDIO_SPEAKER_3POINT1 or KSAUDIO_SPEAKER_SURROUND ? */
++  KSAUDIO_SPEAKER_QUAD,
++  /* 5ch */
++  KSAUDIO_SPEAKER_5POINT0,
++  /* 5.1ch */
++  KSAUDIO_SPEAKER_5POINT1,
++  /* 7ch */
++  KSAUDIO_SPEAKER_7POINT0,
++  /* 7.1ch */
++  KSAUDIO_SPEAKER_7POINT1,
++};
++
+ /* *INDENT-OFF* */
+ static struct
+ {
+@@ -705,6 +726,17 @@ gst_wasapi_util_waveformatex_to_channel_mask (WAVEFORMATEXTENSIBLE * format,
+   DWORD dwChannelMask = format->dwChannelMask;
+   GstAudioChannelPosition *pos = NULL;
+ 
++  if (nChannels > 2 && !dwChannelMask) {
++    GST_WARNING ("Unknown channel mask value for %d channel stream", nChannels);
++
++    if (nChannels >= G_N_ELEMENTS (default_ch_masks)) {
++      GST_ERROR ("Too many channels %d", nChannels);
++      return 0;
++    }
++
++    dwChannelMask = default_ch_masks[nChannels];
++  }
++
+   pos = g_new (GstAudioChannelPosition, nChannels);
+   gst_wasapi_util_channel_position_all_none (nChannels, pos);
+ 
+-- 
+2.30.2.windows.1
+
