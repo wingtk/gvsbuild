@@ -131,6 +131,7 @@ class GstPluginsBad(Tarball, Meson):
             hash="09d3c2cf5911f0bc7da6bf557a55251779243d3de216b6a26cc90c445b423848",
             dependencies=["meson", "ninja", "glib", "gstreamer", "gst-plugins-base"],
             patches=[
+                "wasapi-Implement-default-audio-channel-mask.patch",
                 "wasapisink-reduce-buffer-latency.patch",
             ],
         )
