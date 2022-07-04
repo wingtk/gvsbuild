@@ -26,8 +26,8 @@ class GLib(Tarball, Meson):
         Project.__init__(
             self,
             "glib",
-            archive_url="https://download.gnome.org/sources/glib/2.72/glib-2.72.2.tar.xz",
-            hash="78d599a133dba7fe2036dfa8db8fb6131ab9642783fc9578b07a20995252d2de",
+            archive_url="https://download.gnome.org/sources/glib/2.72/glib-2.72.3.tar.xz",
+            hash="4a39a2f624b8512d500d5840173eda7fa85f51c109052eae806acece85d345f0",
             dependencies=["ninja", "meson", "pkg-config", "gettext", "libffi", "zlib"],
             patches=[
                 "glib-package-installation-directory.patch",
@@ -47,8 +47,8 @@ class GLibNetworking(Tarball, Meson):
         Project.__init__(
             self,
             "glib-networking",
-            archive_url="https://download.gnome.org/sources/glib-networking/2.72/glib-networking-2.72.0.tar.xz",
-            hash="100aaebb369285041de52da422b6b716789d5e4d7549a3a71ba587b932e0823b",
+            archive_url="https://download.gnome.org/sources/glib-networking/2.72/glib-networking-2.72.1.tar.xz",
+            hash="6fc1bedc8062484dc8a0204965995ef2367c3db5c934058ff1607e5a24d95a74",
             dependencies=["pkg-config", "ninja", "meson", "glib", "openssl"],
             patches=[
                 "0001-Mark-strings-for-translation-and-translate-just-in-e.patch",
