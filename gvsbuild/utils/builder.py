@@ -325,7 +325,7 @@ class Builder:
         if os.path.exists(json_file):
             os.remove(json_file)
 
-        cmd = f'"{vswhere}" -all -products * -format json >{json_file}'
+        cmd = f'"{vswhere}" -all -prerelease -products * -format json >{json_file}'
         self.exec_cmd(cmd)
 
         try:
