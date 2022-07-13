@@ -325,11 +325,13 @@ class Builder:
         if os.path.exists(json_file):
             os.remove(json_file)
 
-        cmd = f'"{vswhere}" -all -prerelease -products * -format json >{json_file}'
+        cmd = (
+            f'"{vswhere}" -all -prerelease -products * -format json -utf8 >{json_file}'
+        )
         self.exec_cmd(cmd)
 
         try:
-            with open(json_file) as fi:
+            with open(json_file, encoding="utf-8") as fi:
                 vs_installs = json.load(fi)
         except (IOError, OSError) as e:
             log.log(f"Exception reading vswhere result file ({e})")
