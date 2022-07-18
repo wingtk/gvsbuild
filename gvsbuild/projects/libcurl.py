@@ -29,8 +29,8 @@ class Libcurl(Tarball, CmakeProject):
         Project.__init__(
             self,
             "libcurl",
-            archive_url="https://github.com/curl/curl/releases/download/curl-7_83_1/curl-7.83.1.tar.gz",
-            hash="93fb2cd4b880656b4e8589c912a9fd092750166d555166370247f09d18f5d0c0",
+            archive_url="https://github.com/curl/curl/releases/download/curl-7_84_0/curl-7.84.0.tar.xz",
+            hash="2d118b43f547bfe5bae806d8d47b4e596ea5b25a6c1f080aef49fbcd817c5db8",
             dependencies=[
                 "perl",
                 "cmake",
