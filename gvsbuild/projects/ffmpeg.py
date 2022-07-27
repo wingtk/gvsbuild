@@ -63,11 +63,6 @@ class Ffmpeg(Tarball, Project):
             ["mv", "avutil.lib", "../lib/"],
             working_dir=os.path.join(self.builder.gtk_dir, "bin"),
         )
-        if self.opts.ffmpeg_enable_gpl:
-            self.builder.exec_msys(
-                ["mv", "postproc.lib", "../lib/"],
-                working_dir=os.path.join(self.builder.gtk_dir, "bin"),
-            )
         self.builder.exec_msys(
             ["mv", "swscale.lib", "../lib/"],
             working_dir=os.path.join(self.builder.gtk_dir, "bin"),
