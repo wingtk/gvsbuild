@@ -26,8 +26,8 @@ class Harfbuzz(Tarball, Meson):
         Project.__init__(
             self,
             "harfbuzz",
-            archive_url="https://github.com/harfbuzz/harfbuzz/releases/download/4.4.1/harfbuzz-4.4.1.tar.xz",
-            hash="c5bc33ac099b2e52f01d27cde21cee4281b9d5bfec7684135e268512478bc9ee",
+            archive_url="https://github.com/harfbuzz/harfbuzz/releases/download/5.0.1/harfbuzz-5.0.1.tar.xz",
+            hash="d0094299a36346b9f5540aa159b358425c022b19fcdf72165eaf94046a179166",
             dependencies=["meson", "cmake", "python", "freetype", "pkg-config", "glib"],
         )
 
