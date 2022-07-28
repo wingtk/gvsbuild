@@ -321,21 +321,17 @@ class Builder:
             log.log(f"Could not find vswhere executable ({vswhere})")
             return
 
-        json_file = "vs-found.json"
-        if os.path.exists(json_file):
-            os.remove(json_file)
-
-        cmd = f'"{vswhere}" -all -products * -format json >{json_file}'
-        self.exec_cmd(cmd)
-
+        completed_process = subprocess.run(
+            [f"{vswhere}", "-all", "-products", "*", "-format", "json", "-utf8"],
+            text=True,
+            capture_output=True,
+        )
         try:
-            with open(json_file) as fi:
-                vs_installs = json.load(fi)
-        except (IOError, OSError) as e:
-            log.log(f"Exception reading vswhere result file ({e})")
-
-        if vs_installs:
+            completed_process.check_returncode()
+            vs_installs = json.loads(completed_process.stdout)
             return self.__extract_paths(vs_installs)
+        except subprocess.CalledProcessError as e:
+            log.log(f"Unable to call vswhere.exe to find Visual Studio with error {e}")
 
     def __extract_paths(self, res):
         log.message("")

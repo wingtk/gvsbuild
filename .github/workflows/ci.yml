@@ -1,7 +1,9 @@
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
+  release:
+    types: [published, prereleased]
 
 name: CI
 
@@ -16,11 +18,11 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - name: Set up Python
-        uses: actions/setup-python@v3.1.2
+        uses: actions/setup-python@v4.1.0
         with:
           python-version: ${{ env.python_version }}
       - name: Lint with Pre-commit
-        uses: pre-commit/action@v2.0.3
+        uses: pre-commit/action@v3.0.0
 
   build:
     needs: lint
@@ -35,11 +37,11 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - name: Set up Python
-        uses: actions/setup-python@v3.1.2
+        uses: actions/setup-python@v4.1.0
         with:
           python-version: '3.10'
       - name: Use Python Dependency Cache
-        uses: actions/cache@v3.0.2
+        uses: actions/cache@v3.0.5
         with:
           path: ~\AppData\Local\pip\Cache
           key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
@@ -65,3 +67,26 @@ jobs:
       - name: Restore git binary
         run: move "C:\Program Files\Git\usr\notbin" "C:\Program Files\Git\usr\bin"
         shell: cmd
+      - name: Create Source Dist and Wheel
+        run: poetry build
+      - name: Upload gaphor-${{ steps.setup_and_test.outputs.version }}.tar.gz
+        uses: actions/upload-artifact@v3
+        if: github.event_name == 'release'
+        with:
+          name: gvsbuild-${{ github.event.release.tag_name }}.tar.gz
+          path: dist/gaphor-${{ github.event.release.tag_name }}.tar.gz
+      - name: Upload gaphor-${{ github.event.release.tag_name }}-py3-none-any.whl
+        uses: actions/upload-artifact@v3
+        if: github.event_name == 'release'
+        with:
+          name: gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
+          path: dist/gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
+      - name: Upload Assets (release only)
+        uses: AButler/upload-release-assets@v2.0
+        if: github.event_name == 'release'
+        with:
+          files: "dist/*"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish to PyPI (release only)
+        if: github.event_name == 'release'
+        run: poetry publish -u __token__ -p ${{ secrets.PYPI_TOKEN }}
