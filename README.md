@@ -94,12 +94,26 @@ distributions like [Miniconda
 should also work.
 
 #### Install gvsbuild
+The recommended way to install gvsbuild is with pipx. Open a new regular user
+PowerShell terminal and execute:
+
+```PowerShell
+python -m pip install --user pipx
+python -m pipx ensurepath
+pipx install gvsbuild
+```
+
+Alternatively, you can also use git to clone the repository and install it.
 Open a new regular user PowerShell terminal and execute:
 
 ```PowerShell
 mkdir C:\gtk-build\github
 cd C:\gtk-build\github
 git clone https://github.com/wingtk/gvsbuild.git
+cd C:\gtk-build\github\gvsbuild
+python -m venv .venv
+.\.venv\Scripts\activate.ps1
+pip install .
 ```
 
 #### Build GTK
@@ -107,19 +121,11 @@ git clone https://github.com/wingtk/gvsbuild.git
 In the same PowerShell terminal, execute:
 
 ```PowerShell
-cd C:\gtk-build\github\gvsbuild
-python -m venv .venv
-.\.venv\Scripts\activate.ps1
-pip install .
 gvsbuild build gtk3
 ```
 
 Alternatively, if you want to build GTK 4, execute:
 ```PowerShell
-cd C:\gtk-build\github\gvsbuild
-python -m venv .venv
-.\.venv\Scripts\activate.ps1
-pip install .
 gvsbuild build gtk4
 ```
 
