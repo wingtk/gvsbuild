@@ -206,7 +206,7 @@ class ToolNuget(Tool):
         )
 
     def unpack(self):
-        # We download directly the exe file so we copy it on the tool directory ...
+        # Download the exe file and copy it on the tool directory
         self.mark_deps = extract_exec(
             self.archive_file,
             self.build_dir,
