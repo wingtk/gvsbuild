@@ -266,7 +266,7 @@ class ToolPython(Tool):
         elif version == "3.9":
             version = "3.9.13"
         elif version == "3.10":
-            version = "3.10.5"
+            version = "3.10.6"
 
         name = "pythonx86" if self.opts.x86 else "python"
         t_id = f"{name}.{version}"
