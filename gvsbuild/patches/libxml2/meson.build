@@ -1,4 +1,4 @@
-project('libxml2', 'c', version : '2.9.8', license : 'mit')
+project('libxml2', 'c', version : '2.10.0', license : 'mit')
 
 cdata = configuration_data()
 
