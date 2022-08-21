@@ -23,11 +23,12 @@ from gvsbuild.utils.base_project import Project, project_add
 @project_add
 class Harfbuzz(Tarball, Meson):
     def __init__(self):
+        self.version = "5.1.0"
         Project.__init__(
             self,
             "harfbuzz",
-            archive_url="https://github.com/harfbuzz/harfbuzz/releases/download/5.0.1/harfbuzz-5.0.1.tar.xz",
-            hash="d0094299a36346b9f5540aa159b358425c022b19fcdf72165eaf94046a179166",
+            archive_url=f"https://github.com/harfbuzz/harfbuzz/releases/download/{self.version}/harfbuzz-{self.version}.tar.xz",
+            hash="2edb95db668781aaa8d60959d21be2ff80085f31b12053cdd660d9a50ce84f05",
             dependencies=["meson", "cmake", "python", "freetype", "pkg-config", "glib"],
         )
 
