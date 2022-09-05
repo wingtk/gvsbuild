@@ -194,13 +194,13 @@ class ToolNinja(Tool):
 @tool_add
 class ToolNuget(Tool):
     def __init__(self):
-        self.version = "6.2.1"
+        self.version = "6.3.0"
         Tool.__init__(
             self,
             "nuget",
             archive_url=f"https://dist.nuget.org/win-x86-commandline/v{self.version}/nuget.exe",
             archive_file_name=f"nuget-{self.version}.exe",
-            hash="a79f342e739fdb3903a92218767e7813e04930dff463621b6d2be2d468b84e05",
+            hash="38257f945b3662f5c81d646f2cd940365642e2c4941b34c0e5ae3f4281f9bd2d",
             dir_part=f"nuget-{self.version}",
             exe_name="nuget.exe",
         )
