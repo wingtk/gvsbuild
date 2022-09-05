@@ -106,13 +106,13 @@ class ToolCmake(Tool):
 @tool_add
 class ToolMeson(Tool):
     def __init__(self):
-        self.version = "0.63.0"
+        self.version = "0.63.1"
         Tool.__init__(
             self,
             "meson",
             archive_url=f"https://github.com/mesonbuild/meson/archive/refs/tags/{self.version}.tar.gz",
             archive_file_name=f"meson-{self.version}.tar.gz",
-            hash="77808d47fa05875c2553d66cb6c6140c2f687b46256dc537eeb8a63889e0bea2",
+            hash="f355829f0e8c714423f03a06604c04c216d4cbe3586f3154cb2181076b19207a",
             dependencies=[
                 "python",
             ],
