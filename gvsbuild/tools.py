@@ -79,12 +79,12 @@ class ToolCargo(Tool):
 @tool_add
 class ToolCmake(Tool):
     def __init__(self):
-        self.version = "3.24.0"
+        self.version = "3.24.1"
         Tool.__init__(
             self,
             "cmake",
             archive_url=f"https://github.com/Kitware/CMake/releases/download/v{self.version}/cmake-{self.version}-windows-x86_64.zip",
-            hash="b1ad8c2dbf0778e3efcc9fd61cd4a962e5c1af40aabdebee3d5074bcff2e103c",
+            hash="c1b17431a16337d517f7ba78c7067b6f143a12686cb8087f3dd32f3fa45f5aae",
             dir_part=f"cmake-{self.version}-windows-x86_64",
         )
 
