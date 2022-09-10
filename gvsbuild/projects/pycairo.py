@@ -30,9 +30,6 @@ class Pycairo(Tarball, Project):
             archive_url="https://github.com/pygobject/pycairo/releases/download/v1.21.0/pycairo-1.21.0.tar.gz",
             hash="251907f18a552df938aa3386657ff4b5a4937dde70e11aa042bc297957f4b74b",
             dependencies=["cairo", "python"],
-            patches=[
-                "pycairo_py3_8_load_dll.patch",
-            ],
         )
 
     def build(self):
