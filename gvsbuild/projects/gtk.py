@@ -116,8 +116,8 @@ class Gtk4(Tarball, Meson):
             self,
             "gtk4",
             prj_dir="gtk4",
-            archive_url="https://download.gnome.org/sources/gtk/4.6/gtk-4.6.7.tar.xz",
-            hash="effd2e7c4b5e2a5c7fad43e0f24adea68baa4092abb0b752caff278e6bb010e8",
+            archive_url="https://download.gnome.org/sources/gtk/4.8/gtk-4.8.0.tar.xz",
+            hash="c8d6203437d1e359d83124dc591546d403f67e3b00544e53dd50a9baacdcbd7f",
             dependencies=["gdk-pixbuf", "pango", "libepoxy", "graphene"],
             patches=[],
         )
