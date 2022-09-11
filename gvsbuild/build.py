@@ -105,6 +105,10 @@ def build(
         Path(r"C:\gtk-build"),
         help="The directory to build in",
         rich_help_panel="Directory Options",
+        exists=True,
+        dir_okay=True,
+        writable=True,
+        readable=True,
     ),
     msys_dir: Path = typer.Option(
         None,
@@ -333,19 +337,40 @@ def build(
     opts = Options()
     opts.verbose = verbose
     opts.debug = debug
+    print(build_dir)
+    opts.build_dir = str(build_dir)
+    log.configure(str(build_dir / "logs"), opts)
     opts.platform = platform.value
     opts.configuration = configuration.value
-    opts.build_dir = build_dir
-    opts.archives_download_dir = archives_download_dir
-    opts.export_dir = export_dir
-    opts.patches_root_dir = patches_root_dir
-    opts.tools_root_dir = tools_root_dir
+    log.message(f"Build type is {configuration}")
+    if archives_download_dir:
+        opts.archives_download_dir = str(archives_download_dir)
+    else:
+        archives_download_dir = build_dir / "src"
+        opts.archives_download_dir = str(archives_download_dir)
+    if export_dir:
+        opts.export_dir = str(export_dir)
+    else:
+        opts.export_dir = str(build_dir / "export")
+    if patches_root_dir:
+        opts.patches_root_dir = str(patches_root_dir)
+    else:
+        patches_root_dir = Path(__file__).parent / "patches"
+        opts.patches_root_dir = str(patches_root_dir)
+    if tools_root_dir:
+        opts.tools_root_dir = str(tools_root_dir)
+    else:
+        opts.tools_root_dir = str(build_dir / "tools")
     opts.vs_ver = vs_ver.value
     opts.vs_install_path = vs_install_path
     if win_sdk_ver:
         opts.win_sdk_ver = win_sdk_ver.value
     else:
         opts.win_sdk_ver = None
+    if git_expand_dir:
+        opts.git_expand_dir = str(git_expand_dir)
+    else:
+        opts.git_expand_dir = str(archives_download_dir / "git-exp")
     opts.net_target_framework = net_target_framework
     opts.net_target_framework_version = net_target_framework_version
     opts.python_dir = python_dir
@@ -374,28 +399,15 @@ def build(
     opts.same_python = same_python
     opts.capture_out = capture_out
     opts.print_out = print_out
-    opts.git_expand_dir = git_expand_dir
-
-    log.configure(build_dir / "logs", opts)
 
     if opts.make_zip and not opts.deps:
         log.error_exit("Options --make-zip and --no-deps are not compatible")
-    if not opts.archives_download_dir:
-        opts.archives_download_dir = build_dir / "src"
-    if not opts.git_expand_dir:
-        opts.git_expand_dir = opts.archives_download_dir / "git-exp"
-    if not opts.export_dir:
-        opts.export_dir = build_dir / "export"
-    if not opts.patches_root_dir:
-        opts.patches_root_dir = Path(__file__).parent / "patches"
-    prop_file = opts.patches_root_dir / "stack.props"
+    prop_file = patches_root_dir / "stack.props"
     if not Path.is_file(prop_file):
         log.error_exit(
             f"Missing 'stack.props' file on directory {opts.patches_root_dir}.\n"
             "Wrong or missing --patches-root-dir option?"
         )
-    if not opts.tools_root_dir:
-        opts.tools_root_dir = build_dir / "tools"
     if opts.python_dir is None and not opts.same_python:
         opts._load_python = True
 

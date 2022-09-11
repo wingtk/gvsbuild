@@ -15,15 +15,9 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-from typer.testing import CliRunner
 
-from gvsbuild.main import app
-
-runner = CliRunner()
-
-
-def test_main_help():
-    result = runner.invoke(app, ["--help"])
+def test_main_help(typer_app, runner):
+    result = runner.invoke(typer_app, ["--help"])
     assert result.exit_code == 0
     assert "build" in result.stdout
     assert "outdated" in result.stdout
@@ -31,7 +25,7 @@ def test_main_help():
     assert "list-projects" in result.stdout
 
 
-def test_wrong_command():
-    result = runner.invoke(app, ["builds"])
+def test_wrong_command(typer_app, runner):
+    result = runner.invoke(typer_app, ["builds"])
     assert result.exit_code == 2
     assert "No such command" in result.stdout

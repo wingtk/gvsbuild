@@ -455,8 +455,6 @@ class Project(Generic[P]):
 
     @staticmethod
     def add(proj, type=ProjectType.IGNORE):
-        if proj.name in Project._dict:
-            log.error_exit(f"Project '{proj.name}' already present!")
         Project._projects.append(proj)
         Project._names.append(proj.name)
         Project._dict[proj.name] = proj
@@ -482,7 +480,6 @@ class Project(Generic[P]):
                 Project.add(c_inst, type=ty)
             else:
                 del c_inst
-        del Project._reg_prj_list
 
     def ignore(self):
         """Mark the project not to build/add to the list."""
@@ -490,7 +487,11 @@ class Project(Generic[P]):
 
     @staticmethod
     def get_project(name):
-        return Project._dict[name]
+        try:
+            project = Project._dict[name]
+            return project
+        except KeyError:
+            log.error_exit(f"KeyError getting project {name} from Project._dict")
 
     @staticmethod
     def list_projects():

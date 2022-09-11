@@ -15,19 +15,23 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-from gvsbuild.utils.base_builders import Meson
-from gvsbuild.utils.base_expanders import NullExpander
-from gvsbuild.utils.base_project import Project, project_add
+import pytest
+from typer.testing import CliRunner
 
 
-@project_add
-class HelloWorld(NullExpander, Meson):
-    def __init__(self):
-        Project.__init__(
-            self,
-            "hello-world",
-            dependencies=["meson"],
-        )
+@pytest.fixture
+def typer_app():
+    from gvsbuild.main import app
 
-    def build(self):
-        Meson.build(self)
+    yield app
+    del app
+
+
+@pytest.fixture(scope="session")
+def tmp_dir(tmp_path_factory):
+    return tmp_path_factory.mktemp("gtk-build")
+
+
+@pytest.fixture
+def runner():
+    return CliRunner()

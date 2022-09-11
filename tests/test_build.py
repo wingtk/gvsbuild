@@ -15,26 +15,38 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-from typer.testing import CliRunner
 
-from gvsbuild.main import app
-
-runner = CliRunner()
-
-
-def test_build_help():
-    result = runner.invoke(app, ["build", "--help"])
+def test_build_help(typer_app, runner):
+    result = runner.invoke(typer_app, ["build", "--help"])
     assert result.exit_code == 0
     assert "--help" in result.stdout
 
 
-def test_wrong_project_name():
-    result = runner.invoke(app, ["build", "bad-name"])
+def test_wrong_project_name(typer_app, runner):
+    result = runner.invoke(typer_app, ["build", "bad-name"])
     assert result.exit_code == 1
     assert "not a valid project name" in result.stdout
 
 
-def test_no_project():
-    result = runner.invoke(app, ["build"])
+def test_no_project(typer_app, runner):
+    result = runner.invoke(typer_app, ["build"])
     assert result.exit_code == 2
     assert "Missing argument" in result.stdout
+
+
+def test_platform(tmp_dir, typer_app, runner):
+    assert tmp_dir.exists()
+    result = runner.invoke(
+        typer_app,
+        [
+            "build",
+            "--build-dir",
+            tmp_dir,
+            "--platform",
+            "x86",
+            "--same-python",
+            "hello-world",
+        ],
+    )
+    assert result.exit_code == 0
+    assert "x86" in result.stdout
