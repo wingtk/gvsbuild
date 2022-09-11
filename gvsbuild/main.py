@@ -23,7 +23,7 @@
 import typer
 
 from gvsbuild.deps import deps
-from gvsbuild.list import list_projects
+from gvsbuild.list_projects import list_projects
 
 try:
     import gvsbuild.utils.utils  # noqa: F401
