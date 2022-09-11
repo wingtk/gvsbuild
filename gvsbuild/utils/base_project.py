@@ -38,11 +38,49 @@ class ProjectType(Enum):
 
 class Options:
     def __init__(self):
-        # Only the one used by the projects
         self.enable_gi = False
         self.ffmpeg_enable_gpl = False
-        # Default
         self._load_python = False
+        self.verbose = False
+        self.debug = False
+        self.platform = "x64"
+        self.configuration = "release"
+        self.build_dir = None
+        self.archives_download_dir = None
+        self.export_dir = None
+        self.patches_root_dir = None
+        self.tools_root_dir = None
+        self.vs_ver = None
+        self.vs_install_path = None
+        self.win_sdk_ver = None
+        self.net_target_framework = None
+        self.net_target_framework_version = None
+        self.python_dir = None
+        self.msys_dir = None
+        self.clean = False
+        self.msbuild_opts = None
+        self.use_env = False
+        self.deps = False
+        self.check_hash = False
+        self.skip = False
+        self.make_zip = False
+        self.zip_continue = False
+        self.from_scratch = False
+        self.keep_tools = False
+        self.fast_build = False
+        self.keep_going = False
+        self.clean_built = False
+        self.py_wheel = False
+        self.log_size = None
+        self.log_single = False
+        self.cargo_opts = None
+        self.ninja_opts = None
+        self.python_ver = None
+        self.same_python = None
+        self.capture_out = False
+        self.print_out = False
+        self.git_expand_dir = None
+        self.projects = None
 
 
 P = TypeVar("P")
@@ -579,3 +617,11 @@ def project_add(cls):
     projects/tools/groups list."""
     Project.register(cls, ProjectType.PROJECT)
     return cls
+
+
+def get_project_by_type(prj_type):
+    return [
+        (project.name, project.version)
+        for project in Project._projects
+        if project.type == prj_type
+    ]

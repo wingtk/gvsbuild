@@ -16,6 +16,7 @@ classifiers = [
 python = "^3.8"
 lastversion = { version = "^2.4.2", optional = true }
 packaging = { version = "^21.3", optional = true }
+typer = {extras = ["all"], version = "^0.6.1"}
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^2.18.1"
@@ -24,7 +25,7 @@ pre-commit = "^2.18.1"
 outdated = ["lastversion", "packaging"]
 
 [tool.poetry.scripts]
-gvsbuild = 'gvsbuild.main:build'
+gvsbuild = 'gvsbuild.main:run'
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
