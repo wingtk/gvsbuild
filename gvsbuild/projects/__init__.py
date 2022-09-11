@@ -34,6 +34,7 @@ from gvsbuild.projects.gstreamer import (
 from gvsbuild.projects.gtk import Gtk2, Gtk3, Gtk4
 from gvsbuild.projects.gtksourceview import GtkSourceView4, GtkSourceView5
 from gvsbuild.projects.harfbuzz import Harfbuzz
+from gvsbuild.projects.hello_world import HelloWorld
 from gvsbuild.projects.hicolor_icon_theme import HicolorIconTheme
 from gvsbuild.projects.icu import Icu
 from gvsbuild.projects.json_glib import JsonGLib
