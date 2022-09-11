@@ -160,7 +160,7 @@ $env:Path = "C:\gtk-build\gtk\x64\release\bin;" + $env:Path
  14
  --win-sdk
  8.1
- -c
+ --configuration
  release
  ```
 
@@ -198,8 +198,7 @@ To see and analyze the dependency between the various projects, in text or in a
 Graphviz format, use the script deps.py:
 
  ```
- cd C:\gtk-build\github\gvsbuild
- python .\deps.py -g -o test.gv
+gvsbuild deps --graph --gv-file test.gv
  ```
 
 Without option a simple dependency of all the projects is printed, as usual with
