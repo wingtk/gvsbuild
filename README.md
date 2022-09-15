@@ -151,7 +151,7 @@ $env:Path = "C:\gtk-build\gtk\x64\release\bin;" + $env:Path
  gvsbuild build --help
  ```
 
- Is possible to set some parameters from a file, e.g. vs2015-release.pro, putting
+ It is possible to set some parameters from a file, e.g. vs2015-release.pro, putting
  the @ character before the file name. The file contains the option, one per
  line, separated by a carriage return:
 
@@ -174,8 +174,8 @@ $env:Path = "C:\gtk-build\gtk\x64\release\bin;" + $env:Path
 
 ## Troubleshooting
 
-If the download of a tarball fails a partial file will not pass the hash check.
-Delete the file and try again.
+If the download of a tarball fails a partial file will not pass the hash check,
+delete the file and try again.
 
 ## OpenSSL
 
@@ -211,7 +211,7 @@ This build script is licensed under the GPL2.0 license, see the COPYING file for
 the full text.
 
 The binaries produced by the build script are licensed under the license terms
-of the project that gets built (ie glib is LGPL so you can use glib.dll built
+of the project that is built (ie glib is LGPL so you can use glib.dll built
 with this script under the terms of LGPL).
 
 Patches included in the repository are licensed under the license terms of the
