@@ -31,7 +31,7 @@ class Ffmpeg(Tarball, Project):
             archive_url="https://ffmpeg.org/releases/ffmpeg-5.1.2.tar.xz",
             hash="619e706d662c8420859832ddc259cd4d4096a48a2ce1eefd052db9e440eef3dc",
             dependencies=["nasm", "msys2", "pkg-config", "nv-codec-headers"],
-            patches=["0001-Added-support-for-MB_INFO.patch"],
+            patches=["0001-libavutil-libavcodec-add-support-for-MB_INFO.patch"],
         )
         if self.opts.ffmpeg_enable_gpl:
             self.add_dependency("x264")
