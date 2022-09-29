@@ -55,18 +55,11 @@ class Ffmpeg(Tarball, Project):
             self.install(r".\COPYING.GPLv2 " r"share\doc\ffmpeg")
 
     def post_install(self):
-        self.builder.exec_msys(
-            ["mv", "avcodec.lib", "../lib/"],
-            working_dir=os.path.join(self.builder.gtk_dir, "bin"),
-        )
-        self.builder.exec_msys(
-            ["mv", "avutil.lib", "../lib/"],
-            working_dir=os.path.join(self.builder.gtk_dir, "bin"),
-        )
-        self.builder.exec_msys(
-            ["mv", "swscale.lib", "../lib/"],
-            working_dir=os.path.join(self.builder.gtk_dir, "bin"),
-        )
+        for lib in ["avcodec.lib", "avutil.lib", "swscale.lib"]:
+            self.builder.exec_msys(
+                ["mv", lib, "../lib/"],
+                working_dir=os.path.join(self.builder.gtk_dir, "bin")
+            )
 
 
 @project_add
