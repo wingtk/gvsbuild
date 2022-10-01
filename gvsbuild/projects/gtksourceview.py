@@ -47,8 +47,8 @@ class GtkSourceView5(Tarball, Meson):
         Project.__init__(
             self,
             "gtksourceview5",
-            archive_url="https://download.gnome.org/sources/gtksourceview/5.6/gtksourceview-5.6.0.tar.xz",
-            hash="0ca3df1d2af61bde3608d0d3f233e4a41f958e2ae59b9fc209c3df6102e8afdd",
+            archive_url="https://download.gnome.org/sources/gtksourceview/5.6/gtksourceview-5.6.1.tar.xz",
+            hash="659d9cc9d034a114f07e7e134ee80d77dec0497cb1516ae5369119c2fcb9da16",
             dependencies=["python", "meson", "ninja", "gtk4", "pkg-config"],
         )
         if Project.opts.enable_gi:
