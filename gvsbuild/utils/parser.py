@@ -207,8 +207,12 @@ def separate_name_and_major_version(name: str) -> Tuple[Union[str, Any], ...]:
 
 
 def do_outdated(args):
-    import lastversion
-    from packaging import version
+    try:
+        import lastversion
+        from packaging import version
+    except ImportError:
+        print("Please pip install .[outdated] in your Python environment")
+        sys.exit(0)
 
     Project.add_all()
     projects = get_project_by_type(ProjectType.PROJECT)
