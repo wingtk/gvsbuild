@@ -14,8 +14,10 @@
 #
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
+import pytest
 
 
+@pytest.mark.xfail(reason="https://github.com/Textualize/rich/issues/2559")
 def test_outdated(typer_app, runner):
     result = runner.invoke(typer_app, ["outdated", "--help"])
     assert result.exit_code == 0
