@@ -105,10 +105,6 @@ def build(
         Path(r"C:\gtk-build"),
         help="The directory to build in",
         rich_help_panel="Directory Options",
-        exists=True,
-        dir_okay=True,
-        writable=True,
-        readable=True,
     ),
     msys_dir: Path = typer.Option(
         None,
