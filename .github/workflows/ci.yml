@@ -72,13 +72,13 @@ jobs:
         shell: cmd
       - name: Create Source Dist and Wheel
         run: poetry build
-      - name: Upload gaphor-${{ steps.setup_and_test.outputs.version }}.tar.gz
+      - name: Upload gvsbuild-${{ github.event.release.tag_name }}.tar.gz
         uses: actions/upload-artifact@v3
         if: github.event_name == 'release'
         with:
           name: gvsbuild-${{ github.event.release.tag_name }}.tar.gz
-          path: dist/gaphor-${{ github.event.release.tag_name }}.tar.gz
-      - name: Upload gaphor-${{ github.event.release.tag_name }}-py3-none-any.whl
+          path: dist/gvsbuild-${{ github.event.release.tag_name }}.tar.gz
+      - name: Upload gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
         uses: actions/upload-artifact@v3
         if: github.event_name == 'release'
         with:
