@@ -28,8 +28,8 @@ class Ffmpeg(Tarball, Project):
         Project.__init__(
             self,
             "ffmpeg",
-            archive_url="https://ffmpeg.org/releases/ffmpeg-5.0.1.tar.xz",
-            hash="ef2efae259ce80a240de48ec85ecb062cecca26e4352ffb3fda562c21a93007b",
+            archive_url="https://ffmpeg.org/releases/ffmpeg-5.1.2.tar.xz",
+            hash="619e706d662c8420859832ddc259cd4d4096a48a2ce1eefd052db9e440eef3dc",
             dependencies=["nasm", "msys2", "pkg-config", "nv-codec-headers"],
             patches=["0001-Added-support-for-MB_INFO.patch"],
         )
