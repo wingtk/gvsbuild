@@ -26,13 +26,11 @@ class GLib(Tarball, Meson):
         Project.__init__(
             self,
             "glib",
-            archive_url="https://download.gnome.org/sources/glib/2.72/glib-2.72.4.tar.xz",
-            hash="8848aba518ba2f4217d144307a1d6cb9afcc92b54e5c13ac1f8c4d4608e96f0e",
+            archive_url="https://download.gnome.org/sources/glib/2.74/glib-2.74.0.tar.xz",
+            hash="3652c7f072d7b031a6b5edd623f77ebc5dcd2ae698598abcc89ff39ca75add30",
             dependencies=["ninja", "meson", "pkg-config", "gettext", "libffi", "zlib"],
             patches=[
                 "glib-package-installation-directory.patch",
-                "0002-pcre-add-fallback-url.patch",
-                "0001-Fix-global-and-local-variables-hidden-by-local-varia.patch",
             ],
         )
 
