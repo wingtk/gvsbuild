@@ -36,7 +36,7 @@ class GLib(Tarball, Meson):
 
     def build(self):
         Meson.build(self)
-        self.install(r".\COPYING share\doc\glib")
+        self.install(r".\LICENSES\* share\doc\glib")
 
 
 @project_add
