@@ -23,11 +23,12 @@ from gvsbuild.utils.base_project import Project, project_add
 @project_add
 class FreeRDP(Tarball, CmakeProject):
     def __init__(self):
+        self.version = "2.8.0"
         Project.__init__(
             self,
             "freerdp",
-            archive_url="https://github.com/FreeRDP/FreeRDP/releases/download/2.7.0/freerdp-2.7.0.tar.gz",
-            hash="89000728b6e66ac37db018d6dc5f0981b530fd550ab748877ff42892dd0c166b",
+            archive_url=f"https://github.com/FreeRDP/FreeRDP/releases/download/{self.version}/freerdp-{self.version}.tar.gz",
+            hash="fd26a41c367ea1f23a06716725d19efa41fd572c4536348d39b3465b116b3703",
             dependencies=[
                 "cmake",
                 "ninja",
