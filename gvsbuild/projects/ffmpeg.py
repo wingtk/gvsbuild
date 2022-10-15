@@ -31,7 +31,7 @@ class Ffmpeg(Tarball, Project):
             archive_url="https://ffmpeg.org/releases/ffmpeg-5.1.2.tar.xz",
             hash="619e706d662c8420859832ddc259cd4d4096a48a2ce1eefd052db9e440eef3dc",
             dependencies=["nasm", "msys2", "pkg-config", "nv-codec-headers"],
-            patches=["0001-Added-support-for-MB_INFO.patch"],
+            patches=["0001-libavutil-libavcodec-add-support-for-MB_INFO.patch"],
         )
         if self.opts.ffmpeg_enable_gpl:
             self.add_dependency("x264")
@@ -55,18 +55,11 @@ class Ffmpeg(Tarball, Project):
             self.install(r".\COPYING.GPLv2 " r"share\doc\ffmpeg")
 
     def post_install(self):
-        self.builder.exec_msys(
-            ["mv", "avcodec.lib", "../lib/"],
-            working_dir=os.path.join(self.builder.gtk_dir, "bin"),
-        )
-        self.builder.exec_msys(
-            ["mv", "avutil.lib", "../lib/"],
-            working_dir=os.path.join(self.builder.gtk_dir, "bin"),
-        )
-        self.builder.exec_msys(
-            ["mv", "swscale.lib", "../lib/"],
-            working_dir=os.path.join(self.builder.gtk_dir, "bin"),
-        )
+        for lib in ["avcodec.lib", "avutil.lib", "swscale.lib"]:
+            self.builder.exec_msys(
+                ["mv", lib, "../lib/"],
+                working_dir=os.path.join(self.builder.gtk_dir, "bin"),
+            )
 
 
 @project_add

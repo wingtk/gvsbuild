@@ -38,8 +38,8 @@ class Zlib(Tarball, Project):
         Project.__init__(
             self,
             "zlib",
-            archive_url="http://www.zlib.net/zlib-1.2.13.tar.xz",
-            hash="d14c38e313afc35a9a8760dadf26042f51ea0f5d154b0630a31da0540107fb98",
+            archive_url="http://www.zlib.net/fossils/zlib-1.2.13.tar.gz",
+            hash="b3a24de97a8fdbc835b9833169501030b8977031bcb54b3b3ac13740f846ab30",
         )
 
     def build(self):
