@@ -27,9 +27,10 @@ class PkgConf(Tarball, Meson):
             self,
             "pkg-config",
             prj_dir="pkgconf",
-            archive_url="https://distfiles.dereferenced.org/pkgconf/pkgconf-1.9.3.tar.gz",
-            hash="6d73ac21a9410f5cc636acf730f3a5bf46b28d1e18a239c89efc4b2c5548792f",
+            archive_url="https://distfiles.dereferenced.org/pkgconf/pkgconf-1.8.0.tar.gz",
+            hash="d7b6fdb522d81c11f5a0e0a0629a9f5480809ec90e595058674c1517822dfb8c",
             dependencies=["ninja", "meson"],
+            patches=["0001-vs2013.patch"],
         )
         self.add_param("-Dtests=false")
 
