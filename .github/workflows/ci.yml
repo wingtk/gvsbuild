@@ -17,11 +17,11 @@ jobs:
     timeout-minutes: 10
     if: "!contains(github.event.head_commit.message, 'skip ci')"
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3.1.0
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - name: Set up Python
-        uses: actions/setup-python@v4.2.0
+        uses: actions/setup-python@v4.3.0
         with:
           python-version: ${{ env.python_version }}
       - name: Lint with Pre-commit
@@ -36,15 +36,15 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3.0.2
+        uses: actions/checkout@v3.1.0
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - name: Set up Python
-        uses: actions/setup-python@v4.2.0
+        uses: actions/setup-python@v4.3.0
         with:
           python-version: ${{ env.python_version }}
       - name: Use Python Dependency Cache
-        uses: actions/cache@v3.0.9
+        uses: actions/cache@v3.0.11
         with:
           path: ~\AppData\Local\pip\Cache
           key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
@@ -74,13 +74,13 @@ jobs:
         shell: cmd
       - name: Create Source Dist and Wheel
         run: poetry build
-      - name: Upload gaphor-${{ steps.setup_and_test.outputs.version }}.tar.gz
+      - name: Upload gvsbuild-${{ github.event.release.tag_name }}.tar.gz
         uses: actions/upload-artifact@v3
         if: github.event_name == 'release'
         with:
           name: gvsbuild-${{ github.event.release.tag_name }}.tar.gz
-          path: dist/gaphor-${{ github.event.release.tag_name }}.tar.gz
-      - name: Upload gaphor-${{ github.event.release.tag_name }}-py3-none-any.whl
+          path: dist/gvsbuild-${{ github.event.release.tag_name }}.tar.gz
+      - name: Upload gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
         uses: actions/upload-artifact@v3
         if: github.event_name == 'release'
         with:
