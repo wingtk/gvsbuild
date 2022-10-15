@@ -31,7 +31,7 @@ class Ffmpeg(Tarball, Project):
             archive_url="https://ffmpeg.org/releases/ffmpeg-5.1.2.tar.xz",
             hash="619e706d662c8420859832ddc259cd4d4096a48a2ce1eefd052db9e440eef3dc",
             dependencies=["nasm", "msys2", "pkg-config", "nv-codec-headers"],
-            patches=["0001-libavutil-libavcodec-add-support-for-MB_INFO.patch"]
+            patches=["0001-libavutil-libavcodec-add-support-for-MB_INFO.patch"],
         )
         if self.opts.ffmpeg_enable_gpl:
             self.add_dependency("x264")
@@ -58,7 +58,7 @@ class Ffmpeg(Tarball, Project):
         for lib in ["avcodec.lib", "avutil.lib", "swscale.lib"]:
             self.builder.exec_msys(
                 ["mv", lib, "../lib/"],
-                working_dir=os.path.join(self.builder.gtk_dir, "bin")
+                working_dir=os.path.join(self.builder.gtk_dir, "bin"),
             )
 
 
@@ -70,7 +70,7 @@ class Project_nv_codec_headers(Tarball, Project):
             "nv-codec-headers",
             archive_url="https://github.com/FFmpeg/nv-codec-headers/releases/download/n11.1.5.1/nv-codec-headers-11.1.5.1.tar.gz",
             hash="a28cdde3ac0e9e02c2dde7a1b4de5333b4ac6148a8332ca712da243a3361a0d9",
-            version="11.1.5.1"
+            version="11.1.5.1",
         )
 
     def build(self):

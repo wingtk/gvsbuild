@@ -29,7 +29,7 @@ class PkgConf(Tarball, Meson):
             prj_dir="pkgconf",
             archive_url="https://distfiles.dereferenced.org/pkgconf/pkgconf-1.9.3.tar.gz",
             hash="6d73ac21a9410f5cc636acf730f3a5bf46b28d1e18a239c89efc4b2c5548792f",
-            dependencies=["ninja", "meson"]
+            dependencies=["ninja", "meson"],
         )
         self.add_param("-Dtests=false")
 
