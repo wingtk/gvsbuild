@@ -260,13 +260,13 @@ class ToolPython(Tool):
         version = self.opts.python_ver
         # Get the last version we ask
         if version == "3.7":
-            version = "3.7.14"
+            version = "3.7.15"
         elif version == "3.8":
-            version = "3.8.14"
+            version = "3.8.15"
         elif version == "3.9":
-            version = "3.9.14"
+            version = "3.9.15"
         elif version == "3.10":
-            version = "3.10.7"
+            version = "3.10.8"
 
         name = "pythonx86" if self.opts.x86 else "python"
         t_id = f"{name}.{version}"
