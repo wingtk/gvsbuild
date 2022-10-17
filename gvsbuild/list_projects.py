@@ -29,6 +29,12 @@ def list_projects(
         help="Specify type of projects to show, if not selected show all",
         rich_help_panel="Selection Options",
     ),
+    show_deps: bool = typer.Option(
+        False,
+        "--deps",
+        help="Include dependencies, only useful when selecting the projects to show",
+        rich_help_panel="Selection Options",
+    ),
     json_: bool = typer.Option(
         False,
         "--json",
@@ -41,6 +47,8 @@ def list_projects(
     projects = Project.list_projects()
     if projects_names:
         projects = [project for project in projects if project.name in projects_names]
+    if show_deps:
+        projects = Project.compute_dependencies(projects)
     if project_type:
         projects = [
             project for project in projects if project.type.value == project_type
