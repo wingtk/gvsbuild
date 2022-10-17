@@ -119,6 +119,21 @@ class Project(Generic[P]):
     # build option
     opts = Options()
 
+    @staticmethod
+    def compute_dependencies(projects):
+        global_deps = {p.name for p in projects}
+
+        def _add_project_dependencies(project):
+            for dep in project.dependencies:
+                if dep not in global_deps:
+                    global_deps.add(dep)
+                    _add_project_dependencies(Project.get_project(dep))
+
+        for project in projects:
+            _add_project_dependencies(project)
+
+        return [Project.get_project(p) for p in global_deps]
+
     def __str__(self):
         return self.name
 
