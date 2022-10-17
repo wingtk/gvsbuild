@@ -129,9 +129,3 @@ def test_list_projects(typer_app, runner):
         assert project in result.stdout
     for tool in tools:
         assert tool in result.stdout
-
-
-def test_extra_arg(typer_app, runner):
-    result = runner.invoke(typer_app, ["list-projects", "extra"])
-    assert result.exit_code == 2
-    assert "Got unexpected extra" in result.stdout
