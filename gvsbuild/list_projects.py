@@ -22,6 +22,7 @@ from gvsbuild.utils.base_project import Project, ProjectType
 
 
 def list_projects(
+    projects_names: list[str] = typer.Argument(None, help="The projects to list"),
     project_type: ProjectType = typer.Option(
         None,
         "--type",
@@ -38,6 +39,8 @@ def list_projects(
     Project.add_all()
 
     projects = Project.list_projects()
+    if projects_names:
+        projects = [project for project in projects if project.name in projects_names]
     if project_type:
         projects = [
             project for project in projects if project.type.value == project_type
