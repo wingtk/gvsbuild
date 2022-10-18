@@ -69,6 +69,7 @@ from gvsbuild.projects.openh264 import OpenH264
 from gvsbuild.projects.openssl import OpenSSL
 from gvsbuild.projects.opus import Opus
 from gvsbuild.projects.pango import Pango
+from gvsbuild.projects.pcre2 import Pcre2
 from gvsbuild.projects.pixman import Pixman
 from gvsbuild.projects.pkgconf import PkgConf
 from gvsbuild.projects.portaudio import Portaudio
