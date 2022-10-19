@@ -47,7 +47,7 @@ class GLibNetworking(Tarball, Meson):
         Project.__init__(
             self,
             "glib-networking",
-            archive_url="https://download.gnome.org/sources/glib-networking/2.74/glib-networking-2.72.2.tar.xz",
+            archive_url="https://download.gnome.org/sources/glib-networking/2.72/glib-networking-2.72.2.tar.xz",
             hash="cd2a084c7bb91d78e849fb55d40e472f6d8f6862cddc9f12c39149359ba18268",
             dependencies=["pkg-config", "ninja", "meson", "glib", "openssl"],
             patches=[
