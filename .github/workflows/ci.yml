@@ -59,6 +59,8 @@ jobs:
       - name: Move git binary
         run: move "C:\Program Files\Git\usr\bin" "C:\Program Files\Git\usr\notbin"
         shell: cmd
+      - name: Test
+        run: poetry run pytest
       - name: Build
         run: >
           poetry run gvsbuild build --enable-gi --py-wheel gtk3 graphene glib-networking

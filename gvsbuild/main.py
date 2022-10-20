@@ -19,6 +19,12 @@
 """Main build script."""
 
 # Verify we can import from the script directory
+
+import typer
+
+from gvsbuild.deps import deps
+from gvsbuild.list_projects import list_projects
+
 try:
     import gvsbuild.utils.utils  # noqa: F401
 except ImportError:
@@ -35,13 +41,15 @@ except ImportError:
 import gvsbuild.groups  # noqa: F401
 import gvsbuild.projects  # noqa: F401
 import gvsbuild.tools  # noqa: F401
-from gvsbuild.utils.parser import create_parser
+from gvsbuild.build import build
+from gvsbuild.outdated import outdated
+
+app = typer.Typer(help="Build GTK for Windows")
+app.command(help="")(build)
+app.command(help="")(outdated)
+app.command(help="")(list_projects)
+app.command(help="")(deps)
 
 
-def build():
-    parser = create_parser()
-    args = parser.parse_args()
-    if hasattr(args, "func"):
-        args.func(args)
-    else:
-        parser.print_help()
+def run():
+    app()

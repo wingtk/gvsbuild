@@ -23,6 +23,8 @@ import os
 import sys
 from contextlib import contextmanager
 
+from rich import print
+
 # Original windows console title
 _script_org_title = None
 

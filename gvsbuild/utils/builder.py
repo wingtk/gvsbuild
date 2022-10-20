@@ -225,8 +225,8 @@ class Builder:
     def __check_tools(self, opts):
         script_title("* Msys tool")
         log.start("Checking msys tool")
-        msys_path = Path(opts.msys_dir)
-        if not Path.exists(msys_path):
+        msys_path = opts.msys_dir
+        if not msys_path or not Path.exists(msys_path):
             msys_paths = [
                 Path(r"C:\msys64"),
                 Path(r"C:\msys32"),
@@ -543,7 +543,7 @@ class Builder:
             except Exception:
                 traceback.print_exc()
                 log.end(mark_error=True)
-                if self.opts.keep:
+                if self.opts.keep_going:
                     self.prj_err.append(p.name)
                     self._drop_proj(p)
                 else:
