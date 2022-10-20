@@ -491,7 +491,7 @@ class Project(Generic[P]):
             project = Project._dict[name]
             return project
         except KeyError:
-            log.error_exit(f"KeyError getting project {name} from Project._dict")
+            log.error_exit(f"Could not find project {name}")
 
     @staticmethod
     def list_projects():
