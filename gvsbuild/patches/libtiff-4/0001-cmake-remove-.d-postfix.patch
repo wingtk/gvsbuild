@@ -1,0 +1,26 @@
+From 2a6ad9c579262b57e357cbe2d765d9da5188cf62 Mon Sep 17 00:00:00 2001
+From: Ignacio Casal Quinteiro <qignacio@amazon.com>
+Date: Fri, 19 Nov 2021 14:53:30 +0100
+Subject: [PATCH] cmake: remove .d postfix
+
+Drop .d postfix from libraries, since this will make consuming libraries
+fail. Probably this should be made configurable.
+---
+ cmake/WindowsSupport.cmake | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/cmake/WindowsSupport.cmake b/cmake/WindowsSupport.cmake
+index 8cfe7ae3..7a8b423a 100644
+--- a/cmake/WindowsSupport.cmake
++++ b/cmake/WindowsSupport.cmake
+@@ -25,7 +25,6 @@
+ 
+ # Debug postfix
+ if(MSVC)
+-    set(CMAKE_DEBUG_POSTFIX "d")
+ # disable deprecation warnings
+     add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+ # suppress deprecation warning for MSVC POSIX names
+-- 
+2.36.1.windows.1
+
