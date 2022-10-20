@@ -96,7 +96,7 @@ class PythonVersion(str, Enum):
 
 
 def build(
-    project: list[str] = typer.Argument(..., help="The project to build"),
+    projects: list[str] = typer.Argument(..., help="The project to build"),
     platform: Platform = typer.Option(Platform.x64, help="The platform to build for"),
     configuration: Configuration = typer.Option(
         Configuration.release, help="The configuration to build for"
@@ -406,7 +406,7 @@ def build(
     if opts.python_dir is None and not opts.same_python:
         opts._load_python = True
 
-    opts.projects = project
+    opts.projects = projects
     Project.opts = opts
     # now add the tools/projects/groups
     Project.add_all()
