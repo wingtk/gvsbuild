@@ -333,7 +333,6 @@ def build(
     opts = Options()
     opts.verbose = verbose
     opts.debug = debug
-    print(build_dir)
     opts.build_dir = str(build_dir)
     log.configure(str(build_dir / "logs"), opts)
     opts.platform = platform.value
