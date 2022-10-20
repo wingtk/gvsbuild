@@ -61,7 +61,7 @@ jobs:
         shell: cmd
       - name: Build
         run: >
-          poetry run gvsbuild build --enable-gi --py-wheel gtk3 graphene
+          poetry run gvsbuild build --enable-gi --py-wheel gtk3 graphene glib-networking
           gobject-introspection pycairo pygobject adwaita-icon-theme hicolor-icon-theme
           gtksourceview4
       - name: Copy wheels to the build directory
