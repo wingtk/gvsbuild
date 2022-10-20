@@ -201,7 +201,7 @@ def build(
     ),
     deps: bool = typer.Option(
         True,
-        help="If set, don't build the dependencies of the projects.",
+        help="If not set, don't build the dependencies of the projects.",
         rich_help_panel="Skip and Cleanup Options",
     ),
     msbuild_opts: str = typer.Option(
