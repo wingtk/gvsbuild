@@ -14,25 +14,32 @@
 #
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
-import sys
+import typer
 
 from gvsbuild.utils.base_project import Project, ProjectType, get_project_by_type
 
 
-def do_list_type(prj_type, desc):
-    projects = get_project_by_type(prj_type)
-    if projects:
-        projects.sort()
-
-        print(f"{desc}:")
-        for project in projects:
-            print(f"\t{project[0]:<{Project.name_len}} {project[1]}")
-
-
-def list_projects():
+def list_projects(
+    project_type: ProjectType = typer.Option(
+        None,
+        "--type",
+        help="Specify type of projects to show, if not selected show all",
+        rich_help_panel="Selection Options",
+    )
+):
     Project.add_all()
-    do_list_type(ProjectType.TOOL, "Available tools")
-    do_list_type(ProjectType.PROJECT, "Available projects")
-    do_list_type(ProjectType.GROUP, "Available groups")
-    do_list_type(ProjectType.IGNORE, "Developer project(s)")
-    sys.exit(0)
+
+    def _list_projects_by_type(project_type):
+        projects = get_project_by_type(project_type)
+        if projects:
+            projects.sort()
+
+            print(f"Available projects with type {project_type}:")
+            for project in projects:
+                print(f"\t{project[0]:<{Project.name_len}} {project[1]}")
+
+    if project_type:
+        _list_projects_by_type(project_type)
+    else:
+        for project_type in ProjectType:
+            _list_projects_by_type(project_type)
