@@ -28,12 +28,11 @@ from .simple_ui import log
 from .utils import _rmtree_error_handler
 
 
-class ProjectType(Enum):
-    NONE = -1
-    IGNORE = 0
-    PROJECT = 1
-    TOOL = 2
-    GROUP = 3
+class ProjectType(str, Enum):
+    IGNORE = "ignore"
+    PROJECT = "project"
+    TOOL = "tool"
+    GROUP = "group"
 
 
 class Options:
@@ -96,7 +95,7 @@ class Project(Generic[P]):
         self.archive_url = None
         self.archive_file_name = None
         self.tarbomb = False
-        self.type = ProjectType.NONE
+        self.type = None
         self.version = None
         self.mark_file = None
         self.clean = False
@@ -458,7 +457,7 @@ class Project(Generic[P]):
         Project._projects.append(proj)
         Project._names.append(proj.name)
         Project._dict[proj.name] = proj
-        if proj.type == ProjectType.NONE:
+        if proj.type is None:
             proj.type = type
 
     @staticmethod
