@@ -20,6 +20,7 @@
 
 # Verify we can import from the script directory
 
+import rich
 import typer
 
 from gvsbuild.deps import deps
@@ -43,6 +44,9 @@ import gvsbuild.projects  # noqa: F401
 import gvsbuild.tools  # noqa: F401
 from gvsbuild.build import build
 from gvsbuild.outdated import outdated
+
+# disable rich markup and highlight for log messages, do not assume any markup syntax
+rich.reconfigure(markup=False, highlight=False)
 
 app = typer.Typer(help="Build GTK for Windows")
 app.command(help="")(build)
