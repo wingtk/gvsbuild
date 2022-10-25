@@ -120,8 +120,8 @@ tools = [
 groups = ["all", "gtk3-full", "tools", "tools-check"]
 
 
-def test_list_projects(typer_app, runner):
-    result = runner.invoke(typer_app, ["list-projects"])
+def test_list(typer_app, runner):
+    result = runner.invoke(typer_app, ["list"])
     assert result.exit_code == 0
     for group in groups:
         assert group in result.stdout

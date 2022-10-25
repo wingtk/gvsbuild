@@ -23,7 +23,7 @@
 import typer
 
 from gvsbuild.deps import deps
-from gvsbuild.list_projects import list_projects
+from gvsbuild.list import list_
 
 try:
     import gvsbuild.utils.utils  # noqa: F401
@@ -47,7 +47,7 @@ from gvsbuild.outdated import outdated
 app = typer.Typer(help="Build GTK for Windows")
 app.command(help="")(build)
 app.command(help="")(outdated)
-app.command(help="")(list_projects)
+app.command(help="", name="list")(list_)
 app.command(help="")(deps)
 
 
