@@ -22,7 +22,7 @@ def test_main_help(typer_app, runner):
     assert "build" in result.stdout
     assert "outdated" in result.stdout
     assert "deps" in result.stdout
-    assert "list-projects" in result.stdout
+    assert "list" in result.stdout
 
 
 def test_wrong_command(typer_app, runner):

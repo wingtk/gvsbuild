@@ -21,7 +21,7 @@ import typer
 from gvsbuild.utils.base_project import Project, ProjectType
 
 
-def list_projects(
+def list_(
     projects_names: list[str] = typer.Argument(None, help="The projects to list"),
     project_type: ProjectType = typer.Option(
         None,

@@ -15,41 +15,20 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-
-"""Main build script."""
-
-# Verify we can import from the script directory
-
-import typer
-
-from gvsbuild.deps import deps
-from gvsbuild.list import list_
-
-try:
-    import gvsbuild.utils.utils  # noqa: F401
-except ImportError:
-    # We are probably using an embedded installation
-    print("Error importing utility, fixing paths ...")
-    import os
-    import sys
-
-    # Get the script dir
-    script_dir = os.path.dirname(os.path.realpath(sys.argv[0]))
-    # and add it at the beginning, emulating the standard python startup
-    sys.path.insert(0, script_dir)
-
 import gvsbuild.groups  # noqa: F401
 import gvsbuild.projects  # noqa: F401
 import gvsbuild.tools  # noqa: F401
-from gvsbuild.build import build
-from gvsbuild.outdated import outdated
-
-app = typer.Typer(help="Build GTK for Windows")
-app.command(help="")(build)
-app.command(help="")(outdated)
-app.command(help="", name="list")(list_)
-app.command(help="")(deps)
+from gvsbuild.utils.base_project import Project, ProjectType
 
 
-def run():
-    app()
+def test_list(typer_app, runner):
+    Project.add_all()
+    projects = Project.list_projects()
+
+    result = runner.invoke(typer_app, ["list"])
+    assert result.exit_code == 0
+    for project_type in [ProjectType.GROUP, ProjectType.PROJECT, ProjectType.TOOL]:
+        for project_name in [
+            project.name for project in projects if project.type == project_type
+        ]:
+            assert project_name in result.stdout
