@@ -1,0 +1,27 @@
+From 8f0d580cf94708f4f2719831ccd625816637af00 Mon Sep 17 00:00:00 2001
+From: Luca Bacci <luca.bacci982@gmail.com>
+Date: Mon, 26 Sep 2022 14:28:03 +0200
+Subject: [PATCH] GdkWin32: Fix subclassing for GdkWin32Selection
+
+Fixes https://gitlab.gnome.org/GNOME/gtk/-/issues/5207
+---
+ gdk/win32/gdkselection-win32.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/gdk/win32/gdkselection-win32.h b/gdk/win32/gdkselection-win32.h
+index c3ed6cd45e..0b024894eb 100644
+--- a/gdk/win32/gdkselection-win32.h
++++ b/gdk/win32/gdkselection-win32.h
+@@ -129,7 +129,8 @@ typedef struct _GdkWin32SelectionClass GdkWin32SelectionClass;
+  */
+ struct _GdkWin32Selection
+ {
+-  GObject *parent_instance;
++  GObject parent_instance;
++
+   GHashTable *sel_prop_table;
+   GdkSelProp *dropfiles_prop;
+   /* We store the owner of each selection in this table. Obviously, this only
+-- 
+GitLab
+
