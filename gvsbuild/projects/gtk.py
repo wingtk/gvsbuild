@@ -93,6 +93,7 @@ class Gtk3(Tarball, Meson):
             dependencies=["atk", "gdk-pixbuf", "pango", "libepoxy"],
             patches=[
                 "gtk_update_icon_cache.patch",
+                "gdkwin32-fix-subclassing-for-gdkwin32selection.patch",
             ],
         )
         if self.opts.enable_gi:
