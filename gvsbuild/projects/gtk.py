@@ -120,7 +120,9 @@ class Gtk4(Tarball, Meson):
             archive_url="https://download.gnome.org/sources/gtk/4.8/gtk-4.8.1.tar.xz",
             hash="5ce8d8de98a23bd0c8eca1a61094e1c009b5f009dcbd60b45e990a8db1b742fd",
             dependencies=["gdk-pixbuf", "pango", "libepoxy", "graphene"],
-            patches=[],
+            patches=[
+                "gdkwin32-fix-subclassing-for-gdkwin32clipdrop.patch",
+            ],
         )
         if self.opts.enable_gi:
             self.add_dependency("gobject-introspection")
