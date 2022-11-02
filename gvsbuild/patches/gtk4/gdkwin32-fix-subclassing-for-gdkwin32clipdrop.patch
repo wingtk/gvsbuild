@@ -1,0 +1,26 @@
+From e2219858ae46158b899314c57a21013739d644e6 Mon Sep 17 00:00:00 2001
+From: Luca Bacci <luca.bacci982@gmail.com>
+Date: Mon, 26 Sep 2022 14:34:24 +0200
+Subject: [PATCH] GdkWin32: Fix subclassing for GdkWin32Clipdrop
+
+Fixes https://gitlab.gnome.org/GNOME/gtk/-/issues/5207
+---
+ gdk/win32/gdkclipdrop-win32.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gdk/win32/gdkclipdrop-win32.h b/gdk/win32/gdkclipdrop-win32.h
+index 1be94dad8f..b71ed00107 100644
+--- a/gdk/win32/gdkclipdrop-win32.h
++++ b/gdk/win32/gdkclipdrop-win32.h
+@@ -126,7 +126,7 @@ typedef BOOL (WINAPI * GetUpdatedClipboardFormatsFunc)(
+  */
+ struct _GdkWin32Clipdrop
+ {
+-  GObject *parent_instance;
++  GObject parent_instance;
+ 
+   /* interned strings for well-known image formats */
+   const char **known_pixbuf_formats;
+-- 
+GitLab
+
