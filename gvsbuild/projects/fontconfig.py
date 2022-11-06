@@ -26,8 +26,8 @@ class Fontconfig(Tarball, Meson):
         Project.__init__(
             self,
             "fontconfig",
-            archive_url="https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.14.0.tar.gz",
-            hash="b8f607d556e8257da2f3616b4d704be30fd73bd71e367355ca78963f9a7f0434",
+            archive_url="https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.14.1.tar.gz",
+            hash="ae480e9ca34382790312ff062c625ec70df94d6d9a9366e2b2b3d525f7f90387",
             dependencies=["freetype", "libxml2"],
         )
 
