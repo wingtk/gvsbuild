@@ -26,8 +26,8 @@ class GtkSourceView4(Tarball, Meson):
         Project.__init__(
             self,
             "gtksourceview4",
-            archive_url="https://download.gnome.org/sources/gtksourceview/4.8/gtksourceview-4.8.3.tar.xz",
-            hash="c30019506320ca2474d834cced1e2217ea533e00eb2a3f4eb7879007940ec682",
+            archive_url="https://download.gnome.org/sources/gtksourceview/4.8/gtksourceview-4.8.4.tar.xz",
+            hash="7ec9d18fb283d1f84a3a3eff3b7a72b09a10c9c006597b3fbabbb5958420a87d",
             dependencies=["python", "meson", "ninja", "gtk3", "pkg-config"],
         )
         if Project.opts.enable_gi:
