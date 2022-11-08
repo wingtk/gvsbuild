@@ -30,6 +30,7 @@ class Fontconfig(Tarball, Meson):
             hash="ae480e9ca34382790312ff062c625ec70df94d6d9a9366e2b2b3d525f7f90387",
             dependencies=["freetype", "libxml2"],
         )
+        self.add_param("-Dtests=disabled")
 
     def build(self):
         Meson.build(self)
