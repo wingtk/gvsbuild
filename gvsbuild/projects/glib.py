@@ -50,8 +50,8 @@ class GLibNetworking(Tarball, Meson):
         Project.__init__(
             self,
             "glib-networking",
-            archive_url="https://download.gnome.org/sources/glib-networking/2.72/glib-networking-2.72.2.tar.xz",
-            hash="cd2a084c7bb91d78e849fb55d40e472f6d8f6862cddc9f12c39149359ba18268",
+            archive_url="https://download.gnome.org/sources/glib-networking/2.74/glib-networking-2.74.0.tar.xz",
+            hash="1f185aaef094123f8e25d8fa55661b3fd71020163a0174adb35a37685cda613b",
             dependencies=["pkg-config", "ninja", "meson", "glib", "openssl"],
             patches=[
                 "0001-Mark-strings-for-translation-and-translate-just-in-e.patch",
