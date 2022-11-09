@@ -1,0 +1,8 @@
+option(
+  'grep', type: 'boolean', value: true,
+  description: 'Compile the PCRE2 grep executable'
+)
+option(
+  'test', type: 'boolean', value: true,
+  description: 'Compile the test executable and enable tests'
+)
