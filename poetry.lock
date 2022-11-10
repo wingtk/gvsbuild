@@ -176,7 +176,7 @@ python-versions = "*"
 
 [[package]]
 name = "lastversion"
-version = "2.4.5"
+version = "2.4.7"
 description = "A CLI tool to find the latest stable version of an arbitrary project"
 category = "main"
 optional = true
@@ -596,8 +596,8 @@ iniconfig = [
     {file = "iniconfig-1.1.1.tar.gz", hash = "sha256:bc3af051d7d14b2ee5ef9969666def0cd1a000e121eaea580d4a313df4b37f32"},
 ]
 lastversion = [
-    {file = "lastversion-2.4.5-py3-none-any.whl", hash = "sha256:9a03812bca09071c151d62766139d132d29e7ba47724dbf132df0835c4f2afd9"},
-    {file = "lastversion-2.4.5.tar.gz", hash = "sha256:df194135be9e3688e3323ba60e5ce7a1180c14b73da01de72798afc48f01b761"},
+    {file = "lastversion-2.4.7-py3-none-any.whl", hash = "sha256:fadc1c08220e90fb947488548ce94686f1787985efe4405afdb3b11827c99390"},
+    {file = "lastversion-2.4.7.tar.gz", hash = "sha256:ef55cb2e35b521aa9f3fc4014b1070ffb6297b6190690c257bf803977140d4f0"},
 ]
 lockfile = [
     {file = "lockfile-0.12.2-py2.py3-none-any.whl", hash = "sha256:6c3cb24f344923d30b2785d5ad75182c8ea7ac1b6171b08657258ec7429d50fa"},
