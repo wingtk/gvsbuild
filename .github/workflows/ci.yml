@@ -6,7 +6,7 @@ on:
     types: [published]
 
 env:
-  python_version: '3.10'
+  python_version: '3.11'
 
 name: CI
 
@@ -26,6 +26,46 @@ jobs:
           python-version: ${{ env.python_version }}
       - name: Lint with Pre-commit
         uses: pre-commit/action@v3.0.0
+
+  test:
+    needs: lint
+    name: Test with Python ${{ matrix.python-version }}
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11']
+    runs-on: windows-latest
+    timeout-minutes: 60
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.1.0
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Set up Python
+        uses: actions/setup-python@v4.3.0
+        with:
+          python-version: ${{ env.python_version }}
+      - name: Use Python Dependency Cache
+        uses: actions/cache@v3.0.11
+        with:
+          path: ~\AppData\Local\pip\Cache
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: ${{ runner.os }}-poetry-
+      - name: Install Poetry
+        run: python -m pip install poetry==1.2.2
+      - name: Configure Poetry
+        run: poetry config virtualenvs.in-project true
+      - name: Install Python Dependencies
+        run: poetry install
+      # Temporarily move the preinstalled git, it causes errors related to cygwin.
+      - name: Move git binary
+        run: move "C:\Program Files\Git\usr\bin" "C:\Program Files\Git\usr\notbin"
+        shell: cmd
+      - name: Test with tox
+        run: tox
+      - name: Restore git binary
+        run: move "C:\Program Files\Git\usr\notbin" "C:\Program Files\Git\usr\bin"
+        shell: cmd
 
   build:
     needs: lint
@@ -50,7 +90,7 @@ jobs:
           key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
           restore-keys: ${{ runner.os }}-poetry-
       - name: Install Poetry
-        run: python -m pip install poetry==1.2.1
+        run: python -m pip install poetry==1.2.2
       - name: Configure Poetry
         run: poetry config virtualenvs.in-project true
       - name: Install Python Dependencies
@@ -59,8 +99,6 @@ jobs:
       - name: Move git binary
         run: move "C:\Program Files\Git\usr\bin" "C:\Program Files\Git\usr\notbin"
         shell: cmd
-      - name: Test
-        run: poetry run pytest
       - name: Build
         run: >
           poetry run gvsbuild build --enable-gi --py-wheel gtk3 graphene glib-networking
