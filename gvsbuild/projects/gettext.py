@@ -29,7 +29,7 @@ class Gettext(Tarball, Project):
             "gettext",
             archive_url="http://ftp.gnu.org/pub/gnu/gettext/gettext-0.21.tar.xz",
             hash="d20fcbb537e02dcf1383197ba05bd0734ef7bf5db06bdb241eb69b7d16b73192",
-            dependencies=["python", "win-iconv"],
+            dependencies=["win-iconv"],
             patches=[
                 "gettext-runtime-c99.patch",
                 "gettext-tools-c99.patch",

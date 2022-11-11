@@ -18,14 +18,10 @@
 """Default tools used to build the various projects."""
 
 import os
-import shutil
 import subprocess
-import sys
 
 from .utils.base_expanders import extract_exec
-from .utils.base_project import Project
 from .utils.base_tool import Tool, tool_add
-from .utils.simple_ui import log
 
 
 @tool_add
@@ -113,9 +109,7 @@ class ToolMeson(Tool):
             archive_url=f"https://github.com/mesonbuild/meson/archive/refs/tags/{self.version}.tar.gz",
             archive_file_name=f"meson-{self.version}.tar.gz",
             hash="023a3f7c74e68991154c3205a6975705861eedbf8130e013d15faa1df1af216e",
-            dependencies=[
-                "python",
-            ],
+            dependencies=[],
             dir_part=f"meson-{self.version}",
             exe_name="meson.py",
         )
@@ -242,91 +236,6 @@ class ToolPerl(Tool):
 
     def get_base_dir(self):
         return self.base_dir
-
-
-@tool_add
-class ToolPython(Tool):
-    def __init__(self):
-        Tool.__init__(
-            self,
-            "python",
-            dependencies=[
-                "nuget",
-            ],
-        )
-
-    def setup(self, install):
-        """Using nuget install, locally, the specified version of python."""
-        version = self.opts.python_ver
-        # Get the last version we ask
-        if version == "3.7":
-            version = "3.7.15"
-        elif version == "3.8":
-            version = "3.8.15"
-        elif version == "3.9":
-            version = "3.9.15"
-        elif version == "3.10":
-            version = "3.10.8"
-
-        name = "pythonx86" if self.opts.x86 else "python"
-        t_id = f"{name}.{version}"
-        dest_dir = os.path.join(self.opts.tools_root_dir, t_id)
-        # directory to use for the .exe
-        self.tool_path = os.path.join(dest_dir, "tools")
-        self.full_exe = os.path.join(self.tool_path, "python.exe")
-
-        if install:
-            # see if it's already ok
-            rd_file = ""
-            try:
-                with open(os.path.join(dest_dir, ".wingtk-extracted-file")) as fi:
-                    rd_file = fi.readline().strip()
-            except OSError:
-                pass
-
-            if rd_file == t_id:
-                # Ok, exit
-                log.log(f"Skipping python setup on '{dest_dir}'")
-                # We don't rebuild the projects that depend on this
-                return False
-
-            # nuget
-            nuget = Project.get_tool_executable("nuget")
-            # Install python
-            cmd = f"{nuget} install {name} -Version {version} -OutputDirectory {self.opts.tools_root_dir}"
-
-            subprocess.check_call(cmd, shell=True)
-            py = os.path.join(self.tool_path, "python.exe")
-
-            # Update pip
-            cmd = f"{py} -m pip install --upgrade pip setuptools wheel build --no-warn-script-location"
-            subprocess.check_call(cmd, shell=True)
-
-            python3 = os.path.join(self.tool_path, "python3.exe")
-            if not os.path.exists(python3):
-                # We create a python3.exe file so meson find our python and not some other
-                # lying around (e.g. one from the Visual Studio installation ...)
-                log.log(f"Create python3 copy on '{dest_dir}'")
-                shutil.copy(self.full_exe, python3)
-
-            # Mark that we have done all
-            with open(os.path.join(dest_dir, ".wingtk-extracted-file"), "wt") as fo:
-                fo.write(f"{t_id}\n")
-
-        return True
-
-    def load_defaults(self):
-        Tool.load_defaults(self)
-        self.setup(False)
-
-    def unpack(self):
-        if self.opts._load_python:
-            # Get python version
-            self.mark_deps = self.setup(True)
-        else:
-            self.tool_path = self.opts.python_dir or os.path.dirname(sys.executable)
-            self.full_exe = os.path.join(self.tool_path, "python.exe")
-            self.mark_deps = False
 
 
 @tool_add

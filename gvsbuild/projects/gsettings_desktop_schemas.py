@@ -28,7 +28,7 @@ class GSettingsDesktopSchemas(Tarball, Meson):
             "gsettings-desktop-schemas",
             archive_url="https://download.gnome.org/sources/gsettings-desktop-schemas/43/gsettings-desktop-schemas-43.0.tar.xz",
             hash="5d5568282ab38b95759d425401f7476e56f8cbf2629885587439f43bd0b84bbe",
-            dependencies=["meson", "ninja", "pkg-config", "python", "glib"],
+            dependencies=["meson", "ninja", "pkg-config", "glib"],
         )
         if self.opts.enable_gi:
             self.add_dependency("gobject-introspection")

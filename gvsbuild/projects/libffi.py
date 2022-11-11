@@ -29,7 +29,7 @@ class Libffi(GitRepo, Meson):
             repo_url="https://gitlab.freedesktop.org/gstreamer/meson-ports/libffi.git",
             fetch_submodules=False,
             tag="meson-3.2.9999.4",
-            dependencies=["python", "ninja", "meson"],
+            dependencies=["ninja", "meson"],
         )
 
     def build(self):

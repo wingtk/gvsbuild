@@ -27,10 +27,6 @@ from gvsbuild.utils.utils import ordered_set
 
 def __get_projects_to_build(opts):
     to_build = ordered_set()
-    if opts._load_python:
-        # We use nuget to download & install the python needed for the build so we put it at the beginning
-        opts.projects.insert(0, "python")
-
     for name in opts.projects:
         p = Project.get_project(name)
         if opts.deps:
@@ -168,22 +164,6 @@ def build(
         help=".net target framework version. If set then TargetFrameworkVersion parameter is passed down to "
         "msbuild with the specific version. i.e v4.6.2",
         rich_help_panel=".NET Options",
-    ),
-    python_ver: PythonVersion = typer.Option(
-        PythonVersion.py310,
-        help="Python version to download and use for the build",
-        rich_help_panel="Python Options",
-    ),
-    python_dir: Path = typer.Option(
-        None,
-        help="The directory containing the Python you want to use for the build of the projects (not the one used "
-        "to run the script).",
-        rich_help_panel="Python Options",
-    ),
-    same_python: bool = typer.Option(
-        False,
-        help="If set, the python used to run the script will be used to build the projects.",
-        rich_help_panel="Python Options",
     ),
     check_hash: bool = typer.Option(
         False,
@@ -368,7 +348,6 @@ def build(
         opts.git_expand_dir = str(archives_download_dir / "git-exp")
     opts.net_target_framework = net_target_framework
     opts.net_target_framework_version = net_target_framework_version
-    opts.python_dir = python_dir
     opts.msys_dir = msys_dir
     opts.clean = clean
     opts.msbuild_opts = msbuild_opts
@@ -390,8 +369,6 @@ def build(
     opts.log_single = log_single
     opts.cargo_opts = cargo_opts
     opts.ninja_opts = ninja_opts
-    opts.python_ver = python_ver.value
-    opts.same_python = same_python
     opts.capture_out = capture_out
     opts.print_out = print_out
 
@@ -403,8 +380,6 @@ def build(
             f"Missing 'stack.props' file on directory {opts.patches_root_dir}.\n"
             "Wrong or missing --patches-root-dir option?"
         )
-    if opts.python_dir is None and not opts.same_python:
-        opts._load_python = True
 
     opts.projects = projects
     Project.opts = opts

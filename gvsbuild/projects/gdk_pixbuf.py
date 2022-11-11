@@ -32,7 +32,6 @@ class GdkPixbuf(Tarball, Meson):
                 "ninja",
                 "pkg-config",
                 "meson",
-                "python",
                 "libtiff-4",
                 "libjpeg-turbo",
                 "glib",
