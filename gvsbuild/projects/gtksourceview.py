@@ -28,7 +28,7 @@ class GtkSourceView4(Tarball, Meson):
             "gtksourceview4",
             archive_url="https://download.gnome.org/sources/gtksourceview/4.8/gtksourceview-4.8.4.tar.xz",
             hash="7ec9d18fb283d1f84a3a3eff3b7a72b09a10c9c006597b3fbabbb5958420a87d",
-            dependencies=["python", "meson", "ninja", "gtk3", "pkg-config"],
+            dependencies=["meson", "ninja", "gtk3", "pkg-config"],
         )
         if Project.opts.enable_gi:
             self.add_dependency("gobject-introspection")
@@ -49,7 +49,7 @@ class GtkSourceView5(Tarball, Meson):
             "gtksourceview5",
             archive_url="https://download.gnome.org/sources/gtksourceview/5.6/gtksourceview-5.6.1.tar.xz",
             hash="659d9cc9d034a114f07e7e134ee80d77dec0497cb1516ae5369119c2fcb9da16",
-            dependencies=["python", "meson", "ninja", "gtk4", "pkg-config"],
+            dependencies=["meson", "ninja", "gtk4", "pkg-config"],
         )
         if Project.opts.enable_gi:
             self.add_dependency("gobject-introspection")

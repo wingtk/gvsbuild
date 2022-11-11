@@ -47,7 +47,6 @@ def test_platform(tmp_dir, typer_app, runner):
             tmp_dir,
             "--platform",
             "x86",
-            "--same-python",
             "hello-world",
         ],
     )

@@ -14,6 +14,8 @@
 #
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
+import sys
+from pathlib import Path
 
 from gvsbuild.utils.base_builders import Meson
 from gvsbuild.utils.base_expanders import Tarball
@@ -48,7 +50,7 @@ class GObjectIntrospection(Tarball, Meson):
         self.builder.mod_env("LIB", r".\girepository")
         self.builder.mod_env("PATH", r".\girepository")
         # For linking the _giscanner.pyd extension module when using a virtualenv
-        py_dir = Project.get_tool_path("python")
+        py_dir = Path(sys.executable).parent
         py_libs = python_find_libs_dir(py_dir)
         if py_libs:
             log.debug(f"Python library path is [{py_libs}]")

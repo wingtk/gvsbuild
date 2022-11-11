@@ -27,6 +27,7 @@ import re
 import shutil
 import ssl
 import subprocess
+import sys
 import time
 import traceback
 from pathlib import Path
@@ -267,11 +268,6 @@ class Builder:
             )
 
         log.debug(f"patch: {self.patch}")
-
-        if opts.python_dir and not Path.is_file(Path(opts.python_dir) / "python.exe"):
-            log.error_exit(
-                f"Executable python.exe not found at '{self.opts.python_dir}'"
-            )
         log.end()
 
     def _add_env(self, key, value, env, prepend=True, subst=False):
@@ -925,11 +921,9 @@ class Builder:
         if self.__project is not None:
             d["pkg_dir"] = self.__project.pkg_dir
             d["build_dir"] = self.__project.build_dir
-            # Add python & perl only if the project depends on them
-            p = Project.get_project("python")
-            if p in self.__project.all_dependencies:
-                python = Project.get_tool_path(p)
-                d["python_dir"] = python
+            python = Path(sys.executable).parent
+            d["python_dir"] = python
+            # Add perl only if the project depends on them
 
             p = Project.get_project("perl")
             if p in self.__project.all_dependencies:

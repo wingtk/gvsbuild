@@ -29,7 +29,7 @@ class Harfbuzz(Tarball, Meson):
             "harfbuzz",
             archive_url=f"https://github.com/harfbuzz/harfbuzz/releases/download/{self.version}/harfbuzz-{self.version}.tar.xz",
             hash="4a6ce097b75a8121facc4ba83b5b083bfec657f45b003cd5a3424f2ae6b4434d",
-            dependencies=["meson", "cmake", "python", "freetype", "pkg-config", "glib"],
+            dependencies=["meson", "cmake", "freetype", "pkg-config", "glib"],
         )
 
         if Project.opts.enable_gi:

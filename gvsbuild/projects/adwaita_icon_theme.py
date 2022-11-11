@@ -31,7 +31,6 @@ class AdwaitaIconTheme(Tarball, Project):
             hash="2e3ac77d32a6aa5554155df37e8f0a0dd54fc5a65fd721e88d505f970da32ec6",
             dependencies=[
                 "librsvg",
-                "python",
             ],
         )
 
