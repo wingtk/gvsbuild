@@ -14,6 +14,7 @@
 #
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
+import sys
 
 from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import Project, project_add
@@ -43,7 +44,7 @@ class Librsvg(Tarball, Project):
 
         b_dir = f"{self.builder.working_dir}\\{self.name}\\win32"
 
-        cmd = f'nmake -f makefile.vc CFG={self.builder.opts.configuration} PREFIX={self.builder.gtk_dir} PYTHON={Project.get_tool_executable("python")} install'
+        cmd = f"nmake -f makefile.vc CFG={self.builder.opts.configuration} PREFIX={self.builder.gtk_dir} PYTHON={sys.executable} install"
 
         if Project.opts.enable_gi:
             cmd += " INTROSPECTION=1"
