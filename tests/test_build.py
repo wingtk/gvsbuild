@@ -51,4 +51,3 @@ def test_platform(tmp_dir, typer_app, runner):
         ],
     )
     assert result.exit_code == 0
-    assert "x86" in result.output
