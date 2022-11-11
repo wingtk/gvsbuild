@@ -14,6 +14,8 @@
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 #
 
+from typing import List
+
 import typer
 
 """gvsbuild deps print / .gv graph."""
@@ -234,7 +236,7 @@ def deps(
     invert: bool = typer.Option(
         False, help="Invert the dependencies", rich_help_panel="Graphing Options"
     ),
-    skip: list[str] = typer.Option(
+    skip: List[str] = typer.Option(
         None,
         help="A comma separated list of projects not to graph",
         rich_help_panel="Graphing Options",

@@ -15,6 +15,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 import json
+from typing import List
 
 import typer
 
@@ -22,7 +23,7 @@ from gvsbuild.utils.base_project import Project, ProjectType
 
 
 def list_(
-    projects_names: list[str] = typer.Argument(None, help="The projects to list"),
+    projects_names: List[str] = typer.Argument(None, help="The projects to list"),
     project_type: ProjectType = typer.Option(
         None,
         "--type",
