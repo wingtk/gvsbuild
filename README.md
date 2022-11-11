@@ -87,9 +87,7 @@ Download and install the latest version of Python:
 
 Note: If you are going to install Python using an alternative means, like the
 official Windows installers, we suggest to install Python in C:\Python3x, for
-example C:\Python310. Alternatively you can use the `--python-dir` option to
-tell the script the correct location of your Python installation. Other Python
-distributions like [Miniconda
+example C:\Python310. Other Python distributions like [Miniconda
 3](https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86_64.exe)
 should also work.
 
