@@ -89,11 +89,7 @@ def extract_exec(
                 tarinfo.linkname = "/".join(tarinfo.linkname.split("/")[1:])
             yield tarinfo
 
-    if dir_part:
-        full_dest = os.path.join(dest_dir, dir_part)
-    else:
-        full_dest = dest_dir
-
+    full_dest = os.path.join(dest_dir, dir_part) if dir_part else dest_dir
     if check_mark:
         rd_file = read_mark_file(full_dest)
         wr_file = os.path.basename(src)

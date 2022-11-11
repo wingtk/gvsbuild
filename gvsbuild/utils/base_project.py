@@ -20,6 +20,7 @@
 
 import datetime
 import os
+import pathlib
 import re
 import shutil
 from enum import Enum
@@ -85,6 +86,10 @@ P = TypeVar("P")
 class Project(Generic[P]):
     def __init__(self, name, **kwargs):
         object.__init__(self)
+        self.patch_dir = None
+        self.build_dir = None
+        self.pkg_dir = None
+        self.builder = None
         self.name = name
         self.prj_dir = name
         self.dependencies = []
@@ -270,7 +275,7 @@ class Project(Generic[P]):
             self._msbuild_copy_dir(dst, src, search, replace)
             return dst_part
 
-        part = "vs" + self.builder.opts.vs_ver
+        part = f"vs{self.builder.opts.vs_ver}"
         if not _msbuild_ok(self, part):
             part = self.builder.vs_ver_year
             if not _msbuild_ok(self, part):
@@ -359,7 +364,7 @@ class Project(Generic[P]):
         if part:
             cmd = os.path.join(base_dir, part, sln_file)
             if add_pars:
-                cmd += " " + add_pars
+                cmd += f" {add_pars}"
             if use_env:
                 cmd += " /p:UseEnv=True"
         else:
@@ -388,8 +393,7 @@ class Project(Generic[P]):
         for f in os.scandir(src_dir):
             if f.is_file():
                 log.debug(f" {f.name}")
-                with open(f.path) as fi:
-                    content = fi.read()
+                content = pathlib.Path(f.path).read_text()
                 _t = content.replace("@prefix@", bin_dir)
                 content = _t
                 _t = content.replace("@version@", self.version)
@@ -499,8 +503,7 @@ class Project(Generic[P]):
     @staticmethod
     def get_project(name):
         try:
-            project = Project._dict[name]
-            return project
+            return Project._dict[name]
         except KeyError:
             log.error_exit(f"Could not find project {name}")
 
@@ -530,18 +533,14 @@ class Project(Generic[P]):
         if not isinstance(tool, Project):
             tool = Project._dict[tool]
 
-        if tool.type == ProjectType.TOOL:
-            return tool.get_executable()
-        return None
+        return tool.get_executable() if tool.type == ProjectType.TOOL else None
 
     @staticmethod
     def get_tool_base_dir(tool):
         if not isinstance(tool, Project):
             tool = Project._dict[tool]
 
-        if tool.type == ProjectType.TOOL:
-            return tool.get_base_dir()
-        return None
+        return tool.get_base_dir() if tool.type == ProjectType.TOOL else None
 
     @staticmethod
     def _file_to_version(file_name):
