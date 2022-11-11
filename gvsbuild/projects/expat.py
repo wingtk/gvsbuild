@@ -14,24 +14,22 @@
 #
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
-
-from gvsbuild.utils.base_builders import Meson
+from gvsbuild.utils.base_builders import CmakeProject
 from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import Project, project_add
 
 
 @project_add
-class Fontconfig(Tarball, Meson):
+class Expat(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(
             self,
-            "fontconfig",
-            archive_url="https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.14.1.tar.gz",
-            hash="ae480e9ca34382790312ff062c625ec70df94d6d9a9366e2b2b3d525f7f90387",
-            dependencies=["freetype", "libxml2", "gperf", "expat"],
+            "expat",
+            archive_url="https://github.com/libexpat/libexpat/releases/download/R_2_5_0/expat-2.5.0.tar.xz",
+            hash="ef2420f0232c087801abf705e89ae65f6257df6b7931d37846a193ef2e8cdcbe",
+            dependencies=["cmake", "ninja"],
         )
-        self.add_param("-Dtests=disabled")
 
     def build(self):
-        Meson.build(self)
-        self.install(r".\COPYING share\doc\fontconfig")
+        CmakeProject.build(self, use_ninja=True)
+        self.install(r".\COPYING share\doc\expat")
