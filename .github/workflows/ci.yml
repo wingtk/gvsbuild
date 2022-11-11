@@ -62,7 +62,7 @@ jobs:
         run: move "C:\Program Files\Git\usr\bin" "C:\Program Files\Git\usr\notbin"
         shell: cmd
       - name: Test with tox
-        run: tox
+        run: poetry run tox
       - name: Restore git binary
         run: move "C:\Program Files\Git\usr\notbin" "C:\Program Files\Git\usr\bin"
         shell: cmd
