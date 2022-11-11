@@ -16,6 +16,7 @@
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 from enum import Enum
 from pathlib import Path
+from typing import List
 
 import typer
 
@@ -92,7 +93,7 @@ class PythonVersion(str, Enum):
 
 
 def build(
-    projects: list[str] = typer.Argument(..., help="The project to build"),
+    projects: List[str] = typer.Argument(..., help="The project to build"),
     platform: Platform = typer.Option(Platform.x64, help="The platform to build for"),
     configuration: Configuration = typer.Option(
         Configuration.release, help="The configuration to build for"
@@ -189,7 +190,7 @@ def build(
         help="Command line options to pass to msbuild.",
         rich_help_panel="Options to Pass to Build Systems",
     ),
-    skip: list[str] = typer.Option(
+    skip: List[str] = typer.Option(
         None,
         help="List of projects to skip. i.e gtk3, glib, ...",
         rich_help_panel="Skip and Cleanup Options",
