@@ -101,7 +101,9 @@ jobs:
         run: poetry install
       # Temporarily move the preinstalled git, it causes errors related to cygwin.
       - name: Move git binary
-        run: move "C:\Program Files\Git\usr\bin" "C:\Program Files\Git\usr\notbin"
+        run: |
+          move "C:\Program Files\Git\usr\bin" "C:\Program Files\Git\usr\notbin"
+          move "C:\Program Files\Git\bin" "C:\Program Files\Git\notbin"
         shell: cmd
       - name: Build
         run: >
@@ -112,7 +114,9 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: Get-ChildItem C:\gtk-build\build\x64\release\*\dist\*.whl | ForEach-Object -process { cp $_ C:\gtk-build\gtk\x64\release\ }
       - name: Restore git binary
-        run: move "C:\Program Files\Git\usr\notbin" "C:\Program Files\Git\usr\bin"
+        run: |
+          move "C:\Program Files\Git\usr\notbin" "C:\Program Files\Git\usr\bin"
+          move "C:\Program Files\Git\notbin" "C:\Program Files\Git\bin"
         shell: cmd
       - name: Create Source Dist and Wheel
         run: poetry build
