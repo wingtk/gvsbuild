@@ -17,11 +17,12 @@
 
 """Simple user interface for info, log & debug messages."""
 
+
 import ctypes
 import datetime
 import os
 import sys
-from contextlib import contextmanager
+from contextlib import contextmanager, suppress
 
 from rich import print
 
@@ -116,10 +117,8 @@ class Log:
 
             if c_size > max_size_kb:
                 old_file = os.path.join(file_path, "gvsbuild-log.old.txt")
-                try:
+                with suppress(FileNotFoundError):
                     os.remove(old_file)
-                except FileNotFoundError:
-                    pass
                 os.rename(self.log_file, old_file)
 
         self.operations = []

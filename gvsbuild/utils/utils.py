@@ -16,6 +16,7 @@
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 import os
+import pathlib
 import re
 import shutil
 import stat
@@ -132,13 +133,8 @@ def python_find_libs_dir(org_dir):
 
     orig_file = os.path.join(chk, "orig-prefix.txt")
     if os.path.isfile(orig_file):
-        # Read and see whats happening
-        with open(orig_file) as fi:
-            org_dir = fi.read()
-
+        # Read and see what's happening
+        org_dir = pathlib.Path(orig_file).read_text()
     # Let's see if now is ok ..
     cur = os.path.join(org_dir, "libs")
-    if os.path.isdir(cur):
-        return cur
-
-    return None
+    return cur if os.path.isdir(cur) else None

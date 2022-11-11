@@ -278,7 +278,7 @@ class ToolGo(Tool):
         self.full_exe = os.path.join(self.tool_path, "go.exe")
 
     def unpack(self):
-        # We download directly the exe file so we copy it on the tool directory ...
+        # We download directly the exe file, so we copy it to the tool directory
         self.mark_deps = extract_exec(
             self.archive_file,
             self.build_dir,
