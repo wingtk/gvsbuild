@@ -28,7 +28,7 @@ class Fontconfig(Tarball, Meson):
             "fontconfig",
             archive_url="https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.14.1.tar.gz",
             hash="ae480e9ca34382790312ff062c625ec70df94d6d9a9366e2b2b3d525f7f90387",
-            dependencies=["freetype", "libxml2", "gperf", "expat"],
+            dependencies=["freetype", "gperf", "expat"],
         )
         self.add_param("-Dtests=disabled")
 
