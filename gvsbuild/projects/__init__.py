@@ -12,6 +12,7 @@ from gvsbuild.projects.dcv_color_primitives import DcvColorPrimitives
 from gvsbuild.projects.dev_shell import DevShell
 from gvsbuild.projects.emeus import Emeus
 from gvsbuild.projects.enchant import Enchant
+from gvsbuild.projects.expat import Expat
 from gvsbuild.projects.ffmpeg import Ffmpeg
 from gvsbuild.projects.fontconfig import Fontconfig
 from gvsbuild.projects.freerdp import FreeRDP
@@ -21,6 +22,7 @@ from gvsbuild.projects.gdk_pixbuf import GdkPixbuf
 from gvsbuild.projects.gettext import Gettext
 from gvsbuild.projects.glib import GLib, GLibNetworking, GLibPyWrapper
 from gvsbuild.projects.gobject_introspection import GObjectIntrospection
+from gvsbuild.projects.gperf import Gperf
 from gvsbuild.projects.graphene import Graphene
 from gvsbuild.projects.gsettings_desktop_schemas import GSettingsDesktopSchemas
 from gvsbuild.projects.gstreamer import (
