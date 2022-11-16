@@ -26,7 +26,8 @@ class Libtiff4(Tarball, CmakeProject):
         Project.__init__(
             self,
             "libtiff-4",
-            archive_url="http://download.osgeo.org/libtiff/tiff-4.4.0.tar.gz",
+            version="4.4.0",
+            archive_url="http://download.osgeo.org/libtiff/tiff-{version}.tar.gz",
             hash="917223b37538959aca3b790d2d73aa6e626b688e02dcda272aec24c2f498abed",
             dependencies=["cmake", "ninja", "libjpeg-turbo"],
             patches=["0001-cmake-remove-.d-postfix.patch"],

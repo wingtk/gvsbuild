@@ -103,13 +103,37 @@ class Project(Generic[P]):
         self.clean = False
         self.to_add = True
         self.extra_env = {}
+        self.tag = None
+        self.repo_url = None
+        self.archive_file_name = None
+
         for k in kwargs:
             setattr(self, k, kwargs[k])
         self.__working_dir = None
-        if not self.version:
-            self._calc_version()
         if len(self.name) > Project.name_len:
             Project.name_len = len(self.name)
+
+        if not self.version:
+            if self.repo_url:
+                self.version = f"git/{self.tag}"
+            else:
+                self.version = "undefined"
+
+        version_params = {
+            "version": self.version,
+            "tag": self.tag,
+        }
+        match = re.match(
+            r"(?P<major>\d+)(\.(?P<minor>\d+))?(\.(?P<micro>\d+))?", self.version
+        )
+        if match:
+            for param in ["major", "minor", "micro"]:
+                version_params[param] = match.group(param) or ""
+
+        if self.archive_url:
+            self.archive_url = self.archive_url.format(**version_params)
+        if self.archive_file_name:
+            self.archive_file_name = self.archive_file_name.format(**version_params)
 
     _projects: List[P] = []
     _names: List[str] = []
@@ -541,53 +565,6 @@ class Project(Generic[P]):
             tool = Project._dict[tool]
 
         return tool.get_base_dir() if tool.type == ProjectType.TOOL else None
-
-    @staticmethod
-    def _file_to_version(file_name):
-        if not Project._ver_res:
-            Project._ver_res = [
-                re.compile(r".*_v([0-9]+_[0-9]+)\."),
-                re.compile(r".*-([0-9+]\.[0-9]+\.[0-9]+-[0-9]+)\."),
-                re.compile(r".*-([0-9+]\.[0-9]+\.[0-9]+)-"),
-                re.compile(r".*-([0-9+]\.[0-9]+\.[0-9]+[a-z])\."),
-                re.compile(r".*-([0-9+]\.[0-9]+\.[0-9]+)\."),
-                re.compile(r".*-([0-9+]\.[0-9]+)\."),
-                re.compile(r".*_([0-9+]\.[0-9]+\.[0-9]+)\."),
-                re.compile(r"^([0-9+]\.[0-9]+\.[0-9]+)\."),
-                re.compile(r"^v([0-9+]\.[0-9]+\.[0-9]+\.[0-9]+)\."),
-                re.compile(r"^v([0-9+]\.[0-9]+\.[0-9]+)\."),
-                re.compile(r"^v([0-9+]\.[0-9]+)\."),
-                re.compile(r".*-([0-9a-f]+)\."),
-                re.compile(r".*([0-9]\.[0-9]+)\."),
-            ]
-
-        ver = ""
-        for r in Project._ver_res:
-            ok = r.match(file_name)
-            if ok:
-                ver = ok.group(1)
-                break
-        log.debug(
-            "Version from file name:%-16s <- %s"
-            % (
-                ver,
-                file_name,
-            )
-        )
-        return ver
-
-    def _calc_version(self):
-        if self.archive_file_name:
-            self.version = Project._file_to_version(self.archive_file_name)
-        elif self.archive_url:
-            _t, name = os.path.split(self.archive_url)
-            self.version = Project._file_to_version(name)
-        elif hasattr(self, "tag") and self.tag:
-            self.version = f"git/{self.tag}"
-        elif hasattr(self, "repo_url"):
-            self.version = "git/master"
-        else:
-            self.version = ""
 
     def mark_file_calc(self):
         if not self.mark_file:

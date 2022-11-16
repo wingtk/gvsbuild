@@ -50,7 +50,8 @@ class Gtk2(Project_gtk_base):
         Project.__init__(
             self,
             "gtk2",
-            archive_url="https://download.gnome.org/sources/gtk+/2.24/gtk+-2.24.33.tar.xz",
+            version="2.24.33",
+            archive_url="https://download.gnome.org/sources/gtk+/{major}.{minor}/gtk+-{version}.tar.xz",
             hash="ac2ac757f5942d318a311a54b0c80b5ef295f299c2a73c632f6bfb1ff49cc6da",
             dependencies=["atk", "gdk-pixbuf", "pango"],
             patches=[
@@ -88,7 +89,8 @@ class Gtk3(Tarball, Meson):
             self,
             "gtk3",
             prj_dir="gtk3",
-            archive_url="https://download.gnome.org/sources/gtk%2B/3.24/gtk%2B-3.24.34.tar.xz",
+            version="3.24.34",
+            archive_url="https://download.gnome.org/sources/gtk%2B/{major}.{minor}/gtk%2B-{version}.tar.xz",
             hash="dbc69f90ddc821b8d1441f00374dc1da4323a2eafa9078e61edbe5eeefa852ec",
             dependencies=["atk", "gdk-pixbuf", "pango", "libepoxy"],
             patches=[
@@ -117,7 +119,8 @@ class Gtk4(Tarball, Meson):
             self,
             "gtk4",
             prj_dir="gtk4",
-            archive_url="https://download.gnome.org/sources/gtk/4.8/gtk-4.8.1.tar.xz",
+            version="4.8.1",
+            archive_url="https://download.gnome.org/sources/gtk/{major}.{minor}/gtk-{version}.tar.xz",
             hash="5ce8d8de98a23bd0c8eca1a61094e1c009b5f009dcbd60b45e990a8db1b742fd",
             dependencies=["gdk-pixbuf", "pango", "libepoxy", "graphene"],
             patches=[

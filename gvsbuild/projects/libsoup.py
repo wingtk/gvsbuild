@@ -26,7 +26,8 @@ class Libsoup2(Tarball, Meson):
         Project.__init__(
             self,
             "libsoup2",
-            archive_url="https://download.gnome.org/sources/libsoup/2.74/libsoup-2.74.2.tar.xz",
+            version="2.74.2",
+            archive_url="https://download.gnome.org/sources/libsoup/{major}.{minor}/libsoup-{version}.tar.xz",
             hash="f0a427656e5fe19e1df71c107e88dfa1b2e673c25c547b7823b6018b40d01159",
             dependencies=[
                 "libxml2",
@@ -61,7 +62,8 @@ class Libsoup3(Tarball, Meson):
         Project.__init__(
             self,
             "libsoup3",
-            archive_url="https://download.gnome.org/sources/libsoup/3.2/libsoup-3.2.2.tar.xz",
+            version="3.2.2",
+            archive_url="https://download.gnome.org/sources/libsoup/{major}.{minor}/libsoup-{version}.tar.xz",
             hash="83673c685b910fb7d39f1f28eee5afbefb71c05798fc350ac3bf1b885e1efaa1",
             dependencies=[
                 "libxml2",

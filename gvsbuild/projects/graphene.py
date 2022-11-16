@@ -26,7 +26,8 @@ class Graphene(Tarball, Meson):
         Meson.__init__(
             self,
             "graphene",
-            archive_url="https://github.com/ebassi/graphene/archive/refs/tags/1.10.8.tar.gz",
+            version="1.10.8",
+            archive_url="https://github.com/ebassi/graphene/archive/refs/tags/{version}.tar.gz",
             hash="922dc109d2dc5dc56617a29bd716c79dd84db31721a8493a13a5f79109a4a4ed",
             dependencies=["ninja", "meson", "pkg-config", "glib"],
         )

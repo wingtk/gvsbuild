@@ -23,12 +23,12 @@ from gvsbuild.utils.base_project import Project, project_add
 @project_add
 class OpenH264(Tarball, Meson):
     def __init__(self):
-        self.version = "2.3.1"
         Project.__init__(
             self,
             "openh264",
-            archive_url=f"https://github.com/cisco/openh264/archive/refs/tags/v{self.version}.tar.gz",
-            archive_file_name=f"openh264-{self.version}.tar.gz",
+            version="2.3.1",
+            archive_url="https://github.com/cisco/openh264/archive/refs/tags/v{version}.tar.gz",
+            archive_file_name="openh264-{version}.tar.gz",
             hash="453afa66dacb560bc5fd0468aabee90c483741571bca820a39a1c07f0362dc32",
             dependencies=[
                 "ninja",

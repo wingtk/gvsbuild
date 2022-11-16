@@ -27,7 +27,8 @@ class Pixman(Tarball, Project):
         Project.__init__(
             self,
             "pixman",
-            archive_url="http://cairographics.org/releases/pixman-0.40.0.tar.gz",
+            version="0.40.0",
+            archive_url="http://cairographics.org/releases/pixman-{version}.tar.gz",
             hash="6d200dec3740d9ec4ec8d1180e25779c00bc749f94278c8b9021f5534db223fc",
         )
 

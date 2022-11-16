@@ -27,7 +27,8 @@ class Libadwaita(Tarball, Meson):
         Project.__init__(
             self,
             "libadwaita",
-            archive_url="https://download.gnome.org/sources/libadwaita/1.2/libadwaita-1.2.0.tar.xz",
+            version="1.2.0",
+            archive_url="https://download.gnome.org/sources/libadwaita/{major}.{minor}/libadwaita-{version}.tar.xz",
             hash="322f3e1be39ba67981d9fe7228a85818eccaa2ed0aa42bcafe263af881c6460c",
             dependencies=[
                 "ninja",
