@@ -33,6 +33,7 @@ class Librsvg(Tarball, Project):
                 "cairo",
                 "pango",
                 "gdk-pixbuf",
+                "libxml2",
             ],
             patches=[],
         )
