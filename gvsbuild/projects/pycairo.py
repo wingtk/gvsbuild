@@ -27,7 +27,8 @@ class Pycairo(Tarball, Project):
         Project.__init__(
             self,
             "pycairo",
-            archive_url="https://github.com/pygobject/pycairo/releases/download/v1.21.0/pycairo-1.21.0.tar.gz",
+            version="1.21.0",
+            archive_url="https://github.com/pygobject/pycairo/releases/download/v{version}/pycairo-{version}.tar.gz",
             hash="251907f18a552df938aa3386657ff4b5a4937dde70e11aa042bc297957f4b74b",
             dependencies=["cairo"],
         )

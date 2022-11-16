@@ -28,7 +28,7 @@ class Emeus(GitRepo, Meson):
             "emeus",
             repo_url="https://github.com/ebassi/emeus.git",
             fetch_submodules=False,
-            tag=None,
+            tag="master",
             dependencies=["ninja", "meson", "pkg-config", "gtk3"],
             patches=["00_win_no_script.patch"],
         )

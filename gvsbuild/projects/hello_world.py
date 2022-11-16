@@ -26,6 +26,7 @@ class HelloWorld(NullExpander, Meson):
         Project.__init__(
             self,
             "hello-world",
+            version="1.0.0",
             dependencies=["meson"],
         )
 

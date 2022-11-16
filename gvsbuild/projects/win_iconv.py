@@ -26,8 +26,9 @@ class WinIconv(Tarball, CmakeProject):
         Project.__init__(
             self,
             "win-iconv",
-            archive_url="https://github.com/win-iconv/win-iconv/archive/v0.0.8.tar.gz",
-            archive_file_name="win-iconv-0.0.8.tar.gz",
+            version="0.0.8",
+            archive_url="https://github.com/win-iconv/win-iconv/archive/v{version}.tar.gz",
+            archive_file_name="win-iconv-{version}.tar.gz",
             hash="23adea990a8303c6e69e32a64a30171efcb1b73824a1c2da1bbf576b0ae7c520",
             dependencies=[
                 "cmake",

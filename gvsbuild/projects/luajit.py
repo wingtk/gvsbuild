@@ -25,7 +25,8 @@ class Luajit(Tarball, Project):
         Project.__init__(
             self,
             "luajit",
-            archive_url="http://luajit.org/download/LuaJIT-2.1.0-beta3.tar.gz",
+            version="2.1.0-beta3",
+            archive_url="http://luajit.org/download/LuaJIT-{version}.tar.gz",
             hash="1ad2e34b111c802f9d0cdf019e986909123237a28c746b21295b63c9e785d9c3",
             patches=["set-paths.patch"],
         )

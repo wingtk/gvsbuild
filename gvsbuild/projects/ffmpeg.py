@@ -28,7 +28,8 @@ class Ffmpeg(Tarball, Project):
         Project.__init__(
             self,
             "ffmpeg",
-            archive_url="https://ffmpeg.org/releases/ffmpeg-5.1.2.tar.xz",
+            version="5.1.2",
+            archive_url="https://ffmpeg.org/releases/ffmpeg-{version}.tar.xz",
             hash="619e706d662c8420859832ddc259cd4d4096a48a2ce1eefd052db9e440eef3dc",
             dependencies=["nasm", "msys2", "pkg-config", "nv-codec-headers"],
             patches=["0001-libavutil-libavcodec-add-support-for-MB_INFO.patch"],
@@ -68,9 +69,9 @@ class Project_nv_codec_headers(Tarball, Project):
         Project.__init__(
             self,
             "nv-codec-headers",
-            archive_url="https://github.com/FFmpeg/nv-codec-headers/releases/download/n11.1.5.1/nv-codec-headers-11.1.5.1.tar.gz",
-            hash="a28cdde3ac0e9e02c2dde7a1b4de5333b4ac6148a8332ca712da243a3361a0d9",
             version="11.1.5.1",
+            archive_url="https://github.com/FFmpeg/nv-codec-headers/releases/download/n{version}/nv-codec-headers-{version}.tar.gz",
+            hash="a28cdde3ac0e9e02c2dde7a1b4de5333b4ac6148a8332ca712da243a3361a0d9",
         )
 
     def build(self):
