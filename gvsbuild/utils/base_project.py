@@ -135,6 +135,9 @@ class Project(Generic[P]):
         if self.archive_file_name:
             self.archive_file_name = self.archive_file_name.format(**version_params)
 
+        # register version params for use from derived classes
+        self.version_params = version_params
+
     _projects: List[P] = []
     _names: List[str] = []
     _dict: Dict[str, P] = {}
