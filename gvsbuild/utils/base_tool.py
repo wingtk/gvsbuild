@@ -30,6 +30,9 @@ class Tool(Project):
         self.full_exe = None
         Project.__init__(self, name, **kwargs)
 
+        if self.dir_part:
+            self.dir_part = (self.dir_part).format(**self.version_params)
+
     def load_defaults(self):
         if self.dir_part:
             self.build_dir = os.path.join(self.opts.tools_root_dir, self.dir_part)

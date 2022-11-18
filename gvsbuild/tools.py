@@ -30,6 +30,7 @@ class ToolCargo(Tool):
         Tool.__init__(
             self,
             "cargo",
+            version="stable",
             archive_url="https://win.rustup.rs/x86_64",
             archive_file_name="rustup-init.exe",
             exe_name="cargo.exe",
@@ -75,13 +76,13 @@ class ToolCargo(Tool):
 @tool_add
 class ToolCmake(Tool):
     def __init__(self):
-        self.version = "3.24.2"
         Tool.__init__(
             self,
             "cmake",
-            archive_url=f"https://github.com/Kitware/CMake/releases/download/v{self.version}/cmake-{self.version}-windows-x86_64.zip",
+            version="3.24.2",
+            archive_url="https://github.com/Kitware/CMake/releases/download/v{version}/cmake-{version}-windows-x86_64.zip",
             hash="6af30354eecbb7113b0f0142d13c03d21abbc9f4dbdcddaf88df1f9ca1bc4d6f",
-            dir_part=f"cmake-{self.version}-windows-x86_64",
+            dir_part="cmake-{version}-windows-x86_64",
         )
 
     def load_defaults(self):
@@ -102,15 +103,15 @@ class ToolCmake(Tool):
 @tool_add
 class ToolMeson(Tool):
     def __init__(self):
-        self.version = "0.63.2"
         Tool.__init__(
             self,
             "meson",
-            archive_url=f"https://github.com/mesonbuild/meson/archive/refs/tags/{self.version}.tar.gz",
-            archive_file_name=f"meson-{self.version}.tar.gz",
+            version="0.63.2",
+            archive_url="https://github.com/mesonbuild/meson/archive/refs/tags/{version}.tar.gz",
+            archive_file_name="meson-{version}.tar.gz",
             hash="023a3f7c74e68991154c3205a6975705861eedbf8130e013d15faa1df1af216e",
             dependencies=[],
-            dir_part=f"meson-{self.version}",
+            dir_part="meson-{version}",
             exe_name="meson.py",
         )
 
@@ -147,9 +148,10 @@ class ToolNasm(Tool):
         Tool.__init__(
             self,
             "nasm",
-            archive_url="https://github.com/wingtk/gvsbuild/releases/download/nasm-2.15.05/nasm-2.15.05-win64.zip",
+            version="2.15.05",
+            archive_url="https://github.com/wingtk/gvsbuild/releases/download/nasm-{version}/nasm-{version}-win64.zip",
             hash="f5c93c146f52b4f1664fa3ce6579f961a910e869ab0dae431bd871bdd2584ef2",
-            dir_part="nasm-2.15.05",
+            dir_part="nasm-{version}",
             exe_name="nasm.exe",
         )
 
@@ -168,14 +170,14 @@ class ToolNasm(Tool):
 @tool_add
 class ToolNinja(Tool):
     def __init__(self):
-        self.version = "1.11.0"
         Tool.__init__(
             self,
             "ninja",
-            archive_url=f"https://github.com/ninja-build/ninja/releases/download/v{self.version}/ninja-win.zip",
-            archive_file_name=f"ninja-win-{self.version}.zip",
+            version="1.11.0",
+            archive_url="https://github.com/ninja-build/ninja/releases/download/v{version}/ninja-win.zip",
+            archive_file_name="ninja-win-{version}.zip",
             hash="d0ee3da143211aa447e750085876c9b9d7bcdd637ab5b2c5b41349c617f22f3b",
-            dir_part=f"ninja-{self.version}",
+            dir_part="ninja-{version}",
             exe_name="ninja.exe",
         )
 
@@ -188,14 +190,14 @@ class ToolNinja(Tool):
 @tool_add
 class ToolNuget(Tool):
     def __init__(self):
-        self.version = "6.3.0"
         Tool.__init__(
             self,
             "nuget",
-            archive_url=f"https://dist.nuget.org/win-x86-commandline/v{self.version}/nuget.exe",
-            archive_file_name=f"nuget-{self.version}.exe",
+            version="6.3.0",
+            archive_url="https://dist.nuget.org/win-x86-commandline/v{version}/nuget.exe",
+            archive_file_name="nuget-{version}.exe",
             hash="38257f945b3662f5c81d646f2cd940365642e2c4941b34c0e5ae3f4281f9bd2d",
-            dir_part=f"nuget-{self.version}",
+            dir_part="nuget-{version}",
             exe_name="nuget.exe",
         )
 
@@ -216,9 +218,10 @@ class ToolPerl(Tool):
         Tool.__init__(
             self,
             "perl",
-            archive_url="https://github.com/wingtk/gtk-win32/releases/download/Perl-5.20/perl-5.20.0-x64.tar.xz",
+            version="5.20.0",
+            archive_url="https://github.com/wingtk/gtk-win32/releases/download/Perl-{major}.{minor}/perl-{version}-x64.tar.xz",
             hash="05e01cf30bb47d3938db6169299ed49271f91c1615aeee5649174f48ff418c55",
-            dir_part="perl-5.20.0",
+            dir_part="perl-{version}",
         )
 
     def load_defaults(self):
@@ -244,9 +247,10 @@ class ToolYasm(Tool):
         Tool.__init__(
             self,
             "yasm",
-            archive_url="http://www.tortall.net/projects/yasm/releases/yasm-1.3.0-win64.exe",
+            version="1.3.0",
+            archive_url="http://www.tortall.net/projects/yasm/releases/yasm-{version}-win64.exe",
             hash="d160b1d97266f3f28a71b4420a0ad2cd088a7977c2dd3b25af155652d8d8d91f",
-            dir_part="yasm-1.3.0",
+            dir_part="yasm-{version}",
             exe_name="yasm.exe",
         )
 
@@ -267,9 +271,10 @@ class ToolGo(Tool):
         Tool.__init__(
             self,
             "go",
-            archive_url="https://go.dev/dl/go1.18.3.windows-amd64.zip",
+            version="1.18.3",
+            archive_url="https://go.dev/dl/go{version}.windows-amd64.zip",
             hash="9c46023f3ad0300fcfd1e62f2b6c2dfd9667b1f2f5c7a720b14b792af831f071",
-            dir_part="go-1.18",
+            dir_part="go-{version}",
         )
 
     def load_defaults(self):
