@@ -754,7 +754,7 @@ class Builder:
         if hasattr(proj, "hash"):
             hc = self.__hashfile(proj.archive_file)
             if hc != proj.hash:
-                log.message(
+                log.error_exit(
                     "Hash mismatch on %s:\n  Calculated '%s'\n  Expected   '%s'\n"
                     % (
                         proj.archive_file,
