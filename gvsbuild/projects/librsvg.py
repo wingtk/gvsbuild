@@ -28,7 +28,7 @@ class Librsvg(Tarball, Project):
             "librsvg",
             version="2.54.5",
             archive_url="https://download.gnome.org/sources/librsvg/{major}.{minor}/librsvg-{version}.tar.xz",
-            hash="ea152a243f6a43c0e036a28c70de3fcbcdea5664c6811c78592bc229ecc24833",
+            hash="4f03190f45324d1fa1f52a79dfcded1f64eaf49b3ae2f88eedab0c07617cae6e",
             dependencies=[
                 "cargo",
                 "cairo",
