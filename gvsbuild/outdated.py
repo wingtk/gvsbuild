@@ -47,7 +47,10 @@ def outdated():
     try:
         for project in projects:
             # glib-py-wrapper and check-libs are vendored in gvsbuild
-            if project[0] in ("glib-py-wrapper", "check-libs") or not project[1]:
+            if (
+                project[0] in ("glib-py-wrapper", "check-libs", "hello-world")
+                or not project[1]
+            ):
                 continue
             name_and_major = separate_name_and_major_version(project[0])
             repos = {
@@ -76,6 +79,7 @@ def outdated():
                 "libcroco": "https://gitlab.gnome.org/Archive/libcroco",
                 "libcurl": "https://github.com/curl/curl",
                 "libmicrohttpd": "https://github.com/Karlson2k/libmicrohttpd",
+                "librsvg": "https://gitlab.gnome.org/GNOME/librsvg",
                 "libsoup2": "https://gitlab.gnome.org/GNOME/libsoup",
                 "libsoup3": "https://gitlab.gnome.org/GNOME/libsoup",
                 "libssh": "libssh/libssh-mirror",
