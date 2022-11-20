@@ -114,11 +114,7 @@ class Project(Generic[P]):
             Project.name_len = len(self.name)
 
         if not self.version:
-            if self.repo_url:
-                self.version = f"git/{self.tag}"
-            else:
-                self.version = "undefined"
-
+            self.version = f"git/{self.tag}" if self.repo_url else "undefined"
         version_params = {
             "version": self.version,
             "tag": self.tag,
@@ -128,7 +124,7 @@ class Project(Generic[P]):
         )
         if match:
             for param in ["major", "minor", "micro"]:
-                version_params[param] = match.group(param) or ""
+                version_params[param] = match[param] or ""
 
         if self.archive_url:
             self.archive_url = self.archive_url.format(**version_params)
