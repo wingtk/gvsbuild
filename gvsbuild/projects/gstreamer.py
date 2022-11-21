@@ -71,6 +71,7 @@ class Orc(Tarball, Meson):
             self,
             "orc",
             version="0.4.33",
+            repository="https://gitlab.freedesktop.org/gstreamer/orc",
             archive_url="https://gstreamer.freedesktop.org/src/orc/orc-{version}.tar.xz",
             hash="844e6d7db8086f793f57618d3d4b68d29d99b16034e71430df3c21cfd3c3542a",
             dependencies=[

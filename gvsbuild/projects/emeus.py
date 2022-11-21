@@ -26,6 +26,7 @@ class Emeus(GitRepo, Meson):
         Meson.__init__(
             self,
             "emeus",
+            repository="https://github.com/ebassi/emeus",
             repo_url="https://github.com/ebassi/emeus.git",
             fetch_submodules=False,
             tag="master",

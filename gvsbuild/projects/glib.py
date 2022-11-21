@@ -52,6 +52,7 @@ class GLibNetworking(Tarball, Meson):
             self,
             "glib-networking",
             version="2.74.0",
+            repository="https://gitlab.gnome.org/GNOME/glib-networking",
             archive_url="https://download.gnome.org/sources/glib-networking/{major}.{minor}/glib-networking-{version}.tar.xz",
             hash="1f185aaef094123f8e25d8fa55661b3fd71020163a0174adb35a37685cda613b",
             dependencies=["pkgconf", "ninja", "meson", "glib", "openssl"],
@@ -71,6 +72,8 @@ class GLibPyWrapper(NullExpander, Meson):
             "glib-py-wrapper",
             dependencies=["glib"],
             version="0.1.0",
+            internal=True,
+            repository="https://gitlab.gnome.org/GNOME/glib-py-wrapper",
         )
 
     def build(self):

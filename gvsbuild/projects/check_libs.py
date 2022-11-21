@@ -50,6 +50,7 @@ class CheckLibs(NullExpander, Meson):
                 "zlib",
             ],
             version="0.1.0",
+            internal=True,
         )
 
     def build(self):

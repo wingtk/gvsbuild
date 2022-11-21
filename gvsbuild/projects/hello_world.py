@@ -28,6 +28,7 @@ class HelloWorld(NullExpander, Meson):
             "hello-world",
             version="1.0.0",
             dependencies=["meson"],
+            internal=True,
         )
 
     def build(self):

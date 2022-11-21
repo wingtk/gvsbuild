@@ -99,6 +99,9 @@ class Project(Generic[P]):
         self.tarbomb = False
         self.type = None
         self.version = None
+        self.repository = None
+        self.lastversion_major = None
+        self.internal = False
         self.mark_file = None
         self.clean = False
         self.to_add = True

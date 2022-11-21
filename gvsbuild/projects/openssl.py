@@ -26,6 +26,7 @@ class OpenSSL(Tarball, Project):
             self,
             "openssl",
             version="1.1.1s",
+            lastversion_major=1,
             archive_url="https://www.openssl.org/source/openssl-{version}.tar.gz",
             hash="c5ac01e760ee6ff0dab61d6b2bbd30146724d063eb322180c6f18a6f74e4b6aa",
             dependencies=[
