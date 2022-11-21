@@ -1,0 +1,44 @@
+From f9ddb70a8c64a36032a9bab79bd5e065192143bb Mon Sep 17 00:00:00 2001
+From: Danny 'Guru' Forghieri <daniele.forghieri@gmail.com>
+Date: Mon, 21 Nov 2022 12:17:36 +0100
+Subject: [PATCH] libpkgconf: add defines to unbreak build with VS2013
+
+---
+ libpkgconf/bsdstubs.c   | 1 +
+ libpkgconf/libpkgconf.h | 8 ++++++++
+ 2 files changed, 9 insertions(+)
+
+diff --git a/libpkgconf/bsdstubs.c b/libpkgconf/bsdstubs.c
+index f02c6ca..4d25ec9 100644
+--- a/libpkgconf/bsdstubs.c
++++ b/libpkgconf/bsdstubs.c
+@@ -23,6 +23,7 @@
+ #include <errno.h>
+ 
+ #include <libpkgconf/bsdstubs.h>
++#include <libpkgconf/libpkgconf.h>
+ #include <libpkgconf/config.h>
+ 
+ #ifndef HAVE_STRLCPY
+diff --git a/libpkgconf/libpkgconf.h b/libpkgconf/libpkgconf.h
+index 1dd443d..57b2c8a 100644
+--- a/libpkgconf/libpkgconf.h
++++ b/libpkgconf/libpkgconf.h
+@@ -21,6 +21,14 @@
+ #include <stddef.h>
+ #include <stdbool.h>
+ #include <stdint.h>
++
++/* Macro for building with vs2013 */
++#if defined _MSC_VER && _MSC_VER <= 1800
++#define inline		__inline
++#define snprintf	_snprintf
++#define __func__	__FUNCTION__
++#endif
++
+ #include <libpkgconf/libpkgconf-api.h>
+ #include <libpkgconf/iter.h>
+ #include <libpkgconf/bsdstubs.h>
+-- 
+2.36.1.windows.1
+
