@@ -32,7 +32,7 @@ class Libgxps(Tarball, Meson):
             dependencies=[
                 "meson",
                 "ninja",
-                "pkg-config",
+                "pkgconf",
                 "glib",
                 "libarchive",
                 "cairo",

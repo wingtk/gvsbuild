@@ -31,7 +31,7 @@ class GdkPixbuf(Tarball, Meson):
             hash="ee9b6c75d13ba096907a2e3c6b27b61bcd17f5c7ebeab5a5b439d2f2e39fe44b",
             dependencies=[
                 "ninja",
-                "pkg-config",
+                "pkgconf",
                 "meson",
                 "libtiff-4",
                 "libjpeg-turbo",

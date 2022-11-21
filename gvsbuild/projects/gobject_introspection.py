@@ -37,7 +37,7 @@ class GObjectIntrospection(Tarball, Meson):
                 "ninja",
                 "meson",
                 "msys2",
-                "pkg-config",
+                "pkgconf",
                 "glib",
             ],
             # https://gitlab.gnome.org/GNOME/gobject-introspection/-/issues/427

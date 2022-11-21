@@ -89,7 +89,6 @@ def outdated():
                 "orc": "https://gitlab.freedesktop.org/gstreamer/orc",
                 "pango": "https://gitlab.gnome.org/GNOME/pango",
                 "pixman": "https://gitlab.freedesktop.org/pixman/pixman",
-                "pkg-config": "pkgconf",
                 "pygobject": "https://gitlab.gnome.org/GNOME/pygobject",
                 "wing": "https://gitlab.gnome.org/GNOME/wing",
             }
