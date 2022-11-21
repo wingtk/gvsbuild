@@ -36,7 +36,7 @@ def outdated():
         import lastversion
         from packaging import version
     except ImportError:
-        print("Please pip install .[outdated] in your Python environment")
+        print("Please pip install lastversion in your Python environment")
         sys.exit(0)
 
     Project.add_all()
