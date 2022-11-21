@@ -27,6 +27,7 @@ class Fontconfig(Tarball, Meson):
             self,
             "fontconfig",
             version="2.14.1",
+            repository="https://gitlab.freedesktop.org/fontconfig/fontconfig",
             archive_url="https://www.freedesktop.org/software/fontconfig/release/fontconfig-{version}.tar.gz",
             hash="ae480e9ca34382790312ff062c625ec70df94d6d9a9366e2b2b3d525f7f90387",
             dependencies=["freetype", "gperf", "expat"],

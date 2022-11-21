@@ -27,6 +27,7 @@ class Pango(Tarball, Meson):
             self,
             "pango",
             version="1.50.11",
+            repository="https://gitlab.gnome.org/GNOME/pango",
             archive_url="https://download.gnome.org/sources/pango/{major}.{minor}/pango-{version}.tar.xz",
             hash="8800f812d89ee61388188703203f3a7878963c22f8695aaf1fa0a1a1428d17ae",
             dependencies=[
