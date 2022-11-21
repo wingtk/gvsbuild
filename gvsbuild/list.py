@@ -15,11 +15,47 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 import json
+import sys
 from typing import List
 
 import typer
+from packaging import version
 
 from gvsbuild.utils.base_project import Project, ProjectType
+
+
+def set_projects_latest_versions(projects):
+    try:
+        import lastversion
+    except ImportError:
+        print("Please pip install lastversion in your Python environment")
+        sys.exit(1)
+
+    projects = {
+        project.name: project
+        for project in Project.list_projects()
+        if project.type.value in [ProjectType.PROJECT, ProjectType.TOOL]
+        and not project.internal
+    }
+
+    try:
+        for project in projects.values():
+            if project.internal:
+                continue
+            project.latest_version = lastversion.latest(
+                repo=project.repository or project.name,
+                major=project.lastversion_major,
+            )
+            if project.latest_version:
+                project.outdated = version.parse(
+                    str(project.latest_version)
+                ) > version.parse(project.version)
+
+    except lastversion.utils.ApiCredentialsError:
+        print(
+            "Create or update the GITHUB token at https://github.com/settings/tokens, then set or update the token environmental variable with:\n$env:GITHUB_API_TOKEN=xxxxxxxxxxxxxxx"
+        )
+        exit(1)
 
 
 def list_(
@@ -42,6 +78,18 @@ def list_(
         help="Show list in JSON format",
         rich_help_panel="Formatting Options",
     ),
+    latest: bool = typer.Option(
+        False,
+        "--latest",
+        help="Fetch latest information",
+        rich_help_panel="Formatting Options",
+    ),
+    outdated: bool = typer.Option(
+        False,
+        "--outdated",
+        help="Only show outdated projects",
+        rich_help_panel="Selection Options",
+    ),
 ):
     Project.add_all()
 
@@ -55,12 +103,27 @@ def list_(
             project for project in projects if project.type.value == project_type
         ]
 
+    if outdated:
+        latest = True
+
+    if latest:
+        set_projects_latest_versions(projects)
+
+    if outdated:
+        projects = [
+            project
+            for project in projects
+            if hasattr(project, "outdated") and project.outdated
+        ]
+
     if json_:
 
         def _get_project_data(project):
             data = {"dependencies": project.dependencies, "type": project.type.value}
             if project.version:
                 data["version"] = project.version
+            if hasattr(project, "latest_version") and project.latest_version:
+                data["latest-version"] = str(project.latest_version)
             return data
 
         print(
@@ -78,4 +141,20 @@ def list_(
             if type_projects:
                 print(f"Available projects with type {project_type}:")
                 for project in type_projects:
-                    print(f"\t{project.name:<{Project.name_len}} {project.version}")
+                    params = {
+                        "name": f"{project.name:<{Project.name_len}}",
+                        "version": f"{project.version:<45}",
+                    }
+                    if latest:
+                        if (
+                            hasattr(project, "latest_version")
+                            and project.latest_version
+                        ):
+                            params[
+                                "latest_version"
+                            ] = f"{str(project.latest_version):<45}"
+                        else:
+                            params["latest_version"] = "undefined"
+                        print("\t{name} {version} {latest_version}".format(**params))
+                    else:
+                        print("\t{name} {version}".format(**params))
