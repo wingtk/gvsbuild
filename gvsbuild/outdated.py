@@ -114,4 +114,6 @@ def outdated():
             except version.InvalidVersion:
                 print(f"Project {project[0]} does not have a valid version")
     except lastversion.utils.ApiCredentialsError:
-        print("Set GITHUB_API_TOKEN=xxxxxxxxxxxxxxx environmental variable")
+        print(
+            "Create or update the GITHUB token at https://github.com/settings/tokens, then set or update the token environmental variable with:\n$env:GITHUB_API_TOKEN=xxxxxxxxxxxxxxx"
+        )
