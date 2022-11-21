@@ -29,7 +29,7 @@ class JsonGLib(Tarball, Meson):
             version="1.6.6",
             archive_url="https://download.gnome.org/sources/json-glib/{major}.{minor}/json-glib-{version}.tar.xz",
             hash="96ec98be7a91f6dde33636720e3da2ff6ecbb90e76ccaa49497f31a6855a490e",
-            dependencies=["meson", "ninja", "pkg-config", "glib"],
+            dependencies=["meson", "ninja", "pkgconf", "glib"],
         )
         if self.opts.enable_gi:
             self.add_dependency("gobject-introspection")

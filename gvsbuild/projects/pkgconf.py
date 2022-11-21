@@ -25,7 +25,7 @@ class PkgConf(Tarball, Meson):
     def __init__(self):
         Project.__init__(
             self,
-            "pkg-config",
+            "pkgconf",
             prj_dir="pkgconf",
             version="1.9.3",
             archive_url="https://distfiles.dereferenced.org/pkgconf/pkgconf-{version}.tar.gz",

@@ -30,7 +30,7 @@ class CheckLibs(NullExpander, Meson):
                 # Used to build the various tests
                 "meson",
                 "ninja",
-                "pkg-config",
+                "pkgconf",
                 # libraries to test, hopefully all the one we build!
                 "atk",
                 "cairo",

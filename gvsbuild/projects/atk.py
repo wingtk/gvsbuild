@@ -45,7 +45,7 @@ class Atk(Tarball, Meson):
             dependencies=[
                 "ninja",
                 "meson",
-                "pkg-config",
+                "pkgconf",
                 "glib",
             ],
         )

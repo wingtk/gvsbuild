@@ -32,7 +32,7 @@ class GLib(Tarball, Meson):
             dependencies=[
                 "ninja",
                 "meson",
-                "pkg-config",
+                "pkgconf",
                 "gettext",
                 "libffi",
                 "zlib",
@@ -54,7 +54,7 @@ class GLibNetworking(Tarball, Meson):
             version="2.74.0",
             archive_url="https://download.gnome.org/sources/glib-networking/{major}.{minor}/glib-networking-{version}.tar.xz",
             hash="1f185aaef094123f8e25d8fa55661b3fd71020163a0174adb35a37685cda613b",
-            dependencies=["pkg-config", "ninja", "meson", "glib", "openssl"],
+            dependencies=["pkgconf", "ninja", "meson", "glib", "openssl"],
         )
 
     def build(self):

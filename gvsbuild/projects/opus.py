@@ -32,7 +32,7 @@ class Opus(GitRepo, Meson):
             dependencies=[
                 "ninja",
                 "meson",
-                "pkg-config",
+                "pkgconf",
             ],
         )
 

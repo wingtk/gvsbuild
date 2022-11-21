@@ -32,7 +32,7 @@ class Libpsl(Tarball, Meson):
             dependencies=[
                 "meson",
                 "ninja",
-                "pkg-config",
+                "pkgconf",
                 "icu",
             ],
         )
