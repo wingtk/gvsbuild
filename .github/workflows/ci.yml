@@ -63,19 +63,17 @@ jobs:
           pip install tox tox-gh-actions
       # Temporarily move the preinstalled git, it causes errors related to cygwin.
       - name: Move git binary
-        run: |
-          Move-Item "C:\Program Files\Git\usr\bin" "C:\Program Files\Git\usr\notbin"
-          Move-Item "C:\Program Files\Git\bin" "C:\Program Files\Git\notbin"
+        run: move "C:\Program Files\Git\usr\bin" "C:\Program Files\Git\usr\notbin"
+        shell: cmd
       - name: Test with tox
         run: tox
       - name: Restore git binary
-        run: |
-          Move-Item "C:\Program Files\Git\usr\notbin" "C:\Program Files\Git\usr\bin"
-          Move-Item "C:\Program Files\Git\notbin" "C:\Program Files\Git\bin"
+        run: move "C:\Program Files\Git\usr\notbin" "C:\Program Files\Git\usr\bin"
+        shell: cmd
 
-  build-gtk:
+  build:
     needs: lint
-    name: Build GTK Binaries
+    name: build GTK binaries with gvsbuild
     runs-on: windows-latest
     timeout-minutes: 90
     if: "!contains(github.event.head_commit.message, 'skip ci')"
@@ -104,20 +102,22 @@ jobs:
       # Temporarily move the preinstalled git, it causes errors related to cygwin.
       - name: Move git binary
         run: |
-          Move-Item "C:\Program Files\Git\usr\bin" "C:\Program Files\Git\usr\notbin"
-          Move-Item "C:\Program Files\Git\bin" "C:\Program Files\Git\notbin"
+          move "C:\Program Files\Git\usr\bin" "C:\Program Files\Git\usr\notbin"
+          move "C:\Program Files\Git\bin" "C:\Program Files\Git\notbin"
+        shell: cmd
       - name: Build
         run: >
-          poetry run gvsbuild build --enable-gi --py-wheel gtk3 gtk4 libadwaita
-          gtksourceview4 gtksourceview5 gobject-introspection pycairo pygobject
-          adwaita-icon-theme hicolor-icon-theme graphene glib-networking
+          poetry run gvsbuild build --enable-gi --py-wheel gtk3 graphene glib-networking
+          gobject-introspection pycairo pygobject adwaita-icon-theme hicolor-icon-theme
+          gtksourceview4
       - name: Copy wheels to the build directory
         if: steps.cache.outputs.cache-hit != 'true'
         run: Get-ChildItem C:\gtk-build\build\x64\release\*\dist\*.whl | ForEach-Object -process { cp $_ C:\gtk-build\gtk\x64\release\ }
       - name: Restore git binary
         run: |
-          Move-Item "C:\Program Files\Git\usr\notbin" "C:\Program Files\Git\usr\bin"
-          Move-Item "C:\Program Files\Git\notbin" "C:\Program Files\Git\bin"
+          move "C:\Program Files\Git\usr\notbin" "C:\Program Files\Git\usr\bin"
+          move "C:\Program Files\Git\notbin" "C:\Program Files\Git\bin"
+        shell: cmd
       - name: Create Source Dist and Wheel
         run: poetry build
       - name: Upload gvsbuild-${{ github.event.release.tag_name }}.tar.gz
