@@ -128,7 +128,16 @@ class Gtk4(Tarball, Meson):
             lastversion_major=4,
             archive_url="https://download.gnome.org/sources/gtk/{major}.{minor}/gtk-{version}.tar.xz",
             hash="5ce8d8de98a23bd0c8eca1a61094e1c009b5f009dcbd60b45e990a8db1b742fd",
-            dependencies=["gdk-pixbuf", "pango", "libepoxy", "graphene"],
+            dependencies=[
+                "gdk-pixbuf",
+                "pango",
+                "libepoxy",
+                "graphene",
+                "cairo",
+                "harfbuzz",
+                "glib",
+                "fribidi",
+            ],
             patches=[
                 "gdkwin32-fix-subclassing-for-gdkwin32clipdrop.patch",
             ],
