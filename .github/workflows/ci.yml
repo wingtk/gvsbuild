@@ -112,7 +112,7 @@ jobs:
       - name: Build GTK3
         if: matrix.gtk-version == '3'
         run: poetry run gvsbuild build gtk3 gtksourceview4 graphene glib-networking
-      - name: Build GTK3
+      - name: Build GTK4
         if: matrix.gtk-version == '4'
         run: >
           poetry run gvsbuild build --enable-gi --py-wheel gtk4 libadwaita
