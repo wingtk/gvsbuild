@@ -63,20 +63,25 @@ jobs:
           pip install tox tox-gh-actions
       # Temporarily move the preinstalled git, it causes errors related to cygwin.
       - name: Move git binary
-        run: move "C:\Program Files\Git\usr\bin" "C:\Program Files\Git\usr\notbin"
-        shell: cmd
+        run: |
+          Move-Item "C:\Program Files\Git\usr\bin" "C:\Program Files\Git\usr\notbin"
+          Move-Item "C:\Program Files\Git\bin" "C:\Program Files\Git\notbin"
       - name: Test with tox
         run: tox
       - name: Restore git binary
-        run: move "C:\Program Files\Git\usr\notbin" "C:\Program Files\Git\usr\bin"
-        shell: cmd
+        run: |
+          Move-Item "C:\Program Files\Git\usr\notbin" "C:\Program Files\Git\usr\bin"
+          Move-Item "C:\Program Files\Git\notbin" "C:\Program Files\Git\bin"
 
   build:
     needs: lint
-    name: build GTK binaries with gvsbuild
+    name: Build GTK Binaries
     runs-on: windows-latest
-    timeout-minutes: 90
+    timeout-minutes: 60
     if: "!contains(github.event.head_commit.message, 'skip ci')"
+    strategy:
+      matrix:
+        gtk-version: ['3', '4']
 
     steps:
       - name: Checkout
@@ -102,36 +107,38 @@ jobs:
       # Temporarily move the preinstalled git, it causes errors related to cygwin.
       - name: Move git binary
         run: |
-          move "C:\Program Files\Git\usr\bin" "C:\Program Files\Git\usr\notbin"
-          move "C:\Program Files\Git\bin" "C:\Program Files\Git\notbin"
-        shell: cmd
-      - name: Build
+          Move-Item "C:\Program Files\Git\usr\bin" "C:\Program Files\Git\usr\notbin"
+          Move-Item "C:\Program Files\Git\bin" "C:\Program Files\Git\notbin"
+      - name: Build GTK3
+        if: matrix.gtk-version == '3'
+        run: poetry run gvsbuild build gtk3 gtksourceview4 graphene glib-networking
+      - name: Build GTK3
+        if: matrix.gtk-version == '4'
         run: >
-          poetry run gvsbuild build --enable-gi --py-wheel gtk3 graphene glib-networking
-          gobject-introspection pycairo pygobject adwaita-icon-theme hicolor-icon-theme
-          gtksourceview4
+          poetry run gvsbuild build --enable-gi --py-wheel gtk4 libadwaita
+          gtksourceview5 gobject-introspection pycairo pygobject
+          adwaita-icon-theme hicolor-icon-theme
       - name: Copy wheels to the build directory
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.cache.outputs.cache-hit != 'true' && matrix.gtk-version == '4'
         run: Get-ChildItem C:\gtk-build\build\x64\release\*\dist\*.whl | ForEach-Object -process { cp $_ C:\gtk-build\gtk\x64\release\ }
       - name: Restore git binary
         run: |
-          move "C:\Program Files\Git\usr\notbin" "C:\Program Files\Git\usr\bin"
-          move "C:\Program Files\Git\notbin" "C:\Program Files\Git\bin"
-        shell: cmd
+          Move-Item "C:\Program Files\Git\usr\notbin" "C:\Program Files\Git\usr\bin"
+          Move-Item "C:\Program Files\Git\notbin" "C:\Program Files\Git\bin"
       - name: Create Source Dist and Wheel
         run: poetry build
       - name: Upload gvsbuild-${{ github.event.release.tag_name }}.tar.gz
         uses: actions/upload-artifact@v3
-        if: github.event_name == 'release'
+        if: github.event_name == 'release' && matrix.gtk-version == '4'
         with:
           name: gvsbuild-${{ github.event.release.tag_name }}.tar.gz
           path: dist/gvsbuild-${{ github.event.release.tag_name }}.tar.gz
       - name: Upload gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
         uses: actions/upload-artifact@v3
-        if: github.event_name == 'release'
+        if: github.event_name == 'release' && matrix.gtk-version == '4'
         with:
           name: gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
           path: dist/gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
       - name: Publish to PyPI (release only)
-        if: github.event_name == 'release'
+        if: github.event_name == 'release' && matrix.gtk-version == '4'
         run: poetry publish -u __token__ -p ${{ secrets.PYPI_TOKEN }}
