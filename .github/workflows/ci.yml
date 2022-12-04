@@ -79,9 +79,14 @@ jobs:
     runs-on: windows-latest
     timeout-minutes: 75
     if: "!contains(github.event.head_commit.message, 'skip ci')"
+    continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
-        gtk-version: ['3', '4']
+        gtk-version: ['3']
+        experimental: [false]
+        include:
+          - gtk-version: 4
+            experimental: true
 
     steps:
       - name: Checkout
