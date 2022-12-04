@@ -19,7 +19,7 @@
 """Main build script."""
 
 # Verify we can import from the script directory
-
+import rich
 import typer
 
 from gvsbuild.deps import deps
@@ -43,6 +43,8 @@ import gvsbuild.projects  # noqa: F401
 import gvsbuild.tools  # noqa: F401
 from gvsbuild.build import build
 from gvsbuild.outdated import outdated
+
+rich.reconfigure(markup=False)
 
 app = typer.Typer(help="Build GTK for Windows")
 app.command(help="")(build)
