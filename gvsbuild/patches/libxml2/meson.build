@@ -243,7 +243,7 @@ cargs += get_option('default_library') == 'static' ? '-DLIBXML_STATIC' : []
 
 incdir = include_directories('include')
 xml2lib = library(
-  'xml2',
+  'libxml2',
   sources,
   c_args: cargs,
   include_directories: incdir,
