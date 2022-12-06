@@ -111,12 +111,14 @@ jobs:
           Move-Item "C:\Program Files\Git\bin" "C:\Program Files\Git\notbin"
       - name: Build GTK3
         if: matrix.gtk-version == '3'
-        run: poetry run gvsbuild build gtk3 gtksourceview4 graphene glib-networking
+        run: >
+          poetry run gvsbuild build --ninja-opts -j2 gtk3 gtksourceview4 graphene
+          glib-networking
       - name: Build GTK4
         if: matrix.gtk-version == '4'
-        run: >
-          poetry run gvsbuild build --enable-gi cairo gtk4 libadwaita gtksourceview5
-          gobject-introspection adwaita-icon-theme hicolor-icon-theme
+        run: > # Use -j2 option to prevent out of memory errors with GitHub Action runners
+          poetry run gvsbuild build --ninja-opts -j2 --enable-gi cairo gtk4 libadwaita
+          gtksourceview5 gobject-introspection adwaita-icon-theme hicolor-icon-theme
       - name: Restore git binary
         run: |
           Move-Item "C:\Program Files\Git\usr\notbin" "C:\Program Files\Git\usr\bin"
