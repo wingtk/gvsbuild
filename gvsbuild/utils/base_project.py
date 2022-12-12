@@ -17,8 +17,10 @@
 
 """Base project class, used also for tools."""
 
+
 import datetime
 import os
+import pathlib
 import re
 import shutil
 from enum import Enum
@@ -28,21 +30,54 @@ from .simple_ui import log
 from .utils import _rmtree_error_handler
 
 
-class ProjectType(Enum):
-    NONE = -1
-    IGNORE = 0
-    PROJECT = 1
-    TOOL = 2
-    GROUP = 3
+class ProjectType(str, Enum):
+    IGNORE = "ignore"
+    PROJECT = "project"
+    TOOL = "tool"
+    GROUP = "group"
 
 
 class Options:
     def __init__(self):
-        # Only the one used by the projects
         self.enable_gi = False
         self.ffmpeg_enable_gpl = False
-        # Default
-        self._load_python = False
+        self.verbose = False
+        self.debug = False
+        self.platform = "x64"
+        self.configuration = "release"
+        self.build_dir = None
+        self.archives_download_dir = None
+        self.export_dir = None
+        self.patches_root_dir = None
+        self.tools_root_dir = None
+        self.vs_ver = None
+        self.vs_install_path = None
+        self.win_sdk_ver = None
+        self.net_target_framework = None
+        self.net_target_framework_version = None
+        self.msys_dir = None
+        self.clean = False
+        self.msbuild_opts = None
+        self.use_env = False
+        self.deps = False
+        self.check_hash = False
+        self.skip = False
+        self.make_zip = False
+        self.zip_continue = False
+        self.from_scratch = False
+        self.keep_tools = False
+        self.fast_build = False
+        self.keep_going = False
+        self.clean_built = False
+        self.py_wheel = False
+        self.log_size = None
+        self.log_single = False
+        self.cargo_opts = None
+        self.ninja_opts = None
+        self.capture_out = False
+        self.print_out = False
+        self.git_expand_dir = None
+        self.projects = None
 
 
 P = TypeVar("P")
@@ -51,6 +86,10 @@ P = TypeVar("P")
 class Project(Generic[P]):
     def __init__(self, name, **kwargs):
         object.__init__(self)
+        self.patch_dir = None
+        self.build_dir = None
+        self.pkg_dir = None
+        self.builder = None
         self.name = name
         self.prj_dir = name
         self.dependencies = []
@@ -58,19 +97,45 @@ class Project(Generic[P]):
         self.archive_url = None
         self.archive_file_name = None
         self.tarbomb = False
-        self.type = ProjectType.NONE
+        self.type = None
         self.version = None
+        self.repository = None
+        self.lastversion_major = None
+        self.internal = False
         self.mark_file = None
         self.clean = False
         self.to_add = True
         self.extra_env = {}
+        self.tag = None
+        self.repo_url = None
+        self.archive_file_name = None
+
         for k in kwargs:
             setattr(self, k, kwargs[k])
         self.__working_dir = None
-        if not self.version:
-            self._calc_version()
         if len(self.name) > Project.name_len:
             Project.name_len = len(self.name)
+
+        if not self.version:
+            self.version = f"git/{self.tag}" if self.repo_url else "undefined"
+        version_params = {
+            "version": self.version,
+            "tag": self.tag,
+        }
+        match = re.match(
+            r"(?P<major>\d+)(\.(?P<minor>\d+))?(\.(?P<micro>\d+))?", self.version
+        )
+        if match:
+            for param in ["major", "minor", "micro"]:
+                version_params[param] = match[param] or ""
+
+        if self.archive_url:
+            self.archive_url = self.archive_url.format(**version_params)
+        if self.archive_file_name:
+            self.archive_file_name = self.archive_file_name.format(**version_params)
+
+        # register version params for use from derived classes
+        self.version_params = version_params
 
     _projects: List[P] = []
     _names: List[str] = []
@@ -81,6 +146,21 @@ class Project(Generic[P]):
     _reg_prj_list: List[Tuple[P, ProjectType]] = []
     # build option
     opts = Options()
+
+    @staticmethod
+    def compute_dependencies(projects):
+        global_deps = {p.name for p in projects}
+
+        def _add_project_dependencies(project):
+            for dep in project.dependencies:
+                if dep not in global_deps:
+                    global_deps.add(dep)
+                    _add_project_dependencies(Project.get_project(dep))
+
+        for project in projects:
+            _add_project_dependencies(project)
+
+        return [Project.get_project(p) for p in global_deps]
 
     def __str__(self):
         return self.name
@@ -221,7 +301,7 @@ class Project(Generic[P]):
             self._msbuild_copy_dir(dst, src, search, replace)
             return dst_part
 
-        part = "vs" + self.builder.opts.vs_ver
+        part = f"vs{self.builder.opts.vs_ver}"
         if not _msbuild_ok(self, part):
             part = self.builder.vs_ver_year
             if not _msbuild_ok(self, part):
@@ -310,7 +390,7 @@ class Project(Generic[P]):
         if part:
             cmd = os.path.join(base_dir, part, sln_file)
             if add_pars:
-                cmd += " " + add_pars
+                cmd += f" {add_pars}"
             if use_env:
                 cmd += " /p:UseEnv=True"
         else:
@@ -339,8 +419,7 @@ class Project(Generic[P]):
         for f in os.scandir(src_dir):
             if f.is_file():
                 log.debug(f" {f.name}")
-                with open(f.path) as fi:
-                    content = fi.read()
+                content = pathlib.Path(f.path).read_text()
                 _t = content.replace("@prefix@", bin_dir)
                 content = _t
                 _t = content.replace("@version@", self.version)
@@ -417,12 +496,10 @@ class Project(Generic[P]):
 
     @staticmethod
     def add(proj, type=ProjectType.IGNORE):
-        if proj.name in Project._dict:
-            log.error_exit(f"Project '{proj.name}' already present!")
         Project._projects.append(proj)
         Project._names.append(proj.name)
         Project._dict[proj.name] = proj
-        if proj.type == ProjectType.NONE:
+        if proj.type is None:
             proj.type = type
 
     @staticmethod
@@ -444,7 +521,6 @@ class Project(Generic[P]):
                 Project.add(c_inst, type=ty)
             else:
                 del c_inst
-        del Project._reg_prj_list
 
     def ignore(self):
         """Mark the project not to build/add to the list."""
@@ -452,7 +528,10 @@ class Project(Generic[P]):
 
     @staticmethod
     def get_project(name):
-        return Project._dict[name]
+        try:
+            return Project._dict[name]
+        except KeyError:
+            log.error_exit(f"Could not find project {name}")
 
     @staticmethod
     def list_projects():
@@ -480,65 +559,14 @@ class Project(Generic[P]):
         if not isinstance(tool, Project):
             tool = Project._dict[tool]
 
-        if tool.type == ProjectType.TOOL:
-            return tool.get_executable()
-        return None
+        return tool.get_executable() if tool.type == ProjectType.TOOL else None
 
     @staticmethod
     def get_tool_base_dir(tool):
         if not isinstance(tool, Project):
             tool = Project._dict[tool]
 
-        if tool.type == ProjectType.TOOL:
-            return tool.get_base_dir()
-        return None
-
-    @staticmethod
-    def _file_to_version(file_name):
-        if not Project._ver_res:
-            Project._ver_res = [
-                re.compile(r".*_v([0-9]+_[0-9]+)\."),
-                re.compile(r".*-([0-9+]\.[0-9]+\.[0-9]+-[0-9]+)\."),
-                re.compile(r".*-([0-9+]\.[0-9]+\.[0-9]+)-"),
-                re.compile(r".*-([0-9+]\.[0-9]+\.[0-9]+[a-z])\."),
-                re.compile(r".*-([0-9+]\.[0-9]+\.[0-9]+)\."),
-                re.compile(r".*-([0-9+]\.[0-9]+)\."),
-                re.compile(r".*_([0-9+]\.[0-9]+\.[0-9]+)\."),
-                re.compile(r"^([0-9+]\.[0-9]+\.[0-9]+)\."),
-                re.compile(r"^v([0-9+]\.[0-9]+\.[0-9]+\.[0-9]+)\."),
-                re.compile(r"^v([0-9+]\.[0-9]+\.[0-9]+)\."),
-                re.compile(r"^v([0-9+]\.[0-9]+)\."),
-                re.compile(r".*-([0-9a-f]+)\."),
-                re.compile(r".*([0-9]\.[0-9]+)\."),
-            ]
-
-        ver = ""
-        for r in Project._ver_res:
-            ok = r.match(file_name)
-            if ok:
-                ver = ok.group(1)
-                break
-        log.debug(
-            "Version from file name:%-16s <- %s"
-            % (
-                ver,
-                file_name,
-            )
-        )
-        return ver
-
-    def _calc_version(self):
-        if self.archive_file_name:
-            self.version = Project._file_to_version(self.archive_file_name)
-        elif self.archive_url:
-            _t, name = os.path.split(self.archive_url)
-            self.version = Project._file_to_version(name)
-        elif hasattr(self, "tag") and self.tag:
-            self.version = f"git/{self.tag}"
-        elif hasattr(self, "repo_url"):
-            self.version = "git/master"
-        else:
-            self.version = ""
+        return tool.get_base_dir() if tool.type == ProjectType.TOOL else None
 
     def mark_file_calc(self):
         if not self.mark_file:
@@ -579,3 +607,11 @@ def project_add(cls):
     projects/tools/groups list."""
     Project.register(cls, ProjectType.PROJECT)
     return cls
+
+
+def get_project_by_type(prj_type):
+    return [
+        (project.name, project.version)
+        for project in Project._projects
+        if project.type == prj_type
+    ]

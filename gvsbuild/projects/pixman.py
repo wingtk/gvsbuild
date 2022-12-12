@@ -27,8 +27,10 @@ class Pixman(Tarball, Project):
         Project.__init__(
             self,
             "pixman",
-            archive_url="http://cairographics.org/releases/pixman-0.40.0.tar.gz",
-            hash="6d200dec3740d9ec4ec8d1180e25779c00bc749f94278c8b9021f5534db223fc",
+            repository="https://gitlab.freedesktop.org/pixman/pixman",
+            version="0.42.2",
+            archive_url="http://cairographics.org/releases/pixman-{version}.tar.gz",
+            hash="ea1480efada2fd948bc75366f7c349e1c96d3297d09a3fe62626e38e234a625e",
         )
 
     def build(self):

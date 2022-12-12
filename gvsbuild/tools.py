@@ -18,14 +18,10 @@
 """Default tools used to build the various projects."""
 
 import os
-import shutil
 import subprocess
-import sys
 
 from .utils.base_expanders import extract_exec
-from .utils.base_project import Project
 from .utils.base_tool import Tool, tool_add
-from .utils.simple_ui import log
 
 
 @tool_add
@@ -34,6 +30,7 @@ class ToolCargo(Tool):
         Tool.__init__(
             self,
             "cargo",
+            version="stable",
             archive_url="https://win.rustup.rs/x86_64",
             archive_file_name="rustup-init.exe",
             exe_name="cargo.exe",
@@ -79,13 +76,13 @@ class ToolCargo(Tool):
 @tool_add
 class ToolCmake(Tool):
     def __init__(self):
-        self.version = "3.23.2"
         Tool.__init__(
             self,
             "cmake",
-            archive_url=f"https://github.com/Kitware/CMake/releases/download/v{self.version}/cmake-{self.version}-windows-x86_64.zip",
-            hash="2329387f3166b84c25091c86389fb891193967740c9bcf01e7f6d3306f7ffda0",
-            dir_part=f"cmake-{self.version}-windows-x86_64",
+            version="3.25.1",
+            archive_url="https://github.com/Kitware/CMake/releases/download/v{version}/cmake-{version}-windows-x86_64.zip",
+            hash="d93958d87cc9b91983489f0b37a268b03a3c891894d11f5437fa2a5ce94aab24",
+            dir_part="cmake-{version}-windows-x86_64",
         )
 
     def load_defaults(self):
@@ -106,17 +103,15 @@ class ToolCmake(Tool):
 @tool_add
 class ToolMeson(Tool):
     def __init__(self):
-        self.version = "0.63.0"
         Tool.__init__(
             self,
             "meson",
-            archive_url=f"https://github.com/mesonbuild/meson/archive/refs/tags/{self.version}.tar.gz",
-            archive_file_name=f"meson-{self.version}.tar.gz",
-            hash="77808d47fa05875c2553d66cb6c6140c2f687b46256dc537eeb8a63889e0bea2",
-            dependencies=[
-                "python",
-            ],
-            dir_part=f"meson-{self.version}",
+            version="0.64.1",
+            archive_url="https://github.com/mesonbuild/meson/archive/refs/tags/{version}.tar.gz",
+            archive_file_name="meson-{version}.tar.gz",
+            hash="1d12a4bc1cf3ab18946d12cf0b6452e5254ada1ad50aacc97f87e2cccd7da315",
+            dependencies=[],
+            dir_part="meson-{version}",
             exe_name="meson.py",
         )
 
@@ -153,9 +148,10 @@ class ToolNasm(Tool):
         Tool.__init__(
             self,
             "nasm",
-            archive_url="https://github.com/wingtk/gvsbuild/releases/download/nasm-2.15.05/nasm-2.15.05-win64.zip",
+            version="2.15.05",
+            archive_url="https://github.com/wingtk/gvsbuild/releases/download/nasm-{version}/nasm-{version}-win64.zip",
             hash="f5c93c146f52b4f1664fa3ce6579f961a910e869ab0dae431bd871bdd2584ef2",
-            dir_part="nasm-2.15.05",
+            dir_part="nasm-{version}",
             exe_name="nasm.exe",
         )
 
@@ -174,14 +170,14 @@ class ToolNasm(Tool):
 @tool_add
 class ToolNinja(Tool):
     def __init__(self):
-        self.version = "1.11.0"
         Tool.__init__(
             self,
             "ninja",
-            archive_url=f"https://github.com/ninja-build/ninja/releases/download/v{self.version}/ninja-win.zip",
-            archive_file_name=f"ninja-win-{self.version}.zip",
+            version="1.11.0",
+            archive_url="https://github.com/ninja-build/ninja/releases/download/v{version}/ninja-win.zip",
+            archive_file_name="ninja-win-{version}.zip",
             hash="d0ee3da143211aa447e750085876c9b9d7bcdd637ab5b2c5b41349c617f22f3b",
-            dir_part=f"ninja-{self.version}",
+            dir_part="ninja-{version}",
             exe_name="ninja.exe",
         )
 
@@ -194,19 +190,19 @@ class ToolNinja(Tool):
 @tool_add
 class ToolNuget(Tool):
     def __init__(self):
-        self.version = "6.2.1"
         Tool.__init__(
             self,
             "nuget",
-            archive_url=f"https://dist.nuget.org/win-x86-commandline/v{self.version}/nuget.exe",
-            archive_file_name=f"nuget-{self.version}.exe",
-            hash="a79f342e739fdb3903a92218767e7813e04930dff463621b6d2be2d468b84e05",
-            dir_part=f"nuget-{self.version}",
+            version="6.4.0",
+            archive_url="https://dist.nuget.org/win-x86-commandline/v{version}/nuget.exe",
+            archive_file_name="nuget-{version}.exe",
+            hash="26730829b240581a3e6a4e276b9ace088930032df0c680d5591beccf6452374e",
+            dir_part="nuget-{version}",
             exe_name="nuget.exe",
         )
 
     def unpack(self):
-        # We download directly the exe file so we copy it on the tool directory ...
+        # Download the exe file and copy it on the tool directory
         self.mark_deps = extract_exec(
             self.archive_file,
             self.build_dir,
@@ -222,9 +218,10 @@ class ToolPerl(Tool):
         Tool.__init__(
             self,
             "perl",
-            archive_url="https://github.com/wingtk/gtk-win32/releases/download/Perl-5.20/perl-5.20.0-x64.tar.xz",
+            version="5.20.0",
+            archive_url="https://github.com/wingtk/gtk-win32/releases/download/Perl-{major}.{minor}/perl-{version}-x64.tar.xz",
             hash="05e01cf30bb47d3938db6169299ed49271f91c1615aeee5649174f48ff418c55",
-            dir_part="perl-5.20.0",
+            dir_part="perl-{version}",
         )
 
     def load_defaults(self):
@@ -245,99 +242,15 @@ class ToolPerl(Tool):
 
 
 @tool_add
-class ToolPython(Tool):
-    def __init__(self):
-        Tool.__init__(
-            self,
-            "python",
-            dependencies=[
-                "nuget",
-            ],
-        )
-
-    def setup(self, install):
-        """Using nuget install, locally, the specified version of python."""
-        version = self.opts.python_ver
-        # Get the last version we ask
-        if version == "3.7":
-            version = "3.7.13"
-        elif version == "3.8":
-            version = "3.8.13"
-        elif version == "3.9":
-            version = "3.9.13"
-        elif version == "3.10":
-            version = "3.10.5"
-
-        name = "pythonx86" if self.opts.x86 else "python"
-        t_id = f"{name}.{version}"
-        dest_dir = os.path.join(self.opts.tools_root_dir, t_id)
-        # directory to use for the .exe
-        self.tool_path = os.path.join(dest_dir, "tools")
-        self.full_exe = os.path.join(self.tool_path, "python.exe")
-
-        if install:
-            # see if it's already ok
-            rd_file = ""
-            try:
-                with open(os.path.join(dest_dir, ".wingtk-extracted-file")) as fi:
-                    rd_file = fi.readline().strip()
-            except OSError:
-                pass
-
-            if rd_file == t_id:
-                # Ok, exit
-                log.log(f"Skipping python setup on '{dest_dir}'")
-                # We don't rebuild the projects that depend on this
-                return False
-
-            # nuget
-            nuget = Project.get_tool_executable("nuget")
-            # Install python
-            cmd = f"{nuget} install {name} -Version {version} -OutputDirectory {self.opts.tools_root_dir}"
-
-            subprocess.check_call(cmd, shell=True)
-            py = os.path.join(self.tool_path, "python.exe")
-
-            # Update pip
-            cmd = f"{py} -m pip install --upgrade pip setuptools wheel build --no-warn-script-location"
-            subprocess.check_call(cmd, shell=True)
-
-            python3 = os.path.join(self.tool_path, "python3.exe")
-            if not os.path.exists(python3):
-                # We create a python3.exe file so meson find our python and not some other
-                # lying around (e.g. one from the Visual Studio installation ...)
-                log.log(f"Create python3 copy on '{dest_dir}'")
-                shutil.copy(self.full_exe, python3)
-
-            # Mark that we have done all
-            with open(os.path.join(dest_dir, ".wingtk-extracted-file"), "wt") as fo:
-                fo.write(f"{t_id}\n")
-
-        return True
-
-    def load_defaults(self):
-        Tool.load_defaults(self)
-        self.setup(False)
-
-    def unpack(self):
-        if self.opts._load_python:
-            # Get python version
-            self.mark_deps = self.setup(True)
-        else:
-            self.tool_path = self.opts.python_dir or os.path.dirname(sys.executable)
-            self.full_exe = os.path.join(self.tool_path, "python.exe")
-            self.mark_deps = False
-
-
-@tool_add
 class ToolYasm(Tool):
     def __init__(self):
         Tool.__init__(
             self,
             "yasm",
-            archive_url="http://www.tortall.net/projects/yasm/releases/yasm-1.3.0-win64.exe",
+            version="1.3.0",
+            archive_url="http://www.tortall.net/projects/yasm/releases/yasm-{version}-win64.exe",
             hash="d160b1d97266f3f28a71b4420a0ad2cd088a7977c2dd3b25af155652d8d8d91f",
-            dir_part="yasm-1.3.0",
+            dir_part="yasm-{version}",
             exe_name="yasm.exe",
         )
 
@@ -358,9 +271,10 @@ class ToolGo(Tool):
         Tool.__init__(
             self,
             "go",
-            archive_url="https://go.dev/dl/go1.18.3.windows-amd64.zip",
-            hash="9c46023f3ad0300fcfd1e62f2b6c2dfd9667b1f2f5c7a720b14b792af831f071",
-            dir_part="go-1.18",
+            version="1.19.1",
+            archive_url="https://go.dev/dl/go{version}.windows-amd64.zip",
+            hash="b33584c1d93b0e9c783de876b7aa99d3018bdeccd396aeb6d516a74e9d88d55f",
+            dir_part="go-{version}",
         )
 
     def load_defaults(self):
@@ -369,7 +283,7 @@ class ToolGo(Tool):
         self.full_exe = os.path.join(self.tool_path, "go.exe")
 
     def unpack(self):
-        # We download directly the exe file so we copy it on the tool directory ...
+        # We download directly the exe file, so we copy it to the tool directory
         self.mark_deps = extract_exec(
             self.archive_file,
             self.build_dir,

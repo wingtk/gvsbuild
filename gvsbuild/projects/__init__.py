@@ -12,6 +12,7 @@ from gvsbuild.projects.dcv_color_primitives import DcvColorPrimitives
 from gvsbuild.projects.dev_shell import DevShell
 from gvsbuild.projects.emeus import Emeus
 from gvsbuild.projects.enchant import Enchant
+from gvsbuild.projects.expat import Expat
 from gvsbuild.projects.ffmpeg import Ffmpeg
 from gvsbuild.projects.fontconfig import Fontconfig
 from gvsbuild.projects.freerdp import FreeRDP
@@ -21,6 +22,7 @@ from gvsbuild.projects.gdk_pixbuf import GdkPixbuf
 from gvsbuild.projects.gettext import Gettext
 from gvsbuild.projects.glib import GLib, GLibNetworking, GLibPyWrapper
 from gvsbuild.projects.gobject_introspection import GObjectIntrospection
+from gvsbuild.projects.gperf import Gperf
 from gvsbuild.projects.graphene import Graphene
 from gvsbuild.projects.gsettings_desktop_schemas import GSettingsDesktopSchemas
 from gvsbuild.projects.gstreamer import (
@@ -34,6 +36,7 @@ from gvsbuild.projects.gstreamer import (
 from gvsbuild.projects.gtk import Gtk2, Gtk3, Gtk4
 from gvsbuild.projects.gtksourceview import GtkSourceView4, GtkSourceView5
 from gvsbuild.projects.harfbuzz import Harfbuzz
+from gvsbuild.projects.hello_world import HelloWorld
 from gvsbuild.projects.hicolor_icon_theme import HicolorIconTheme
 from gvsbuild.projects.icu import Icu
 from gvsbuild.projects.json_glib import JsonGLib
@@ -69,6 +72,7 @@ from gvsbuild.projects.openh264 import OpenH264
 from gvsbuild.projects.openssl import OpenSSL
 from gvsbuild.projects.opus import Opus
 from gvsbuild.projects.pango import Pango
+from gvsbuild.projects.pcre2 import Pcre2
 from gvsbuild.projects.pixman import Pixman
 from gvsbuild.projects.pkgconf import PkgConf
 from gvsbuild.projects.portaudio import Portaudio

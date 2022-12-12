@@ -26,6 +26,7 @@ class BoringSSL(GitRepo, CmakeProject):
         Project.__init__(
             self,
             "boringssl",
+            repository="https://github.com/google/boringssl",
             repo_url="https://github.com/google/boringssl.git",
             fetch_submodules=False,
             tag="f1c75347daa2ea81a941e953f2263e0a4d970c8d",  # commit from master-with-bazel branch

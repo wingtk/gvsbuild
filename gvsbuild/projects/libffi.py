@@ -26,13 +26,10 @@ class Libffi(GitRepo, Meson):
         Project.__init__(
             self,
             "libffi",
-            repo_url="https://github.com/centricular/libffi.git",
+            repo_url="https://gitlab.freedesktop.org/gstreamer/meson-ports/libffi.git",
             fetch_submodules=False,
-            tag="meson-1.14",
-            dependencies=["python", "ninja", "meson"],
-            patches=[
-                "001-rename-debug-to-ffi-debug.patch",
-            ],
+            tag="meson-3.2.9999.4",
+            dependencies=["ninja", "meson"],
         )
 
     def build(self):

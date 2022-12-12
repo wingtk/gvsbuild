@@ -14,6 +14,7 @@
 #
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
+import sys
 
 from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import Project, project_add
@@ -25,13 +26,16 @@ class Librsvg(Tarball, Project):
         Project.__init__(
             self,
             "librsvg",
-            archive_url="https://download.gnome.org/sources/librsvg/2.54/librsvg-2.54.4.tar.xz",
-            hash="ea152a243f6a43c0e036a28c70de3fcbcdea5664c6811c78592bc229ecc24833",
+            version="2.54.5",
+            repository="https://gitlab.gnome.org/GNOME/librsvg",
+            archive_url="https://download.gnome.org/sources/librsvg/{major}.{minor}/librsvg-{version}.tar.xz",
+            hash="4f03190f45324d1fa1f52a79dfcded1f64eaf49b3ae2f88eedab0c07617cae6e",
             dependencies=[
                 "cargo",
                 "cairo",
                 "pango",
                 "gdk-pixbuf",
+                "libxml2",
             ],
             patches=[],
         )
@@ -43,7 +47,7 @@ class Librsvg(Tarball, Project):
 
         b_dir = f"{self.builder.working_dir}\\{self.name}\\win32"
 
-        cmd = f'nmake -f makefile.vc CFG={self.builder.opts.configuration} PREFIX={self.builder.gtk_dir} PYTHON={Project.get_tool_executable("python")} install'
+        cmd = f"nmake -f makefile.vc CFG={self.builder.opts.configuration} PREFIX={self.builder.gtk_dir} PYTHON={sys.executable} install"
 
         if Project.opts.enable_gi:
             cmd += " INTROSPECTION=1"

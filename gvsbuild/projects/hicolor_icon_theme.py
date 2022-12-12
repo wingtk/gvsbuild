@@ -25,7 +25,9 @@ class HicolorIconTheme(Tarball, Project):
         Project.__init__(
             self,
             "hicolor-icon-theme",
-            archive_url="http://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.17.tar.xz",
+            version="0.17",
+            repository="https://gitlab.freedesktop.org/xdg/default-icon-theme",
+            archive_url="http://icon-theme.freedesktop.org/releases/hicolor-icon-theme-{version}.tar.xz",
             hash="317484352271d18cbbcfac3868eab798d67fff1b8402e740baa6ff41d588a9d8",
         )
 

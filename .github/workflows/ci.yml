@@ -3,7 +3,11 @@ on:
     branches: [main]
   pull_request:
   release:
-    types: [published, prereleased]
+    types: [published]
+
+env:
+  python_version: '3.11'
+  poetry_version: '1.2.2'
 
 name: CI
 
@@ -14,79 +18,125 @@ jobs:
     timeout-minutes: 10
     if: "!contains(github.event.head_commit.message, 'skip ci')"
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3.1.0
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - name: Set up Python
-        uses: actions/setup-python@v4.1.0
+        uses: actions/setup-python@v4.3.1
         with:
           python-version: ${{ env.python_version }}
       - name: Lint with Pre-commit
         uses: pre-commit/action@v3.0.0
 
-  build:
+  test:
     needs: lint
-    name: build GTK binaries with gvsbuild
+    name: Test with Python ${{ matrix.python-version }}
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11']
     runs-on: windows-latest
     timeout-minutes: 60
     if: "!contains(github.event.head_commit.message, 'skip ci')"
-
     steps:
       - name: Checkout
-        uses: actions/checkout@v3.0.2
+        uses: actions/checkout@v3.1.0
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - name: Set up Python
-        uses: actions/setup-python@v4.1.0
+        uses: actions/setup-python@v4.3.1
         with:
-          python-version: '3.10'
+          python-version: ${{ matrix.python-version }}
       - name: Use Python Dependency Cache
-        uses: actions/cache@v3.0.5
+        uses: actions/cache@v3.0.11
         with:
           path: ~\AppData\Local\pip\Cache
           key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
           restore-keys: ${{ runner.os }}-poetry-
       - name: Install Poetry
-        run: python -m pip install poetry==1.1.13
+        run: python -m pip install poetry==${{ env.poetry_version }}
+      - name: Configure Poetry
+        run: poetry config virtualenvs.in-project true
+      - name: Install Python Dependencies
+        run: poetry install
+      - name: Install dependencies
+        run: |
+          pip install tox tox-gh-actions
+      # Temporarily move the preinstalled git, it causes errors related to cygwin.
+      - name: Move git binary
+        run: |
+          Move-Item "C:\Program Files\Git\usr\bin" "C:\Program Files\Git\usr\notbin"
+          Move-Item "C:\Program Files\Git\bin" "C:\Program Files\Git\notbin"
+      - name: Test with tox
+        run: tox
+      - name: Restore git binary
+        run: |
+          Move-Item "C:\Program Files\Git\usr\notbin" "C:\Program Files\Git\usr\bin"
+          Move-Item "C:\Program Files\Git\notbin" "C:\Program Files\Git\bin"
+
+  build:
+    needs: lint
+    name: Build GTK Binaries
+    runs-on: windows-latest
+    timeout-minutes: 75
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
+    strategy:
+      matrix:
+        gtk-version: ['3', '4']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.1.0
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Set up Python
+        uses: actions/setup-python@v4.3.1
+        with:
+          python-version: ${{ env.python_version }}
+      - name: Use Python Dependency Cache
+        uses: actions/cache@v3.0.11
+        with:
+          path: ~\AppData\Local\pip\Cache
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: ${{ runner.os }}-poetry-
+      - name: Install Poetry
+        run: python -m pip install poetry==${{ env.poetry_version }}
       - name: Configure Poetry
         run: poetry config virtualenvs.in-project true
       - name: Install Python Dependencies
         run: poetry install
       # Temporarily move the preinstalled git, it causes errors related to cygwin.
       - name: Move git binary
-        run: move "C:\Program Files\Git\usr\bin" "C:\Program Files\Git\usr\notbin"
-        shell: cmd
-      - name: Build
+        run: |
+          Move-Item "C:\Program Files\Git\usr\bin" "C:\Program Files\Git\usr\notbin"
+          Move-Item "C:\Program Files\Git\bin" "C:\Program Files\Git\notbin"
+      - name: Build GTK3
+        if: matrix.gtk-version == '3'
         run: >
-          poetry run gvsbuild build --enable-gi --py-wheel gtk3 graphene
-          gobject-introspection pycairo pygobject adwaita-icon-theme hicolor-icon-theme
-          gtksourceview4
-      - name: Copy wheels to the build directory
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: Get-ChildItem C:\gtk-build\build\x64\release\*\dist\*.whl | ForEach-Object -process { cp $_ C:\gtk-build\gtk\x64\release\ }
+          poetry run gvsbuild build --ninja-opts -j2 gtk3 gtksourceview4 graphene
+          glib-networking
+      - name: Build GTK4
+        if: matrix.gtk-version == '4'
+        run: > # Use -j2 option to prevent out of memory errors with GitHub Action runners
+          poetry run gvsbuild build --ninja-opts -j2 --enable-gi cairo gtk4 libadwaita
+          gtksourceview5 gobject-introspection adwaita-icon-theme hicolor-icon-theme
       - name: Restore git binary
-        run: move "C:\Program Files\Git\usr\notbin" "C:\Program Files\Git\usr\bin"
-        shell: cmd
+        run: |
+          Move-Item "C:\Program Files\Git\usr\notbin" "C:\Program Files\Git\usr\bin"
+          Move-Item "C:\Program Files\Git\notbin" "C:\Program Files\Git\bin"
       - name: Create Source Dist and Wheel
         run: poetry build
-      - name: Upload gaphor-${{ steps.setup_and_test.outputs.version }}.tar.gz
+      - name: Upload gvsbuild-${{ github.event.release.tag_name }}.tar.gz
         uses: actions/upload-artifact@v3
-        if: github.event_name == 'release'
+        if: github.event_name == 'release' && matrix.gtk-version == '4'
         with:
           name: gvsbuild-${{ github.event.release.tag_name }}.tar.gz
-          path: dist/gaphor-${{ github.event.release.tag_name }}.tar.gz
-      - name: Upload gaphor-${{ github.event.release.tag_name }}-py3-none-any.whl
+          path: dist/gvsbuild-${{ github.event.release.tag_name }}.tar.gz
+      - name: Upload gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
         uses: actions/upload-artifact@v3
-        if: github.event_name == 'release'
+        if: github.event_name == 'release' && matrix.gtk-version == '4'
         with:
           name: gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
           path: dist/gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
-      - name: Upload Assets (release only)
-        uses: AButler/upload-release-assets@v2.0
-        if: github.event_name == 'release'
-        with:
-          files: "dist/*"
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish to PyPI (release only)
-        if: github.event_name == 'release'
+        if: github.event_name == 'release' && matrix.gtk-version == '4'
         run: poetry publish -u __token__ -p ${{ secrets.PYPI_TOKEN }}

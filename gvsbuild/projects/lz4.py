@@ -25,9 +25,10 @@ class Lz4(Tarball, Project):
         Project.__init__(
             self,
             "lz4",
-            archive_url="https://github.com/lz4/lz4/archive/v1.9.3.tar.gz",
-            archive_file_name="lz4-1.9.3.tar.gz",
-            hash="030644df4611007ff7dc962d981f390361e6c97a34e5cbc393ddfbe019ffe2c1",
+            version="1.9.4",
+            archive_url="https://github.com/lz4/lz4/archive/v{version}.tar.gz",
+            archive_file_name="lz4-{version}.tar.gz",
+            hash="0b0e3aa07c8c063ddf40b082bdf7e37a1562bda40a0ff5272957f3e987e0e54b",
         )
 
     def build(self):

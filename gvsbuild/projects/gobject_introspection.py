@@ -14,6 +14,8 @@
 #
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
+import sys
+from pathlib import Path
 
 from gvsbuild.utils.base_builders import Meson
 from gvsbuild.utils.base_expanders import Tarball
@@ -28,13 +30,15 @@ class GObjectIntrospection(Tarball, Meson):
         Project.__init__(
             self,
             "gobject-introspection",
-            archive_url="https://download.gnome.org/sources/gobject-introspection/1.72/gobject-introspection-1.72.0.tar.xz",
-            hash="02fe8e590861d88f83060dd39cda5ccaa60b2da1d21d0f95499301b186beaabc",
+            version="1.74.0",
+            repository="https://gitlab.gnome.org/GNOME/gobject-introspection",
+            archive_url="https://download.gnome.org/sources/gobject-introspection/{major}.{minor}/gobject-introspection-{version}.tar.xz",
+            hash="347b3a719e68ba4c69ff2d57ee2689233ea8c07fc492205e573386779e42d653",
             dependencies=[
                 "ninja",
                 "meson",
                 "msys2",
-                "pkg-config",
+                "pkgconf",
                 "glib",
             ],
             # https://gitlab.gnome.org/GNOME/gobject-introspection/-/issues/427
@@ -48,7 +52,7 @@ class GObjectIntrospection(Tarball, Meson):
         self.builder.mod_env("LIB", r".\girepository")
         self.builder.mod_env("PATH", r".\girepository")
         # For linking the _giscanner.pyd extension module when using a virtualenv
-        py_dir = Project.get_tool_path("python")
+        py_dir = Path(sys.executable).parent
         py_libs = python_find_libs_dir(py_dir)
         if py_libs:
             log.debug(f"Python library path is [{py_libs}]")
@@ -56,6 +60,6 @@ class GObjectIntrospection(Tarball, Meson):
 
         Meson.build(
             self,
-            meson_params="-Dpython=%s\\python.exe -Dcairo_libname=cairo-gobject.dll"
+            meson_params="-Dpython=%s\\python.exe -Dcairo_libname=cairo-gobject-2.dll"
             % (py_dir,),
         )

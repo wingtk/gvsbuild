@@ -87,9 +87,7 @@ Download and install the latest version of Python:
 
 Note: If you are going to install Python using an alternative means, like the
 official Windows installers, we suggest to install Python in C:\Python3x, for
-example C:\Python310. Alternatively you can use the `--python-dir` option to
-tell the script the correct location of your Python installation. Other Python
-distributions like [Miniconda
+example C:\Python310. Other Python distributions like [Miniconda
 3](https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86_64.exe)
 should also work.
 
@@ -151,7 +149,7 @@ $env:Path = "C:\gtk-build\gtk\x64\release\bin;" + $env:Path
  gvsbuild build --help
  ```
 
- Is possible to set some parameters from a file, e.g. vs2015-release.pro, putting
+ It is possible to set some parameters from a file, e.g. vs2015-release.pro, putting
  the @ character before the file name. The file contains the option, one per
  line, separated by a carriage return:
 
@@ -160,7 +158,7 @@ $env:Path = "C:\gtk-build\gtk\x64\release\bin;" + $env:Path
  14
  --win-sdk
  8.1
- -c
+ --configuration
  release
  ```
 
@@ -174,8 +172,8 @@ $env:Path = "C:\gtk-build\gtk\x64\release\bin;" + $env:Path
 
 ## Troubleshooting
 
-If the download of a tarball fails a partial file will not pass the hash check.
-Delete the file and try again.
+If the download of a tarball fails a partial file will not pass the hash check,
+delete the file and try again.
 
 ## OpenSSL
 
@@ -198,8 +196,7 @@ To see and analyze the dependency between the various projects, in text or in a
 Graphviz format, use the script deps.py:
 
  ```
- cd C:\gtk-build\github\gvsbuild
- python .\deps.py -g -o test.gv
+gvsbuild deps --graph --gv-file test.gv
  ```
 
 Without option a simple dependency of all the projects is printed, as usual with
@@ -211,7 +208,7 @@ This build script is licensed under the GPL2.0 license, see the COPYING file for
 the full text.
 
 The binaries produced by the build script are licensed under the license terms
-of the project that gets built (ie glib is LGPL so you can use glib.dll built
+of the project that is built (ie glib is LGPL so you can use glib.dll built
 with this script under the terms of LGPL).
 
 Patches included in the repository are licensed under the license terms of the

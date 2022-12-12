@@ -26,10 +26,11 @@ class Emeus(GitRepo, Meson):
         Meson.__init__(
             self,
             "emeus",
+            repository="https://github.com/ebassi/emeus",
             repo_url="https://github.com/ebassi/emeus.git",
             fetch_submodules=False,
-            tag=None,
-            dependencies=["ninja", "meson", "pkg-config", "gtk3"],
+            tag="master",
+            dependencies=["ninja", "meson", "pkgconf", "gtk3"],
             patches=["00_win_no_script.patch"],
         )
         if self.opts.enable_gi:

@@ -50,7 +50,10 @@ class Gtk2(Project_gtk_base):
         Project.__init__(
             self,
             "gtk2",
-            archive_url="https://download.gnome.org/sources/gtk+/2.24/gtk+-2.24.33.tar.xz",
+            version="2.24.33",
+            repository="https://gitlab.gnome.org/GNOME/gtk",
+            lastversion_major=2,
+            archive_url="https://download.gnome.org/sources/gtk+/{major}.{minor}/gtk+-{version}.tar.xz",
             hash="ac2ac757f5942d318a311a54b0c80b5ef295f299c2a73c632f6bfb1ff49cc6da",
             dependencies=["atk", "gdk-pixbuf", "pango"],
             patches=[
@@ -88,8 +91,11 @@ class Gtk3(Tarball, Meson):
             self,
             "gtk3",
             prj_dir="gtk3",
-            archive_url="https://download.gnome.org/sources/gtk%2B/3.24/gtk%2B-3.24.34.tar.xz",
-            hash="dbc69f90ddc821b8d1441f00374dc1da4323a2eafa9078e61edbe5eeefa852ec",
+            version="3.24.35",
+            repository="https://gitlab.gnome.org/GNOME/gtk",
+            lastversion_major=3,
+            archive_url="https://download.gnome.org/sources/gtk%2B/{major}.{minor}/gtk%2B-{version}.tar.xz",
+            hash="ec10fe6d712ef0b3c63b5f932639c9d1ae99fce94f500f6f06965629fef60bd1",
             dependencies=["atk", "gdk-pixbuf", "pango", "libepoxy"],
             patches=[
                 "gtk_update_icon_cache.patch",
@@ -116,10 +122,24 @@ class Gtk4(Tarball, Meson):
             self,
             "gtk4",
             prj_dir="gtk4",
-            archive_url="https://download.gnome.org/sources/gtk/4.6/gtk-4.6.6.tar.xz",
-            hash="7bbfe4d13569f7c297ed49834ac7263e318b7bf102d3271cb466d5971f59ae70",
-            dependencies=["gdk-pixbuf", "pango", "libepoxy", "graphene"],
-            patches=[],
+            version="4.8.1",
+            repository="https://gitlab.gnome.org/GNOME/gtk",
+            lastversion_major=4,
+            archive_url="https://download.gnome.org/sources/gtk/{major}.{minor}/gtk-{version}.tar.xz",
+            hash="5ce8d8de98a23bd0c8eca1a61094e1c009b5f009dcbd60b45e990a8db1b742fd",
+            dependencies=[
+                "gdk-pixbuf",
+                "pango",
+                "libepoxy",
+                "graphene",
+                "cairo",
+                "harfbuzz",
+                "glib",
+                "fribidi",
+            ],
+            patches=[
+                "gdkwin32-fix-subclassing-for-gdkwin32clipdrop.patch",
+            ],
         )
         if self.opts.enable_gi:
             self.add_dependency("gobject-introspection")

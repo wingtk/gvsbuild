@@ -1,161 +1,106 @@
-project('libxml2', 'c', version : '2.9.8', license : 'mit')
+project(
+  'libxml2',
+  'c',
+  version: '2.10.3',
+  meson_version: '>=0.54.0',
+  license: 'MIT',
+)
+
+add_project_arguments('-D_GNU_SOURCE', language: 'c')
 
 cdata = configuration_data()
 
 cdata.set('PACKAGE', meson.project_name())
-cdata.set('VERSION', meson.project_version())
 cdata.set('PACKAGE_NAME', meson.project_name())
+cdata.set('PACKAGE_TARNAME', meson.project_name())
 cdata.set('PACKAGE_STRING', '@0@ @1@'.format(meson.project_name(), meson.project_version()))
+cdata.set('PACKAGE_URL', 'https://gitlab.gnome.org/GNOME/libxml2')
+cdata.set('PACKAGE_BUGREPORT', 'xml@gnome.org')
+cdata.set('PACKAGE_VERSION', meson.project_version())
+cdata.set('VERSION', meson.project_version())
 
 cc = meson.get_compiler('c')
 
-have_ipv6 = cc.compiles('''#include <sys/types.h>
-#include <sys/socket.h>
-
-void func() {
-     struct sockaddr_storage ss;
-     socket(AF_INET6, SOCK_STREAM, 0);
-}''', name : 'Supports IPv6')
-cdata.set('SUPPORT_IP6', have_ipv6)
-
+cdata.set('SUPPORT_IP6', cc.has_header_symbol('sys/socket.h', 'AF_INET6'))
 cdata.set('XML_SOCKLEN_T', 'socklen_t')
-
-checked_headers = [
-  ['ansidecl.h', 'HAVE_ANSIDECL_H'],
-  ['arpa/inet.h', 'HAVE_ARPA_INET_H'],
-  ['arpa/nameser.h', 'HAVE_ARPA_NAMESER_H'],
-  ['ctype.h', 'HAVE_CTYPE_H'],
-  ['dirent.h', 'HAVE_DIRENT_H'],
-  ['dl.h', 'HAVE_DL_H'],
-  ['dlfcn.h', 'HAVE_DLFCN_H'],
-  ['errno.h', 'HAVE_ERRNO_H'],
-  ['fcntl.h', 'HAVE_FCNTL_H'],
-  ['float.h', 'HAVE_FLOAT_H'],
-  ['ieeefp.h', 'HAVE_IEEEFP_H'],
-  ['ieeefp.h', 'HAVE_IEEEFP_H'],
-  ['inttypes.h', 'HAVE_INTTYPES_H'],
-  ['ip_class.h', 'HAVE_FP_CLASS_H'],
-  ['limits.h', 'HAVE_LIMITS_H'],
-  ['lzma.h', 'HAVE_LZMA_H'],
-  ['malloc.h', 'HAVE_MALLOC_H'],
-  ['math.h', 'HAVE_MATH_H'],
-  ['memory.h', 'HAVE_MEMORY_H'],
-  ['nan.h', 'HAVE_NAN_H'],
-  ['ndir.h', 'HAVE_NDIR_H'],
-  ['netdb.h', 'HAVE_NETDB_H'],
-  ['netinet/in.h', 'HAVE_NETINET_IN_H'],
-  ['poll.h', 'HAVE_POLL_H'],
-  ['pthread.h', 'HAVE_PTHREAD_H'],
-  ['resolv.h', 'HAVE_RESOLV_H'],
-  ['signal.h', 'HAVE_SIGNAL_H'],
-  ['stdarg.h', 'HAVE_STDARG_H'],
-  ['stdint.h', 'HAVE_STDINT_H'],
-  ['stdlib.h', 'HAVE_STDLIB_H'],
-  ['string.h', 'HAVE_STRING_H'],
-  ['strings.h', 'HAVE_STRINGS_H'],
-  ['sys/dir.h', 'HAVE_SYS_DIR_H'],
-  ['sys/mman.h', 'HAVE_SYS_MMAN_H'],
-  ['sys/ndir.h', 'HAVE_SYS_NDIR_H'],
-  ['sys/select.h', 'HAVE_SYS_SELECT_H'],
-  ['sys/socket.h', 'HAVE_SYS_SOCKET_H'],
-  ['sys/stat.h', 'HAVE_SYS_STAT_H'],
-  ['sys/time.h', 'HAVE_SYS_TIME_H'],
-  ['sys/timeb.h', 'HAVE_SYS_TIMEB_H'],
-  ['sys/types.h', 'HAVE_SYS_TYPES_H'],
-  ['time.h', 'HAVE_TIME_H'],
-  ['unistd.h', 'HAVE_UNISTD_H'],
-  ['zlib.h', 'HAVE_ZLIB_H'],
-]
-
-foreach h : checked_headers
-  if cc.has_header(h.get(0))
-    cdata.set(h.get(1), 1)
-  endif
-endforeach
-
-cdata.set('ICONV_CONST', '')
 cdata.set('SEND_ARG2_CAST', '')
 cdata.set('GETHOSTBYNAME_ARG_CAST', '')
 
-checked_funcs = [
-  ['finite', 'HAVE_FINITE'],
-  ['strdup', 'HAVE_STRDUP'],
-  ['strndup', 'HAVE_STRNDUP'],
-  ['strerror', 'HAVE_STRERROR'],
-  ['finite', 'HAVE_FINITE'],
-  ['isnand', 'HAVE_ISNAND'],
-  ['fp_class', 'HAVE_FP_CLASS'],
-  ['class', 'HAVE_CLASS'],
-  ['fpclass', 'HAVE_FPCLASS'],
-  ['strftime', 'HAVE_STRFTIME'],
-  ['localtime', 'HAVE_LOCALTIME'],
-  ['gettimeofday', 'HAVE_GETTIMEOFDAY'],
-  ['ftime', 'HAVE_FTIME'],
-  ['stat', 'HAVE_STAT'],
-  ['_stat', 'HAVE__STAT'],
-  ['signal', 'HAVE_SIGNAL'],
-  ['rand', 'HAVE_RAND'],
-  ['rand_r', 'HAVE_RAND_R'],
-  ['srand', 'HAVE_SRAND'],
-  ['time', 'HAVE_TIME'],
-  ['isascii', 'HAVE_ISASCII'],
-  ['mmap', 'HAVE_MMAP'],
-  ['munmap', 'HAVE_MUNMAP'],
-  ['putenv', 'HAVE_PUTENV'],
-  ['printf', 'HAVE_PRINTF'],
-  ['sprintf', 'HAVE_SPRINTF'],
-  ['fprintf', 'HAVE_FPRINTF'],
-  ['snprintf', 'HAVE_SNPRINTF'],
-  ['vfprintf', 'HAVE_VFPRINTF'],
-  ['vsprintf', 'HAVE_VSPRINTF'],
-  ['vsnprintf', 'HAVE_VSNPRINTF'],
-  ['sscanf', 'HAVE_SSCANF'],
-  ['getaddrinfo', 'HAVE_GETADDRINFO'],
-  ['va_copy', 'HAVE_VA_COPY'],
-  ['__va_copy', 'HAVE___VA_COPY'],
+if cc.has_function_attribute('destructor')
+  cdata.set('ATTRIBUTE_DESTRUCTOR', '__attribute__((destructor))')
+endif
+
+checked_headers = [
+  'arpa/inet.h',
+  'dl.h',
+  'dlfcn.h',
+  'fcntl.h',
+  'float.h',
+  'inttypes.h',
+  'netdb.h',
+  'netinet/in.h',
+  'poll.h',
+  'pthread.h',
+  'stdint.h',
+  'sys/mman.h',
+  'sys/select.h',
+  'sys/socket.h',
+  'sys/stat.h',
+  'sys/time.h',
+  'sys/timeb.h',
+  'unistd.h',
+  'zlib.h',
 ]
-foreach f : checked_funcs
-  if (cc.has_function(f.get(0)))
-    cdata.set(f.get(1), 1)
-  endif
+
+foreach h : checked_headers
+  cdata.set('HAVE_@0@'.format(h.underscorify().to_upper()), cc.has_header(h))
 endforeach
 
-dl_lib = cc.find_library('dl', required: false)
-if (dl_lib.found() and cc.has_function('dlopen', args: '-ldl'))
-  cdata.set('HAVE_DLOPEN', 1)
+checked_funcs = [
+  'ftime',
+  'gettimeofday',
+  'isascii',
+  'mmap',
+  'munmap',
+  'putenv',
+  'rand_r',
+  'stat',
+  'va_copy',
+  '__va_copy',
+]
+
+foreach f : checked_funcs
+  cdata.set('HAVE_@0@'.format(f.underscorify().to_upper()), cc.has_function(f))
+endforeach
+
+if meson.version().version_compare('>= 0.62')
+  dl_lib = dependency('dl', required: false)
+else
+  dl_lib = cc.find_library('dl', required: false)
 endif
+cdata.set('HAVE_DLOPEN', cc.has_function('dlopen', dependencies: dl_lib))
 
 math_lib = cc.find_library('m', required: false)
 
-iconv_lib = cc.find_library('iconv', required : false)
-
-lzma_dep = dependency('liblzma', required: false)
-if (lzma_dep.found())
-  cdata.set('HAVE_LIBLZMA', 1)
+if meson.version().version_compare('>= 0.60')
+  iconv_lib = dependency('iconv', required: false)
+else
+  iconv_lib = dependency('', required: false)
 endif
 
 thread_dep = dependency('threads', required: false)
-if (thread_dep.found())
-   c_args = ['-D_REENTRANT']
-endif
+
+lzma_dep = dependency('liblzma', required: false)
+cdata.set('HAVE_LIBLZMA', lzma_dep.found())
 
 zlib_dep = dependency('zlib', required: false)
-if not zlib_dep.found()
-  zlib_dep = cc.find_library('z', required: false)
-endif
-if zlib_dep.found()
-  cdata.set('HAVE_LIBZ', 1)
-endif
+cdata.set('HAVE_LIBZ', zlib_dep.found())
 
 readline_lib = cc.find_library('readline', required: false)
-if readline_lib.found()
-  cdata.set('HAVE_LIBREADLINE', 1)
-endif
+cdata.set('HAVE_LIBREADLINE', readline_lib.found())
 
 history_lib = cc.find_library('history', required: false)
-if history_lib.found()
-  cdata.set('HAVE_LIBHISTORY', 1)
-endif
+cdata.set('HAVE_LIBHISTORY', history_lib.found())
 
 deps = [math_lib, iconv_lib, dl_lib, lzma_dep, thread_dep, zlib_dep, readline_lib, history_lib]
 
@@ -163,9 +108,12 @@ if target_machine.system() == 'windows'
   deps += cc.find_library('ws2_32')
 endif
 
-configure_file(input : 'config.h.meson',
-  output : 'config.h',
-  configuration : cdata)
+configure_file(
+  input: 'config.h.cmake.in',
+  output: 'config.h',
+  format: 'cmake@',
+  configuration: cdata,
+)
 
 withcdata = configuration_data()
 withcdata.set10('HAVE_LIBLZMA', lzma_dep.found())
@@ -181,16 +129,12 @@ withcdata.set('LIBXML_VERSION_STRING', '@0@'.format(version_number))
 withcdata.set('LIBXML_VERSION_EXTRA', '')
 
 need_trio = false
-if (not cc.has_function('printf') or
-    not cc.has_function('sprintf') or
-    not cc.has_function('fprintf') or
-    not cc.has_function('snprintf') or
-    not cc.has_function('vfprintf') or
-    not cc.has_function('vsprintf') or
-    not cc.has_function('vsnprintf') or
-    not cc.has_function('sscanf'))
+foreach f : ['printf', 'sprintf', 'fprintf', 'snprintf', 'vfprintf', 'vsprintf', 'vsnprintf', 'sscanf']
+  if not cc.has_function(f, prefix: '#include <stdio.h>')
     need_trio = true
-endif
+    break
+  endif
+endforeach
 withcdata.set10('WITH_TRIO', need_trio)
 
 withcdata.set10('WITH_THREADS', thread_dep.found())
@@ -212,6 +156,7 @@ withcdata.set10('WITH_CATALOG', true)
 withcdata.set10('WITH_DOCB', true)
 withcdata.set10('WITH_XPATH', true)
 withcdata.set10('WITH_XPTR', true)
+withcdata.set10('WITH_XPTR_LOCS', false)
 withcdata.set10('WITH_XINCLUDE', true)
 withcdata.set10('WITH_ICONV', iconv_lib.found())
 withcdata.set10('WITH_ICU', false)
@@ -225,83 +170,108 @@ withcdata.set10('WITH_SCHEMATRON', true)
 withcdata.set10('WITH_MODULES', dl_lib.found())
 
 system = target_machine.system()
-module_ext = '.so'
-if (system == 'windows' or system == 'cygwin')
+if system == 'cygwin'
+  module_ext = '.cygdll'
+elif system == 'darwin'
+  module_ext = '.bundle'
+elif system == 'windows'
   module_ext = '.dll'
+else
+  module_ext = '.so'
 endif
+
 withcdata.set('MODULE_EXTENSION', module_ext)
 
 withcdata.set10('WITH_ZLIB', zlib_dep.found())
 withcdata.set10('WITH_LZMA', lzma_dep.found())
 
-
 subdir('include/libxml')
 
-trio_sources = [ 'triostr.c', 'trio.c', 'trionan.c' ]
-sources = [
-  'SAX.c',
-  'entities.c',
-  'encoding.c',
-  'error.c',
-  'parserInternals.c',
-  'parser.c',
-  'tree.c',
-  'hash.c',
-  'list.c',
-  'xmlIO.c',
-  'xmlmemory.c',
-  'uri.c',
-  'valid.c',
-  'xlink.c',
+sources = files(
   'HTMLparser.c',
   'HTMLtree.c',
-  'debugXML.c',
-  'xpath.c',
-  'xpointer.c',
-  'xinclude.c',
-  'nanohttp.c',
-  'nanoftp.c',
-  'catalog.c',
-  'globals.c',
-  'threads.c',
-  'c14n.c',
-  'xmlstring.c',
+  'SAX.c',
+  'SAX2.c',
   'buf.c',
+  'c14n.c',
+  'catalog.c',
+  'chvalid.c',
+  'debugXML.c',
+  'dict.c',
+  'encoding.c',
+  'entities.c',
+  'error.c',
+  'globals.c',
+  'hash.c',
+  'legacy.c',
+  'list.c',
+  'nanoftp.c',
+  'nanohttp.c',
+  'parser.c',
+  'parserInternals.c',
+  'pattern.c',
+  'relaxng.c',
+  'schematron.c',
+  'threads.c',
+  'tree.c',
+  'uri.c',
+  'valid.c',
+  'xinclude.c',
+  'xlink.c',
+  'xmlIO.c',
+  'xmlmemory.c',
+  'xmlmodule.c',
+  'xmlreader.c',
   'xmlregexp.c',
+  'xmlsave.c',
   'xmlschemas.c',
   'xmlschemastypes.c',
+  'xmlstring.c',
   'xmlunicode.c',
-  'xmlreader.c',
-  'relaxng.c',
-  'dict.c',
-  'SAX2.c',
   'xmlwriter.c',
-  'legacy.c',
-  'chvalid.c',
-  'pattern.c',
-  'xmlsave.c',
-  'xmlmodule.c',
-  'schematron.c',
-  'xzlib.c'
-]
+  'xpath.c',
+  'xpointer.c',
+  'xzlib.c',
+)
 
-if (need_trio)
-  sources += trio_sources
+if need_trio
+  sources += files('trio.c', 'trionan.c', 'triostr.c')
 endif
 
+cargs = thread_dep.found() ? ['-D_REENTRANT'] : []
+cargs += get_option('default_library') == 'static' ? '-DLIBXML_STATIC' : []
+
 incdir = include_directories('include')
+xml2lib = library(
+  'libxml2',
+  sources,
+  c_args: cargs,
+  include_directories: incdir,
+  dependencies: deps,
+  install: true,
+)
 
-xml2lib = library('libxml2', sources,
-		  c_args : c_args,
-		  include_directories : incdir,
-		  dependencies: deps,
-      name_prefix: '',
-      install: true)
-xml2lib_dep = declare_dependency(link_with: xml2lib,
-				 include_directories: incdir,
-				 dependencies: deps)
+libxml2_dep = declare_dependency(
+  link_with: xml2lib,
+  include_directories: incdir,
+  dependencies: deps,
+  variables: {'modules': withcdata.get('WITH_MODULES').to_string()},
+  compile_args: get_option('default_library') == 'static' ? '-DLIBXML_STATIC' : [],
+)
 
-dictexe = executable('testdict', 'testdict.c',
-		     dependencies : xml2lib_dep)
+pkg = import('pkgconfig')
+pkg.generate(
+  xml2lib,
+  name: 'libXML',
+  description: 'libXML library version2.',
+  filebase: 'libxml-2.0',
+  subdirs: 'libxml2',
+  variables: ['modules=@0@'.format(withcdata.get('WITH_MODULES'))],
+  extra_cflags: get_option('default_library') == 'static' ? '-DLIBXML_STATIC' : [],
+)
+
+executable('xmllint', 'xmllint.c', dependencies: libxml2_dep, install: true)
+
+dictexe = executable('testdict', 'testdict.c', dependencies: libxml2_dep)
 
 test('dict', dictexe)

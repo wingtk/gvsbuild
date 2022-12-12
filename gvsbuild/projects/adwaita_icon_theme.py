@@ -27,11 +27,12 @@ class AdwaitaIconTheme(Tarball, Project):
         Project.__init__(
             self,
             "adwaita-icon-theme",
-            archive_url="https://download.gnome.org/sources/adwaita-icon-theme/42/adwaita-icon-theme-42.0.tar.xz",
-            hash="5e85b5adc8dee666900fcaf271ba717f7dcb9d0a03d96dae08f9cbd27e18b1e0",
+            version="43",
+            repository="https://gitlab.gnome.org/GNOME/adwaita-icon-theme",
+            archive_url="https://download.gnome.org/sources/adwaita-icon-theme/{version}/adwaita-icon-theme-{version}.tar.xz",
+            hash="2e3ac77d32a6aa5554155df37e8f0a0dd54fc5a65fd721e88d505f970da32ec6",
             dependencies=[
                 "librsvg",
-                "python",
             ],
         )
 

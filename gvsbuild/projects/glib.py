@@ -26,19 +26,23 @@ class GLib(Tarball, Meson):
         Project.__init__(
             self,
             "glib",
-            archive_url="https://download.gnome.org/sources/glib/2.72/glib-2.72.3.tar.xz",
-            hash="4a39a2f624b8512d500d5840173eda7fa85f51c109052eae806acece85d345f0",
-            dependencies=["ninja", "meson", "pkg-config", "gettext", "libffi", "zlib"],
-            patches=[
-                "glib-package-installation-directory.patch",
-                "0002-pcre-add-fallback-url.patch",
-                "0001-Fix-global-and-local-variables-hidden-by-local-varia.patch",
+            version="2.74.1",
+            archive_url="https://download.gnome.org/sources/glib/{major}.{minor}/glib-{version}.tar.xz",
+            hash="0ab981618d1db47845e56417b0d7c123f81a3427b2b9c93f5a46ff5bbb964964",
+            dependencies=[
+                "ninja",
+                "meson",
+                "pkgconf",
+                "gettext",
+                "libffi",
+                "zlib",
+                "pcre2",
             ],
         )
 
     def build(self):
         Meson.build(self)
-        self.install(r".\COPYING share\doc\glib")
+        self.install(r".\LICENSES\* share\doc\glib")
 
 
 @project_add
@@ -47,13 +51,11 @@ class GLibNetworking(Tarball, Meson):
         Project.__init__(
             self,
             "glib-networking",
-            archive_url="https://download.gnome.org/sources/glib-networking/2.72/glib-networking-2.72.1.tar.xz",
-            hash="6fc1bedc8062484dc8a0204965995ef2367c3db5c934058ff1607e5a24d95a74",
-            dependencies=["pkg-config", "ninja", "meson", "glib", "openssl"],
-            patches=[
-                "0001-Mark-strings-for-translation-and-translate-just-in-e.patch",
-                "0002-tlslog-add-meson-config-setting-to-log-at-debug-leve.patch",
-            ],
+            version="2.74.0",
+            repository="https://gitlab.gnome.org/GNOME/glib-networking",
+            archive_url="https://download.gnome.org/sources/glib-networking/{major}.{minor}/glib-networking-{version}.tar.xz",
+            hash="1f185aaef094123f8e25d8fa55661b3fd71020163a0174adb35a37685cda613b",
+            dependencies=["pkgconf", "ninja", "meson", "glib", "openssl"],
         )
 
     def build(self):
@@ -70,6 +72,8 @@ class GLibPyWrapper(NullExpander, Meson):
             "glib-py-wrapper",
             dependencies=["glib"],
             version="0.1.0",
+            internal=True,
+            repository="https://gitlab.gnome.org/GNOME/glib-py-wrapper",
         )
 
     def build(self):

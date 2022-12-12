@@ -30,7 +30,7 @@ class CheckLibs(NullExpander, Meson):
                 # Used to build the various tests
                 "meson",
                 "ninja",
-                "pkg-config",
+                "pkgconf",
                 # libraries to test, hopefully all the one we build!
                 "atk",
                 "cairo",
@@ -50,6 +50,7 @@ class CheckLibs(NullExpander, Meson):
                 "zlib",
             ],
             version="0.1.0",
+            internal=True,
         )
 
     def build(self):

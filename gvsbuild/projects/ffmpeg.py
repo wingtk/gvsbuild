@@ -28,10 +28,11 @@ class Ffmpeg(Tarball, Project):
         Project.__init__(
             self,
             "ffmpeg",
-            archive_url="https://ffmpeg.org/releases/ffmpeg-5.0.1.tar.xz",
-            hash="ef2efae259ce80a240de48ec85ecb062cecca26e4352ffb3fda562c21a93007b",
-            dependencies=["nasm", "msys2", "pkg-config", "nv-codec-headers"],
-            patches=["0001-Added-support-for-MB_INFO.patch"],
+            version="5.1.2",
+            archive_url="https://ffmpeg.org/releases/ffmpeg-{version}.tar.xz",
+            hash="619e706d662c8420859832ddc259cd4d4096a48a2ce1eefd052db9e440eef3dc",
+            dependencies=["nasm", "msys2", "pkgconf", "nv-codec-headers"],
+            patches=["0001-libavutil-libavcodec-add-support-for-MB_INFO.patch"],
         )
         if self.opts.ffmpeg_enable_gpl:
             self.add_dependency("x264")
@@ -55,18 +56,11 @@ class Ffmpeg(Tarball, Project):
             self.install(r".\COPYING.GPLv2 " r"share\doc\ffmpeg")
 
     def post_install(self):
-        self.builder.exec_msys(
-            ["mv", "avcodec.lib", "../lib/"],
-            working_dir=os.path.join(self.builder.gtk_dir, "bin"),
-        )
-        self.builder.exec_msys(
-            ["mv", "avutil.lib", "../lib/"],
-            working_dir=os.path.join(self.builder.gtk_dir, "bin"),
-        )
-        self.builder.exec_msys(
-            ["mv", "swscale.lib", "../lib/"],
-            working_dir=os.path.join(self.builder.gtk_dir, "bin"),
-        )
+        for lib in ["avcodec.lib", "avutil.lib", "swscale.lib"]:
+            self.builder.exec_msys(
+                ["mv", lib, "../lib/"],
+                working_dir=os.path.join(self.builder.gtk_dir, "bin"),
+            )
 
 
 @project_add
@@ -75,9 +69,9 @@ class Project_nv_codec_headers(Tarball, Project):
         Project.__init__(
             self,
             "nv-codec-headers",
-            archive_url="https://github.com/FFmpeg/nv-codec-headers/releases/download/n11.1.5.1/nv-codec-headers-11.1.5.1.tar.gz",
-            hash="a28cdde3ac0e9e02c2dde7a1b4de5333b4ac6148a8332ca712da243a3361a0d9",
             version="11.1.5.1",
+            archive_url="https://github.com/FFmpeg/nv-codec-headers/releases/download/n{version}/nv-codec-headers-{version}.tar.gz",
+            hash="a28cdde3ac0e9e02c2dde7a1b4de5333b4ac6148a8332ca712da243a3361a0d9",
         )
 
     def build(self):

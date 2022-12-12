@@ -27,6 +27,7 @@ import re
 import shutil
 import ssl
 import subprocess
+import sys
 import time
 import traceback
 from pathlib import Path
@@ -225,8 +226,8 @@ class Builder:
     def __check_tools(self, opts):
         script_title("* Msys tool")
         log.start("Checking msys tool")
-        msys_path = Path(opts.msys_dir)
-        if not Path.exists(msys_path):
+        msys_path = opts.msys_dir
+        if not msys_path or not Path.exists(msys_path):
             msys_paths = [
                 Path(r"C:\msys64"),
                 Path(r"C:\msys32"),
@@ -267,11 +268,6 @@ class Builder:
             )
 
         log.debug(f"patch: {self.patch}")
-
-        if opts.python_dir and not Path.is_file(Path(opts.python_dir) / "python.exe"):
-            log.error_exit(
-                f"Executable python.exe not found at '{self.opts.python_dir}'"
-            )
         log.end()
 
     def _add_env(self, key, value, env, prepend=True, subst=False):
@@ -543,7 +539,7 @@ class Builder:
             except Exception:
                 traceback.print_exc()
                 log.end(mark_error=True)
-                if self.opts.keep:
+                if self.opts.keep_going:
                     self.prj_err.append(p.name)
                     self._drop_proj(p)
                 else:
@@ -758,7 +754,7 @@ class Builder:
         if hasattr(proj, "hash"):
             hc = self.__hashfile(proj.archive_file)
             if hc != proj.hash:
-                log.message(
+                log.error_exit(
                     "Hash mismatch on %s:\n  Calculated '%s'\n  Expected   '%s'\n"
                     % (
                         proj.archive_file,
@@ -925,11 +921,9 @@ class Builder:
         if self.__project is not None:
             d["pkg_dir"] = self.__project.pkg_dir
             d["build_dir"] = self.__project.build_dir
-            # Add python & perl only if the project depends on them
-            p = Project.get_project("python")
-            if p in self.__project.all_dependencies:
-                python = Project.get_tool_path(p)
-                d["python_dir"] = python
+            python = Path(sys.executable).parent
+            d["python_dir"] = python
+            # Add perl only if the project depends on them
 
             p = Project.get_project("perl")
             if p in self.__project.all_dependencies:

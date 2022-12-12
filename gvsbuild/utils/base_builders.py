@@ -19,6 +19,8 @@
 
 import os
 import shutil
+import sys
+from pathlib import Path
 
 from .base_project import Project
 from .simple_ui import log
@@ -69,8 +71,8 @@ class Meson(Project):
             add_opts += f" {meson_params}"
         # python meson.py src_dir ninja_build_dir --prefix gtk_bin options
         meson = Project.get_tool_executable("meson")
-        python = Project.get_tool_executable("python")
-        if " " in python:
+        python = Path(sys.executable)
+        if " " in str(python):
             python = f'"{python}"'
         cmd = f"{python} {meson} {self._get_working_dir()} {ninja_build} --prefix {self.builder.gtk_dir} {add_opts}"
 

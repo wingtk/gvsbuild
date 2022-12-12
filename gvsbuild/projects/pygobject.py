@@ -27,9 +27,11 @@ class PyGObject(Tarball, Project):
         Project.__init__(
             self,
             "pygobject",
-            archive_url="https://download.gnome.org/sources/pygobject/3.42/pygobject-3.42.2.tar.xz",
+            version="3.42.2",
+            repository="https://gitlab.gnome.org/GNOME/pygobject",
+            archive_url="https://download.gnome.org/sources/pygobject/{major}.{minor}/pygobject-{version}.tar.xz",
             hash="ade8695e2a7073849dd0316d31d8728e15e1e0bc71d9ff6d1c09e86be52bc957",
-            dependencies=["python", "pycairo", "gobject-introspection", "libffi"],
+            dependencies=["pycairo", "gobject-introspection", "libffi"],
             patches=[
                 "pygobject_py3_8_load_dll.patch",
             ],

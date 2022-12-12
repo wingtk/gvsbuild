@@ -41,8 +41,9 @@ class GStreamer(Tarball, Meson):
         Project.__init__(
             self,
             "gstreamer",
-            archive_url="https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.20.1.tar.xz",
-            hash="de094a404a3ad8f4977829ea87edf695a4da0b5c8f613ebe54ab414bac89f031",
+            version="1.20.4",
+            archive_url="https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-{version}.tar.xz",
+            hash="67c1edf8c3c339cda5dde85f4f7b953bb9607c2d13ae970e2491c5c4c055ef5f",
             dependencies=["meson", "ninja", "glib", "orc"],
         )
 
@@ -69,8 +70,10 @@ class Orc(Tarball, Meson):
         Project.__init__(
             self,
             "orc",
-            archive_url="https://gstreamer.freedesktop.org/src/orc/orc-0.4.32.tar.xz",
-            hash="a66e3d8f2b7e65178d786a01ef61f2a0a0b4d0b8370de7ce134ba73da4af18f0",
+            version="0.4.33",
+            repository="https://gitlab.freedesktop.org/gstreamer/orc",
+            archive_url="https://gstreamer.freedesktop.org/src/orc/orc-{version}.tar.xz",
+            hash="844e6d7db8086f793f57618d3d4b68d29d99b16034e71430df3c21cfd3c3542a",
             dependencies=[
                 "ninja",
                 "meson",
@@ -88,8 +91,9 @@ class GstPluginsBase(Tarball, Meson):
         Project.__init__(
             self,
             "gst-plugins-base",
-            archive_url="https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.20.1.tar.xz",
-            hash="96d8a6413ba9394fbec1217aeef63741a729d476a505a797c1d5337d8fa7c204",
+            version="1.20.4",
+            archive_url="https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-{version}.tar.xz",
+            hash="8d181b7abe4caf23ee9f9ec5b4d3e232640452464e39495bfffb6d776fc97225",
             dependencies=["meson", "ninja", "gtk3", "gstreamer", "opus"],
         )
 
@@ -104,8 +108,9 @@ class GstPluginsGood(Tarball, Meson):
         Project.__init__(
             self,
             "gst-plugins-good",
-            archive_url="https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.20.1.tar.xz",
-            hash="3c66876f821d507bcdbebffb08b4f31a322727d6753f65a0f02c905ecb7084aa",
+            version="1.20.4",
+            archive_url="https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-{version}.tar.xz",
+            hash="b16130fbe632fa8547c2147a0ef575b0140fb521065c5cb121c72ddbd23b64da",
             dependencies=[
                 "meson",
                 "ninja",
@@ -127,11 +132,11 @@ class GstPluginsBad(Tarball, Meson):
         Project.__init__(
             self,
             "gst-plugins-bad",
-            archive_url="https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.20.1.tar.xz",
-            hash="09d3c2cf5911f0bc7da6bf557a55251779243d3de216b6a26cc90c445b423848",
+            version="1.20.4",
+            archive_url="https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-{version}.tar.xz",
+            hash="a1a3f53b3604d9a04fdd0bf9a1a616c3d2dab5320489e9ecee1178e81e33a16a",
             dependencies=["meson", "ninja", "glib", "gstreamer", "gst-plugins-base"],
             patches=[
-                "wasapi-Implement-default-audio-channel-mask.patch",
                 "wasapisink-reduce-buffer-latency.patch",
             ],
         )
@@ -149,8 +154,9 @@ class GstPython(Tarball, Meson):
         Project.__init__(
             self,
             "gst-python",
-            archive_url="https://gstreamer.freedesktop.org/src/gst-python/gst-python-1.20.1.tar.xz",
-            hash="ba6cd59faa3db3981d8c6982351c239d823c0b8e80b1acf58d2997b050289422",
+            version="1.20.4",
+            archive_url="https://gstreamer.freedesktop.org/src/gst-python/gst-python-{version}.tar.xz",
+            hash="5eb4136d03e2a495f4499c8b2e6d9d3e7b5e73c5a8b8acf9213d57bc6a7bd3c1",
             dependencies=["meson", "ninja", "glib", "gstreamer", "pygobject"],
         )
 
