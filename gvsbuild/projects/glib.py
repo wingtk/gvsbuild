@@ -38,6 +38,9 @@ class GLib(Tarball, Meson):
                 "zlib",
                 "pcre2",
             ],
+            patches=[
+                "glib-package-installation-directory.patch",
+            ],
         )
 
     def build(self):
