@@ -77,6 +77,7 @@ class Libsoup3(Tarball, Meson):
                 "mit-kerberos",
                 "nghttp2",
             ],
+            patches=["0001-server-connection-fix-dep-cycle-and-connection-leak.patch"],
         )
 
         if self.opts.enable_gi:
