@@ -320,7 +320,7 @@ class Builder:
         completed_process = subprocess.run(
             [f"{vswhere}", "-all", "-products", "*", "-format", "json", "-utf8"],
             capture_output=True,
-            encoding='utf-8',
+            encoding="utf-8",
         )
         try:
             completed_process.check_returncode()
