@@ -33,7 +33,6 @@ class Libtiff4(Tarball, CmakeProject):
             dependencies=["cmake", "ninja", "libjpeg-turbo"],
             patches=[
                 "0001-cmake-remove-.d-postfix.patch",
-                "0001-TIFFReadRGBATileExt-fix-unsigned-integer-overflow-on.patch",
             ],
         )
 
