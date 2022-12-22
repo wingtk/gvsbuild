@@ -14,13 +14,13 @@ index 8cfe7ae3..7a8b423a 100644
 --- a/cmake/WindowsSupport.cmake
 +++ b/cmake/WindowsSupport.cmake
 @@ -25,7 +25,6 @@
- 
- # Debug postfix
+
  if(MSVC)
+     # Debug postfix
 -    set(CMAKE_DEBUG_POSTFIX "d")
- # disable deprecation warnings
-     add_definitions(-D_CRT_SECURE_NO_WARNINGS)
- # suppress deprecation warning for MSVC POSIX names
+
+     # disable deprecation warnings
+     add_definitions(-D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE)
 -- 
 2.36.1.windows.1
 
