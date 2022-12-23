@@ -91,11 +91,11 @@ class Gtk3(Tarball, Meson):
             self,
             "gtk3",
             prj_dir="gtk3",
-            version="3.24.35",
+            version="3.24.36",
             repository="https://gitlab.gnome.org/GNOME/gtk",
             lastversion_major=3,
             archive_url="https://download.gnome.org/sources/gtk%2B/{major}.{minor}/gtk%2B-{version}.tar.xz",
-            hash="ec10fe6d712ef0b3c63b5f932639c9d1ae99fce94f500f6f06965629fef60bd1",
+            hash="27a6ef157743350c807ffea59baa1d70226dbede82a5e953ffd58ea6059fe691",
             dependencies=["atk", "gdk-pixbuf", "pango", "libepoxy"],
             patches=[
                 "gtk_update_icon_cache.patch",
