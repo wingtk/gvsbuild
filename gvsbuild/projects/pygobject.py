@@ -17,12 +17,13 @@
 
 from pathlib import Path
 
+from gvsbuild.utils.base_builders import Meson
 from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import Project, project_add
 
 
 @project_add
-class PyGObject(Tarball, Project):
+class PyGObject(Tarball, Meson):
     def __init__(self):
         Project.__init__(
             self,
@@ -38,6 +39,7 @@ class PyGObject(Tarball, Project):
         )
 
     def build(self):
+        Meson.build(self)
         gtk_dir = self.builder.gtk_dir
         add_inc = [
             str(Path(gtk_dir) / "include" / "cairo"),
