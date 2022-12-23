@@ -96,6 +96,13 @@ class GstPluginsBase(Tarball, Meson):
             hash="11f911ef65f3095d7cf698a1ad1fc5242ac3ad6c9270465fb5c9e7f4f9c19b35",
             dependencies=["meson", "ninja", "gtk3", "gstreamer", "opus"],
         )
+        if self.opts.enable_gi:
+            self.add_dependency("gobject-introspection")
+            enable_gi = "enabled"
+        else:
+            enable_gi = "disabled"
+
+        self.add_param(f"-Dintrospection={enable_gi}")
 
     def build(self):
         Meson.build(self)
