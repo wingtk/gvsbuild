@@ -123,11 +123,11 @@ class Gtk4(Tarball, Meson):
             self,
             "gtk4",
             prj_dir="gtk4",
-            version="4.8.1",
+            version="4.8.3",
             repository="https://gitlab.gnome.org/GNOME/gtk",
             lastversion_major=4,
             archive_url="https://download.gnome.org/sources/gtk/{major}.{minor}/gtk-{version}.tar.xz",
-            hash="5ce8d8de98a23bd0c8eca1a61094e1c009b5f009dcbd60b45e990a8db1b742fd",
+            hash="b362f968d085b4d3d9340d4d38c706377ded9d5374e694a2b6b7e6292e3cba74",
             dependencies=[
                 "gdk-pixbuf",
                 "pango",
