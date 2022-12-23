@@ -138,9 +138,6 @@ class Gtk4(Tarball, Meson):
                 "glib",
                 "fribidi",
             ],
-            patches=[
-                "gdkwin32-fix-subclassing-for-gdkwin32clipdrop.patch",
-            ],
         )
         if self.opts.enable_gi:
             self.add_dependency("gobject-introspection")
