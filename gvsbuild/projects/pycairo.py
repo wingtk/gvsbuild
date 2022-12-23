@@ -17,14 +17,15 @@
 
 from pathlib import Path
 
+from gvsbuild.utils.base_builders import Meson
 from gvsbuild.utils.base_expanders import Tarball
-from gvsbuild.utils.base_project import Project, project_add
+from gvsbuild.utils.base_project import project_add
 
 
 @project_add
-class Pycairo(Tarball, Project):
+class Pycairo(Tarball, Meson):
     def __init__(self):
-        Project.__init__(
+        Meson.__init__(
             self,
             "pycairo",
             version="1.23.0",
@@ -34,6 +35,7 @@ class Pycairo(Tarball, Project):
         )
 
     def build(self):
+        Meson.build(self)
         cairo_inc = Path(self.builder.gtk_dir) / "include" / "cairo"
         self.builder.mod_env("INCLUDE", str(cairo_inc))
         self.exec_vs(r"%(python_dir)s\python.exe -m build")
