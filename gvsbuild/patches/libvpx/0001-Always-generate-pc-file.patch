@@ -2,25 +2,19 @@ From d1953749eb6876ef88a57e004b06f33b68d42664 Mon Sep 17 00:00:00 2001
 From: Ignacio Casal Quinteiro <qignacio@amazon.com>
 Date: Mon, 26 Oct 2020 16:07:34 +0100
 Subject: [PATCH] Always generate pc file
-
----
- libs.mk | 39 +++++++++++++++++++--------------------
- 1 file changed, 19 insertions(+), 20 deletions(-)
-
+===================================================================
 diff --git a/libs.mk b/libs.mk
-index d14439a3d..5f44594ff 100644
---- a/libs.mk
-+++ b/libs.mk
-@@ -358,6 +358,22 @@ INSTALL-LIBS-$(CONFIG_SHARED) += $(LIBVPX_SO_SYMLINKS)
+--- a/libs.mk	(revision 11151943b1877824da6086ea0c89b5617caecb67)
++++ b/libs.mk	(date 1671827127830)
+@@ -385,6 +385,21 @@
  INSTALL-LIBS-$(CONFIG_SHARED) += $(LIBSUBDIR)/$(LIBVPX_SO)
  INSTALL-LIBS-$(CONFIG_SHARED) += $(if $(LIBVPX_SO_IMPLIB),$(LIBSUBDIR)/$(LIBVPX_SO_IMPLIB))
  
-+ifeq ($(CONFIG_VP9_ENCODER),yes)
-+  RC_RTC_OBJS=$(call objs,$(RC_RTC_SRCS))
++ifeq ($(CONFIG_ENCODERS),yes)
 +  RC_RTC_OBJS=$(call objs,$(RC_RTC_SRCS))
 +  OBJS-yes += $(RC_RTC_OBJS)
-+  LIBS-yes += $(BUILD_PFX)libvp9rc.a $(BUILD_PFX)libvp9rc_g.a
-+  $(BUILD_PFX)libvp9rc_g.a: $(RC_RTC_OBJS)
++  LIBS-yes += $(BUILD_PFX)libvpxrc.a $(BUILD_PFX)libvpxrc_g.a
++  $(BUILD_PFX)libvpxrc_g.a: $(RC_RTC_OBJS)
 +endif
 +
 +ifeq ($(CONFIG_VP9_ENCODER)$(CONFIG_RATE_CTRL),yesyes)
@@ -34,7 +28,7 @@ index d14439a3d..5f44594ff 100644
  
  LIBS-yes += vpx.pc
  vpx.pc: config.mk libs.mk
-@@ -373,34 +389,17 @@ vpx.pc: config.mk libs.mk
+@@ -400,33 +415,17 @@
  	$(qexec)echo 'Version: $(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)' >> $@
  	$(qexec)echo 'Requires:' >> $@
  	$(qexec)echo 'Conflicts:' >> $@
@@ -42,7 +36,7 @@ index d14439a3d..5f44594ff 100644
 +	$(qexec)echo 'Libs: -L$${libdir} -lvpx' >> $@
  ifeq ($(HAVE_PTHREAD_H),yes)
 -	$(qexec)echo 'Libs.private: -lm -lpthread' >> $@
-+	$(qexec)echo 'Libs.private: -pthread' >> $@
++	$(qexec)echo 'Libs.private: -lpthread' >> $@
  else
 -	$(qexec)echo 'Libs.private: -lm' >> $@
 +	$(qexec)echo 'Libs.private: ' >> $@
@@ -52,12 +46,11 @@ index d14439a3d..5f44594ff 100644
  INSTALL_MAPS += $(LIBSUBDIR)/pkgconfig/%.pc %.pc
  CLEAN-OBJS += vpx.pc
  
--ifeq ($(CONFIG_VP9_ENCODER),yes)
--  RC_RTC_OBJS=$(call objs,$(RC_RTC_SRCS))
+-ifeq ($(CONFIG_ENCODERS),yes)
 -  RC_RTC_OBJS=$(call objs,$(RC_RTC_SRCS))
 -  OBJS-yes += $(RC_RTC_OBJS)
--  LIBS-yes += $(BUILD_PFX)libvp9rc.a $(BUILD_PFX)libvp9rc_g.a
--  $(BUILD_PFX)libvp9rc_g.a: $(RC_RTC_OBJS)
+-  LIBS-yes += $(BUILD_PFX)libvpxrc.a $(BUILD_PFX)libvpxrc_g.a
+-  $(BUILD_PFX)libvpxrc_g.a: $(RC_RTC_OBJS)
 -endif
 -
 -ifeq ($(CONFIG_VP9_ENCODER)$(CONFIG_RATE_CTRL),yesyes)
@@ -72,6 +65,3 @@ index d14439a3d..5f44594ff 100644
  libvpx.ver: $(call enabled,CODEC_EXPORTS)
  	@echo "    [CREATE] $@"
  	$(qexec)echo "{ global:" > $@
--- 
-2.17.1
-
