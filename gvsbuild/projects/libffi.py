@@ -26,9 +26,9 @@ class Libffi(GitRepo, Meson):
         Project.__init__(
             self,
             "libffi",
-            repo_url="https://gitlab.freedesktop.org/gstreamer/meson-ports/libffi.git",
+            repo_url="https://github.com/xclaesse/libffi.git",
             fetch_submodules=False,
-            tag="meson-3.2.9999.4",
+            tag="e610a433b1323a4d0658dda5e0fd627f8364669a",
             dependencies=["ninja", "meson"],
         )
 
