@@ -94,8 +94,11 @@ class GstPluginsBase(Tarball, Meson):
             version="1.20.5",
             archive_url="https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-{version}.tar.xz",
             hash="11f911ef65f3095d7cf698a1ad1fc5242ac3ad6c9270465fb5c9e7f4f9c19b35",
-            dependencies=["meson", "ninja", "gtk3", "gstreamer", "opus"],
+            dependencies=["meson", "ninja", "gstreamer", "opus"],
         )
+        # Examples depend on GTK3
+        self.add_param("-Dexamples=disabled")
+
         if self.opts.enable_gi:
             self.add_dependency("gobject-introspection")
             enable_gi = "enabled"
