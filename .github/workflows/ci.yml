@@ -47,7 +47,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Use Python Dependency Cache
-        uses: actions/cache@v3.2.0
+        uses: actions/cache@v3.2.1
         with:
           path: ~\AppData\Local\pip\Cache
           key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
@@ -93,7 +93,7 @@ jobs:
         with:
           python-version: ${{ env.python_version }}
       - name: Use Python Dependency Cache
-        uses: actions/cache@v3.2.0
+        uses: actions/cache@v3.2.1
         with:
           path: ~\AppData\Local\pip\Cache
           key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
