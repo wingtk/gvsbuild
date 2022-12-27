@@ -124,8 +124,6 @@ class GstPluginsGood(Tarball, Meson):
             dependencies=[
                 "meson",
                 "ninja",
-                "glib",
-                "gstreamer",
                 "gst-plugins-base",
                 "libvpx",
             ],
@@ -145,7 +143,7 @@ class GstPluginsBad(Tarball, Meson):
             version="1.20.5",
             archive_url="https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-{version}.tar.xz",
             hash="f431214b0754d7037adcde93c3195106196588973e5b32dcb24938805f866363",
-            dependencies=["meson", "ninja", "glib", "gstreamer", "gst-plugins-base"],
+            dependencies=["meson", "ninja", "gst-plugins-base"],
             patches=[
                 "wasapisink-reduce-buffer-latency.patch",
             ],
@@ -167,7 +165,7 @@ class GstPython(Tarball, Meson):
             version="1.20.5",
             archive_url="https://gstreamer.freedesktop.org/src/gst-python/gst-python-{version}.tar.xz",
             hash="27487652318659cfd7dc42784b713c78d29cc7a7df4fb397134c8c125f65e3b2",
-            dependencies=["meson", "ninja", "glib", "gstreamer", "pygobject"],
+            dependencies=["meson", "ninja", "pygobject", "gst-plugins-base"],
         )
 
     def build(self):
