@@ -41,6 +41,7 @@ class GStreamer(Tarball, Meson):
         Project.__init__(
             self,
             "gstreamer",
+            repository="https://gitlab.freedesktop.org/gstreamer/gstreamer",
             version="1.20.5",
             archive_url="https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-{version}.tar.xz",
             hash="5a19083faaf361d21fc391124f78ba6d609be55845a82fa8f658230e5fa03dff",
@@ -91,6 +92,7 @@ class GstPluginsBase(Tarball, Meson):
         Project.__init__(
             self,
             "gst-plugins-base",
+            repository="https://gitlab.freedesktop.org/gstreamer/gstreamer",
             version="1.20.5",
             archive_url="https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-{version}.tar.xz",
             hash="11f911ef65f3095d7cf698a1ad1fc5242ac3ad6c9270465fb5c9e7f4f9c19b35",
@@ -118,6 +120,7 @@ class GstPluginsGood(Tarball, Meson):
         Project.__init__(
             self,
             "gst-plugins-good",
+            repository="https://gitlab.freedesktop.org/gstreamer/gstreamer",
             version="1.20.5",
             archive_url="https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-{version}.tar.xz",
             hash="e83ab4d12ca24959489bbb0ec4fac9b90e32f741d49cda357cb554b2cb8b97f9",
@@ -140,6 +143,7 @@ class GstPluginsBad(Tarball, Meson):
         Project.__init__(
             self,
             "gst-plugins-bad",
+            repository="https://gitlab.freedesktop.org/gstreamer/gstreamer",
             version="1.20.5",
             archive_url="https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-{version}.tar.xz",
             hash="f431214b0754d7037adcde93c3195106196588973e5b32dcb24938805f866363",
@@ -162,6 +166,7 @@ class GstPython(Tarball, Meson):
         Project.__init__(
             self,
             "gst-python",
+            repository="https://gitlab.freedesktop.org/gstreamer/gstreamer",
             version="1.20.5",
             archive_url="https://gstreamer.freedesktop.org/src/gst-python/gst-python-{version}.tar.xz",
             hash="27487652318659cfd7dc42784b713c78d29cc7a7df4fb397134c8c125f65e3b2",

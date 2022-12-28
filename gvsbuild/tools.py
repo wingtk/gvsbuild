@@ -129,6 +129,7 @@ class ToolMeson(Tool):
 class ToolMsys2(Tool):
     def __init__(self):
         Tool.__init__(self, "msys2")
+        self.internal = True
 
     def load_defaults(self):
         Tool.load_defaults(self)

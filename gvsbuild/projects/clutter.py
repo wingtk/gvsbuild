@@ -25,7 +25,7 @@ class Clutter(Tarball, Project):
         Project.__init__(
             self,
             "clutter",
-            repository="https://gitlab.gnome.org/GNOME/clutter",
+            repository="https://gitlab.gnome.org/Archive/clutter",
             version="1.26.4",
             archive_url="https://download.gnome.org/sources/clutter/{major}.{minor}/clutter-{version}.tar.xz",
             hash="8b48fac159843f556d0a6be3dbfc6b083fc6d9c58a20a49a6b4919ab4263c4e6",
