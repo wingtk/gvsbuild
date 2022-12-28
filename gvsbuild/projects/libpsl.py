@@ -26,19 +26,20 @@ class Libpsl(Tarball, Meson):
         Project.__init__(
             self,
             "libpsl",
-            version="0.21.1",
+            version="0.21.2",
             archive_url="https://github.com/rockdaboot/libpsl/releases/download/{version}/libpsl-{version}.tar.gz",
-            hash="ac6ce1e1fbd4d0254c4ddb9d37f1fa99dec83619c1253328155206b896210d4c",
+            hash="e35991b6e17001afa2c0ca3b10c357650602b92596209b7492802f3768a6285f",
             dependencies=[
                 "meson",
                 "ninja",
                 "pkgconf",
                 "icu",
             ],
+            patches=["0001-localtime_r.patch"],
         )
 
         self.add_param("-Druntime=libicu")
-        self.add_param("-Dbuiltin=libicu")
+        self.add_param("-Dbuiltin=true")
 
     def build(self):
         Meson.build(self)
