@@ -151,31 +151,15 @@ def make_graph(
                         gr_index %= len(gr_colors)
                         for d in t.dependencies:
                             if d in to_skip:
-                                print(
-                                    "Skip '%s' for '%s'"
-                                    % (
-                                        d,
-                                        n,
-                                    )
-                                )
+                                print(f"Skip '{d}' for '{n}'")
                             else:
                                 if invert_dep:
                                     fo.write(
-                                        '    "%s" -> "%s" [color="#%06x"];\n'
-                                        % (
-                                            d,
-                                            n,
-                                            gr_colors[gr_index],
-                                        )
+                                        f'    "{d}" -> "{n}" [color="#{gr_colors[gr_index]:06x}"];\n'
                                     )
                                 else:
                                     fo.write(
-                                        '    "%s" -> "%s" [color="#%06x"];\n'
-                                        % (
-                                            n,
-                                            d,
-                                            gr_colors[gr_index],
-                                        )
+                                        f'    "{n}" -> "{d}" [color="#{gr_colors[gr_index]:06x}"];\n'
                                     )
                                 used.add(d)
                 else:
@@ -185,13 +169,7 @@ def make_graph(
             # Puts all projects that are not referenced from others
             for n in Project._names:
                 if n not in used:
-                    fo.write(
-                        '    "%s" -> "%s" [color="#c00080"];\n'
-                        % (
-                            "BUILD",
-                            n,
-                        )
-                    )
+                    fo.write(f'    "BUILD" -> "{n}" [color="#c00080"];\n')
 
         fo.write("};\n")
 

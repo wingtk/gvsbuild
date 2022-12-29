@@ -41,7 +41,7 @@ class Pixman(Tarball, Project):
         add_path = os.path.join(self.builder.opts.msys_dir, "usr", "bin")
 
         self.exec_vs(
-            r"make -f Makefile.win32 pixman CFG=%(configuration)s " + optimizations,
+            f"make -f Makefile.win32 pixman CFG=%(configuration)s {optimizations}",
             add_path=add_path,
         )
 

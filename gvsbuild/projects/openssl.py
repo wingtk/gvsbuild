@@ -15,6 +15,8 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
+import contextlib
+
 from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import Project, project_add
 
@@ -61,11 +63,8 @@ class OpenSSL(Tarball, Project):
                 + common_options
             )
 
-        try:
+        with contextlib.suppress(Exception):
             self.exec_vs(r"nmake /nologo clean", add_path=add_path)
-        except:  # noqa E722
-            pass
-
         self.exec_vs(r"nmake /nologo", add_path=add_path)
         self.exec_vs(r"%(perl_dir)s\bin\perl.exe mk-ca-bundle.pl -n cert.pem")
         self.exec_vs(r"nmake /nologo install", add_path=add_path)

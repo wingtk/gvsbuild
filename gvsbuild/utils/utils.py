@@ -29,8 +29,7 @@ def convert_to_msys(path):
     path = path
     if path[1] != ":":
         raise NotADirectoryError("Path doesn't contain a drive letter like C:")
-    path = f"/{path[0]}" + path[2:].replace("\\", "/")
-    return path
+    return f"/{path[0]}" + path[2:].replace("\\", "/")
 
 
 def _rmtree_error_handler(func, path, exc_info):

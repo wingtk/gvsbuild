@@ -94,18 +94,13 @@ class CmakeProject(Project):
         out_of_source=None,
         source_part=None,
     ):
+        cmake_gen = "Ninja" if use_ninja else "NMake Makefiles"
+
         cmake_config = (
             "Debug" if self.builder.opts.configuration == "debug" else "RelWithDebInfo"
         )
-        cmake_gen = "Ninja" if use_ninja else "NMake Makefiles"
-
         # Create the command for cmake
-        cmd = (
-            'cmake -G "'
-            + cmake_gen
-            + '" -DCMAKE_INSTALL_PREFIX="%(pkg_dir)s" -DGTK_DIR="%(gtk_dir)s" -DCMAKE_BUILD_TYPE='
-            + cmake_config
-        )
+        cmd = f'cmake -G "{cmake_gen}" -DCMAKE_INSTALL_PREFIX="%(pkg_dir)s" -DGTK_DIR="%(gtk_dir)s" -DCMAKE_BUILD_TYPE={cmake_config}'
         if cmake_params:
             cmd += f" {cmake_params}"
         if use_ninja and out_of_source is None:

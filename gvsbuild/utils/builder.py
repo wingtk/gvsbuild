@@ -375,11 +375,7 @@ class Builder:
                 % (vcvars_bat, vs_path, opts.platform)
             )
         return subprocess.check_output(
-            'cmd.exe /c ""%s"%s>NUL && set"'
-            % (
-                vcvars_bat,
-                add_opts,
-            ),
+            f'cmd.exe /c ""{vcvars_bat}"{add_opts}>NUL && set"',
             encoding="utf-8",
             shell=True,
             text=True,
