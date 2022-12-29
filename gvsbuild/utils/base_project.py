@@ -425,7 +425,9 @@ class Project(Generic[P]):
                 _t = content.replace("@version@", self.version)
                 content = _t
 
-                with open(os.path.join(pkgconfig_dir, f.name), "wt") as fo:
+                with open(
+                    os.path.join(pkgconfig_dir, f.name), "wt", encoding="utf-8"
+                ) as fo:
                     fo.write(content)
 
     def patch(self):
@@ -437,7 +439,7 @@ class Project(Generic[P]):
                 self.builder.exec_msys(
                     ["patch", "-p1", "-i", p], working_dir=self._get_working_dir()
                 )
-                with open(stamp, "w") as stampfile:
+                with open(stamp, "w", encoding="utf-8") as stampfile:
                     stampfile.write("done")
             else:
                 log.debug(f"patch {p} already applied, skipping")
@@ -580,7 +582,7 @@ class Project(Generic[P]):
     def mark_file_write(self):
         self.mark_file_calc()
         try:
-            with open(self.mark_file, "wt") as fo:
+            with open(self.mark_file, "wt", encoding="utf-8") as fo:
                 now = datetime.datetime.now().replace(microsecond=0)
                 fo.write(f"{now.strftime('%Y-%m-%d %H:%M:%S')}\n")
         except FileNotFoundError as e:
@@ -591,7 +593,7 @@ class Project(Generic[P]):
         self.mark_file_calc()
         if os.path.isfile(self.mark_file):
             try:
-                with open(self.mark_file) as fi:
+                with open(self.mark_file, encoding="utf-8") as fi:
                     rt = fi.readline().strip("\n")
             except OSError as e:
                 print(f"Exception reading file '{self.mark_file}'")
