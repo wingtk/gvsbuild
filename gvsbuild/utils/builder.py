@@ -380,6 +380,7 @@ class Builder:
                 vcvars_bat,
                 add_opts,
             ),
+            encoding="utf-8",
             shell=True,
             text=True,
         )

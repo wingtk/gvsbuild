@@ -129,7 +129,7 @@ def make_graph(
     gr_index = 0
 
     to_skip = set(skip)
-    with open(out_file, "wt") as fo:
+    with open(out_file, "wt", encoding="utf-8") as fo:
         print(f"Writing file {out_file}")
         used = set()
         fo.write("digraph gtk3dep {\n")

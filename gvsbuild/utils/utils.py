@@ -57,13 +57,13 @@ def rmtree_full(dest_dir, retry=False):
 
 
 def read_file(file_name):
-    with open(file_name) as fi:
+    with open(file_name, encoding="utf-8") as fi:
         rt = [line.rstrip("\n") for line in fi]
     return rt
 
 
 def write_file(file_name, content):
-    with open(file_name, "wt") as fo:
+    with open(file_name, "wt", encoding="utf-8") as fo:
         for i in content:
             fo.write(f"{i}\n")
 

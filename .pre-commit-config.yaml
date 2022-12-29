@@ -8,7 +8,9 @@ repos:
     rev: 4.0.1
     hooks:
       - id: flake8
-        additional_dependencies: [flake8-eradicate==1.2.0]
+        additional_dependencies:
+        - flake8-eradicate==1.2.0
+        - flake8-encodings==0.5.0.post1
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.3.0
     hooks:

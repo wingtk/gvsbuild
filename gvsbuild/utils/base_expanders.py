@@ -31,7 +31,7 @@ def read_mark_file(directory, file_name=".wingtk-extracted-file"):
     """Read a single line from file, returning an empty string on error."""
     rt = ""
     try:
-        with open(os.path.join(directory, file_name)) as fi:
+        with open(os.path.join(directory, file_name), encoding="utf-8") as fi:
             rt = fi.readline().strip()
     except OSError as e:
         log.debug(f"Exception on reading from '{file_name}'")
@@ -42,7 +42,7 @@ def read_mark_file(directory, file_name=".wingtk-extracted-file"):
 
 def write_mark_file(directory, val, file_name=".wingtk-extracted-file"):
     """Write the value (filename or content hash) to the mark file."""
-    with open(os.path.join(directory, file_name), "wt") as fo:
+    with open(os.path.join(directory, file_name), "wt", encoding="utf-8") as fo:
         fo.write(f"{val}\n")
 
 
@@ -274,7 +274,7 @@ class GitRepo:
             self.builder.exec_msys(
                 f"git rev-parse --short HEAD >{of}", working_dir=src_dir
             )
-            with open(of) as fi:
+            with open(of, encoding="utf-8") as fi:
                 tag_name = fi.readline().rstrip("\n")
             os.remove(of)
 
