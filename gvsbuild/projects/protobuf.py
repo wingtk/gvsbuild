@@ -26,9 +26,9 @@ class Protobuf(Tarball, CmakeProject):
         Project.__init__(
             self,
             "protobuf",
-            version="3.15.8",
-            archive_url="https://github.com/protocolbuffers/protobuf/releases/download/v{version}/protobuf-cpp-{version}.tar.gz",
-            hash="9b57647b898e45253c98fae35146f6a5e9e788817d29019f9280270c951a0038",
+            version="3.21.12",
+            archive_url="https://github.com/protocolbuffers/protobuf/releases/download/v{minor}.{micro}/protobuf-cpp-{version}.tar.gz",
+            hash="4eab9b524aa5913c6fffb20b2a8abf5ef7f95a80bc0701f3a6dbb4c607f73460",
             dependencies=[
                 "cmake",
                 "zlib",
@@ -40,9 +40,8 @@ class Protobuf(Tarball, CmakeProject):
         # We need to compile with STATIC_RUNTIME off since protobuf-c also compiles with it OFF
         CmakeProject.build(
             self,
-            cmake_params=r'-Dprotobuf_DEBUG_POSTFIX="" -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_WITH_ZLIB=ON -Dprotobuf_MSVC_STATIC_RUNTIME=OFF',
+            cmake_params=r'-DBUILD_SHARED_LIBS=ON -Dprotobuf_DEBUG_POSTFIX="" -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_WITH_ZLIB=ON -Dprotobuf_MSVC_STATIC_RUNTIME=OFF',
             use_ninja=True,
-            source_part="cmake",
         )
 
         self.install(r".\LICENSE share\doc\protobuf")
@@ -54,9 +53,9 @@ class ProtobufC(Tarball, CmakeProject):
         Project.__init__(
             self,
             "protobuf-c",
-            version="1.3.3",
+            version="1.4.1",
             archive_url="https://github.com/protobuf-c/protobuf-c/releases/download/v{version}/protobuf-c-{version}.tar.gz",
-            hash="22956606ef50c60de1fabc13a78fbc50830a0447d780467d3c519f84ad527e78",
+            hash="4cc4facd508172f3e0a4d3a8736225d472418aee35b4ad053384b137b220339f",
             dependencies=[
                 "cmake",
                 "protobuf",
@@ -65,7 +64,12 @@ class ProtobufC(Tarball, CmakeProject):
         )
 
     def build(self):
-        CmakeProject.build(self, use_ninja=True, source_part="build-cmake")
+        CmakeProject.build(
+            self,
+            cmake_params="-DBUILD_SHARED_LIBS=ON",
+            use_ninja=True,
+            source_part="build-cmake",
+        )
 
         self.install(r".\LICENSE share\doc\protobuf-c")
         self.install_pc_files()
