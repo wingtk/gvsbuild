@@ -26,9 +26,9 @@ class Libffi(GitRepo, Meson):
         Project.__init__(
             self,
             "libffi",
-            repo_url="https://github.com/xclaesse/libffi.git",
+            repo_url="https://github.com/wingtk/libffi.git",
             fetch_submodules=False,
-            tag="e610a433b1323a4d0658dda5e0fd627f8364669a",
+            tag="27470bd6b428fe598b39f19610200fb0e975ce5d",
             dependencies=["ninja", "meson"],
         )
 
