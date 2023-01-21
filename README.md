@@ -129,10 +129,12 @@ gvsbuild build gtk4
 
 Grab a coffee, the build will take a few minutes to complete.
 
-#### Add GTK to Your Path
+#### Add GTK to Your Environmental Variables
 
 ```PowerShell
 $env:Path = "C:\gtk-build\gtk\x64\release\bin;" + $env:Path
+$env:LIB = "C:\gtk-build\gtk\x64\release\lib;" + $env:LIB
+$env:INCLUDE = "C:\gtk-build\gtk\x64\release\include;C:\gtk-build\gtk\x64\release\include\cairo;C:\gtk-build\gtk\x64\release\include\glib-2.0;C:\gtk-build\gtk\x64\release\include\gobject-introspection-1.0;C:\gtk-build\gtk\x64\release\lib\glib-2.0\include;" + $env:INCLUDE
 ```
 
 #### Other Options
