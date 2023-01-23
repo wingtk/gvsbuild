@@ -82,7 +82,6 @@ class Orc(Tarball, Meson):
         Meson.build(self, meson_params="-Dbenchmarks=disabled -Dtools=enabled")
         self.install(r"COPYING share\doc\orc")
 
-
 @project_add
 class GstPluginsBase(Tarball, Meson):
     def __init__(self):
@@ -109,7 +108,6 @@ class GstPluginsBase(Tarball, Meson):
     def build(self):
         Meson.build(self)
         self.install(r".\COPYING share\doc\gst-plugins-base")
-
 
 @project_add
 class GstPluginsGood(Tarball, Meson):
@@ -173,23 +171,6 @@ class GstPluginsBad(Tarball, Meson):
         Meson.build(self)
         self.install(r".\COPYING share\doc\gst-plugins-bad")
 
-@project_add
-class JosnGlib(Tarball, Meson):
-    def __init__(self):
-        Project.__init__(
-            self,
-            "json-glib",
-            repository="https://github.com/GNOME/json-glib",
-            version="1.6.6",
-            archive_url="https://github.com/GNOME/json-glib/archive/refs/tags/{version}.tar.gz",
-            hash="bf4d1cd6c343ce13b9258e6703a0411a3b659887b65877e85a2aa488ae18b865",
-            dependencies=["meson", "ninja"],
-        )
-
-    def build(self):
-        Meson.build(self)
-        self.install(r".\COPYING share\doc\json-glib")
-
 
 @project_add
 class GstDevTools(Tarball, Meson):
@@ -207,6 +188,40 @@ class GstDevTools(Tarball, Meson):
     def build(self):
         Meson.build(self)
         self.install(r".\COPYING share\doc\gst-devtools")
+  
+@project_add
+class GstRtspServer(Tarball, Meson):
+    def __init__(self):
+        Project.__init__(
+            self,
+            "gst-rtsp-server",
+            repository="https://gitlab.freedesktop.org/gstreamer/rtsp-server",
+            version="1.21.90",
+            archive_url="https://gstreamer.freedesktop.org/src/gst-rtsp-server/gst-rtsp-server-{version}.tar.xz",
+            hash="f1519c2cb103464d297591b6c1b53ba83dd59172f70e46bc1539a7874da3d26f",
+            dependencies=["meson", "ninja", "gst-plugins-base"],
+        )
+
+    def build(self):
+        Meson.build(self)
+        self.install(r".\COPYING share\doc\gst-rtsp-server")
+
+@project_add
+class GstEditingServices(Tarball, Meson):
+    def __init__(self):
+        Project.__init__(
+            self,
+            "gst-editing-services",
+            repository="https://gitlab.freedesktop.org/gstreamer/gst-editing-services",
+            version="1.21.90",
+            archive_url="https://gstreamer.freedesktop.org/src/gst-editing-services/gst-editing-services-{version}.tar.xz",
+            hash="f3dfa688e385d5bc7e8d666d617098e981492b8d1bee9d88811950039ce91be0",
+            dependencies=["meson", "ninja", "gst-plugins-base"],
+        )
+
+    def build(self):
+        Meson.build(self)
+        self.install(r".\COPYING share\doc\gst-editing-services")
 
 @project_add
 class GstPython(Tarball, Meson):
