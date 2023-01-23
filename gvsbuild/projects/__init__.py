@@ -29,6 +29,8 @@ from gvsbuild.projects.gstreamer import (
     GstPluginsBad,
     GstPluginsBase,
     GstPluginsGood,
+    GstPluginsUgly,
+    GstDevTools,
     GstPython,
     GStreamer,
     Orc,

@@ -77,10 +77,7 @@ class Orc(Tarball, Meson):
             repository="https://gitlab.freedesktop.org/gstreamer/orc",
             archive_url="https://gstreamer.freedesktop.org/src/orc/orc-{version}.tar.xz",
             hash="844e6d7db8086f793f57618d3d4b68d29d99b16034e71430df3c21cfd3c3542a",
-            dependencies=[
-                "meson",
-                "ninja",
-            ],
+            dependencies=["meson", "ninja"],
         )
 
     def build(self):
@@ -171,6 +168,44 @@ class GstPluginsBad(Tarball, Meson):
     def build(self):
         Meson.build(self)
         self.install(r".\COPYING share\doc\gst-plugins-bad")
+
+
+@project_add
+class GstPluginsUgly(Tarball, Meson):
+    def __init__(self):
+        Project.__init__(
+            self,
+            "gst-plugins-ugly",
+            repository="https://gitlab.freedesktop.org/gstreamer/gstreamer",
+            version="1.22.0",
+            lastversion_even=True,
+            archive_url="https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-{version}.tar.xz",
+            hash="a644dc981afa2d8d3a913f763ab9523c0620ee4e65a7ec73c7721c29da3c5a0c",
+            dependencies=["meson", "ninja", "gst-plugins-base"],
+        )
+
+    def build(self):
+        Meson.build(self)
+        self.install(r".\COPYING share\doc\gst-plugins-ugly")
+
+
+@project_add
+class GstDevTools(Tarball, Meson):
+    def __init__(self):
+        Project.__init__(
+            self,
+            "gst-devtools",
+            repository="https://gitlab.freedesktop.org/gstreamer/gstreamer",
+            version="1.22.0",
+            lastversion_even=True,
+            archive_url="https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-{version}.tar.xz",
+            hash="4d21fee5c15f2877c0b1f6c2da0cdba67ce7caab2c199ab27e91a1394d5ba195",
+            dependencies=["meson", "ninja", "json-glib"],
+        )
+
+    def build(self):
+        Meson.build(self)
+        self.install(r".\COPYING share\doc\gst-devtools")
 
 
 @project_add
