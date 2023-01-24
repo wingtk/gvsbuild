@@ -92,7 +92,12 @@ class GstPluginsBase(Tarball, Meson):
             version="1.21.90",
             archive_url="https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-{version}.tar.xz",
             hash="5fb7f4f3da47f30cde0ab17d716e2593477133f2bc3a59f822e0d470ec3644fa",
-            dependencies=["meson", "ninja", "gstreamer", "opus"],
+            dependencies=[
+                "meson", 
+                "ninja", 
+                "gstreamer", 
+                "opus",
+                "ogg"],
         )
         # Examples depend on GTK3
         self.add_param("-Dexamples=disabled")
@@ -106,7 +111,9 @@ class GstPluginsBase(Tarball, Meson):
         self.add_param(f"-Dintrospection={enable_gi}")
 
     def build(self):
-        Meson.build(self)
+        Meson.build(self, 
+            meson_params=f"-Dc_link_args={self.builder.gtk_dir}\\lib\\ogg.lib"
+        )
         self.install(r".\COPYING share\doc\gst-plugins-base")
 
 @project_add
