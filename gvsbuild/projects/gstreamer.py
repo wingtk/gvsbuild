@@ -78,8 +78,8 @@ class Orc(Tarball, Meson):
             archive_url="https://gstreamer.freedesktop.org/src/orc/orc-{version}.tar.xz",
             hash="844e6d7db8086f793f57618d3d4b68d29d99b16034e71430df3c21cfd3c3542a",
             dependencies=[
-                "ninja",
                 "meson",
+                "ninja",
             ],
         )
 
@@ -99,7 +99,13 @@ class GstPluginsBase(Tarball, Meson):
             lastversion_even=True,
             archive_url="https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-{version}.tar.xz",
             hash="f53672294f3985d56355c8b1df8f6b49c8c8721106563e19f53be3507ff2229d",
-            dependencies=["meson", "ninja", "gstreamer", "opus"],
+            dependencies=[
+                "meson",
+                "ninja",
+                "gstreamer",
+                "opus",
+                "ogg",
+            ],
         )
         # Examples depend on GTK3
         self.add_param("-Dexamples=disabled")
@@ -113,7 +119,9 @@ class GstPluginsBase(Tarball, Meson):
         self.add_param(f"-Dintrospection={enable_gi}")
 
     def build(self):
-        Meson.build(self)
+        Meson.build(
+            self, meson_params=f"-Dc_link_args={self.builder.gtk_dir}\\lib\\ogg.lib"
+        )
         self.install(r".\COPYING share\doc\gst-plugins-base")
 
 

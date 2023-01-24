@@ -52,6 +52,7 @@ from gvsbuild.projects.libffi import Libffi
 from gvsbuild.projects.libgxps import Libgxps
 from gvsbuild.projects.libjpeg_turbo import LibjpegTurbo
 from gvsbuild.projects.libmicrohttpd import Libmicrohttpd
+from gvsbuild.projects.ogg import Ogg
 from gvsbuild.projects.libpng import Libpng
 from gvsbuild.projects.libpsl import Libpsl
 from gvsbuild.projects.librsvg import Librsvg
@@ -59,6 +60,7 @@ from gvsbuild.projects.libsoup import Libsoup2, Libsoup3
 from gvsbuild.projects.libssh import Libssh, Libssh2
 from gvsbuild.projects.libtiff import Libtiff4
 from gvsbuild.projects.libuv import Libuv
+from gvsbuild.projects.libvorbis import Libvorbis
 from gvsbuild.projects.libvpx import Libvpx
 from gvsbuild.projects.libxml2 import Libxml2
 from gvsbuild.projects.libyuv import Libyuv
