@@ -393,14 +393,14 @@ files = [
 
 [[package]]
 name = "lastversion"
-version = "2.4.8"
+version = "2.4.9"
 description = "A CLI tool to find the latest stable version of an arbitrary project"
 category = "main"
 optional = true
 python-versions = "*"
 files = [
-    {file = "lastversion-2.4.8-py3-none-any.whl", hash = "sha256:295edd562a6601aa3a1907c416da533bd265d84d42634e5e12624f45ab609678"},
-    {file = "lastversion-2.4.8.tar.gz", hash = "sha256:dbb6f675bd4c124c888deff66b378cc0bf247638a951cf223f323ba148334fb8"},
+    {file = "lastversion-2.4.9-py3-none-any.whl", hash = "sha256:79c6b584715d64be3448767c1be2f54f290a6ce4a3fe70e322d60f8a041169ab"},
+    {file = "lastversion-2.4.9.tar.gz", hash = "sha256:30dbb0a4544c6a1b8197bca0f7ef3710389bb0d92819adda36fbecec254e2166"},
 ]
 
 [package.dependencies]
@@ -591,14 +591,14 @@ plugins = ["importlib-metadata"]
 
 [[package]]
 name = "pyproject-api"
-version = "1.4.0"
+version = "1.5.0"
 description = "API to interact with the python pyproject.toml based projects"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pyproject_api-1.4.0-py3-none-any.whl", hash = "sha256:c34226297781efdd1ba4dfb74ce21076d9a8360e2125ea31803c1a02c76b2460"},
-    {file = "pyproject_api-1.4.0.tar.gz", hash = "sha256:ac85c1f82e0291dbae5a7739dbb9a990e11ee4034c9b5599ea714f07a24ecd71"},
+    {file = "pyproject_api-1.5.0-py3-none-any.whl", hash = "sha256:4c111277dfb96bcd562c6245428f27250b794bfe3e210b8714c4f893952f2c17"},
+    {file = "pyproject_api-1.5.0.tar.gz", hash = "sha256:0962df21f3e633b8ddb9567c011e6c1b3dcdfc31b7860c0ede7e24c5a1200fbe"},
 ]
 
 [package.dependencies]
@@ -626,14 +626,14 @@ tomli = {version = ">=1.1.0", markers = "python_version < \"3.11\""}
 
 [[package]]
 name = "pytest"
-version = "7.2.0"
+version = "7.2.1"
 description = "pytest: simple powerful testing with Python"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pytest-7.2.0-py3-none-any.whl", hash = "sha256:892f933d339f068883b6fd5a459f03d85bfcb355e4981e146d2c7616c21fef71"},
-    {file = "pytest-7.2.0.tar.gz", hash = "sha256:c4014eb40e10f11f355ad4e3c2fb2c6c6d1919c73f3b5a433de4708202cade59"},
+    {file = "pytest-7.2.1-py3-none-any.whl", hash = "sha256:c7c6ca206e93355074ae32f7403e8ea12163b1163c976fee7d4d84027c162be5"},
+    {file = "pytest-7.2.1.tar.gz", hash = "sha256:d45e0952f3727241918b8fd0f376f5ff6b301cc0777c6f9a556935c92d8a7d42"},
 ]
 
 [package.dependencies]
@@ -833,14 +833,14 @@ files = [
 
 [[package]]
 name = "tox"
-version = "4.2.8"
+version = "4.3.5"
 description = "tox is a generic virtualenv management and test command line tool"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "tox-4.2.8-py3-none-any.whl", hash = "sha256:e9d5006a533d280e2ca26e3ca61052ffa55a65b683486f92d12563a14a9b7a4f"},
-    {file = "tox-4.2.8.tar.gz", hash = "sha256:7c31940d755355210151e8bef23feab3d714a8a4795e513c454ff0baccd995b1"},
+    {file = "tox-4.3.5-py3-none-any.whl", hash = "sha256:6dddc4c69718b65aacbef0921ffa8af065b0f63ff0b24ffc403477975853c918"},
+    {file = "tox-4.3.5.tar.gz", hash = "sha256:307993257d792a12a63ff86a0b67a71a5ab2d4a2cc12bbae947115224d4ac3fb"},
 ]
 
 [package.dependencies]
@@ -851,7 +851,7 @@ filelock = ">=3.9"
 packaging = ">=23"
 platformdirs = ">=2.6.2"
 pluggy = ">=1"
-pyproject-api = ">=1.4"
+pyproject-api = ">=1.5"
 tomli = {version = ">=2.0.1", markers = "python_version < \"3.11\""}
 virtualenv = ">=20.17.1"
 
