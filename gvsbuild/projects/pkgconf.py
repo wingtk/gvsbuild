@@ -33,7 +33,7 @@ class PkgConf(Tarball, Meson):
             dependencies=["ninja", "meson"],
             patches=["0001-libpkgconf-add-defines-to-unbreak-build-with-VS2013.patch"],
         )
-        self.add_param("-Dtests=false")
+        self.add_param("-Dtests=disabled")
 
     def build(self):
         Meson.build(self)
