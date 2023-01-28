@@ -31,6 +31,7 @@ class GObjectIntrospection(Tarball, Meson):
             self,
             "gobject-introspection",
             version="1.74.0",
+            lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/gobject-introspection",
             archive_url="https://download.gnome.org/sources/gobject-introspection/{major}.{minor}/gobject-introspection-{version}.tar.xz",
             hash="347b3a719e68ba4c69ff2d57ee2689233ea8c07fc492205e573386779e42d653",

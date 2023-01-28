@@ -29,6 +29,7 @@ class Libsoup2(Tarball, Meson):
             lastversion_major=2,
             repository="https://gitlab.gnome.org/GNOME/libsoup",
             version="2.74.3",
+            lastversion_even=True,
             archive_url="https://download.gnome.org/sources/libsoup/{major}.{minor}/libsoup-{version}.tar.xz",
             hash="e4b77c41cfc4c8c5a035fcdc320c7bc6cfb75ef7c5a034153df1413fa1d92f13",
             dependencies=[
@@ -66,6 +67,7 @@ class Libsoup3(Tarball, Meson):
             "libsoup3",
             version="3.2.2",
             lastversion_major=3,
+            lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/libsoup",
             archive_url="https://download.gnome.org/sources/libsoup/{major}.{minor}/libsoup-{version}.tar.xz",
             hash="83673c685b910fb7d39f1f28eee5afbefb71c05798fc350ac3bf1b885e1efaa1",

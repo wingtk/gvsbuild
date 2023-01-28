@@ -26,6 +26,7 @@ class Cogl(Tarball, Project):
             self,
             "cogl",
             version="1.22.8",
+            lastversion_even=True,
             repository="https://gitlab.gnome.org/Archive/cogl",
             archive_url="https://download.gnome.org/sources/cogl/{major}.{minor}/cogl-{version}.tar.xz",
             hash="a805b2b019184710ff53d0496f9f0ce6dcca420c141a0f4f6fcc02131581d759",
