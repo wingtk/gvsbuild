@@ -40,6 +40,7 @@ class Atk(Tarball, Meson):
             self,
             "atk",
             version="2.38.0",
+            lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/atk",
             archive_url="https://download.gnome.org/sources/atk/{major}.{minor}/atk-{version}.tar.xz",
             hash="ac4de2a4ef4bd5665052952fe169657e65e895c5057dffb3c2a810f6191a0c36",

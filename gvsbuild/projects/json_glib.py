@@ -27,6 +27,7 @@ class JsonGLib(Tarball, Meson):
             self,
             "json-glib",
             version="1.6.6",
+            lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/json-glib",
             archive_url="https://download.gnome.org/sources/json-glib/{major}.{minor}/json-glib-{version}.tar.xz",
             hash="96ec98be7a91f6dde33636720e3da2ff6ecbb90e76ccaa49497f31a6855a490e",

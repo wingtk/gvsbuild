@@ -27,6 +27,7 @@ class Libxml2(Tarball, Meson):
             self,
             "libxml2",
             version="2.10.3",
+            lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/libxml2",
             archive_url="https://download.gnome.org/sources/libxml2/{major}.{minor}/libxml2-{version}.tar.xz",
             hash="5d2cc3d78bec3dbe212a9d7fa629ada25a7da928af432c93060ff5c17ee28a9c",

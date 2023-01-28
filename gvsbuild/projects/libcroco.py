@@ -26,6 +26,7 @@ class Libcroco(Tarball, Project):
             self,
             "libcroco",
             version="0.6.13",
+            lastversion_even=True,
             repository="https://gitlab.gnome.org/Archive/libcroco",
             archive_url="https://download.gnome.org/sources/libcroco/{major}.{minor}/libcroco-{version}.tar.xz",
             hash="767ec234ae7aa684695b3a735548224888132e063f92db585759b422570621d4",

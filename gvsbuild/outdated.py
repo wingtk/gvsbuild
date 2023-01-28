@@ -45,6 +45,7 @@ def outdated():
                 latest_version = lastversion.latest(
                     repo=project.repository or project.name,
                     major=project.lastversion_major,
+                    even=project.lastversion_even,
                 )
 
                 if not latest_version:

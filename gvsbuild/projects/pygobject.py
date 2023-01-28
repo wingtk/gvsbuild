@@ -29,6 +29,7 @@ class PyGObject(Tarball, Meson):
             self,
             "pygobject",
             version="3.42.2",
+            lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/pygobject",
             archive_url="https://download.gnome.org/sources/pygobject/{major}.{minor}/pygobject-{version}.tar.xz",
             hash="ade8695e2a7073849dd0316d31d8728e15e1e0bc71d9ff6d1c09e86be52bc957",

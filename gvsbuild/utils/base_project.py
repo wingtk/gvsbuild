@@ -101,6 +101,7 @@ class Project(Generic[P]):
         self.version = None
         self.repository = None
         self.lastversion_major = None
+        self.lastversion_even = None
         self.internal = False
         self.mark_file = None
         self.clean = False
