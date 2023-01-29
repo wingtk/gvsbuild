@@ -45,6 +45,7 @@ class Options:
         self.debug = False
         self.platform = "x64"
         self.configuration = "release"
+        self.release_configuration_is_actually_debug_optimized = False
         self.build_dir = None
         self.archives_download_dir = None
         self.export_dir = None
