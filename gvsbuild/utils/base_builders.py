@@ -64,9 +64,10 @@ class Meson(Project):
         self._ensure_params()
         add_opts = " ".join(self.params) + " " if self.params else ""
         # debug info
-        add_opts += "--buildtype " + (
-            "debug" if self.builder.opts.configuration == "debug" else "debugoptimized"
-        )
+        build_type = self.builder.opts.configuration
+        if self.builder.opts.release_configuration_is_actually_debug_optimized:
+            build_type = "debugoptimized"
+        add_opts += "--buildtype " + build_type
         if meson_params:
             add_opts += f" {meson_params}"
         # python meson.py src_dir ninja_build_dir --prefix gtk_bin options
@@ -97,8 +98,10 @@ class CmakeProject(Project):
         cmake_gen = "Ninja" if use_ninja else "NMake Makefiles"
 
         cmake_config = (
-            "Debug" if self.builder.opts.configuration == "debug" else "RelWithDebInfo"
+            "Debug" if self.builder.opts.configuration == "debug" else "Release"
         )
+        if self.builder.opts.release_configuration_is_actually_debug_optimized:
+            cmake_config = "RelWithDebInfo"
         # Create the command for cmake
         cmd = f'cmake -G "{cmake_gen}" -DCMAKE_INSTALL_PREFIX="%(pkg_dir)s" -DGTK_DIR="%(gtk_dir)s" -DCMAKE_BUILD_TYPE={cmake_config}'
         if cmake_params:

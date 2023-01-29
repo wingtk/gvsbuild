@@ -63,6 +63,7 @@ class Platform(str, Enum):
 class Configuration(str, Enum):
     debug = "debug"
     release = "release"
+    debug_optimized = "debug-optimized"
 
 
 class VsVer(str, Enum):
@@ -96,7 +97,10 @@ def build(
     projects: List[str] = typer.Argument(..., help="The project to build"),
     platform: Platform = typer.Option(Platform.x64, help="The platform to build for"),
     configuration: Configuration = typer.Option(
-        Configuration.release, help="The configuration to build for"
+        Configuration.debug_optimized,
+        help='The configuration to build for. "debug-optimized" only '
+        "includes debug symbols for Meson and CMake projects - other "
+        'projects\' build tools will interpret the option as "release"',
     ),
     build_dir: Path = typer.Option(
         Path(r"C:\gtk-build"),
@@ -318,6 +322,12 @@ def build(
     log.configure(str(build_dir / "logs"), opts)
     opts.platform = platform.value
     opts.configuration = configuration.value
+    if opts.configuration == Configuration.debug_optimized:
+        # Some build systems take "opts.configuration" directly, and won't support our
+        # custom "debug-optimized" string. Convert it back to the standard
+        # "release" string but track that we still want debug symbols where possible.
+        opts.configuration = Configuration.release.value
+        opts.release_configuration_is_actually_debug_optimized = True
     log.message(f"Build type is {configuration}")
     if archives_download_dir:
         opts.archives_download_dir = str(archives_download_dir)
