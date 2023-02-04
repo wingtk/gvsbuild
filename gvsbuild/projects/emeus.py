@@ -31,7 +31,6 @@ class Emeus(GitRepo, Meson):
             fetch_submodules=False,
             tag="master",
             dependencies=["ninja", "meson", "pkgconf", "gtk3"],
-            patches=["00_win_no_script.patch"],
         )
         if self.opts.enable_gi:
             self.add_dependency("gobject-introspection")

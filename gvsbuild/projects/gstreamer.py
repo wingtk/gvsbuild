@@ -42,10 +42,10 @@ class GStreamer(Tarball, Meson):
             self,
             "gstreamer",
             repository="https://gitlab.freedesktop.org/gstreamer/gstreamer",
-            version="1.20.5",
+            version="1.22.0",
             lastversion_even=True,
             archive_url="https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-{version}.tar.xz",
-            hash="5a19083faaf361d21fc391124f78ba6d609be55845a82fa8f658230e5fa03dff",
+            hash="78d21b5469ac93edafc6d8ceb63bc82f6cbbee94d2f866cca6b9252157ee0a09",
             dependencies=["meson", "ninja", "glib", "orc"],
         )
 
@@ -95,10 +95,10 @@ class GstPluginsBase(Tarball, Meson):
             self,
             "gst-plugins-base",
             repository="https://gitlab.freedesktop.org/gstreamer/gstreamer",
-            version="1.20.5",
+            version="1.22.0",
             lastversion_even=True,
             archive_url="https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-{version}.tar.xz",
-            hash="11f911ef65f3095d7cf698a1ad1fc5242ac3ad6c9270465fb5c9e7f4f9c19b35",
+            hash="f53672294f3985d56355c8b1df8f6b49c8c8721106563e19f53be3507ff2229d",
             dependencies=["meson", "ninja", "gstreamer", "opus"],
         )
         # Examples depend on GTK3
@@ -124,10 +124,10 @@ class GstPluginsGood(Tarball, Meson):
             self,
             "gst-plugins-good",
             repository="https://gitlab.freedesktop.org/gstreamer/gstreamer",
-            version="1.20.5",
+            version="1.22.0",
             lastversion_even=True,
             archive_url="https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-{version}.tar.xz",
-            hash="e83ab4d12ca24959489bbb0ec4fac9b90e32f741d49cda357cb554b2cb8b97f9",
+            hash="582e617271e7f314d1a2211e3e3856ae2e4303c8c0d6114e9c4a5ea5719294b0",
             dependencies=[
                 "meson",
                 "ninja",
@@ -148,10 +148,10 @@ class GstPluginsBad(Tarball, Meson):
             self,
             "gst-plugins-bad",
             repository="https://gitlab.freedesktop.org/gstreamer/gstreamer",
-            version="1.20.5",
+            version="1.22.0",
             lastversion_even=True,
             archive_url="https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-{version}.tar.xz",
-            hash="f431214b0754d7037adcde93c3195106196588973e5b32dcb24938805f866363",
+            hash="3c9d9300f5f4fb3e3d36009379d1fb6d9ecd79c1a135df742b8a68417dd663a1",
             dependencies=["meson", "ninja", "gst-plugins-base"],
             patches=[
                 "wasapisink-reduce-buffer-latency.patch",
@@ -172,10 +172,10 @@ class GstPython(Tarball, Meson):
             self,
             "gst-python",
             repository="https://gitlab.freedesktop.org/gstreamer/gstreamer",
-            version="1.20.5",
+            version="1.22.0",
             lastversion_even=True,
             archive_url="https://gstreamer.freedesktop.org/src/gst-python/gst-python-{version}.tar.xz",
-            hash="27487652318659cfd7dc42784b713c78d29cc7a7df4fb397134c8c125f65e3b2",
+            hash="6c63ad364ca4617eb2cbb3975ab26c66760eb3c7a6adf5be69f99c11e21ef3a5",
             dependencies=["meson", "ninja", "pygobject", "gst-plugins-base"],
         )
 
