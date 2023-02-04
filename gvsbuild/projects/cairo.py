@@ -30,10 +30,6 @@ class Cairo(Tarball, Meson):
             archive_url="https://gitlab.freedesktop.org/cairo/cairo/-/archive/{version}/cairo-{version}.tar.gz",
             hash="b4ed6d33037171d4c6594345b42d81796f335a6995fdf5638db0d306c17a0d3e",
             dependencies=["fontconfig", "freetype", "glib", "pixman", "libpng"],
-            patches=[
-                "0001-dwrite-toy-fonts.patch",
-                "0002-fix-scaled-font-hash-lookup.patch",
-            ],
         )
 
     def build(self):
