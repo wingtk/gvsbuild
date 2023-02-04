@@ -26,9 +26,9 @@ class Cairo(Tarball, Meson):
         Meson.__init__(
             self,
             "cairo",
-            version="1.17.6",
+            version="1.17.8",
             archive_url="https://gitlab.freedesktop.org/cairo/cairo/-/archive/{version}/cairo-{version}.tar.gz",
-            hash="a2227afc15e616657341c42af9830c937c3a6bfa63661074eabef13600e8936f",
+            hash="b4ed6d33037171d4c6594345b42d81796f335a6995fdf5638db0d306c17a0d3e",
             dependencies=["fontconfig", "freetype", "glib", "pixman", "libpng"],
             patches=[
                 "0001-dwrite-toy-fonts.patch",

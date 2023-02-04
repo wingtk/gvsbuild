@@ -27,13 +27,13 @@ class PkgConf(Tarball, Meson):
             self,
             "pkgconf",
             prj_dir="pkgconf",
-            version="1.9.3",
+            version="1.9.4",
             archive_url="https://distfiles.dereferenced.org/pkgconf/pkgconf-{version}.tar.gz",
-            hash="6d73ac21a9410f5cc636acf730f3a5bf46b28d1e18a239c89efc4b2c5548792f",
+            hash="d6b844ab6bf8ca685e9ef8103dee64fb39b2484c7a18da64ae5ba269514c9f78",
             dependencies=["ninja", "meson"],
             patches=["0001-libpkgconf-add-defines-to-unbreak-build-with-VS2013.patch"],
         )
-        self.add_param("-Dtests=false")
+        self.add_param("-Dtests=disabled")
 
     def build(self):
         Meson.build(self)
