@@ -1,0 +1,140 @@
+From d20c6601664624116f3dc43f21c7ec4a186cf8d3 Mon Sep 17 00:00:00 2001
+From: Carlos Garcia Campos <cgarcia@igalia.com>
+Date: Tue, 8 Nov 2022 16:28:12 +0100
+Subject: [PATCH] server: do not leak idle connections closed by the client
+
+---
+ .../http1/soup-server-message-io-http1.c      | 29 ++++++++++---------
+ libsoup/server/soup-server-private.h          |  1 +
+ libsoup/server/soup-server.c                  |  8 +++++
+ tests/server-test.c                           | 29 +++++++++++++++++++
+ 4 files changed, 53 insertions(+), 14 deletions(-)
+
+diff --git a/libsoup/server/http1/soup-server-message-io-http1.c b/libsoup/server/http1/soup-server-message-io-http1.c
+index 90139f2b..3803cabc 100644
+--- a/libsoup/server/http1/soup-server-message-io-http1.c
++++ b/libsoup/server/http1/soup-server-message-io-http1.c
+@@ -122,21 +122,22 @@ soup_server_message_io_http1_finished (SoupServerMessageIO *iface,
+ 
+         g_object_ref (msg);
+         g_clear_pointer (&io->msg_io, soup_message_io_http1_free);
+-	if (completion_cb)
+-                completion_cb (G_OBJECT (msg), completion, completion_data);
+         conn = soup_server_message_get_connection (msg);
+-        if (completion == SOUP_MESSAGE_IO_COMPLETE &&
+-            soup_server_connection_is_connected (conn) &&
+-            soup_server_message_is_keepalive (msg)) {
+-                io->msg_io = soup_message_io_http1_new (soup_server_message_new (conn));
+-                io->msg_io->base.io_source = soup_message_io_data_get_source (&io->msg_io->base,
+-                                                                              G_OBJECT (io->msg_io->msg),
+-                                                                              io->istream,
+-                                                                              io->ostream,
+-                                                                              NULL,
+-                                                                              (SoupMessageIOSourceFunc)io_run_ready,
+-                                                                              NULL);
+-                g_source_attach (io->msg_io->base.io_source, io->msg_io->async_context);
++	if (completion_cb) {
++                completion_cb (G_OBJECT (msg), completion, completion_data);
++                if (soup_server_connection_is_connected (conn)) {
++                        io->msg_io = soup_message_io_http1_new (soup_server_message_new (conn));
++                        io->msg_io->base.io_source = soup_message_io_data_get_source (&io->msg_io->base,
++                                                                                      G_OBJECT (io->msg_io->msg),
++                                                                                      io->istream,
++                                                                                      io->ostream,
++                                                                                      NULL,
++                                                                                      (SoupMessageIOSourceFunc)io_run_ready,
++                                                                                      NULL);
++                        g_source_attach (io->msg_io->base.io_source, io->msg_io->async_context);
++                }
++        } else {
++                soup_server_connection_disconnect (conn);
+         }
+         g_object_unref (msg);
+ }
+diff --git a/libsoup/server/soup-server-private.h b/libsoup/server/soup-server-private.h
+index 7a90d7df..ca6ee708 100644
+--- a/libsoup/server/soup-server-private.h
++++ b/libsoup/server/soup-server-private.h
+@@ -10,5 +10,6 @@
+ 
+ void soup_server_set_http2_enabled (SoupServer *server,
+                                     gboolean    enabled);
++GSList *soup_server_get_clients (SoupServer *server);
+ 
+ #endif /* __SOUP_SERVER_PRIVATE_H__ */
+diff --git a/libsoup/server/soup-server.c b/libsoup/server/soup-server.c
+index 6b486f56..1ea81fce 100644
+--- a/libsoup/server/soup-server.c
++++ b/libsoup/server/soup-server.c
+@@ -759,6 +759,14 @@ soup_server_get_listeners (SoupServer *server)
+ 	return listeners;
+ }
+ 
++GSList *
++soup_server_get_clients (SoupServer *server)
++{
++        SoupServerPrivate *priv = soup_server_get_instance_private (server);
++
++        return priv->clients;
++}
++
+ /* "" was never documented as meaning the same thing as "/", but it
+  * effectively was. We have to special case it now or otherwise it
+  * would match "*" too.
+diff --git a/tests/server-test.c b/tests/server-test.c
+index 3f09f753..12bfd980 100644
+--- a/tests/server-test.c
++++ b/tests/server-test.c
+@@ -6,6 +6,7 @@
+ #include "test-utils.h"
+ #include "soup-message-private.h"
+ #include "soup-uri-utils-private.h"
++#include "soup-server-private.h"
+ #include "soup-misc.h"
+ 
+ #include <gio/gnetworking.h>
+@@ -1315,6 +1316,32 @@ do_steal_connect_test (ServerData *sd, gconstpointer test_data)
+ 	g_free (proxy_uri_str);
+ }
+ 
++static void
++do_idle_connection_closed_test (ServerData *sd, gconstpointer test_data)
++{
++        SoupSession *session;
++        SoupMessage *msg;
++        GBytes *body;
++        GError *error = NULL;
++        GSList *clients;
++
++        session = soup_test_session_new (NULL);
++
++        msg = soup_message_new_from_uri ("GET", sd->base_uri);
++        body = soup_session_send_and_read (session, msg, NULL, &error);
++        g_assert_no_error (error);
++        g_bytes_unref (body);
++        g_object_unref (msg);
++
++        clients = soup_server_get_clients (sd->server);
++        g_assert_cmpuint (g_slist_length (clients), ==, 1);
++
++        soup_test_session_abort_unref (session);
++
++        while (soup_server_get_clients (sd->server))
++                g_main_context_iteration (NULL, FALSE);
++}
++
+ int
+ main (int argc, char **argv)
+ {
+@@ -1330,6 +1357,8 @@ main (int argc, char **argv)
+ 		    server_setup, do_invalid_percent_encoding_paths_test, server_teardown);
+ 	g_test_add ("/server/ipv6", ServerData, NULL,
+ 		    NULL, do_ipv6_test, server_teardown);
++        g_test_add ("/server/idle-connection-closed", ServerData, NULL,
++                    server_setup, do_idle_connection_closed_test, server_teardown);
+ 	g_test_add ("/server/multi/port", ServerData, NULL,
+ 		    NULL, do_multi_port_test, server_teardown);
+ 	g_test_add ("/server/multi/scheme", ServerData, NULL,
+-- 
+GitLab
+

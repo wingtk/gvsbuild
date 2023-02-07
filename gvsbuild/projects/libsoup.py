@@ -79,7 +79,10 @@ class Libsoup3(Tarball, Meson):
                 "mit-kerberos",
                 "nghttp2",
             ],
-            patches=["0001-server-connection-fix-dep-cycle-and-connection-leak.patch"],
+            patches=[
+                "0001-server-connection-fix-dep-cycle-and-connection-leak.patch",
+                "0002-server-do-not-leak-idle-connections-closed-by-the-client.patch",
+            ],
         )
 
         if self.opts.enable_gi:
