@@ -160,6 +160,7 @@ class GstPluginsBad(Tarball, Meson):
             dependencies=["meson", "ninja", "gst-plugins-base"],
             patches=[
                 "wasapisink-reduce-buffer-latency.patch",
+                "win32ipcutils-add-missing-include.patch",
             ],
         )
         self.add_param("-Dcurl=disabled")

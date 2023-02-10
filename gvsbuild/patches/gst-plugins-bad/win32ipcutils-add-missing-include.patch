@@ -1,0 +1,33 @@
+From fcd983440e4c1045b7db5768486c410dfd1e8282 Mon Sep 17 00:00:00 2001
+From: Alessandro Bono <alessandro.bono369@gmail.com>
+Date: Fri, 10 Feb 2023 12:52:17 +0100
+Subject: [PATCH] win32ipcutils: Add missing include
+
+We are using std::isspace() with one parameter. That function is defined
+in the cctype header.
+
+```
+win32ipcutils.cpp(34): error C2672: 'std::isspace': no matching overloaded function found
+win32ipcutils.cpp(34): error C2780: 'bool std::isspace(_Elem,const std::locale &)': expects 2 arguments - 1 provided
+```
+
+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/3933>
+---
+ .../gst-plugins-bad/sys/win32ipc/protocol/win32ipcutils.cpp      | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/subprojects/gst-plugins-bad/sys/win32ipc/protocol/win32ipcutils.cpp b/subprojects/gst-plugins-bad/sys/win32ipc/protocol/win32ipcutils.cpp
+index 098238205e7..cc467ccc3ed 100644
+--- a/subprojects/gst-plugins-bad/sys/win32ipc/protocol/win32ipcutils.cpp
++++ b/subprojects/gst-plugins-bad/sys/win32ipc/protocol/win32ipcutils.cpp
+@@ -23,6 +23,7 @@
+  */
+ 
+ #include "win32ipcutils.h"
++#include <cctype>
+ #include <string>
+ #include <locale>
+ #include <codecvt>
+-- 
+GitLab
+
