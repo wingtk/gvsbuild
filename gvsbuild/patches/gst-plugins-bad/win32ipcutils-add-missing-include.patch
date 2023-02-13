@@ -13,13 +13,13 @@ win32ipcutils.cpp(34): error C2780: 'bool std::isspace(_Elem,const std::locale &
 
 Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/3933>
 ---
- .../gst-plugins-bad/sys/win32ipc/protocol/win32ipcutils.cpp      | 1 +
+ .../sys/win32ipc/protocol/win32ipcutils.cpp      | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/subprojects/gst-plugins-bad/sys/win32ipc/protocol/win32ipcutils.cpp b/subprojects/gst-plugins-bad/sys/win32ipc/protocol/win32ipcutils.cpp
+diff --git a/sys/win32ipc/protocol/win32ipcutils.cpp b/sys/win32ipc/protocol/win32ipcutils.cpp
 index 098238205e7..cc467ccc3ed 100644
---- a/subprojects/gst-plugins-bad/sys/win32ipc/protocol/win32ipcutils.cpp
-+++ b/subprojects/gst-plugins-bad/sys/win32ipc/protocol/win32ipcutils.cpp
+--- a/sys/win32ipc/protocol/win32ipcutils.cpp
++++ b/sys/win32ipc/protocol/win32ipcutils.cpp
 @@ -23,6 +23,7 @@
   */
  
