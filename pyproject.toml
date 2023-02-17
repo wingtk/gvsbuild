@@ -30,10 +30,6 @@ outdated = ["lastversion", "packaging"]
 [tool.poetry.scripts]
 gvsbuild = 'gvsbuild.main:run'
 
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
-
 [[tool.mypy.overrides]]
 module = "lastversion"
 ignore_missing_imports = true
@@ -59,3 +55,16 @@ python =
 commands = pytest
 deps = pytest
 """
+
+[tool.ruff]
+ignore = ["E501"]
+line-length = 88
+select = [
+    "E",
+    "F",
+    "W",
+]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
