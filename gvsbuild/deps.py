@@ -13,12 +13,12 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 #
+"""gvsbuild deps print / .gv graph."""
 
 from typing import List
 
 import typer
 
-"""gvsbuild deps print / .gv graph."""
 # Verify we can import from the script directory
 try:
     import gvsbuild.utils.utils
