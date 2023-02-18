@@ -243,30 +243,6 @@ class ToolPerl(Tool):
 
 
 @tool_add
-class ToolYasm(Tool):
-    def __init__(self):
-        Tool.__init__(
-            self,
-            "yasm",
-            version="1.3.0",
-            archive_url="http://www.tortall.net/projects/yasm/releases/yasm-{version}-win64.exe",
-            hash="d160b1d97266f3f28a71b4420a0ad2cd088a7977c2dd3b25af155652d8d8d91f",
-            dir_part="yasm-{version}",
-            exe_name="yasm.exe",
-        )
-
-    def unpack(self):
-        # We download directly the exe file so we copy it on the tool directory ...
-        self.mark_deps = extract_exec(
-            self.archive_file,
-            self.build_dir,
-            check_file=self.full_exe,
-            force_dest=self.full_exe,
-            check_mark=True,
-        )
-
-
-@tool_add
 class ToolGo(Tool):
     def __init__(self):
         Tool.__init__(

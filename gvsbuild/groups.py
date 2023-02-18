@@ -38,7 +38,6 @@ class Group_Tools(Group):
                 "ninja",
                 "nuget",
                 "perl",
-                "yasm",
             ],
         )
 
