@@ -48,7 +48,7 @@ def rmtree_full(dest_dir, retry=False):
             try:
                 shutil.rmtree(dest_dir, onerror=_rmtree_error_handler)
                 break
-            except WindowsError:
+            except OSError:
                 # wait a little, don't ask me why ;(
                 time.sleep(delay)
     else:
@@ -62,7 +62,7 @@ def read_file(file_name):
 
 
 def write_file(file_name, content):
-    with open(file_name, "wt", encoding="utf-8") as fo:
+    with open(file_name, "w", encoding="utf-8") as fo:
         for i in content:
             fo.write(f"{i}\n")
 

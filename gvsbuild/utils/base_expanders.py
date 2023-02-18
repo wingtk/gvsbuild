@@ -42,7 +42,7 @@ def read_mark_file(directory, file_name=".wingtk-extracted-file"):
 
 def write_mark_file(directory, val, file_name=".wingtk-extracted-file"):
     """Write the value (filename or content hash) to the mark file."""
-    with open(os.path.join(directory, file_name), "wt", encoding="utf-8") as fo:
+    with open(os.path.join(directory, file_name), "w", encoding="utf-8") as fo:
         fo.write(f"{val}\n")
 
 
@@ -337,7 +337,6 @@ class GitRepo:
         self.update_build_dir()
 
     def _update_dir(self, remove_dest=False):
-
         dest = os.path.join(self.opts.git_expand_dir, self.name)
         if (self.clean or remove_dest) and os.path.isdir(dest):
             rmtree_full(dest)

@@ -228,7 +228,7 @@ class Project(Generic[P]):
         else:
             dst_platform = f"{ver}0"
         search = (">v%u</PlatformToolset>" % (org_platform,)).encode("utf-8")
-        replace = f">v{dst_platform}</PlatformToolset>".encode("utf-8")
+        replace = f">v{dst_platform}</PlatformToolset>".encode()
 
         return search, replace
 
@@ -428,7 +428,7 @@ class Project(Generic[P]):
                 content = _t
 
                 with open(
-                    os.path.join(pkgconfig_dir, f.name), "wt", encoding="utf-8"
+                    os.path.join(pkgconfig_dir, f.name), "w", encoding="utf-8"
                 ) as fo:
                     fo.write(content)
 
@@ -584,7 +584,7 @@ class Project(Generic[P]):
     def mark_file_write(self):
         self.mark_file_calc()
         try:
-            with open(self.mark_file, "wt", encoding="utf-8") as fo:
+            with open(self.mark_file, "w", encoding="utf-8") as fo:
                 now = datetime.datetime.now().replace(microsecond=0)
                 fo.write(f"{now.strftime('%Y-%m-%d %H:%M:%S')}\n")
         except FileNotFoundError as e:
