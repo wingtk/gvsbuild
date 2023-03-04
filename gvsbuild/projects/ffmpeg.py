@@ -28,9 +28,9 @@ class Ffmpeg(Tarball, Project):
         Project.__init__(
             self,
             "ffmpeg",
-            version="5.1.2",
+            version="6.0",
             archive_url="https://ffmpeg.org/releases/ffmpeg-{version}.tar.xz",
-            hash="619e706d662c8420859832ddc259cd4d4096a48a2ce1eefd052db9e440eef3dc",
+            hash="57be87c22d9b49c112b6d24bc67d42508660e6b718b3db89c44e47e289137082",
             dependencies=["nasm", "msys2", "pkgconf", "nv-codec-headers"],
             patches=["0001-libavutil-libavcodec-add-support-for-MB_INFO.patch"],
         )
