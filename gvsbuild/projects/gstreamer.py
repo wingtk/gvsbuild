@@ -158,10 +158,7 @@ class GstPluginsBad(Tarball, Meson):
             archive_url="https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-{version}.tar.xz",
             hash="2f39b6f222d98666f9ff420a00233e336949953a846237c2bfafc8805f509f0e",
             dependencies=["meson", "ninja", "gst-plugins-base"],
-            patches=[
-                "wasapisink-reduce-buffer-latency.patch",
-                "win32ipcutils-add-missing-include.patch",
-            ],
+            patches=["wasapisink-reduce-buffer-latency.patch"],
         )
         self.add_param("-Dcurl=disabled")
         self.add_param("-Dcurl-ssh2=disabled")
