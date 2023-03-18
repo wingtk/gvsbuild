@@ -192,7 +192,9 @@ pip install --force-reinstall (Resolve-Path C:\gtk-build\build\x64\release\pycai
 
 ## Troubleshooting
 
-If the download of a tarball fails a partial file will not pass the hash check,
+- If a build fails, try rebuilding it with `--clean`, if that fails, try
+rebuilding it with `--from-scratch`
+- If the download of a tarball fails a partial file will not pass the hash check,
 delete the file and try again.
 
 ## OpenSSL
