@@ -49,9 +49,6 @@ class Libadwaita(Tarball, Meson):
         self.add_param("-Dgtk_doc=false")
         self.add_param("-Dvapi=false")
 
-        # Carousel test failing https://gitlab.gnome.org/GNOME/libadwaita/-/issues/648
-        self.add_param("-Dtests=false")
-
     def build(self, **kwargs):
         Meson.build(self)
         self.install(r".\COPYING share\doc\libadwaita")
