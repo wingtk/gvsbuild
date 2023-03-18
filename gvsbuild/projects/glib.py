@@ -61,7 +61,14 @@ class GLibNetworking(Tarball, Meson):
             repository="https://gitlab.gnome.org/GNOME/glib-networking",
             archive_url="https://download.gnome.org/sources/glib-networking/{major}.{minor}/glib-networking-{version}.tar.xz",
             hash="149a05a179e629a538be25662aa324b499d7c4549c5151db5373e780a1bf1b9a",
-            dependencies=["pkgconf", "ninja", "meson", "glib", "openssl"],
+            dependencies=[
+                "pkgconf",
+                "ninja",
+                "meson",
+                "glib",
+                "openssl",
+                "gsettings-desktop-schemas",
+            ],
         )
 
     def build(self):
