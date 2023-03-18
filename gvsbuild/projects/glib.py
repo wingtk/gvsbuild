@@ -65,7 +65,9 @@ class GLibNetworking(Tarball, Meson):
         )
 
     def build(self):
-        Meson.build(self, meson_params="-Dgnutls=disabled -Dopenssl=enabled")
+        Meson.build(
+            self, meson_params="-Dgnutls=disabled -Dopenssl=enabled -Dlibproxy=disabled"
+        )
         self.install(r".\COPYING share\doc\glib-networking")
         self.install(r".\LICENSE_EXCEPTION share\doc\glib-networking")
 
