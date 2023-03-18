@@ -26,10 +26,11 @@ class GLib(Tarball, Meson):
         Project.__init__(
             self,
             "glib",
-            version="2.74.5",
+            version="2.76.0",
             lastversion_even=True,
+            repository="https://gitlab.gnome.org/GNOME/glib",
             archive_url="https://download.gnome.org/sources/glib/{major}.{minor}/glib-{version}.tar.xz",
-            hash="ceba83a5999ceb31a4c4fc9921207cb9ffffd2ab1d6ec03c162d3f608a5c14c8",
+            hash="525bb703b807142e1aee5ccf222c344e8064b21c0c45677ef594e587874c6797",
             dependencies=[
                 "ninja",
                 "meson",
@@ -55,11 +56,11 @@ class GLibNetworking(Tarball, Meson):
         Project.__init__(
             self,
             "glib-networking",
-            version="2.74.0",
+            version="2.76.0",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/glib-networking",
             archive_url="https://download.gnome.org/sources/glib-networking/{major}.{minor}/glib-networking-{version}.tar.xz",
-            hash="1f185aaef094123f8e25d8fa55661b3fd71020163a0174adb35a37685cda613b",
+            hash="149a05a179e629a538be25662aa324b499d7c4549c5151db5373e780a1bf1b9a",
             dependencies=["pkgconf", "ninja", "meson", "glib", "openssl"],
         )
 
