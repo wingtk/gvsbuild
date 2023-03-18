@@ -14,10 +14,9 @@ Subject: [PATCH] libavutil,libavcodec: add support for MB_INFO
  create mode 100644 libavutil/mb_info.h
 
 diff --git a/libavcodec/libx264.c b/libavcodec/libx264.c
-index 98ec030865..92f3a34a5b 100644
---- a/libavcodec/libx264.c
-+++ b/libavcodec/libx264.c
-@@ -29,6 +29,7 @@
+--- a/libavcodec/libx264.c	(revision adb5f7b41faf354a3e0bf722f44aeb230aefa310)
++++ b/libavcodec/libx264.c	(date 1679164364370)
+@@ -30,6 +30,7 @@
  #include "libavutil/stereo3d.h"
  #include "libavutil/time.h"
  #include "libavutil/intreadwrite.h"
@@ -25,19 +24,19 @@ index 98ec030865..92f3a34a5b 100644
  #include "avcodec.h"
  #include "codec_internal.h"
  #include "encode.h"
-@@ -116,6 +117,8 @@ typedef struct X264Context {
+@@ -123,6 +124,8 @@
       * encounter a frame with ROI side data.
       */
      int roi_warned;
 +
 +    int mb_info;
  } X264Context;
- 
+
  static void X264_log(void *p, int level, const char *fmt, va_list args)
-@@ -492,6 +495,20 @@ static int X264_frame(AVCodecContext *ctx, AVPacket *pkt, const AVFrame *frame,
-         }
-     }
- 
+@@ -549,6 +552,20 @@
+     if (ret < 0)
+         return ret;
+
 +    if (frame && x4->mb_info) {
 +        AVFrameSideData *mbinfo_sd = av_frame_get_side_data(frame, AV_FRAME_DATA_MB_INFO);
 +
@@ -53,64 +52,61 @@ index 98ec030865..92f3a34a5b 100644
 +    }
 +
      do {
-         if (x264_encoder_encode(x4->enc, &nal, &nnal, frame? &x4->pic: NULL, &pic_out) < 0)
+         if (x264_encoder_encode(x4->enc, &nal, &nnal, pic_in, &pic_out) < 0)
              return AVERROR_EXTERNAL;
-@@ -969,6 +986,9 @@ static av_cold int X264_init(AVCodecContext *avctx)
+@@ -1078,6 +1095,9 @@
          }
      }
- 
+
 +    x4->params.analyse.b_mb_info = x4->mb_info;
 +    x4->params.analyse.b_fast_pskip = 1;
 +
      // update AVCodecContext with x264 parameters
      avctx->has_b_frames = x4->params.i_bframe ?
          x4->params.i_bframe_pyramid ? 2 : 1 : 0;
-@@ -1176,6 +1196,7 @@ static const AVOption options[] = {
+@@ -1287,6 +1307,7 @@
      { "noise_reduction", "Noise reduction",                               OFFSET(noise_reduction), AV_OPT_TYPE_INT, { .i64 = -1 }, INT_MIN, INT_MAX, VE },
      { "udu_sei",      "Use user data unregistered SEI if available",      OFFSET(udu_sei),  AV_OPT_TYPE_BOOL,   { .i64 = 0 }, 0, 1, VE },
      { "x264-params",  "Override the x264 configuration using a :-separated list of key=value parameters", OFFSET(x264_params), AV_OPT_TYPE_DICT, { 0 }, 0, 0, VE },
 +    { "mb_info",      "Set mb_info data through AVSideData, only useful when used from the API", OFFSET(mb_info), AV_OPT_TYPE_BOOL, { .i64 = 0 }, 0, 1, VE },
      { NULL },
  };
- 
+
 diff --git a/libavutil/Makefile b/libavutil/Makefile
-index 9435a0bfb0..623afc00fe 100644
---- a/libavutil/Makefile
-+++ b/libavutil/Makefile
-@@ -90,6 +90,7 @@ HEADERS = adler32.h                                                     \
+--- a/libavutil/Makefile	(revision adb5f7b41faf354a3e0bf722f44aeb230aefa310)
++++ b/libavutil/Makefile	(date 1679164466800)
+@@ -91,6 +91,7 @@
            tea.h                                                         \
            tx.h                                                          \
            film_grain_params.h                                           \
 +          mb_info.h                                                     \
- 
+
  ARCH_HEADERS = bswap.h                                                  \
                 intmath.h                                                \
-@@ -195,6 +196,7 @@ OBJS-$(CONFIG_VAAPI)                    += hwcontext_vaapi.o
+@@ -196,6 +197,7 @@
  OBJS-$(CONFIG_VIDEOTOOLBOX)             += hwcontext_videotoolbox.o
  OBJS-$(CONFIG_VDPAU)                    += hwcontext_vdpau.o
  OBJS-$(CONFIG_VULKAN)                   += hwcontext_vulkan.o
 +OBJS-$(CONFIG_LIBX264)                  += mb_info.o
- 
+
  OBJS-$(!CONFIG_VULKAN)                  += hwcontext_stub.o
- 
-@@ -218,6 +220,8 @@ SKIPHEADERS-$(CONFIG_VULKAN)           += hwcontext_vulkan.h vulkan.h   \
+
+@@ -219,6 +221,8 @@
                                            vulkan_functions.h            \
                                            vulkan_loader.h
- 
+
 +SKIPHEADERS-$(CONFIG_LIBX264)  	       += mb_info.h
 +
  TESTPROGS = adler32                                                     \
              aes                                                         \
              aes_ctr                                                     \
 diff --git a/libavutil/frame.h b/libavutil/frame.h
-index 33fac2054c..08c84a1b63 100644
---- a/libavutil/frame.h
-+++ b/libavutil/frame.h
-@@ -209,6 +209,16 @@ enum AVFrameSideDataType {
-      * volume transform - CUVA 005.1-2021.
+--- a/libavutil/frame.h	(revision adb5f7b41faf354a3e0bf722f44aeb230aefa310)
++++ b/libavutil/frame.h	(date 1679164466753)
+@@ -210,6 +210,16 @@
       */
      AV_FRAME_DATA_DYNAMIC_HDR_VIVID,
-+
+
 +    /**
 +     * Provide macro block encoder-specific hinting information for the encoder
 +     * processing.  It can be used to pass information about which macroblock
@@ -120,14 +116,14 @@ index 33fac2054c..08c84a1b63 100644
 +     * used by libx264.
 +     */
 +    AV_FRAME_DATA_MB_INFO,
- };
- 
- enum AVActiveFormatDescription {
++
+     /**
+      * Ambient viewing environment metadata, as defined by H.274.
+      */
 diff --git a/libavutil/mb_info.c b/libavutil/mb_info.c
 new file mode 100644
-index 0000000000..fa3e097636
---- /dev/null
-+++ b/libavutil/mb_info.c
+--- /dev/null	(date 1679164466816)
++++ b/libavutil/mb_info.c	(date 1679164466816)
 @@ -0,0 +1,41 @@
 +/*
 + * This file is part of FFmpeg.
@@ -172,9 +168,8 @@ index 0000000000..fa3e097636
 +
 diff --git a/libavutil/mb_info.h b/libavutil/mb_info.h
 new file mode 100644
-index 0000000000..20c7eea39c
---- /dev/null
-+++ b/libavutil/mb_info.h
+--- /dev/null	(date 1679164466847)
++++ b/libavutil/mb_info.h	(date 1679164466847)
 @@ -0,0 +1,57 @@
 +/**
 + * This file is part of FFmpeg.
@@ -233,6 +228,4 @@ index 0000000000..20c7eea39c
 +                                            void (*mb_info_free)(void *));
 +
 +#endif /* AVUTIL_MB_INFO_H */
--- 
-2.36.1
 
