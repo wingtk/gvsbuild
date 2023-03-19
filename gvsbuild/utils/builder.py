@@ -397,6 +397,11 @@ class Builder:
             opts.vs_install_path = self.__find_vs_path_with_vs_version(
                 self.__dump_vs_loc()
             )
+        if opts.vs_install_path is None:
+            log.error_exit(
+                "Unable to find Visual Studio, try using --vs-ver or --vs-install-path "
+                "to specify Visual Studio version or install location"
+            )
         log.message(f"Using Visual Studio at {opts.vs_install_path}")
         output = self.__check_good_vs_install(opts, opts.vs_install_path, True)
 
