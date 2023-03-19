@@ -189,31 +189,6 @@ class ToolNinja(Tool):
 
 
 @tool_add
-class ToolNuget(Tool):
-    def __init__(self):
-        Tool.__init__(
-            self,
-            "nuget",
-            version="6.4.0",
-            archive_url="https://dist.nuget.org/win-x86-commandline/v{version}/nuget.exe",
-            archive_file_name="nuget-{version}.exe",
-            hash="26730829b240581a3e6a4e276b9ace088930032df0c680d5591beccf6452374e",
-            dir_part="nuget-{version}",
-            exe_name="nuget.exe",
-        )
-
-    def unpack(self):
-        # Download the exe file and copy it on the tool directory
-        self.mark_deps = extract_exec(
-            self.archive_file,
-            self.build_dir,
-            check_file=self.full_exe,
-            force_dest=self.full_exe,
-            check_mark=True,
-        )
-
-
-@tool_add
 class ToolPerl(Tool):
     def __init__(self):
         Tool.__init__(
