@@ -20,7 +20,7 @@ from typing import List
 
 import typer
 
-from gvsbuild.utils.base_project import Options, Project
+from gvsbuild.utils.base_project import Options, Project, ProjectType
 from gvsbuild.utils.builder import Builder
 from gvsbuild.utils.simple_ui import log
 from gvsbuild.utils.utils import ordered_set
@@ -29,6 +29,10 @@ from gvsbuild.utils.utils import ordered_set
 def __get_projects_to_build(opts):
     to_build = ordered_set()
     for name in opts.projects:
+        if name == "all":
+            for proj in Project.list_projects():
+                if proj.type == ProjectType.PROJECT:
+                    to_build.add(proj)
         p = Project.get_project(name)
         if opts.deps:
             for dep in p.all_dependencies:
