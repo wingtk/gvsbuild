@@ -36,7 +36,6 @@ class Group_Tools(Group):
                 "msys2",
                 "nasm",
                 "ninja",
-                "nuget",
                 "perl",
                 "yasm",
             ],
