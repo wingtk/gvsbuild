@@ -67,7 +67,7 @@ class Meson(Project):
         build_type = self.builder.opts.configuration
         if self.builder.opts.release_configuration_is_actually_debug_optimized:
             build_type = "debugoptimized"
-        add_opts += "--buildtype " + build_type
+        add_opts += f"--buildtype {build_type}"
         if meson_params:
             add_opts += f" {meson_params}"
         # python meson.py src_dir ninja_build_dir --prefix gtk_bin options

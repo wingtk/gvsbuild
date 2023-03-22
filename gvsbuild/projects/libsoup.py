@@ -65,12 +65,12 @@ class Libsoup3(Tarball, Meson):
         Project.__init__(
             self,
             "libsoup3",
-            version="3.2.2",
+            version="3.4.0",
             lastversion_major=3,
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/libsoup",
             archive_url="https://download.gnome.org/sources/libsoup/{major}.{minor}/libsoup-{version}.tar.xz",
-            hash="83673c685b910fb7d39f1f28eee5afbefb71c05798fc350ac3bf1b885e1efaa1",
+            hash="23efff6ac70f2c1e873507dac52649eec032c1597a4ae951762ce3123789acc9",
             dependencies=[
                 "libxml2",
                 "glib-networking",
@@ -78,10 +78,6 @@ class Libsoup3(Tarball, Meson):
                 "libpsl",
                 "mit-kerberos",
                 "nghttp2",
-            ],
-            patches=[
-                "0001-server-connection-fix-dep-cycle-and-connection-leak.patch",
-                "0002-server-do-not-leak-idle-connections-closed-by-the-client.patch",
             ],
         )
 
