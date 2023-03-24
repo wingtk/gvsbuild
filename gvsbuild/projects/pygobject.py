@@ -28,11 +28,11 @@ class PyGObject(Tarball, Meson):
         Project.__init__(
             self,
             "pygobject",
-            version="3.42.2",
+            version="3.44.1",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/pygobject",
             archive_url="https://download.gnome.org/sources/pygobject/{major}.{minor}/pygobject-{version}.tar.xz",
-            hash="ade8695e2a7073849dd0316d31d8728e15e1e0bc71d9ff6d1c09e86be52bc957",
+            hash="3c6805d1321be90cc32e648215a562430e0d3d6edcda8f4c5e7a9daffcad5710",
             dependencies=["pycairo", "gobject-introspection", "libffi"],
             patches=[
                 "pygobject_py3_8_load_dll.patch",
