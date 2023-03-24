@@ -30,11 +30,11 @@ class GObjectIntrospection(Tarball, Meson):
         Project.__init__(
             self,
             "gobject-introspection",
-            version="1.76.0",
+            version="1.76.1",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/gobject-introspection",
             archive_url="https://download.gnome.org/sources/gobject-introspection/{major}.{minor}/gobject-introspection-{version}.tar.xz",
-            hash="8552ff3a56758b8dba21d421795a52b9a9fbf984565907b83f1c64f4deb8380c",
+            hash="196178bf64345501dcdc4d8469b36aa6fe80489354efe71cb7cb8ab82a3738bf",
             dependencies=[
                 "ninja",
                 "meson",
