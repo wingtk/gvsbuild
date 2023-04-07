@@ -247,9 +247,9 @@ class ToolGo(Tool):
         Tool.__init__(
             self,
             "go",
-            version="1.20.2",
+            version="1.20.3",
             archive_url="https://go.dev/dl/go{version}.windows-amd64.zip",
-            hash="fe439f0e438f7555a7f5f7194ddb6f4a07b0de1fa414385d19f2aeb26d9f43db",
+            hash="143a2837821c7dbacf7744cbb1a8421c1f48307c6fdfaeffc5f8c2f69e1b7932",
             dir_part="go-{version}",
         )
 
