@@ -158,7 +158,10 @@ class GstPluginsBad(Tarball, Meson):
             archive_url="https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-{version}.tar.xz",
             hash="3d8faf1ce3402c8535ce3a8c4e1a6c960e4b5655dbda6b55943db9ac79022d0f",
             dependencies=["meson", "ninja", "gst-plugins-base"],
-            patches=["wasapisink-reduce-buffer-latency.patch"],
+            patches=[
+                "wasapisink-reduce-buffer-latency.patch",
+                "wasapi2-Add-option-to-monitor-loopback-device-s-mute.patch",
+            ],
         )
         self.add_param("-Dcurl=disabled")
         self.add_param("-Dcurl-ssh2=disabled")
