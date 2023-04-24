@@ -20,10 +20,10 @@ Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/43
  .../sys/wasapi2/gstwasapi2util.h              |   1 +
  6 files changed, 281 insertions(+), 16 deletions(-)
 
-diff --git a/subprojects/gst-plugins-bad/sys/wasapi2/gstwasapi2client.cpp b/subprojects/gst-plugins-bad/sys/wasapi2/gstwasapi2client.cpp
+diff --git a/sys/wasapi2/gstwasapi2client.cpp b/sys/wasapi2/gstwasapi2client.cpp
 index 72bcc8393e..9917ebe57b 100644
---- a/subprojects/gst-plugins-bad/sys/wasapi2/gstwasapi2client.cpp
-+++ b/subprojects/gst-plugins-bad/sys/wasapi2/gstwasapi2client.cpp
+--- a/sys/wasapi2/gstwasapi2client.cpp
++++ b/sys/wasapi2/gstwasapi2client.cpp
 @@ -95,15 +95,29 @@ static void
  gst_wasapi2_client_on_device_activated (GstWasapi2Client * client,
      IAudioClient * audio_client);
@@ -384,10 +384,10 @@ index 72bcc8393e..9917ebe57b 100644
 +
 +  return g_atomic_int_get (&client->is_endpoint_muted);
 +}
-diff --git a/subprojects/gst-plugins-bad/sys/wasapi2/gstwasapi2client.h b/subprojects/gst-plugins-bad/sys/wasapi2/gstwasapi2client.h
+diff --git a/sys/wasapi2/gstwasapi2client.h b/sys/wasapi2/gstwasapi2client.h
 index 4c2ee2134e..4bec42e133 100644
---- a/subprojects/gst-plugins-bad/sys/wasapi2/gstwasapi2client.h
-+++ b/subprojects/gst-plugins-bad/sys/wasapi2/gstwasapi2client.h
+--- a/sys/wasapi2/gstwasapi2client.h
++++ b/sys/wasapi2/gstwasapi2client.h
 @@ -79,6 +79,8 @@ gboolean           gst_wasapi2_client_ensure_activation (GstWasapi2Client * clie
  
  IAudioClient *     gst_wasapi2_client_get_handle (GstWasapi2Client * client);
@@ -397,10 +397,10 @@ index 4c2ee2134e..4bec42e133 100644
  GstCaps *          gst_wasapi2_client_get_caps (GstWasapi2Client * client);
  
  G_END_DECLS
-diff --git a/subprojects/gst-plugins-bad/sys/wasapi2/gstwasapi2ringbuffer.cpp b/subprojects/gst-plugins-bad/sys/wasapi2/gstwasapi2ringbuffer.cpp
+diff --git a/sys/wasapi2/gstwasapi2ringbuffer.cpp b/sys/wasapi2/gstwasapi2ringbuffer.cpp
 index db3bf3bcf1..8069d333a0 100644
---- a/subprojects/gst-plugins-bad/sys/wasapi2/gstwasapi2ringbuffer.cpp
-+++ b/subprojects/gst-plugins-bad/sys/wasapi2/gstwasapi2ringbuffer.cpp
+--- a/sys/wasapi2/gstwasapi2ringbuffer.cpp
++++ b/sys/wasapi2/gstwasapi2ringbuffer.cpp
 @@ -176,6 +176,8 @@ struct _GstWasapi2RingBuffer
    gboolean mute_changed;
    gboolean volume_changed;
@@ -451,10 +451,10 @@ index db3bf3bcf1..8069d333a0 100644
 +
 +  g_atomic_int_set (&buf->monitor_device_mute, value);
 +}
-diff --git a/subprojects/gst-plugins-bad/sys/wasapi2/gstwasapi2ringbuffer.h b/subprojects/gst-plugins-bad/sys/wasapi2/gstwasapi2ringbuffer.h
+diff --git a/sys/wasapi2/gstwasapi2ringbuffer.h b/sys/wasapi2/gstwasapi2ringbuffer.h
 index f8d91d8fe2..a87378697e 100644
---- a/subprojects/gst-plugins-bad/sys/wasapi2/gstwasapi2ringbuffer.h
-+++ b/subprojects/gst-plugins-bad/sys/wasapi2/gstwasapi2ringbuffer.h
+--- a/sys/wasapi2/gstwasapi2ringbuffer.h
++++ b/sys/wasapi2/gstwasapi2ringbuffer.h
 @@ -51,6 +51,9 @@ HRESULT                gst_wasapi2_ring_buffer_set_volume (GstWasapi2RingBuffer
  HRESULT                gst_wasapi2_ring_buffer_get_volume (GstWasapi2RingBuffer * buf,
                                                             gfloat * volume);
@@ -465,10 +465,10 @@ index f8d91d8fe2..a87378697e 100644
  G_END_DECLS
  
  #endif /* __GST_WASAPI2_RING_BUFFER_H__ */
-diff --git a/subprojects/gst-plugins-bad/sys/wasapi2/gstwasapi2src.c b/subprojects/gst-plugins-bad/sys/wasapi2/gstwasapi2src.c
+diff --git a/sys/wasapi2/gstwasapi2src.c b/sys/wasapi2/gstwasapi2src.c
 index 0b612eb5ef..454706b8f2 100644
---- a/subprojects/gst-plugins-bad/sys/wasapi2/gstwasapi2src.c
-+++ b/subprojects/gst-plugins-bad/sys/wasapi2/gstwasapi2src.c
+--- a/sys/wasapi2/gstwasapi2src.c
++++ b/sys/wasapi2/gstwasapi2src.c
 @@ -119,6 +119,7 @@ gst_wasapi2_src_loopback_mode_get_type (void)
  #define DEFAULT_VOLUME        1.0
  #define DEFAULT_LOOPBACK      FALSE
@@ -589,10 +589,10 @@ index 0b612eb5ef..454706b8f2 100644
 +
 +  GST_OBJECT_UNLOCK (self);
 +}
-diff --git a/subprojects/gst-plugins-bad/sys/wasapi2/gstwasapi2util.h b/subprojects/gst-plugins-bad/sys/wasapi2/gstwasapi2util.h
+diff --git a/sys/wasapi2/gstwasapi2util.h b/sys/wasapi2/gstwasapi2util.h
 index 91c8fee5a4..f3bb08fd31 100644
---- a/subprojects/gst-plugins-bad/sys/wasapi2/gstwasapi2util.h
-+++ b/subprojects/gst-plugins-bad/sys/wasapi2/gstwasapi2util.h
+--- a/sys/wasapi2/gstwasapi2util.h
++++ b/sys/wasapi2/gstwasapi2util.h
 @@ -25,6 +25,7 @@
  #include <windows.h>
  #include <initguid.h>
