@@ -65,12 +65,12 @@ class Libsoup3(Tarball, Meson):
         Project.__init__(
             self,
             "libsoup3",
-            version="3.4.1",
+            version="3.4.2",
             lastversion_major=3,
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/libsoup",
             archive_url="https://download.gnome.org/sources/libsoup/{major}.{minor}/libsoup-{version}.tar.xz",
-            hash="530b867b1b166cb9bca2750f1d15e5187318b5d948efb81d5899af3d75614504",
+            hash="78c8fa37cb152d40ec8c4a148d6155e2f6947f3f1602a7cda3a31ad40f5ee2f3",
             dependencies=[
                 "libxml2",
                 "glib-networking",
