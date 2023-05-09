@@ -57,14 +57,14 @@ virtualenv = ["virtualenv (>=20.0.35)"]
 
 [[package]]
 name = "cachecontrol"
-version = "0.12.11"
+version = "0.12.6"
 description = "httplib2 caching for requests"
 category = "main"
 optional = true
-python-versions = ">=3.6"
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 files = [
-    {file = "CacheControl-0.12.11-py2.py3-none-any.whl", hash = "sha256:2c75d6a8938cb1933c75c50184549ad42728a27e9f6b92fd677c3151aa72555b"},
-    {file = "CacheControl-0.12.11.tar.gz", hash = "sha256:a5b9fcc986b184db101aa280b42ecdcdfc524892596f606858e0b7a8b4d9e144"},
+    {file = "CacheControl-0.12.6-py2.py3-none-any.whl", hash = "sha256:10d056fa27f8563a271b345207402a6dcce8efab7e5b377e270329c62471b10d"},
+    {file = "CacheControl-0.12.6.tar.gz", hash = "sha256:be9aa45477a134aee56c8fac518627e1154df063e85f67d4f83ce0ccc23688e8"},
 ]
 
 [package.dependencies]
@@ -361,20 +361,20 @@ files = [
 
 [[package]]
 name = "lastversion"
-version = "2.4.14"
+version = "2.4.15"
 description = "A CLI tool to find the latest stable version of an arbitrary project"
 category = "main"
 optional = true
 python-versions = "*"
 files = [
-    {file = "lastversion-2.4.14-py3-none-any.whl", hash = "sha256:cd973eccb1272228126c4bdc8b6c1a3b1fee1d9832f5350f994c5a9609ae90cc"},
-    {file = "lastversion-2.4.14.tar.gz", hash = "sha256:e2dc2cacbb7914f3701735d8bc472afaf459b83d8848a6fabd891ace47eeb39a"},
+    {file = "lastversion-2.4.15-py3-none-any.whl", hash = "sha256:3feb5d9ded7b9122b760b9f9553854b37807eca6b2e0fd75309428837c39e374"},
+    {file = "lastversion-2.4.15.tar.gz", hash = "sha256:0f825a16c82aee803d64565482dc6107c6e254dcc1d1b0631150aba917b08b81"},
 ]
 
 [package.dependencies]
 appdirs = "*"
 beautifulsoup4 = "*"
-cachecontrol = "*"
+cachecontrol = "0.12.6"
 distro = "*"
 feedparser = {version = "*", markers = "python_version >= \"3.0.0\""}
 lockfile = "*"
@@ -384,11 +384,12 @@ PyYAML = "*"
 requests = ">=2.6.1"
 six = "*"
 tqdm = "*"
+urllib3 = "<2"
 
 [package.extras]
-build = ["PyYAML", "appdirs", "beautifulsoup4", "cachecontrol", "distro", "feedparser", "feedparser (<=5.2.1)", "flake8", "lockfile", "markdown-include", "mkdocs (==1.3.1)", "mkdocs-material", "mkdocstrings", "packaging", "pytest (>=4.4.0)", "pytest-cov", "pytest-xdist (==1.29.0)", "python-dateutil", "requests (>=2.6.1)", "six", "tqdm"]
+build = ["PyYAML", "appdirs", "beautifulsoup4", "cachecontrol (==0.12.6)", "distro", "feedparser", "feedparser (<=5.2.1)", "flake8", "lockfile", "markdown-include", "mkdocs (==1.3.1)", "mkdocs-material", "mkdocstrings", "packaging", "pytest (>=4.4.0)", "pytest-cov", "pytest-xdist (==1.29.0)", "python-dateutil", "requests (>=2.6.1)", "six", "tqdm", "urllib3 (<2)"]
 docs = ["markdown-include", "mkdocs (==1.3.1)", "mkdocs-material", "mkdocstrings"]
-tests = ["PyYAML", "appdirs", "beautifulsoup4", "cachecontrol", "distro", "feedparser", "feedparser (<=5.2.1)", "flake8", "lockfile", "packaging", "pytest (>=4.4.0)", "pytest-cov", "pytest-xdist (==1.29.0)", "python-dateutil", "requests (>=2.6.1)", "six", "tqdm"]
+tests = ["PyYAML", "appdirs", "beautifulsoup4", "cachecontrol (==0.12.6)", "distro", "feedparser", "feedparser (<=5.2.1)", "flake8", "lockfile", "packaging", "pytest (>=4.4.0)", "pytest-cov", "pytest-xdist (==1.29.0)", "python-dateutil", "requests (>=2.6.1)", "six", "tqdm", "urllib3 (<2)"]
 
 [[package]]
 name = "lockfile"
