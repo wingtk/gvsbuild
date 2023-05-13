@@ -13,6 +13,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
+
 from gvsbuild.utils.base_builders import CmakeProject
 from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import Project, project_add
@@ -24,14 +25,15 @@ class Protobuf(Tarball, CmakeProject):
         Project.__init__(
             self,
             "protobuf",
-            version="3.21.12",
+            version="3.23.0",
             lastversion_major=3,
-            archive_url="https://github.com/protocolbuffers/protobuf/releases/download/v{minor}.{micro}/protobuf-cpp-{version}.tar.gz",
-            hash="4eab9b524aa5913c6fffb20b2a8abf5ef7f95a80bc0701f3a6dbb4c607f73460",
+            archive_url="https://github.com/protocolbuffers/protobuf/releases/download/v{minor}.{micro}/protobuf-{minor}.{micro}.tar.gz",
+            hash="b29fc5fc13926f347b7a8b676ae1e63f7ccdb92c2fc8ca326bc3a883dcc168ac",
             dependencies=[
                 "cmake",
                 "zlib",
                 "ninja",
+                "abseil-cpp",
             ],
         )
 
@@ -39,7 +41,10 @@ class Protobuf(Tarball, CmakeProject):
         # We need to compile with STATIC_RUNTIME off since protobuf-c also compiles with it OFF
         CmakeProject.build(
             self,
-            cmake_params=r'-DBUILD_SHARED_LIBS=ON -Dprotobuf_DEBUG_POSTFIX="" -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_WITH_ZLIB=ON -Dprotobuf_MSVC_STATIC_RUNTIME=OFF',
+            cmake_params=r'-DBUILD_SHARED_LIBS=ON -Dprotobuf_DEBUG_POSTFIX="" -Dprotobuf_BUILD_TESTS=OFF '
+            r"-Dprotobuf_WITH_ZLIB=ON -Dprotobuf_MSVC_STATIC_RUNTIME=OFF "
+            r'-Dprotobuf_ABSL_PROVIDER=package -DCMAKE_PREFIX_PATH="%(pkg_dir)s\lib" '
+            r'-Dabsl_DIR="%(pkg_dir)s\lib\cmake\absl"',
             use_ninja=True,
         )
 
