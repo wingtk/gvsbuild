@@ -36,7 +36,6 @@ class GroupTools(Group):
                 "nasm",
                 "ninja",
                 "perl",
-                "yasm",
             ],
         )
 

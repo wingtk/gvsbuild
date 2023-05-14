@@ -32,7 +32,7 @@ class Libvpx(Tarball, Project):
             archive_url="https://github.com/webmproject/libvpx/archive/v{version}.tar.gz",
             archive_file_name="libvpx-v{version}.tar.gz",
             hash="cb2a393c9c1fae7aba76b950bb0ad393ba105409fe1a147ccd61b0aaa1501066",
-            dependencies=["yasm", "msys2", "libyuv", "perl"],
+            dependencies=["nasm", "msys2", "libyuv", "perl"],
             patches=[
                 "0006-gen_msvs_vcxproj.sh-Select-current-Windows-SDK-if-av.patch",
                 "0001-Always-generate-pc-file.patch",
@@ -41,7 +41,7 @@ class Libvpx(Tarball, Project):
 
     def build(self):
         configure_options = (
-            "--enable-pic --as=yasm --disable-unit-tests --size-limit=16384x16384 "
+            "--enable-pic --as=nasm --disable-unit-tests --size-limit=16384x16384 "
             "--enable-postproc --enable-multi-res-encoding --enable-temporal-denoising "
             "--enable-vp9-temporal-denoising --enable-vp9-postproc --disable-tools "
             "--disable-examples --disable-docs "
