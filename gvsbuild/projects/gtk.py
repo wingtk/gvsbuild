@@ -19,7 +19,7 @@ import glob
 import os
 
 from gvsbuild.utils.base_builders import MakeGir, Meson
-from gvsbuild.utils.base_expanders import Tarball
+from gvsbuild.utils.base_expanders import Tarball, GitRepo
 from gvsbuild.utils.base_project import Project, project_add
 
 
@@ -86,18 +86,22 @@ class Gtk2(Project_gtk_base):
 
 
 @project_add
-class Gtk3(Tarball, Meson):
+class Gtk3(GitRepo, Meson):
     def __init__(self):
         Project.__init__(
             self,
             "gtk3",
             prj_dir="gtk3",
-            version="3.24.37",
-            lastversion_major=3,
-            lastversion_even=True,
-            repository="https://gitlab.gnome.org/GNOME/gtk",
-            archive_url="https://download.gnome.org/sources/gtk%2B/{major}.{minor}/gtk%2B-{version}.tar.xz",
-            hash="6745f0b4c053794151fd0f0e2474b077cccff5f83e9dd1bf3d39fe9fe5fb7f57",
+            # version="3.24.37",
+            # lastversion_major=3,
+            # lastversion_even=True,
+            # repository="https://gitlab.gnome.org/GNOME/gtk",
+            # archive_url="https://download.gnome.org/sources/gtk%2B/{major}.{minor}/gtk%2B-{version}.tar.xz",
+            # hash="6745f0b4c053794151fd0f0e2474b077cccff5f83e9dd1bf3d39fe9fe5fb7f57",
+            repo_url="https://gitlab.gnome.org/gnome/gtk.git",
+            fetch_submodules=False,
+            # Includes https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/5690 in 3.24.37
+            tag="0e3cb4b84ddd24cb4fbc7d39aaccd938d56614a7",
             dependencies=["atk", "gdk-pixbuf", "pango", "libepoxy"],
             patches=[
                 "gtk_update_icon_cache.patch",
