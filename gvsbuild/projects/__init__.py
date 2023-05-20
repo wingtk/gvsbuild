@@ -38,6 +38,7 @@ from gvsbuild.projects.gstreamer import (
     Orc,
 )
 from gvsbuild.projects.gtk import Gtk2, Gtk3, Gtk4
+from gvsbuild.projects.gtkmm import Gtkmm
 from gvsbuild.projects.gtksourceview import GtkSourceView4, GtkSourceView5
 from gvsbuild.projects.harfbuzz import Harfbuzz
 from gvsbuild.projects.hello_world import HelloWorld

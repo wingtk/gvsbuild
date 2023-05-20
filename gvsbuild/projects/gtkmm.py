@@ -21,28 +21,32 @@ from gvsbuild.utils.base_project import project_add
 
 
 @project_add
-class Glibmm(Tarball, Meson):
+class Gtkmm(Tarball, Meson):
     def __init__(self):
         Meson.__init__(
             self,
-            "glibmm",
-            prj_dir="glibmm",
-            version="2.76.0",
+            "gtkmm",
+            prj_dir="gtkmm",
+            version="4.10.0",
+            lastversion_major=4,
             lastversion_even=True,
-            repository="https://gitlab.gnome.org/GNOME/glibmm",
-            archive_url="https://download.gnome.org/sources/glibmm/{major}.{minor}/glibmm-{version}.tar.xz",
-            hash="8637d80ceabd94fddd6e48970a082a264558d4ab82684e15ffc87e7ef3462ab2",
+            repository="https://gitlab.gnome.org/GNOME/gtkmm",
+            archive_url="https://download.gnome.org/sources/gtkmm/{major}.{minor}/gtkmm-{version}.tar.xz",
+            hash="e1b109771557ecc53cba915a80b6ede827ffdbd0049c62fdf8bd7fa79afcc6eb",
             dependencies=[
-                "meson",
-                "ninja",
-                "libsigc++",
+                "gdk-pixbuf",
+                "pangomm",
+                "glibmm",
+                "libepoxy",
+                "cairomm",
+                "gtk4",
             ],
         )
 
     def build(self):
         Meson.build(
             self,
-            meson_params="-Dbuild-examples=false -Dbuild-documentation=false",
+            meson_params="-Dbuild-tests=false -Dbuild-demos=false",
         )
 
-        self.install(r".\COPYING share\doc\glibmm")
+        self.install(r".\COPYING share\doc\gtkmm")
