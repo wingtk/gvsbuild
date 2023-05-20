@@ -4,6 +4,7 @@ from gvsbuild.projects.adwaita_icon_theme import AdwaitaIconTheme
 from gvsbuild.projects.atk import Atk
 from gvsbuild.projects.boringssl import BoringSSL
 from gvsbuild.projects.cairo import Cairo
+from gvsbuild.projects.cairomm import Cairomm
 from gvsbuild.projects.check_libs import CheckLibs
 from gvsbuild.projects.clutter import Clutter
 from gvsbuild.projects.cogl import Cogl
@@ -78,6 +79,7 @@ from gvsbuild.projects.openh264 import OpenH264
 from gvsbuild.projects.openssl import OpenSSL
 from gvsbuild.projects.opus import Opus
 from gvsbuild.projects.pango import Pango
+from gvsbuild.projects.pangomm import Pangomm
 from gvsbuild.projects.pcre2 import Pcre2
 from gvsbuild.projects.pixman import Pixman
 from gvsbuild.projects.pkgconf import PkgConf
