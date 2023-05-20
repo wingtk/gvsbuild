@@ -57,6 +57,7 @@ from gvsbuild.projects.libmicrohttpd import Libmicrohttpd
 from gvsbuild.projects.libpng import Libpng
 from gvsbuild.projects.libpsl import Libpsl
 from gvsbuild.projects.librsvg import Librsvg
+from gvsbuild.projects.libsigcplusplus import Libsigcplusplus
 from gvsbuild.projects.libsoup import Libsoup2, Libsoup3
 from gvsbuild.projects.libssh import Libssh, Libssh2
 from gvsbuild.projects.libtiff import Libtiff4
