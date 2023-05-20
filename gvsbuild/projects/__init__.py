@@ -21,6 +21,7 @@ from gvsbuild.projects.fribidi import Fribidi
 from gvsbuild.projects.gdk_pixbuf import GdkPixbuf
 from gvsbuild.projects.gettext import Gettext
 from gvsbuild.projects.glib import GLib, GLibNetworking, GLibPyWrapper
+from gvsbuild.projects.glibmm import Glibmm
 from gvsbuild.projects.gobject_introspection import GObjectIntrospection
 from gvsbuild.projects.gperf import Gperf
 from gvsbuild.projects.graphene import Graphene
