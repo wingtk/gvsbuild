@@ -1,0 +1,160 @@
+Subject: [PATCH] Add meson build
+---
+Index: Adwaita/meson.build
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Adwaita/meson.build b/Adwaita/meson.build
+new file mode 100644
+--- /dev/null	(date 1684704313520)
++++ b/Adwaita/meson.build	(date 1684704313520)
+@@ -0,0 +1,24 @@
++command_output = run_command('../tools/find_svg_png_files.py', check: true)
++svg_png_files = command_output.stdout().strip().split('\n')
++install_data(svg_png_files, install_dir: get_option('datadir') / 'icons', preserve_path: true)
++
++if host_machine.system() == 'windows'
++  command_output = run_command('../tools/find_cursors_win32.py', check: true)
++else
++  command_output = run_command('../tools/find_cursors.py', check: true)
++endif
++cursors = command_output.stdout().strip().split('\n')
++install_data(cursors, install_dir: get_option('datadir') / 'icons', preserve_path: true)
++
++if host_machine.system() != 'windows'
++  command_output = run_command('../tools/find_symlinks.py', check: true)
++  symlinks = command_output.stdout().strip().split('\n')
++  foreach symlink : symlinks
++      name_dir_pointing = symlink.split()
++      install_symlink(
++        name_dir_pointing[0],
++        install_dir: get_option('datadir') / 'icons' / name_dir_pointing[1],
++        pointing_to: name_dir_pointing[2],
++     )
++  endforeach
++endif
+Index: meson.build
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/meson.build b/meson.build
+new file mode 100644
+--- /dev/null	(date 1684703023721)
++++ b/meson.build	(date 1684703023721)
+@@ -0,0 +1,28 @@
++project('adwaita-icon-theme', 'c', version : '44.0')
++cc = meson.get_compiler('c')
++
++gnome = import('gnome')
++
++pkg = import('pkgconfig')
++pkg.generate(
++  name : 'adwaita-icon-theme',
++  description : 'A collection of icons used as the basis for GNOME themes',
++  dataonly : true,
++)
++
++licenses_dir = get_option('datadir') / 'licenses' / 'adwaita-icon-theme'
++install_data('COPYING', install_dir: licenses_dir, install_tag: 'license')
++install_data('COPYING_CCBYSA3', install_dir: licenses_dir, install_tag: 'license')
++install_data('COPYING_LGPL', install_dir: licenses_dir, install_tag: 'license')
++
++index_conf = configuration_data()
++index_conf.set_quoted('THEME_DIRS', 'symbolic/actions')
++configure_file(
++  input : 'index.theme.in',
++  output : 'index.theme',
++  configuration : index_conf,
++)
++
++subdir('Adwaita')
++
++gnome.post_install(gtk_update_icon_cache: true)
+Index: tools/find_cursors.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/tools/find_cursors.py b/tools/find_cursors.py
+new file mode 100644
+--- /dev/null	(date 1684703061836)
++++ b/tools/find_cursors.py	(date 1684703061836)
+@@ -0,0 +1,11 @@
++#!/usr/bin/env python3
++
++from pathlib import Path
++
++
++src_dir = Path(__file__).resolve().parents[1]
++adwaita_dir = src_dir / "Adwaita"
++cursors_dir = adwaita_dir / "cursors"
++for f in cursors_dir.glob("*"):
++    if f.suffix != ".cur" and not f.is_symlink():
++        print(f.relative_to(adwaita_dir))
+Index: tools/find_cursors_win32.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/tools/find_cursors_win32.py b/tools/find_cursors_win32.py
+new file mode 100644
+--- /dev/null	(date 1684703093953)
++++ b/tools/find_cursors_win32.py	(date 1684703093953)
+@@ -0,0 +1,11 @@
++#!/usr/bin/env python3
++
++from pathlib import Path
++
++
++src_dir = Path(__file__).resolve().parents[1]
++adwaita_dir = src_dir / "Adwaita"
++cursors_dir = adwaita_dir / "cursors"
++for f in cursors_dir.glob("*.cur"):
++    if not f.is_symlink():
++        print(f.relative_to(adwaita_dir))
+Index: tools/find_svg_png_files.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/tools/find_svg_png_files.py b/tools/find_svg_png_files.py
+new file mode 100644
+--- /dev/null	(date 1684703117318)
++++ b/tools/find_svg_png_files.py	(date 1684703117318)
+@@ -0,0 +1,10 @@
++#!/usr/bin/env python3
++
++from pathlib import Path
++
++
++src_dir = Path(__file__).resolve().parents[1]
++adwaita_dir = src_dir / "Adwaita"
++for f in adwaita_dir.rglob("*.svg") or adwaita_dir.rglob("*.png"):
++    if not f.is_symlink():
++        print(f.relative_to(adwaita_dir))
+Index: tools/find_symlinks.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/tools/find_symlinks.py b/tools/find_symlinks.py
+new file mode 100644
+--- /dev/null	(date 1684703996626)
++++ b/tools/find_symlinks.py	(date 1684703996626)
+@@ -0,0 +1,14 @@
++#!/usr/bin/env python3
++
++from pathlib import Path
++
++
++src_dir = Path(__file__).resolve().parents[1]
++adwaita_dir = src_dir / "Adwaita"
++for f in adwaita_dir.rglob("*.svg") or adwaita_dir.rglob("*.png"):
++    if f.is_symlink():
++        print(f.name, f.relative_to(adwaita_dir).parent, f.readlink())
++cursors_dir = adwaita_dir / "cursors"
++for f in cursors_dir.glob("*"):
++    if f.suffix != ".cur" and f.is_symlink():
++        print(f.name, f.relative_to(adwaita_dir).parent, f.readlink())
