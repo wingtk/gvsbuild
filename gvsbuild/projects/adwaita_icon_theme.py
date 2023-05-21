@@ -15,43 +15,26 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-import os
 
+from gvsbuild.utils.base_builders import Meson
 from gvsbuild.utils.base_expanders import Tarball
-from gvsbuild.utils.base_project import Project, project_add
+from gvsbuild.utils.base_project import project_add
 
 
 @project_add
-class AdwaitaIconTheme(Tarball, Project):
+class AdwaitaIconTheme(Tarball, Meson):
     def __init__(self):
-        Project.__init__(
+        Meson.__init__(
             self,
             "adwaita-icon-theme",
-            version="43",
+            version="44.0",
             repository="https://gitlab.gnome.org/GNOME/adwaita-icon-theme",
-            archive_url="https://download.gnome.org/sources/adwaita-icon-theme/{version}/adwaita-icon-theme-{version}.tar.xz",
-            hash="2e3ac77d32a6aa5554155df37e8f0a0dd54fc5a65fd721e88d505f970da32ec6",
-            dependencies=[
-                "librsvg",
-            ],
+            archive_url="https://download.gnome.org/sources/adwaita-icon-theme/{major}/adwaita-icon-theme-{version}.tar.xz",
+            hash="4889c5601bbfecd25d80ba342209d0a936dcf691ee56bd6eca4cde361f1a664c",
+            dependencies=["hicolor-icon-theme"],
+            patches=["add_meson_build.patch"],
         )
 
     def build(self):
-        # Create the destination dir, before the build
-        os.makedirs(
-            os.path.join(self.builder.gtk_dir, "share", "icons", "Adwaita"),
-            exist_ok=True,
-        )
-
-        self.push_location(r".\win32")
-        self.exec_vs(
-            r'nmake /nologo /f adwaita-msvc.mak CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PREFIX="%(gtk_dir)s"',
-            add_path=os.path.join(self.builder.opts.msys_dir, "usr", "bin"),
-        )
-        self.exec_vs(
-            r'nmake /nologo /f adwaita-msvc.mak install CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PREFIX="%(gtk_dir)s"',
-            add_path=os.path.join(self.builder.opts.msys_dir, "usr", "bin"),
-        )
-        self.pop_location()
-
+        Meson.build(self)
         self.install(r".\COPYING_CCBYSA3 share\doc\adwaita-icon-theme")
