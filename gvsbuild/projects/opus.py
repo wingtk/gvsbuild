@@ -16,19 +16,20 @@
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 from gvsbuild.utils.base_builders import Meson
-from gvsbuild.utils.base_expanders import GitRepo
-from gvsbuild.utils.base_project import Project, project_add
+from gvsbuild.utils.base_expanders import Tarball
+from gvsbuild.utils.base_project import project_add
 
 
 @project_add
-class Opus(GitRepo, Meson):
+class Opus(Tarball, Meson):
     def __init__(self):
-        Project.__init__(
+        Meson.__init__(
             self,
             "opus",
-            repo_url="https://github.com/xiph/opus",
-            tag="ccaaffa9a3ee427e9401c4dcf6462e378d9a4694",
-            fetch_submodules=False,
+            version="1.4",
+            repository="https://github.com/xiph/opus",
+            archive_url="https://github.com/xiph/opus/releases/download/v{version}/opus-{version}.tar.gz",
+            hash="c9b32b4253be5ae63d1ff16eea06b94b5f0f2951b7a02aceef58e3a3ce49c51f",
             dependencies=[
                 "ninja",
                 "meson",
