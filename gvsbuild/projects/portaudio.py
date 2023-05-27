@@ -26,9 +26,10 @@ class Portaudio(Tarball, CmakeProject):
         Project.__init__(
             self,
             "portaudio",
-            version="190700_20210406",
-            archive_url="http://files.portaudio.com/archives/pa_stable_v{version}.tgz",
-            hash="47efbf42c77c19a05d22e627d42873e991ec0c1357219c0d74ce6a2948cb2def",
+            version="19.7.0",
+            archive_url="https://github.com/PortAudio/portaudio/archive/refs/tags/v{version}.tar.gz",
+            archive_file_name="portaudio-{version}.tar.gz",
+            hash="5af29ba58bbdbb7bbcefaaecc77ec8fc413f0db6f4c4e286c40c3e1b83174fa0",
             dependencies=[
                 "cmake",
                 "ninja",
