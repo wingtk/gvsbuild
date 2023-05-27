@@ -17,18 +17,18 @@
 
 from gvsbuild.utils.base_builders import Meson
 from gvsbuild.utils.base_expanders import GitRepo
-from gvsbuild.utils.base_project import Project, project_add
+from gvsbuild.utils.base_project import project_add
 
 
 @project_add
 class Gperf(GitRepo, Meson):
     def __init__(self):
-        Project.__init__(
+        Meson.__init__(
             self,
             "gperf",
             repo_url="https://gitlab.freedesktop.org/tpm/gperf.git",
             fetch_submodules=False,
-            tag="705c85fee6254ac5eb0df7de6a8ca6f567f34472",
+            tag="c24359b4eab86d71c655c3b3fc969f13aac879ce",
             dependencies=["ninja"],
         )
 
