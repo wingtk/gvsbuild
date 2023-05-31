@@ -1,0 +1,26 @@
+From dacaf347e67ccf589c145ae33ab1330b591e467a Mon Sep 17 00:00:00 2001
+From: Leo Zi-You Assini <leoziyou@amazon.it>
+Date: Mon, 29 May 2023 14:41:30 +0200
+Subject: [PATCH] Fix encoding for UTF-8 params
+
+Fixes: #349
+---
+ libsoup/soup-headers.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libsoup/soup-headers.c b/libsoup/soup-headers.c
+index 86decde3..a0cf351a 100644
+--- a/libsoup/soup-headers.c
++++ b/libsoup/soup-headers.c
+@@ -902,7 +902,7 @@ append_param_rfc5987 (GString    *string,
+ 
+ 	g_string_append (string, name);
+ 	g_string_append (string, "*=UTF-8''");
+-	encoded = g_uri_escape_string (value, "*'%()<>@,;:\\\"/[]?=", FALSE);
++	encoded = g_uri_escape_string (value, "!#$&+-.^_`|~", FALSE);
+ 	g_string_append (string, encoded);
+ 	g_free (encoded);
+ }
+-- 
+2.40.0
+
