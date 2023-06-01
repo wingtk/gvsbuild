@@ -43,8 +43,7 @@ def __get_projects_to_build(opts):
 
     # See if we need to drop some project
     if opts.skip:
-        to_skip = opts.skip.split(",")
-        for s in to_skip:
+        for s in opts.skip:
             if s not in Project.get_names():
                 log.error_exit(
                     s
