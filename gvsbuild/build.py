@@ -332,20 +332,16 @@ def build(
         opts.configuration = Configuration.release.value
         opts.release_configuration_is_actually_debug_optimized = True
     log.message(f"Build type is {configuration}")
-    if archives_download_dir:
-        opts.archives_download_dir = str(archives_download_dir)
-    else:
+    if not archives_download_dir:
         archives_download_dir = build_dir / "src"
-        opts.archives_download_dir = str(archives_download_dir)
+    opts.archives_download_dir = str(archives_download_dir)
     if export_dir:
         opts.export_dir = str(export_dir)
     else:
         opts.export_dir = str(build_dir / "export")
-    if patches_root_dir:
-        opts.patches_root_dir = str(patches_root_dir)
-    else:
+    if not patches_root_dir:
         patches_root_dir = Path(__file__).parent / "patches"
-        opts.patches_root_dir = str(patches_root_dir)
+    opts.patches_root_dir = str(patches_root_dir)
     if tools_root_dir:
         opts.tools_root_dir = str(tools_root_dir)
     else:
