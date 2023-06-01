@@ -43,8 +43,7 @@ class DevShell(Project):
 
     def finalize_dep(self, builder, deps):
         if builder.opts.skip:
-            skip = builder.opts.skip.split(",")
-            for s in skip:
+            for s in builder.opts.skip:
                 p = Project.get_project(s)
                 if p in deps:
                     log.log(f"dev-shell: skip {s}")

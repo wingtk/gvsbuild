@@ -43,8 +43,7 @@ def __get_projects_to_build(opts):
 
     # See if we need to drop some project
     if opts.skip:
-        to_skip = opts.skip.split(",")
-        for s in to_skip:
+        for s in opts.skip:
             if s not in Project.get_names():
                 log.error_exit(
                     s
@@ -333,30 +332,20 @@ def build(
         opts.configuration = Configuration.release.value
         opts.release_configuration_is_actually_debug_optimized = True
     log.message(f"Build type is {configuration}")
-    if archives_download_dir:
-        opts.archives_download_dir = str(archives_download_dir)
-    else:
+    if not archives_download_dir:
         archives_download_dir = build_dir / "src"
-        opts.archives_download_dir = str(archives_download_dir)
-    if export_dir:
-        opts.export_dir = str(export_dir)
-    else:
-        opts.export_dir = str(build_dir / "export")
-    if patches_root_dir:
-        opts.patches_root_dir = str(patches_root_dir)
-    else:
+    opts.archives_download_dir = str(archives_download_dir)
+    opts.export_dir = str(export_dir) if export_dir else str(build_dir / "export")
+    if not patches_root_dir:
         patches_root_dir = Path(__file__).parent / "patches"
-        opts.patches_root_dir = str(patches_root_dir)
+    opts.patches_root_dir = str(patches_root_dir)
     if tools_root_dir:
         opts.tools_root_dir = str(tools_root_dir)
     else:
         opts.tools_root_dir = str(build_dir / "tools")
     opts.vs_ver = vs_ver.value
     opts.vs_install_path = vs_install_path
-    if win_sdk_ver:
-        opts.win_sdk_ver = win_sdk_ver.value
-    else:
-        opts.win_sdk_ver = None
+    opts.win_sdk_ver = win_sdk_ver.value if win_sdk_ver else None
     if git_expand_dir:
         opts.git_expand_dir = str(git_expand_dir)
     else:
