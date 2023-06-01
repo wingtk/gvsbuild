@@ -335,10 +335,7 @@ def build(
     if not archives_download_dir:
         archives_download_dir = build_dir / "src"
     opts.archives_download_dir = str(archives_download_dir)
-    if export_dir:
-        opts.export_dir = str(export_dir)
-    else:
-        opts.export_dir = str(build_dir / "export")
+    opts.export_dir = str(export_dir) if export_dir else str(build_dir / "export")
     if not patches_root_dir:
         patches_root_dir = Path(__file__).parent / "patches"
     opts.patches_root_dir = str(patches_root_dir)
@@ -348,10 +345,7 @@ def build(
         opts.tools_root_dir = str(build_dir / "tools")
     opts.vs_ver = vs_ver.value
     opts.vs_install_path = vs_install_path
-    if win_sdk_ver:
-        opts.win_sdk_ver = win_sdk_ver.value
-    else:
-        opts.win_sdk_ver = None
+    opts.win_sdk_ver = win_sdk_ver.value if win_sdk_ver else None
     if git_expand_dir:
         opts.git_expand_dir = str(git_expand_dir)
     else:
