@@ -197,9 +197,9 @@ def build(
         help="Command line options to pass to msbuild.",
         rich_help_panel="Options to Pass to Build Systems",
     ),
-    skip: List[str] = typer.Option(
+    skip: str = typer.Option(
         None,
-        help="List of projects to skip. i.e gtk3, glib, ...",
+        help="Project to avoid building, can be run multiple times.",
         rich_help_panel="Skip and Cleanup Options",
     ),
     use_env: bool = typer.Option(
@@ -315,8 +315,8 @@ def build(
     gvsbuild build --no-deps glib
         Build glib only.
 
-    gvsbuild build --skip gtk3,pycairo,pygobject all
-        Build everything except gtk3, pycairo, and pygobject
+    gvsbuild build --skip gtk4 --skip pycairo all
+        Build everything except gtk4 and pycairo
     """
     opts = Options()
     opts.verbose = verbose
