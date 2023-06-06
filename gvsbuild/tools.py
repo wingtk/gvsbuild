@@ -30,7 +30,8 @@ class ToolCargo(Tool):
         Tool.__init__(
             self,
             "cargo",
-            version="stable",
+            version="1.69.0",
+            repository="rust-lang/rust",
             archive_url="https://win.rustup.rs/x86_64",
             archive_file_name="rustup-init.exe",
             exe_name="cargo.exe",
@@ -66,7 +67,7 @@ class ToolCargo(Tool):
 
         # switch to the right target
         subprocess.check_call(
-            f'{rustup} default stable-{"i686" if self.opts.x86 else "x86_64"}-pc-windows-msvc',
+            f'{rustup} default {self.version}-{"i686" if self.opts.x86 else "x86_64"}-pc-windows-msvc',
             env=env,
         )
 
@@ -110,7 +111,6 @@ class ToolMeson(Tool):
             archive_url="https://github.com/mesonbuild/meson/archive/refs/tags/{version}.tar.gz",
             archive_file_name="meson-{version}.tar.gz",
             hash="1c3b9e1a3a36b51adb5de498d582fd5cbf6763fadbcf151de9f2a762e02bd2e6",
-            dependencies=[],
             dir_part="meson-{version}",
             exe_name="meson.py",
         )
