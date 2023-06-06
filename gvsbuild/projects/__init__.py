@@ -83,7 +83,6 @@ from gvsbuild.projects.pangomm import Pangomm
 from gvsbuild.projects.pcre2 import Pcre2
 from gvsbuild.projects.pixman import Pixman
 from gvsbuild.projects.pkgconf import PkgConf
-from gvsbuild.projects.portaudio import Portaudio
 from gvsbuild.projects.protobuf import Protobuf, ProtobufC
 from gvsbuild.projects.pycairo import Pycairo
 from gvsbuild.projects.pygobject import PyGObject
