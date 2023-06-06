@@ -50,24 +50,12 @@ class ToolCargo(Tool):
         env["RUSTUP_HOME"] = self.build_dir
         env["CARGO_HOME"] = self.build_dir
 
-        rustup = os.path.join(self.build_dir, "bin", "rustup.exe")
-
-        subprocess.check_call(
-            f"{self.archive_file} --no-modify-path -y", shell=True, env=env
+        toolchain = (
+            f'{self.version}-{"i686" if self.opts.x86 else "x86_64"}-pc-windows-msvc'
         )
-
-        # add supported targets
-        subprocess.check_call(
-            f"{rustup} target add x86_64-pc-windows-msvc", shell=True, env=env
-        )
-
-        subprocess.check_call(
-            f"{rustup} target add i686-pc-windows-msvc", shell=True, env=env
-        )
-
-        # switch to the right target
-        subprocess.check_call(
-            f'{rustup} default {self.version}-{"i686" if self.opts.x86 else "x86_64"}-pc-windows-msvc',
+        subprocess.run(
+            f"{self.archive_file} --no-modify-path --default-toolchain {toolchain} -y",
+            check=True,
             env=env,
         )
 
