@@ -182,6 +182,7 @@ class Rust(Project):
             params=" ".join(["build"] + params),
             working_dir=self.build_dir,
             rustc_opts=rustc_opts,
+            rust_version=self.version,
         )
 
         # test
@@ -190,6 +191,7 @@ class Rust(Project):
                 params=" ".join(["test"] + params),
                 working_dir=self.build_dir,
                 rustc_opts=rustc_opts,
+                rust_version=self.version,
             )
 
         shutil.copytree(

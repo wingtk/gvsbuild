@@ -939,7 +939,9 @@ class Builder:
             env=self.vs_env,
         )
 
-    def exec_cargo(self, params="", working_dir=None, rustc_opts=None):
+    def exec_cargo(
+        self, params="", working_dir=None, rustc_opts=None, rust_version="stable"
+    ):
         cmd = "cargo"
         if self.opts.cargo_opts:
             cmd += f" {self.opts.cargo_opts}"
@@ -957,7 +959,7 @@ class Builder:
         # set platform
         rustup = os.path.join(cargo_home, "rustup.exe")
         self.__execute(
-            f'{rustup} default stable-{"i686" if self.x86 else "x86_64"}-pc-windows-msvc',
+            f'{rustup} default {rust_version}-{"i686" if self.x86 else "x86_64"}-pc-windows-msvc',
             env=env,
         )
 
