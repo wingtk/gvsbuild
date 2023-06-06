@@ -38,7 +38,7 @@ class Librsvg(Tarball, Project):
                 "gdk-pixbuf",
                 "libxml2",
             ],
-            patches=[],
+            patches=["enable_specifying_rust_version.patch"],
         )
         if Project.opts.enable_gi:
             self.add_dependency("gobject-introspection")
@@ -48,7 +48,8 @@ class Librsvg(Tarball, Project):
 
         b_dir = f"{self.builder.working_dir}\\{self.name}\\win32"
 
-        cmd = f"nmake -f makefile.vc CFG={self.builder.opts.configuration} PREFIX={self.builder.gtk_dir} PYTHON={sys.executable} install"
+        # TODO: The TOOLCHAIN_VERSION should come from the installed Rust version
+        cmd = f"nmake -f makefile.vc CFG={self.builder.opts.configuration} PREFIX={self.builder.gtk_dir} PYTHON={sys.executable} TOOLCHAIN_VERSION=1.69.0 install"
 
         if Project.opts.enable_gi:
             cmd += " INTROSPECTION=1"
