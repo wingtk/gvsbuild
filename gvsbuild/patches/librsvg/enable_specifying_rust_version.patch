@@ -1,0 +1,24 @@
+Subject: [PATCH] Enable specifying rust version
+---
+Index: win32/rsvg-rust.mak
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/win32/rsvg-rust.mak b/win32/rsvg-rust.mak
+--- a/win32/rsvg-rust.mak	(revision b831e077174ae608d8cd09e532fc0e7ce1fe5c4f)
++++ b/win32/rsvg-rust.mak	(date 1686018760613)
+@@ -13,9 +13,12 @@
+ RUSTUP = rustup
+ !endif
+ 
+-# For those who wish to use the nightly toolchain to build librsvg
++# For those who wish to use the nightly toolchain or a particular
++# toolchain version to build librsvg
+ !ifdef USE_NIGHTLY_TOOLCHAIN
+ TOOLCHAIN_TYPE = nightly
++!elseif defined(TOOLCHAIN_VERSION)
++TOOLCHAIN_TYPE = $(TOOLCHAIN_VERSION)
+ !else
+ TOOLCHAIN_TYPE = stable
+ !endif
