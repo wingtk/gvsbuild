@@ -197,7 +197,7 @@ def build(
         help="Command line options to pass to msbuild.",
         rich_help_panel="Options to Pass to Build Systems",
     ),
-    skip: str = typer.Option(
+    skip: List[str] = typer.Option(
         None,
         help="Project to avoid building, can be run multiple times.",
         rich_help_panel="Skip and Cleanup Options",
