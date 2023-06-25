@@ -14,6 +14,9 @@
 #
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
+
+from pathlib import Path
+
 from gvsbuild.utils.base_builders import CmakeProject
 from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import Project, project_add
@@ -35,3 +38,12 @@ class Expat(Tarball, CmakeProject):
     def build(self):
         CmakeProject.build(self, use_ninja=True)
         self.install(r".\COPYING share\doc\expat")
+
+    def post_install(self):
+        if self.builder.opts.configuration == "debug":
+            # Fontconfig is looking for libexpat, not libexpatd
+            lib_dir = Path(self.builder.gtk_dir) / "lib"
+            self.builder.exec_msys(
+                ["mv", "libexpatd.dll", "libexpat.dll"],
+                working_dir=lib_dir,
+            )
