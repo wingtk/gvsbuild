@@ -38,6 +38,7 @@ class Pangomm(Tarball, Meson):
                 "libsigc++",
                 "cairomm",
                 "pango",
+                "glibmm",
             ],
         )
 
