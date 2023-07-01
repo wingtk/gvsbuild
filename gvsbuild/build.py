@@ -109,11 +109,18 @@ def build(
         Path(r"C:\gtk-build"),
         help="The directory to build in",
         rich_help_panel="Directory Options",
+        exists=True,
+        dir_okay=True,
+        writable=True,
+        resolve_path=True,
     ),
     msys_dir: Path = typer.Option(
         None,
         help="The directory of the msys installation. If not specified, automatically searches in common locations",
         rich_help_panel="Directory Options",
+        exists=True,
+        dir_okay=True,
+        resolve_path=True,
     ),
     archives_download_dir: Path = typer.Option(
         None,
