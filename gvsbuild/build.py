@@ -107,12 +107,8 @@ def build(
     ),
     build_dir: Path = typer.Option(
         Path(r"C:\gtk-build"),
-        help="The directory to build in",
+        help="The full or relative path of the directory to build in",
         rich_help_panel="Directory Options",
-        exists=True,
-        dir_okay=True,
-        writable=True,
-        resolve_path=True,
     ),
     msys_dir: Path = typer.Option(
         None,
@@ -328,6 +324,8 @@ def build(
     opts = Options()
     opts.verbose = verbose
     opts.debug = debug
+    if build_dir:
+        build_dir = Path(build_dir).resolve()
     opts.build_dir = str(build_dir)
     log.configure(str(build_dir / "logs"), opts)
     opts.platform = platform.value
