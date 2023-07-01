@@ -18,6 +18,7 @@ import sys
 
 from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import Project, project_add
+from gvsbuild.tools import ToolCargo
 
 
 @project_add
@@ -26,11 +27,11 @@ class Librsvg(Tarball, Project):
         Project.__init__(
             self,
             "librsvg",
-            version="2.56.1",
+            version="2.56.2",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/librsvg",
             archive_url="https://download.gnome.org/sources/librsvg/{major}.{minor}/librsvg-{version}.tar.xz",
-            hash="1685aeacae9a441dcb12c0c3ec63706172a2f52705dafbefb8e7311d4d5e430b",
+            hash="3ec3c4d8f73e0ba4b9130026969e8371c092b734298d36e2fdb3eb4afcec1200",
             dependencies=[
                 "cargo",
                 "cairo",
@@ -38,7 +39,6 @@ class Librsvg(Tarball, Project):
                 "gdk-pixbuf",
                 "libxml2",
             ],
-            patches=["enable_specifying_rust_version.patch"],
         )
         if Project.opts.enable_gi:
             self.add_dependency("gobject-introspection")
@@ -48,8 +48,7 @@ class Librsvg(Tarball, Project):
 
         b_dir = f"{self.builder.working_dir}\\{self.name}\\win32"
 
-        # TODO: The TOOLCHAIN_VERSION should come from the installed Rust version
-        cmd = f"nmake -f makefile.vc CFG={self.builder.opts.configuration} PREFIX={self.builder.gtk_dir} PYTHON={sys.executable} TOOLCHAIN_VERSION=1.69.0 install"
+        cmd = f"nmake -f makefile.vc CFG={self.builder.opts.configuration} PREFIX={self.builder.gtk_dir} PYTHON={sys.executable} TOOLCHAIN_VERSION={ToolCargo.version} install"
 
         if Project.opts.enable_gi:
             cmd += " INTROSPECTION=1"
