@@ -18,7 +18,6 @@ import sys
 
 from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import Project, project_add
-from gvsbuild.tools import ToolCargo
 
 
 @project_add
@@ -48,7 +47,8 @@ class Librsvg(Tarball, Project):
 
         b_dir = f"{self.builder.working_dir}\\{self.name}\\win32"
 
-        cmd = f"nmake -f makefile.vc CFG={self.builder.opts.configuration} PREFIX={self.builder.gtk_dir} PYTHON={sys.executable} TOOLCHAIN_VERSION={ToolCargo.version} install"
+        rust_ver = Project.get_project("cargo").version
+        cmd = f"nmake -f makefile.vc CFG={self.builder.opts.configuration} PREFIX={self.builder.gtk_dir} PYTHON={sys.executable} TOOLCHAIN_VERSION={rust_ver} install"
 
         if Project.opts.enable_gi:
             cmd += " INTROSPECTION=1"
