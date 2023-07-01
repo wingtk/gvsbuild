@@ -146,6 +146,12 @@ jobs:
         run: |
           Move-Item "C:\Program Files\Git\usr\notbin" "C:\Program Files\Git\usr\bin"
           Move-Item "C:\Program Files\Git\notbin" "C:\Program Files\Git\bin"
+      - name: Archive GTK runtime
+        run: 7z a -tzip gtk${{ matrix.gtk-version }}_gvsbuild-${{ github.event.release.tag_name }}_x64.zip C:\gtk-build\gtk\x64\release\*
+      - name: Upload gtk${{ matrix.gtk-version }}_gvsbuild-${{ github.event.release.tag_name }}_x64.zip
+        uses: actions/upload-artifact@v3
+        with:
+          path: gtk${{ matrix.gtk-version }}_gvsbuild-${{ github.event.release.tag_name }}_x64.zip
       - name: Create Source Dist and Wheel
         run: poetry build
       - name: Upload gvsbuild-${{ github.event.release.tag_name }}.tar.gz
