@@ -146,6 +146,11 @@ jobs:
         run: |
           Move-Item "C:\Program Files\Git\usr\notbin" "C:\Program Files\Git\usr\bin"
           Move-Item "C:\Program Files\Git\notbin" "C:\Program Files\Git\bin"
+      - name: Copy wheel files
+        run: |
+          New-Item "C:\gtk-build\gtk\x64\release\wheels" -ItemType "directory"
+          Copy-Item (Resolve-Path C:\gtk-build\build\x64\release\pygobject\dist\PyGObject*.whl) "C:\gtk-build\gtk\x64\release\wheels"
+          Copy-Item (Resolve-Path C:\gtk-build\build\x64\release\pycairo\dist\pycairo*.whl) "C:\gtk-build\gtk\x64\release\wheels"
       - name: Archive GTK runtime
         run: 7z a -tzip gtk${{ matrix.gtk-version }}_gvsbuild-${{ github.event.release.tag_name }}_x64.zip C:\gtk-build\gtk\x64\release\*
       - name: Upload gtk${{ matrix.gtk-version }}_gvsbuild-${{ github.event.release.tag_name }}_x64.zip
