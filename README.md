@@ -5,6 +5,36 @@
 This python script helps you build a full [GTK](https://www.gtk.org/) library
 stack for Windows using Visual Studio. Currently, GTK 3 and GTK 4 are supported.
 
+## Install GTK Only
+
+If you want to only run GTK on Windows and not build it yourself, you can download
+a zip file from the last release and unzip it to `C:\gtk`.
+
+It comes with GTK, Cairo, PyGObject, Pycairo, GtkSourceView, adwaita-icon-theme and
+all of their dependencies.
+
+### Environmental Variables
+Finally, add GTK to your environmental variables with:
+
+```PowerShell
+$env:Path = "C:\gtk\bin;" + $env:Path
+$env:LIB = "C:\gtk\lib;" + $env:LIB
+$env:INCLUDE = "C:\gtk\include;C:\gtk\include\cairo;C:\gtk\include\glib-2.0;C:\gtk\include\gobject-introspection-1.0;C:\gtk\lib\glib-2.0\include;" + $env:INCLUDE
+```
+
+### PyGObject and PyCairo
+
+If you are going to use PyGObject and Pycairo, you also need to use the gvsbuild
+generated wheels with your [Python virtualenv](https://docs.python.org/3/tutorial/venv.html)
+in order to work around this [PyGObject bug](https://gitlab.gnome.org/GNOME/pygobject/-/issues/545):
+
+```PowerShell
+pip install --force-reinstall (Resolve-Path C:\gtk\wheels\PyGObject*.whl)
+pip install --force-reinstall (Resolve-Path C:\gtk\wheels\pycairo*.whl)
+```
+
+## Build GTK
+
 The script supports multiple versions of Visual Studio - at the moment we are
 focusing on VS 2022, but we include projects for other versions, and we gladly
 accept patches.
@@ -30,9 +60,9 @@ SHA256 hash of each download. Downloads are done using TLS, using SSL
 certificates provided by the system, but in case of error the download is tried
 again ignoring certificate errors.
 
-## Development Environment
+### Development Environment
 
-### Choco
+#### Choco
 We recommend using [Chocolately](https://chocolatey.org/) as a package manager
 in Windows.
 
@@ -45,8 +75,7 @@ To run local scripts in follow-on steps, also execute
 `Set-ExecutionPolicy RemoteSigned`. This allows for local PowerShell scripts
 to run without signing, but still requires signing for remote scripts.
 
-### Git
-
+#### Git
 To setup a development environment in Windows install
 [Git](https://gitforwindows.org) by executing as an administrator:
 
@@ -54,7 +83,7 @@ To setup a development environment in Windows install
 choco install git
 ```
 
-### MSYS2
+#### MSYS2
 Both of the development environments in the next steps need MSYS2 installed.
 
 Install [MSYS2](http://www.msys2.org/):
@@ -64,7 +93,7 @@ Keep PowerShell open as administrator and execute:
 choco install msys2
 ```
 
-### Building GTK
+#### Building GTK
 
 First we will install the gvsbuild dependencies:
 1. Visual C++ build tools workload for Visual Studio 2022 Build Tools
