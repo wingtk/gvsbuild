@@ -88,10 +88,13 @@ jobs:
 
   build:
     needs: lint
-    name: Build GTK Binaries
+    name: Build GTK${{ matrix.gtk-version }} Binaries
     runs-on: windows-latest
     timeout-minutes: 75
     if: "!contains(github.event.head_commit.message, 'skip ci')"
+    outputs:
+      targz: gvsbuild-${{ steps.meta.outputs.version }}.tar.gz
+      wheel: gvsbuild-${{ steps.meta.outputs.version }}-py3-none-any.whl
     strategy:
       matrix:
         gtk-version: ['3', '4']
@@ -155,6 +158,23 @@ jobs:
         with:
           name: gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
           path: dist/gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
-      - name: Publish to PyPI (release only)
-        if: github.event_name == 'release' && matrix.gtk-version == '4'
-        run: poetry publish -u __token__ -p ${{ secrets.PYPI_TOKEN }}
+  publish-to-pypi:
+    name: Publish to PyPI (release only)
+    needs: build
+    runs-on: ubuntu-22.04
+    permissions:
+      id-token: write
+    if: ${{ github.event_name == 'release' }}
+    steps:
+      - name: Download tar.gz
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # v3.0.2
+        with:
+          name: ${{ needs.build.outputs.targz }}
+          path: dist
+      - name: Download wheel
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # v3.0.2
+        with:
+          name: ${{ needs.build.outputs.wheel }}
+          path: dist
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@f5622bde02b04381239da3573277701ceca8f6a0 # release/v1
