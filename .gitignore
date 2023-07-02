@@ -21,6 +21,7 @@
 *.opensdf
 *.unsuccessfulbuild
 *.back.aip
+.venv/
 ipch/
 obj/
 [Bb]in
