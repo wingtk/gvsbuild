@@ -5,14 +5,15 @@
 #
 #
 
-#
-PROJECT=gtk3
+# change on command line with `make PROJECT=gtk4` for example
+PROJECT?=gtk3
+# release|debug
+CONFIG=release
 
 # must be fully qualified else things break
-# chnage these paths to suit your own conditions/installation
+# change these paths to suit your own conditions/installation
 BUILD_DIR=r:/src/gtk/gvs-outputs
 MSYS_DIR=r:/apps/msys64
-CONFIG=release
 
 .PHONY: build rebuild install help
 
