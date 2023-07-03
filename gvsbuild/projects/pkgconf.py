@@ -28,8 +28,9 @@ class PkgConf(Tarball, Meson):
             "pkgconf",
             prj_dir="pkgconf",
             version="1.9.5",
-            archive_url="https://distfiles.dereferenced.org/pkgconf/pkgconf-{version}.tar.gz",
-            hash="6466efd2e38c4c0ac5de4e345f0dc6dad57e689efb08c31f2a71547683d20dc7",
+            # archive_url="https://distfiles.dereferenced.org/pkgconf/pkgconf-{version}.tar.gz",
+			archive_url="https://github.com/pkgconf/pkgconf/archive/refs/tags/pkgconf-{version}.tar.gz",
+            # hash="6466efd2e38c4c0ac5de4e345f0dc6dad57e689efb08c31f2a71547683d20dc7",
             dependencies=["ninja", "meson"],
             patches=["0001-libpkgconf-add-defines-to-unbreak-build-with-VS2013.patch"],
         )
