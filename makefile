@@ -12,18 +12,22 @@ CONFIG=release
 
 # must be fully qualified else things break
 # change these paths to suit your own conditions/installation
-BUILD_DIR=r:/src/gtk/gvs-outputs
+BUILD_DIR=r:/src/gtk/gvs-$(CONFIG)
 MSYS_DIR=r:/apps/msys64
 
-.PHONY: build rebuild install help
+.PHONY: build rebuild install gvs help
 
 all: help
 
 help:
-	@echo "override default $(PROJECT) with make PROJECT=gtk3 for example"
-	@echo "make build: build the nominated project. default:$(PROJECT)"
-	@echo "make install: build and install gvsbuild. default:$(PROJECT)"
-	@echo "make rebuild: do it all from scratch. achtung baby."
+	@echo "make gvs: using gvsbuild."
+	@echo "make install: install gvsbuild."
+	@echo "make build: using Python."
+	@echo "make rebuild: using Python. do it all from scratch. achtung baby."
+	@echo "------------------------------"
+	@echo "Override defaults with 'make PROJECT=librsvg' for example"
+	@echo "PROJECT:$(PROJECT) CONFIG:$(CONFIG)"
+	@echo "BUILD_DIR:$(BUILD_DIR) MSYS_DIR:$(MSYS_DIR)"
 
 build:
 	@echo "Project is $(PROJECT)"
@@ -39,19 +43,9 @@ rebuild:
 # install gvsbuild into the local Python cache
 install:
 	pip install .
-	
-install-ps:
-	# powershell
-	python -m pip install --user pipx
-	python -m pipx ensurepath
-	pipx install gvsbuild
 
-build-ps:
-	# make cannot do this for you. these are the steps ...
-	python -m venv .venv
-	.\.venv\Scripts\activate.ps1
-	pip install .
-	gvsbuild build --from-scratch --ninja-opts -j=2 --build-dir $(BUILD_DIR) --msys-dir $(MSYS_DIR) --log-single --capture-out --configuration $(CONFIG) $(PROJECT)
+gvs:	
+	gvsbuild build --from-scratch --ninja-opts -j=2 --build-dir $(BUILD_DIR) --msys-dir $(MSYS_DIR) --log-single --capture-out --configuration release $(PROJECT)
 
 #
 # Fixed with modified libpng.py project	
