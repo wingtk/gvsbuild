@@ -47,8 +47,10 @@ class Pixman(Tarball, Project):
         )
 
         self.install(r".\pixman\%(configuration)s\pixman-1.lib lib")
+        self.install(r".\pixman\%(configuration)s\pixman-1.pc lib\pkgconfig")
 
         self.install(r".\pixman\pixman.h include\pixman-1")
         self.install(r".\pixman\pixman-version.h include\pixman-1")
 
+        self.install_pc_files()
         self.install(r".\COPYING share\doc\pixman")
