@@ -27,15 +27,14 @@ class AdwaitaIconTheme(Tarball, Meson):
         Meson.__init__(
             self,
             "adwaita-icon-theme",
-            version="44.0",
+            version="45.beta",
             repository="https://gitlab.gnome.org/GNOME/adwaita-icon-theme",
             archive_url="https://download.gnome.org/sources/adwaita-icon-theme/{major}/adwaita-icon-theme-{version}.tar.xz",
-            hash="4889c5601bbfecd25d80ba342209d0a936dcf691ee56bd6eca4cde361f1a664c",
+            hash="8eb9fbe426cf77593154bb759e690ddc404292d4983f272ecf4d9ef9bedba312",
             dependencies=[
                 "hicolor-icon-theme",
                 "librsvg",
             ],
-            patches=["add_meson_build.patch"],
         )
 
     def build(self):
