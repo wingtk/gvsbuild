@@ -80,6 +80,10 @@ class Builder:
                     f"Removing git expand dir ({self.opts.git_expand_dir})"
                 ):
                     rmtree_full(self.opts.git_expand_dir, retry=True)
+                with log.simple_oper(
+                    f"Removing archives download dir ({opts.archives_download_dir})"
+                ):
+                    rmtree_full(opts.archives_download_dir)
                 if not opts.keep_tools:
                     with log.simple_oper(f"Removing tools dir ({opts.tools_root_dir})"):
                         rmtree_full(opts.tools_root_dir, retry=True)
