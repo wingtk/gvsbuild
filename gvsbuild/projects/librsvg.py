@@ -26,11 +26,11 @@ class Librsvg(Tarball, Project):
         Project.__init__(
             self,
             "librsvg",
-            version="2.56.2",
+            version="2.56.3",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/librsvg",
             archive_url="https://download.gnome.org/sources/librsvg/{major}.{minor}/librsvg-{version}.tar.xz",
-            hash="3ec3c4d8f73e0ba4b9130026969e8371c092b734298d36e2fdb3eb4afcec1200",
+            hash="5a328048a02d014645cd27f61140f4e0b11280fb2c7f2a21864fe0c59ac1ce88",
             dependencies=[
                 "cargo",
                 "cairo",
