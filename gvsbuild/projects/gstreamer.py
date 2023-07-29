@@ -117,7 +117,7 @@ class GstPluginsBase(Tarball, Meson):
 
     def build(self):
         Meson.build(
-            self, meson_params=f"-Dc_link_args={self.builder.gtk_dir}\\lib\\ogg.lib"
+            self, meson_params=f'-Dc_link_args="{self.builder.gtk_dir}\\lib\\ogg.lib"'
         )
         self.install(r".\COPYING share\doc\gst-plugins-base")
 
