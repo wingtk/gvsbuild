@@ -18,21 +18,19 @@
 from pathlib import Path
 
 from gvsbuild.utils.base_builders import Meson
-from gvsbuild.utils.base_expanders import Tarball
+from gvsbuild.utils.base_expanders import GitRepo
 from gvsbuild.utils.base_project import Project, project_add
 
 
 @project_add
-class PyGObject(Tarball, Meson):
+class PyGObject(GitRepo, Meson):
     def __init__(self):
         Project.__init__(
             self,
             "pygobject",
-            version="3.44.1",
-            lastversion_even=True,
-            repository="https://gitlab.gnome.org/GNOME/pygobject",
-            archive_url="https://download.gnome.org/sources/pygobject/{major}.{minor}/pygobject-{version}.tar.xz",
-            hash="3c6805d1321be90cc32e648215a562430e0d3d6edcda8f4c5e7a9daffcad5710",
+            repo_url="https://gitlab.gnome.org/amolenaar/pygobject.git",
+            fetch_submodules=False,
+            tag="8dfd09560032a6039f291da12022248340314cf2",
             dependencies=["pycairo", "gobject-introspection", "libffi"],
             patches=[
                 "pygobject_py3_8_load_dll.patch",
