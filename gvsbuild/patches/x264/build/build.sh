@@ -3,15 +3,20 @@
 prefix="$1"
 build_type="$2"
 
-extra_flags=""
-extra_cflags="-DNO_PREFIX"
+declare -a configure_cmd
+declare -i idx=0
+
+configure_cmd[idx++]="./configure"
+configure_cmd[idx++]="--prefix=\"$prefix\""
+configure_cmd[idx++]="--enable-shared"
+configure_cmd[idx++]="--extra-cflags=-DNO_PREFIX"
 
 if [ "$build_type" = "debug" ]; then
-    extra_flags="--enable-debug $extra_flags"
-    extra_cflags="-MDd -Od -Zi $extra_cflags"
+    configure_cmd[idx++]="--enable-debug"
+    configure_cmd[idx++]="--extra-cflags=-MDd -Od -Zi"
 fi
 
-CC=cl ./configure --enable-shared --prefix="$prefix" "$extra_flags" --extra-cflags="$extra_cflags"
+CC=cl "${configure_cmd[@]}"
 
 make
 make install
