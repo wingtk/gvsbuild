@@ -27,9 +27,9 @@ class PkgConf(Tarball, Meson):
             self,
             "pkgconf",
             prj_dir="pkgconf",
-            version="1.9.5",
+            version="2.0.2",
             archive_url="https://distfiles.ariadne.space/pkgconf/pkgconf-{version}.tar.gz",
-            hash="6466efd2e38c4c0ac5de4e345f0dc6dad57e689efb08c31f2a71547683d20dc7",
+            hash="dc285fd35f4777335304fd5fa5cef1e9e9b1e9bcc72cd353a207aa5471818142",
             dependencies=["ninja", "meson"],
             patches=["0001-libpkgconf-add-defines-to-unbreak-build-with-VS2013.patch"],
         )
