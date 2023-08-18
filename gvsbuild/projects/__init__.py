@@ -49,9 +49,11 @@ from gvsbuild.projects.leveldb import LevelDB
 from gvsbuild.projects.lgi import Lgi
 from gvsbuild.projects.libadwaita import Libadwaita
 from gvsbuild.projects.libarchive import Libarchive
+from gvsbuild.projects.libcbor import Libcbor
 from gvsbuild.projects.libcroco import Libcroco
 from gvsbuild.projects.libcurl import Libcurl
 from gvsbuild.projects.libepoxy import Libepoxy
+from gvsbuild.projects.libfido2 import Libfido2
 from gvsbuild.projects.libffi import Libffi
 from gvsbuild.projects.libgxps import Libgxps
 from gvsbuild.projects.libjpeg_turbo import LibjpegTurbo
