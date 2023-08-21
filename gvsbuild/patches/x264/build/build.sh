@@ -1,7 +1,7 @@
 #!/bin/bash
 
-prefix=$1
-build_type=$2
+prefix="$1"
+build_type="$2"
 
 extra_flags=""
 extra_cflags="-DNO_PREFIX"
