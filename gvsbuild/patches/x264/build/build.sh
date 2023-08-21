@@ -12,4 +12,6 @@ if [ "$build_type" = "debug" ]; then
 fi
 
 CC=cl ./configure --enable-shared --prefix="$prefix" "$extra_flags" --extra-cflags="$extra_cflags"
+
+make
 make install
