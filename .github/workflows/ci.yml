@@ -7,7 +7,6 @@ on:
 
 env:
   python_version: '3.11'
-  poetry_version: '1.2.2'
 
 name: CI
 
@@ -27,6 +26,11 @@ jobs:
           python-version: ${{ env.python_version }}
       - name: Lint with Pre-commit
         uses: pre-commit/action@v3.0.0
+      - name: Check Poetry lock file integrity
+        run: |
+          python -m pip install --constraint=.github/constraints.txt poetry
+          poetry config virtualenvs.in-project true
+          poetry check
 
   test:
     needs: lint
@@ -54,9 +58,9 @@ jobs:
           key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
           restore-keys: ${{ runner.os }}-poetry-
       - name: Install Poetry
-        run: python -m pip install poetry==${{ env.poetry_version }}
-      - name: Configure Poetry
-        run: poetry config virtualenvs.in-project true
+        run: |
+          python -m pip install --constraint=.github/constraints.txt poetry
+          poetry config virtualenvs.in-project true
       - name: Install Python Dependencies
         run: poetry install
       - name: Install dependencies
@@ -100,9 +104,9 @@ jobs:
           key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
           restore-keys: ${{ runner.os }}-poetry-
       - name: Install Poetry
-        run: python -m pip install poetry==${{ env.poetry_version }}
-      - name: Configure Poetry
-        run: poetry config virtualenvs.in-project true
+        run: |
+          python -m pip install --constraint=.github/constraints.txt poetry
+          poetry config virtualenvs.in-project true
       - name: Install Python Dependencies
         run: poetry install
       # Temporarily move the preinstalled git, it causes errors related to cygwin.
