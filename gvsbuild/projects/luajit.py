@@ -15,19 +15,20 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-from gvsbuild.utils.base_expanders import Tarball
+from gvsbuild.utils.base_expanders import GitRepo
 from gvsbuild.utils.base_project import Project, project_add
 
 
 @project_add
-class Luajit(Tarball, Project):
+class Luajit(GitRepo, Project):
     def __init__(self):
         Project.__init__(
             self,
             "luajit",
-            version="2.1.0-beta3",
-            archive_url="http://luajit.org/download/LuaJIT-{version}.tar.gz",
-            hash="1ad2e34b111c802f9d0cdf019e986909123237a28c746b21295b63c9e785d9c3",
+            version="2.1.1692716794",
+            repo_url="https://github.com/LuaJIT/LuaJIT",
+            fetch_submodules=False,
+            tag="03c31124cc3b521ef54fe398e10fa55660a5057d",
             patches=["set-paths.patch"],
         )
 
