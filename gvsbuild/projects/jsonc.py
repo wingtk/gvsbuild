@@ -26,9 +26,9 @@ class Jsonc(Tarball, CmakeProject):
         Project.__init__(
             self,
             "json-c",
-            version="0.16-20220414",
-            archive_url="https://github.com/json-c/json-c/archive/json-c-{version}.tar.gz",
-            hash="3ecaeedffd99a60b1262819f9e60d7d983844073abc74e495cb822b251904185",
+            version="0.17.20230812",
+            archive_url="https://github.com/json-c/json-c/archive/json-c-{major}.{minor}-{micro}.tar.gz",
+            hash="024d302a3aadcbf9f78735320a6d5aedf8b77876c8ac8bbb95081ca55054c7eb",
         )
 
     def build(self):
