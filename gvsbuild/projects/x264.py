@@ -35,7 +35,11 @@ class X264(GitRepo, Project):
         )
 
     def build(self):
-        configuration = self.builder.opts.configuration
+        configuration = (
+            "debug-optimized"
+            if self.opts.release_configuration_is_actually_debug_optimized
+            else self.opts.configuration
+        )
         msys_path = Project.get_tool_path("msys2")
         self.exec_vs(
             r"%s\bash build\build.sh %s %s"
@@ -53,7 +57,7 @@ class X264(GitRepo, Project):
             working_dir=os.path.join(self.builder.gtk_dir, "lib"),
         )
 
-        if configuration == "debug":
+        if configuration in ["debug-optimized", "debug"]:
             self.install(r".\libx264-164.pdb bin")
             self.install(r".\x264.pdb bin")
 
