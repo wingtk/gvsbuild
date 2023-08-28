@@ -16,6 +16,10 @@ if [ "$build_type" = "debug" ]; then
     configure_cmd[idx++]="--extra-cflags=-MDd -Od -Zi"
 fi
 
+if [ "$build_type" = "debug-optimized" ]; then
+    configure_cmd[idx++]="--extra-ldflags=-DEBUG:FULL"
+fi
+
 CC=cl "${configure_cmd[@]}"
 
 make
