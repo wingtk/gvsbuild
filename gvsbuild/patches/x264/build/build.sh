@@ -18,6 +18,7 @@ fi
 
 if [ "$build_type" = "debug-optimized" ]; then
     configure_cmd[idx++]="--extra-ldflags=-DEBUG:FULL"
+    configure_cmd[idx++]="--extra-cflags=-Zi"
 fi
 
 CC=cl "${configure_cmd[@]}"
