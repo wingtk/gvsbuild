@@ -32,6 +32,10 @@ class Libxml2(Tarball, Meson):
             archive_url="https://download.gnome.org/sources/libxml2/{major}.{minor}/libxml2-{version}.tar.xz",
             hash="3727b078c360ec69fa869de14bd6f75d7ee8d36987b071e6928d4720a28df3a6",
             dependencies=["win-iconv", "meson", "ninja"],
+            patches=[
+                "0001-parser-fix-old-SAX1-parser-with-custom-callbacks.patch",
+                "0002-sax-always-initialize-SAX1-element-handlers.patch",
+            ],
         )
 
     def build(self):
