@@ -41,6 +41,8 @@ if [ "$build_type" = "debug" ]; then
     configure_cmd[idx++]="--enable-debug"
     # FIXME: the -Od and -Zi instructions are overriden in the compilation command
     configure_cmd[idx++]="--extra-cflags=\"-Od -Zi -MDd\""
+else
+    configure_cmd[idx++]="--extra-cflags=-MD"
 fi
 
 if [ "$enable_gpl" = "enable_gpl" ]; then
