@@ -30,7 +30,7 @@ class ToolCargo(Tool):
         Tool.__init__(
             self,
             "cargo",
-            version="1.70.0",
+            version="1.72.0",
             repository="rust-lang/rust",
             archive_url="https://win.rustup.rs/x86_64",
             archive_file_name="rustup-init.exe",
@@ -68,9 +68,9 @@ class ToolCmake(Tool):
         Tool.__init__(
             self,
             "cmake",
-            version="3.26.4",
+            version="3.27.4",
             archive_url="https://github.com/Kitware/CMake/releases/download/v{version}/cmake-{version}-windows-x86_64.zip",
-            hash="62c35427104a4f8205226f72708d71334bd36a72cf72c60d0e3a766d71dcc78a",
+            hash="e5e060756444d0b2070328a8821c1ceb62bd6d267aae61bfff06f96c7ec943a6",
             dir_part="cmake-{version}-windows-x86_64",
         )
 
@@ -95,10 +95,10 @@ class ToolMeson(Tool):
         Tool.__init__(
             self,
             "meson",
-            version="1.1.1",
+            version="1.2.1",
             archive_url="https://github.com/mesonbuild/meson/archive/refs/tags/{version}.tar.gz",
             archive_file_name="meson-{version}.tar.gz",
-            hash="1c3b9e1a3a36b51adb5de498d582fd5cbf6763fadbcf151de9f2a762e02bd2e6",
+            hash="e1f3b32b636cc86496261bd89e63f00f206754697c7069788b62beed5e042713",
             dir_part="meson-{version}",
             exe_name="meson.py",
         )
@@ -211,9 +211,9 @@ class ToolGo(Tool):
         Tool.__init__(
             self,
             "go",
-            version="1.20.5",
+            version="1.21.0",
             archive_url="https://go.dev/dl/go{version}.windows-amd64.zip",
-            hash="c04a4ed73c3624d5b4c4f62e44a141549cc0bfd83a7492c31ca8b86b3752f077",
+            hash="732121e64e0ecb07c77fdf6cc1bc5ce7b242c2d40d4ac29021ad4c64a08731f6",
             dir_part="go-{version}",
         )
 

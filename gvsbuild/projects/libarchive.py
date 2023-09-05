@@ -29,9 +29,9 @@ class Libarchive(Tarball, CmakeProject):
         Project.__init__(
             self,
             "libarchive",
-            version="3.6.2",
+            version="3.7.1",
             archive_url="https://libarchive.org/downloads/libarchive-{version}.tar.xz",
-            hash="9e2c1b80d5fbe59b61308fdfab6c79b5021d7ff4ff2489fb12daf0a96a83551d",
+            hash="b17403ce670ff18d8e06fea05a9ea9accf70678c88f1b9392a2e29b51127895f",
             dependencies=[
                 "cmake",
                 "ninja",

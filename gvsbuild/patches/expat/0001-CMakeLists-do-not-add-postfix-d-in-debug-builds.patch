@@ -1,0 +1,25 @@
+From cefae9cae833348b5954edb9b214c477a212a434 Mon Sep 17 00:00:00 2001
+From: Ignacio Casal Quinteiro <qignacio@amazon.com>
+Date: Wed, 2 Aug 2023 12:43:56 +0200
+Subject: [PATCH] CMakeLists: do not add postfix d in debug builds
+
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 72cf0b01..842f900c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -426,7 +426,7 @@ foreach(build_type_upper
+         RELWITHDEBINFO
+         )
+     if(WIN32 AND build_type_upper STREQUAL "DEBUG")
+-        set(_POSTFIX_DEBUG "d")
++        set(_POSTFIX_DEBUG "")
+     else()
+         set(_POSTFIX_DEBUG "")  # needs a reset because of being looped
+     endif()
+-- 
+2.34.1
+

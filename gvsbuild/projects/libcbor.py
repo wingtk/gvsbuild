@@ -21,29 +21,23 @@ from gvsbuild.utils.base_project import Project, project_add
 
 
 @project_add
-class FreeRDP(Tarball, CmakeProject):
+class Libcbor(Tarball, CmakeProject):
     def __init__(self):
         Project.__init__(
             self,
-            "freerdp",
-            version="2.11.1",
-            archive_url="https://github.com/FreeRDP/FreeRDP/releases/download/{version}/freerdp-{version}.tar.gz",
-            hash="fa9aeff43ffef27c8bd04f9be124e58dd30df1be5f0cce90eb0342153bfa2425",
-            dependencies=[
-                "cmake",
-                "ninja",
-                "openssl",
-                "openh264",
-                "ffmpeg",
-                "x264",
-                "zlib",
-                "libjpeg-turbo",
-            ],
+            "libcbor",
+            version="0.10.2",
+            archive_url="https://github.com/PJK/libcbor/archive/refs/tags/v{version}.tar.gz",
+            hash="e75f712215d7b7e5c89ef322a09b701f7159f028b8b48978865725f00f79875b",
+            archive_filename="libcbor-{version}.tar.gz",
+            dependencies=["cmake", "ninja"],
         )
 
     def build(self):
-        CmakeProject.build(
-            self, use_ninja=True, cmake_params="-DWITH_SSE2=ON -DCHANNEL_URBDRC=OFF"
-        )
-
-        self.install(r".\LICENSE share\doc\freerdp")
+        # If do_install is True, the build fails
+        CmakeProject.build(self, use_ninja=True, do_install=False)
+        self.install(r"_gvsbuild-cmake\src\cbor.lib lib")
+        self.install(r"_gvsbuild-cmake\src\cbor\*.h include\cbor")
+        self.install(r"_gvsbuild-cmake\cbor\*.h include\cbor")
+        self.install(r"src\cbor.h include")
+        self.install(r"src\cbor\*.h include\cbor")

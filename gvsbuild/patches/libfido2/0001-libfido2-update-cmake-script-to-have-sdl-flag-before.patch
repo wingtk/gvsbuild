@@ -1,0 +1,30 @@
+From c3c7343d3a18de2f00f288db4969ec07cb1fae09 Mon Sep 17 00:00:00 2001
+From: Mofidul Jamal <mofidulj@amazon.com>
+Date: Fri, 18 Aug 2023 14:11:21 -0400
+Subject: [PATCH] libfido2: update cmake script to have /sdl flag before -W4
+ and warning disabled flags
+
+---
+ CMakeLists.txt | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6fa341a..e97976c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -209,9 +209,9 @@ if(MSVC)
+ 	string(REPLACE "C" " -wd" MSVC_DISABLED_WARNINGS_STR
+ 	    ${MSVC_DISABLED_WARNINGS_LIST})
+ 	string(REGEX REPLACE "[/-]W[1234][ ]?" "" CMAKE_C_FLAGS ${CMAKE_C_FLAGS})
+-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -MP -W4 -WX ${MSVC_DISABLED_WARNINGS_STR}")
+-	set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} /Od /Z7 /guard:cf /sdl /RTCcsu")
+-	set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} /Zi /guard:cf /sdl")
++	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /sdl -MP -W4 -WX ${MSVC_DISABLED_WARNINGS_STR}")
++	set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} /Od /Z7 /guard:cf /RTCcsu")
++	set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} /Zi /guard:cf")
+ 	if(USE_WINHELLO)
+ 		add_definitions(-DUSE_WINHELLO)
+ 	endif()
+-- 
+2.37.1.windows.1
+

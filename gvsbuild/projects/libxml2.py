@@ -26,12 +26,16 @@ class Libxml2(Tarball, Meson):
         Project.__init__(
             self,
             "libxml2",
-            version="2.10.4",
+            version="2.11.5",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/libxml2",
             archive_url="https://download.gnome.org/sources/libxml2/{major}.{minor}/libxml2-{version}.tar.xz",
-            hash="ed0c91c5845008f1936739e4eee2035531c1c94742c6541f44ee66d885948d45",
+            hash="3727b078c360ec69fa869de14bd6f75d7ee8d36987b071e6928d4720a28df3a6",
             dependencies=["win-iconv", "meson", "ninja"],
+            patches=[
+                "0001-parser-fix-old-SAX1-parser-with-custom-callbacks.patch",
+                "0002-sax-always-initialize-SAX1-element-handlers.patch",
+            ],
         )
 
     def build(self):
