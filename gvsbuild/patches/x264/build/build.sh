@@ -14,6 +14,8 @@ configure_cmd[idx++]="--extra-cflags=-DNO_PREFIX"
 if [ "$build_type" = "debug" ]; then
     configure_cmd[idx++]="--enable-debug"
     configure_cmd[idx++]="--extra-cflags=-MDd -Od -Zi"
+else
+    configure_cmd[idx++]="--extra-cflags=-MD"
 fi
 
 if [ "$build_type" = "debug-optimized" ]; then
