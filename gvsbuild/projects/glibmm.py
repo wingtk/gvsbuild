@@ -25,11 +25,11 @@ class Glibmm(Tarball, Meson):
             self,
             "glibmm",
             prj_dir="glibmm",
-            version="2.76.0",
+            version="2.78.0",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/glibmm",
             archive_url="https://download.gnome.org/sources/glibmm/{major}.{minor}/glibmm-{version}.tar.xz",
-            hash="8637d80ceabd94fddd6e48970a082a264558d4ab82684e15ffc87e7ef3462ab2",
+            hash="5d2e872564996f02a06d8bbac3677e7c394af8b00dd1526aebd47af842a3ef50",
             dependencies=[
                 "meson",
                 "ninja",
