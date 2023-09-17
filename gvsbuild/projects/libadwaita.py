@@ -36,7 +36,10 @@ class Libadwaita(Tarball, Meson):
                 "glib",
                 "gtk4",
             ],
-            patches=["0001-remove-appstream-dependency.patch"],
+            patches=[
+                "0001-remove-appstream-dependency.patch",
+                "0002-empty-initializer.patch",
+            ],
         )
         gir = "disabled"
         if self.opts.enable_gi:
