@@ -77,9 +77,6 @@ class Libsoup3(Tarball, Meson):
                 "mit-kerberos",
                 "nghttp2",
             ],
-            patches=[
-                "0001-Fix-encoding-for-UTF-8-params.patch",
-            ],
         )
 
         if self.opts.enable_gi:
