@@ -1,19 +1,19 @@
 /* DO NOT EDIT! GENERATED AUTOMATICALLY! */
 /* Provide a more complete sys/stat.h header file.
-   Copyright (C) 2005-2020 Free Software Foundation, Inc.
+   Copyright (C) 2005-2023 Free Software Foundation, Inc.
 
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 3, or (at your option)
-   any later version.
+   This file is free software: you can redistribute it and/or modify
+   it under the terms of the GNU Lesser General Public License as
+   published by the Free Software Foundation; either version 2.1 of the
+   License, or (at your option) any later version.
 
-   This program is distributed in the hope that it will be useful,
+   This file is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   GNU Lesser General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, see <https://www.gnu.org/licenses/>.  */
+   You should have received a copy of the GNU Lesser General Public License
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 /* Written by Eric Blake, Paul Eggert, and Jim Meyering.  */
 
@@ -26,14 +26,17 @@
 #endif
 
 
+/* This file uses #include_next of a system file that defines time_t.
+   For the 'year2038' module to work right, <config.h> needs to have been
+   included before.  */
+#if !_GL_CONFIG_H_INCLUDED
+ #error "Please include config.h first."
+#endif
+
 #if defined __need_system_sys_stat_h
 /* Special invocation convention.  */
 
-#if (_MSC_VER < 1900)
-#include "../include/sys/stat.h"
-#else
 #include "../ucrt/sys/stat.h"
-#endif
 
 #else
 /* Normal invocation convention.  */
@@ -48,30 +51,54 @@
 #include <time.h>
 
 /* The include_next requires a split double-inclusion guard.  */
-#if (_MSC_VER < 1900)
-#include "../include/sys/stat.h"
-#else
 #include "../ucrt/sys/stat.h"
-#endif
 
 #ifndef _GL_GTPO_SYS_STAT_H
 #define _GL_GTPO_SYS_STAT_H
 
+/* This file uses _GL_ATTRIBUTE_NOTHROW, GNULIB_POSIXCHECK, HAVE_RAW_DECL_*.  */
+#if !_GL_CONFIG_H_INCLUDED
+ #error "Please include config.h first."
+#endif
+
+
+/* _GL_ATTRIBUTE_NOTHROW declares that the function does not throw exceptions.
+ */
+#ifndef _GL_ATTRIBUTE_NOTHROW
+# if defined __cplusplus
+#  if (__GNUC__ + (__GNUC_MINOR__ >= 8) > 2) || __clang_major >= 4
+#   if __cplusplus >= 201103L
+#    define _GL_ATTRIBUTE_NOTHROW noexcept (true)
+#   else
+#    define _GL_ATTRIBUTE_NOTHROW throw ()
+#   endif
+#  else
+#   define _GL_ATTRIBUTE_NOTHROW
+#  endif
+# else
+#  if (__GNUC__ + (__GNUC_MINOR__ >= 3) > 3) || defined __clang__
+#   define _GL_ATTRIBUTE_NOTHROW __attribute__ ((__nothrow__))
+#  else
+#   define _GL_ATTRIBUTE_NOTHROW
+#  endif
+# endif
+#endif
+
 /* The definitions of _GL_FUNCDECL_RPL etc. are copied here.  */
 /* C++ compatible function declaration macros.
-   Copyright (C) 2010-2020 Free Software Foundation, Inc.
+   Copyright (C) 2010-2023 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify it
-   under the terms of the GNU General Public License as published
-   by the Free Software Foundation; either version 3 of the License, or
+   under the terms of the GNU Lesser General Public License as published
+   by the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   General Public License for more details.
+   Lesser General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
+   You should have received a copy of the GNU Lesser General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 #ifndef _GL_CXXDEFS_H
@@ -159,6 +186,12 @@
    Example:
      _GL_FUNCDECL_RPL (open, int, (const char *filename, int flags, ...)
                                   _GL_ARG_NONNULL ((1)));
+
+   Note: Attributes, such as _GL_ATTRIBUTE_DEPRECATED, are supported in front
+   of a _GL_FUNCDECL_RPL invocation only in C mode, not in C++ mode.  (That's
+   because
+     [[...]] extern "C" <declaration>;
+   is invalid syntax in C++.)
  */
 #define _GL_FUNCDECL_RPL(func,rettype,parameters_and_attributes) \
   _GL_FUNCDECL_RPL_1 (rpl_##func, rettype, parameters_and_attributes)
@@ -206,6 +239,16 @@
     _GL_EXTERN_C int _gl_cxxalias_dummy
 #endif
 
+/* _GL_CXXALIAS_MDA (func, rettype, parameters);
+   is to be used when func is a Microsoft deprecated alias, on native Windows.
+   It declares a C++ alias called GNULIB_NAMESPACE::func
+   that redirects to _func, if GNULIB_NAMESPACE is defined.
+   Example:
+     _GL_CXXALIAS_MDA (open, int, (const char *filename, int flags, ...));
+ */
+#define _GL_CXXALIAS_MDA(func,rettype,parameters) \
+  _GL_CXXALIAS_RPL_1 (func, _##func, rettype, parameters)
+
 /* _GL_CXXALIAS_RPL_CAST_1 (func, rpl_func, rettype, parameters);
    is like  _GL_CXXALIAS_RPL_1 (func, rpl_func, rettype, parameters);
    except that the C function rpl_func may have a slightly different
@@ -230,6 +273,14 @@
 # define _GL_CXXALIAS_RPL_CAST_1(func,rpl_func,rettype,parameters) \
     _GL_EXTERN_C int _gl_cxxalias_dummy
 #endif
+
+/* _GL_CXXALIAS_MDA_CAST (func, rettype, parameters);
+   is like  _GL_CXXALIAS_MDA (func, rettype, parameters);
+   except that the C function func may have a slightly different declaration.
+   A cast is used to silence the "invalid conversion" error that would
+   otherwise occur.  */
+#define _GL_CXXALIAS_MDA_CAST(func,rettype,parameters) \
+  _GL_CXXALIAS_RPL_CAST_1 (func, _##func, rettype, parameters)
 
 /* _GL_CXXALIAS_SYS (func, rettype, parameters);
    declares a C++ alias called GNULIB_NAMESPACE::func
@@ -328,7 +379,7 @@
    _GL_CXXALIASWARN_2 (func, namespace)
 /* To work around GCC bug <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=43881>,
    we enable the warning only when not optimizing.  */
-# if !__OPTIMIZE__
+# if !(defined __GNUC__ && !defined __clang__ && __OPTIMIZE__)
 #  define _GL_CXXALIASWARN_2(func,namespace) \
     _GL_WARN_ON_USE (func, \
                      "The symbol ::" #func " refers to the system function. " \
@@ -356,9 +407,9 @@
    _GL_CXXALIASWARN1_2 (func, rettype, parameters_and_attributes, namespace)
 /* To work around GCC bug <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=43881>,
    we enable the warning only when not optimizing.  */
-# if !__OPTIMIZE__
+# if !(defined __GNUC__ && !defined __clang__ && __OPTIMIZE__)
 #  define _GL_CXXALIASWARN1_2(func,rettype,parameters_and_attributes,namespace) \
-    _GL_WARN_ON_USE_CXX (func, rettype, parameters_and_attributes, \
+    _GL_WARN_ON_USE_CXX (func, rettype, rettype, parameters_and_attributes, \
                          "The symbol ::" #func " refers to the system function. " \
                          "Use " #namespace "::" #func " instead.")
 # else
@@ -374,26 +425,26 @@
 
 /* The definition of _GL_ARG_NONNULL is copied here.  */
 /* A C macro for declaring that specific arguments must not be NULL.
-   Copyright (C) 2009-2020 Free Software Foundation, Inc.
+   Copyright (C) 2009-2023 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify it
-   under the terms of the GNU General Public License as published
-   by the Free Software Foundation; either version 3 of the License, or
+   under the terms of the GNU Lesser General Public License as published
+   by the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   General Public License for more details.
+   Lesser General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
+   You should have received a copy of the GNU Lesser General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 /* _GL_ARG_NONNULL((n,...,m)) tells the compiler and static analyzer tools
    that the values passed as arguments n, ..., m must be non-NULL pointers.
    n = 1 stands for the first argument, n = 2 for the second argument etc.  */
 #ifndef _GL_ARG_NONNULL
-# if (__GNUC__ == 3 && __GNUC_MINOR__ >= 3) || __GNUC__ > 3
+# if __GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 3) || defined __clang__
 #  define _GL_ARG_NONNULL(params) __attribute__ ((__nonnull__ params))
 # else
 #  define _GL_ARG_NONNULL(params)
@@ -402,19 +453,19 @@
 
 /* The definition of _GL_WARN_ON_USE is copied here.  */
 /* A C macro for emitting warnings if a function is used.
-   Copyright (C) 2010-2020 Free Software Foundation, Inc.
+   Copyright (C) 2010-2023 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify it
-   under the terms of the GNU General Public License as published
-   by the Free Software Foundation; either version 3 of the License, or
+   under the terms of the GNU Lesser General Public License as published
+   by the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   General Public License for more details.
+   Lesser General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
+   You should have received a copy of the GNU Lesser General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 /* _GL_WARN_ON_USE (function, "literal string") issues a declaration
@@ -487,13 +538,20 @@
 # if 4 < __GNUC__ || (__GNUC__ == 4 && 3 <= __GNUC_MINOR__)
 /* A compiler attribute is available in gcc versions 4.3.0 and later.  */
 #  define _GL_WARN_ON_USE(function, message) \
-extern __typeof__ (function) function __attribute__ ((__warning__ (message)))
+_GL_WARN_EXTERN_C __typeof__ (function) function __attribute__ ((__warning__ (message)))
 #  define _GL_WARN_ON_USE_ATTRIBUTE(message) \
   __attribute__ ((__warning__ (message)))
+# elif __clang_major__ >= 4
+/* Another compiler attribute is available in clang.  */
+#  define _GL_WARN_ON_USE(function, message) \
+_GL_WARN_EXTERN_C __typeof__ (function) function \
+  __attribute__ ((__diagnose_if__ (1, message, "warning")))
+#  define _GL_WARN_ON_USE_ATTRIBUTE(message) \
+  __attribute__ ((__diagnose_if__ (1, message, "warning")))
 # elif __GNUC__ >= 3 && GNULIB_STRICT_CHECKING
 /* Verify the existence of the function.  */
 #  define _GL_WARN_ON_USE(function, message) \
-extern __typeof__ (function) function
+_GL_WARN_EXTERN_C __typeof__ (function) function
 #  define _GL_WARN_ON_USE_ATTRIBUTE(message)
 # else /* Unsupported.  */
 #  define _GL_WARN_ON_USE(function, message) \
@@ -502,27 +560,33 @@ _GL_WARN_EXTERN_C int _gl_warn_on_use
 # endif
 #endif
 
-/* _GL_WARN_ON_USE_CXX (function, rettype, parameters_and_attributes, "string")
-   is like _GL_WARN_ON_USE (function, "string"), except that in C++ mode the
+/* _GL_WARN_ON_USE_CXX (function, rettype_gcc, rettype_clang, parameters_and_attributes, "message")
+   is like _GL_WARN_ON_USE (function, "message"), except that in C++ mode the
    function is declared with the given prototype, consisting of return type,
    parameters, and attributes.
    This variant is useful for overloaded functions in C++. _GL_WARN_ON_USE does
    not work in this case.  */
 #ifndef _GL_WARN_ON_USE_CXX
 # if !defined __cplusplus
-#  define _GL_WARN_ON_USE_CXX(function,rettype,parameters_and_attributes,msg) \
+#  define _GL_WARN_ON_USE_CXX(function,rettype_gcc,rettype_clang,parameters_and_attributes,msg) \
      _GL_WARN_ON_USE (function, msg)
 # else
 #  if 4 < __GNUC__ || (__GNUC__ == 4 && 3 <= __GNUC_MINOR__)
-#   define _GL_WARN_ON_USE_CXX(function,rettype,parameters_and_attributes,msg) \
-extern rettype function parameters_and_attributes \
-     __attribute__ ((__warning__ (msg)))
+/* A compiler attribute is available in gcc versions 4.3.0 and later.  */
+#   define _GL_WARN_ON_USE_CXX(function,rettype_gcc,rettype_clang,parameters_and_attributes,msg) \
+extern rettype_gcc function parameters_and_attributes \
+  __attribute__ ((__warning__ (msg)))
+#  elif __clang_major__ >= 4
+/* Another compiler attribute is available in clang.  */
+#   define _GL_WARN_ON_USE_CXX(function,rettype_gcc,rettype_clang,parameters_and_attributes,msg) \
+extern rettype_clang function parameters_and_attributes \
+  __attribute__ ((__diagnose_if__ (1, msg, "warning")))
 #  elif __GNUC__ >= 3 && GNULIB_STRICT_CHECKING
 /* Verify the existence of the function.  */
-#   define _GL_WARN_ON_USE_CXX(function,rettype,parameters_and_attributes,msg) \
-extern rettype function parameters_and_attributes
+#   define _GL_WARN_ON_USE_CXX(function,rettype_gcc,rettype_clang,parameters_and_attributes,msg) \
+extern rettype_gcc function parameters_and_attributes
 #  else /* Unsupported.  */
-#   define _GL_WARN_ON_USE_CXX(function,rettype,parameters_and_attributes,msg) \
+#   define _GL_WARN_ON_USE_CXX(function,rettype_gcc,rettype_clang,parameters_and_attributes,msg) \
 _GL_WARN_EXTERN_C int _gl_warn_on_use
 #  endif
 # endif
@@ -537,6 +601,7 @@ _GL_WARN_EXTERN_C int _gl_warn_on_use
 #  define _GL_WARN_EXTERN_C extern
 # endif
 #endif
+
 
 /* Before doing "#define mknod rpl_mknod" below, we need to include all
    headers that may declare mknod().  OS/2 kLIBC declares mknod() in
@@ -859,11 +924,11 @@ struct stat
 # define S_IRWXO (S_IROTH | S_IWOTH | S_IXOTH)
 #endif
 
-/* S_IXUGO is a common extension to POSIX.  */
+/* Although S_IXUGO and S_IRWXUGO are not specified by POSIX and are
+   not implemented in GNU/Linux, some Gnulib-using apps use the macros.  */
 #if !S_IXUGO
 # define S_IXUGO (S_IXUSR | S_IXGRP | S_IXOTH)
 #endif
-
 #ifndef S_IRWXUGO
 # define S_IRWXUGO (S_IRWXU | S_IRWXG | S_IRWXO)
 #endif
@@ -872,6 +937,50 @@ struct stat
 #ifndef UTIME_NOW
 # define UTIME_NOW (-1)
 # define UTIME_OMIT (-2)
+#endif
+
+
+#if 0
+# if 0
+#  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
+#   undef chmod
+#   define chmod rpl_chmod
+#  endif
+_GL_FUNCDECL_RPL (chmod, int, (const char *filename, mode_t mode)
+                               _GL_ARG_NONNULL ((1)));
+_GL_CXXALIAS_RPL (chmod, int, (const char *filename, mode_t mode));
+# elif defined _WIN32 && !defined __CYGWIN__
+#  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
+#   undef chmod
+#   define chmod _chmod
+#  endif
+/* Need to cast, because in mingw the last argument is 'int mode'.  */
+_GL_CXXALIAS_MDA_CAST (chmod, int, (const char *filename, mode_t mode));
+# else
+_GL_CXXALIAS_SYS (chmod, int, (const char *filename, mode_t mode));
+# endif
+_GL_CXXALIASWARN (chmod);
+#elif defined GNULIB_POSIXCHECK
+# undef chmod
+# if HAVE_RAW_DECL_CHMOD
+_GL_WARN_ON_USE (chmod, "chmod has portability problems - "
+                 "use gnulib module chmod for portability");
+# endif
+#elif 1
+/* On native Windows, map 'chmod' to '_chmod', so that -loldnames is not
+   required.  In C++ with GNULIB_NAMESPACE, avoid differences between
+   platforms by defining GNULIB_NAMESPACE::chmod always.  */
+# if defined _WIN32 && !defined __CYGWIN__
+#  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
+#   undef chmod
+#   define chmod _chmod
+#  endif
+/* Need to cast, because in mingw the last argument is 'int mode'.  */
+_GL_CXXALIAS_MDA_CAST (chmod, int, (const char *filename, mode_t mode));
+# else
+_GL_CXXALIAS_SYS (chmod, int, (const char *filename, mode_t mode));
+# endif
+_GL_CXXALIASWARN (chmod);
 #endif
 
 
@@ -916,7 +1025,9 @@ _GL_CXXALIAS_RPL (fstat, int, (int fd, struct stat *buf));
 # else
 _GL_CXXALIAS_SYS (fstat, int, (int fd, struct stat *buf));
 # endif
+# if __GLIBC__ >= 2
 _GL_CXXALIASWARN (fstat);
+# endif
 #elif 0
 # undef fstat
 # define fstat fstat_used_without_requesting_gnulib_module_fstat
@@ -946,7 +1057,7 @@ _GL_CXXALIAS_RPL (fstatat, int,
                   (int fd, char const *restrict name, struct stat *restrict st,
                    int flags));
 # else
-#  if !1
+#  if !0
 _GL_FUNCDECL_SYS (fstatat, int,
                   (int fd, char const *restrict name, struct stat *restrict st,
                    int flags)
@@ -987,7 +1098,7 @@ _GL_FUNCDECL_SYS (futimens, int, (int fd, struct timespec const times[2]));
 #  endif
 _GL_CXXALIAS_SYS (futimens, int, (int fd, struct timespec const times[2]));
 # endif
-# if 1
+# if __GLIBC__ >= 2 && 1
 _GL_CXXALIASWARN (futimens);
 # endif
 #elif defined GNULIB_POSIXCHECK
@@ -1001,7 +1112,11 @@ _GL_WARN_ON_USE (futimens, "futimens is not portable - "
 
 #if 0
 # if !1
+#  if __GLIBC__ + (__GLIBC_MINOR__ >= 2) > 2
+_GL_FUNCDECL_SYS (getumask, mode_t, (void) _GL_ATTRIBUTE_NOTHROW);
+#  else
 _GL_FUNCDECL_SYS (getumask, mode_t, (void));
+#  endif
 # endif
 _GL_CXXALIAS_SYS (getumask, mode_t, (void));
 # if 1
@@ -1034,59 +1149,20 @@ _GL_WARN_ON_USE (lchmod, "lchmod is unportable - "
 #endif
 
 
-#if 1
-# if ! 0
-/* mingw does not support symlinks, therefore it does not have lstat.  But
-   without links, stat does just fine.  */
+#if 0
+# if 1
 #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
-#   define lstat stat
+#   undef mkdir
+#   define mkdir rpl_mkdir
 #  endif
-_GL_CXXALIAS_RPL_1 (lstat, stat, int,
-                    (const char *restrict name, struct stat *restrict buf));
-# elif 0
-#  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
-#   undef lstat
-#   define lstat rpl_lstat
-#  endif
-_GL_FUNCDECL_RPL (lstat, int,
-                  (const char *restrict name, struct stat *restrict buf)
-                  _GL_ARG_NONNULL ((1, 2)));
-_GL_CXXALIAS_RPL (lstat, int,
-                  (const char *restrict name, struct stat *restrict buf));
-# else
-_GL_CXXALIAS_SYS (lstat, int,
-                  (const char *restrict name, struct stat *restrict buf));
-# endif
-# if 0
-_GL_CXXALIASWARN (lstat);
-# endif
-#elif 0
-# undef lstat
-# define lstat lstat_used_without_requesting_gnulib_module_lstat
-#elif defined GNULIB_POSIXCHECK
-# undef lstat
-# if HAVE_RAW_DECL_LSTAT
-_GL_WARN_ON_USE (lstat, "lstat is unportable - "
-                 "use gnulib module lstat for portability");
-# endif
-#endif
-
-
-#if 1
-# if !(defined __cplusplus && defined GNULIB_NAMESPACE)
-#  undef mkdir
-#  define mkdir rpl_mkdir
-# endif
 _GL_FUNCDECL_RPL (mkdir, int, (char const *name, mode_t mode)
-                              _GL_ARG_NONNULL ((1)));
+                               _GL_ARG_NONNULL ((1)));
 _GL_CXXALIAS_RPL (mkdir, int, (char const *name, mode_t mode));
-#else
+# elif defined _WIN32 && !defined __CYGWIN__
 /* mingw's _mkdir() function has 1 argument, but we pass 2 arguments.
    Additionally, it declares _mkdir (and depending on compile flags, an
    alias mkdir), only in the nonstandard includes <direct.h> and <io.h>,
    which are included above.  */
-# if defined _WIN32 && ! defined __CYGWIN__
-
 #  if !GNULIB_defined_rpl_mkdir
 static int
 rpl_mkdir (char const *name, mode_t mode)
@@ -1095,16 +1171,44 @@ rpl_mkdir (char const *name, mode_t mode)
 }
 #   define GNULIB_defined_rpl_mkdir 1
 #  endif
-
 #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
+#   undef mkdir
 #   define mkdir rpl_mkdir
 #  endif
 _GL_CXXALIAS_RPL (mkdir, int, (char const *name, mode_t mode));
 # else
 _GL_CXXALIAS_SYS (mkdir, int, (char const *name, mode_t mode));
 # endif
-#endif
 _GL_CXXALIASWARN (mkdir);
+#elif defined GNULIB_POSIXCHECK
+# undef mkdir
+# if HAVE_RAW_DECL_MKDIR
+_GL_WARN_ON_USE (mkdir, "mkdir does not always support two parameters - "
+                 "use gnulib module mkdir for portability");
+# endif
+#elif 1
+/* On native Windows, map 'mkdir' to '_mkdir', so that -loldnames is not
+   required.  In C++ with GNULIB_NAMESPACE, avoid differences between
+   platforms by defining GNULIB_NAMESPACE::mkdir always.  */
+# if defined _WIN32 && !defined __CYGWIN__
+#  if !GNULIB_defined_rpl_mkdir
+static int
+rpl_mkdir (char const *name, mode_t mode)
+{
+  return _mkdir (name);
+}
+#   define GNULIB_defined_rpl_mkdir 1
+#  endif
+#  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
+#   undef mkdir
+#   define mkdir rpl_mkdir
+#  endif
+_GL_CXXALIAS_RPL (mkdir, int, (char const *name, mode_t mode));
+# else
+_GL_CXXALIAS_SYS (mkdir, int, (char const *name, mode_t mode));
+# endif
+_GL_CXXALIASWARN (mkdir);
+#endif
 
 
 #if 0
@@ -1150,12 +1254,24 @@ _GL_WARN_ON_USE (mkfifo, "mkfifo is not portable - "
 
 
 #if 0
-# if !1
+# if 0
+#  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
+#   undef mkfifoat
+#   define mkfifoat rpl_mkfifoat
+#  endif
+_GL_FUNCDECL_RPL (mkfifoat, int, (int fd, char const *file, mode_t mode)
+                                 _GL_ARG_NONNULL ((2)));
+_GL_CXXALIAS_RPL (mkfifoat, int, (int fd, char const *file, mode_t mode));
+# else
+#  if !1
 _GL_FUNCDECL_SYS (mkfifoat, int, (int fd, char const *file, mode_t mode)
                                  _GL_ARG_NONNULL ((2)));
-# endif
+#  endif
 _GL_CXXALIAS_SYS (mkfifoat, int, (int fd, char const *file, mode_t mode));
+# endif
+# if __GLIBC__ >= 2
 _GL_CXXALIASWARN (mkfifoat);
+# endif
 #elif defined GNULIB_POSIXCHECK
 # undef mkfifoat
 # if HAVE_RAW_DECL_MKFIFOAT
@@ -1193,14 +1309,28 @@ _GL_WARN_ON_USE (mknod, "mknod is not portable - "
 
 
 #if 0
-# if !1
+# if 0
+#  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
+#   undef mknodat
+#   define mknodat rpl_mknodat
+#  endif
+_GL_FUNCDECL_RPL (mknodat, int,
+                  (int fd, char const *file, mode_t mode, dev_t dev)
+                  _GL_ARG_NONNULL ((2)));
+_GL_CXXALIAS_RPL (mknodat, int,
+                  (int fd, char const *file, mode_t mode, dev_t dev));
+# else
+#  if !1
 _GL_FUNCDECL_SYS (mknodat, int,
                   (int fd, char const *file, mode_t mode, dev_t dev)
                   _GL_ARG_NONNULL ((2)));
-# endif
+#  endif
 _GL_CXXALIAS_SYS (mknodat, int,
                   (int fd, char const *file, mode_t mode, dev_t dev));
+# endif
+# if __GLIBC__ >= 2
 _GL_CXXALIASWARN (mknodat);
+# endif
 #elif defined GNULIB_POSIXCHECK
 # undef mknodat
 # if HAVE_RAW_DECL_MKNODAT
@@ -1285,6 +1415,62 @@ _GL_WARN_ON_USE (stat, "stat is unportable - "
 
 
 #if 0
+# if ! 0
+/* mingw does not support symlinks, therefore it does not have lstat.  But
+   without links, stat does just fine.  */
+#  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
+#   define lstat stat
+#  endif
+_GL_CXXALIAS_RPL_1 (lstat, stat, int,
+                    (const char *restrict name, struct stat *restrict buf));
+# elif 0
+#  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
+#   undef lstat
+#   define lstat rpl_lstat
+#  endif
+_GL_FUNCDECL_RPL (lstat, int,
+                  (const char *restrict name, struct stat *restrict buf)
+                  _GL_ARG_NONNULL ((1, 2)));
+_GL_CXXALIAS_RPL (lstat, int,
+                  (const char *restrict name, struct stat *restrict buf));
+# else
+_GL_CXXALIAS_SYS (lstat, int,
+                  (const char *restrict name, struct stat *restrict buf));
+# endif
+# if 0
+_GL_CXXALIASWARN (lstat);
+# endif
+#elif 0
+# undef lstat
+# define lstat lstat_used_without_requesting_gnulib_module_lstat
+#elif defined GNULIB_POSIXCHECK
+# undef lstat
+# if HAVE_RAW_DECL_LSTAT
+_GL_WARN_ON_USE (lstat, "lstat is unportable - "
+                 "use gnulib module lstat for portability");
+# endif
+#endif
+
+
+#if 1
+/* On native Windows, map 'umask' to '_umask', so that -loldnames is not
+   required.  In C++ with GNULIB_NAMESPACE, avoid differences between
+   platforms by defining GNULIB_NAMESPACE::umask always.  */
+# if defined _WIN32 && !defined __CYGWIN__
+#  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
+#   undef umask
+#   define umask _umask
+#  endif
+/* Need to cast, because in mingw the last argument is 'int mode'.  */
+_GL_CXXALIAS_MDA_CAST (umask, mode_t, (mode_t mask));
+# else
+_GL_CXXALIAS_SYS (umask, mode_t, (mode_t mask));
+# endif
+_GL_CXXALIASWARN (umask);
+#endif
+
+
+#if 0
 /* Use the rpl_ prefix also on Solaris <= 9, because on Solaris 9 our utimensat
    implementation relies on futimesat, which on Solaris 10 makes an invocation
    to utimensat that is meant to invoke the libc's utimensat(), not gnulib's
@@ -1308,7 +1494,7 @@ _GL_FUNCDECL_SYS (utimensat, int, (int fd, char const *name,
 _GL_CXXALIAS_SYS (utimensat, int, (int fd, char const *name,
                                    struct timespec const times[2], int flag));
 # endif
-# if 1
+# if __GLIBC__ >= 2 && 1
 _GL_CXXALIASWARN (utimensat);
 # endif
 #elif defined GNULIB_POSIXCHECK

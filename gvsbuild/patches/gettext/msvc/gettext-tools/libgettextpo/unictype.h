@@ -1,18 +1,18 @@
 /* DO NOT EDIT! GENERATED AUTOMATICALLY! */
 /* Unicode character classification and properties.
-   Copyright (C) 2002, 2005-2020 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2005-2023 Free Software Foundation, Inc.
 
-   This program is free software: you can redistribute it and/or modify it
-   under the terms of the GNU General Public License as published
-   by the Free Software Foundation; either version 3 of the License, or
-   (at your option) any later version.
+   This file is free software: you can redistribute it and/or modify
+   it under the terms of the GNU Lesser General Public License as
+   published by the Free Software Foundation; either version 2.1 of the
+   License, or (at your option) any later version.
 
-   This program is distributed in the hope that it will be useful,
+   This file is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU Lesser General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
+   You should have received a copy of the GNU Lesser General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 #ifndef _UNICTYPE_H
@@ -25,6 +25,12 @@
 
 /* Get size_t.  */
 #include <stddef.h>
+
+#if 0
+# include <unistring/woe32dll.h>
+#else
+# define LIBUNISTRING_DLL_VARIABLE
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -102,44 +108,44 @@ enum
 };
 
 /* Predefined General category values.  */
-extern const uc_general_category_t UC_CATEGORY_L;
-extern const uc_general_category_t UC_CATEGORY_LC;
-extern const uc_general_category_t UC_CATEGORY_Lu;
-extern const uc_general_category_t UC_CATEGORY_Ll;
-extern const uc_general_category_t UC_CATEGORY_Lt;
-extern const uc_general_category_t UC_CATEGORY_Lm;
-extern const uc_general_category_t UC_CATEGORY_Lo;
-extern const uc_general_category_t UC_CATEGORY_M;
-extern const uc_general_category_t UC_CATEGORY_Mn;
-extern const uc_general_category_t UC_CATEGORY_Mc;
-extern const uc_general_category_t UC_CATEGORY_Me;
-extern const uc_general_category_t UC_CATEGORY_N;
-extern const uc_general_category_t UC_CATEGORY_Nd;
-extern const uc_general_category_t UC_CATEGORY_Nl;
-extern const uc_general_category_t UC_CATEGORY_No;
-extern const uc_general_category_t UC_CATEGORY_P;
-extern const uc_general_category_t UC_CATEGORY_Pc;
-extern const uc_general_category_t UC_CATEGORY_Pd;
-extern const uc_general_category_t UC_CATEGORY_Ps;
-extern const uc_general_category_t UC_CATEGORY_Pe;
-extern const uc_general_category_t UC_CATEGORY_Pi;
-extern const uc_general_category_t UC_CATEGORY_Pf;
-extern const uc_general_category_t UC_CATEGORY_Po;
-extern const uc_general_category_t UC_CATEGORY_S;
-extern const uc_general_category_t UC_CATEGORY_Sm;
-extern const uc_general_category_t UC_CATEGORY_Sc;
-extern const uc_general_category_t UC_CATEGORY_Sk;
-extern const uc_general_category_t UC_CATEGORY_So;
-extern const uc_general_category_t UC_CATEGORY_Z;
-extern const uc_general_category_t UC_CATEGORY_Zs;
-extern const uc_general_category_t UC_CATEGORY_Zl;
-extern const uc_general_category_t UC_CATEGORY_Zp;
-extern const uc_general_category_t UC_CATEGORY_C;
-extern const uc_general_category_t UC_CATEGORY_Cc;
-extern const uc_general_category_t UC_CATEGORY_Cf;
-extern const uc_general_category_t UC_CATEGORY_Cs;
-extern const uc_general_category_t UC_CATEGORY_Co;
-extern const uc_general_category_t UC_CATEGORY_Cn;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_L;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_LC;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Lu;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Ll;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Lt;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Lm;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Lo;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_M;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Mn;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Mc;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Me;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_N;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Nd;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Nl;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_No;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_P;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Pc;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Pd;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Ps;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Pe;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Pi;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Pf;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Po;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_S;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Sm;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Sc;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Sk;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_So;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Z;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Zs;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Zl;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Zp;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_C;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Cc;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Cf;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Cs;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Co;
+extern LIBUNISTRING_DLL_VARIABLE const uc_general_category_t UC_CATEGORY_Cn;
 /* Non-public.  */
 extern const uc_general_category_t _UC_CATEGORY_NONE;
 
@@ -467,95 +473,110 @@ extern int
    This enumeration may be extended in the future.  */
 enum
 {
-  UC_JOINING_GROUP_NONE,                  /* No_Joining_Group */
-  UC_JOINING_GROUP_AIN,                   /* Ain */
-  UC_JOINING_GROUP_ALAPH,                 /* Alaph */
-  UC_JOINING_GROUP_ALEF,                  /* Alef */
-  UC_JOINING_GROUP_BEH,                   /* Beh */
-  UC_JOINING_GROUP_BETH,                  /* Beth */
-  UC_JOINING_GROUP_BURUSHASKI_YEH_BARREE, /* Burushaski_Yeh_Barree */
-  UC_JOINING_GROUP_DAL,                   /* Dal */
-  UC_JOINING_GROUP_DALATH_RISH,           /* Dalath_Rish */
-  UC_JOINING_GROUP_E,                     /* E */
-  UC_JOINING_GROUP_FARSI_YEH,             /* Farsi_Yeh */
-  UC_JOINING_GROUP_FE,                    /* Fe */
-  UC_JOINING_GROUP_FEH,                   /* Feh */
-  UC_JOINING_GROUP_FINAL_SEMKATH,         /* Final_Semkath */
-  UC_JOINING_GROUP_GAF,                   /* Gaf */
-  UC_JOINING_GROUP_GAMAL,                 /* Gamal */
-  UC_JOINING_GROUP_HAH,                   /* Hah */
-  UC_JOINING_GROUP_HE,                    /* He */
-  UC_JOINING_GROUP_HEH,                   /* Heh */
-  UC_JOINING_GROUP_HEH_GOAL,              /* Heh_Goal */
-  UC_JOINING_GROUP_HETH,                  /* Heth */
-  UC_JOINING_GROUP_KAF,                   /* Kaf */
-  UC_JOINING_GROUP_KAPH,                  /* Kaph */
-  UC_JOINING_GROUP_KHAPH,                 /* Khaph */
-  UC_JOINING_GROUP_KNOTTED_HEH,           /* Knotted_Heh */
-  UC_JOINING_GROUP_LAM,                   /* Lam */
-  UC_JOINING_GROUP_LAMADH,                /* Lamadh */
-  UC_JOINING_GROUP_MEEM,                  /* Meem */
-  UC_JOINING_GROUP_MIM,                   /* Mim */
-  UC_JOINING_GROUP_NOON,                  /* Noon */
-  UC_JOINING_GROUP_NUN,                   /* Nun */
-  UC_JOINING_GROUP_NYA,                   /* Nya */
-  UC_JOINING_GROUP_PE,                    /* Pe */
-  UC_JOINING_GROUP_QAF,                   /* Qaf */
-  UC_JOINING_GROUP_QAPH,                  /* Qaph */
-  UC_JOINING_GROUP_REH,                   /* Reh */
-  UC_JOINING_GROUP_REVERSED_PE,           /* Reversed_Pe */
-  UC_JOINING_GROUP_SAD,                   /* Sad */
-  UC_JOINING_GROUP_SADHE,                 /* Sadhe */
-  UC_JOINING_GROUP_SEEN,                  /* Seen */
-  UC_JOINING_GROUP_SEMKATH,               /* Semkath */
-  UC_JOINING_GROUP_SHIN,                  /* Shin */
-  UC_JOINING_GROUP_SWASH_KAF,             /* Swash_Kaf */
-  UC_JOINING_GROUP_SYRIAC_WAW,            /* Syriac_Waw */
-  UC_JOINING_GROUP_TAH,                   /* Tah */
-  UC_JOINING_GROUP_TAW,                   /* Taw */
-  UC_JOINING_GROUP_TEH_MARBUTA,           /* Teh_Marbuta */
-  UC_JOINING_GROUP_TEH_MARBUTA_GOAL,      /* Teh_Marbuta_Goal */
-  UC_JOINING_GROUP_TETH,                  /* Teth */
-  UC_JOINING_GROUP_WAW,                   /* Waw */
-  UC_JOINING_GROUP_YEH,                   /* Yeh */
-  UC_JOINING_GROUP_YEH_BARREE,            /* Yeh_Barree */
-  UC_JOINING_GROUP_YEH_WITH_TAIL,         /* Yeh_With_Tail */
-  UC_JOINING_GROUP_YUDH,                  /* Yudh */
-  UC_JOINING_GROUP_YUDH_HE,               /* Yudh_He */
-  UC_JOINING_GROUP_ZAIN,                  /* Zain */
-  UC_JOINING_GROUP_ZHAIN,                 /* Zhain */
-  UC_JOINING_GROUP_ROHINGYA_YEH,          /* Rohingya_Yeh */
-  UC_JOINING_GROUP_STRAIGHT_WAW,          /* Straight_Waw */
-  UC_JOINING_GROUP_MANICHAEAN_ALEPH,      /* Manichaean_Aleph */
-  UC_JOINING_GROUP_MANICHAEAN_BETH,       /* Manichaean_Beth */
-  UC_JOINING_GROUP_MANICHAEAN_GIMEL,      /* Manichaean_Gimel */
-  UC_JOINING_GROUP_MANICHAEAN_DALETH,     /* Manichaean_Daleth */
-  UC_JOINING_GROUP_MANICHAEAN_WAW,        /* Manichaean_Waw */
-  UC_JOINING_GROUP_MANICHAEAN_ZAYIN,      /* Manichaean_Zayin */
-  UC_JOINING_GROUP_MANICHAEAN_HETH,       /* Manichaean_Heth */
-  UC_JOINING_GROUP_MANICHAEAN_TETH,       /* Manichaean_Teth */
-  UC_JOINING_GROUP_MANICHAEAN_YODH,       /* Manichaean_Yodh */
-  UC_JOINING_GROUP_MANICHAEAN_KAPH,       /* Manichaean_Kaph */
-  UC_JOINING_GROUP_MANICHAEAN_LAMEDH,     /* Manichaean_Lamedh */
-  UC_JOINING_GROUP_MANICHAEAN_DHAMEDH,    /* Manichaean_Dhamedh */
-  UC_JOINING_GROUP_MANICHAEAN_THAMEDH,    /* Manichaean_Thamedh */
-  UC_JOINING_GROUP_MANICHAEAN_MEM,        /* Manichaean_Mem */
-  UC_JOINING_GROUP_MANICHAEAN_NUN,        /* Manichaean_Nun */
-  UC_JOINING_GROUP_MANICHAEAN_SAMEKH,     /* Manichaean_Aleph */
-  UC_JOINING_GROUP_MANICHAEAN_AYIN,       /* Manichaean_Ayin */
-  UC_JOINING_GROUP_MANICHAEAN_PE,         /* Manichaean_Pe */
-  UC_JOINING_GROUP_MANICHAEAN_SADHE,      /* Manichaean_Sadhe */
-  UC_JOINING_GROUP_MANICHAEAN_QOPH,       /* Manichaean_Qoph */
-  UC_JOINING_GROUP_MANICHAEAN_RESH,       /* Manichaean_Resh */
-  UC_JOINING_GROUP_MANICHAEAN_TAW,        /* Manichaean_Taw */
-  UC_JOINING_GROUP_MANICHAEAN_ONE,        /* Manichaean_One */
-  UC_JOINING_GROUP_MANICHAEAN_FIVE,       /* Manichaean_Five */
-  UC_JOINING_GROUP_MANICHAEAN_TEN,        /* Manichaean_Ten */
-  UC_JOINING_GROUP_MANICHAEAN_TWENTY,     /* Manichaean_Twenty */
-  UC_JOINING_GROUP_MANICHAEAN_HUNDRED,    /* Manichaean_Hundred */
-  UC_JOINING_GROUP_AFRICAN_FEH,           /* African_Feh */
-  UC_JOINING_GROUP_AFRICAN_QAF,           /* African_Qaf */
-  UC_JOINING_GROUP_AFRICAN_NOON           /* African_Noon */
+  UC_JOINING_GROUP_NONE,                     /* No_Joining_Group */
+  UC_JOINING_GROUP_AIN,                      /* Ain */
+  UC_JOINING_GROUP_ALAPH,                    /* Alaph */
+  UC_JOINING_GROUP_ALEF,                     /* Alef */
+  UC_JOINING_GROUP_BEH,                      /* Beh */
+  UC_JOINING_GROUP_BETH,                     /* Beth */
+  UC_JOINING_GROUP_BURUSHASKI_YEH_BARREE,    /* Burushaski_Yeh_Barree */
+  UC_JOINING_GROUP_DAL,                      /* Dal */
+  UC_JOINING_GROUP_DALATH_RISH,              /* Dalath_Rish */
+  UC_JOINING_GROUP_E,                        /* E */
+  UC_JOINING_GROUP_FARSI_YEH,                /* Farsi_Yeh */
+  UC_JOINING_GROUP_FE,                       /* Fe */
+  UC_JOINING_GROUP_FEH,                      /* Feh */
+  UC_JOINING_GROUP_FINAL_SEMKATH,            /* Final_Semkath */
+  UC_JOINING_GROUP_GAF,                      /* Gaf */
+  UC_JOINING_GROUP_GAMAL,                    /* Gamal */
+  UC_JOINING_GROUP_HAH,                      /* Hah */
+  UC_JOINING_GROUP_HE,                       /* He */
+  UC_JOINING_GROUP_HEH,                      /* Heh */
+  UC_JOINING_GROUP_HEH_GOAL,                 /* Heh_Goal */
+  UC_JOINING_GROUP_HETH,                     /* Heth */
+  UC_JOINING_GROUP_KAF,                      /* Kaf */
+  UC_JOINING_GROUP_KAPH,                     /* Kaph */
+  UC_JOINING_GROUP_KHAPH,                    /* Khaph */
+  UC_JOINING_GROUP_KNOTTED_HEH,              /* Knotted_Heh */
+  UC_JOINING_GROUP_LAM,                      /* Lam */
+  UC_JOINING_GROUP_LAMADH,                   /* Lamadh */
+  UC_JOINING_GROUP_MEEM,                     /* Meem */
+  UC_JOINING_GROUP_MIM,                      /* Mim */
+  UC_JOINING_GROUP_NOON,                     /* Noon */
+  UC_JOINING_GROUP_NUN,                      /* Nun */
+  UC_JOINING_GROUP_NYA,                      /* Nya */
+  UC_JOINING_GROUP_PE,                       /* Pe */
+  UC_JOINING_GROUP_QAF,                      /* Qaf */
+  UC_JOINING_GROUP_QAPH,                     /* Qaph */
+  UC_JOINING_GROUP_REH,                      /* Reh */
+  UC_JOINING_GROUP_REVERSED_PE,              /* Reversed_Pe */
+  UC_JOINING_GROUP_SAD,                      /* Sad */
+  UC_JOINING_GROUP_SADHE,                    /* Sadhe */
+  UC_JOINING_GROUP_SEEN,                     /* Seen */
+  UC_JOINING_GROUP_SEMKATH,                  /* Semkath */
+  UC_JOINING_GROUP_SHIN,                     /* Shin */
+  UC_JOINING_GROUP_SWASH_KAF,                /* Swash_Kaf */
+  UC_JOINING_GROUP_SYRIAC_WAW,               /* Syriac_Waw */
+  UC_JOINING_GROUP_TAH,                      /* Tah */
+  UC_JOINING_GROUP_TAW,                      /* Taw */
+  UC_JOINING_GROUP_TEH_MARBUTA,              /* Teh_Marbuta */
+  UC_JOINING_GROUP_TEH_MARBUTA_GOAL,         /* Teh_Marbuta_Goal */
+  UC_JOINING_GROUP_TETH,                     /* Teth */
+  UC_JOINING_GROUP_WAW,                      /* Waw */
+  UC_JOINING_GROUP_YEH,                      /* Yeh */
+  UC_JOINING_GROUP_YEH_BARREE,               /* Yeh_Barree */
+  UC_JOINING_GROUP_YEH_WITH_TAIL,            /* Yeh_With_Tail */
+  UC_JOINING_GROUP_YUDH,                     /* Yudh */
+  UC_JOINING_GROUP_YUDH_HE,                  /* Yudh_He */
+  UC_JOINING_GROUP_ZAIN,                     /* Zain */
+  UC_JOINING_GROUP_ZHAIN,                    /* Zhain */
+  UC_JOINING_GROUP_ROHINGYA_YEH,             /* Rohingya_Yeh */
+  UC_JOINING_GROUP_STRAIGHT_WAW,             /* Straight_Waw */
+  UC_JOINING_GROUP_MANICHAEAN_ALEPH,         /* Manichaean_Aleph */
+  UC_JOINING_GROUP_MANICHAEAN_BETH,          /* Manichaean_Beth */
+  UC_JOINING_GROUP_MANICHAEAN_GIMEL,         /* Manichaean_Gimel */
+  UC_JOINING_GROUP_MANICHAEAN_DALETH,        /* Manichaean_Daleth */
+  UC_JOINING_GROUP_MANICHAEAN_WAW,           /* Manichaean_Waw */
+  UC_JOINING_GROUP_MANICHAEAN_ZAYIN,         /* Manichaean_Zayin */
+  UC_JOINING_GROUP_MANICHAEAN_HETH,          /* Manichaean_Heth */
+  UC_JOINING_GROUP_MANICHAEAN_TETH,          /* Manichaean_Teth */
+  UC_JOINING_GROUP_MANICHAEAN_YODH,          /* Manichaean_Yodh */
+  UC_JOINING_GROUP_MANICHAEAN_KAPH,          /* Manichaean_Kaph */
+  UC_JOINING_GROUP_MANICHAEAN_LAMEDH,        /* Manichaean_Lamedh */
+  UC_JOINING_GROUP_MANICHAEAN_DHAMEDH,       /* Manichaean_Dhamedh */
+  UC_JOINING_GROUP_MANICHAEAN_THAMEDH,       /* Manichaean_Thamedh */
+  UC_JOINING_GROUP_MANICHAEAN_MEM,           /* Manichaean_Mem */
+  UC_JOINING_GROUP_MANICHAEAN_NUN,           /* Manichaean_Nun */
+  UC_JOINING_GROUP_MANICHAEAN_SAMEKH,        /* Manichaean_Aleph */
+  UC_JOINING_GROUP_MANICHAEAN_AYIN,          /* Manichaean_Ayin */
+  UC_JOINING_GROUP_MANICHAEAN_PE,            /* Manichaean_Pe */
+  UC_JOINING_GROUP_MANICHAEAN_SADHE,         /* Manichaean_Sadhe */
+  UC_JOINING_GROUP_MANICHAEAN_QOPH,          /* Manichaean_Qoph */
+  UC_JOINING_GROUP_MANICHAEAN_RESH,          /* Manichaean_Resh */
+  UC_JOINING_GROUP_MANICHAEAN_TAW,           /* Manichaean_Taw */
+  UC_JOINING_GROUP_MANICHAEAN_ONE,           /* Manichaean_One */
+  UC_JOINING_GROUP_MANICHAEAN_FIVE,          /* Manichaean_Five */
+  UC_JOINING_GROUP_MANICHAEAN_TEN,           /* Manichaean_Ten */
+  UC_JOINING_GROUP_MANICHAEAN_TWENTY,        /* Manichaean_Twenty */
+  UC_JOINING_GROUP_MANICHAEAN_HUNDRED,       /* Manichaean_Hundred */
+  UC_JOINING_GROUP_AFRICAN_FEH,              /* African_Feh */
+  UC_JOINING_GROUP_AFRICAN_QAF,              /* African_Qaf */
+  UC_JOINING_GROUP_AFRICAN_NOON,             /* African_Noon */
+  UC_JOINING_GROUP_MALAYALAM_NGA,            /* Malayalam_Nga */
+  UC_JOINING_GROUP_MALAYALAM_JA,             /* Malayalam_Ja */
+  UC_JOINING_GROUP_MALAYALAM_NYA,            /* Malayalam_Nya */
+  UC_JOINING_GROUP_MALAYALAM_TTA,            /* Malayalam_Tta */
+  UC_JOINING_GROUP_MALAYALAM_NNA,            /* Malayalam_Nna */
+  UC_JOINING_GROUP_MALAYALAM_NNNA,           /* Malayalam_Nnna */
+  UC_JOINING_GROUP_MALAYALAM_BHA,            /* Malayalam_Bha */
+  UC_JOINING_GROUP_MALAYALAM_RA,             /* Malayalam_Ra */
+  UC_JOINING_GROUP_MALAYALAM_LLA,            /* Malayalam_Lla */
+  UC_JOINING_GROUP_MALAYALAM_LLLA,           /* Malayalam_Llla */
+  UC_JOINING_GROUP_MALAYALAM_SSA,            /* Malayalam_Ssa */
+  UC_JOINING_GROUP_HANIFI_ROHINGYA_PA,       /* Hanifi_Rohingya_Pa */
+  UC_JOINING_GROUP_HANIFI_ROHINGYA_KINNA_YA, /* Hanifi_Rohingya_Kinna_Ya */
+  UC_JOINING_GROUP_THIN_YEH,                 /* Thin_Yeh */
+  UC_JOINING_GROUP_VERTICAL_TAIL             /* Vertical_Tail */
 };
 
 /* Return the name of a joining group.  */
@@ -588,99 +609,107 @@ uc_property_t;
 
 /* Predefined properties.  */
 /* General.  */
-extern const uc_property_t UC_PROPERTY_WHITE_SPACE;
-extern const uc_property_t UC_PROPERTY_ALPHABETIC;
-extern const uc_property_t UC_PROPERTY_OTHER_ALPHABETIC;
-extern const uc_property_t UC_PROPERTY_NOT_A_CHARACTER;
-extern const uc_property_t UC_PROPERTY_DEFAULT_IGNORABLE_CODE_POINT;
-extern const uc_property_t UC_PROPERTY_OTHER_DEFAULT_IGNORABLE_CODE_POINT;
-extern const uc_property_t UC_PROPERTY_DEPRECATED;
-extern const uc_property_t UC_PROPERTY_LOGICAL_ORDER_EXCEPTION;
-extern const uc_property_t UC_PROPERTY_VARIATION_SELECTOR;
-extern const uc_property_t UC_PROPERTY_PRIVATE_USE;
-extern const uc_property_t UC_PROPERTY_UNASSIGNED_CODE_VALUE;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_WHITE_SPACE;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_ALPHABETIC;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_OTHER_ALPHABETIC;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_NOT_A_CHARACTER;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_DEFAULT_IGNORABLE_CODE_POINT;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_OTHER_DEFAULT_IGNORABLE_CODE_POINT;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_DEPRECATED;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_LOGICAL_ORDER_EXCEPTION;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_VARIATION_SELECTOR;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_PRIVATE_USE;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_UNASSIGNED_CODE_VALUE;
 /* Case.  */
-extern const uc_property_t UC_PROPERTY_UPPERCASE;
-extern const uc_property_t UC_PROPERTY_OTHER_UPPERCASE;
-extern const uc_property_t UC_PROPERTY_LOWERCASE;
-extern const uc_property_t UC_PROPERTY_OTHER_LOWERCASE;
-extern const uc_property_t UC_PROPERTY_TITLECASE;
-extern const uc_property_t UC_PROPERTY_CASED;
-extern const uc_property_t UC_PROPERTY_CASE_IGNORABLE;
-extern const uc_property_t UC_PROPERTY_CHANGES_WHEN_LOWERCASED;
-extern const uc_property_t UC_PROPERTY_CHANGES_WHEN_UPPERCASED;
-extern const uc_property_t UC_PROPERTY_CHANGES_WHEN_TITLECASED;
-extern const uc_property_t UC_PROPERTY_CHANGES_WHEN_CASEFOLDED;
-extern const uc_property_t UC_PROPERTY_CHANGES_WHEN_CASEMAPPED;
-extern const uc_property_t UC_PROPERTY_SOFT_DOTTED;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_UPPERCASE;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_OTHER_UPPERCASE;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_LOWERCASE;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_OTHER_LOWERCASE;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_TITLECASE;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_CASED;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_CASE_IGNORABLE;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_CHANGES_WHEN_LOWERCASED;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_CHANGES_WHEN_UPPERCASED;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_CHANGES_WHEN_TITLECASED;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_CHANGES_WHEN_CASEFOLDED;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_CHANGES_WHEN_CASEMAPPED;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_SOFT_DOTTED;
 /* Identifiers.  */
-extern const uc_property_t UC_PROPERTY_ID_START;
-extern const uc_property_t UC_PROPERTY_OTHER_ID_START;
-extern const uc_property_t UC_PROPERTY_ID_CONTINUE;
-extern const uc_property_t UC_PROPERTY_OTHER_ID_CONTINUE;
-extern const uc_property_t UC_PROPERTY_XID_START;
-extern const uc_property_t UC_PROPERTY_XID_CONTINUE;
-extern const uc_property_t UC_PROPERTY_PATTERN_WHITE_SPACE;
-extern const uc_property_t UC_PROPERTY_PATTERN_SYNTAX;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_ID_START;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_OTHER_ID_START;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_ID_CONTINUE;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_OTHER_ID_CONTINUE;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_XID_START;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_XID_CONTINUE;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_PATTERN_WHITE_SPACE;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_PATTERN_SYNTAX;
 /* Shaping and rendering.  */
-extern const uc_property_t UC_PROPERTY_JOIN_CONTROL;
-extern const uc_property_t UC_PROPERTY_GRAPHEME_BASE;
-extern const uc_property_t UC_PROPERTY_GRAPHEME_EXTEND;
-extern const uc_property_t UC_PROPERTY_OTHER_GRAPHEME_EXTEND;
-extern const uc_property_t UC_PROPERTY_GRAPHEME_LINK;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_JOIN_CONTROL;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_GRAPHEME_BASE;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_GRAPHEME_EXTEND;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_OTHER_GRAPHEME_EXTEND;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_GRAPHEME_LINK;
 /* Bidi.  */
-extern const uc_property_t UC_PROPERTY_BIDI_CONTROL;
-extern const uc_property_t UC_PROPERTY_BIDI_LEFT_TO_RIGHT;
-extern const uc_property_t UC_PROPERTY_BIDI_HEBREW_RIGHT_TO_LEFT;
-extern const uc_property_t UC_PROPERTY_BIDI_ARABIC_RIGHT_TO_LEFT;
-extern const uc_property_t UC_PROPERTY_BIDI_EUROPEAN_DIGIT;
-extern const uc_property_t UC_PROPERTY_BIDI_EUR_NUM_SEPARATOR;
-extern const uc_property_t UC_PROPERTY_BIDI_EUR_NUM_TERMINATOR;
-extern const uc_property_t UC_PROPERTY_BIDI_ARABIC_DIGIT;
-extern const uc_property_t UC_PROPERTY_BIDI_COMMON_SEPARATOR;
-extern const uc_property_t UC_PROPERTY_BIDI_BLOCK_SEPARATOR;
-extern const uc_property_t UC_PROPERTY_BIDI_SEGMENT_SEPARATOR;
-extern const uc_property_t UC_PROPERTY_BIDI_WHITESPACE;
-extern const uc_property_t UC_PROPERTY_BIDI_NON_SPACING_MARK;
-extern const uc_property_t UC_PROPERTY_BIDI_BOUNDARY_NEUTRAL;
-extern const uc_property_t UC_PROPERTY_BIDI_PDF;
-extern const uc_property_t UC_PROPERTY_BIDI_EMBEDDING_OR_OVERRIDE;
-extern const uc_property_t UC_PROPERTY_BIDI_OTHER_NEUTRAL;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_BIDI_CONTROL;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_BIDI_LEFT_TO_RIGHT;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_BIDI_HEBREW_RIGHT_TO_LEFT;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_BIDI_ARABIC_RIGHT_TO_LEFT;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_BIDI_EUROPEAN_DIGIT;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_BIDI_EUR_NUM_SEPARATOR;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_BIDI_EUR_NUM_TERMINATOR;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_BIDI_ARABIC_DIGIT;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_BIDI_COMMON_SEPARATOR;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_BIDI_BLOCK_SEPARATOR;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_BIDI_SEGMENT_SEPARATOR;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_BIDI_WHITESPACE;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_BIDI_NON_SPACING_MARK;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_BIDI_BOUNDARY_NEUTRAL;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_BIDI_PDF;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_BIDI_EMBEDDING_OR_OVERRIDE;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_BIDI_OTHER_NEUTRAL;
 /* Numeric.  */
-extern const uc_property_t UC_PROPERTY_HEX_DIGIT;
-extern const uc_property_t UC_PROPERTY_ASCII_HEX_DIGIT;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_HEX_DIGIT;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_ASCII_HEX_DIGIT;
 /* CJK.  */
-extern const uc_property_t UC_PROPERTY_IDEOGRAPHIC;
-extern const uc_property_t UC_PROPERTY_UNIFIED_IDEOGRAPH;
-extern const uc_property_t UC_PROPERTY_RADICAL;
-extern const uc_property_t UC_PROPERTY_IDS_BINARY_OPERATOR;
-extern const uc_property_t UC_PROPERTY_IDS_TRINARY_OPERATOR;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_IDEOGRAPHIC;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_UNIFIED_IDEOGRAPH;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_RADICAL;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_IDS_BINARY_OPERATOR;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_IDS_TRINARY_OPERATOR;
+/* Emoji.  */
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_EMOJI;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_EMOJI_PRESENTATION;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_EMOJI_MODIFIER;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_EMOJI_MODIFIER_BASE;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_EMOJI_COMPONENT;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_EXTENDED_PICTOGRAPHIC;
 /* Misc.  */
-extern const uc_property_t UC_PROPERTY_ZERO_WIDTH;
-extern const uc_property_t UC_PROPERTY_SPACE;
-extern const uc_property_t UC_PROPERTY_NON_BREAK;
-extern const uc_property_t UC_PROPERTY_ISO_CONTROL;
-extern const uc_property_t UC_PROPERTY_FORMAT_CONTROL;
-extern const uc_property_t UC_PROPERTY_DASH;
-extern const uc_property_t UC_PROPERTY_HYPHEN;
-extern const uc_property_t UC_PROPERTY_PUNCTUATION;
-extern const uc_property_t UC_PROPERTY_LINE_SEPARATOR;
-extern const uc_property_t UC_PROPERTY_PARAGRAPH_SEPARATOR;
-extern const uc_property_t UC_PROPERTY_QUOTATION_MARK;
-extern const uc_property_t UC_PROPERTY_SENTENCE_TERMINAL;
-extern const uc_property_t UC_PROPERTY_TERMINAL_PUNCTUATION;
-extern const uc_property_t UC_PROPERTY_CURRENCY_SYMBOL;
-extern const uc_property_t UC_PROPERTY_MATH;
-extern const uc_property_t UC_PROPERTY_OTHER_MATH;
-extern const uc_property_t UC_PROPERTY_PAIRED_PUNCTUATION;
-extern const uc_property_t UC_PROPERTY_LEFT_OF_PAIR;
-extern const uc_property_t UC_PROPERTY_COMBINING;
-extern const uc_property_t UC_PROPERTY_COMPOSITE;
-extern const uc_property_t UC_PROPERTY_DECIMAL_DIGIT;
-extern const uc_property_t UC_PROPERTY_NUMERIC;
-extern const uc_property_t UC_PROPERTY_DIACRITIC;
-extern const uc_property_t UC_PROPERTY_EXTENDER;
-extern const uc_property_t UC_PROPERTY_IGNORABLE_CONTROL;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_ZERO_WIDTH;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_SPACE;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_NON_BREAK;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_ISO_CONTROL;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_FORMAT_CONTROL;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_DASH;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_HYPHEN;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_PUNCTUATION;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_LINE_SEPARATOR;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_PARAGRAPH_SEPARATOR;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_QUOTATION_MARK;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_SENTENCE_TERMINAL;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_TERMINAL_PUNCTUATION;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_CURRENCY_SYMBOL;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_MATH;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_OTHER_MATH;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_PAIRED_PUNCTUATION;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_LEFT_OF_PAIR;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_COMBINING;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_COMPOSITE;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_DECIMAL_DIGIT;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_NUMERIC;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_DIACRITIC;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_EXTENDER;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_IGNORABLE_CONTROL;
+extern LIBUNISTRING_DLL_VARIABLE const uc_property_t UC_PROPERTY_REGIONAL_INDICATOR;
 
 /* Return the property given by name, e.g. "White space".  */
 extern uc_property_t
@@ -814,6 +843,18 @@ extern bool uc_is_property_ids_binary_operator (ucs4_t uc)
        _UC_ATTRIBUTE_CONST;
 extern bool uc_is_property_ids_trinary_operator (ucs4_t uc)
        _UC_ATTRIBUTE_CONST;
+extern bool uc_is_property_emoji (ucs4_t uc)
+       _UC_ATTRIBUTE_CONST;
+extern bool uc_is_property_emoji_presentation (ucs4_t uc)
+       _UC_ATTRIBUTE_CONST;
+extern bool uc_is_property_emoji_modifier (ucs4_t uc)
+       _UC_ATTRIBUTE_CONST;
+extern bool uc_is_property_emoji_modifier_base (ucs4_t uc)
+       _UC_ATTRIBUTE_CONST;
+extern bool uc_is_property_emoji_component (ucs4_t uc)
+       _UC_ATTRIBUTE_CONST;
+extern bool uc_is_property_extended_pictographic (ucs4_t uc)
+       _UC_ATTRIBUTE_CONST;
 extern bool uc_is_property_zero_width (ucs4_t uc)
        _UC_ATTRIBUTE_CONST;
 extern bool uc_is_property_space (ucs4_t uc)
@@ -863,6 +904,8 @@ extern bool uc_is_property_diacritic (ucs4_t uc)
 extern bool uc_is_property_extender (ucs4_t uc)
        _UC_ATTRIBUTE_CONST;
 extern bool uc_is_property_ignorable_control (ucs4_t uc)
+       _UC_ATTRIBUTE_CONST;
+extern bool uc_is_property_regional_indicator (ucs4_t uc)
        _UC_ATTRIBUTE_CONST;
 
 /* ========================================================================= */

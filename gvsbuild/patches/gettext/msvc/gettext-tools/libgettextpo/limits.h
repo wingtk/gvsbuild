@@ -1,20 +1,20 @@
 /* DO NOT EDIT! GENERATED AUTOMATICALLY! */
 /* A GNU-like <limits.h>.
 
-   Copyright 2016-2020 Free Software Foundation, Inc.
+   Copyright 2016-2023 Free Software Foundation, Inc.
 
-   This program is free software; you can redistribute it and/or
-   modify it under the terms of the GNU General Public License
-   as published by the Free Software Foundation; either version 3, or
-   (at your option) any later version.
+   This file is free software: you can redistribute it and/or modify
+   it under the terms of the GNU Lesser General Public License as
+   published by the Free Software Foundation; either version 2.1 of the
+   License, or (at your option) any later version.
 
-   This program is distributed in the hope that it will be useful,
+   This file is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   GNU Lesser General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, see <https://www.gnu.org/licenses/>.  */
+   You should have received a copy of the GNU Lesser General Public License
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 #if __GNUC__ >= 3
 
@@ -100,10 +100,16 @@
 # endif
 #endif
 
-/* Macros specified by ISO/IEC TS 18661-1:2014.  */
+/* Assume no multibyte character is longer than 16 bytes.  */
+#ifndef MB_LEN_MAX
+# define MB_LEN_MAX 16
+#endif
+
+/* Macros specified by C23 and by ISO/IEC TS 18661-1:2014.  */
 
 #if (! defined ULLONG_WIDTH                                             \
-     && (defined _GNU_SOURCE || defined __STDC_WANT_IEC_60559_BFP_EXT__))
+     && (defined _GNU_SOURCE || defined __STDC_WANT_IEC_60559_BFP_EXT__ \
+         || (defined __STDC_VERSION__ && 201710 < __STDC_VERSION__)))
 # define CHAR_WIDTH _GL_INTEGER_WIDTH (CHAR_MIN, CHAR_MAX)
 # define SCHAR_WIDTH _GL_INTEGER_WIDTH (SCHAR_MIN, SCHAR_MAX)
 # define UCHAR_WIDTH _GL_INTEGER_WIDTH (0, UCHAR_MAX)
@@ -115,7 +121,31 @@
 # define ULONG_WIDTH _GL_INTEGER_WIDTH (0, ULONG_MAX)
 # define LLONG_WIDTH _GL_INTEGER_WIDTH (LLONG_MIN, LLONG_MAX)
 # define ULLONG_WIDTH _GL_INTEGER_WIDTH (0, ULLONG_MAX)
-#endif /* !ULLONG_WIDTH && (_GNU_SOURCE || __STDC_WANT_IEC_60559_BFP_EXT__) */
+#endif
+
+/* Macros specified by C23.  */
+
+#if (defined _GNU_SOURCE \
+     || (defined __STDC_VERSION__ && 201710 < __STDC_VERSION__))
+# if ! defined BOOL_WIDTH
+#  define BOOL_WIDTH 1
+#  define BOOL_MAX 1
+# elif ! defined BOOL_MAX
+#  define BOOL_MAX ((((1U << (BOOL_WIDTH - 1)) - 1) << 1) + 1)
+# endif
+#endif
+
+/* Macro specified by POSIX.  */
+
+/* The maximum ssize_t value.  Although it might not be of ssize_t type
+   as it should be, it's too much trouble to fix this minor detail.  */
+#ifndef SSIZE_MAX
+# ifdef _WIN64
+#  define SSIZE_MAX LLONG_MAX
+# else
+#  define SSIZE_MAX LONG_MAX
+# endif
+#endif
 
 #endif /* _GL_GTPO_LIMITS_H */
 #endif /* _GL_GTPO_LIMITS_H */

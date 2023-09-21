@@ -54,7 +54,7 @@ PKG_CONFIG = pkg-config
 # VCINSTALLDIR) or with the MS Platform SDK (MSSDK or WindowsSDKDir)
 !if !defined(VCINSTALLDIR) && !defined(WINDOWSSDKDIR)
 MSG = ^
-This Makefile is only for Visual Studio 2008 and later.^
+This Makefile is only for Visual Studio 2015 and later.^
 You need to ensure that the Visual Studio Environment is properly set up^
 before running this Makefile.
 !error $(MSG)
@@ -108,11 +108,11 @@ VSVER = 0
 PDBVER = $(VSVER)
 !endif
 
-!if "$(VSVER)" == "0"
+!if $(VSVER) < 14
 MSG = ^
 This NMake Makefile set supports Visual Studio^
-9 (2008) through 14 (2015).  Your Visual Studio^
-version is not supported.
+2015 or later.  Your Visual Studio version is^
+not supported.
 !error $(MSG)
 !endif
 
@@ -125,11 +125,6 @@ VALID_CFGSET = TRUE
 # the resulting binaries
 !if "$(CFG)" == "release"
 CFLAGS_ADD = /MD /O2 /MP /GL
-!if $(VSVER) > 9 && $(VSVER) < 14
-# Undocumented "enhance optimized debugging" switch. Became documented
-# as "/Zo" in VS 2013 Update 3, and is turned on by default in VS 2015.
-CFLAGS_ADD = $(CFLAGS_ADD) /d2Zi+
-!endif
 !else
 CFLAGS_ADD = /MDd /Od
 !endif
@@ -146,12 +141,12 @@ LDFLAGS_ARCH = /machine:x86
 !endif
 
 !if "$(VALID_CFGSET)" == "TRUE"
-CFLAGS = $(CFLAGS_ADD) /W3 /Zi /I.. /I..\src /I. /I$(PREFIX)\include
+CFLAGS = $(CFLAGS_ADD) /W3 /Zi /I.. /I..\src /I.
 
 !if "$(ADDITIONAL_LIB_DIR)" != ""
 ADDITIONAL_LIB_ARG = /libpath:$(ADDITIONAL_LIB_DIR)
 !endif
-LDFLAGS_BASE = $(LDFLAGS_ARCH) /libpath:$(PREFIX)\lib $(ADDITIONAL_LIB_ARG) /DEBUG
+LDFLAGS_BASE = $(LDFLAGS_ARCH) $(ADDITIONAL_LIB_ARG) /DEBUG
 
 !if "$(CFG)" == "debug"
 ARFLAGS = $(LDFLAGS_ARCH)

@@ -8,6 +8,7 @@ check_msgid_msgstr_format_i
 check_plural_eval
 cleanup_temp_dir
 compare_po_locale_charsets
+convert_string_desc_directly
 convert_string_directly
 create_temp_dir
 default_add_message
@@ -47,6 +48,7 @@ iconv_msgdomain_list
 is_ascii_message_list
 is_ascii_msgdomain_list
 is_ascii_string
+is_ascii_string_desc
 is_message_list_iconvable
 its_merge_context_alloc
 its_merge_context_free
@@ -90,6 +92,7 @@ msgdomain_list_alloc
 msgdomain_list_english
 msgdomain_list_equal
 msgdomain_list_free
+msgdomain_list_has_filenames_with_spaces
 msgdomain_list_print
 msgdomain_list_set_header_field
 msgdomain_list_sort_by_filepos
@@ -111,10 +114,12 @@ register_temp_subdir
 string_list_alloc
 string_list_append
 string_list_append_unique
+string_list_append_unique_desc
 string_list_destroy
 string_list_free
 string_list_init
 string_list_join
+string_list_member_desc
 string_list_member
 string_list_remove
 syntax_check_message_list

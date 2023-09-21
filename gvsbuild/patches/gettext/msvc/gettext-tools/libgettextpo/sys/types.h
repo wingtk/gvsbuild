@@ -1,25 +1,32 @@
 /* DO NOT EDIT! GENERATED AUTOMATICALLY! */
 /* Provide a more complete sys/types.h.
 
-   Copyright (C) 2011-2020 Free Software Foundation, Inc.
+   Copyright (C) 2011-2023 Free Software Foundation, Inc.
 
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 3, or (at your option)
-   any later version.
+   This file is free software: you can redistribute it and/or modify
+   it under the terms of the GNU Lesser General Public License as
+   published by the Free Software Foundation; either version 2.1 of the
+   License, or (at your option) any later version.
 
-   This program is distributed in the hope that it will be useful,
+   This file is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   GNU Lesser General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, see <https://www.gnu.org/licenses/>.  */
+   You should have received a copy of the GNU Lesser General Public License
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 #if __GNUC__ >= 3
 
 #endif
 
+
+/* This file uses #include_next of a system file that defines time_t.
+   For the 'year2038' module to work right, <config.h> needs to have been
+   included before.  */
+#if !_GL_CONFIG_H_INCLUDED
+ #error "Please include config.h first."
+#endif
 
 #if defined _WIN32 && !defined __CYGWIN__ \
     && (defined __need_off_t || defined __need___off64_t \
@@ -27,11 +34,7 @@
 
 /* Special invocation convention inside mingw header files.  */
 
-#if (_MSC_VER < 1900)
-#include "../include/sys/types.h"
-#else
 #include "../ucrt/sys/types.h"
-#endif
 
 #else
 /* Normal invocation convention.  */
@@ -40,11 +43,7 @@
 
 /* The include_next requires a split double-inclusion guard.  */
 # define _GL_INCLUDING_SYS_TYPES_H
-#if (_MSC_VER < 1900)
-#include "../include/sys/types.h"
-#else
 #include "../ucrt/sys/types.h"
-#endif
 # undef _GL_INCLUDING_SYS_TYPES_H
 
 #ifndef _GL_GTPO_SYS_TYPES_H

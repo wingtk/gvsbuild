@@ -1,0 +1,14 @@
+--- a/gettext-tools/src/its.c	2022-06-03 15:01:03.758890100 +0800
++++ b/gettext-tools/src/its.c	2022-06-03 14:52:09.356533100 +0800
+@@ -23,6 +23,11 @@
+ /* Specification.  */
+ #include "its.h"
+
++/* we need to do this to import xmlFree properly from the libgettextlib DLL */
++#ifdef _MSC_VER
++# undef LIBXML_STATIC
++#endif
++
+ #include <assert.h>
+ #include <errno.h>
+ #include "error.h"

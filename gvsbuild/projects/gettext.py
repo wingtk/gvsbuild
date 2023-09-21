@@ -25,16 +25,14 @@ class Gettext(Tarball, Project):
         Project.__init__(
             self,
             "gettext",
-            version="0.21",
+            version="0.22.3",
             repository="autotools-mirror/gettext",
             archive_url="http://ftp.gnu.org/pub/gnu/gettext/gettext-{version}.tar.xz",
-            hash="d20fcbb537e02dcf1383197ba05bd0734ef7bf5db06bdb241eb69b7d16b73192",
+            hash="b838228b3f8823a6c1eddf07297197c4db13f7e1b173b9ef93f3f945a63080b6",
             dependencies=["win-iconv"],
             patches=[
-                "gettext-runtime-c99.patch",
-                "gettext-tools-c99.patch",
-                "gettext-tools-gnulib-memset.patch",
-                "libtextstyle-c99.patch",
+                "0001-gettext-tools-src-its-c.patch",
+                "0002-gettext-tools-src-locating-rules-c.patch",
             ],
         )
 
