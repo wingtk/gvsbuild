@@ -44,6 +44,7 @@ class GLibBase(Tarball, Meson):
                 "003-gpoll-windows-use-a-threadpool-when-polling-large-nu.patch",
                 # https://gitlab.gnome.org/GNOME/glib/-/merge_requests/4391
                 "004-fix-python-path-can-contain-spaces.patch",
+                "0001-Disable-app-info-support-on-windows.patch",
             ],
         )
         self.add_param("-Dman-pages=disabled")
@@ -78,6 +79,7 @@ class GLib(Tarball, Meson):
                 "003-gpoll-windows-use-a-threadpool-when-polling-large-nu.patch",
                 # https://gitlab.gnome.org/GNOME/glib/-/merge_requests/4391
                 "004-fix-python-path-can-contain-spaces.patch",
+                "0001-Disable-app-info-support-on-windows.patch",
             ],
         )
         self.add_param("-Dman-pages=disabled")
