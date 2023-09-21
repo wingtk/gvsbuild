@@ -27,7 +27,7 @@ class AdwaitaIconTheme(Tarball, Meson):
             version="45.0",
             repository="https://gitlab.gnome.org/GNOME/adwaita-icon-theme",
             archive_url="https://download.gnome.org/sources/adwaita-icon-theme/{major}/adwaita-icon-theme-{version}.tar.xz",
-            hash="ea87fdcf5159348fcb08b14c43e91a9d3d9e45dc2006a875d1711bb65b6740f5",
+            hash="2442bfb06f4e6cc95bf6e2682fdff98fa5eddc688751b9d6215c623cb4e42ff1",
             dependencies=[
                 "hicolor-icon-theme",
                 "librsvg",
