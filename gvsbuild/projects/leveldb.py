@@ -25,7 +25,7 @@ class LevelDB(Tarball, Project):
             "leveldb",
             version="1.20",
             archive_url="https://github.com/google/leveldb/archive/v{version}.tar.gz",
-            archive_file_name="leveldb-{version}.tar.gz",
+            archive_filename="leveldb-{version}.tar.gz",
             hash="f5abe8b5b209c2f36560b75f32ce61412f39a2922f7045ae764a2c23335b6664",
         )
 

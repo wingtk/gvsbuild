@@ -448,8 +448,8 @@ class Builder:
     def preprocess(self):
         for proj in Project.list_projects():
             if proj.archive_url:
-                if proj.archive_file_name:
-                    archive = proj.archive_file_name
+                if proj.archive_filename:
+                    archive = proj.archive_filename
                 else:
                     url = proj.archive_url
                     archive = url[url.rfind("/") + 1 :]
