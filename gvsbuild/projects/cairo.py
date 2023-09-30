@@ -29,6 +29,7 @@ class Cairo(Tarball, Meson):
             archive_url="https://gitlab.freedesktop.org/cairo/cairo/-/archive/{version}/cairo-{version}.tar.gz",
             hash="39a78afdc33a435c0f2ab53a5ec2a693c3c9b6d2ec9783ceecb2b94d54d942b0",
             dependencies=["fontconfig", "freetype", "glib", "pixman", "libpng"],
+            patches=["0001-fix-alloca-unresolved.patch"],
         )
 
     def build(self):
