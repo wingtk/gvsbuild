@@ -1,0 +1,32 @@
+From ea6f3546310ebd4a6ad7517993bb6d8a4241c7c2 Mon Sep 17 00:00:00 2001
+From: Christoph Reiter <reiter.christoph@gmail.com>
+Date: Sat, 30 Sep 2023 15:03:36 +0200
+Subject: [PATCH] find_tool: don't assume the pkgconfig variable is a valid
+ command
+
+ExternalProgram currently assumes that if a command is passed it exists
+and can be used as is. In case we extract the path from pkgconfig the
+path might not exist, on Windows it might be missing the ".exe" suffix.
+
+By passing the variables as a name ExternalProgram will validate that
+the command exists at configure time and will fail if not, and it will
+try to fixup the command by appending .exe etc.
+
+Fixes #12271
+---
+ mesonbuild/modules/__init__.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/mesonbuild/modules/__init__.py b/mesonbuild/modules/__init__.py
+index eef67a1c7431..a1aa2334495a 100644
+--- a/mesonbuild/modules/__init__.py
++++ b/mesonbuild/modules/__init__.py
+@@ -112,7 +112,7 @@ def find_tool(self, name: str, depname: str, varname: str, required: bool = True
+         if dep.found() and dep.type_name == 'pkgconfig':
+             value = dep.get_variable(pkgconfig=varname)
+             if value:
+-                return ExternalProgram(name, [value])
++                return ExternalProgram(value)
+ 
+         # Normal program lookup
+         return self.find_program(name, required=required, wanted=wanted)
