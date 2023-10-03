@@ -93,7 +93,7 @@ class Project(Generic[P]):
         self.dependencies = []
         self.patches = []
         self.archive_url = None
-        self.archive_file_name = None
+        self.archive_filename = None
         self.tarbomb = False
         self.type = None
         self.version = None
@@ -107,7 +107,7 @@ class Project(Generic[P]):
         self.extra_env = {}
         self.tag = None
         self.repo_url = None
-        self.archive_file_name = None
+        self.archive_filename = None
 
         for k in kwargs:
             setattr(self, k, kwargs[k])
@@ -130,8 +130,8 @@ class Project(Generic[P]):
 
         if self.archive_url:
             self.archive_url = self.archive_url.format(**version_params)
-        if self.archive_file_name:
-            self.archive_file_name = self.archive_file_name.format(**version_params)
+        if self.archive_filename:
+            self.archive_filename = self.archive_filename.format(**version_params)
 
         # register version params for use from derived classes
         self.version_params = version_params

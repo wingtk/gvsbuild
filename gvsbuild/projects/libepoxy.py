@@ -26,8 +26,8 @@ class Libepoxy(Tarball, Meson):
             "libepoxy",
             version="1.5.10",
             archive_url="https://github.com/anholt/libepoxy/archive/refs/tags/{version}.tar.gz",
-            hash="a7ced37f4102b745ac86d6a70a9da399cc139ff168ba6b8002b4d8d43c900c15",
             archive_filename="libepoxy-{version}.tar.gz",
+            hash="a7ced37f4102b745ac86d6a70a9da399cc139ff168ba6b8002b4d8d43c900c15",
             dependencies=["ninja", "meson"],
         )
 

@@ -27,6 +27,7 @@ class Graphene(Tarball, Meson):
             version="1.10.8",
             repository="ebassi/graphene",
             archive_url="https://github.com/ebassi/graphene/archive/refs/tags/{version}.tar.gz",
+            archive_filename="graphene-{version}.tar.gz",
             hash="922dc109d2dc5dc56617a29bd716c79dd84db31721a8493a13a5f79109a4a4ed",
             dependencies=["ninja", "meson", "pkgconf", "glib"],
         )

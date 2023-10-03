@@ -28,7 +28,7 @@ class Libvpx(Tarball, Project):
             "libvpx",
             version="1.13.1",
             archive_url="https://github.com/webmproject/libvpx/archive/v{version}.tar.gz",
-            archive_file_name="libvpx-v{version}.tar.gz",
+            archive_filename="libvpx-v{version}.tar.gz",
             hash="00dae80465567272abd077f59355f95ac91d7809a2d3006f9ace2637dd429d14",
             dependencies=["nasm", "msys2", "libyuv", "perl"],
             patches=[

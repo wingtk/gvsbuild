@@ -26,8 +26,8 @@ class Libcbor(Tarball, CmakeProject):
             "libcbor",
             version="0.10.2",
             archive_url="https://github.com/PJK/libcbor/archive/refs/tags/v{version}.tar.gz",
-            hash="e75f712215d7b7e5c89ef322a09b701f7159f028b8b48978865725f00f79875b",
             archive_filename="libcbor-{version}.tar.gz",
+            hash="e75f712215d7b7e5c89ef322a09b701f7159f028b8b48978865725f00f79875b",
             dependencies=["cmake", "ninja"],
         )
 

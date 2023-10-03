@@ -31,7 +31,7 @@ class ToolCargo(Tool):
             version="1.72.1",
             repository="rust-lang/rust",
             archive_url="https://win.rustup.rs/x86_64",
-            archive_file_name="rustup-init.exe",
+            archive_filename="rustup-init.exe",
             exe_name="cargo.exe",
         )
 
@@ -95,7 +95,7 @@ class ToolMeson(Tool):
             "meson",
             version="1.2.2",
             archive_url="https://github.com/mesonbuild/meson/archive/refs/tags/{version}.tar.gz",
-            archive_file_name="meson-{version}.tar.gz",
+            archive_filename="meson-{version}.tar.gz",
             hash="1caa0ef6082e311bdca9836e7907f548b8c3f041a42ed41f0ff916b83ac7dddd",
             dir_part="meson-{version}",
             exe_name="meson.py",
@@ -163,7 +163,7 @@ class ToolNinja(Tool):
             "ninja",
             version="1.11.1",
             archive_url="https://github.com/ninja-build/ninja/releases/download/v{version}/ninja-win.zip",
-            archive_file_name="ninja-win-{version}.zip",
+            archive_filename="ninja-win-{version}.zip",
             hash="524b344a1a9a55005eaf868d991e090ab8ce07fa109f1820d40e74642e289abc",
             dir_part="ninja-{version}",
             exe_name="ninja.exe",

@@ -26,7 +26,7 @@ class OpenH264(Tarball, Meson):
             "openh264",
             version="2.3.1",
             archive_url="https://github.com/cisco/openh264/archive/refs/tags/v{version}.tar.gz",
-            archive_file_name="openh264-{version}.tar.gz",
+            archive_filename="openh264-{version}.tar.gz",
             hash="453afa66dacb560bc5fd0468aabee90c483741571bca820a39a1c07f0362dc32",
             dependencies=[
                 "ninja",

@@ -25,7 +25,7 @@ class Lz4(Tarball, Project):
             "lz4",
             version="1.9.4",
             archive_url="https://github.com/lz4/lz4/archive/v{version}.tar.gz",
-            archive_file_name="lz4-{version}.tar.gz",
+            archive_filename="lz4-{version}.tar.gz",
             hash="0b0e3aa07c8c063ddf40b082bdf7e37a1562bda40a0ff5272957f3e987e0e54b",
         )
 
