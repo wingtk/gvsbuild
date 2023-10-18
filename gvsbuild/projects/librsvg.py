@@ -48,7 +48,7 @@ class Librsvg(Tarball, Project):
         gtk_dir = self.builder.gtk_dir
         rust_ver = Project.get_project("cargo").version
         python = sys.executable
-        cmd = f"nmake -f makefile.vc CFG={config} PREFIX={gtk_dir} CARGO=cargo RUSTUP=rustup PYTHON={python} TOOLCHAIN_VERSION={rust_ver} install"
+        cmd = f'nmake -f makefile.vc CFG={config} "PREFIX={gtk_dir}" CARGO=cargo RUSTUP=rustup "PYTHON={python}" TOOLCHAIN_VERSION={rust_ver} install'
 
         if Project.opts.enable_gi:
             cmd += " INTROSPECTION=1"
