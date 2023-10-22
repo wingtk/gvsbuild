@@ -99,7 +99,6 @@ class ToolMeson(Tool):
             hash="1340bbc017eead2ddf706fb36a6dcc46796deec6b1513005de67e862c1b737cf",
             dir_part="meson-{version}",
             exe_name="meson.py",
-            patches=["0001-find-tool-pkgconfig-variable.patch"],
         )
 
     def unpack(self):
