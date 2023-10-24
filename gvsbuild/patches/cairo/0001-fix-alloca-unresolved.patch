@@ -1,0 +1,21 @@
+Subject: [PATCH] Fix alloca unresolved
+---
+Index: src/cairo-colr-glyph-render.c
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/cairo-colr-glyph-render.c b/src/cairo-colr-glyph-render.c
+--- a/src/cairo-colr-glyph-render.c	(revision 459d19ef1520d39078038ecaa840efca0194e053)
++++ b/src/cairo-colr-glyph-render.c	(date 1696094155649)
+@@ -43,6 +43,10 @@
+ #include <stdio.h>
+ #include <string.h>
+ 
++#ifdef _MSC_VER
++#include <malloc.h>
++#endif
++
+ #if HAVE_FT_COLR_V1
+ 
+ #include <ft2build.h>
