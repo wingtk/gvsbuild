@@ -24,11 +24,11 @@ class GLib(Tarball, Meson):
         Project.__init__(
             self,
             "glib",
-            version="2.78.0",
+            version="2.78.1",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/glib",
             archive_url="https://download.gnome.org/sources/glib/{major}.{minor}/glib-{version}.tar.xz",
-            hash="44eaab8b720877ce303c5540b657b126f12dc94972d9880b52959f43fb537b30",
+            hash="915bc3d0f8507d650ead3832e2f8fb670fce59aac4d7754a7dab6f1e6fed78b2",
             dependencies=[
                 "ninja",
                 "meson",
