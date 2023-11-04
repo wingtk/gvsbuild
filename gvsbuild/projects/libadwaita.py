@@ -25,16 +25,20 @@ class Libadwaita(Tarball, Meson):
             self,
             "libadwaita",
             repository="https://gitlab.gnome.org/GNOME/libadwaita",
-            version="1.3.1",
+            version="1.4.0",
             lastversion_even=True,
             archive_url="https://download.gnome.org/sources/libadwaita/{major}.{minor}/libadwaita-{version}.tar.xz",
-            hash="6b8bbf413c501b46c8616a0e5b836d7a34091140941412520bbd9ddda6df8cbd",
+            hash="e51a098a54d43568218fc48fcf52e80e36f469b3ce912d8ce9c308a37e9f47c2",
             dependencies=[
                 "ninja",
                 "meson",
                 "pkgconf",
                 "glib",
                 "gtk4",
+            ],
+            patches=[
+                "0001-remove-appstream-dependency.patch",
+                "0002-empty-initializer.patch",
             ],
         )
         gir = "disabled"

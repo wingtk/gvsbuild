@@ -1,0 +1,678 @@
+Subject: [PATCH] Revert "AdwAboutWindow: Add new_from_appdata constructor"
+---
+Index: .gitlab-ci/fedora.Dockerfile
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.gitlab-ci/fedora.Dockerfile b/.gitlab-ci/fedora.Dockerfile
+--- a/.gitlab-ci/fedora.Dockerfile	(revision 3d9c034fbffd5452dc39a2724754a699e315bbb7)
++++ b/.gitlab-ci/fedora.Dockerfile	(revision 231c3a60650a27f5ce66227177605ea6df063fae)
+@@ -3,7 +3,6 @@
+ RUN dnf -y update \
+  && dnf -y install \
+     "dnf-command(builddep)" \
+-    appstream-devel \
+     expat-devel \
+     git \
+     graphviz \
+Index: demo/adwaita-demo.c
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/demo/adwaita-demo.c b/demo/adwaita-demo.c
+--- a/demo/adwaita-demo.c	(revision 3d9c034fbffd5452dc39a2724754a699e315bbb7)
++++ b/demo/adwaita-demo.c	(revision 231c3a60650a27f5ce66227177605ea6df063fae)
+@@ -1,5 +1,3 @@
+-#include "config.h"
+-
+ #include <glib/gi18n.h>
+ #include <gtk/gtk.h>
+ #include <adwaita.h>
+@@ -58,16 +56,24 @@
+ 
+   debug_info = adw_demo_generate_debug_info ();
+ 
+-  about = adw_about_window_new_from_appdata ("/org/gnome/Adwaita1/Demo/org.gnome.Adwaita1.Demo.metainfo.xml", NULL);
+-  gtk_window_set_transient_for (GTK_WINDOW (about), window);
+-  adw_about_window_set_version (ADW_ABOUT_WINDOW (about), ADW_VERSION_S);
+-  adw_about_window_set_debug_info (ADW_ABOUT_WINDOW (about), debug_info);
+-  adw_about_window_set_debug_info_filename (ADW_ABOUT_WINDOW (about), "adwaita-1-demo-debug-info.txt");
+-  adw_about_window_set_copyright (ADW_ABOUT_WINDOW (about), "© 2017–2022 Purism SPC");
+-  adw_about_window_set_developers (ADW_ABOUT_WINDOW (about), developers);
+-  adw_about_window_set_designers (ADW_ABOUT_WINDOW (about), designers);
+-  adw_about_window_set_artists (ADW_ABOUT_WINDOW (about), designers);
+-  adw_about_window_set_translator_credits (ADW_ABOUT_WINDOW (about), _("translator-credits"));
++  about =
++    g_object_new (ADW_TYPE_ABOUT_WINDOW,
++                  "transient-for", window,
++                  "application-icon", "org.gnome.Adwaita1.Demo",
++                  "application-name", _("Adwaita Demo"),
++                  "developer-name", _("The GNOME Project"),
++                  "version", ADW_VERSION_S,
++                  "website", "https://gitlab.gnome.org/GNOME/libadwaita",
++                  "issue-url", "https://gitlab.gnome.org/GNOME/libadwaita/-/issues/new",
++                  "debug-info", debug_info,
++                  "debug-info-filename", "adwaita-1-demo-debug-info.txt",
++                  "copyright", "© 2017–2022 Purism SPC",
++                  "license-type", GTK_LICENSE_LGPL_2_1,
++                  "developers", developers,
++                  "designers", designers,
++                  "artists", designers,
++                  "translator-credits", _("translator-credits"),
++                  NULL);
+ 
+   adw_about_window_add_link (ADW_ABOUT_WINDOW (about),
+                              _("_Documentation"),
+Index: demo/adwaita-demo.gresources.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/demo/adwaita-demo.gresources.xml b/demo/adwaita-demo.gresources.xml
+--- a/demo/adwaita-demo.gresources.xml	(revision 3d9c034fbffd5452dc39a2724754a699e315bbb7)
++++ b/demo/adwaita-demo.gresources.xml	(revision 231c3a60650a27f5ce66227177605ea6df063fae)
+@@ -3,7 +3,6 @@
+   <gresource prefix="/org/gnome/Adwaita1/Demo">
+     <file preprocess="xml-stripblanks" alias="icons/scalable/apps/org.gnome.Adwaita1.Demo.svg">data/org.gnome.Adwaita1.Demo.svg</file>
+     <file preprocess="xml-stripblanks" alias="icons/symbolic/apps/org.gnome.Adwaita1.Demo-symbolic.svg">data/org.gnome.Adwaita1.Demo-symbolic.svg</file>
+-    <file preprocess="xml-stripblanks" alias="org.gnome.Adwaita1.Demo.metainfo.xml">data/org.gnome.Adwaita1.Demo.metainfo.xml</file>
+     <file preprocess="xml-stripblanks">icons/scalable/actions/avatar-delete-symbolic.svg</file>
+     <file preprocess="xml-stripblanks">icons/scalable/actions/avatar-save-symbolic.svg</file>
+     <file preprocess="xml-stripblanks">icons/scalable/actions/clock-alarm-symbolic.svg</file>
+Index: demo/data/meson.build
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/demo/data/meson.build b/demo/data/meson.build
+--- a/demo/data/meson.build	(revision 3d9c034fbffd5452dc39a2724754a699e315bbb7)
++++ b/demo/data/meson.build	(revision 231c3a60650a27f5ce66227177605ea6df063fae)
+@@ -34,25 +34,6 @@
+ appdata_config.set('BUILD_VERSION', meson.project_version())
+ appdata_config.set('BUILD_DATE', today)
+ 
+-appstream_file = i18n.merge_file(
+-  input: configure_file(
+-    input: 'org.gnome.Adwaita1.Demo.metainfo.xml.in.in',
+-    output: 'org.gnome.Adwaita1.Demo.metainfo.xml.in',
+-    configuration: appdata_config
+-  ),
+-  output: 'org.gnome.Adwaita1.Demo.metainfo.xml',
+-  po_dir: '../../po',
+-  install: true,
+-  install_dir: datadir / 'metainfo'
+-)
+-
+-appstreamcli = find_program('appstreamcli', required: false)
+-if appstreamcli.found()
+-  test('Validate appstream file', appstreamcli,
+-    args: ['validate', '--no-net', '--explain', appstream_file]
+-  )
+-endif
+-
+ install_data(
+   'org.gnome.Adwaita1.Demo.svg',
+   install_dir: datadir / 'icons' / 'hicolor' / 'scalable' / 'apps'
+Index: demo/meson.build
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/demo/meson.build b/demo/meson.build
+--- a/demo/meson.build	(revision 3d9c034fbffd5452dc39a2724754a699e315bbb7)
++++ b/demo/meson.build	(revision 231c3a60650a27f5ce66227177605ea6df063fae)
+@@ -3,7 +3,6 @@
+ subdir('data')
+ 
+ demo_config_data = configuration_data()
+-demo_config_data.set_quoted('ADW_METAINFO', appstream_file.full_path())
+ demo_config_data.set_quoted('ADW_DEMO_VCS_TAG', '@VCS_TAG@')
+ 
+ demo_config_h = vcs_tag(
+@@ -19,8 +18,6 @@
+    'adwaita-demo.gresources.xml',
+ 
+    c_name: 'adw',
+-   dependencies: appstream_file,
+-   source_dir: meson.current_build_dir(),
+ )
+ 
+ adwaita_demo_sources = [
+Index: src/adw-about-window.c
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/adw-about-window.c b/src/adw-about-window.c
+--- a/src/adw-about-window.c	(revision 3d9c034fbffd5452dc39a2724754a699e315bbb7)
++++ b/src/adw-about-window.c	(revision 231c3a60650a27f5ce66227177605ea6df063fae)
+@@ -6,7 +6,6 @@
+ 
+ #include "config.h"
+ #include <glib/gi18n-lib.h>
+-#include <appstream.h>
+ 
+ #include "adw-about-window.h"
+ 
+@@ -194,31 +193,30 @@
+ typedef struct {
+   const char *name;
+   const char *url;
+-  const char *spdx_id;
+ } LicenseInfo;
+ 
+ /* Copied from GTK 4 for consistency with GtkAboutDialog. */
+ /* LicenseInfo for each GtkLicense type; keep in the same order as the
+  * enumeration. */
+ static const LicenseInfo gtk_license_info [] = {
+-  { NULL, NULL, NULL },
+-  { NULL, NULL, NULL },
+-  { N_("GNU General Public License, version 2 or later"), "https://www.gnu.org/licenses/old-licenses/gpl-2.0.html", "GPL-2.0-or-later" },
+-  { N_("GNU General Public License, version 3 or later"), "https://www.gnu.org/licenses/gpl-3.0.html", "GPL-3.0-or-later" },
+-  { N_("GNU Lesser General Public License, version 2.1 or later"), "https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html", "LGPL-2.1-or-later" },
+-  { N_("GNU Lesser General Public License, version 3 or later"), "https://www.gnu.org/licenses/lgpl-3.0.html", "LGPL-3.0-or-later" },
+-  { N_("BSD 2-Clause License"), "https://opensource.org/licenses/bsd-license.php", "BSD-2-Clause" },
+-  { N_("The MIT License (MIT)"), "https://opensource.org/licenses/mit-license.php", "MIT" },
+-  { N_("Artistic License 2.0"), "https://opensource.org/licenses/artistic-license-2.0.php", "Artistic-2.0" },
+-  { N_("GNU General Public License, version 2 only"), "https://www.gnu.org/licenses/old-licenses/gpl-2.0.html", "GPL-2.0" },
+-  { N_("GNU General Public License, version 3 only"), "https://www.gnu.org/licenses/gpl-3.0.html", "GPL-3.0" },
+-  { N_("GNU Lesser General Public License, version 2.1 only"), "https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html", "LGPL-2.1-only" },
+-  { N_("GNU Lesser General Public License, version 3 only"), "https://www.gnu.org/licenses/lgpl-3.0.html", "LGPL-3.0-only" },
+-  { N_("GNU Affero General Public License, version 3 or later"), "https://www.gnu.org/licenses/agpl-3.0.html", "AGPL-3.0-or-later" },
+-  { N_("GNU Affero General Public License, version 3 only"), "https://www.gnu.org/licenses/agpl-3.0.html", "AGPL-3.0-only" },
+-  { N_("BSD 3-Clause License"), "https://opensource.org/licenses/BSD-3-Clause", "BSD-3-Clause" },
+-  { N_("Apache License, Version 2.0"), "https://opensource.org/licenses/Apache-2.0", "Apache-2.0" },
+-  { N_("Mozilla Public License 2.0"), "https://opensource.org/licenses/MPL-2.0", "MPL-2.0" }
++  { NULL, NULL },
++  { NULL, NULL },
++  { N_("GNU General Public License, version 2 or later"), "https://www.gnu.org/licenses/old-licenses/gpl-2.0.html" },
++  { N_("GNU General Public License, version 3 or later"), "https://www.gnu.org/licenses/gpl-3.0.html" },
++  { N_("GNU Lesser General Public License, version 2.1 or later"), "https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html" },
++  { N_("GNU Lesser General Public License, version 3 or later"), "https://www.gnu.org/licenses/lgpl-3.0.html" },
++  { N_("BSD 2-Clause License"), "https://opensource.org/licenses/bsd-license.php" },
++  { N_("The MIT License (MIT)"), "https://opensource.org/licenses/mit-license.php" },
++  { N_("Artistic License 2.0"), "https://opensource.org/licenses/artistic-license-2.0.php" },
++  { N_("GNU General Public License, version 2 only"), "https://www.gnu.org/licenses/old-licenses/gpl-2.0.html" },
++  { N_("GNU General Public License, version 3 only"), "https://www.gnu.org/licenses/gpl-3.0.html" },
++  { N_("GNU Lesser General Public License, version 2.1 only"), "https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html" },
++  { N_("GNU Lesser General Public License, version 3 only"), "https://www.gnu.org/licenses/lgpl-3.0.html" },
++  { N_("GNU Affero General Public License, version 3 or later"), "https://www.gnu.org/licenses/agpl-3.0.html" },
++  { N_("GNU Affero General Public License, version 3 only"), "https://www.gnu.org/licenses/agpl-3.0.html" },
++  { N_("BSD 3-Clause License"), "https://opensource.org/licenses/BSD-3-Clause" },
++  { N_("Apache License, Version 2.0"), "https://opensource.org/licenses/Apache-2.0" },
++  { N_("Mozilla Public License 2.0"), "https://opensource.org/licenses/MPL-2.0" }
+ };
+ /* Copied from GTK 4 for consistency with GtkAboutDialog. */
+ /* Keep this static assertion updated with the last element of the enumeration,
+@@ -388,13 +386,6 @@
+   return GDK_EVENT_STOP;
+ }
+ 
+-static gboolean
+-get_release_for_version (AsRelease  *rel,
+-                         const char *version)
+-{
+-  return !g_strcmp0 (as_release_get_version (rel), version);
+-}
+-
+ static void
+ update_credits_legal_group (AdwAboutWindow *self)
+ {
+@@ -1919,170 +1910,6 @@
+   return g_object_new (ADW_TYPE_ABOUT_WINDOW, NULL);
+ }
+ 
+-/**
+- * adw_about_window_new_from_appdata:
+- * @resource_path: The resource to use
+- * @release_notes_version: (nullable): The version to retrieve release notes for
+- *
+- * Creates a new `AdwAboutWindow` using AppStream metadata.
+- *
+- * This automatically sets the following properties with the following AppStream
+- * values:
+- *
+- * * [property@AboutWindow:application-icon] is set from the `<id>`
+- * * [property@AboutWindow:application-name] is set from the `<name>`
+- * * [property@AboutWindow:developer-name] is set from the `<developer_name>`
+- * * [property@AboutWindow:version] is set from the version of the latest release
+- * * [property@AboutWindow:website] is set from the `<url type="homepage">`
+- * * [property@AboutWindow:support-url] is set from the `<url type="help">`
+- * * [property@AboutWindow:issue-url] is set from the `<url type="bugtracker">`
+- * * [property@AboutWindow:license-type] is set from the `<project_license>`
+- *   If the license type retrieved from AppStream is not listed in
+- *   [enum@Gtk.License], it will be set to `GTK_LICENCE_CUSTOM`.
+- *
+- * If @release_notes_version is not `NULL`,
+- * [property@AboutWindow:release-notes-version] is set to match it, while
+- * [property@AboutWindow:release-notes] is set from the AppStream release
+- * description for that version.
+- *
+- * Returns: the newly created `AdwAboutWindow`
+- *
+- * Since: 1.4
+- */
+-GtkWidget *
+-adw_about_window_new_from_appdata (const char *resource_path,
+-                                   const char *release_notes_version)
+-{
+-  AdwAboutWindow *self;
+-  GFile *appdata_file;
+-  char *appdata_uri;
+-  AsMetadata *metadata;
+-  GPtrArray *releases;
+-  AsComponent *component;
+-  char *application_id;
+-  const char *name, *developer_name, *project_license;
+-  const char *issue_url, *support_url, *website_url;
+-  GError *error = NULL;
+-
+-  g_return_val_if_fail (resource_path, NULL);
+-
+-  appdata_uri = g_strconcat ("resource://", resource_path, NULL);
+-  appdata_file = g_file_new_for_uri (appdata_uri);
+-
+-  self = ADW_ABOUT_WINDOW (adw_about_window_new ());
+-  metadata = as_metadata_new ();
+-
+-  if (!as_metadata_parse_file (metadata, appdata_file, AS_FORMAT_KIND_UNKNOWN, &error)) {
+-    g_error ("Could not parse metadata file: %s", error->message);
+-    g_clear_error (&error);
+-  }
+-
+-  component = as_metadata_get_component (metadata);
+-
+-  if (component == NULL)
+-    g_error ("Could not find valid AppStream metadata");
+-
+-  application_id = g_strdup (as_component_get_id (component));
+-
+-  if (g_str_has_suffix (application_id, ".desktop")) {
+-    AsLaunchable *launchable;
+-    char *appid_desktop;
+-    GPtrArray *entries = NULL;
+-
+-    launchable = as_component_get_launchable (component,
+-                                              AS_LAUNCHABLE_KIND_DESKTOP_ID);
+-
+-    if (launchable)
+-      entries = as_launchable_get_entries (launchable);
+-
+-    appid_desktop = g_strconcat (application_id, ".desktop", NULL);
+-
+-    if (!entries || !g_ptr_array_find_with_equal_func (entries, appid_desktop,
+-                                                       g_str_equal, NULL))
+-      application_id[strlen(application_id) - 8] = '\0';
+-
+-    g_free (appid_desktop);
+-  }
+-
+-  releases = as_component_get_releases (component);
+-
+-  if (release_notes_version) {
+-    guint release_index = 0;
+-
+-    if (g_ptr_array_find_with_equal_func (releases, release_notes_version,
+-                                         (GEqualFunc) get_release_for_version,
+-                                         &release_index)) {
+-      AsRelease *notes_release;
+-      const char *release_notes, *version;
+-
+-      notes_release = g_ptr_array_index (releases, release_index);
+-
+-      release_notes = as_release_get_description (notes_release);
+-      version = as_release_get_version (notes_release);
+-
+-      if (release_notes && version) {
+-        adw_about_window_set_release_notes (self, release_notes);
+-        adw_about_window_set_release_notes_version (self, version);
+-      }
+-    } else {
+-      g_critical ("No valid release found for version %s", release_notes_version);
+-    }
+-  }
+-
+-  if (releases->len > 0) {
+-    AsRelease *latest_release = g_ptr_array_index (releases, 0);
+-    const char *version = as_release_get_version (latest_release);
+-
+-    if (version)
+-      adw_about_window_set_version (self, version);
+-  }
+-
+-  name = as_component_get_name (component);
+-  developer_name = as_component_get_developer_name (component);
+-  project_license = as_component_get_project_license (component);
+-  issue_url = as_component_get_url (component, AS_URL_KIND_BUGTRACKER);
+-  support_url = as_component_get_url (component, AS_URL_KIND_HELP);
+-  website_url = as_component_get_url (component, AS_URL_KIND_HOMEPAGE);
+-
+-  adw_about_window_set_application_icon (self, application_id);
+-
+-  if (name)
+-    adw_about_window_set_application_name (self, name);
+-
+-  if (developer_name)
+-    adw_about_window_set_developer_name (self, developer_name);
+-
+-  if (project_license) {
+-    int i;
+-
+-    for (i = 0; i < G_N_ELEMENTS (gtk_license_info); i++) {
+-      if (g_strcmp0 (gtk_license_info[i].spdx_id, project_license) == 0) {
+-        adw_about_window_set_license_type (self, (GtkLicense) i);
+-        break;
+-      }
+-    }
+-
+-    if (adw_about_window_get_license_type (self) == GTK_LICENSE_UNKNOWN)
+-      adw_about_window_set_license_type (self, GTK_LICENSE_CUSTOM);
+-  }
+-
+-  if (issue_url)
+-    adw_about_window_set_issue_url (self, issue_url);
+-
+-  if (support_url)
+-    adw_about_window_set_support_url (self, support_url);
+-
+-  if (website_url)
+-    adw_about_window_set_website (self, website_url);
+-
+-  g_object_unref (appdata_file);
+-  g_object_unref (metadata);
+-  g_free (application_id);
+-  g_free (appdata_uri);
+-
+-  return GTK_WIDGET (self);
+-}
+-
+ /**
+  * adw_about_window_get_application_icon: (attributes org.gtk.Method.get_property=application-icon)
+  * @self: an about window
+@@ -3380,42 +3207,3 @@
+ 
+   gtk_window_present (GTK_WINDOW (window));
+ }
+-
+-/**
+- * adw_show_about_window_from_appdata:
+- * @parent: (nullable): the parent top-level window
+- * @resource_path: The resource to use
+- * @release_notes_version: (nullable): The version to retrieve release notes for
+- * @first_property_name: the name of the first property
+- * @...: value of first property, followed by more pairs of property name and
+- *   value, `NULL`-terminated
+- *
+- * A convenience function for showing an application’s about window from
+- * AppStream metadata.
+- *
+- * See [ctor@AboutWindow.new_from_appdata] for details.
+- *
+- * Since: 1.4
+- */
+-void
+-adw_show_about_window_from_appdata (GtkWindow  *parent,
+-                                    const char *resource_path,
+-                                    const char *release_notes_version,
+-                                    const char *first_property_name,
+-                                    ...)
+-{
+-  GtkWidget *window;
+-  va_list var_args;
+-
+-  window = adw_about_window_new_from_appdata (resource_path,
+-                                              release_notes_version);
+-
+-  va_start (var_args, first_property_name);
+-  g_object_set_valist (G_OBJECT (window), first_property_name, var_args);
+-  va_end (var_args);
+-
+-  if (parent)
+-    gtk_window_set_transient_for (GTK_WINDOW (window), parent);
+-
+-  gtk_window_present (GTK_WINDOW (window));
+-}
+Index: src/adw-about-window.h
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/adw-about-window.h b/src/adw-about-window.h
+--- a/src/adw-about-window.h	(revision 3d9c034fbffd5452dc39a2724754a699e315bbb7)
++++ b/src/adw-about-window.h	(revision 231c3a60650a27f5ce66227177605ea6df063fae)
+@@ -25,10 +25,6 @@
+ ADW_AVAILABLE_IN_1_2
+ GtkWidget *adw_about_window_new (void) G_GNUC_WARN_UNUSED_RESULT;
+ 
+-ADW_AVAILABLE_IN_1_4
+-GtkWidget *adw_about_window_new_from_appdata (const char *resource_path,
+-                                              const char *release_notes_version) G_GNUC_WARN_UNUSED_RESULT;
+-
+ ADW_AVAILABLE_IN_1_2
+ const char *adw_about_window_get_application_name (AdwAboutWindow *self);
+ ADW_AVAILABLE_IN_1_2
+@@ -175,12 +171,5 @@
+ void adw_show_about_window (GtkWindow  *parent,
+                             const char *first_property_name,
+                             ...);
+-
+-ADW_AVAILABLE_IN_1_4
+-void adw_show_about_window_from_appdata (GtkWindow  *parent,
+-                                         const char *resource_path,
+-                                         const char *release_notes_version,
+-                                         const char *first_property_name,
+-                                         ...);
+ 
+ G_END_DECLS
+Index: src/meson.build
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/meson.build b/src/meson.build
+--- a/src/meson.build	(revision 3d9c034fbffd5452dc39a2724754a699e315bbb7)
++++ b/src/meson.build	(revision 231c3a60650a27f5ce66227177605ea6df063fae)
+@@ -286,20 +286,12 @@
+     'build-tests=false',
+   ],
+ )
+-appstream_dep = dependency('appstream',
+-  fallback : ['appstream', 'appstream_dep'],
+-  default_options : [
+-    'systemd=false', 'apidocs=false', 'install-docs=false',
+-    'stemming=false', 'svg-support=false', 'gir=false',
+-  ],
+-)
+ 
+ libadwaita_deps = [
+   dependency('glib-2.0', version: glib_min_version),
+   dependency('fribidi'),
+   gio_dep,
+   gtk_dep,
+-  appstream_dep,
+   cc.find_library('m', required: false),
+ ]
+ 
+Index: subprojects/appstream.wrap
+===================================================================
+diff --git a/subprojects/appstream.wrap b/subprojects/appstream.wrap
+deleted file mode 100644
+--- a/subprojects/appstream.wrap	(revision 3d9c034fbffd5452dc39a2724754a699e315bbb7)
++++ /dev/null	(revision 3d9c034fbffd5452dc39a2724754a699e315bbb7)
+@@ -1,5 +0,0 @@
+-[wrap-git]
+-directory = appstream
+-url = https://github.com/ximion/appstream.git
+-revision = main
+-depth = 1
+Index: tests/meson.build
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/tests/meson.build b/tests/meson.build
+--- a/tests/meson.build	(revision 3d9c034fbffd5452dc39a2724754a699e315bbb7)
++++ b/tests/meson.build	(revision 231c3a60650a27f5ce66227177605ea6df063fae)
+@@ -2,13 +2,6 @@
+ 
+ subdir('manual')
+ 
+-test_resources = gnome.compile_resources(
+-   'adwaita-test-resources',
+-   'tests.gresources.xml',
+-
+-   c_name: 'test',
+-)
+-
+ test_env = [
+   'G_TEST_SRCDIR=@0@'.format(meson.current_source_dir()),
+   'G_TEST_BUILDDIR=@0@'.format(meson.current_build_dir()),
+@@ -21,6 +14,7 @@
+ 
+ test_cflags = [
+   '-DADW_LOG_DOMAIN="Adwaita"',
++  '-DTEST_DATA_DIR="@0@/data"'.format(meson.current_source_dir()),
+ ]
+ 
+ test_link_args = []
+@@ -83,13 +77,7 @@
+ ]
+ 
+ foreach test_name : test_names
+-  test_sources = [
+-    test_name + '.c',
+-    test_resources,
+-    libadwaita_generated_headers
+-  ]
+-
+-  t = executable(test_name, test_sources,
++  t = executable(test_name, [test_name + '.c'] + libadwaita_generated_headers,
+                        c_args: test_cflags,
+                     link_args: test_link_args,
+                  dependencies: libadwaita_deps + [libadwaita_dep],
+Index: tests/org.gnome.Adwaita1.Test.metainfo.xml
+===================================================================
+diff --git a/tests/org.gnome.Adwaita1.Test.metainfo.xml b/tests/org.gnome.Adwaita1.Test.metainfo.xml
+deleted file mode 100644
+--- a/tests/org.gnome.Adwaita1.Test.metainfo.xml	(revision 3d9c034fbffd5452dc39a2724754a699e315bbb7)
++++ /dev/null	(revision 3d9c034fbffd5452dc39a2724754a699e315bbb7)
+@@ -1,29 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<component type="desktop-application">
+-  <id>org.gnome.Adwaita1.Test</id>
+-  <metadata_license>CC0-1.0</metadata_license>
+-  <project_license>LGPL-2.1-or-later</project_license>
+-  <launchable type="desktop-id">org.gnome.Adwaita1.Test.desktop</launchable>
+-  <developer_name>The GNOME Project</developer_name>
+-
+-  <name>Adwaita Test</name>
+-
+-  <releases>
+-    <release version="1.0">
+-      <description>
+-        <p>Testing Build</p>
+-      </description>
+-    </release>
+-    <release version="0.1">
+-      <description>
+-        <p>Testing Build Older</p>
+-      </description>
+-    </release>
+-  </releases>
+-
+-  <project_group>GNOME</project_group>
+-
+-  <url type="homepage">https://gitlab.gnome.org/GNOME/libadwaita</url>
+-  <url type="bugtracker">https://gitlab.gnome.org/GNOME/libadwaita/issues</url>
+-  <url type="help">http://www.gnome.org/friends/</url>
+-</component>
+Index: tests/test-about-window.c
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/tests/test-about-window.c b/tests/test-about-window.c
+--- a/tests/test-about-window.c	(revision 3d9c034fbffd5452dc39a2724754a699e315bbb7)
++++ b/tests/test-about-window.c	(revision 231c3a60650a27f5ce66227177605ea6df063fae)
+@@ -8,49 +8,6 @@
+ 
+ #include <adwaita.h>
+ 
+-#include "adwaita-test-resources.h"
+-
+-static void
+-test_adw_about_window_from_appdata (void)
+-{
+-  AdwAboutWindow *window = ADW_ABOUT_WINDOW (adw_about_window_new_from_appdata ("/org/gnome/Adwaita1/Test/org.gnome.Adwaita1.Test.metainfo.xml", "1.0"));
+-
+-  g_assert_nonnull (window);
+-
+-  g_assert_cmpstr (adw_about_window_get_release_notes (window), ==, "<p>Testing Build</p>\n");
+-  g_assert_cmpstr (adw_about_window_get_release_notes_version (window), ==, "1.0");
+-  g_assert_cmpstr (adw_about_window_get_version (window), ==, "1.0");
+-  g_assert_cmpstr (adw_about_window_get_application_icon (window), ==, "org.gnome.Adwaita1.Test");
+-  g_assert_cmpstr (adw_about_window_get_application_name (window), ==, "Adwaita Test");
+-  g_assert_cmpstr (adw_about_window_get_developer_name (window), ==, "The GNOME Project");
+-  g_assert_cmpstr (adw_about_window_get_issue_url (window), ==, "https://gitlab.gnome.org/GNOME/libadwaita/issues");
+-  g_assert_cmpstr (adw_about_window_get_support_url (window), ==, "http://www.gnome.org/friends/");
+-  g_assert_cmpstr (adw_about_window_get_website (window), ==, "https://gitlab.gnome.org/GNOME/libadwaita");
+-  g_assert_cmpuint (adw_about_window_get_license_type (window), ==, GTK_LICENSE_LGPL_2_1);
+-
+-  g_assert_finalize_object (window);
+-
+-  window = ADW_ABOUT_WINDOW (adw_about_window_new_from_appdata ("/org/gnome/Adwaita1/Test/org.gnome.Adwaita1.Test.metainfo.xml", "0.1"));
+-
+-  g_assert_nonnull (window);
+-
+-  g_assert_cmpstr (adw_about_window_get_release_notes (window), ==, "<p>Testing Build Older</p>\n");
+-  g_assert_cmpstr (adw_about_window_get_release_notes_version (window), ==, "0.1");
+-  g_assert_cmpstr (adw_about_window_get_version (window), ==, "1.0");
+-
+-  g_assert_finalize_object (window);
+-
+-  window = ADW_ABOUT_WINDOW (adw_about_window_new_from_appdata ("/org/gnome/Adwaita1/Test/org.gnome.Adwaita1.Test.metainfo.xml", NULL));
+-
+-  g_assert_nonnull (window);
+-
+-  g_assert_cmpstr (adw_about_window_get_release_notes (window), ==, "");
+-  g_assert_cmpstr (adw_about_window_get_release_notes_version (window), ==, "");
+-  g_assert_cmpstr (adw_about_window_get_version (window), ==, "1.0");
+-
+-  g_assert_finalize_object (window);
+-}
+-
+ static void
+ test_adw_about_window_create (void)
+ {
+@@ -143,16 +100,10 @@
+ main (int   argc,
+       char *argv[])
+ {
+-  GResource *test_resources;
+-
+   gtk_test_init (&argc, &argv, NULL);
+   adw_init ();
+ 
+-  test_resources = test_get_resource ();
+-  g_resources_register (test_resources);
+-
+   g_test_add_func ("/Adwaita/AboutWindow/create", test_adw_about_window_create);
+-  g_test_add_func ("/Adwaita/AboutWindow/from_appdata", test_adw_about_window_from_appdata);
+ 
+   return g_test_run ();
+ }
+Index: tests/tests.gresources.xml
+===================================================================
+diff --git a/tests/tests.gresources.xml b/tests/tests.gresources.xml
+deleted file mode 100644
+--- a/tests/tests.gresources.xml	(revision 3d9c034fbffd5452dc39a2724754a699e315bbb7)
++++ /dev/null	(revision 3d9c034fbffd5452dc39a2724754a699e315bbb7)
+@@ -1,6 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<gresources>
+-  <gresource prefix="/org/gnome/Adwaita1/Test">
+-    <file compressed="true">org.gnome.Adwaita1.Test.metainfo.xml</file>
+-  </gresource>
+-</gresources>

@@ -1,0 +1,19 @@
+Subject: [PATCH] Fix empty initializer won't compile with MSVC
+---
+Index: src/adw-navigation-split-view.c
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/adw-navigation-split-view.c b/src/adw-navigation-split-view.c
+--- a/src/adw-navigation-split-view.c	(revision 231c3a60650a27f5ce66227177605ea6df063fae)
++++ b/src/adw-navigation-split-view.c	(revision 497b48b417704c62a317727da84c3ce8f53cd315)
+@@ -317,7 +317,7 @@
+ static void
+ update_navigation_stack (AdwNavigationSplitView *self)
+ {
+-  AdwNavigationPage *stack[2] = {};
++  AdwNavigationPage *stack[2] = {0};
+   int i = 0;
+ 
+   if (!self->navigation_view)
