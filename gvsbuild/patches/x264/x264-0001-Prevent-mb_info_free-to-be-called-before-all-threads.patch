@@ -1,0 +1,36 @@
+From fa08eaac46d1a94c2b8c93627f7664dc7358e6e1 Mon Sep 17 00:00:00 2001
+From: Elias Carotti <eliascrt _at_ amazon _dot_ it>
+Date: Mon, 11 Sep 2023 12:03:24 +0200
+Subject: [PATCH] Prevent mb_info_free to be called before all threads are done
+ using mb_info
+
+---
+ encoder/encoder.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/encoder/encoder.c b/encoder/encoder.c
+index 39d7ac8f..7b5fbb00 100644
+--- a/encoder/encoder.c
++++ b/encoder/encoder.c
+@@ -3108,11 +3108,15 @@ cont:
+             /* Do hpel now */
+             for( int mb_y = h->i_threadslice_start; mb_y <= h->i_threadslice_end; mb_y++ )
+                 fdec_filter_row( h, mb_y, 1 );
+-            x264_threadslice_cond_broadcast( h, 2 );
+-            /* Do the first row of hpel, now that the previous slice is done */
+-            if( h->i_thread_idx > 0 )
++
++            if( h->i_thread_idx == 0 ) {
++                x264_threadslice_cond_broadcast( h, 2 );
++            }
++            else
+             {
+                 x264_threadslice_cond_wait( h->thread[h->i_thread_idx-1], 2 );
++                x264_threadslice_cond_broadcast( h, 2 );
++                /* Do the first row of hpel, now that the previous slice is done */
+                 fdec_filter_row( h, h->i_threadslice_start + (1 << SLICE_MBAFF), 2 );
+             }
+         }
+-- 
+2.34.1
+
