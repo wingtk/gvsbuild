@@ -79,17 +79,8 @@ jobs:
       - name: Install dependencies
         run: |
           pip install tox tox-gh-actions
-      # Temporarily move the preinstalled git, it causes errors related to cygwin.
-      - name: Move git binary
-        run: |
-          Move-Item "C:\Program Files\Git\usr\bin" "C:\Program Files\Git\usr\notbin"
-          Move-Item "C:\Program Files\Git\bin" "C:\Program Files\Git\notbin"
       - name: Test with tox
         run: tox
-      - name: Restore git binary
-        run: |
-          Move-Item "C:\Program Files\Git\usr\notbin" "C:\Program Files\Git\usr\bin"
-          Move-Item "C:\Program Files\Git\notbin" "C:\Program Files\Git\bin"
 
   build:
     needs: lint
@@ -127,11 +118,6 @@ jobs:
           poetry config virtualenvs.in-project true
       - name: Install Python Dependencies
         run: poetry install
-      # Temporarily move the preinstalled git, it causes errors related to cygwin.
-      - name: Move git binary
-        run: |
-          Move-Item "C:\Program Files\Git\usr\bin" "C:\Program Files\Git\usr\notbin"
-          Move-Item "C:\Program Files\Git\bin" "C:\Program Files\Git\notbin"
       - name: Build GTK3
         if: matrix.gtk-version == '3'
         run: >
@@ -142,10 +128,6 @@ jobs:
         run: > # Use -j2 option to prevent out of memory errors with GitHub Action runners
           poetry run gvsbuild build --ninja-opts -j2 --enable-gi cairo gtk4 libadwaita
           gtksourceview5 gobject-introspection adwaita-icon-theme hicolor-icon-theme
-      - name: Restore git binary
-        run: |
-          Move-Item "C:\Program Files\Git\usr\notbin" "C:\Program Files\Git\usr\bin"
-          Move-Item "C:\Program Files\Git\notbin" "C:\Program Files\Git\bin"
       - name: Create Source Dist and Wheel
         run: poetry build
       - name: Upload gvsbuild-${{ github.event.release.tag_name }}.tar.gz
