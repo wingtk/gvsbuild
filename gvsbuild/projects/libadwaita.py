@@ -32,6 +32,7 @@ class Libadwaita(Tarball, Meson):
             dependencies=[
                 "ninja",
                 "meson",
+                "msys2",
                 "pkgconf",
                 "glib",
                 "gtk4",
