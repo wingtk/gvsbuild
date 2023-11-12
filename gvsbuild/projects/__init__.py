@@ -13,7 +13,7 @@ from gvsbuild.projects.dev_shell import DevShell
 from gvsbuild.projects.emeus import Emeus
 from gvsbuild.projects.enchant import Enchant
 from gvsbuild.projects.expat import Expat
-from gvsbuild.projects.ffmpeg import Ffmpeg
+from gvsbuild.projects.ffmpeg import Ffmpeg, NvCodecHeaders
 from gvsbuild.projects.fontconfig import Fontconfig
 from gvsbuild.projects.freerdp import FreeRDP
 from gvsbuild.projects.freetype import Freetype
