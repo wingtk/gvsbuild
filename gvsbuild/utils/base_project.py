@@ -414,12 +414,12 @@ class Project(Generic[P]):
 
         src_dir = os.path.join(self._get_working_dir(), base_dir)
         log.debug(f"Copy .pc files from {src_dir}")
-        bin_dir = os.path.join(self.builder.gtk_dir, "bin").replace("\\", "/")
+        gtk_dir = self.builder.gtk_dir.replace("\\", "/")
         for f in os.scandir(src_dir):
             if f.is_file():
                 log.debug(f" {f.name}")
                 content = pathlib.Path(f.path).read_text()
-                _t = content.replace("@prefix@", bin_dir)
+                _t = content.replace("@prefix@", gtk_dir)
                 content = _t
                 _t = content.replace("@version@", self.version)
                 content = _t
