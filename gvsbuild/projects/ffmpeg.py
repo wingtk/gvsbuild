@@ -62,7 +62,7 @@ class Ffmpeg(Tarball, Project):
 
 
 @project_add
-class Project_nv_codec_headers(Tarball, Project):
+class NvCodecHeaders(Tarball, Project):
     def __init__(self):
         Project.__init__(
             self,
