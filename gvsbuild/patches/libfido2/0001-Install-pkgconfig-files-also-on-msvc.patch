@@ -1,0 +1,28 @@
+From dd8f6403dd58e67b3f62fa7d41f8d16ac3cdfd40 Mon Sep 17 00:00:00 2001
+From: Ignacio Casal Quinteiro <qignacio@amazon.com>
+Date: Wed, 15 Nov 2023 11:39:36 +0100
+Subject: [PATCH] Install pkgconfig files also on msvc
+
+---
+ src/CMakeLists.txt | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 73493b1..4c54198 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -151,8 +151,6 @@ endif()
+ install(FILES fido.h DESTINATION include)
+ install(DIRECTORY fido DESTINATION include)
+ 
+-if(NOT MSVC)
+-	configure_file(libfido2.pc.in libfido2.pc @ONLY)
+-	install(FILES "${CMAKE_CURRENT_BINARY_DIR}/libfido2.pc"
+-		DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
+-endif()
++configure_file(libfido2.pc.in libfido2.pc @ONLY)
++install(FILES "${CMAKE_CURRENT_BINARY_DIR}/libfido2.pc"
++	DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
+-- 
+2.34.1
+
