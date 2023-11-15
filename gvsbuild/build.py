@@ -406,7 +406,7 @@ def build(
         log.debug("Options are:")
         for co in sorted(opts.__dict__.keys()):
             v = opts.__dict__[co]
-            pv = f"'{v}'" if type(v) is str else repr(v)
+            pv = f"'{v}'" if isinstance(v, str) else repr(v)
             log.message_indent(f"'{co}': {pv}, ")
     builder = Builder(opts)
     builder.preprocess()
