@@ -45,20 +45,13 @@ class OpenSSL(Tarball, Project):
         #                             os.path.join(self.builder.opts.msys_dir, 'usr', 'bin')])
         add_path = None
 
-        if self.builder.x86:
-            self.exec_vs(
-                r"%(perl_dir)s\bin\perl.exe Configure "
-                + debug_option
-                + "VC-WIN32 "
-                + common_options
-            )
-        else:
-            self.exec_vs(
-                r"%(perl_dir)s\bin\perl.exe Configure "
-                + debug_option
-                + "VC-WIN64A "
-                + common_options
-            )
+        target_option = "VC-WIN32 " if self.builder.x86 else "VC-WIN64A "
+        self.exec_vs(
+            r"%(perl_dir)s\bin\perl.exe Configure "
+            + debug_option
+            + target_option
+            + common_options
+        )
 
         with contextlib.suppress(Exception):
             self.exec_vs(r"nmake /nologo clean", add_path=add_path)
