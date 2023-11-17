@@ -20,11 +20,11 @@ from gvsbuild.utils.base_project import Project, project_add
 
 
 @project_add
-class OpenSSL(Tarball, Project):
+class OpenSSLBase(Tarball, Project):
     def __init__(self):
         Project.__init__(
             self,
-            "openssl",
+            "openssl-base",
             version="3.2.0",
             archive_url="https://www.openssl.org/source/openssl-{version}.tar.gz",
             hash="14c826f07c7e433706fb5c69fa9e25dab95684844b4c962a2cf1bf183eb4690e",
@@ -36,7 +36,7 @@ class OpenSSL(Tarball, Project):
         )
 
     def build(self):
-        common_options = r"no-comp no-docs no-ssl3 --openssldir=%(gtk_dir)s/etc/ssl --prefix=%(gtk_dir)s"
+        common_options = r"enable-fips no-comp no-docs no-ssl3 --openssldir=%(gtk_dir)s/etc/ssl --prefix=%(gtk_dir)s"
         debug_option = "debug-" if self.builder.opts.configuration == "debug" else ""
         target_option = "VC-WIN32 " if self.builder.x86 else "VC-WIN64A "
 
@@ -56,3 +56,35 @@ class OpenSSL(Tarball, Project):
         self.install(r".\cert.pem bin")
         self.install(r".\LICENSE share\doc\openssl")
         self.install_pc_files()
+
+
+@project_add
+class OpenSSL(Tarball, Project):
+    def __init__(self):
+        Project.__init__(
+            self,
+            "openssl",
+            version="3.0.8",
+            archive_url="https://www.openssl.org/source/openssl-{version}.tar.gz",
+            hash="6c13d2bf38fdf31eac3ce2a347073673f5d63263398f1f69d0df4a41253e4b3e",
+            dependencies=[
+                "openssl-base",
+            ],
+        )
+
+    def build(self):
+        common_options = "enable-fips no-ssl3 no-comp --openssldir=%(gtk_dir)s/etc/ssl --prefix=%(gtk_dir)s"
+        debug_option = "debug-" if self.builder.opts.configuration == "debug" else ""
+        target_option = "VC-WIN32 " if self.builder.x86 else "VC-WIN64A "
+
+        self.exec_vs(
+            r"%(perl_dir)s\bin\perl.exe Configure "
+            + debug_option
+            + target_option
+            + common_options
+        )
+
+        with contextlib.suppress(Exception):
+            self.exec_vs(r"nmake /nologo clean")
+        self.exec_vs(r"nmake /nologo")
+        self.exec_vs(r"nmake /nologo install_fips")
