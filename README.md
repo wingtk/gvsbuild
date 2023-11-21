@@ -131,15 +131,62 @@ Grab a coffee, the build will take a few minutes to complete.
 
 #### Add GTK to Your Environmental Variables
 
+1. From the Start menu, go to the Control Panel entry for “Edit environment variables for your account”.
+2. Double-click the `Path` row in the top list of variables. Click “New” to add a new item to the list.
+3. Paste in `C:\gtk-build\gtk\x64\release\bin`
+4. Click "OK" twice.
+
+#### Using GTK with Visual Studio
+
+1. Open Visual Studio and "Create a new project" using the "Empty Project" template
+2. On the left, right click on "Source Files" and choose "Add", then "New Item..." and replace the name with `main.c`
+3. Paste in the following contents, then save the file:
+
+   ```
+   #include <gtk/gtk.h>
+   
+   static void activate_cb(GtkApplication *app) {
+     GtkWidget *window = gtk_application_window_new(app);
+     gtk_widget_set_visible(window, true);
+   }
+   
+   int main(int argc, char **argv) {
+     GtkApplication *app =
+         gtk_application_new("org.app", G_APPLICATION_DEFAULT_FLAGS);
+     g_signal_connect(app, "activate", G_CALLBACK(activate_cb), NULL);
+     return g_application_run(G_APPLICATION(app), argc, argv);
+   }
+   ```
+
+4. Go to your project's settings by right-clicking and choosing "Properties"
+
+   ![screenshot showing the properties item is at the bottom of the context menu](doc/visual-studio-project-context-menu.png)
+
+5. On the left, open "C/C++", then choose "Command Line".
+   1. Open "Powershell" and run the command `pkg-config --cflags gtk4 --msvc-syntax`
+   2. Paste the result into the "Additional Options" field at the bottom of the Visual Studio Properties window.
+
+   ![screenshot showing the "Additional Options" field to modify](doc/visual-studio-properties-c-command-line.png)
+
+6. Still in the Visual Studio window, click on "Linker" and choose "Command Line". Do the same thing as the last step, except use the output of `pkg-config --libs gtk4 --msvc-syntax`
+7. Click "OK"
+8. In the top menu bar, click "Debug" and "Start Without Debugging"
+
+#### Using GTK with Rust
+
+See [the fantastic `gtk-rs` book](https://gtk-rs.org/gtk4-rs/stable/latest/book).
+You can skip the "Install GTK 4" step, as the above steps ^ covered that.
+
+#### Use PyGObject
+
+First, add GTK to your environment variables:
+
 ```PowerShell
-$env:Path = "C:\gtk-build\gtk\x64\release\bin;" + $env:Path
 $env:LIB = "C:\gtk-build\gtk\x64\release\lib;" + $env:LIB
 $env:INCLUDE = "C:\gtk-build\gtk\x64\release\include;C:\gtk-build\gtk\x64\release\include\cairo;C:\gtk-build\gtk\x64\release\include\glib-2.0;C:\gtk-build\gtk\x64\release\include\gobject-introspection-1.0;C:\gtk-build\gtk\x64\release\lib\glib-2.0\include;" + $env:INCLUDE
 ```
 
-#### Use PyGObject
-
-Add the `--enable-gi` and `--py-wheel` options like:
+Next, add the `--enable-gi` and `--py-wheel` options like:
 
 ```PowerShell
 gvsbuild build --enable-gi --py-wheel gtk4 pygobject
