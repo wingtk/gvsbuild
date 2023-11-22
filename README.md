@@ -10,7 +10,7 @@ stack for Windows using Visual Studio. Currently, GTK 3 and GTK 4 are supported.
 If you want to only run GTK on Windows and not build it yourself, you can download
 a zip file from the last release and unzip it to `C:\gtk`.
 
-It comes with GTK, Cairo, PyGObject, Pycairo, GtkSourceView, adwaita-icon-theme and
+It comes with GTK4, Cairo, PyGObject, Pycairo, GtkSourceView5, adwaita-icon-theme, and
 all of their dependencies.
 
 ### Environmental Variables
