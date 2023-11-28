@@ -36,9 +36,7 @@ class OpenSSL(Tarball, Project):
         )
 
     def build(self):
-        common_options = (
-            r"no-ssl3 no-comp --openssldir=%(gtk_dir)s/etc/ssl --prefix=%(gtk_dir)s"
-        )
+        common_options = r"no-comp no-docs no-ssl3 --openssldir=%(gtk_dir)s/etc/ssl --prefix=%(gtk_dir)s"
 
         debug_option = "debug-" if self.builder.opts.configuration == "debug" else ""
         # Note that we want to give priority to the system perl version.
