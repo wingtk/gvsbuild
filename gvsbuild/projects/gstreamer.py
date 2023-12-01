@@ -137,6 +137,9 @@ class GstPluginsGood(Tarball, Meson):
                 "gst-plugins-base",
                 "libvpx",
             ],
+            patches=[
+                "cutter-add-audio-level-meta.patch",
+            ],
         )
 
     def build(self):
