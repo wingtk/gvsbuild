@@ -36,6 +36,7 @@ class Ffmpeg(Tarball, Project):
             self.add_dependency("x264")
 
     def build(self):
+        configuration = self.opts.configuration
         msys_path = Project.get_tool_path("msys2")
         self.exec_vs(
             r"%s\bash build\build.sh %s %s %s %s"
@@ -43,11 +44,16 @@ class Ffmpeg(Tarball, Project):
                 msys_path,
                 convert_to_msys(self.pkg_dir),
                 convert_to_msys(self.builder.gtk_dir),
-                self.builder.opts.configuration,
+                configuration,
                 "enable_gpl" if self.opts.ffmpeg_enable_gpl else "disable_gpl",
             ),
             add_path=msys_path,
         )
+
+        if configuration in ["debug"]:
+            self.install(r".\libavcodec\avcodec-60.pdb bin")
+            self.install(r".\libavutil\avutil-58.pdb bin")
+            self.install(r".\libswscale\libswscale-7.pdb bin")
 
         self.install(r".\COPYING.LGPLv2.1 " r".\COPYING.LGPLv3 " r"share\doc\ffmpeg")
         if self.opts.ffmpeg_enable_gpl:
