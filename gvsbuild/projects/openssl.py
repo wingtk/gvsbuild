@@ -37,15 +37,9 @@ class OpenSSL(Tarball, Project):
 
     def build(self):
         common_options = r"no-comp no-docs no-ssl3 --openssldir=%(gtk_dir)s/etc/ssl --prefix=%(gtk_dir)s"
-
         debug_option = "debug-" if self.builder.opts.configuration == "debug" else ""
-        # Note that we want to give priority to the system perl version.
-        # Using the msys2 one might endup giving us a broken build
-        #        add_path = ';'.join([os.path.join(self.builder.perl_dir, 'bin'),
-        #                             os.path.join(self.builder.opts.msys_dir, 'usr', 'bin')])
-        add_path = None
-
         target_option = "VC-WIN32 " if self.builder.x86 else "VC-WIN64A "
+
         self.exec_vs(
             r"%(perl_dir)s\bin\perl.exe Configure "
             + debug_option
@@ -54,10 +48,10 @@ class OpenSSL(Tarball, Project):
         )
 
         with contextlib.suppress(Exception):
-            self.exec_vs(r"nmake /nologo clean", add_path=add_path)
-        self.exec_vs(r"nmake /nologo", add_path=add_path)
+            self.exec_vs(r"nmake /nologo clean")
+        self.exec_vs(r"nmake /nologo")
         self.exec_vs(r"%(perl_dir)s\bin\perl.exe mk-ca-bundle.pl -n cert.pem")
-        self.exec_vs(r"nmake /nologo install", add_path=add_path)
+        self.exec_vs(r"nmake /nologo install")
 
         self.install(r".\cert.pem bin")
         self.install(r".\LICENSE share\doc\openssl")
