@@ -53,7 +53,7 @@ fi
 if [ "$enable_gpl" = "enable_gpl" ]; then
     configure_cmd[idx++]="--enable-libx264"
     configure_cmd[idx++]="--enable-gpl"
-    configure_cmd[idx++]="--enable-encoder=\"libx264\""
+    configure_cmd[idx++]="--enable-encoder=libx264"
 fi
 
 export PKG_CONFIG_PATH=$gtk_dir/lib/pkgconfig:$PKG_CONFIG_PATH
