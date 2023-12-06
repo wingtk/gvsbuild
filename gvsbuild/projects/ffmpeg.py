@@ -36,7 +36,11 @@ class Ffmpeg(Tarball, Project):
             self.add_dependency("x264")
 
     def build(self):
-        configuration = self.opts.configuration
+        configuration = (
+            "debug-optimized"
+            if self.opts.release_configuration_is_actually_debug_optimized
+            else self.opts.configuration
+        )
         msys_path = Project.get_tool_path("msys2")
         self.exec_vs(
             r"%s\bash build\build.sh %s %s %s %s"
@@ -50,7 +54,7 @@ class Ffmpeg(Tarball, Project):
             add_path=msys_path,
         )
 
-        if configuration in ["debug"]:
+        if configuration in ["debug-optimized", "debug"]:
             self.install(r".\libavcodec\avcodec-60.pdb bin")
             self.install(r".\libavutil\avutil-58.pdb bin")
             self.install(r".\libswscale\libswscale-7.pdb bin")

@@ -45,6 +45,11 @@ else
     configure_cmd[idx++]="--extra-cflags=-MD"
 fi
 
+if [ "$build_type" = "debug-optimized" ]; then
+    configure_cmd[idx++]="--extra-ldflags=-DEBUG:FULL"
+    configure_cmd[idx++]="--extra-cflags=-Zi"
+fi
+
 if [ "$enable_gpl" = "enable_gpl" ]; then
     configure_cmd[idx++]="--enable-libx264"
     configure_cmd[idx++]="--enable-gpl"
