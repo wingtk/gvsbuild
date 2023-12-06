@@ -40,7 +40,7 @@ configure_cmd[idx++]="--disable-postproc"
 if [ "$build_type" = "debug" ]; then
     configure_cmd[idx++]="--enable-debug"
     # FIXME: the -Od and -Zi instructions are overriden in the compilation command
-    configure_cmd[idx++]="--extra-cflags=\"-Od -Zi -MDd\""
+    configure_cmd[idx++]="--extra-cflags=-MDd -Od -Zi"
 else
     configure_cmd[idx++]="--extra-cflags=-MD"
 fi
