@@ -1,0 +1,43 @@
+From 363773a80b5c13b09f247a2819acfa0acb8321ae Mon Sep 17 00:00:00 2001
+From: Alessandro Bono <alessandro.bono369@gmail.com>
+Date: Wed, 6 Dec 2023 12:01:36 +0100
+Subject: [PATCH] gstdtlscertificate: Define _WINSOCKAPI_ before including
+ windows.h
+
+This avoid a build failure when compiling against OpenSSL 3.2.0. The
+problem is when windows.h is included before WinSock2.h. Because
+windows.h includes winsock.h[1]. Defining _WINSOCKAPI_ stops windows.h
+including winsock.h.
+
+Error:
+```
+[748/1041] Compiling C object ext/dtls/gstdtls.dll.p/gstdtlscertificate.c.obj
+FAILED: ext/dtls/gstdtls.dll.p/gstdtlscertificate.c.obj
+[...]
+C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\shared\ws2def.h(235): error C2011: 'sockaddr': 'struct' type redefinition
+C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\um\winsock.h(482): note: see declaration of 'sockaddr'
+
+```
+
+[1] https://stackoverflow.com/a/1372836
+
+Closes: https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3167
+---
+ subprojects/gst-plugins-bad/ext/dtls/gstdtlscertificate.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/subprojects/gst-plugins-bad/ext/dtls/gstdtlscertificate.c b/subprojects/gst-plugins-bad/ext/dtls/gstdtlscertificate.c
+index 9b31464b297..dc16a0137e8 100644
+--- a/subprojects/gst-plugins-bad/ext/dtls/gstdtlscertificate.c
++++ b/subprojects/gst-plugins-bad/ext/dtls/gstdtlscertificate.c
+@@ -39,6 +39,7 @@
+ #endif
+ 
+ #ifdef G_OS_WIN32
++#define _WINSOCKAPI_
+ #include <windows.h>
+ #ifdef X509_NAME
+ #undef X509_NAME
+-- 
+GitLab
+
