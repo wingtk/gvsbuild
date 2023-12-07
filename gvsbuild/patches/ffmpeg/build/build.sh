@@ -40,15 +40,20 @@ configure_cmd[idx++]="--disable-postproc"
 if [ "$build_type" = "debug" ]; then
     configure_cmd[idx++]="--enable-debug"
     # FIXME: the -Od and -Zi instructions are overriden in the compilation command
-    configure_cmd[idx++]="--extra-cflags=\"-Od -Zi -MDd\""
+    configure_cmd[idx++]="--extra-cflags=-MDd -Od -Zi"
 else
     configure_cmd[idx++]="--extra-cflags=-MD"
+fi
+
+if [ "$build_type" = "debug-optimized" ]; then
+    configure_cmd[idx++]="--extra-ldflags=-DEBUG:FULL"
+    configure_cmd[idx++]="--extra-cflags=-Zi"
 fi
 
 if [ "$enable_gpl" = "enable_gpl" ]; then
     configure_cmd[idx++]="--enable-libx264"
     configure_cmd[idx++]="--enable-gpl"
-    configure_cmd[idx++]="--enable-encoder=\"libx264\""
+    configure_cmd[idx++]="--enable-encoder=libx264"
 fi
 
 export PKG_CONFIG_PATH=$gtk_dir/lib/pkgconfig:$PKG_CONFIG_PATH
