@@ -23,13 +23,13 @@ C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\um\winsock.h(482): n
 
 Closes: https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3167
 ---
- subprojects/gst-plugins-bad/ext/dtls/gstdtlscertificate.c | 1 +
+ ext/dtls/gstdtlscertificate.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/subprojects/gst-plugins-bad/ext/dtls/gstdtlscertificate.c b/subprojects/gst-plugins-bad/ext/dtls/gstdtlscertificate.c
+diff --git a/ext/dtls/gstdtlscertificate.c b/ext/dtls/gstdtlscertificate.c
 index 9b31464b297..dc16a0137e8 100644
---- a/subprojects/gst-plugins-bad/ext/dtls/gstdtlscertificate.c
-+++ b/subprojects/gst-plugins-bad/ext/dtls/gstdtlscertificate.c
+--- a/ext/dtls/gstdtlscertificate.c
++++ b/ext/dtls/gstdtlscertificate.c
 @@ -39,6 +39,7 @@
  #endif
  
