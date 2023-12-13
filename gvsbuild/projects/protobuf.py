@@ -24,11 +24,11 @@ class Protobuf(Tarball, CmakeProject):
         Project.__init__(
             self,
             "protobuf",
-            version="3.21.12",
-            lastversion_major=3,
-            archive_url="https://github.com/protocolbuffers/protobuf/releases/download/v{minor}.{micro}/protobuf-cpp-{version}.tar.gz",
-            hash="4eab9b524aa5913c6fffb20b2a8abf5ef7f95a80bc0701f3a6dbb4c607f73460",
+            version="25.1",
+            archive_url="https://github.com/protocolbuffers/protobuf/releases/download/v{version}/protobuf-{version}.tar.gz",
+            hash="9bd87b8280ef720d3240514f884e56a712f2218f0d693b48050c836028940a42",
             dependencies=[
+                "abseil-cpp",
                 "cmake",
                 "zlib",
                 "ninja",
@@ -39,7 +39,7 @@ class Protobuf(Tarball, CmakeProject):
         # We need to compile with STATIC_RUNTIME off since protobuf-c also compiles with it OFF
         CmakeProject.build(
             self,
-            cmake_params=r'-DBUILD_SHARED_LIBS=ON -Dprotobuf_DEBUG_POSTFIX="" -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_WITH_ZLIB=ON -Dprotobuf_MSVC_STATIC_RUNTIME=OFF',
+            cmake_params=r'-DBUILD_SHARED_LIBS=ON -Dprotobuf_ABSL_PROVIDER=package -Dprotobuf_DEBUG_POSTFIX="" -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_WITH_ZLIB=ON -Dprotobuf_MSVC_STATIC_RUNTIME=OFF',
             use_ninja=True,
         )
 
