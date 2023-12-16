@@ -39,7 +39,6 @@ class Libadwaita(Tarball, Meson):
             ],
             patches=[
                 "0001-remove-appstream-dependency.patch",
-                "0002-empty-initializer.patch",
             ],
         )
         gir = "disabled"
