@@ -363,13 +363,13 @@ files = [
 
 [[package]]
 name = "lastversion"
-version = "3.4.3"
+version = "3.4.5"
 description = "A CLI tool to find the latest stable version of an arbitrary project"
 optional = true
 python-versions = "*"
 files = [
-    {file = "lastversion-3.4.3-py3-none-any.whl", hash = "sha256:69b8ab9f22b24742ed32597845100702069324f8b20ba0e90f2c1c3286ecec82"},
-    {file = "lastversion-3.4.3.tar.gz", hash = "sha256:bd9fd7b3e58f290083cfcb8456554d940b624e360c5cca44702ea48f5700e9e1"},
+    {file = "lastversion-3.4.5-py3-none-any.whl", hash = "sha256:ab130ecae8da5491f94eb641c1f853fdd148097ce98c2d862f928b66a189c4db"},
+    {file = "lastversion-3.4.5.tar.gz", hash = "sha256:274ff640c9af4af637588a4ae9f4d54882c385e357d52cd143724f5aee8222a2"},
 ]
 
 [package.dependencies]
