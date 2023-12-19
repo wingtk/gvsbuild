@@ -88,6 +88,7 @@ class WinSdkVersion(str, Enum):
     sdk_16299 = "10.0.16299.0"
     sdk_17134 = "10.0.17134.0"
     sdk_17763 = "10.0.17763.0"
+    sdk_22621 = "10.0.22621.0"
 
 
 class PythonVersion(str, Enum):
