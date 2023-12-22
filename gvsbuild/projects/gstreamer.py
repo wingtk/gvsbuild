@@ -162,7 +162,6 @@ class GstPluginsBad(Tarball, Meson):
             patches=[
                 "wasapisink-reduce-buffer-latency.patch",
                 "wasapi2-Add-option-to-monitor-loopback-device-s-mute.patch",
-                "gstdtlscertificate-define-WINSOCKAPI.patch",
             ],
         )
         self.add_param("-Dcurl=disabled")
