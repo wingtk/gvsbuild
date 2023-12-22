@@ -39,6 +39,9 @@ class Zlib(Tarball, Project):
             version="1.3",
             archive_url="https://github.com/madler/zlib/releases/download/v{version}/zlib-{version}.tar.xz",
             hash="8a9ba2898e1d0d774eca6ba5b4627a11e5588ba85c8851336eb38de4683050a7",
+            patches=[
+                "0001-Reject-overflows-of-zip-header-fields-in-minizip.patch",
+            ],
         )
 
     def build(self):
