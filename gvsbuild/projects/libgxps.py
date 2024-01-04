@@ -37,7 +37,6 @@ class Libgxps(Tarball, Meson):
                 "libpng",
                 "libjpeg-turbo",
                 "libtiff-4",
-                "gtk3",
             ],
         )
         if self.opts.enable_gi:
