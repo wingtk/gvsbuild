@@ -26,9 +26,9 @@ class Icu(Tarball, Project):
             self,
             "icu",
             repository="https://github.com/unicode-org/icu",
-            version="73.2",
+            version="74.2",
             archive_url="https://github.com/unicode-org/icu/releases/download/release-{major}-{minor}/icu4c-{major}_{minor}-src.zip",
-            hash="2c4300315141942178502f85f1167c0a6a65847c9b683e95c79535b373c1e369",
+            hash="96ab295d4285ec1f0038b702e35cafcb083e2189924204271628d93f2d9a4979",
         )
 
     def build(self):
