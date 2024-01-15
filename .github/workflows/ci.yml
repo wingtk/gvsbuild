@@ -149,13 +149,13 @@ jobs:
       - name: Create Source Dist and Wheel
         run: poetry build
       - name: Upload gvsbuild-${{ github.event.release.tag_name }}.tar.gz
-        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392 # v4.0.0
+        uses: actions/upload-artifact@1eb3cb2b3e0f29609092a73eb033bb759a334595 # v4.1.0
         if: github.event_name == 'release' && matrix.gtk-version == '4'
         with:
           name: gvsbuild-${{ github.event.release.tag_name }}.tar.gz
           path: dist/gvsbuild-${{ github.event.release.tag_name }}.tar.gz
       - name: Upload gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
-        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392 # v4.0.0
+        uses: actions/upload-artifact@1eb3cb2b3e0f29609092a73eb033bb759a334595 # v4.1.0
         if: github.event_name == 'release' && matrix.gtk-version == '4'
         with:
           name: gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
