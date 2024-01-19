@@ -57,10 +57,20 @@ deps = pytest
 ignore = ["E501"]
 line-length = 88
 select = [
+    "B",
+    "B9",
+    "C",
     "E",
     "F",
     "W",
 ]
+extend-select = ["I"]
+
+[tool.ruff.mccabe]
+max-complexity = 20
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["typer.Argument", "typer.Option"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
