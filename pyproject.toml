@@ -34,10 +34,6 @@ gvsbuild = 'gvsbuild.main:run'
 module = "lastversion"
 ignore_missing_imports = true
 
-[tool.isort]
-profile = "black"
-skip = ".venv"
-
 [tool.tox]
 legacy_tox_ini = """
 [tox]
