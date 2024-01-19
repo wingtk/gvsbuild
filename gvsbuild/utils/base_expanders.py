@@ -187,7 +187,7 @@ def dirlist2set(st_dir, add_dirs=False, skipped_dir=None):
 def make_zip_hash(files):
     """Calculate an hash of all the files to put in a zip file."""
     hash_calc = hashlib.sha256()
-    for file_name in sorted(list(files)):
+    for file_name in sorted(files):
         # add also the file full path, to support only moving files in the zip
         hash_calc.update(file_name.lower().encode("utf-8"))
         if os.path.isfile(file_name):
@@ -208,7 +208,7 @@ def make_zip(name, files, skip_spc=0):
     """
     log.start_verbose(f"Creating zip file {name} with {len(files)} files")
     with zipfile.ZipFile(f"{name}.zip", "w", compression=zipfile.ZIP_DEFLATED) as zf:
-        for f in sorted(list(files)):
+        for f in sorted(files):
             zf.write(f, arcname=f[skip_spc:])
     log.end()
 
