@@ -24,9 +24,9 @@ class Libpsl(Tarball, Meson):
         Project.__init__(
             self,
             "libpsl",
-            version="0.21.2",
+            version="0.21.5",
             archive_url="https://github.com/rockdaboot/libpsl/releases/download/{version}/libpsl-{version}.tar.gz",
-            hash="e35991b6e17001afa2c0ca3b10c357650602b92596209b7492802f3768a6285f",
+            hash="1dcc9ceae8b128f3c0b3f654decd0e1e891afc6ff81098f227ef260449dae208",
             dependencies=[
                 "meson",
                 "ninja",
