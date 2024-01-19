@@ -133,7 +133,7 @@ class Builder:
         if python:
             rt.append(
                 '/p:PythonPath="%(python_dir)s" /p:PythonDir="%(python_dir)s"'
-                % dict(python_dir=python)
+                % {"python_dir": python}
             )
 
         if log.verbose_on():
@@ -909,14 +909,14 @@ class Builder:
     def __sub_vars(self, s):
         if "%" not in s:
             return s
-        d = dict(
-            platform=self.opts.platform,
-            configuration=self.opts.configuration,
-            build_dir=self.opts.build_dir,
-            vs_ver=self.opts.vs_ver,
-            gtk_dir=self.gtk_dir,
-            vs_ver_year=self.vs_ver_year,
-        )
+        d = {
+            "platform": self.opts.platform,
+            "configuration": self.opts.configuration,
+            "build_dir": self.opts.build_dir,
+            "vs_ver": self.opts.vs_ver,
+            "gtk_dir": self.gtk_dir,
+            "vs_ver_year": self.vs_ver_year,
+        }
         python = None
         if self.__project is not None:
             d["pkg_dir"] = self.__project.pkg_dir
