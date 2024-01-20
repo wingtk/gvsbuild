@@ -202,6 +202,11 @@ pip install --force-reinstall (Resolve-Path C:\gtk-build\build\x64\release\pygob
 pip install --force-reinstall (Resolve-Path C:\gtk-build\build\x64\release\pycairo\dist\pycairo*.whl)
 ```
 
+#### Use Icons with GTK
+
+If you are going to use SVG icons with a GTK app, you need to also need to build `librsvg`. Normally you want
+to build GTK with `gvsbuild build gtk4 adwaita-icon-theme` which will include librsvg and hicolor-icon-theme.
+
 #### Other Options
 
  For more information about the possible commands run:
