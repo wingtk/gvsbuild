@@ -39,7 +39,8 @@ class GLib(Tarball, Meson):
                 "pcre2",
             ],
             patches=[
-                "glib-package-installation-directory.patch",
+                "001-glib-package-installation-directory.patch",
+                "002-python-312-distutils-to-packaging.patch",
             ],
         )
         self.add_param("-Dman=false")
