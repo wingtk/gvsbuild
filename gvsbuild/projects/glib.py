@@ -40,6 +40,7 @@ class GLib(Tarball, Meson):
             ],
             patches=[
                 "glib-package-installation-directory.patch",
+                "python-312-distutils-to-packaging.patch",
             ],
         )
 
