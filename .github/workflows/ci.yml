@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [main]
+    branches: [main, unstable-glib]
   pull_request:
   release:
     types: [published]

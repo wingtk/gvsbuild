@@ -14,21 +14,19 @@
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 from gvsbuild.utils.base_builders import Meson
-from gvsbuild.utils.base_expanders import NullExpander, Tarball
+from gvsbuild.utils.base_expanders import GitRepo, NullExpander, Tarball
 from gvsbuild.utils.base_project import Project, project_add
 
 
 @project_add
-class GLib(Tarball, Meson):
+class GLib(GitRepo, Meson):
     def __init__(self):
         Project.__init__(
             self,
             "glib",
-            version="2.78.3",
-            lastversion_even=True,
-            repository="https://gitlab.gnome.org/GNOME/glib",
-            archive_url="https://download.gnome.org/sources/glib/{major}.{minor}/glib-{version}.tar.xz",
-            hash="609801dd373796e515972bf95fc0b2daa44545481ee2f465c4f204d224b2bc21",
+            repo_url="https://gitlab.gnome.org/GNOME/glib.git",
+            fetch_submodules=True,
+            tag="75310f658d438e1be9361e4b5af613e21e2a8a05",
             dependencies=[
                 "ninja",
                 "meson",
