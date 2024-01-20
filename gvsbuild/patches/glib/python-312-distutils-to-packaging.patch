@@ -1,0 +1,25 @@
+Subject: [PATCH] Replace distutils with packaging
+---
+Index: gio/gdbus-2.0/codegen/utils.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/gio/gdbus-2.0/codegen/utils.py b/gio/gdbus-2.0/codegen/utils.py
+--- a/gio/gdbus-2.0/codegen/utils.py	(revision e93fd4cfc39167cf0ceb9c531238d9800d3d9edb)
++++ b/gio/gdbus-2.0/codegen/utils.py	(date 1705782834785)
+@@ -19,7 +19,7 @@
+ #
+ # Author: David Zeuthen <davidz@redhat.com>
+ 
+-import distutils.version
++import packaging.version
+ import os
+ import sys
+ 
+@@ -166,4 +166,4 @@
+         v = str(key[0])
+     else:
+         v = "0"
+-    return (distutils.version.LooseVersion(v), key[1])
++    return (packaging.version.Version(v), key[1])
