@@ -1,8 +1,10 @@
 import typer
 
 
-def version(active: bool):
-    if not active: return
+def version_callback(active: bool):
+    if not active:
+        return
+
     import importlib.metadata
 
     version = importlib.metadata.version("gvsbuild")
