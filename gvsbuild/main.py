@@ -41,6 +41,7 @@ import gvsbuild.projects  # noqa: F401
 import gvsbuild.tools  # noqa: F401
 from gvsbuild.build import build
 from gvsbuild.outdated import outdated
+from gvsbuild.info import version
 
 rich.reconfigure(markup=False)
 
@@ -50,6 +51,17 @@ app.command(help="")(outdated)
 app.command(help="", name="list")(list_)
 app.command(help="")(deps)
 
+@app.callback()
+def common(
+    ctx: typer.Context,
+    version: bool = typer.Option(
+        None,
+        "--version",
+        callback=version,
+        help="Show the app's version"
+    )
+):
+    pass
 
 def run():
     app()
