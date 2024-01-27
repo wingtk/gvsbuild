@@ -167,6 +167,14 @@ class GstPluginsBad(Tarball, Meson):
         self.add_param("-Dcurl=disabled")
         self.add_param("-Dcurl-ssh2=disabled")
 
+        if self.opts.enable_gi:
+            self.add_dependency("gobject-introspection")
+            enable_gi = "enabled"
+        else:
+            enable_gi = "disabled"
+
+        self.add_param(f"-Dintrospection={enable_gi}")
+
     def build(self):
         Meson.build(self)
         self.install(r".\COPYING share\doc\gst-plugins-bad")
@@ -204,6 +212,14 @@ class GstDevTools(Tarball, Meson):
             hash="02e29400b44e9cc603aa6444dee5726b57edabef6455e6d0921ffed6f13840ee",
             dependencies=["meson", "ninja", "json-glib"],
         )
+
+        if self.opts.enable_gi:
+            self.add_dependency("gobject-introspection")
+            enable_gi = "enabled"
+        else:
+            enable_gi = "disabled"
+
+        self.add_param(f"-Dintrospection={enable_gi}")
 
     def build(self):
         Meson.build(self)
