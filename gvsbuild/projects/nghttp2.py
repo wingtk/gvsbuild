@@ -24,9 +24,9 @@ class Nghttp2(Tarball, CmakeProject):
         Project.__init__(
             self,
             "nghttp2",
-            version="1.58.0",
+            version="1.59.0",
             archive_url="https://github.com/nghttp2/nghttp2/releases/download/v{version}/nghttp2-{version}.tar.xz",
-            hash="4a68a3040da92fd9872c056d0f6b0cd60de8410de10b578f8ade9ecc14d297e0",
+            hash="fdc9bd71f5cf8d3fdfb63066b89364c10eb2fdeab55f3c6755cd7917b2ec4ffb",
             dependencies=[
                 "cmake",
                 "zlib",
