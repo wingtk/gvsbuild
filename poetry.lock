@@ -363,13 +363,13 @@ files = [
 
 [[package]]
 name = "lastversion"
-version = "3.4.6"
+version = "3.5.0"
 description = "A CLI tool to find the latest stable version of an arbitrary project"
 optional = true
-python-versions = "*"
+python-versions = ">=3.6"
 files = [
-    {file = "lastversion-3.4.6-py3-none-any.whl", hash = "sha256:68e174ee398f34bddea03597a370704ce4a3d41fbba78e52fda4aefae7eefcb7"},
-    {file = "lastversion-3.4.6.tar.gz", hash = "sha256:ae0b6cc9104375e3ca94185ba3659dd8909ddcd1a72dc57d674394101211b7ee"},
+    {file = "lastversion-3.5.0-py3-none-any.whl", hash = "sha256:10ab0066703e9dc37ecc7599b74a58a28fee0524fa22d7c916954645ad613b4d"},
+    {file = "lastversion-3.5.0.tar.gz", hash = "sha256:29c252277fc01205e5847aaa4f34f60faf5bb3218d7ceb17dac3d0c63007abc3"},
 ]
 
 [package.dependencies]
@@ -387,8 +387,8 @@ tqdm = "*"
 urllib3 = "<2"
 
 [package.extras]
-build = ["PyYAML", "appdirs", "beautifulsoup4", "cachecontrol (<=0.12.11)", "distro", "feedparser", "flake8", "flake8-bugbear", "lockfile", "markdown-include", "mkdocs (==1.3.1)", "mkdocs-material", "mkdocstrings", "packaging", "pytest (>=4.4.0)", "pytest-cov", "pytest-xdist (==1.29.0)", "python-dateutil", "requests (>=2.6.1)", "tqdm", "urllib3 (<2)"]
-docs = ["markdown-include", "mkdocs (==1.3.1)", "mkdocs-material", "mkdocstrings"]
+build = ["PyYAML", "appdirs", "beautifulsoup4", "cachecontrol (<=0.12.11)", "distro", "feedparser", "flake8", "flake8-bugbear", "lockfile", "markdown-include", "mkdocs (==1.5.3)", "mkdocs-material (==9.5.3)", "mkdocstrings[python]", "packaging", "pytest (>=4.4.0)", "pytest-cov", "pytest-xdist (==1.29.0)", "python-dateutil", "requests (>=2.6.1)", "tqdm", "urllib3 (<2)"]
+docs = ["markdown-include", "mkdocs (==1.5.3)", "mkdocs-material (==9.5.3)", "mkdocstrings[python]"]
 tests = ["PyYAML", "appdirs", "beautifulsoup4", "cachecontrol (<=0.12.11)", "distro", "feedparser", "flake8", "flake8-bugbear", "lockfile", "packaging", "pytest (>=4.4.0)", "pytest-cov", "pytest-xdist (==1.29.0)", "python-dateutil", "requests (>=2.6.1)", "tqdm", "urllib3 (<2)"]
 
 [[package]]
@@ -683,6 +683,7 @@ files = [
     {file = "PyYAML-6.0.1-cp311-cp311-win_amd64.whl", hash = "sha256:bf07ee2fef7014951eeb99f56f39c9bb4af143d8aa3c21b1677805985307da34"},
     {file = "PyYAML-6.0.1-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:855fb52b0dc35af121542a76b9a84f8d1cd886ea97c84703eaa6d88e37a2ad28"},
     {file = "PyYAML-6.0.1-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:40df9b996c2b73138957fe23a16a4f0ba614f4c0efce1e9406a184b6d07fa3a9"},
+    {file = "PyYAML-6.0.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:a08c6f0fe150303c1c6b71ebcd7213c2858041a7e01975da3a99aed1e7a378ef"},
     {file = "PyYAML-6.0.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:6c22bec3fbe2524cde73d7ada88f6566758a8f7227bfbf93a408a9d86bcc12a0"},
     {file = "PyYAML-6.0.1-cp312-cp312-musllinux_1_1_x86_64.whl", hash = "sha256:8d4e9c88387b0f5c7d5f281e55304de64cf7f9c0021a3525bd3b1c542da3b0e4"},
     {file = "PyYAML-6.0.1-cp312-cp312-win32.whl", hash = "sha256:d483d2cdf104e7c9fa60c544d92981f12ad66a457afae824d146093b8c294c54"},
