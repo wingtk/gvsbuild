@@ -363,13 +363,13 @@ files = [
 
 [[package]]
 name = "lastversion"
-version = "3.4.6"
+version = "3.5.0"
 description = "A CLI tool to find the latest stable version of an arbitrary project"
 optional = true
-python-versions = "*"
+python-versions = ">=3.6"
 files = [
-    {file = "lastversion-3.4.6-py3-none-any.whl", hash = "sha256:68e174ee398f34bddea03597a370704ce4a3d41fbba78e52fda4aefae7eefcb7"},
-    {file = "lastversion-3.4.6.tar.gz", hash = "sha256:ae0b6cc9104375e3ca94185ba3659dd8909ddcd1a72dc57d674394101211b7ee"},
+    {file = "lastversion-3.5.0-py3-none-any.whl", hash = "sha256:10ab0066703e9dc37ecc7599b74a58a28fee0524fa22d7c916954645ad613b4d"},
+    {file = "lastversion-3.5.0.tar.gz", hash = "sha256:29c252277fc01205e5847aaa4f34f60faf5bb3218d7ceb17dac3d0c63007abc3"},
 ]
 
 [package.dependencies]
@@ -387,8 +387,8 @@ tqdm = "*"
 urllib3 = "<2"
 
 [package.extras]
-build = ["PyYAML", "appdirs", "beautifulsoup4", "cachecontrol (<=0.12.11)", "distro", "feedparser", "flake8", "flake8-bugbear", "lockfile", "markdown-include", "mkdocs (==1.3.1)", "mkdocs-material", "mkdocstrings", "packaging", "pytest (>=4.4.0)", "pytest-cov", "pytest-xdist (==1.29.0)", "python-dateutil", "requests (>=2.6.1)", "tqdm", "urllib3 (<2)"]
-docs = ["markdown-include", "mkdocs (==1.3.1)", "mkdocs-material", "mkdocstrings"]
+build = ["PyYAML", "appdirs", "beautifulsoup4", "cachecontrol (<=0.12.11)", "distro", "feedparser", "flake8", "flake8-bugbear", "lockfile", "markdown-include", "mkdocs (==1.5.3)", "mkdocs-material (==9.5.3)", "mkdocstrings[python]", "packaging", "pytest (>=4.4.0)", "pytest-cov", "pytest-xdist (==1.29.0)", "python-dateutil", "requests (>=2.6.1)", "tqdm", "urllib3 (<2)"]
+docs = ["markdown-include", "mkdocs (==1.5.3)", "mkdocs-material (==9.5.3)", "mkdocstrings[python]"]
 tests = ["PyYAML", "appdirs", "beautifulsoup4", "cachecontrol (<=0.12.11)", "distro", "feedparser", "flake8", "flake8-bugbear", "lockfile", "packaging", "pytest (>=4.4.0)", "pytest-cov", "pytest-xdist (==1.29.0)", "python-dateutil", "requests (>=2.6.1)", "tqdm", "urllib3 (<2)"]
 
 [[package]]
