@@ -13,6 +13,12 @@ a zip file from the last release and unzip it to `C:\gtk`.
 It comes with GTK4, Cairo, PyGObject, Pycairo, GtkSourceView5, adwaita-icon-theme, and
 all of their dependencies.
 
+Note however that these binaries are provided “AS IS”, WITHOUT WARRANTY OF ANY KIND.
+They just contain the output of our latest CI run. They are not tested, and we cannot
+commit to timely updates even for security issues. We strongly recommend to build your
+own binaries, especially if you plan to distribute them with your application or use them in
+production.
+
 ### Environmental Variables
 Finally, add GTK to your environmental variables with:
 
