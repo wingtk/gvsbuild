@@ -46,6 +46,7 @@ To run local scripts in follow-on steps, also execute
 to run without signing, but still requires signing for remote scripts.
 
 ### Git
+
 To setup a development environment in Windows install
 [Git](https://gitforwindows.org) by executing as an administrator:
 
@@ -80,24 +81,30 @@ Note: Visual Studio versions 2013 (not for all projects), 2015, 2017, 2019, and 
 
 #### Install the Latest Python
 
-Download and install the latest version of Python:
+In Windows, The official installer contains all the Python components and is the
+best option for developers using Python for any kind of project.
 
-1. Install from Chocolately with `choco install python` with admin PowerShell
-1. Restart your PowerShell terminal as a normal user and check that `python --version` is correct.
+For more information on how to use the official installer, please see the
+[full installer instructions](https://docs.python.org/3/using/windows.html#windows-full).
+The default installation options should be fine for use with Gaphor.
 
-Note: If you are going to install Python using an alternative means, like the
-official Windows installers, we suggest to install Python in C:\Python3x, for
-example C:\Python310. Other Python distributions like [Miniconda
-3](https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86_64.exe)
-should also work.
+1. Install the latest Python version using the
+[official installer](https://www.python.org/downloads/windows/).
+
+2. Open a PowerShell terminal as a normal user and check the python version:
+
+   ```PowerShell
+   py -3.12 --version
+   ```
 
 #### Install gvsbuild
+
 The recommended way to install gvsbuild is with pipx. Open a new regular user
 PowerShell terminal and execute:
 
 ```PowerShell
-python -m pip install --user pipx
-python -m pipx ensurepath
+py -3.12 -m pip install --user pipx
+py -3.12 -m pipx ensurepath
 pipx install gvsbuild
 ```
 
