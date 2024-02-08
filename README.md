@@ -121,7 +121,7 @@ best option for developers using Python for any kind of project.
 
 For more information on how to use the official installer, please see the
 [full installer instructions](https://docs.python.org/3/using/windows.html#windows-full).
-The default installation options should be fine for use with Gaphor.
+The default installation options should be fine for use with gvsbuild.
 
 1. Install the latest Python version using the
 [official installer](https://www.python.org/downloads/windows/).
