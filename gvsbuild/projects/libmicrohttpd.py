@@ -25,10 +25,10 @@ class Libmicrohttpd(Tarball, Project):
         Project.__init__(
             self,
             "libmicrohttpd",
-            version="0.9.54",
+            version="1.0.0",
             repository="https://github.com/Karlson2k/libmicrohttpd",
             archive_url="http://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-{version}.tar.gz",
-            hash="bcc721895d4a114b0548a39d2241c35caacb9e2e072d40e11b55c60e3d5ddcbe",
+            hash="a02792d3cd1520e2ecfed9df642079d44a36ed87167442b28d7ed19e906e3e96",
             patches=["001-remove-postsample.patch"],
         )
 
