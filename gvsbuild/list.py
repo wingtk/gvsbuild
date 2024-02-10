@@ -50,9 +50,10 @@ def set_projects_latest_versions(projects):
                     str(project.latest_version)
                 ) > version.parse(project.version)
 
-    except lastversion.utils.ApiCredentialsError:
+    except lastversion.exceptions.ApiCredentialsError:
         print(
-            "Create or update the GITHUB token at https://github.com/settings/tokens, then set or update the token environmental variable with:\n$env:GITHUB_API_TOKEN=xxxxxxxxxxxxxxx"
+            "Create or update the GITHUB token at https://github.com/settings/tokens, then set or update the token "
+            "environmental variable with:\n$env:GITHUB_API_TOKEN=xxxxxxxxxxxxxxx"
         )
         exit(1)
 
