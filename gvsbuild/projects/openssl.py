@@ -33,6 +33,7 @@ class OpenSSLBase(Tarball, Project):
                 "nasm",
                 "msys2",
             ],
+            patches=["0001-crypto-providers-config.patch"],
         )
 
     def build(self):

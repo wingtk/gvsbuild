@@ -1,0 +1,52 @@
+diff --git a/crypto/aes/build.info b/crypto/aes/build.info
+index 0849aadc0f3ac..2dc16a2b2ef93 100644
+--- a/crypto/aes/build.info
++++ b/crypto/aes/build.info
+@@ -87,7 +87,7 @@ DEFINE[../../providers/libdefault.a]=$AESDEF
+ # already gets everything that the static libcrypto.a has, and doesn't need it
+ # added again.
+ IF[{- !$disabled{module} && !$disabled{shared} -}]
+-  DEFINE[../providers/liblegacy.a]=$AESDEF
++  DEFINE[../../providers/liblegacy.a]=$AESDEF
+ ENDIF
+
+ GENERATE[aes-ia64.s]=asm/aes-ia64.S
+diff --git a/crypto/ec/build.info b/crypto/ec/build.info
+index 2f376a39c681f..dbe69578ef526 100644
+--- a/crypto/ec/build.info
++++ b/crypto/ec/build.info
+@@ -103,7 +103,7 @@ DEFINE[../../providers/libdefault.a]=$ECDEF
+ # Otherwise, it already gets everything that the static libcrypto.a
+ # has, and doesn't need it added again.
+ IF[{- !$disabled{module} && !$disabled{shared} -}]
+-  DEFINE[../providers/liblegacy.a]=$ECDEF
++  DEFINE[../../providers/liblegacy.a]=$ECDEF
+ ENDIF
+
+ GENERATE[ecp_nistz256-x86.S]=asm/ecp_nistz256-x86.pl
+diff --git a/crypto/sha/build.info b/crypto/sha/build.info
+index 95767e9589b11..9a3d44f6eaa47 100644
+--- a/crypto/sha/build.info
++++ b/crypto/sha/build.info
+@@ -91,7 +91,7 @@ DEFINE[../../providers/libdefault.a]=$SHA1DEF $KECCAK1600DEF
+ # linked with libcrypto.  Otherwise, it already gets everything that
+ # the static libcrypto.a has, and doesn't need it added again.
+ IF[{- !$disabled{module} && !$disabled{shared} -}]
+-  DEFINE[../providers/liblegacy.a]=$SHA1DEF $KECCAK1600DEF
++  DEFINE[../../providers/liblegacy.a]=$SHA1DEF $KECCAK1600DEF
+ ENDIF
+
+ GENERATE[sha1-586.S]=asm/sha1-586.pl
+diff --git a/crypto/sm4/build.info b/crypto/sm4/build.info
+index ec8dca5c66f05..990797a30e138 100644
+--- a/crypto/sm4/build.info
++++ b/crypto/sm4/build.info
+@@ -28,7 +28,7 @@ DEFINE[../../providers/libdefault.a]=$SM4DEF
+ # already gets everything that the static libcrypto.a has, and doesn't need it
+ # added again.
+ IF[{- !$disabled{module} && !$disabled{shared} -}]
+-  DEFINE[../providers/liblegacy.a]=$SM4DEF
++  DEFINE[../../providers/liblegacy.a]=$SM4DEF
+ ENDIF
+
+ GENERATE[sm4-armv8.S]=asm/sm4-armv8.pl
