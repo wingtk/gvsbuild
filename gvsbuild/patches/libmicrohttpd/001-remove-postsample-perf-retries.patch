@@ -1,0 +1,182 @@
+Subject: [PATCH] Remove postsample
+---
+Index: w32/VS2015/libmicrohttpd.sln
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/w32/VS2015/libmicrohttpd.sln b/w32/VS2015/libmicrohttpd.sln
+--- a/w32/VS2015/libmicrohttpd.sln	(revision 5491644e85480586da58e881e6a9bae1c4be947b)
++++ b/w32/VS2015/libmicrohttpd.sln	(date 1707576436301)
+@@ -10,21 +10,6 @@
+ EndProject
+ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libmicrohttpd", "libmicrohttpd.vcxproj", "{9CFB0342-A9E7-483E-BEE5-A1DE22584C5A}"
+ EndProject
+-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "simplepost", "simplepost.vcxproj", "{294D5317-E983-4682-8DB5-678EA4645E11}"
+-	ProjectSection(ProjectDependencies) = postProject
+-		{9CFB0342-A9E7-483E-BEE5-A1DE22584C5A} = {9CFB0342-A9E7-483E-BEE5-A1DE22584C5A}
+-	EndProjectSection
+-EndProject
+-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "largepost", "largepost.vcxproj", "{77A27E6D-9A39-40B8-961B-40E63DB7FA65}"
+-	ProjectSection(ProjectDependencies) = postProject
+-		{9CFB0342-A9E7-483E-BEE5-A1DE22584C5A} = {9CFB0342-A9E7-483E-BEE5-A1DE22584C5A}
+-	EndProjectSection
+-EndProject
+-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "perf_replies", "perf_replies.vcxproj", "{0192C6B5-D870-4857-B673-471E3EBD41D4}"
+-	ProjectSection(ProjectDependencies) = postProject
+-		{9CFB0342-A9E7-483E-BEE5-A1DE22584C5A} = {9CFB0342-A9E7-483E-BEE5-A1DE22584C5A}
+-	EndProjectSection
+-EndProject
+ Global
+ 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+ 		Debug-dll|x64 = Debug-dll|x64
+Index: w32/VS2019/libmicrohttpd.sln
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/w32/VS2019/libmicrohttpd.sln b/w32/VS2019/libmicrohttpd.sln
+--- a/w32/VS2019/libmicrohttpd.sln	(revision 5491644e85480586da58e881e6a9bae1c4be947b)
++++ b/w32/VS2019/libmicrohttpd.sln	(date 1707576436327)
+@@ -10,21 +10,6 @@
+ EndProject
+ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libmicrohttpd", "libmicrohttpd.vcxproj", "{9CFB0342-A9E7-483E-BEE5-A1DE22584C5A}"
+ EndProject
+-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "simplepost", "simplepost.vcxproj", "{294D5317-E983-4682-8DB5-678EA4645E11}"
+-	ProjectSection(ProjectDependencies) = postProject
+-		{9CFB0342-A9E7-483E-BEE5-A1DE22584C5A} = {9CFB0342-A9E7-483E-BEE5-A1DE22584C5A}
+-	EndProjectSection
+-EndProject
+-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "largepost", "largepost.vcxproj", "{77A27E6D-9A39-40B8-961B-40E63DB7FA65}"
+-	ProjectSection(ProjectDependencies) = postProject
+-		{9CFB0342-A9E7-483E-BEE5-A1DE22584C5A} = {9CFB0342-A9E7-483E-BEE5-A1DE22584C5A}
+-	EndProjectSection
+-EndProject
+-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "perf_replies", "perf_replies.vcxproj", "{0192C6B5-D870-4857-B673-471E3EBD41D4}"
+-	ProjectSection(ProjectDependencies) = postProject
+-		{9CFB0342-A9E7-483E-BEE5-A1DE22584C5A} = {9CFB0342-A9E7-483E-BEE5-A1DE22584C5A}
+-	EndProjectSection
+-EndProject
+ Global
+ 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+ 		Debug-dll|Win32 = Debug-dll|Win32
+Index: w32/VS2013/libmicrohttpd.sln
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/w32/VS2013/libmicrohttpd.sln b/w32/VS2013/libmicrohttpd.sln
+--- a/w32/VS2013/libmicrohttpd.sln	(revision 5491644e85480586da58e881e6a9bae1c4be947b)
++++ b/w32/VS2013/libmicrohttpd.sln	(date 1707576436295)
+@@ -10,21 +10,6 @@
+ EndProject
+ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libmicrohttpd", "libmicrohttpd.vcxproj", "{9CFB0342-A9E7-483E-BEE5-A1DE22584C5A}"
+ EndProject
+-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "simplepost", "simplepost.vcxproj", "{294D5317-E983-4682-8DB5-678EA4645E11}"
+-	ProjectSection(ProjectDependencies) = postProject
+-		{9CFB0342-A9E7-483E-BEE5-A1DE22584C5A} = {9CFB0342-A9E7-483E-BEE5-A1DE22584C5A}
+-	EndProjectSection
+-EndProject
+-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "largepost", "largepost.vcxproj", "{77A27E6D-9A39-40B8-961B-40E63DB7FA65}"
+-	77ProjectSection(ProjectDependencies) = postProject
+-		{9CFB0342-A9E7-483E-BEE5-A1DE22584C5A} = {9CFB0342-A9E7-483E-BEE5-A1DE22584C5A}
+-	EndProjectSection
+-EndProject
+-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "perf_replies", "perf_replies.vcxproj", "{0192C6B5-D870-4857-B673-471E3EBD41D4}"
+-	ProjectSection(ProjectDependencies) = postProject
+-		{9CFB0342-A9E7-483E-BEE5-A1DE22584C5A} = {9CFB0342-A9E7-483E-BEE5-A1DE22584C5A}
+-	EndProjectSection
+-EndProject
+ Global
+ 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+ 		Debug-dll|x64 = Debug-dll|x64
+Index: w32/VS-Any-Version/libmicrohttpd.sln
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/w32/VS-Any-Version/libmicrohttpd.sln b/w32/VS-Any-Version/libmicrohttpd.sln
+--- a/w32/VS-Any-Version/libmicrohttpd.sln	(revision 5491644e85480586da58e881e6a9bae1c4be947b)
++++ b/w32/VS-Any-Version/libmicrohttpd.sln	(date 1707576436310)
+@@ -9,21 +9,6 @@
+ EndProject
+ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libmicrohttpd", "libmicrohttpd.vcxproj", "{9CFB0342-A9E7-483E-BEE5-A1DE22584C5A}"
+ EndProject
+-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "simplepost", "simplepost.vcxproj", "{294D5317-E983-4682-8DB5-678EA4645E11}"
+-	ProjectSection(ProjectDependencies) = postProject
+-		{9CFB0342-A9E7-483E-BEE5-A1DE22584C5A} = {9CFB0342-A9E7-483E-BEE5-A1DE22584C5A}
+-	EndProjectSection
+-EndProject
+-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "largepost", "largepost.vcxproj", "{77A27E6D-9A39-40B8-961B-40E63DB7FA65}"
+-	ProjectSection(ProjectDependencies) = postProject
+-		{9CFB0342-A9E7-483E-BEE5-A1DE22584C5A} = {9CFB0342-A9E7-483E-BEE5-A1DE22584C5A}
+-	EndProjectSection
+-EndProject
+-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "perf_replies", "perf_replies.vcxproj", "{0192C6B5-D870-4857-B673-471E3EBD41D4}"
+-	ProjectSection(ProjectDependencies) = postProject
+-		{9CFB0342-A9E7-483E-BEE5-A1DE22584C5A} = {9CFB0342-A9E7-483E-BEE5-A1DE22584C5A}
+-	EndProjectSection
+-EndProject
+ Global
+ 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+ 		Debug-dll|Win32 = Debug-dll|Win32
+Index: w32/VS2017/libmicrohttpd.sln
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/w32/VS2017/libmicrohttpd.sln b/w32/VS2017/libmicrohttpd.sln
+--- a/w32/VS2017/libmicrohttpd.sln	(revision 5491644e85480586da58e881e6a9bae1c4be947b)
++++ b/w32/VS2017/libmicrohttpd.sln	(date 1707576436335)
+@@ -10,21 +10,6 @@
+ EndProject
+ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libmicrohttpd", "libmicrohttpd.vcxproj", "{9CFB0342-A9E7-483E-BEE5-A1DE22584C5A}"
+ EndProject
+-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "simplepost", "simplepost.vcxproj", "{294D5317-E983-4682-8DB5-678EA4645E11}"
+-	ProjectSection(ProjectDependencies) = postProject
+-		{9CFB0342-A9E7-483E-BEE5-A1DE22584C5A} = {9CFB0342-A9E7-483E-BEE5-A1DE22584C5A}
+-	EndProjectSection
+-EndProject
+-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "largepost", "largepost.vcxproj", "{77A27E6D-9A39-40B8-961B-40E63DB7FA65}"
+-	ProjectSection(ProjectDependencies) = postProject
+-		{9CFB0342-A9E7-483E-BEE5-A1DE22584C5A} = {9CFB0342-A9E7-483E-BEE5-A1DE22584C5A}
+-	EndProjectSection
+-EndProject
+-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "perf_replies", "perf_replies.vcxproj", "{0192C6B5-D870-4857-B673-471E3EBD41D4}"
+-	ProjectSection(ProjectDependencies) = postProject
+-		{9CFB0342-A9E7-483E-BEE5-A1DE22584C5A} = {9CFB0342-A9E7-483E-BEE5-A1DE22584C5A}
+-	EndProjectSection
+-EndProject
+ Global
+ 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+ 		Debug-dll|x64 = Debug-dll|x64
+Index: w32/VS2022/libmicrohttpd.sln
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/w32/VS2022/libmicrohttpd.sln b/w32/VS2022/libmicrohttpd.sln
+--- a/w32/VS2022/libmicrohttpd.sln	(revision 5491644e85480586da58e881e6a9bae1c4be947b)
++++ b/w32/VS2022/libmicrohttpd.sln	(date 1707576436318)
+@@ -11,21 +11,6 @@
+ EndProject
+ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libmicrohttpd", "libmicrohttpd.vcxproj", "{9CFB0342-A9E7-483E-BEE5-A1DE22584C5A}"
+ EndProject
+-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "simplepost", "simplepost.vcxproj", "{294D5317-E983-4682-8DB5-678EA4645E11}"
+-	ProjectSection(ProjectDependencies) = postProject
+-		{9CFB0342-A9E7-483E-BEE5-A1DE22584C5A} = {9CFB0342-A9E7-483E-BEE5-A1DE22584C5A}
+-	EndProjectSection
+-EndProject
+-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "largepost", "largepost.vcxproj", "{77A27E6D-9A39-40B8-961B-40E63DB7FA65}"
+-	ProjectSection(ProjectDependencies) = postProject
+-		{9CFB0342-A9E7-483E-BEE5-A1DE22584C5A} = {9CFB0342-A9E7-483E-BEE5-A1DE22584C5A}
+-	EndProjectSection
+-EndProject
+-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "perf_replies", "perf_replies.vcxproj", "{0192C6B5-D870-4857-B673-471E3EBD41D4}"
+-	ProjectSection(ProjectDependencies) = postProject
+-		{9CFB0342-A9E7-483E-BEE5-A1DE22584C5A} = {9CFB0342-A9E7-483E-BEE5-A1DE22584C5A}
+-	EndProjectSection
+-EndProject
+ Global
+ 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+ 		Debug-dll|Win32 = Debug-dll|Win32
