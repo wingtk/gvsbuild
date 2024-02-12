@@ -33,7 +33,6 @@ class Libpsl(Tarball, Meson):
                 "pkgconf",
                 "icu",
             ],
-            patches=["0001-localtime_r.patch"],
         )
 
         self.add_param("-Druntime=libicu")
