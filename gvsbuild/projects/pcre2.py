@@ -9,9 +9,9 @@ class Pcre2(Tarball, Meson):
         Project.__init__(
             self,
             "pcre2",
-            version="10.42",
+            version="10.43",
             archive_url="https://github.com/PCRE2Project/pcre2/releases/download/pcre2-{version}/pcre2-{version}.tar.gz",
-            hash="c33b418e3b936ee3153de2c61cc638e7e4fe3156022a5c77d0711bcbb9d64f1f",
+            hash="889d16be5abb8d05400b33c25e151638b8d4bac0e2d9c76e9d6923118ae8a34e",
             dependencies=["ninja", "meson", "pkgconf"],
         )
 
