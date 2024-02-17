@@ -3,6 +3,14 @@ option(
   description: 'Compile the PCRE2 grep executable'
 )
 option(
+  'jit', type: 'feature', value: 'enabled',
+  description: 'Support for Just-in-time compiling'
+)
+option(
+  'jit_sealloc', type: 'feature', value: 'enabled',
+  description: 'SELinux compatible execmem allocator in JIT (experimental)'
+)
+option(
   'test', type: 'boolean', value: true,
   description: 'Compile the test executable and enable tests'
 )
