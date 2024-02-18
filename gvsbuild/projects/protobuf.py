@@ -25,10 +25,10 @@ class Protobuf(Tarball, CmakeProject):
         Project.__init__(
             self,
             "protobuf",
-            version="3.23.0",
+            version="3.25.3",
             lastversion_major=3,
             archive_url="https://github.com/protocolbuffers/protobuf/releases/download/v{minor}.{micro}/protobuf-{minor}.{micro}.tar.gz",
-            hash="b29fc5fc13926f347b7a8b676ae1e63f7ccdb92c2fc8ca326bc3a883dcc168ac",
+            hash="d19643d265b978383352b3143f04c0641eea75a75235c111cc01a1350173180e",
             dependencies=[
                 "cmake",
                 "zlib",
