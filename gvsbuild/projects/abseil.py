@@ -26,10 +26,10 @@ class AbseilCpp(Tarball, CmakeProject):
         Project.__init__(
             self,
             "abseil-cpp",
-            version="20230125.3",
+            version="20240116.1",
             archive_url="https://github.com/abseil/abseil-cpp/archive/refs/tags/{version}.tar.gz",
             archive_file_name="abseil-cpp-{version}.tar.gz",
-            hash="5366d7e7fa7ba0d915014d387b66d0d002c03236448e1ba9ef98122c13b35c36",
+            hash="3c743204df78366ad2eaf236d6631d83f6bc928d1705dd0000b872e53b73dc6a",
             dependencies=["cmake", "ninja"],
         )
 
