@@ -35,6 +35,9 @@ class Protobuf(Tarball, CmakeProject):
                 "ninja",
                 "abseil-cpp",
             ],
+            patches=[
+                "001-absl-dll-not-aliased.patch",
+            ],
         )
 
     def build(self):
@@ -43,8 +46,7 @@ class Protobuf(Tarball, CmakeProject):
             self,
             cmake_params=r'-DBUILD_SHARED_LIBS=ON -Dprotobuf_DEBUG_POSTFIX="" -Dprotobuf_BUILD_TESTS=OFF '
             r"-Dprotobuf_WITH_ZLIB=ON -Dprotobuf_MSVC_STATIC_RUNTIME=OFF "
-            r'-Dprotobuf_ABSL_PROVIDER=package -DCMAKE_PREFIX_PATH="%(pkg_dir)s\lib" '
-            r'-Dabsl_DIR="%(pkg_dir)s\lib\cmake\absl"',
+            r'-Dprotobuf_ABSL_PROVIDER=package -DCMAKE_PREFIX_PATH="%(pkg_dir)s\lib" ',
             use_ninja=True,
         )
 

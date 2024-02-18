@@ -1,0 +1,21 @@
+Subject: [PATCH] Fix abseil dll namespace
+---
+Index: cmake/abseil-cpp.cmake
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/cmake/abseil-cpp.cmake b/cmake/abseil-cpp.cmake
+--- a/cmake/abseil-cpp.cmake	(revision 7949a62bf88e1d4e97c93b3a7b8a8cfb201b713a)
++++ b/cmake/abseil-cpp.cmake	(date 1708228635580)
+@@ -46,8 +46,8 @@
+   # in the minimum version of abseil required by protobuf, it is possible to
+   # always link absl::abseil_dll and absl::abseil_test_dll and remove the if
+   if(protobuf_ABSL_PROVIDER STREQUAL "package")
+-    set(protobuf_ABSL_USED_TARGETS absl::abseil_dll)
+-    set(protobuf_ABSL_USED_TEST_TARGETS absl::abseil_test_dll)
++    set(protobuf_ABSL_USED_TARGETS abseil_dll)
++    set(protobuf_ABSL_USED_TEST_TARGETS abseil_test_dll)
+   else()
+     set(protobuf_ABSL_USED_TARGETS abseil_dll)
+     set(protobuf_ABSL_USED_TEST_TARGETS abseil_test_dll)
