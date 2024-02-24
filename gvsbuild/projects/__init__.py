@@ -78,6 +78,7 @@ from gvsbuild.projects.nghttp2 import Nghttp2
 from gvsbuild.projects.ogg import Ogg
 from gvsbuild.projects.openh264 import OpenH264
 from gvsbuild.projects.openssl import OpenSSL
+from gvsbuild.projects.openssl import OpenSSLFips
 from gvsbuild.projects.opus import Opus
 from gvsbuild.projects.pango import Pango
 from gvsbuild.projects.pangomm import Pangomm

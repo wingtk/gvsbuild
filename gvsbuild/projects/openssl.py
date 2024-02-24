@@ -20,11 +20,11 @@ from gvsbuild.utils.base_project import Project, project_add
 
 
 @project_add
-class OpenSSLBase(Tarball, Project):
+class OpenSSL(Tarball, Project):
     def __init__(self):
         Project.__init__(
             self,
-            "openssl-base",
+            "openssl",
             version="3.3.0",
             archive_url="https://www.openssl.org/source/openssl-{version}.tar.gz",
             hash="53e66b043322a606abf0087e7699a0e033a37fa13feb9742df35c3a33b18fb02",
@@ -59,16 +59,16 @@ class OpenSSLBase(Tarball, Project):
 
 
 @project_add
-class OpenSSL(Tarball, Project):
+class OpenSSLFips(Tarball, Project):
     def __init__(self):
         Project.__init__(
             self,
-            "openssl",
+            "openssl-fips",
             version="3.0.8",
             archive_url="https://www.openssl.org/source/old/{major}.{minor}/openssl-{version}.tar.gz",
             hash="6c13d2bf38fdf31eac3ce2a347073673f5d63263398f1f69d0df4a41253e4b3e",
             dependencies=[
-                "openssl-base",
+                "openssl",
             ],
         )
 
