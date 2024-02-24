@@ -37,6 +37,7 @@ class ProjectType(str, Enum):
 class Options:
     def __init__(self):
         self.enable_gi = False
+        self.enable_fips = False
         self.ffmpeg_enable_gpl = False
         self.verbose = False
         self.debug = False
