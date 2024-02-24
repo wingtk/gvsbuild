@@ -37,6 +37,7 @@ class ProjectType(str, Enum):
 class Options:
     def __init__(self):
         self.enable_gi = False
+        self.enable_fips = False
         self.ffmpeg_enable_gpl = False
         self.verbose = False
         self.debug = False
@@ -148,18 +149,24 @@ class Project(Generic[P]):
 
     @staticmethod
     def compute_dependencies(projects):
-        global_deps = {p.name for p in projects}
+        global_deps = []
 
-        def _add_project_dependencies(project):
-            for dep in project.dependencies:
-                if dep not in global_deps:
-                    global_deps.add(dep)
-                    _add_project_dependencies(Project.get_project(dep))
+        def _handle_project(project):
+            if project in global_deps:
+                return
+
+            global_deps.add(project)
+            for dependency_name in project.dependencies:
+                dependency = Project.get_project(dependency_name)
+                _handle_project(dependency)
 
         for project in projects:
-            _add_project_dependencies(project)
+            _handle_project(project)
 
-        return [Project.get_project(p) for p in global_deps]
+        if any(d.name == "openssl" and d.opts.enable_fips for d in global_deps):
+            _handle_project(Project.get_project("openssl-fips"))
+
+        return global_deps
 
     def __str__(self):
         return self.name
