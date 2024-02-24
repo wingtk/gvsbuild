@@ -24,14 +24,12 @@ class Libpng(Tarball, CmakeProject):
         Project.__init__(
             self,
             "libpng",
-            version="1.6.42",
+            version="1.6.43",
+            repository="https://github.com/pnggroup/libpng",
             archive_url="https://github.com/pnggroup/libpng/archive/v{version}.tar.gz",
             archive_filename="libpng-{version}.tar.gz",
-            hash="fe89de292e223829859d21990d9c4d6b7e30e295a268f6a53a022611aa98bd67",
+            hash="fecc95b46cf05e8e3fc8a414750e0ba5aad00d89e9fdf175e94ff041caf1a03a",
             dependencies=["cmake", "ninja", "zlib"],
-            patches=[
-                "001-fix-gawk-error.patch",
-            ],
         )
 
     def build(self):
