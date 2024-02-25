@@ -1,0 +1,25 @@
+Subject: [PATCH] Wrong cursor directory
+---
+Index: meson.build
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/meson.build b/meson.build
+--- a/meson.build	(revision 0d44a3fec0171cb8689e79df0186082907533383)
++++ b/meson.build	(date 1708871122562)
+@@ -27,12 +27,13 @@
+ win32_cursors = command_output.stdout().strip().split('\n')
+ if host_machine.system() == 'windows'
+   cursors_with_rel_path = []
++  icons_dir = get_option('datadir') / 'icons'
+   foreach cursor : win32_cursors
+     cursors_with_rel_path += f'Adwaita/cursors/@cursor@'
+   endforeach
+   install_data(
+     cursors_with_rel_path,
+-    install_dir: adwaita_dir,
++    install_dir: icons_dir,
+     preserve_path: true,
+     install_tag : 'runtime',
+   )

@@ -32,6 +32,7 @@ class AdwaitaIconTheme(Tarball, Meson):
                 "hicolor-icon-theme",
                 "librsvg",
             ],
+            patches=["001-fix-relative-cursor-path.patch"],
         )
 
     def build(self):
