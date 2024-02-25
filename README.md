@@ -1,6 +1,6 @@
 # gvsbuild
 
-![CI](https://github.com/wingtk/gvsbuild/workflows/CI/badge.svg)
+![CI](https://github.com/wingtk/gvsbuild/actions/workflows/ci.yml/badge.svg)
 
 This python script helps you build a full [GTK](https://www.gtk.org/) library
 stack for Windows using Visual Studio. Currently, GTK 3 and GTK 4 are supported.
