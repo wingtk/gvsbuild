@@ -70,11 +70,11 @@ class Orc(Tarball, Meson):
         Project.__init__(
             self,
             "orc",
-            version="0.4.37",
+            version="0.4.38",
             lastversion_even=True,
             repository="https://gitlab.freedesktop.org/gstreamer/orc",
             archive_url="https://gstreamer.freedesktop.org/src/orc/orc-{version}.tar.xz",
-            hash="85638c0d447d989cd0d7e03406adbfbc380e67db2a622a4727a0ce3d440b2974",
+            hash="a55a98d4772567aa3faed8fb84d540c3db77eaba16d3e2e10b044fbc9228668d",
             dependencies=["meson", "ninja"],
         )
 
