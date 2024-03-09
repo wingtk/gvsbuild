@@ -1,0 +1,55 @@
+From 6047c54d2a28b6e9d1561ab353aed09e3ba23762 Mon Sep 17 00:00:00 2001
+From: Dan Yeaw <dan@yeaw.me>
+Date: Sat, 10 Sep 2022 09:36:52 -0400
+Subject: [PATCH] Windows: fix DLL not found error in Python 3.8+
+
+This upstreams a patch from gvsbuild. In Python 3.8, a new
+os.add_dll_directory method was added to make loading DLLs in Windows
+more consistent. The impact of this is that even if I compile GTK
+successfully with MSVC, and add it to the Path, INCLUDE, and LIB, I am
+still not able to pip install PyGObject in Windows. This closes #545 by
+finding the first GTK DLL location from the Windows PATH variable.
+---
+ gi/__init__.py | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
+
+diff --git a/gi/__init__.py b/gi/__init__.py
+index 826489a16..afba7884f 100644
+--- a/gi/__init__.py
++++ b/gi/__init__.py
+@@ -23,6 +23,7 @@ from pkgutil import extend_path
+ __path__ = extend_path(__path__, __name__)
+
+ import sys
++import sysconfig
+ import os
+ import importlib
+ import types
+@@ -36,8 +37,23 @@ _static_binding_error = ('When using gi.repository you must not import static '
+ if 'gobject' in sys.modules:
+     raise ImportError(_static_binding_error)
+
++# Windows official Python requires gi DLLs to be loaded manually
++if sysconfig.get_platform().startswith("win"):
++    env_path = os.environ.get("PATH", "").split(os.pathsep)
++    first_gtk_dll_path = next(
++        filter(
++            lambda path: path is not None and os.path.isfile(os.path.join(path, "girepository-1.0-1.dll")),
++            env_path,
++        ),
++        None,
++    )
++    if first_gtk_dll_path:
++        with os.add_dll_directory(first_gtk_dll_path):
++            from . import _gi
++
++else:
++    from . import _gi
+
+-from . import _gi
+ from ._gi import _API  # noqa: F401
+ from ._gi import Repository
+ from ._gi import PyGIDeprecationWarning  # noqa: F401
+--
+GitLab
+

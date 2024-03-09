@@ -33,7 +33,7 @@ class PyGObject(Tarball, Meson):
             hash="e6aa8dd78284905ad8cad0f7be8cd59e6ab453b7b48803d0d70ecb8db5faea76",
             dependencies=["pycairo", "gobject-introspection", "libffi"],
             patches=[
-                "pygobject_py3_8_load_dll.patch",
+                "001-pygobject-py38-load-dll.patch",
             ],
         )
 
