@@ -1,0 +1,44 @@
+Subject: [PATCH] Windows: fix INSTSONAME not found
+---
+Index: meson.build
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/meson.build b/meson.build
+--- a/meson.build	(revision 95bafc4934a07c2f80979b0133ecc9ec900875a7)
++++ b/meson.build	(revision eb5d3841eb0733a288166f3225020c21067145ff)
+@@ -53,10 +53,12 @@
+   pylib_suffix = 'dylib'
+ endif
+ pylib_fnames = []
+-# Library name with soversion, non-devel package
+-pylib_fnames += python.get_variable('INSTSONAME', [])
+-# Library name without soversion, devel package, framework, etc.
+-pylib_fnames += python.get_variable('LDLIBRARY', [])
++if host_system != 'windows'
++  # Library name with soversion, non-devel package
++  pylib_fnames += python.get_variable('INSTSONAME', [])
++  # Library name without soversion, devel package, framework, etc.
++  pylib_fnames += python.get_variable('LDLIBRARY', [])
++endif
+ # Manually construct name as a fallback
+ pylib_fnames += [
+   pylib_prefix + 'python' + python_dep.version() + python_abi_flags + '.' + pylib_suffix
+===================================================================
+diff --git a/meson.build b/meson.build
+--- a/meson.build	(revision eb5d3841eb0733a288166f3225020c21067145ff)
++++ b/meson.build	(date 1710038287450)
+@@ -83,11 +83,7 @@
+ endforeach
+ if pylib_fname == ''
+   error_msg = 'Could not find python library to load'
+-  if python_opt.enabled()
+-    error(error_msg)
+-  else
+-    message(error_msg)
+-  endif
++  message(error_msg)
+ endif
+
+ pygi_override_dir = get_option('pygi-overrides-dir')
