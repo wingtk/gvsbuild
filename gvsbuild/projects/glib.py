@@ -24,11 +24,11 @@ class GLib(Tarball, Meson):
         Project.__init__(
             self,
             "glib",
-            version="2.78.4",
+            version="2.80.0",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/glib",
             archive_url="https://download.gnome.org/sources/glib/{major}.{minor}/glib-{version}.tar.xz",
-            hash="24b8e0672dca120cc32d394bccb85844e732e04fe75d18bb0573b2dbc7548f63",
+            hash="8228a92f92a412160b139ae68b6345bd28f24434a7b5af150ebe21ff587a561d",
             dependencies=[
                 "ninja",
                 "meson",
@@ -40,7 +40,6 @@ class GLib(Tarball, Meson):
             ],
             patches=[
                 "glib-package-installation-directory.patch",
-                "python-312-distutils-to-packaging.patch",
             ],
         )
 
