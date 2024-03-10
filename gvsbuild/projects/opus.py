@@ -13,32 +13,30 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-from gvsbuild.utils.base_builders import Meson
+from gvsbuild.utils.base_builders import CmakeProject
 from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import project_add
 
 
 @project_add
-class Opus(Tarball, Meson):
+class Opus(Tarball, CmakeProject):
     def __init__(self):
-        Meson.__init__(
+        CmakeProject.__init__(
             self,
             "opus",
             version="1.5.1",
             repository="https://github.com/xiph/opus",
-            archive_url="https://github.com/xiph/opus/archive/refs/tags/v{version}.tar.gz",
-            archive_filename="opus-{version}.tar.gz",
-            hash="7ce44ef3d335a3268f26be7d53bb3bed7205b34eaf80bf92a99e69d490afe9d9",
+            archive_url="https://downloads.xiph.org/releases/opus/opus-{version}.tar.gz",
+            hash="b84610959b8d417b611aa12a22565e0a3732097c6389d19098d844543e340f85",
             dependencies=[
                 "ninja",
-                "meson",
+                "cmake",
                 "pkgconf",
             ],
         )
 
-        self.add_param("-Dtests=disabled")
-        self.add_param("-Ddocs=disabled")
-
     def build(self):
-        Meson.build(self)
+        CmakeProject.build(
+            self, use_ninja=True, cmake_params="-DOPUS_BUILD_TESTING=OFF"
+        )
         self.install(r"COPYING share\doc\opus")
