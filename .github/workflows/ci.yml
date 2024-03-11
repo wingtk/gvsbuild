@@ -181,4 +181,4 @@ jobs:
           name: gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
           path: dist
       - name: Publish package distributions to PyPI
-        uses: pypa/gh-action-pypi-publish@e53eb8b103ffcb59469888563dc324e3c8ba6f06 # release/v1
+        uses: pypa/gh-action-pypi-publish@81e9d935c883d0b210363ab89cf05f3894778450 # release/v1
