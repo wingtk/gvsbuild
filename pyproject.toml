@@ -16,7 +16,7 @@ classifiers = [
 python = "^3.8"
 build = ">=0.9,<1.2"
 lastversion = { version = ">=2.4.2,<4.0.0", optional = true }
-packaging = { version = ">=21.3,<24.0", optional = true }
+packaging = { version = ">=21.3,<25.0", optional = true }
 typer = {extras = ["all"], version = ">=0.6.1,<0.10.0"}
 
 [tool.poetry.group.dev.dependencies]
