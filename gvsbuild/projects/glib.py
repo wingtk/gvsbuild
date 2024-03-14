@@ -42,6 +42,12 @@ class GLib(Tarball, Meson):
                 "glib-package-installation-directory.patch",
             ],
         )
+        if self.opts.enable_gi:
+            enable_gi = "enabled"
+        else:
+            enable_gi = "disabled"
+
+        self.add_param(f"-Dintrospection={enable_gi}")
         self.add_param("-Dman=false")
         self.add_param("-Dman-pages=disabled")
         self.add_param("-Dtests=false")
