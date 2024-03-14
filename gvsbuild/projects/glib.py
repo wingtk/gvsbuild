@@ -43,6 +43,12 @@ class GLib(Tarball, Meson):
                 "002-python-312-distutils-to-packaging.patch",
             ],
         )
+        if self.opts.enable_gi:
+            enable_gi = "enabled"
+        else:
+            enable_gi = "disabled"
+
+        self.add_param(f"-Dintrospection={enable_gi}")
         self.add_param("-Dman=false")
         self.add_param("-Dman-pages=disabled")
         self.add_param("-Dtests=false")
