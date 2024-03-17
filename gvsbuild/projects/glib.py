@@ -66,11 +66,11 @@ class GLibNetworking(Tarball, Meson):
         Project.__init__(
             self,
             "glib-networking",
-            version="2.78.1",
+            version="2.80.0",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/glib-networking",
             archive_url="https://download.gnome.org/sources/glib-networking/{major}.{minor}/glib-networking-{version}.tar.xz",
-            hash="e48f2ddbb049832cbb09230529c5e45daca9f0df0eda325f832f7379859bf09f",
+            hash="d8f4f1aab213179ae3351617b59dab5de6bcc9e785021eee178998ebd4bb3acf",
             dependencies=[
                 "pkgconf",
                 "ninja",
