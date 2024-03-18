@@ -409,7 +409,7 @@ class Project(Generic[P]):
 
     def install_pc_files(self, base_dir="pc-files"):
         """Install, setting dir & version, the .pc files."""
-        pkgconfig_dir = os.path.join(self.builder.gtk_dir, "lib", "pkgconfig")
+        pkgconfig_dir = os.path.join(self.pkg_dir, "lib", "pkgconfig")
         self.builder.make_dir(pkgconfig_dir)
 
         src_dir = os.path.join(self._get_working_dir(), base_dir)
