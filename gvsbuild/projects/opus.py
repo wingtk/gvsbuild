@@ -40,3 +40,6 @@ class Opus(Tarball, CmakeProject):
             self, use_ninja=True, cmake_params="-DOPUS_BUILD_TESTING=OFF"
         )
         self.install(r"COPYING share\doc\opus")
+
+        # FIXME: remove once we switch back to meson
+        self.install_pc_files()
