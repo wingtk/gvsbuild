@@ -47,6 +47,8 @@ class GdkPixbuf(Tarball, Meson):
         self.add_param("-Dbuiltin_loaders=all")
         self.add_param(f"-Dintrospection={enable_gi}")
         self.add_param("-Dman=false")
+        self.add_param("-Dtests=false")
+        self.add_param("-Dgtk_doc=false")
 
     def build(self):
         Meson.build(self)
