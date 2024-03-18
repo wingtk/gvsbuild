@@ -146,11 +146,12 @@ class Gtk4(Tarball, Meson):
             enable_gi = "disabled"
 
         self.add_param(f"-Dintrospection={enable_gi}")
+        self.add_param("-Dbuild-tests=false")
+        self.add_param("-Dbuild-demos=false")
+        self.add_param("-Dbuild-examples=false")
+        self.add_param("-Dmedia-gstreamer=disabled")
 
     def build(self):
-        Meson.build(
-            self,
-            meson_params="-Dbuild-tests=false -Ddemos=false -Dbuild-examples=false -Dmedia-gstreamer=disabled",
-        )
+        Meson.build(self)
 
         self.install(r".\COPYING share\doc\gtk4")
