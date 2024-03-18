@@ -31,10 +31,8 @@ class Cairo(Tarball, Meson):
             dependencies=["fontconfig", "freetype", "glib", "pixman", "libpng"],
             patches=["0001-fix-alloca-unresolved.patch"],
         )
+        self.add_param("-Dfreetype=enabled")
 
     def build(self):
-        Meson.build(
-            self,
-            meson_params="-Dfreetype=enabled",
-        )
+        Meson.build(self)
         self.install(r".\COPYING share\doc\cairo")
