@@ -413,7 +413,7 @@ class Project(Generic[P]):
         self.builder.make_dir(pkgconfig_dir)
 
         src_dir = os.path.join(self._get_working_dir(), base_dir)
-        log.debug(f"Copy .pc files from {src_dir}")
+        log.debug(f"Copy .pc files from {src_dir} to {pkgconfig_dir}")
         gtk_dir = self.builder.gtk_dir.replace("\\", "/")
         for f in os.scandir(src_dir):
             if f.is_file():
