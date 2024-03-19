@@ -33,7 +33,7 @@ class Libpng(Tarball, CmakeProject):
         )
 
     def build(self):
-        cmake_params = "-DPNG_TOOLS=OFF -DPNG_TESTS=OFF -Dld-version-script=OFF"
+        cmake_params = '-DPNG_TOOLS=OFF -DPNG_TESTS=OFF -Dld-version-script=OFF -DPNG_DEBUG_POSTFIX=""'
         CmakeProject.build(self, cmake_params=cmake_params, use_ninja=True)
 
         self.install_pc_files()
