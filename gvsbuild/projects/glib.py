@@ -43,10 +43,8 @@ class GLib(Tarball, Meson):
             ],
         )
         self.add_param("-Dman=false")
-        self.add_param("-Dman-pages=disabled")
         self.add_param("-Dtests=false")
         self.add_param("-Dgtk_doc=false")
-        self.add_param("-Ddocumentation=false")
 
     def build(self):
         Meson.build(self)
