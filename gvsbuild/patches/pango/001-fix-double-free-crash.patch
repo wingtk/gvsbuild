@@ -1,0 +1,38 @@
+From 1f158f7fe8b1535c4be3d8a2f0eff54f40e588b7 Mon Sep 17 00:00:00 2001
+From: Chun-wei Fan <fanchunwei@src.gnome.org>
+Date: Thu, 21 Mar 2024 12:42:09 +0800
+Subject: [PATCH] pangowin32-fontmap.c: Avoid double free in
+ fontmap->finalize()
+
+During the implementation of loading custom fonts, I missed the fact
+that hash tables were free'ed in pango_win32_font_map_fini(), that was
+used to reload fontmaps when a custom font is loaded.
+
+This cause problems when we needed to create and destroy fontmaps
+continually, as demonstrated in test-pangocairo-threads.
+---
+ pango/pangowin32-fontmap.c | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/pango/pangowin32-fontmap.c b/pango/pangowin32-fontmap.c
+index 624ed76da..88745a9e0 100644
+--- a/pango/pangowin32-fontmap.c
++++ b/pango/pangowin32-fontmap.c
+@@ -888,15 +888,9 @@ pango_win32_font_map_finalize (GObject *object)
+
+   pango_win32_dwrite_release_font_set_builders (win32fontmap);
+
+-  pango_win32_font_cache_free (win32fontmap->font_cache);
+-
+   if (win32fontmap->font_set_builder != NULL)
+     g_free (win32fontmap->font_set_builder);
+
+-  g_hash_table_destroy (win32fontmap->dwrite_fonts);
+-  g_hash_table_destroy (win32fontmap->fonts);
+-  g_hash_table_destroy (win32fontmap->families);
+-
+   G_OBJECT_CLASS (pango_win32_font_map_parent_class)->finalize (object);
+ }
+
+--
+GitLab
