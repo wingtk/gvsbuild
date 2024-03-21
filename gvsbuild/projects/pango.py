@@ -35,6 +35,9 @@ class Pango(Tarball, Meson):
                 "harfbuzz",
                 "fribidi",
             ],
+            patches=[
+                "001-fix-double-free-crash.patch",
+            ],
         )
         if self.opts.enable_gi:
             self.add_dependency("gobject-introspection")
