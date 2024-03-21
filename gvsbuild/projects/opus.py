@@ -37,7 +37,9 @@ class Opus(Tarball, CmakeProject):
 
     def build(self):
         CmakeProject.build(
-            self, use_ninja=True, cmake_params="-DOPUS_BUILD_TESTING=OFF"
+            self,
+            use_ninja=True,
+            cmake_params="-DOPUS_BUILD_SHARED_LIBRARY=ON -DOPUS_BUILD_TESTING=OFF",
         )
         self.install(r"COPYING share\doc\opus")
 
