@@ -28,7 +28,7 @@ class ToolCargo(Tool):
         Tool.__init__(
             self,
             "cargo",
-            version="1.76.0",
+            version="1.77.0",
             repository="rust-lang/rust",
             archive_url="https://win.rustup.rs/x86_64",
             archive_filename="rustup-init.exe",
@@ -66,9 +66,9 @@ class ToolCmake(Tool):
         Tool.__init__(
             self,
             "cmake",
-            version="3.28.3",
+            version="3.29.0",
             archive_url="https://github.com/Kitware/CMake/releases/download/v{version}/cmake-{version}-windows-x86_64.zip",
-            hash="cac7916f7e1e73a25de857704c94fd5b72ba9fe2f055356b5602d2f960e50e5b",
+            hash="9ab28eba1ab7911a0e57ab274f5990a283fffa1d22eb711792d5562e5869f9ef",
             dir_part="cmake-{version}-windows-x86_64",
         )
 
