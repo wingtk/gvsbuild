@@ -41,6 +41,8 @@ def _rmtree_error_handler(func, path, exc_info):
 
 
 def rmtree_full(dest_dir, retry=False):
+    if not os.path.isdir(dest_dir):
+        return
     if retry:
         for delay in [0.1, 0.2, 0.4, 0.8]:
             try:
