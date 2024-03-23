@@ -37,6 +37,7 @@ class Pango(Tarball, Meson):
             ],
             patches=[
                 "001-fix-double-free-crash.patch",
+                "002-fix-wrong-usage-gweakref.patch",
             ],
         )
         if self.opts.enable_gi:
