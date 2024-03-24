@@ -38,6 +38,7 @@ class GObjectIntrospection(Tarball, Meson):
                 "meson",
                 "msys2",
                 "pkgconf",
+                "glib-base",
             ],
             # https://gitlab.gnome.org/GNOME/gobject-introspection/-/issues/427
             patches=["incorrect-giscanner-path.patch"],
