@@ -43,5 +43,13 @@ class Opus(Tarball, CmakeProject):
         )
         self.install(r"COPYING share\doc\opus")
 
+        configuration = (
+            "debug-optimized"
+            if self.opts.release_configuration_is_actually_debug_optimized
+            else self.opts.configuration
+        )
+        if configuration in ["debug-optimized", "debug"]:
+            self.install(r".\_gvsbuild-cmake\opus.pdb bin")
+
         # FIXME: remove once we switch back to meson
         self.install_pc_files()
