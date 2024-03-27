@@ -40,7 +40,8 @@ class GLibBase(Tarball, Meson):
             ],
             patches=[
                 "001-glib-package-installation-directory.patch",
-                "002-python-312-distutils-to-packaging.patch",
+                # https://gitlab.gnome.org/GNOME/gobject-introspection/-/issues/499
+                "002-gir-scanner-dll-not-found.patch",
             ],
         )
         self.add_param("-Dman-pages=disabled")
@@ -66,7 +67,9 @@ class GLib(Tarball, Meson):
             hash="8228a92f92a412160b139ae68b6345bd28f24434a7b5af150ebe21ff587a561d",
             dependencies=["glib-base"],
             patches=[
-                "glib-package-installation-directory.patch",
+                "001-glib-package-installation-directory.patch",
+                # https://gitlab.gnome.org/GNOME/gobject-introspection/-/issues/499
+                "002-gir-scanner-dll-not-found.patch",
             ],
         )
         self.add_param("-Dman-pages=disabled")
