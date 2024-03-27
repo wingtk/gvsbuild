@@ -1,0 +1,32 @@
+From 990724b6130411d9e41afe8a90627413c43cee2f Mon Sep 17 00:00:00 2001
+From: Alessandro Bono <alessandro.bono369@gmail.com>
+Date: Wed, 13 Dec 2023 11:26:02 +0100
+Subject: [PATCH] Revert "Raise the MSVC floor to MSVC 2019 (16.0) in
+ accordance with"
+
+This reverts commit dc51d35fe719b3a3c49f895c149b0920a3745cc4.
+---
+ absl/base/policy_checks.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/absl/base/policy_checks.h b/absl/base/policy_checks.h
+index 372e848d..b8cd4c94 100644
+--- a/absl/base/policy_checks.h
++++ b/absl/base/policy_checks.h
+@@ -44,10 +44,10 @@
+ // Toolchain Check
+ // -----------------------------------------------------------------------------
+ 
+-// We support Visual Studio 2019 (MSVC++ 16.0) and later.
++// We support Visual Studio 2017 (MSVC++ 15.0) and later.
+ // This minimum will go up.
+-#if defined(_MSC_VER) && _MSC_VER < 1920 && !defined(__clang__)
+-#error "This package requires Visual Studio 2019 (MSVC++ 16.0) or higher."
++#if defined(_MSC_VER) && _MSC_VER < 1910 && !defined(__clang__)
++#error "This package requires Visual Studio 2017 (MSVC++ 15.0) or higher."
+ #endif
+ 
+ // We support GCC 7 and later.
+-- 
+2.34.1
+
