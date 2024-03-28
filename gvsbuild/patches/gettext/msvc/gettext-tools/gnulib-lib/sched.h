@@ -1,18 +1,18 @@
 /* DO NOT EDIT! GENERATED AUTOMATICALLY! */
 /* A GNU-like <sched.h>.
-   Copyright (C) 2008-2020 Free Software Foundation, Inc.
+   Copyright (C) 2008-2023 Free Software Foundation, Inc.
 
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 3 of the License, or
-   (at your option) any later version.
+   This file is free software: you can redistribute it and/or modify
+   it under the terms of the GNU Lesser General Public License as
+   published by the Free Software Foundation; either version 2.1 of the
+   License, or (at your option) any later version.
 
-   This program is distributed in the hope that it will be useful,
+   This file is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   GNU Lesser General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
+   You should have received a copy of the GNU Lesser General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 #ifndef _GL_SCHED_H
@@ -21,6 +21,13 @@
 
 #endif
 
+
+/* This file uses #include_next of a system file that defines time_t.
+   For the 'year2038' module to work right, <config.h> needs to have been
+   included before.  */
+#if !_GL_CONFIG_H_INCLUDED
+ #error "Please include config.h first."
+#endif
 
 /* The include_next requires a split double-inclusion guard.  */
 #if 0
@@ -32,6 +39,11 @@
 
 #ifndef _GL_SCHED_H
 #define _GL_SCHED_H
+
+/* This file uses GNULIB_POSIXCHECK, HAVE_RAW_DECL_*.  */
+#if !_GL_CONFIG_H_INCLUDED
+ #error "Please include config.h first."
+#endif
 
 /* Get pid_t.
    This is needed on glibc 2.11 (see
@@ -51,19 +63,19 @@
 
 /* The definitions of _GL_FUNCDECL_RPL etc. are copied here.  */
 /* C++ compatible function declaration macros.
-   Copyright (C) 2010-2020 Free Software Foundation, Inc.
+   Copyright (C) 2010-2023 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify it
-   under the terms of the GNU General Public License as published
-   by the Free Software Foundation; either version 3 of the License, or
+   under the terms of the GNU Lesser General Public License as published
+   by the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   General Public License for more details.
+   Lesser General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
+   You should have received a copy of the GNU Lesser General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 #ifndef _GL_CXXDEFS_H
@@ -151,6 +163,12 @@
    Example:
      _GL_FUNCDECL_RPL (open, int, (const char *filename, int flags, ...)
                                   _GL_ARG_NONNULL ((1)));
+
+   Note: Attributes, such as _GL_ATTRIBUTE_DEPRECATED, are supported in front
+   of a _GL_FUNCDECL_RPL invocation only in C mode, not in C++ mode.  (That's
+   because
+     [[...]] extern "C" <declaration>;
+   is invalid syntax in C++.)
  */
 #define _GL_FUNCDECL_RPL(func,rettype,parameters_and_attributes) \
   _GL_FUNCDECL_RPL_1 (rpl_##func, rettype, parameters_and_attributes)
@@ -198,6 +216,16 @@
     _GL_EXTERN_C int _gl_cxxalias_dummy
 #endif
 
+/* _GL_CXXALIAS_MDA (func, rettype, parameters);
+   is to be used when func is a Microsoft deprecated alias, on native Windows.
+   It declares a C++ alias called GNULIB_NAMESPACE::func
+   that redirects to _func, if GNULIB_NAMESPACE is defined.
+   Example:
+     _GL_CXXALIAS_MDA (open, int, (const char *filename, int flags, ...));
+ */
+#define _GL_CXXALIAS_MDA(func,rettype,parameters) \
+  _GL_CXXALIAS_RPL_1 (func, _##func, rettype, parameters)
+
 /* _GL_CXXALIAS_RPL_CAST_1 (func, rpl_func, rettype, parameters);
    is like  _GL_CXXALIAS_RPL_1 (func, rpl_func, rettype, parameters);
    except that the C function rpl_func may have a slightly different
@@ -222,6 +250,14 @@
 # define _GL_CXXALIAS_RPL_CAST_1(func,rpl_func,rettype,parameters) \
     _GL_EXTERN_C int _gl_cxxalias_dummy
 #endif
+
+/* _GL_CXXALIAS_MDA_CAST (func, rettype, parameters);
+   is like  _GL_CXXALIAS_MDA (func, rettype, parameters);
+   except that the C function func may have a slightly different declaration.
+   A cast is used to silence the "invalid conversion" error that would
+   otherwise occur.  */
+#define _GL_CXXALIAS_MDA_CAST(func,rettype,parameters) \
+  _GL_CXXALIAS_RPL_CAST_1 (func, _##func, rettype, parameters)
 
 /* _GL_CXXALIAS_SYS (func, rettype, parameters);
    declares a C++ alias called GNULIB_NAMESPACE::func
@@ -320,7 +356,7 @@
    _GL_CXXALIASWARN_2 (func, namespace)
 /* To work around GCC bug <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=43881>,
    we enable the warning only when not optimizing.  */
-# if !__OPTIMIZE__
+# if !(defined __GNUC__ && !defined __clang__ && __OPTIMIZE__)
 #  define _GL_CXXALIASWARN_2(func,namespace) \
     _GL_WARN_ON_USE (func, \
                      "The symbol ::" #func " refers to the system function. " \
@@ -348,9 +384,9 @@
    _GL_CXXALIASWARN1_2 (func, rettype, parameters_and_attributes, namespace)
 /* To work around GCC bug <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=43881>,
    we enable the warning only when not optimizing.  */
-# if !__OPTIMIZE__
+# if !(defined __GNUC__ && !defined __clang__ && __OPTIMIZE__)
 #  define _GL_CXXALIASWARN1_2(func,rettype,parameters_and_attributes,namespace) \
-    _GL_WARN_ON_USE_CXX (func, rettype, parameters_and_attributes, \
+    _GL_WARN_ON_USE_CXX (func, rettype, rettype, parameters_and_attributes, \
                          "The symbol ::" #func " refers to the system function. " \
                          "Use " #namespace "::" #func " instead.")
 # else
@@ -366,19 +402,19 @@
 
 /* The definition of _GL_WARN_ON_USE is copied here.  */
 /* A C macro for emitting warnings if a function is used.
-   Copyright (C) 2010-2020 Free Software Foundation, Inc.
+   Copyright (C) 2010-2023 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify it
-   under the terms of the GNU General Public License as published
-   by the Free Software Foundation; either version 3 of the License, or
+   under the terms of the GNU Lesser General Public License as published
+   by the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   General Public License for more details.
+   Lesser General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
+   You should have received a copy of the GNU Lesser General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 /* _GL_WARN_ON_USE (function, "literal string") issues a declaration
@@ -451,13 +487,20 @@
 # if 4 < __GNUC__ || (__GNUC__ == 4 && 3 <= __GNUC_MINOR__)
 /* A compiler attribute is available in gcc versions 4.3.0 and later.  */
 #  define _GL_WARN_ON_USE(function, message) \
-extern __typeof__ (function) function __attribute__ ((__warning__ (message)))
+_GL_WARN_EXTERN_C __typeof__ (function) function __attribute__ ((__warning__ (message)))
 #  define _GL_WARN_ON_USE_ATTRIBUTE(message) \
   __attribute__ ((__warning__ (message)))
+# elif __clang_major__ >= 4
+/* Another compiler attribute is available in clang.  */
+#  define _GL_WARN_ON_USE(function, message) \
+_GL_WARN_EXTERN_C __typeof__ (function) function \
+  __attribute__ ((__diagnose_if__ (1, message, "warning")))
+#  define _GL_WARN_ON_USE_ATTRIBUTE(message) \
+  __attribute__ ((__diagnose_if__ (1, message, "warning")))
 # elif __GNUC__ >= 3 && GNULIB_STRICT_CHECKING
 /* Verify the existence of the function.  */
 #  define _GL_WARN_ON_USE(function, message) \
-extern __typeof__ (function) function
+_GL_WARN_EXTERN_C __typeof__ (function) function
 #  define _GL_WARN_ON_USE_ATTRIBUTE(message)
 # else /* Unsupported.  */
 #  define _GL_WARN_ON_USE(function, message) \
@@ -466,27 +509,33 @@ _GL_WARN_EXTERN_C int _gl_warn_on_use
 # endif
 #endif
 
-/* _GL_WARN_ON_USE_CXX (function, rettype, parameters_and_attributes, "string")
-   is like _GL_WARN_ON_USE (function, "string"), except that in C++ mode the
+/* _GL_WARN_ON_USE_CXX (function, rettype_gcc, rettype_clang, parameters_and_attributes, "message")
+   is like _GL_WARN_ON_USE (function, "message"), except that in C++ mode the
    function is declared with the given prototype, consisting of return type,
    parameters, and attributes.
    This variant is useful for overloaded functions in C++. _GL_WARN_ON_USE does
    not work in this case.  */
 #ifndef _GL_WARN_ON_USE_CXX
 # if !defined __cplusplus
-#  define _GL_WARN_ON_USE_CXX(function,rettype,parameters_and_attributes,msg) \
+#  define _GL_WARN_ON_USE_CXX(function,rettype_gcc,rettype_clang,parameters_and_attributes,msg) \
      _GL_WARN_ON_USE (function, msg)
 # else
 #  if 4 < __GNUC__ || (__GNUC__ == 4 && 3 <= __GNUC_MINOR__)
-#   define _GL_WARN_ON_USE_CXX(function,rettype,parameters_and_attributes,msg) \
-extern rettype function parameters_and_attributes \
-     __attribute__ ((__warning__ (msg)))
+/* A compiler attribute is available in gcc versions 4.3.0 and later.  */
+#   define _GL_WARN_ON_USE_CXX(function,rettype_gcc,rettype_clang,parameters_and_attributes,msg) \
+extern rettype_gcc function parameters_and_attributes \
+  __attribute__ ((__warning__ (msg)))
+#  elif __clang_major__ >= 4
+/* Another compiler attribute is available in clang.  */
+#   define _GL_WARN_ON_USE_CXX(function,rettype_gcc,rettype_clang,parameters_and_attributes,msg) \
+extern rettype_clang function parameters_and_attributes \
+  __attribute__ ((__diagnose_if__ (1, msg, "warning")))
 #  elif __GNUC__ >= 3 && GNULIB_STRICT_CHECKING
 /* Verify the existence of the function.  */
-#   define _GL_WARN_ON_USE_CXX(function,rettype,parameters_and_attributes,msg) \
-extern rettype function parameters_and_attributes
+#   define _GL_WARN_ON_USE_CXX(function,rettype_gcc,rettype_clang,parameters_and_attributes,msg) \
+extern rettype_gcc function parameters_and_attributes
 #  else /* Unsupported.  */
-#   define _GL_WARN_ON_USE_CXX(function,rettype,parameters_and_attributes,msg) \
+#   define _GL_WARN_ON_USE_CXX(function,rettype_gcc,rettype_clang,parameters_and_attributes,msg) \
 _GL_WARN_EXTERN_C int _gl_warn_on_use
 #  endif
 # endif
@@ -520,8 +569,8 @@ struct sched_param
 # define SCHED_OTHER  0
 #endif
 
-#if 0
-# if 0
+#if IN_GETTEXT_TOOLS_GNULIB_TESTS
+# if 1
 #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #   undef sched_yield
 #   define sched_yield rpl_sched_yield
@@ -534,7 +583,9 @@ _GL_FUNCDECL_SYS (sched_yield, int, (void));
 #  endif
 _GL_CXXALIAS_SYS (sched_yield, int, (void));
 # endif
+# if __GLIBC__ >= 2
 _GL_CXXALIASWARN (sched_yield);
+# endif
 #elif defined GNULIB_POSIXCHECK
 # undef sched_yield
 # if HAVE_RAW_DECL_SCHED_YIELD

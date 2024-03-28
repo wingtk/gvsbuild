@@ -1,0 +1,23 @@
+--- a/gettext-tools/src/locating-rule.c	2022-06-13 16:16:59.962064900 +0800
++++ b/gettext-tools/src/locating-rule.c	2022-06-13 16:17:04.033420200 +0800
+@@ -27,15 +27,13 @@
+ #include "concat-filename.h"
+ #include "c-strcase.h"
+
+-#if HAVE_DIRENT_H
+-# include <dirent.h>
++/* we need to do this to import xmlFree properly from the libgettextlib DLL */
++#ifdef _MSC_VER
++# undef LIBXML_STATIC
+ #endif
+
+-#if HAVE_DIRENT_H
+-# define HAVE_DIR 1
+-#else
+-# define HAVE_DIR 0
+-#endif
++#include <dirent.h>
++#define HAVE_DIR 1
+
+ #include "dir-list.h"
+ #include <errno.h>

@@ -1,21 +1,21 @@
 /* DO NOT EDIT! GENERATED AUTOMATICALLY! */
 /* Provide a sys/socket header file for systems lacking it (read: MinGW)
    and for systems where it is incomplete.
-   Copyright (C) 2005-2020 Free Software Foundation, Inc.
+   Copyright (C) 2005-2023 Free Software Foundation, Inc.
    Written by Simon Josefsson.
 
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 3, or (at your option)
-   any later version.
+   This file is free software: you can redistribute it and/or modify
+   it under the terms of the GNU Lesser General Public License as
+   published by the Free Software Foundation; either version 2.1 of the
+   License, or (at your option) any later version.
 
-   This program is distributed in the hope that it will be useful,
+   This file is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   GNU Lesser General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, see <https://www.gnu.org/licenses/>.  */
+   You should have received a copy of the GNU Lesser General Public License
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 /* This file is supposed to be used on platforms that lack <sys/socket.h>,
    on platforms where <sys/socket.h> cannot be included standalone, and on
@@ -64,9 +64,12 @@
 #ifndef _GL_LTS_SYS_SOCKET_H
 #define _GL_LTS_SYS_SOCKET_H
 
-#ifndef _GL_INLINE_HEADER_BEGIN
+/* This file uses _GL_INLINE_HEADER_BEGIN, _GL_INLINE, GNULIB_POSIXCHECK,
+   HAVE_RAW_DECL_*, alignof.  */
+#if !_GL_CONFIG_H_INCLUDED
  #error "Please include config.h first."
 #endif
+
 _GL_INLINE_HEADER_BEGIN
 #ifndef _GL_SYS_SOCKET_INLINE
 # define _GL_SYS_SOCKET_INLINE _GL_INLINE
@@ -74,19 +77,19 @@ _GL_INLINE_HEADER_BEGIN
 
 /* The definitions of _GL_FUNCDECL_RPL etc. are copied here.  */
 /* C++ compatible function declaration macros.
-   Copyright (C) 2010-2020 Free Software Foundation, Inc.
+   Copyright (C) 2010-2023 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify it
-   under the terms of the GNU General Public License as published
-   by the Free Software Foundation; either version 3 of the License, or
+   under the terms of the GNU Lesser General Public License as published
+   by the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   General Public License for more details.
+   Lesser General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
+   You should have received a copy of the GNU Lesser General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 #ifndef _GL_CXXDEFS_H
@@ -174,6 +177,12 @@ _GL_INLINE_HEADER_BEGIN
    Example:
      _GL_FUNCDECL_RPL (open, int, (const char *filename, int flags, ...)
                                   _GL_ARG_NONNULL ((1)));
+
+   Note: Attributes, such as _GL_ATTRIBUTE_DEPRECATED, are supported in front
+   of a _GL_FUNCDECL_RPL invocation only in C mode, not in C++ mode.  (That's
+   because
+     [[...]] extern "C" <declaration>;
+   is invalid syntax in C++.)
  */
 #define _GL_FUNCDECL_RPL(func,rettype,parameters_and_attributes) \
   _GL_FUNCDECL_RPL_1 (rpl_##func, rettype, parameters_and_attributes)
@@ -221,6 +230,16 @@ _GL_INLINE_HEADER_BEGIN
     _GL_EXTERN_C int _gl_cxxalias_dummy
 #endif
 
+/* _GL_CXXALIAS_MDA (func, rettype, parameters);
+   is to be used when func is a Microsoft deprecated alias, on native Windows.
+   It declares a C++ alias called GNULIB_NAMESPACE::func
+   that redirects to _func, if GNULIB_NAMESPACE is defined.
+   Example:
+     _GL_CXXALIAS_MDA (open, int, (const char *filename, int flags, ...));
+ */
+#define _GL_CXXALIAS_MDA(func,rettype,parameters) \
+  _GL_CXXALIAS_RPL_1 (func, _##func, rettype, parameters)
+
 /* _GL_CXXALIAS_RPL_CAST_1 (func, rpl_func, rettype, parameters);
    is like  _GL_CXXALIAS_RPL_1 (func, rpl_func, rettype, parameters);
    except that the C function rpl_func may have a slightly different
@@ -245,6 +264,14 @@ _GL_INLINE_HEADER_BEGIN
 # define _GL_CXXALIAS_RPL_CAST_1(func,rpl_func,rettype,parameters) \
     _GL_EXTERN_C int _gl_cxxalias_dummy
 #endif
+
+/* _GL_CXXALIAS_MDA_CAST (func, rettype, parameters);
+   is like  _GL_CXXALIAS_MDA (func, rettype, parameters);
+   except that the C function func may have a slightly different declaration.
+   A cast is used to silence the "invalid conversion" error that would
+   otherwise occur.  */
+#define _GL_CXXALIAS_MDA_CAST(func,rettype,parameters) \
+  _GL_CXXALIAS_RPL_CAST_1 (func, _##func, rettype, parameters)
 
 /* _GL_CXXALIAS_SYS (func, rettype, parameters);
    declares a C++ alias called GNULIB_NAMESPACE::func
@@ -343,7 +370,7 @@ _GL_INLINE_HEADER_BEGIN
    _GL_CXXALIASWARN_2 (func, namespace)
 /* To work around GCC bug <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=43881>,
    we enable the warning only when not optimizing.  */
-# if !__OPTIMIZE__
+# if !(defined __GNUC__ && !defined __clang__ && __OPTIMIZE__)
 #  define _GL_CXXALIASWARN_2(func,namespace) \
     _GL_WARN_ON_USE (func, \
                      "The symbol ::" #func " refers to the system function. " \
@@ -371,9 +398,9 @@ _GL_INLINE_HEADER_BEGIN
    _GL_CXXALIASWARN1_2 (func, rettype, parameters_and_attributes, namespace)
 /* To work around GCC bug <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=43881>,
    we enable the warning only when not optimizing.  */
-# if !__OPTIMIZE__
+# if !(defined __GNUC__ && !defined __clang__ && __OPTIMIZE__)
 #  define _GL_CXXALIASWARN1_2(func,rettype,parameters_and_attributes,namespace) \
-    _GL_WARN_ON_USE_CXX (func, rettype, parameters_and_attributes, \
+    _GL_WARN_ON_USE_CXX (func, rettype, rettype, parameters_and_attributes, \
                          "The symbol ::" #func " refers to the system function. " \
                          "Use " #namespace "::" #func " instead.")
 # else
@@ -389,26 +416,26 @@ _GL_INLINE_HEADER_BEGIN
 
 /* The definition of _GL_ARG_NONNULL is copied here.  */
 /* A C macro for declaring that specific arguments must not be NULL.
-   Copyright (C) 2009-2020 Free Software Foundation, Inc.
+   Copyright (C) 2009-2023 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify it
-   under the terms of the GNU General Public License as published
-   by the Free Software Foundation; either version 3 of the License, or
+   under the terms of the GNU Lesser General Public License as published
+   by the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   General Public License for more details.
+   Lesser General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
+   You should have received a copy of the GNU Lesser General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 /* _GL_ARG_NONNULL((n,...,m)) tells the compiler and static analyzer tools
    that the values passed as arguments n, ..., m must be non-NULL pointers.
    n = 1 stands for the first argument, n = 2 for the second argument etc.  */
 #ifndef _GL_ARG_NONNULL
-# if (__GNUC__ == 3 && __GNUC_MINOR__ >= 3) || __GNUC__ > 3
+# if __GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 3) || defined __clang__
 #  define _GL_ARG_NONNULL(params) __attribute__ ((__nonnull__ params))
 # else
 #  define _GL_ARG_NONNULL(params)
@@ -417,19 +444,19 @@ _GL_INLINE_HEADER_BEGIN
 
 /* The definition of _GL_WARN_ON_USE is copied here.  */
 /* A C macro for emitting warnings if a function is used.
-   Copyright (C) 2010-2020 Free Software Foundation, Inc.
+   Copyright (C) 2010-2023 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify it
-   under the terms of the GNU General Public License as published
-   by the Free Software Foundation; either version 3 of the License, or
+   under the terms of the GNU Lesser General Public License as published
+   by the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   General Public License for more details.
+   Lesser General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
+   You should have received a copy of the GNU Lesser General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 /* _GL_WARN_ON_USE (function, "literal string") issues a declaration
@@ -502,13 +529,20 @@ _GL_INLINE_HEADER_BEGIN
 # if 4 < __GNUC__ || (__GNUC__ == 4 && 3 <= __GNUC_MINOR__)
 /* A compiler attribute is available in gcc versions 4.3.0 and later.  */
 #  define _GL_WARN_ON_USE(function, message) \
-extern __typeof__ (function) function __attribute__ ((__warning__ (message)))
+_GL_WARN_EXTERN_C __typeof__ (function) function __attribute__ ((__warning__ (message)))
 #  define _GL_WARN_ON_USE_ATTRIBUTE(message) \
   __attribute__ ((__warning__ (message)))
+# elif __clang_major__ >= 4
+/* Another compiler attribute is available in clang.  */
+#  define _GL_WARN_ON_USE(function, message) \
+_GL_WARN_EXTERN_C __typeof__ (function) function \
+  __attribute__ ((__diagnose_if__ (1, message, "warning")))
+#  define _GL_WARN_ON_USE_ATTRIBUTE(message) \
+  __attribute__ ((__diagnose_if__ (1, message, "warning")))
 # elif __GNUC__ >= 3 && GNULIB_STRICT_CHECKING
 /* Verify the existence of the function.  */
 #  define _GL_WARN_ON_USE(function, message) \
-extern __typeof__ (function) function
+_GL_WARN_EXTERN_C __typeof__ (function) function
 #  define _GL_WARN_ON_USE_ATTRIBUTE(message)
 # else /* Unsupported.  */
 #  define _GL_WARN_ON_USE(function, message) \
@@ -517,27 +551,33 @@ _GL_WARN_EXTERN_C int _gl_warn_on_use
 # endif
 #endif
 
-/* _GL_WARN_ON_USE_CXX (function, rettype, parameters_and_attributes, "string")
-   is like _GL_WARN_ON_USE (function, "string"), except that in C++ mode the
+/* _GL_WARN_ON_USE_CXX (function, rettype_gcc, rettype_clang, parameters_and_attributes, "message")
+   is like _GL_WARN_ON_USE (function, "message"), except that in C++ mode the
    function is declared with the given prototype, consisting of return type,
    parameters, and attributes.
    This variant is useful for overloaded functions in C++. _GL_WARN_ON_USE does
    not work in this case.  */
 #ifndef _GL_WARN_ON_USE_CXX
 # if !defined __cplusplus
-#  define _GL_WARN_ON_USE_CXX(function,rettype,parameters_and_attributes,msg) \
+#  define _GL_WARN_ON_USE_CXX(function,rettype_gcc,rettype_clang,parameters_and_attributes,msg) \
      _GL_WARN_ON_USE (function, msg)
 # else
 #  if 4 < __GNUC__ || (__GNUC__ == 4 && 3 <= __GNUC_MINOR__)
-#   define _GL_WARN_ON_USE_CXX(function,rettype,parameters_and_attributes,msg) \
-extern rettype function parameters_and_attributes \
-     __attribute__ ((__warning__ (msg)))
+/* A compiler attribute is available in gcc versions 4.3.0 and later.  */
+#   define _GL_WARN_ON_USE_CXX(function,rettype_gcc,rettype_clang,parameters_and_attributes,msg) \
+extern rettype_gcc function parameters_and_attributes \
+  __attribute__ ((__warning__ (msg)))
+#  elif __clang_major__ >= 4
+/* Another compiler attribute is available in clang.  */
+#   define _GL_WARN_ON_USE_CXX(function,rettype_gcc,rettype_clang,parameters_and_attributes,msg) \
+extern rettype_clang function parameters_and_attributes \
+  __attribute__ ((__diagnose_if__ (1, msg, "warning")))
 #  elif __GNUC__ >= 3 && GNULIB_STRICT_CHECKING
 /* Verify the existence of the function.  */
-#   define _GL_WARN_ON_USE_CXX(function,rettype,parameters_and_attributes,msg) \
-extern rettype function parameters_and_attributes
+#   define _GL_WARN_ON_USE_CXX(function,rettype_gcc,rettype_clang,parameters_and_attributes,msg) \
+extern rettype_gcc function parameters_and_attributes
 #  else /* Unsupported.  */
-#   define _GL_WARN_ON_USE_CXX(function,rettype,parameters_and_attributes,msg) \
+#   define _GL_WARN_ON_USE_CXX(function,rettype_gcc,rettype_clang,parameters_and_attributes,msg) \
 _GL_WARN_EXTERN_C int _gl_warn_on_use
 #  endif
 # endif
@@ -573,7 +613,6 @@ typedef unsigned char   sa_family_t;
 #  endif
 # endif
 #else
-# include <stdalign.h>
 /* Code taken from glibc sysdeps/unix/sysv/linux/bits/socket.h on
    2009-05-08, licensed under LGPLv2.1+, plus portability fixes. */
 # define __ss_aligntype unsigned long int
@@ -732,7 +771,7 @@ rpl_fd_isset (SOCKET fd, fd_set * set)
 #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #   undef close
 #   define close close_used_without_including_unistd_h
-#  else
+#  elif !defined __clang__
     _GL_WARN_ON_USE (close,
                      "close() used without including <unistd.h>");
 #  endif
@@ -832,7 +871,9 @@ _GL_CXXALIAS_SYS_CAST (accept, int,
                         struct sockaddr *restrict addr,
                         socklen_t *restrict addrlen));
 # endif
+# if __GLIBC__ >= 2
 _GL_CXXALIASWARN (accept);
+# endif
 #elif 1
 # undef accept
 # define accept accept_used_without_requesting_gnulib_module_accept
@@ -894,7 +935,9 @@ _GL_CXXALIAS_SYS_CAST (getpeername, int,
                        (int fd, struct sockaddr *restrict addr,
                         socklen_t *restrict addrlen));
 # endif
+# if __GLIBC__ >= 2
 _GL_CXXALIASWARN (getpeername);
+# endif
 #elif 1
 # undef getpeername
 # define getpeername getpeername_used_without_requesting_gnulib_module_getpeername
@@ -926,7 +969,9 @@ _GL_CXXALIAS_SYS_CAST (getsockname, int,
                        (int fd, struct sockaddr *restrict addr,
                         socklen_t *restrict addrlen));
 # endif
+# if __GLIBC__ >= 2
 _GL_CXXALIASWARN (getsockname);
+# endif
 #elif 1
 # undef getsockname
 # define getsockname getsockname_used_without_requesting_gnulib_module_getsockname
@@ -1073,7 +1118,9 @@ _GL_CXXALIAS_SYS_CAST (recvfrom, ssize_t,
                         struct sockaddr *restrict from,
                         socklen_t *restrict fromlen));
 # endif
+# if __GLIBC__ >= 2
 _GL_CXXALIASWARN (recvfrom);
+# endif
 #elif 1
 # undef recvfrom
 # define recvfrom recvfrom_used_without_requesting_gnulib_module_recvfrom

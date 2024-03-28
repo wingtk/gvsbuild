@@ -1,6 +1,6 @@
 /* DO NOT EDIT! GENERATED AUTOMATICALLY! */
 /* libxml2 - Library for parsing XML documents
- * Copyright (C) 2006-2019 Free Software Foundation, Inc.
+ * Copyright (C) 2006-2020 Free Software Foundation, Inc.
  *
  * This file is not part of the GNU gettext program, but is used with
  * GNU gettext.
@@ -41,6 +41,7 @@
 #define __XML_PARSER_H__
 
 #include <stdarg.h>
+#include <stdlib.h>     /* because Gnulib's <stdlib.h> may '#define free ...' */
 
 #include <libxml/xmlversion.h>
 #include <libxml/tree.h>
@@ -690,7 +691,7 @@ typedef int (*hasExternalSubsetSAXFunc) (void *ctx);
 
 /************************************************************************
  *									*
- *			The SAX version 3 API extensions		*
+ *			The SAX version 2 API extensions		*
  *									*
  ************************************************************************/
 /**
@@ -775,7 +776,7 @@ struct _xmlSAXHandler {
     cdataBlockSAXFunc cdataBlock;
     externalSubsetSAXFunc externalSubset;
     unsigned int initialized;
-    /* The following fields are extensions available only on version 3 */
+    /* The following fields are extensions available only on version 2 */
     void *_private;
     startElementNsSAX2Func startElementNs;
     endElementNsSAX2Func endElementNs;

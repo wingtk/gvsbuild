@@ -1,25 +1,32 @@
 /* DO NOT EDIT! GENERATED AUTOMATICALLY! */
 /* A more-standard <time.h>.
 
-   Copyright (C) 2007-2020 Free Software Foundation, Inc.
+   Copyright (C) 2007-2023 Free Software Foundation, Inc.
 
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 3, or (at your option)
-   any later version.
+   This file is free software: you can redistribute it and/or modify
+   it under the terms of the GNU Lesser General Public License as
+   published by the Free Software Foundation; either version 2.1 of the
+   License, or (at your option) any later version.
 
-   This program is distributed in the hope that it will be useful,
+   This file is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   GNU Lesser General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, see <https://www.gnu.org/licenses/>.  */
+   You should have received a copy of the GNU Lesser General Public License
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 #if __GNUC__ >= 3
 
 #endif
 
+
+/* This file uses #include_next of a system file that defines time_t.
+   For the 'year2038' module to work right, <config.h> needs to have been
+   included before.  */
+#if !_GL_CONFIG_H_INCLUDED
+ #error "Please include config.h first."
+#endif
 
 /* Don't get in the way of glibc when it includes time.h merely to
    declare a few standard symbols, rather than to declare all the
@@ -32,11 +39,7 @@
       && !defined __MINGW32__)                         \
      || defined _GL_LTS_TIME_H)
 
-#if (_MSC_VER < 1900)
-#include "../include/time.h"
-#else
-#include "../ucrt/time.h"
-#endif
+# include "../ucrt/time.h"
 
 #else
 
@@ -48,30 +51,32 @@
 #  include <unistd.h>
 # endif
 
-#if (_MSC_VER < 1900)
-#include "../include/time.h"
-#else
-#include "../ucrt/time.h"
-#endif
+# include "../ucrt/time.h"
+
+/* This file uses _GL_ATTRIBUTE_DEPRECATED, GNULIB_POSIXCHECK,
+   HAVE_RAW_DECL_*.  */
+# if !_GL_CONFIG_H_INCLUDED
+#  error "Please include config.h first."
+# endif
 
 /* NetBSD 5.0 mis-defines NULL.  */
 # include <stddef.h>
 
 /* The definitions of _GL_FUNCDECL_RPL etc. are copied here.  */
 /* C++ compatible function declaration macros.
-   Copyright (C) 2010-2020 Free Software Foundation, Inc.
+   Copyright (C) 2010-2023 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify it
-   under the terms of the GNU General Public License as published
-   by the Free Software Foundation; either version 3 of the License, or
+   under the terms of the GNU Lesser General Public License as published
+   by the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   General Public License for more details.
+   Lesser General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
+   You should have received a copy of the GNU Lesser General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 #ifndef _GL_CXXDEFS_H
@@ -159,6 +164,12 @@
    Example:
      _GL_FUNCDECL_RPL (open, int, (const char *filename, int flags, ...)
                                   _GL_ARG_NONNULL ((1)));
+
+   Note: Attributes, such as _GL_ATTRIBUTE_DEPRECATED, are supported in front
+   of a _GL_FUNCDECL_RPL invocation only in C mode, not in C++ mode.  (That's
+   because
+     [[...]] extern "C" <declaration>;
+   is invalid syntax in C++.)
  */
 #define _GL_FUNCDECL_RPL(func,rettype,parameters_and_attributes) \
   _GL_FUNCDECL_RPL_1 (rpl_##func, rettype, parameters_and_attributes)
@@ -206,6 +217,16 @@
     _GL_EXTERN_C int _gl_cxxalias_dummy
 #endif
 
+/* _GL_CXXALIAS_MDA (func, rettype, parameters);
+   is to be used when func is a Microsoft deprecated alias, on native Windows.
+   It declares a C++ alias called GNULIB_NAMESPACE::func
+   that redirects to _func, if GNULIB_NAMESPACE is defined.
+   Example:
+     _GL_CXXALIAS_MDA (open, int, (const char *filename, int flags, ...));
+ */
+#define _GL_CXXALIAS_MDA(func,rettype,parameters) \
+  _GL_CXXALIAS_RPL_1 (func, _##func, rettype, parameters)
+
 /* _GL_CXXALIAS_RPL_CAST_1 (func, rpl_func, rettype, parameters);
    is like  _GL_CXXALIAS_RPL_1 (func, rpl_func, rettype, parameters);
    except that the C function rpl_func may have a slightly different
@@ -230,6 +251,14 @@
 # define _GL_CXXALIAS_RPL_CAST_1(func,rpl_func,rettype,parameters) \
     _GL_EXTERN_C int _gl_cxxalias_dummy
 #endif
+
+/* _GL_CXXALIAS_MDA_CAST (func, rettype, parameters);
+   is like  _GL_CXXALIAS_MDA (func, rettype, parameters);
+   except that the C function func may have a slightly different declaration.
+   A cast is used to silence the "invalid conversion" error that would
+   otherwise occur.  */
+#define _GL_CXXALIAS_MDA_CAST(func,rettype,parameters) \
+  _GL_CXXALIAS_RPL_CAST_1 (func, _##func, rettype, parameters)
 
 /* _GL_CXXALIAS_SYS (func, rettype, parameters);
    declares a C++ alias called GNULIB_NAMESPACE::func
@@ -328,7 +357,7 @@
    _GL_CXXALIASWARN_2 (func, namespace)
 /* To work around GCC bug <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=43881>,
    we enable the warning only when not optimizing.  */
-# if !__OPTIMIZE__
+# if !(defined __GNUC__ && !defined __clang__ && __OPTIMIZE__)
 #  define _GL_CXXALIASWARN_2(func,namespace) \
     _GL_WARN_ON_USE (func, \
                      "The symbol ::" #func " refers to the system function. " \
@@ -356,9 +385,9 @@
    _GL_CXXALIASWARN1_2 (func, rettype, parameters_and_attributes, namespace)
 /* To work around GCC bug <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=43881>,
    we enable the warning only when not optimizing.  */
-# if !__OPTIMIZE__
+# if !(defined __GNUC__ && !defined __clang__ && __OPTIMIZE__)
 #  define _GL_CXXALIASWARN1_2(func,rettype,parameters_and_attributes,namespace) \
-    _GL_WARN_ON_USE_CXX (func, rettype, parameters_and_attributes, \
+    _GL_WARN_ON_USE_CXX (func, rettype, rettype, parameters_and_attributes, \
                          "The symbol ::" #func " refers to the system function. " \
                          "Use " #namespace "::" #func " instead.")
 # else
@@ -374,26 +403,26 @@
 
 /* The definition of _GL_ARG_NONNULL is copied here.  */
 /* A C macro for declaring that specific arguments must not be NULL.
-   Copyright (C) 2009-2020 Free Software Foundation, Inc.
+   Copyright (C) 2009-2023 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify it
-   under the terms of the GNU General Public License as published
-   by the Free Software Foundation; either version 3 of the License, or
+   under the terms of the GNU Lesser General Public License as published
+   by the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   General Public License for more details.
+   Lesser General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
+   You should have received a copy of the GNU Lesser General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 /* _GL_ARG_NONNULL((n,...,m)) tells the compiler and static analyzer tools
    that the values passed as arguments n, ..., m must be non-NULL pointers.
    n = 1 stands for the first argument, n = 2 for the second argument etc.  */
 #ifndef _GL_ARG_NONNULL
-# if (__GNUC__ == 3 && __GNUC_MINOR__ >= 3) || __GNUC__ > 3
+# if __GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 3) || defined __clang__
 #  define _GL_ARG_NONNULL(params) __attribute__ ((__nonnull__ params))
 # else
 #  define _GL_ARG_NONNULL(params)
@@ -402,19 +431,19 @@
 
 /* The definition of _GL_WARN_ON_USE is copied here.  */
 /* A C macro for emitting warnings if a function is used.
-   Copyright (C) 2010-2020 Free Software Foundation, Inc.
+   Copyright (C) 2010-2023 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify it
-   under the terms of the GNU General Public License as published
-   by the Free Software Foundation; either version 3 of the License, or
+   under the terms of the GNU Lesser General Public License as published
+   by the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   General Public License for more details.
+   Lesser General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
+   You should have received a copy of the GNU Lesser General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 /* _GL_WARN_ON_USE (function, "literal string") issues a declaration
@@ -487,13 +516,20 @@
 # if 4 < __GNUC__ || (__GNUC__ == 4 && 3 <= __GNUC_MINOR__)
 /* A compiler attribute is available in gcc versions 4.3.0 and later.  */
 #  define _GL_WARN_ON_USE(function, message) \
-extern __typeof__ (function) function __attribute__ ((__warning__ (message)))
+_GL_WARN_EXTERN_C __typeof__ (function) function __attribute__ ((__warning__ (message)))
 #  define _GL_WARN_ON_USE_ATTRIBUTE(message) \
   __attribute__ ((__warning__ (message)))
+# elif __clang_major__ >= 4
+/* Another compiler attribute is available in clang.  */
+#  define _GL_WARN_ON_USE(function, message) \
+_GL_WARN_EXTERN_C __typeof__ (function) function \
+  __attribute__ ((__diagnose_if__ (1, message, "warning")))
+#  define _GL_WARN_ON_USE_ATTRIBUTE(message) \
+  __attribute__ ((__diagnose_if__ (1, message, "warning")))
 # elif __GNUC__ >= 3 && GNULIB_STRICT_CHECKING
 /* Verify the existence of the function.  */
 #  define _GL_WARN_ON_USE(function, message) \
-extern __typeof__ (function) function
+_GL_WARN_EXTERN_C __typeof__ (function) function
 #  define _GL_WARN_ON_USE_ATTRIBUTE(message)
 # else /* Unsupported.  */
 #  define _GL_WARN_ON_USE(function, message) \
@@ -502,27 +538,33 @@ _GL_WARN_EXTERN_C int _gl_warn_on_use
 # endif
 #endif
 
-/* _GL_WARN_ON_USE_CXX (function, rettype, parameters_and_attributes, "string")
-   is like _GL_WARN_ON_USE (function, "string"), except that in C++ mode the
+/* _GL_WARN_ON_USE_CXX (function, rettype_gcc, rettype_clang, parameters_and_attributes, "message")
+   is like _GL_WARN_ON_USE (function, "message"), except that in C++ mode the
    function is declared with the given prototype, consisting of return type,
    parameters, and attributes.
    This variant is useful for overloaded functions in C++. _GL_WARN_ON_USE does
    not work in this case.  */
 #ifndef _GL_WARN_ON_USE_CXX
 # if !defined __cplusplus
-#  define _GL_WARN_ON_USE_CXX(function,rettype,parameters_and_attributes,msg) \
+#  define _GL_WARN_ON_USE_CXX(function,rettype_gcc,rettype_clang,parameters_and_attributes,msg) \
      _GL_WARN_ON_USE (function, msg)
 # else
 #  if 4 < __GNUC__ || (__GNUC__ == 4 && 3 <= __GNUC_MINOR__)
-#   define _GL_WARN_ON_USE_CXX(function,rettype,parameters_and_attributes,msg) \
-extern rettype function parameters_and_attributes \
-     __attribute__ ((__warning__ (msg)))
+/* A compiler attribute is available in gcc versions 4.3.0 and later.  */
+#   define _GL_WARN_ON_USE_CXX(function,rettype_gcc,rettype_clang,parameters_and_attributes,msg) \
+extern rettype_gcc function parameters_and_attributes \
+  __attribute__ ((__warning__ (msg)))
+#  elif __clang_major__ >= 4
+/* Another compiler attribute is available in clang.  */
+#   define _GL_WARN_ON_USE_CXX(function,rettype_gcc,rettype_clang,parameters_and_attributes,msg) \
+extern rettype_clang function parameters_and_attributes \
+  __attribute__ ((__diagnose_if__ (1, msg, "warning")))
 #  elif __GNUC__ >= 3 && GNULIB_STRICT_CHECKING
 /* Verify the existence of the function.  */
-#   define _GL_WARN_ON_USE_CXX(function,rettype,parameters_and_attributes,msg) \
-extern rettype function parameters_and_attributes
+#   define _GL_WARN_ON_USE_CXX(function,rettype_gcc,rettype_clang,parameters_and_attributes,msg) \
+extern rettype_gcc function parameters_and_attributes
 #  else /* Unsupported.  */
-#   define _GL_WARN_ON_USE_CXX(function,rettype,parameters_and_attributes,msg) \
+#   define _GL_WARN_ON_USE_CXX(function,rettype_gcc,rettype_clang,parameters_and_attributes,msg) \
 _GL_WARN_EXTERN_C int _gl_warn_on_use
 #  endif
 # endif
@@ -542,7 +584,7 @@ _GL_WARN_EXTERN_C int _gl_warn_on_use
    Or they define it with the wrong member names or define it in <sys/time.h>
    (e.g., FreeBSD circa 1997).  Stock Mingw prior to 3.0 does not define it,
    but the pthreads-win32 library defines it in <pthread.h>.  */
-# if (_MSC_VER < 1900)
+# if ! 1
 #  if 0
 #   include <sys/time.h>
 #  elif 0
@@ -585,11 +627,87 @@ struct __time_t_must_be_integral {
 #  define GNULIB_defined_struct_time_t_must_be_integral 1
 # endif
 
+/* Define TIME_UTC, a positive integer constant used for timespec_get().  */
+# if ! 1
+#  if !GNULIB_defined_TIME_UTC
+#   define TIME_UTC 1
+#   define GNULIB_defined_TIME_UTC 1
+#  endif
+# endif
+
+/* Set *TS to the current time, and return BASE.
+   Upon failure, return 0.  */
+# if 0
+#  if 0
+#   if !(defined __cplusplus && defined GNULIB_NAMESPACE)
+#    undef timespec_get
+#    define timespec_get rpl_timespec_get
+#   endif
+_GL_FUNCDECL_RPL (timespec_get, int, (struct timespec *ts, int base)
+                                     _GL_ARG_NONNULL ((1)));
+_GL_CXXALIAS_RPL (timespec_get, int, (struct timespec *ts, int base));
+#  else
+#   if !1
+_GL_FUNCDECL_SYS (timespec_get, int, (struct timespec *ts, int base)
+                                     _GL_ARG_NONNULL ((1)));
+#   endif
+_GL_CXXALIAS_SYS (timespec_get, int, (struct timespec *ts, int base));
+#  endif
+#  if __GLIBC__ >= 2
+_GL_CXXALIASWARN (timespec_get);
+#  endif
+# elif defined GNULIB_POSIXCHECK
+#  undef timespec_get
+#  if HAVE_RAW_DECL_TIMESPEC_GET
+_GL_WARN_ON_USE (timespec_get, "timespec_get is unportable - "
+                 "use gnulib module timespec_get for portability");
+#  endif
+# endif
+
+/* Set *TS to the current time resolution, and return BASE.
+   Upon failure, return 0.  */
+# if 0
+#  if ! 1
+_GL_FUNCDECL_SYS (timespec_getres, int, (struct timespec *ts, int base)
+                                        _GL_ARG_NONNULL ((1)));
+#  endif
+_GL_CXXALIAS_SYS (timespec_getres, int, (struct timespec *ts, int base));
+_GL_CXXALIASWARN (timespec_getres);
+# elif defined GNULIB_POSIXCHECK
+#  undef timespec_getres
+#  if HAVE_RAW_DECL_TIMESPEC_GETRES
+_GL_WARN_ON_USE (timespec_getres, "timespec_getres is unportable - "
+                 "use gnulib module timespec_getres for portability");
+#  endif
+# endif
+
+/* Return the number of seconds that have elapsed since the Epoch.  */
+# if 0
+#  if 0
+#   if !(defined __cplusplus && defined GNULIB_NAMESPACE)
+#    define time rpl_time
+#   endif
+_GL_FUNCDECL_RPL (time, time_t, (time_t *__tp));
+_GL_CXXALIAS_RPL (time, time_t, (time_t *__tp));
+#  else
+_GL_CXXALIAS_SYS (time, time_t, (time_t *__tp));
+#  endif
+#  if __GLIBC__ >= 2
+_GL_CXXALIASWARN (time);
+#  endif
+# elif defined GNULIB_POSIXCHECK
+#  undef time
+#  if HAVE_RAW_DECL_TIME
+_GL_WARN_ON_USE (time, "time has consistency problems - "
+                 "use gnulib module time for portability");
+#  endif
+# endif
+
 /* Sleep for at least RQTP seconds unless interrupted,  If interrupted,
    return -1 and store the remaining time into RMTP.  See
    <https://pubs.opengroup.org/onlinepubs/9699919799/functions/nanosleep.html>.  */
 # if 0
-#  if GNULIB_PORTCHECK
+#  if 0
 #   if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #    define nanosleep rpl_nanosleep
 #   endif
@@ -608,29 +726,58 @@ _GL_CXXALIAS_SYS (nanosleep, int,
                   (struct timespec const *__rqtp, struct timespec *__rmtp));
 #  endif
 _GL_CXXALIASWARN (nanosleep);
+# elif defined GNULIB_POSIXCHECK
+#  undef nanosleep
+#  if HAVE_RAW_DECL_NANOSLEEP
+_GL_WARN_ON_USE (nanosleep, "nanosleep is unportable - "
+                 "use gnulib module nanosleep for portability");
+#  endif
 # endif
 
 /* Initialize time conversion information.  */
 # if 0
-#  if GNULIB_PORTCHECK
+#  if 0
 #   if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #    undef tzset
 #    define tzset rpl_tzset
 #   endif
 _GL_FUNCDECL_RPL (tzset, void, (void));
 _GL_CXXALIAS_RPL (tzset, void, (void));
-#  else
-#   if ! 1
-_GL_FUNCDECL_SYS (tzset, void, (void));
+#  elif defined _WIN32 && !defined __CYGWIN__
+#   if !(defined __cplusplus && defined GNULIB_NAMESPACE)
+#    undef tzset
+#    define tzset _tzset
 #   endif
+_GL_CXXALIAS_MDA (tzset, void, (void));
+#  else
 _GL_CXXALIAS_SYS (tzset, void, (void));
 #  endif
 _GL_CXXALIASWARN (tzset);
+# elif 1
+/* On native Windows, map 'tzset' to '_tzset', so that -loldnames is not
+   required.  In C++ with GNULIB_NAMESPACE, avoid differences between
+   platforms by defining GNULIB_NAMESPACE::tzset always.  */
+#  if defined _WIN32 && !defined __CYGWIN__
+#   if !(defined __cplusplus && defined GNULIB_NAMESPACE)
+#    undef tzset
+#    define tzset _tzset
+#   endif
+_GL_CXXALIAS_MDA (tzset, void, (void));
+#  else
+_GL_CXXALIAS_SYS (tzset, void, (void));
+#  endif
+_GL_CXXALIASWARN (tzset);
+# elif defined GNULIB_POSIXCHECK
+#  undef tzset
+#  if HAVE_RAW_DECL_TZSET
+_GL_WARN_ON_USE (tzset, "tzset has portability problems - "
+                 "use gnulib module tzset for portability");
+#  endif
 # endif
 
 /* Return the 'time_t' representation of TP and normalize TP.  */
 # if 0
-#  if GNULIB_PORTCHECK
+#  if 0
 #   if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #    define mktime rpl_mktime
 #   endif
@@ -642,13 +789,19 @@ _GL_CXXALIAS_SYS (mktime, time_t, (struct tm *__tp));
 #  if __GLIBC__ >= 2
 _GL_CXXALIASWARN (mktime);
 #  endif
+# elif defined GNULIB_POSIXCHECK
+#  undef mktime
+#  if HAVE_RAW_DECL_MKTIME
+_GL_WARN_ON_USE (mktime, "mktime has portability problems - "
+                 "use gnulib module mktime for portability");
+#  endif
 # endif
 
 /* Convert TIMER to RESULT, assuming local time and UTC respectively.  See
    <https://pubs.opengroup.org/onlinepubs/9699919799/functions/localtime_r.html> and
    <https://pubs.opengroup.org/onlinepubs/9699919799/functions/gmtime_r.html>.  */
 # if 0
-#  if GNULIB_PORTCHECK
+#  if 0
 #   if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #    undef localtime_r
 #    define localtime_r rpl_localtime_r
@@ -670,7 +823,7 @@ _GL_CXXALIAS_SYS (localtime_r, struct tm *, (time_t const *restrict __timer,
 #  if 1
 _GL_CXXALIASWARN (localtime_r);
 #  endif
-#  if GNULIB_PORTCHECK
+#  if 0
 #   if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #    undef gmtime_r
 #    define gmtime_r rpl_gmtime_r
@@ -692,6 +845,17 @@ _GL_CXXALIAS_SYS (gmtime_r, struct tm *, (time_t const *restrict __timer,
 #  if 1
 _GL_CXXALIASWARN (gmtime_r);
 #  endif
+# elif defined GNULIB_POSIXCHECK
+#  undef localtime_r
+#  if HAVE_RAW_DECL_LOCALTIME_R
+_GL_WARN_ON_USE (localtime_r, "localtime_r is unportable - "
+                 "use gnulib module time_r for portability");
+#  endif
+#  undef gmtime_r
+#  if HAVE_RAW_DECL_GMTIME_R
+_GL_WARN_ON_USE (gmtime_r, "gmtime_r is unportable - "
+                 "use gnulib module time_r for portability");
+#  endif
 # endif
 
 /* Convert TIMER to RESULT, assuming local time and UTC respectively.  See
@@ -711,6 +875,12 @@ _GL_CXXALIAS_SYS (localtime, struct tm *, (time_t const *__timer));
 #  endif
 #  if __GLIBC__ >= 2
 _GL_CXXALIASWARN (localtime);
+#  endif
+# elif defined GNULIB_POSIXCHECK
+#  undef localtime
+#  if HAVE_RAW_DECL_LOCALTIME
+_GL_WARN_ON_USE (localtime, "localtime has portability problems - "
+                 "use gnulib module localtime for portability");
 #  endif
 # endif
 
@@ -743,14 +913,23 @@ _GL_CXXALIAS_SYS (strptime, char *, (char const *restrict __buf,
                                      char const *restrict __format,
                                      struct tm *restrict __tm));
 _GL_CXXALIASWARN (strptime);
+# elif defined GNULIB_POSIXCHECK
+#  undef strptime
+#  if HAVE_RAW_DECL_STRPTIME
+_GL_WARN_ON_USE (strptime, "strptime is unportable - "
+                 "use gnulib module strptime for portability");
+#  endif
 # endif
 
 /* Convert *TP to a date and time string.  See
    <https://pubs.opengroup.org/onlinepubs/9699919799/functions/ctime.html>.  */
 # if 0
-#  if GNULIB_PORTCHECK
+#  if 0
 #   if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #    define ctime rpl_ctime
+#   endif
+#   ifndef __cplusplus
+_GL_ATTRIBUTE_DEPRECATED
 #   endif
 _GL_FUNCDECL_RPL (ctime, char *, (time_t const *__tp)
                                  _GL_ARG_NONNULL ((1)));
@@ -761,12 +940,18 @@ _GL_CXXALIAS_SYS (ctime, char *, (time_t const *__tp));
 #  if __GLIBC__ >= 2
 _GL_CXXALIASWARN (ctime);
 #  endif
+# elif defined GNULIB_POSIXCHECK
+#  undef ctime
+#  if HAVE_RAW_DECL_CTIME
+_GL_WARN_ON_USE (ctime, "ctime has portability problems - "
+                 "use gnulib module ctime for portability");
+#  endif
 # endif
 
 /* Convert *TP to a date and time string.  See
    <https://pubs.opengroup.org/onlinepubs/9699919799/functions/strftime.html>.  */
 # if 0
-#  if GNULIB_PORTCHECK
+#  if 0
 #   if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #    define strftime rpl_strftime
 #   endif
@@ -785,30 +970,74 @@ _GL_CXXALIAS_SYS (strftime, size_t,
 #  if __GLIBC__ >= 2
 _GL_CXXALIASWARN (strftime);
 #  endif
+# elif defined GNULIB_POSIXCHECK
+#  undef strftime
+#  if HAVE_RAW_DECL_STRFTIME
+_GL_WARN_ON_USE (strftime, "strftime has portability problems - "
+                 "use gnulib module strftime-fixes for portability");
+#  endif
 # endif
 
 # if defined _GNU_SOURCE && 0 && ! 0
+/* Functions that use a first-class time zone data type, instead of
+   relying on an implicit global time zone.
+   Inspired by NetBSD.  */
+
+/* Represents a time zone.
+   (timezone_t) NULL stands for UTC.  */
 typedef struct tm_zone *timezone_t;
+
+/* tzalloc (name)
+   Returns a time zone object for the given time zone NAME.  This object
+   represents the time zone that other functions would use it the TZ
+   environment variable was set to NAME.
+   If NAME is NULL, the result represents the time zone that other functions
+   would use it the TZ environment variable was unset.
+   May return NULL if NAME is invalid (this is platform dependent) or
+   upon memory allocation failure.  */
 _GL_FUNCDECL_SYS (tzalloc, timezone_t, (char const *__name));
 _GL_CXXALIAS_SYS (tzalloc, timezone_t, (char const *__name));
+
+/* tzfree (tz)
+   Frees a time zone object.
+   The argument must have been returned by tzalloc().  */
 _GL_FUNCDECL_SYS (tzfree, void, (timezone_t __tz));
 _GL_CXXALIAS_SYS (tzfree, void, (timezone_t __tz));
+
+/* localtime_rz (tz, &t, &result)
+   Converts an absolute time T to a broken-down time RESULT, assuming the
+   time zone TZ.
+   This function is like 'localtime_r', but relies on the argument TZ instead
+   of an implicit global time zone.  */
 _GL_FUNCDECL_SYS (localtime_rz, struct tm *,
                   (timezone_t __tz, time_t const *restrict __timer,
                    struct tm *restrict __result) _GL_ARG_NONNULL ((2, 3)));
 _GL_CXXALIAS_SYS (localtime_rz, struct tm *,
                   (timezone_t __tz, time_t const *restrict __timer,
                    struct tm *restrict __result));
+
+/* mktime_z (tz, &tm)
+   Normalizes the broken-down time TM and converts it to an absolute time,
+   assuming the time zone TZ.  Returns the absolute time.
+   This function is like 'mktime', but relies on the argument TZ instead
+   of an implicit global time zone.  */
 _GL_FUNCDECL_SYS (mktime_z, time_t,
-                  (timezone_t __tz, struct tm *restrict __result)
+                  (timezone_t __tz, struct tm *restrict __tm)
                   _GL_ARG_NONNULL ((2)));
 _GL_CXXALIAS_SYS (mktime_z, time_t,
-                  (timezone_t __tz, struct tm *restrict __result));
+                  (timezone_t __tz, struct tm *restrict __tm));
+
+/* Time zone abbreviation strings (returned by 'localtime_rz' or 'mktime_z'
+   in the 'tm_zone' member of 'struct tm') are valid as long as
+     - the 'struct tm' argument is not destroyed or overwritten,
+   and
+     - the 'timezone_t' argument is not freed through tzfree().  */
+
 # endif
 
 /* Convert TM to a time_t value, assuming UTC.  */
 # if 0
-#  if GNULIB_PORTCHECK
+#  if 0
 #   if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #    undef timegm
 #    define timegm rpl_timegm
@@ -821,7 +1050,15 @@ _GL_FUNCDECL_SYS (timegm, time_t, (struct tm *__tm) _GL_ARG_NONNULL ((1)));
 #   endif
 _GL_CXXALIAS_SYS (timegm, time_t, (struct tm *__tm));
 #  endif
+#  if __GLIBC__ >= 2
 _GL_CXXALIASWARN (timegm);
+#  endif
+# elif defined GNULIB_POSIXCHECK
+#  undef timegm
+#  if HAVE_RAW_DECL_TIMEGM
+_GL_WARN_ON_USE (timegm, "timegm is unportable - "
+                 "use gnulib module timegm for portability");
+#  endif
 # endif
 
 /* Encourage applications to avoid unsafe functions that can overrun
@@ -829,23 +1066,31 @@ _GL_CXXALIASWARN (timegm);
    applications should use strftime (or even sprintf) instead.  */
 # if defined GNULIB_POSIXCHECK
 #  undef asctime
+#  if HAVE_RAW_DECL_ASCTIME
 _GL_WARN_ON_USE (asctime, "asctime can overrun buffers in some cases - "
                  "better use strftime (or even sprintf) instead");
+#  endif
 # endif
 # if defined GNULIB_POSIXCHECK
 #  undef asctime_r
-_GL_WARN_ON_USE (asctime, "asctime_r can overrun buffers in some cases - "
+#  if HAVE_RAW_DECL_ASCTIME_R
+_GL_WARN_ON_USE (asctime_r, "asctime_r can overrun buffers in some cases - "
                  "better use strftime (or even sprintf) instead");
+#  endif
 # endif
 # if defined GNULIB_POSIXCHECK
 #  undef ctime
-_GL_WARN_ON_USE (asctime, "ctime can overrun buffers in some cases - "
+#  if HAVE_RAW_DECL_CTIME
+_GL_WARN_ON_USE (ctime, "ctime can overrun buffers in some cases - "
                  "better use strftime (or even sprintf) instead");
+#  endif
 # endif
 # if defined GNULIB_POSIXCHECK
 #  undef ctime_r
-_GL_WARN_ON_USE (asctime, "ctime_r can overrun buffers in some cases - "
+#  if HAVE_RAW_DECL_CTIME_R
+_GL_WARN_ON_USE (ctime_r, "ctime_r can overrun buffers in some cases - "
                  "better use strftime (or even sprintf) instead");
+#  endif
 # endif
 
 #endif

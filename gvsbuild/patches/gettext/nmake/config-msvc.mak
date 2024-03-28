@@ -5,13 +5,27 @@
 # Please do not change anything beneath this line unless maintaining the NMake Makefiles
 # Bare minimum features and sources built into libiconv on Windows
 GETTEXT_VERSION_MAJOR=0
-GETTEXT_VERSION_MINOR=21
-GETTEXT_VERSION_MICRO=0
+GETTEXT_VERSION_MINOR=22
+GETTEXT_VERSION_MICRO=3
 GETTEXT_VERSION=$(GETTEXT_VERSION_MAJOR).$(GETTEXT_VERSION_MINOR).$(GETTEXT_VERSION_MICRO)
+
+!ifndef ICON_DIR
+ICONV_DIR=$(PREFIX)
+!endif
+!ifndef ICONV_INCLUDEDIR
+ICONV_INCLUDEDIR=$(ICONV_DIR)\include
+!endif
+!ifndef ICONV_LIBDIR
+ICONV_LIBDIR=$(ICONV_DIR)\lib
+!endif
+!ifndef ICONV_BINDIR
+ICONV_BINDIR=$(ICONV_DIR)\bin
+!endif
 
 # For Windows 7 or later
 GETTEXT_BASE_DEFINES =	\
 	/DENABLE_RELOCATABLE=1	\
+	/DPIC	\
 	/DHAVE_CONFIG_H	\
 	/D_CRT_SECURE_NO_WARNINGS	\
 	/D_CRT_NONSTDC_NO_WARNINGS	\
@@ -22,9 +36,9 @@ GETTEXT_BASE_DEFINES =	\
 GETTEXT_RUNTIME_BASE_DEFINES =	\
 	$(GETTEXT_BASE_DEFINES)	\
 	/DBUILDING_DLL	\
+	/DDLL_EXPORT	\
 	/DIN_LIBRARY	\
-	/DNO_XMALLOC	\
-	/DPIC
+	/DNO_XMALLOC
 
 GETTEXT_BASE_PATH_DEFINES =	\
 	/DINSTALLDIR=\"c:/vs$(VSVER).0/$(PLAT)\"	\
@@ -42,14 +56,14 @@ GETTEXT_RUNTIME_CFLAGS =	\
 	$(GETTEXT_BASE_PATH_DEFINES)	\
 	/DBUILDING_LIBINTL	\
 	/DIN_LIBINTL	\
+	/DWOE32DLL		\
 	/DDEPENDS_ON_LIBICONV=1	\
-	/Dset_relocation_prefix=libintl_set_relocation_prefix	\
-	/Drelocate=libintl_relocate	\
-	/Drelocate2=libintl_relocate2
+	/Dset_relocation_prefix=libintl_set_relocation_prefix
 
 GETTEXT_RUNTIME_GNULIB_CFLAGS =	\
 	$(GETTEXT_BASE_DEFINES)	\
 	$(GETTEXT_BASE_PATH_DEFINES)	\
+	/DDLL_EXPORT	\
 	/DDEPENDS_ON_LIBICONV=1	\
 	/DDEPENDS_ON_LIBINTL=1	\
 	/DEXEEXT=\".exe\"
@@ -57,7 +71,7 @@ GETTEXT_RUNTIME_GNULIB_CFLAGS =	\
 GETTEXT_RUNTIME_DEP_LIBS = iconv.lib advapi32.lib
 
 TEXTSTYLE_DEP_LIBS = ws2_32.lib $(GETTEXT_RUNTIME_DEP_LIBS)
-GETTEXTLIB_DEP_LIBS = bcrypt.lib $(GETTEXT_RUNTIME_DEP_LIBS)
+GETTEXTLIB_DEP_LIBS = bcrypt.lib $(TEXTSTYLE_DEP_LIBS)
 
 FORCED_INCLUDED_HEADERS =	\
 	/FIarg-nonnull.h	\
@@ -65,27 +79,35 @@ FORCED_INCLUDED_HEADERS =	\
 	/FIwarn-on-use.h	\
 	/FI_Noreturn.h
 
-BASE_GETTEXT_RUNTIME_INCLUDES =	\
-	/I..\gettext-runtime\gnulib-lib	\
+BASE_INCLUDE_FLAGS =	\
+	/I$(ICONV_INCLUDEDIR)	\
+	/I$(PREFIX)\include	\
 	$(FORCED_INCLUDED_HEADERS)
 
-GETTEXT_RUNTIME_INCLUDES =	\
-	/I..\msvc\gettext-runtime\intl	\
+# Look for iconv.lib in ICONV_LIBDIR too
+LDFLAGS = $(LDFLAGS) /libpath:$(ICONV_LIBDIR) /libpath:$(PREFIX)\lib
+
+LIBINTL_INCLUDES = \
 	/I..\gettext-runtime\intl	\
-	/I..\msvc\vs$(PDBVER)\$(PLAT)\gettext-runtime	\
-	$(BASE_GETTEXT_RUNTIME_INCLUDES)
+	/I..\msvc\gettext-runtime\intl	\
+	/I..\gettext-runtime\intl\gnulib-lib	\
+	/I..\msvc\gettext-runtime\intl\gnulib-lib	\
+	$(BASE_INCLUDE_FLAGS)
 
 GETTEXT_RUNTIME_GNULIB_INCLUDES =	\
-	/I..\msvc\vs$(PDBVER)\$(PLAT)\gettext-runtime\gnulib-lib	\
 	/I..\msvc\gettext-runtime\gnulib-lib	\
 	/I..\gettext-runtime\gnulib-lib	\
-	$(GETTEXT_RUNTIME_INCLUDES)
+	/I..\msvc\gettext-runtime	\
+	/I..\gettext-runtime\intl	\
+	/I..\msvc\gettext-runtime\intl	\
+	$(BASE_INCLUDE_FLAGS)
 
 ASPRINTF_INCLUDES =	\
 	/I..\msvc\gettext-runtime\libasprintf	\
 	/I..\gettext-runtime\libasprintf	\
-	/I..\msvc\vs$(PDBVER)\$(PLAT)\gettext-runtime	\
-	$(BASE_GETTEXT_RUNTIME_INCLUDES)
+	/I..\gettext-runtime\libasprintf\gnulib-lib	\
+	/I..\msvc\gettext-runtime\libasprintf\gnulib-lib	\
+	$(BASE_INCLUDE_FLAGS)
 
 ASPRINTF_DEFINES =	\
 	/DIN_LIBASPRINTF=1	\
@@ -97,41 +119,31 @@ GETTEXT_RC_FLAGS =	\
 	/dPACKAGE_VERSION_SUBMINOR=$(GETTEXT_VERSION_MICRO)	\
 	/dPACKAGE_VERSION_STRING=\"$(GETTEXT_VERSION)\"
 
-BASE_LIBTEXTSTYLE_INCLUDES =	\
-	/I..\libtextstyle\lib	\
-	$(FORCED_INCLUDED_HEADERS)
-
 LIBTEXTSTYLE_INCLUDES =	\
-	/I..\libtextstyle\lib\libcroco	\
-	/I..\msvc\libtextstyle\lib\glib	\
-	/I..\msvc\vs$(PDBVER)\$(PLAT)\libtextstyle\lib	\
 	/I..\msvc\libtextstyle\lib	\
 	/I..\libtextstyle\lib	\
-	/I..\msvc\vs$(PDBVER)\$(PLAT)\libtextstyle	\
 	/I..\msvc\libtextstyle	\
-	$(BASE_LIBTEXTSTYLE_INCLUDES)
+	/I..\libtextstyle	\
+	/I..\msvc\libtextstyle\lib\glib	\
+	/I..\libtextstyle\lib\libcroco	\
+	$(BASE_INCLUDE_FLAGS)
 
 LIBTEXTSTYLE_DEFINES =	\
 	/DIN_LIBTEXTSTYLE=1	\
 	/DDEPENDS_ON_LIBICONV=1	\
-	/DLIBXML_STATIC=1	\
 	$(GETTEXT_BASE_DEFINES)
 
-BASE_GETTEXT_TOOLS_INCLUDES =	\
-	/I..\gettext-tools\gnulib-lib	\
-	$(FORCED_INCLUDED_HEADERS)
-
 GETTEXT_TOOLS_INCLUDES =	\
-	/I..\msvc\vs$(PDBVER)\$(PLAT)\gettext-tools\gnulib-lib	\
 	/I..\msvc\gettext-tools\gnulib-lib	\
 	/I..\gettext-tools\gnulib-lib	\
-	/I..\msvc\vs$(PDBVER)\$(PLAT)\gettext-tools	\
+	/I..\msvc\gettext-tools	\
+	/I..\gettext-tools	\
 	/I..\msvc\gettext-runtime\intl	\
-	$(BASE_GETTEXT_TOOLS_INCLUDES)
+	/I..\gettext-runtime\intl	\
+	$(BASE_INCLUDE_FLAGS)
 
 GETTEXT_TOOLS_GNULIB_CFLAGS =	\
-	$(GETTEXT_RUNTIME_GNULIB_CFLAGS)	\
-	/DLIBXML_STATIC=1
+	$(GETTEXT_RUNTIME_GNULIB_CFLAGS)
 
 LIBGREP_INCLUDES =	\
 	/I..\msvc\gettext-tools\libgrep	\
@@ -143,16 +155,15 @@ LIBGREP_CFLAGS =	\
 	/DIN_GETTEXT_TOOLS_LIBGREP=1
 
 GETTEXTPO_GNULIB_INCLUDES =	\
-	/I..\msvc\vs$(PDBVER)\$(PLAT)\gettext-tools\libgettextpo	\
 	/I..\msvc\gettext-tools\libgettextpo	\
 	/I..\gettext-tools\libgettextpo	\
+	/I..\msvc\gettext-tools	\
+	/I..\gettext-tools	\
+	/I..\msvc\gettext-tools\src	\
 	/I..\gettext-tools\src	\
-	/I..\msvc\vs$(PDBVER)\$(PLAT)\gettext-tools\gnulib-lib	\
-	/I..\msvc\gettext-tools\gnulib-lib	\
-	/I..\msvc\vs$(PDBVER)\$(PLAT)\gettext-tools	\
 	/I..\msvc\gettext-runtime\intl	\
 	/I..\gettext-runtime\intl	\
-	$(BASE_GETTEXT_TOOLS_INCLUDES)
+	$(BASE_INCLUDE_FLAGS)
 
 LIBGETTEXTPO_DEFINES =	\
 	/DIN_LIBGETTEXTPO=1	\
@@ -160,17 +171,16 @@ LIBGETTEXTPO_DEFINES =	\
 	$(GETTEXT_RUNTIME_GNULIB_CFLAGS)
 
 LIBGETTEXTSRC_INCLUDES =	\
-	/I..\msvc\vs$(PDBVER)\$(PLAT)\gettext-tools\src	\
 	/I..\msvc\gettext-tools\src	\
 	/I..\gettext-tools\src	\
-	/I..\msvc\vs$(PDBVER)\$(PLAT)\gettext-tools\gnulib-lib	\
+	/I..\msvc\gettext-tools	\
+	/I..\gettext-tools	\
+	/I..\gettext-tools\libgrep	\
 	/I..\msvc\gettext-tools\gnulib-lib	\
 	/I..\gettext-tools\gnulib-lib	\
-	/I..\msvc\vs$(PDBVER)\$(PLAT)\gettext-tools	\
-	/I..\msvc\libtextstyle\lib	\
 	/I..\msvc\gettext-runtime\intl	\
 	/I..\gettext-runtime\intl	\
-	$(BASE_GETTEXT_TOOLS_INCLUDES)
+	$(BASE_INCLUDE_FLAGS)
 
 LIBGETTEXTSRC_CFLAGS =	\
 	$(GETTEXT_TOOLS_GNULIB_CFLAGS)	\
@@ -182,7 +192,9 @@ LIBGETTEXTSRC_CFLAGS =	\
 
 # We build the libintl DLL/LIB at least
 INTL_LIB = vs$(VSVER)\$(CFG)\$(PLAT)\intl.lib
+INTL_GNULIB_LIB = vs$(VSVER)\$(CFG)\$(PLAT)\intl-gnulib.lib
 ASPRINTF_LIB = vs$(VSVER)\$(CFG)\$(PLAT)\asprintf.lib
+ASPRINTF_GNULIB_LIB = vs$(VSVER)\$(CFG)\$(PLAT)\asprintf-gnulib.lib
 GETTEXTLIB_LIB = vs$(VSVER)\$(CFG)\$(PLAT)\gettextlib-$(GETTEXT_VERSION).lib
 GETTEXTPO_LIB = vs$(VSVER)\$(CFG)\$(PLAT)\gettextpo.lib
 GETTEXTSRC_LIB = vs$(VSVER)\$(CFG)\$(PLAT)\gettextsrc-$(GETTEXT_VERSION).lib

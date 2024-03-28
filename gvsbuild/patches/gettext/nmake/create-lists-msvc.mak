@@ -37,386 +37,419 @@ NULL=
 !include gettext-runtime-sources.mk
 
 # Create the list of .obj files
-!if [call create-lists.bat header gettext-runtime-objs.mak intl_runtime_OBJS]
+!if [call create-lists.bat header gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak intl_runtime_OBJS]
 !endif
 
-!if [for %c in ($(INTL_RUNTIME_SRCS)) do @if "%~xc" == ".c" @call create-lists.bat file gettext-runtime-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\intl-runtime\%~nc.obj]
+!if [for %c in ($(INTL_RUNTIME_SRCS)) do @if "%~xc" == ".c" @call create-lists.bat file gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\intl-runtime\%~nc.obj]
 !endif
 
-!if [@call create-lists.bat file gettext-runtime-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\intl-runtime\libintl.res]
+!if [@call create-lists.bat file gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\intl-runtime\libintl.res]
 !endif
 
-!if [call create-lists.bat footer gettext-runtime-objs.mak]
+!if [call create-lists.bat footer gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak]
 !endif
 
-!if [call create-lists.bat header gettext-runtime-objs.mak grt_OBJS]
+!if [call create-lists.bat header gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak intl_gnulib_OBJS]
 !endif
 
-!if [for %c in ($(GETTEXT_RUNTIME_BASE_GNULIB_SRCS)) do @if "%~xc" == ".c" @call create-lists.bat file gettext-runtime-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\grt\%~nc.obj]
+!if [for %c in ($(GETTEXT_RUNTIME_INTL_GNULIB_SRCS)) do @if "%~xc" == ".c" @call create-lists.bat file gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\intl-gnulib\%~nc.obj]
 !endif
 
-!if [for %s in (..\gettext-runtime\gnulib-lib\glthread\*.c) do @call create-lists.bat file gettext-runtime-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\grt\%~ns.obj]
+!if [call create-lists.bat footer gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak]
 !endif
 
-!if [for %s in (..\gettext-runtime\gnulib-lib\unistr\*.c) do @call create-lists.bat file gettext-runtime-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\grt\%~ns.obj]
+!if [call create-lists.bat header gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak grt_OBJS]
 !endif
 
-!if [for %s in (..\gettext-runtime\gnulib-lib\uniwidth\*.c) do @call create-lists.bat file gettext-runtime-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\grt\%~ns.obj]
+!if [for %c in ($(GETTEXT_RUNTIME_BASE_GNULIB_SRCS)) do @if "%~xc" == ".c" @call create-lists.bat file gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\grt\%~nc.obj]
 !endif
 
-!if [call create-lists.bat footer gettext-runtime-objs.mak]
+!if [for %s in (..\gettext-runtime\gnulib-lib\malloc\*.c) do @call create-lists.bat file gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\grt\%~ns.obj]
 !endif
 
-!if [call create-lists.bat header gettext-runtime-objs.mak libasprintf_OBJS]
+!if [for %s in (..\gettext-runtime\gnulib-lib\glthread\*.c) do @call create-lists.bat file gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\grt\%~ns.obj]
 !endif
 
-!if [for %s in (lib-asprintf.c xsize.c) do @call create-lists.bat file gettext-runtime-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\asprintf\%~ns.obj]
+!if [for %s in (..\gettext-runtime\gnulib-lib\unistr\*.c) do @call create-lists.bat file gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\grt\%~ns.obj]
 !endif
 
-!if [for %s in (..\gettext-runtime\libasprintf\*.cc) do @call create-lists.bat file gettext-runtime-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\asprintf\%~ns.obj]
+!if [for %s in (..\gettext-runtime\gnulib-lib\unictype\*.c) do @call create-lists.bat file gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\grt\%~ns.obj]
 !endif
 
-!if [@call create-lists.bat file gettext-runtime-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\asprintf\libasprintf.res]
+!if [for %s in (..\gettext-runtime\gnulib-lib\uniwidth\*.c) do @call create-lists.bat file gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\grt\%~ns.obj]
 !endif
 
-!if [call create-lists.bat footer gettext-runtime-objs.mak]
+!if [call create-lists.bat footer gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak]
 !endif
 
-!if [call create-lists.bat header gettext-runtime-objs.mak gettext_runtime_tools]
+!if [call create-lists.bat header gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak libasprintf_OBJS]
 !endif
 
-!if [for %s in (..\gettext-runtime\src\*.c) do @call create-lists.bat file gettext-runtime-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\%~ns.exe]
+!if [for %s in (lib-asprintf.c) do @call create-lists.bat file gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\asprintf\%~ns.obj]
 !endif
 
-!if [call create-lists.bat footer gettext-runtime-objs.mak]
+!if [for %s in (..\gettext-runtime\libasprintf\*.cc) do @call create-lists.bat file gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\asprintf\%~ns.obj]
 !endif
 
-!include gettext-runtime-objs.mak
+!if [@call create-lists.bat file gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\asprintf\libasprintf.res]
+!endif
 
-!if [del /f /q gettext-runtime-objs.mak]
+!if [call create-lists.bat footer gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak]
+!endif
+
+!if [call create-lists.bat header gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak asprintf_gnulib_OBJS]
+!endif
+
+!if [for %c in ($(GETTEXT_RUNTIME_ASPRINTF_GNULIB_SRCS)) do @if "%~xc" == ".c" @call create-lists.bat file gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\asprintf-gnulib\%~nc.obj]
+!endif
+
+!if [call create-lists.bat footer gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak]
+!endif
+
+!if [call create-lists.bat header gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak gettext_runtime_tools]
+!endif
+
+!if [for %s in (..\gettext-runtime\src\*.c) do @call create-lists.bat file gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\%~ns.exe]
+!endif
+
+!if [call create-lists.bat footer gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak]
+!endif
+
+!include gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak
+
+!if [del /f /q gettext-runtime-objs-msvc$(VSVER)-$(PLAT).mak]
 !endif
 
 # libtextstyle
 !include libtextstyle-sources.mk
 
-!if [call create-lists.bat header libtextstyle-objs.mak libtextstyle_OBJS]
+!if [call create-lists.bat header libtextstyle-objs-msvc$(VSVER)-$(PLAT).mak libtextstyle_OBJS]
 !endif
 
-!if [for %s in ($(LIBTEXTSTYLE_BASE_SRCS)) do @call create-lists.bat file libtextstyle-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\libtextstyle\%~ns.obj ]
+!if [for %s in ($(LIBTEXTSTYLE_BASE_SRCS)) do @call create-lists.bat file libtextstyle-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\libtextstyle\%~ns.obj ]
 !endif
 
-!if [for %s in (..\libtextstyle\lib\libcroco\*.c) do @call create-lists.bat file libtextstyle-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\libtextstyle\%~ns.obj ]
+!if [for %s in (..\libtextstyle\lib\libcroco\*.c) do @call create-lists.bat file libtextstyle-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\libtextstyle\%~ns.obj ]
 !endif
 
-!if [for %s in (..\libtextstyle\lib\glib\*.c) do @call create-lists.bat file libtextstyle-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\libtextstyle\%~ns.obj ]
+!if [for %s in (..\libtextstyle\lib\glib\*.c) do @call create-lists.bat file libtextstyle-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\libtextstyle\%~ns.obj ]
 !endif
 
-!if [for %s in (..\libtextstyle\lib\glthread\*.c) do @call create-lists.bat file libtextstyle-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\libtextstyle\%~ns.obj ]
+!if [for %s in (..\libtextstyle\lib\glthread\*.c) do @call create-lists.bat file libtextstyle-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\libtextstyle\%~ns.obj ]
 !endif
 
-!if [for %s in (..\libtextstyle\lib\libxml\*.c) do @call create-lists.bat file libtextstyle-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\libtextstyle\libxml\%~ns.obj ]
+!if [for %s in (..\libtextstyle\lib\libxml\*.c) do @call create-lists.bat file libtextstyle-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\libtextstyle\libxml\%~ns.obj ]
 !endif
 
-!if [for %s in (..\libtextstyle\lib\unistr\*.c) do @call create-lists.bat file libtextstyle-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\libtextstyle\%~ns.obj ]
+!if [for %s in (..\libtextstyle\lib\unistr\*.c) do @call create-lists.bat file libtextstyle-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\libtextstyle\%~ns.obj ]
 !endif
 
-!if [@call create-lists.bat file libtextstyle-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\libtextstyle\libtextstyle.res]
+!if [@call create-lists.bat file libtextstyle-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\libtextstyle\libtextstyle.res]
 !endif
 
-!if [call create-lists.bat footer libtextstyle-objs.mak]
+!if [call create-lists.bat footer libtextstyle-objs-msvc$(VSVER)-$(PLAT).mak]
 !endif
 
-!include libtextstyle-objs.mak
+!include libtextstyle-objs-msvc$(VSVER)-$(PLAT).mak
 
-!if [del /f /q libtextstyle-objs.mak]
+!if [del /f /q libtextstyle-objs-msvc$(VSVER)-$(PLAT).mak]
 !endif
 
 # gettext-tools
 !include gettext-tools-sources.mk
 
-!if [call create-lists.bat header gettext-tools-objs.mak gettextlib_OBJS]
+!if [call create-lists.bat header gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak gettextlib_OBJS]
 !endif
 
-!if [for %s in ($(GETTEXT_LIB_BASE_SRCS)) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettextlib\%~ns.obj ]
+!if [for %s in ($(GETTEXT_LIB_BASE_SRCS)) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettextlib\%~ns.obj ]
 !endif
 
-!if [for %s in (..\gettext-tools\gnulib-lib\glthread\*.c) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettextlib\%~ns.obj ]
+!if [for %s in (..\gettext-tools\gnulib-lib\glthread\*.c) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettextlib\%~ns.obj ]
 !endif
 
-!if [for %s in (..\gettext-tools\gnulib-lib\uniconv\*.c) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettextlib\%~ns.obj ]
+!if [for %s in (..\gettext-tools\gnulib-lib\malloc\*.c) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettextlib\%~ns.obj ]
 !endif
 
-!if [for %s in (..\gettext-tools\gnulib-lib\unictype\*.c) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettextlib\%~ns.obj ]
+!if [for %s in (..\gettext-tools\gnulib-lib\uniconv\*.c) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettextlib\%~ns.obj ]
 !endif
 
-!if [for %s in (..\gettext-tools\gnulib-lib\unilbrk\*.c) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettextlib\%~ns.obj ]
+!if [for %s in (..\gettext-tools\gnulib-lib\unicase\*.c) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettextlib\%~ns.obj ]
 !endif
 
-!if [for %s in (..\gettext-tools\gnulib-lib\uniname\*.c) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettextlib\%~ns.obj ]
+!if [for %s in (..\gettext-tools\gnulib-lib\unictype\*.c) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettextlib\%~ns.obj ]
 !endif
 
-!if [for %s in (..\gettext-tools\gnulib-lib\unistr\*.c) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettextlib\%~ns.obj ]
+!if [for %s in (..\gettext-tools\gnulib-lib\unilbrk\*.c) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettextlib\%~ns.obj ]
 !endif
 
-!if [for %s in (..\gettext-tools\gnulib-lib\uniwidth\*.c) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettextlib\%~ns.obj ]
+!if [for %s in (..\gettext-tools\gnulib-lib\uniname\*.c) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettextlib\%~ns.obj ]
 !endif
 
-!if [for %s in (..\gettext-tools\gnulib-lib\libxml\*.c) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettextlib\libxml\%~ns.obj ]
+!if [for %s in (..\gettext-tools\gnulib-lib\unistr\*.c) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettextlib\%~ns.obj ]
 !endif
 
-!if [call create-lists.bat footer gettext-tools-objs.mak]
+!if [for %s in (..\gettext-tools\gnulib-lib\uniwidth\*.c) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettextlib\%~ns.obj ]
 !endif
 
-!if [call create-lists.bat header gettext-tools-objs.mak libgrep_OBJS]
+!if [for %s in (..\gettext-tools\gnulib-lib\libxml\*.c) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettextlib\libxml\%~ns.obj ]
 !endif
 
-!if [for %s in ($(LIBGREP_SOURCES)) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\libgrep\%~ns.obj ]
+!if [call create-lists.bat footer gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak]
 !endif
 
-!if [call create-lists.bat footer gettext-tools-objs.mak]
+!if [call create-lists.bat header gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak libgrep_OBJS]
 !endif
 
-!if [call create-lists.bat header gettext-tools-objs.mak gettextpo_gnulib_OBJS]
+!if [for %s in ($(LIBGREP_SOURCES)) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\libgrep\%~ns.obj ]
 !endif
 
-!if [for %s in ($(LIBGETTEXTPO_GNULIB_SRCS)) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gnu\%~ns.obj ]
+!if [for %d in (glthread malloc) do @for %s in (..\gettext-tools\libgrep\%d\*.c) do @if not "%~nxs" == "dynarray-skeleton.c" call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\libgrep\%~ns.obj ]
 !endif
 
-!if [for %s in (..\gettext-tools\libgettextpo\glthread\*.c) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gnu\%~ns.obj ]
+!if [call create-lists.bat footer gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak]
 !endif
 
-!if [for %s in (..\gettext-tools\libgettextpo\uniconv\*.c) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gnu\%~ns.obj ]
+!if [call create-lists.bat header gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak gettextpo_gnulib_OBJS]
 !endif
 
-!if [for %s in (..\gettext-tools\libgettextpo\unictype\*.c) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gnu\%~ns.obj ]
+!if [for %s in ($(LIBGETTEXTPO_GNULIB_SRCS)) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gnu\%~ns.obj ]
 !endif
 
-!if [for %s in (..\gettext-tools\libgettextpo\unilbrk\*.c) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gnu\%~ns.obj ]
+!if [for %s in (..\gettext-tools\libgettextpo\glthread\*.c) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gnu\%~ns.obj ]
 !endif
 
-!if [for %s in (..\gettext-tools\libgettextpo\unistr\*.c) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gnu\%~ns.obj ]
+!if [for %s in (..\gettext-tools\libgettextpo\uniconv\*.c) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gnu\%~ns.obj ]
 !endif
 
-!if [for %s in (..\gettext-tools\libgettextpo\uniwidth\*.c) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gnu\%~ns.obj ]
+!if [for %s in (..\gettext-tools\libgettextpo\unictype\*.c) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gnu\%~ns.obj ]
 !endif
 
-!if [call create-lists.bat footer gettext-tools-objs.mak]
+!if [for %s in (..\gettext-tools\libgettextpo\unilbrk\*.c) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gnu\%~ns.obj ]
 !endif
 
-!if [call create-lists.bat header gettext-tools-objs.mak gettextpo_OBJS]
+!if [for %s in (..\gettext-tools\libgettextpo\unistr\*.c) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gnu\%~ns.obj ]
 !endif
 
-!if [for %s in ($(LIBGETTEXTPO_AUX_SRCS) gettext-po.c) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettextpo\%~ns.obj ]
+!if [for %s in (..\gettext-tools\libgettextpo\uniwidth\*.c) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gnu\%~ns.obj ]
 !endif
 
-!if [@call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettextpo\libgettextpo.res]
+!if [call create-lists.bat footer gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak]
 !endif
 
-!if [call create-lists.bat footer gettext-tools-objs.mak]
+!if [call create-lists.bat header gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak gettextpo_OBJS]
 !endif
 
-!if [call create-lists.bat header gettext-tools-objs.mak gettextsrc_OBJS]
+!if [for %s in ($(LIBGETTEXTPO_AUX_SRCS) gettext-po.c) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettextpo\%~ns.obj ]
 !endif
 
-!if [for %s in ($(LIBGETTEXTSRC_SRCS)) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettextsrc\%~ns.obj ]
+!if [@call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettextpo\libgettextpo.res]
 !endif
 
-!if [call create-lists.bat footer gettext-tools-objs.mak]
+!if [call create-lists.bat footer gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak]
 !endif
 
-!if [call create-lists.bat header gettext-tools-objs.mak msgattrib_OBJS]
+!if [call create-lists.bat header gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak gettextsrc_OBJS]
 !endif
 
-!if [for %s in ($(MSGATTRIB_SOURCES)) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
+!if [for %s in ($(LIBGETTEXTSRC_SRCS)) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettextsrc\%~ns.obj ]
 !endif
 
-!if [@call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
+!if [call create-lists.bat footer gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak]
 !endif
 
-!if [call create-lists.bat footer gettext-tools-objs.mak]
+!if [call create-lists.bat header gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak msgattrib_OBJS]
 !endif
 
-!if [call create-lists.bat header gettext-tools-objs.mak msgcat_OBJS]
+!if [for %s in ($(MSGATTRIB_SOURCES)) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
 !endif
 
-!if [for %s in ($(MSGCAT_SOURCES)) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
+!if [@call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
 !endif
 
-!if [@call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
+!if [call create-lists.bat footer gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak]
 !endif
 
-!if [call create-lists.bat footer gettext-tools-objs.mak]
+!if [call create-lists.bat header gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak msgcat_OBJS]
 !endif
 
-!if [call create-lists.bat header gettext-tools-objs.mak msgcmp_OBJS]
+!if [for %s in ($(MSGCAT_SOURCES)) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
 !endif
 
-!if [for %s in ($(MSGCMP_SOURCES)) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
+!if [@call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
 !endif
 
-!if [@call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
+!if [call create-lists.bat footer gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak]
 !endif
 
-!if [call create-lists.bat footer gettext-tools-objs.mak]
+!if [call create-lists.bat header gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak msgcmp_OBJS]
 !endif
 
-!if [call create-lists.bat header gettext-tools-objs.mak msgcomm_OBJS]
+!if [for %s in ($(MSGCMP_SOURCES)) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
 !endif
 
-!if [for %s in ($(MSGCOMM_SOURCES)) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
+!if [@call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
 !endif
 
-!if [@call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
+!if [call create-lists.bat footer gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak]
 !endif
 
-!if [call create-lists.bat footer gettext-tools-objs.mak]
+!if [call create-lists.bat header gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak msgcomm_OBJS]
 !endif
 
-!if [call create-lists.bat header gettext-tools-objs.mak msgconv_OBJS]
+!if [for %s in ($(MSGCOMM_SOURCES)) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
 !endif
 
-!if [for %s in ($(MSGCONV_SOURCES)) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
+!if [@call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
 !endif
 
-!if [@call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
+!if [call create-lists.bat footer gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak]
 !endif
 
-!if [call create-lists.bat footer gettext-tools-objs.mak]
+!if [call create-lists.bat header gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak msgconv_OBJS]
 !endif
 
-!if [call create-lists.bat header gettext-tools-objs.mak msgen_OBJS]
+!if [for %s in ($(MSGCONV_SOURCES)) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
 !endif
 
-!if [for %s in ($(MSGEN_SOURCES)) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
+!if [@call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
 !endif
 
-!if [@call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
+!if [call create-lists.bat footer gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak]
 !endif
 
-!if [call create-lists.bat footer gettext-tools-objs.mak]
+!if [call create-lists.bat header gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak msgen_OBJS]
 !endif
 
-!if [call create-lists.bat header gettext-tools-objs.mak msgexec_OBJS]
+!if [for %s in ($(MSGEN_SOURCES)) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
 !endif
 
-!if [for %s in ($(MSGEXEC_SOURCES)) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
+!if [@call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
 !endif
 
-!if [@call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
+!if [call create-lists.bat footer gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak]
 !endif
 
-!if [call create-lists.bat footer gettext-tools-objs.mak]
+!if [call create-lists.bat header gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak msgexec_OBJS]
 !endif
 
-!if [call create-lists.bat header gettext-tools-objs.mak msgfilter_OBJS]
+!if [for %s in ($(MSGEXEC_SOURCES)) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
 !endif
 
-!if [for %s in ($(MSGFILTER_SOURCES)) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
+!if [@call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
 !endif
 
-!if [@call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
+!if [call create-lists.bat footer gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak]
 !endif
 
-!if [call create-lists.bat footer gettext-tools-objs.mak]
+!if [call create-lists.bat header gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak msgfilter_OBJS]
 !endif
 
-!if [call create-lists.bat header gettext-tools-objs.mak msgfmt_OBJS]
+!if [for %s in ($(MSGFILTER_SOURCES)) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
 !endif
 
-!if [for %s in ($(MSGFMT_SOURCES)) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
+!if [@call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
 !endif
 
-!if [@call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
+!if [call create-lists.bat footer gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak]
 !endif
 
-!if [call create-lists.bat footer gettext-tools-objs.mak]
+!if [call create-lists.bat header gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak msgfmt_OBJS]
 !endif
 
-!if [call create-lists.bat header gettext-tools-objs.mak msggrep_OBJS]
+!if [for %s in ($(MSGFMT_SOURCES)) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
 !endif
 
-!if [for %s in ($(MSGGREP_SOURCES)) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
+!if [@call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
 !endif
 
-!if [@call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
+!if [call create-lists.bat footer gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak]
 !endif
 
-!if [call create-lists.bat footer gettext-tools-objs.mak]
+!if [call create-lists.bat header gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak msggrep_OBJS]
 !endif
 
-!if [call create-lists.bat header gettext-tools-objs.mak msgmerge_OBJS]
+!if [for %s in ($(MSGGREP_SOURCES)) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
 !endif
 
-!if [for %s in ($(MSGMERGE_SOURCES)) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
+!if [@call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
 !endif
 
-!if [@call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
+!if [call create-lists.bat footer gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak]
 !endif
 
-!if [call create-lists.bat footer gettext-tools-objs.mak]
+!if [call create-lists.bat header gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak msgmerge_OBJS]
 !endif
 
-!if [call create-lists.bat header gettext-tools-objs.mak msgunfmt_OBJS]
+!if [for %s in ($(MSGMERGE_SOURCES)) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
 !endif
 
-!if [for %s in ($(MSGUNFMT_SOURCES)) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
+!if [@call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
 !endif
 
-!if [@call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
+!if [call create-lists.bat footer gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak]
 !endif
 
-!if [call create-lists.bat footer gettext-tools-objs.mak]
+!if [call create-lists.bat header gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak msgunfmt_OBJS]
 !endif
 
-!if [call create-lists.bat header gettext-tools-objs.mak msguniq_OBJS]
+!if [for %s in ($(MSGUNFMT_SOURCES)) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
 !endif
 
-!if [for %s in ($(MSGUNIQ_SOURCES)) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
+!if [@call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
 !endif
 
-!if [@call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
+!if [call create-lists.bat footer gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak]
 !endif
 
-!if [call create-lists.bat footer gettext-tools-objs.mak]
+!if [call create-lists.bat header gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak msguniq_OBJS]
 !endif
 
-!if [call create-lists.bat header gettext-tools-objs.mak recode_sr_latin_OBJS]
+!if [for %s in ($(MSGUNIQ_SOURCES)) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
 !endif
 
-!if [for %s in ($(RECODE_SR_LATIN_SOURCES)) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
+!if [@call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
 !endif
 
-!if [@call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
+!if [call create-lists.bat footer gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak]
 !endif
 
-!if [call create-lists.bat footer gettext-tools-objs.mak]
+!if [call create-lists.bat header gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak recode_sr_latin_OBJS]
 !endif
 
-!if [call create-lists.bat header gettext-tools-objs.mak xgettext_OBJS]
+!if [for %s in ($(RECODE_SR_LATIN_SOURCES)) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
 !endif
 
-!if [for %s in ($(XGETTEXT_SOURCES)) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
+!if [@call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
 !endif
 
-!if [@call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
+!if [call create-lists.bat footer gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak]
 !endif
 
-!if [call create-lists.bat footer gettext-tools-objs.mak]
+!if [call create-lists.bat header gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak xgettext_OBJS]
 !endif
 
-!if [call create-lists.bat header gettext-tools-objs.mak msginit_OBJS]
+!if [for %s in ($(XGETTEXT_SOURCES)) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
 !endif
 
-!if [for %s in ($(MSGINIT_SOURCES)) do @call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
+!if [@call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
 !endif
 
-!if [@call create-lists.bat file gettext-tools-objs.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
+!if [call create-lists.bat footer gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak]
 !endif
 
-!if [call create-lists.bat footer gettext-tools-objs.mak]
+!if [call create-lists.bat header gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak msginit_OBJS]
 !endif
 
-!include gettext-tools-objs.mak
+!if [for %s in ($(MSGINIT_SOURCES)) do @call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\%~ns.obj ]
+!endif
+
+!if [@call create-lists.bat file gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\gettext-tools-tools\gettext.res]
+!endif
+
+!if [call create-lists.bat footer gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak]
+!endif
+
+!include gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak
 
-!if [del /f /q gettext-tools-objs.mak]
+!if [del /f /q gettext-tools-objs-msvc$(VSVER)-$(PLAT).mak]
 !endif

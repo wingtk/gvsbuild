@@ -15,17 +15,32 @@
 # <<
 
 {..\gettext-runtime\libasprintf\}.c{vs$(VSVER)\$(CFG)\$(PLAT)\asprintf\}.obj::
+	@if not exist vs$(VSVER)\$(CFG)\$(PLAT)\asprintf\ md vs$(VSVER)\$(CFG)\$(PLAT)\asprintf
 	$(CC) $(ASPRINTF_INCLUDES) $(ASPRINTF_DEFINES) /Fovs$(VSVER)\$(CFG)\$(PLAT)\asprintf\ /Fdvs$(VSVER)\$(CFG)\$(PLAT)\asprintf\ /c @<<
 $<
 <<
 
 {..\gettext-runtime\libasprintf\}.cc{vs$(VSVER)\$(CFG)\$(PLAT)\asprintf\}.obj::
+	@if not exist vs$(VSVER)\$(CFG)\$(PLAT)\asprintf\ md vs$(VSVER)\$(CFG)\$(PLAT)\asprintf
 	$(CXX) $(CXXFLAGS) $(ASPRINTF_INCLUDES) $(ASPRINTF_DEFINES) /Fovs$(VSVER)\$(CFG)\$(PLAT)\asprintf\ /Fdvs$(VSVER)\$(CFG)\$(PLAT)\asprintf\ /c @<<
 $<
 <<
 
+{..\gettext-runtime\libasprintf\gnulib-lib\}.c{vs$(VSVER)\$(CFG)\$(PLAT)\asprintf-gnulib\}.obj::
+	@if not exist vs$(VSVER)\$(CFG)\$(PLAT)\asprintf-gnulib\ md vs$(VSVER)\$(CFG)\$(PLAT)\asprintf-gnulib
+	$(CC) $(ASPRINTF_INCLUDES) $(ASPRINTF_DEFINES) /Fovs$(VSVER)\$(CFG)\$(PLAT)\asprintf-gnulib\ /Fdvs$(VSVER)\$(CFG)\$(PLAT)\asprintf-gnulib\ /c @<<
+$<
+<<
+
 {..\gettext-runtime\intl\}.c{vs$(VSVER)\$(CFG)\$(PLAT)\intl-runtime\}.obj::
-	$(CC) $(GETTEXT_RUNTIME_INCLUDES) $(GETTEXT_RUNTIME_CFLAGS) /Fovs$(VSVER)\$(CFG)\$(PLAT)\intl-runtime\ /Fdvs$(VSVER)\$(CFG)\$(PLAT)\intl-runtime\ /c @<<
+	@if not exist vs$(VSVER)\$(CFG)\$(PLAT)\intl-runtime\ md vs$(VSVER)\$(CFG)\$(PLAT)\intl-runtime
+	$(CC) $(LIBINTL_INCLUDES) $(GETTEXT_RUNTIME_CFLAGS) /Fovs$(VSVER)\$(CFG)\$(PLAT)\intl-runtime\ /Fdvs$(VSVER)\$(CFG)\$(PLAT)\intl-runtime\ /c @<<
+$<
+<<
+
+{..\gettext-runtime\intl\gnulib-lib\}.c{vs$(VSVER)\$(CFG)\$(PLAT)\intl-gnulib\}.obj::
+	@if not exist vs$(VSVER)\$(CFG)\$(PLAT)\intl-gnulib\ md vs$(VSVER)\$(CFG)\$(PLAT)\intl-gnulib
+	$(CC) $(LIBINTL_INCLUDES) $(GETTEXT_RUNTIME_CFLAGS) /Fovs$(VSVER)\$(CFG)\$(PLAT)\intl-gnulib\ /Fdvs$(VSVER)\$(CFG)\$(PLAT)\intl-gnulib\ /c @<<
 $<
 <<
 
@@ -41,7 +56,19 @@ $<
 $<
 <<
 
+{..\gettext-runtime\gnulib-lib\malloc\}.c{vs$(VSVER)\$(CFG)\$(PLAT)\grt\}.obj::
+	@if not exist vs$(VSVER)\$(CFG)\$(PLAT)\grt\ md vs$(VSVER)\$(CFG)\$(PLAT)\grt
+	$(CC) $(GETTEXT_RUNTIME_GNULIB_INCLUDES) $(GETTEXT_RUNTIME_GNULIB_CFLAGS) /Fovs$(VSVER)\$(CFG)\$(PLAT)\grt\ /Fdvs$(VSVER)\$(CFG)\$(PLAT)\grt\ /c @<<
+$<
+<<
+
 {..\gettext-runtime\gnulib-lib\unistr\}.c{vs$(VSVER)\$(CFG)\$(PLAT)\grt\}.obj::
+	@if not exist vs$(VSVER)\$(CFG)\$(PLAT)\grt\ md vs$(VSVER)\$(CFG)\$(PLAT)\grt
+	$(CC) $(GETTEXT_RUNTIME_GNULIB_INCLUDES) $(GETTEXT_RUNTIME_GNULIB_CFLAGS) /Fovs$(VSVER)\$(CFG)\$(PLAT)\grt\ /Fdvs$(VSVER)\$(CFG)\$(PLAT)\grt\ /c @<<
+$<
+<<
+
+{..\gettext-runtime\gnulib-lib\unictype\}.c{vs$(VSVER)\$(CFG)\$(PLAT)\grt\}.obj::
 	@if not exist vs$(VSVER)\$(CFG)\$(PLAT)\grt\ md vs$(VSVER)\$(CFG)\$(PLAT)\grt
 	$(CC) $(GETTEXT_RUNTIME_GNULIB_INCLUDES) $(GETTEXT_RUNTIME_GNULIB_CFLAGS) /Fovs$(VSVER)\$(CFG)\$(PLAT)\grt\ /Fdvs$(VSVER)\$(CFG)\$(PLAT)\grt\ /c @<<
 $<
@@ -61,31 +88,37 @@ $<
 
 ## libtextstyle
 {..\libtextstyle\lib\}.c{vs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle\}.obj::
+	@if not exist vs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle\ md vs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle
 	$(CC) $(LIBTEXTSTYLE_INCLUDES) $(LIBTEXTSTYLE_DEFINES) /Fovs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle\ /Fdvs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle\ /c @<<
 $<
 <<
 
 {..\libtextstyle\lib\libcroco\}.c{vs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle\}.obj::
+	@if not exist vs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle\ md vs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle
 	$(CC) $(LIBTEXTSTYLE_INCLUDES) $(LIBTEXTSTYLE_DEFINES) /Fovs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle\ /Fdvs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle\ /c @<<
 $<
 <<
 
 {..\libtextstyle\lib\glib\}.c{vs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle\}.obj::
+	@if not exist vs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle\ md vs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle
 	$(CC) $(LIBTEXTSTYLE_INCLUDES) $(LIBTEXTSTYLE_DEFINES) /Fovs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle\ /Fdvs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle\ /c @<<
 $<
 <<
 
 {..\libtextstyle\lib\glthread\}.c{vs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle\}.obj::
+	@if not exist vs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle\ md vs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle
 	$(CC) $(LIBTEXTSTYLE_INCLUDES) $(LIBTEXTSTYLE_DEFINES) /Fovs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle\ /Fdvs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle\ /c @<<
 $<
 <<
 
 {..\libtextstyle\lib\libxml\}.c{vs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle\libxml\}.obj::
+	@if not exist vs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle\libxml\ md vs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle\libxml
 	$(CC) $(LIBTEXTSTYLE_INCLUDES) $(LIBTEXTSTYLE_DEFINES) /Fovs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle\libxml\ /Fdvs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle\libxml\ /c @<<
 $<
 <<
 
 {..\libtextstyle\lib\unistr\}.c{vs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle\}.obj::
+	@if not exist vs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle\ md vs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle
 	$(CC) $(LIBTEXTSTYLE_INCLUDES) $(LIBTEXTSTYLE_DEFINES) /Fovs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle\ /Fdvs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle\ /c @<<
 $<
 <<
@@ -97,6 +130,16 @@ $<
 <<
 
 {..\gettext-tools\gnulib-lib\glthread\}.c{vs$(VSVER)\$(CFG)\$(PLAT)\gettextlib\}.obj::
+	$(CC) $(GETTEXT_TOOLS_INCLUDES) $(GETTEXT_TOOLS_GNULIB_CFLAGS) /Fovs$(VSVER)\$(CFG)\$(PLAT)\gettextlib\ /Fdvs$(VSVER)\$(CFG)\$(PLAT)\gettextlib\ /c @<<
+$<
+<<
+
+{..\gettext-tools\gnulib-lib\malloc\}.c{vs$(VSVER)\$(CFG)\$(PLAT)\gettextlib\}.obj::
+	$(CC) $(GETTEXT_TOOLS_INCLUDES) $(GETTEXT_TOOLS_GNULIB_CFLAGS) /Fovs$(VSVER)\$(CFG)\$(PLAT)\gettextlib\ /Fdvs$(VSVER)\$(CFG)\$(PLAT)\gettextlib\ /c @<<
+$<
+<<
+
+{..\gettext-tools\gnulib-lib\unicase\}.c{vs$(VSVER)\$(CFG)\$(PLAT)\gettextlib\}.obj::
 	$(CC) $(GETTEXT_TOOLS_INCLUDES) $(GETTEXT_TOOLS_GNULIB_CFLAGS) /Fovs$(VSVER)\$(CFG)\$(PLAT)\gettextlib\ /Fdvs$(VSVER)\$(CFG)\$(PLAT)\gettextlib\ /c @<<
 $<
 <<
@@ -143,6 +186,12 @@ $<
 <<
 
 {..\gettext-tools\libgrep\glthread\}.c{vs$(VSVER)\$(CFG)\$(PLAT)\libgrep\}.obj::
+	@if not exist vs$(VSVER)\$(CFG)\$(PLAT)\libgrep\ md vs$(VSVER)\$(CFG)\$(PLAT)\libgrep
+	$(CC) $(LIBGREP_INCLUDES) $(LIBGREP_CFLAGS) /Fovs$(VSVER)\$(CFG)\$(PLAT)\libgrep\ /Fdvs$(VSVER)\$(CFG)\$(PLAT)\libgrep\ /c @<<
+$<
+<<
+
+{..\gettext-tools\libgrep\malloc\}.c{vs$(VSVER)\$(CFG)\$(PLAT)\libgrep\}.obj::
 	@if not exist vs$(VSVER)\$(CFG)\$(PLAT)\libgrep\ md vs$(VSVER)\$(CFG)\$(PLAT)\libgrep
 	$(CC) $(LIBGREP_INCLUDES) $(LIBGREP_CFLAGS) /Fovs$(VSVER)\$(CFG)\$(PLAT)\libgrep\ /Fdvs$(VSVER)\$(CFG)\$(PLAT)\libgrep\ /c @<<
 $<
@@ -269,10 +318,12 @@ $(GETTEXTPO_LIB): vs$(VSVER)\$(CFG)\$(PLAT)\$(LIBGETTEXTPO_DLL)
 $(GETTEXTSRC_LIB): vs$(VSVER)\$(CFG)\$(PLAT)\gettextsrc-$(GETTEXT_VERSION).dll
 $(LIBTEXTSTYLE_LIB): vs$(VSVER)\$(CFG)\$(PLAT)\$(LIBTEXTSTYLE_DLL)
 
+$(ASPRINTF_GNULIB_LIB): $(asprintf_gnulib_OBJS)
+$(INTL_GNULIB_LIB): $(intl_gnulib_OBJS)
 $(GRT_LIB): $(grt_OBJS)
 $(LIBGREP_LIB): $(libgrep_OBJS)
 
-$(GRT_LIB) $(LIBGREP_LIB):
+$(INTL_GNULIB_LIB) $(ASPRINTF_GNULIB_LIB) $(GRT_LIB) $(LIBGREP_LIB):
 	lib $(ARFLAGS) $** /out:$@
 
 # Rules for linking DLLs
@@ -282,8 +333,8 @@ $(GRT_LIB) $(LIBGREP_LIB):
 # $(dependent_objects)
 # <<
 # 	@-if exist $@.manifest mt /manifest $@.manifest /outputresource:$@;2
-vs$(VSVER)\$(CFG)\$(PLAT)\$(LIBASPRINTF_DLL): vs$(VSVER)\$(CFG)\$(PLAT)\asprintf $(libasprintf_OBJS)
-	link /DLL $(LDFLAGS) -out:$@ $(libasprintf_OBJS) /implib:$(ASPRINTF_LIB)
+vs$(VSVER)\$(CFG)\$(PLAT)\$(LIBASPRINTF_DLL): $(libasprintf_OBJS) $(ASPRINTF_GNULIB_LIB)
+	link /DLL $(LDFLAGS) -out:$@ $** /implib:$(ASPRINTF_LIB)
 	@-if exist $@.manifest mt /manifest $@.manifest /outputresource:$@;2
 
 vs$(VSVER)\$(CFG)\$(PLAT)\GNU.Gettext.dll: ..\gettext-runtime\intl-csharp\intl.cs vs$(VSVER)\$(CFG)\$(PLAT)\$(LIBINTL_DLL)
@@ -301,11 +352,11 @@ vs$(VSVER)\$(CFG)\$(PLAT)\gettextsrc-$(GETTEXT_VERSION).dll: libgettextsrc.def v
 	link /DLL $(LDFLAGS) -out:$@ $(gettextsrc_OBJS) $(LIBTEXTSTYLE_LIB) $(GETTEXTLIB_LIB) $(INTL_LIB) $(GETTEXT_RUNTIME_DEP_LIBS) /def:libgettextsrc.def
 	@-if exist $@.manifest mt /manifest $@.manifest /outputresource:$@;2
 
-vs$(VSVER)\$(CFG)\$(PLAT)\$(LIBINTL_DLL): vs$(VSVER)\$(CFG)\$(PLAT)\intl-runtime $(intl_runtime_OBJS)
-	link /DLL $(LDFLAGS) -out:$@ $(intl_runtime_OBJS) $(GETTEXT_RUNTIME_DEP_LIBS) /implib:$(INTL_LIB)
+vs$(VSVER)\$(CFG)\$(PLAT)\$(LIBINTL_DLL): $(intl_runtime_OBJS) $(INTL_GNULIB_LIB)
+	link /DLL $(LDFLAGS) -out:$@ $** $(GETTEXT_RUNTIME_DEP_LIBS) /implib:$(INTL_LIB)
 	@-if exist $@.manifest mt /manifest $@.manifest /outputresource:$@;2
 
-vs$(VSVER)\$(CFG)\$(PLAT)\$(LIBTEXTSTYLE_DLL): vs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle vs$(VSVER)\$(CFG)\$(PLAT)\libtextstyle\libxml $(libtextstyle_OBJS)
+vs$(VSVER)\$(CFG)\$(PLAT)\$(LIBTEXTSTYLE_DLL): $(libtextstyle_OBJS)
 	link /DLL $(LDFLAGS) -out:$@ $(libtextstyle_OBJS) $(TEXTSTYLE_DEP_LIBS) /def:libtextstyle.def /implib:$(LIBTEXTSTYLE_LIB)
 	@-if exist $@.manifest mt /manifest $@.manifest /outputresource:$@;2
 
@@ -371,6 +422,54 @@ vs$(VSVER)\$(CFG)\$(PLAT)\msggrep.exe:
 # $(srcfile)
 # <<
 
+install: all
+	@set PATH=$(ICONV_BINDIR);$(PATH)
+	@-for %d in (bin lib include\textstyle) do @mkdir $(PREFIX)\%d
+	@for %f in ($(GETTEXT_RUNTIME_LIBS:.lib=.dll) $(GETTEXTPO_LIB:.lib=.dll) $(LIBTEXTSTYLE_LIB:.lib=.dll)) do \
+	 @((if exist %~pnf.pdb copy %~pnf.pdb $(PREFIX)\bin) & copy /b %f $(PREFIX)\bin)
+	@for %f in ($(GETTEXTLIB_LIB:.lib=.dll) $(GETTEXTSRC_LIB:.lib=.dll) $(LIBTEXTSTYLE_LIB:.lib=.dll)) do \
+	 @((if exist %~pnf.pdb copy %~pnf.pdb $(PREFIX)\bin) & copy /b %f $(PREFIX)\bin)
+	@for %f in ($(gettext_runtime_tools) $(GETTEXT_TOOLS_TOOLS)) do \
+	 @((if exist %~pnf.pdb copy %~pnf.pdb $(PREFIX)\bin) & copy /b %f $(PREFIX)\bin)
+	@for %f in ($(GETTEXT_RUNTIME_LIBS) $(GETTEXTPO_LIB) $(LIBTEXTSTYLE_LIB)) do @copy /b %f $(PREFIX)\lib
+	@for %f in (intl\libintl.h libasprintf\autosprintf.h) do @copy ..\msvc\gettext-runtime\%f $(PREFIX)\include
+	@for %d in (lib\textstyle) do @copy ..\msvc\libtextstyle\%d\* $(PREFIX)\include\textstyle
+	@for %f in (libtextstyle\lib\textstyle.h msvc\gettext-tools\libgettextpo\gettext-po.h) do	\
+	 @copy ..\%f $(PREFIX)\include
+	@-mkdir $(PREFIX)\share\gettext\po
+	@for %f in (ABOUT-NLS) do @copy ..\gettext-runtime\%f $(PREFIX)\share\gettext
+	@for %f in (config.rpath) do @copy ..\build-aux\%f $(PREFIX)\share\gettext
+	@for %f in (gettext.h) do @copy ..\gnulib-local\lib\%f $(PREFIX)\share\gettext
+	@for %f in (javaversion.class) do @copy ..\gettext-tools\gnulib-lib\%f $(PREFIX)\share\gettext
+	@for %f in (msgunfmt.tcl) do @copy ..\gettext-tools\src\%f $(PREFIX)\share\gettext
+	@for %f in (Makefile.in.in Makevars.template Rules-quot) do @copy ..\gettext-tools\po\%f $(PREFIX)\share\gettext\po
+	@for %f in (insert-headers remove-potcdate) do @copy ..\gettext-tools\po\%f.sin $(PREFIX)\share\gettext\po
+	@for %f in (boldquot quot) do @copy ..\gettext-tools\po\%f.sed $(PREFIX)\share\gettext\po
+	@for %f in (boldquot quot) do @copy ..\gettext-tools\po\en@%f.header $(PREFIX)\share\gettext\po
+	@-for %d in (GNOME KDE TP) do @mkdir $(PREFIX)\share\gettext\projects\%d
+	@for %d in (GNOME KDE TP) do @copy ..\gettext-tools\projects\%d\* $(PREFIX)\share\gettext\projects\%d
+	@for %f in (index team-address) do @copy ..\gettext-tools\projects\%f $(PREFIX)\share\gettext\projects
+	@-mkdir $(PREFIX)\share\gettext\styles
+	@copy ..\gettext-tools\styles\po-*.css $(PREFIX)\share\gettext\styles
+	@-mkdir $(PREFIX)\share\gettext-$(GETTEXT_VERSION)
+	@for %x in (its loc) do @copy ..\gettext-tools\its\*.%x $(PREFIX)\share\gettext-$(GETTEXT_VERSION)
+	@-mkdir $(PREFIX)\share\emacs\site-lisp
+	@for %x in (el) do @copy ..\gettext-tools\emacs\*.%x $(PREFIX)\share\emacs\site-lisp
+	@-for %d in (gettext\csharpdoc libasprintf) do @mkdir $(PREFIX)\share\doc\%d
+	@-for %d in (aclocal) do @mkdir $(PREFIX)\share\gettext\%d
+	@for %f in (gettext iconv intlmacosx nls po progtest) do @copy ..\gettext-runtime\m4\%f.m4 $(PREFIX)\share\gettext\aclocal
+	@for %f in (ld link prefix) do @copy ..\gettext-runtime\gnulib-m4\lib-%f.m4 $(PREFIX)\share\gettext\aclocal
+	@for %f in (host-cpu-c-abi) do @copy ..\gettext-runtime\gnulib-m4\%f.m4 $(PREFIX)\share\gettext\aclocal
+	@copy ..\gettext-runtime\man\*.3.html $(PREFIX)\share\doc\gettext
+	@copy ..\gettext-runtime\man\*.1.html $(PREFIX)\share\doc\gettext
+	@copy ..\gettext-tools\man\*.1.html $(PREFIX)\share\doc\gettext
+	@copy ..\gettext-runtime\intl-csharp\doc\*.html $(PREFIX)\share\doc\gettext\csharpdoc
+	@copy ..\gettext-tools\doc\*.html $(PREFIX)\share\doc\gettext
+	@copy ..\gettext-runtime\libasprintf\autosprintf_all.html $(PREFIX)\share\doc\libasprintf
+	@-for %d in (runtime tools) do @for %l in (..\gettext-%d\po\*.po) do @mkdir $(PREFIX)\share\locale\%~nl\LC_MESSAGES
+	@-for %d in (runtime tools) do @for %l in (..\gettext-%d\po\*.po) do	\
+	 @vs$(VSVER)\$(CFG)\$(PLAT)\msgfmt.exe -c --statistics --verbose -o $(PREFIX)\share\locale\%~nl\LC_MESSAGES\gettext-%d.mo %l
+
 clean:
 	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\*.lib
 	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\*.exe.manifest
@@ -381,6 +480,8 @@ clean:
 	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\asprintf\*.obj
 	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\asprintf\*.res
 	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\asprintf\*.pdb
+	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\asprintf-gnulib\*.obj
+	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\asprintf-gnulib\*.pdb
 	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\gettextlib\*.obj
 	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\gettextlib\*.pdb
 	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\gettextlib\libxml\*.obj
@@ -400,6 +501,8 @@ clean:
 	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\gnu\*.pdb
 	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\grt\*.obj
 	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\grt\*.pdb
+	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\intl-gnulib\*.obj
+	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\intl-gnulib\*.pdb
 	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\intl-runtime\*.obj
 	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\intl-runtime\*.res
 	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\intl-runtime\*.pdb

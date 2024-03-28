@@ -4,25 +4,44 @@ GETTEXT_LIB_BASE_SRCS =	\
 	acl-internal.c	\
 	addext.c	\
 	allocator.c	\
-	areadlink-with-size.c	\
+	asprintf.c	\
 	areadlink.c	\
 	argmatch.c	\
 	asnprintf.c	\
-	asprintf.c	\
 	asyncsafe-spin.c	\
 	backupfile.c	\
 	basename-lgpl.c	\
 	binary-io.c	\
 	bitrotate.c	\
+	btoc32.c	\
 	c-ctype.c	\
 	c-strcasecmp.c	\
 	c-strcasestr.c	\
 	c-strncasecmp.c	\
 	c-strstr.c	\
+	c32isalnum.c	\
+	c32isalpha.c	\
+	c32isblank.c	\
+	c32iscntrl.c	\
+	c32isdigit.c	\
+	c32isgraph.c	\
+	c32islower.c	\
+	c32isprint.c	\
+	c32ispunct.c	\
+	c32isspace.c	\
+	c32isupper.c	\
+	c32isxdigit.c	\
+	c32tolower.c	\
+	c32width.c	\
+	c32_apply_type_test.c	\
+	c32_get_type_test.c	\
+	calloc.c	\
 	canonicalize-lgpl.c	\
 	canonicalize.c	\
 	careadlinkat.c	\
+	chdir-long.c	\
 	classpath.c	\
+	clean-temp-simple.c	\
 	clean-temp.c	\
 	cloexec.c	\
 	close.c	\
@@ -37,30 +56,39 @@ GETTEXT_LIB_BASE_SRCS =	\
 	dirname-lgpl.c	\
 	dup-safer-flag.c	\
 	dup-safer.c	\
+	dup.c	\
 	dup2.c	\
 	error-progname.c	\
 	error.c	\
 	execute.c	\
 	exitfail.c	\
-	explicit_bzero.c	\
 	fatal-signal.c	\
+	fchdir.c	\
 	fcntl.c	\
 	fd-hook.c	\
 	fd-safer-flag.c	\
 	fd-safer.c	\
 	fdopen.c	\
+	fdopendir.c	\
 	file-set.c	\
+	filenamecat-lgpl.c	\
+	findprog-in.c	\
 	findprog.c	\
 	fnmatch.c	\
 	fopen.c	\
+	free.c	\
 	fstat.c	\
+	fstatat.c	\
 	fstrcmp.c	\
 	ftell.c	\
 	ftello.c	\
 	full-write.c	\
 	fwriteerror.c	\
+	gai_strerror.c	\
 	gcd.c	\
 	get-permissions.c	\
+	getcwd-lgpl.c	\
+	getcwd.c	\
 	getdelim.c	\
 	getdtablesize.c	\
 	getline.c	\
@@ -78,10 +106,13 @@ GETTEXT_LIB_BASE_SRCS =	\
 	hash-pjw.c	\
 	hash-triple-simple.c	\
 	hash.c	\
+	ialloc.c	\
+	inet_ntop.c	\
 	isinf.c	\
 	isnand.c	\
 	isnanf.c	\
 	isnanl.c	\
+	iswctype.c	\
 	javacomp.c	\
 	javaexec.c	\
 	javaversion.c	\
@@ -94,15 +125,22 @@ GETTEXT_LIB_BASE_SRCS =	\
 	malloca.c	\
 	math.c	\
 	mbchar.c	\
-	mbiter.c	\
+	mbrtoc32.c	\
 	mbrtowc.c	\
 	mbsinit.c	\
 	mbslen.c	\
+	mbsrtoc32s.c	\
+	mbsrtoc32s-state.c	\
 	mbsstr.c	\
 	mbswidth.c	\
+	mbszero.c	\
 	mbuiter.c	\
+	mbuiterf.c	\
 	mem-hash-map.c	\
+	memmem.c	\
 	mempcpy.c	\
+	memrchr.c	\
+	memset_explicit.c	\
 	mkdir.c	\
 	mkdtemp.c	\
 	msvc-inval.c	\
@@ -110,10 +148,14 @@ GETTEXT_LIB_BASE_SRCS =	\
 	obstack.c	\
 	omp-init.c	\
 	open.c	\
+	openat-die.c	\
+	openat-proc.c	\
+	openat.c	\
 	opendir.c	\
 	pipe-filter-aux.c	\
 	pipe-filter-ii.c	\
 	pipe-safer.c	\
+	pipe.c	\
 	pipe2-safer.c	\
 	pipe2.c	\
 	printf-args.c	\
@@ -130,10 +172,14 @@ GETTEXT_LIB_BASE_SRCS =	\
 	readdir.c	\
 	readlink.c	\
 	realloc.c	\
+	reallocarray.c	\
 	relocatable.c	\
+	rewinddir.c	\
 	rmdir.c	\
 	safe-read.c	\
 	safe-write.c	\
+	same-inode.c	\
+	save-cwd.c	\
 	secure_getenv.c	\
 	set-permissions.c	\
 	setenv.c	\
@@ -144,34 +190,44 @@ GETTEXT_LIB_BASE_SRCS =	\
 	sigaction.c	\
 	sigprocmask.c	\
 	snprintf.c	\
+	sockets.c	\
 	spawn-pipe.c	\
+	spawn.c	\
 	spawnattr_destroy.c	\
 	spawnattr_init.c	\
 	spawnattr_setflags.c	\
+	spawnattr_setpgroup.c	\
 	spawnattr_setsigmask.c	\
 	spawni.c	\
 	spawnp.c	\
+	spawn_faction_addchdir.c	\
 	spawn_faction_addclose.c	\
 	spawn_faction_adddup2.c	\
 	spawn_faction_addopen.c	\
 	spawn_faction_destroy.c	\
 	spawn_faction_init.c	\
 	stat-time.c	\
-	stat-w32.c	\
 	stat.c	\
+	stat-w32.c	\
 	stdio-write.c	\
 	stpcpy.c	\
 	stpncpy.c	\
 	strchrnul.c	\
+	strdup.c	\
 	strerror-override.c	\
 	strerror.c	\
 	striconv.c	\
 	striconveh.c	\
 	striconveha.c	\
+	string-desc-contains.c	\
+	string-desc.c	\
 	stripslash.c	\
 	strnlen1.c	\
 	strstr.c	\
+	strtol.c	\
+	strtoul.c	\
 	supersede.c	\
+	sys_socket.c	\
 	tempname.c	\
 	timespec.c	\
 	tmpdir.c	\
@@ -187,59 +243,49 @@ GETTEXT_LIB_BASE_SRCS =	\
 	wait-process.c	\
 	waitpid.c	\
 	wctype-h.c	\
+	wctype.c	\
 	wcwidth.c	\
 	windows-mutex.c	\
 	windows-once.c	\
 	windows-recmutex.c	\
 	windows-rwlock.c	\
+	windows-spawn.c	\
 	windows-spin.c	\
 	windows-tls.c	\
 	wmempcpy.c	\
 	write.c	\
+	xalloc-die.c	\
 	xasprintf.c	\
 	xconcat-filename.c	\
 	xerror.c	\
-	xgetcwd.c	\
 	xmalloc.c	\
 	xmalloca.c	\
 	xmemdup0.c	\
 	xreadlink.c	\
 	xsetenv.c	\
 	xsize.c	\
-	xstrdup.c	\
 	xstriconv.c	\
 	xstriconveh.c	\
 	xvasprintf.c
 
-!if $(VSVER) < 12
-GETTEXT_LIB_BASE_SRCS =	\
-	$(GETTEXT_LIB_BASE_SRCS)	\
-	isblank.c	\
-	signbitd.c	\
-	signbitf.c	\
-	signbitl.c
-!endif
-
-!if "$(PLAT)" == "arm64"
-GETTEXT_LIB_BASE_SRCS =	\
-	$(GETTEXT_LIB_BASE_SRCS)	\
-	mbsrtowcs-state.c	\
-	mbsrtowcs.c
+!if "$(PLAT)" == "Win32"
+GETTEXT_LIB_BASE_SRCS = $(GETTEXT_LIB_BASE_SRCS) getaddrinfo.c
 !endif
 
 LIBGREP_SOURCES =	\
+	iswctype.c	\
 	kwset.c	\
+	localeconv.c	\
 	m-fgrep.c	\
 	m-regex.c	\
 	mbrlen.c	\
+	mbszero.c	\
 	nl_langinfo.c	\
-	regex.c
-
-!if $(VSVER) > 12
-LIBGREP_SOURCES =	\
-	$(LIBGREP_SOURCES)	\
-	wcrtomb.c
-!endif
+	regex.c	\
+	unistd.c	\
+	wcrtomb.c	\
+	wctype.c	\
+	wctype-h.c
 
 LIBGETTEXTPO_GNULIB_SRCS =	\
 	asnprintf.c	\
@@ -249,9 +295,12 @@ LIBGETTEXTPO_GNULIB_SRCS =	\
 	c-strcasecmp.c	\
 	c-strncasecmp.c	\
 	c-strstr.c	\
+	calloc.c	\
 	cloexec.c	\
 	close.c	\
 	concat-filename.c	\
+	c32iscntrl.c	\
+	c32width.c	\
 	dup2.c	\
 	error-progname.c	\
 	error.c	\
@@ -260,9 +309,11 @@ LIBGETTEXTPO_GNULIB_SRCS =	\
 	fd-hook.c	\
 	fdopen.c	\
 	fopen.c	\
+	free.c	\
 	fstat.c	\
 	fstrcmp.c	\
 	fsync.c	\
+	full-write.c	\
 	fwriteerror.c	\
 	gcd.c	\
 	getdelim.c	\
@@ -273,14 +324,19 @@ LIBGETTEXTPO_GNULIB_SRCS =	\
 	gl_list.c	\
 	gl_xlist.c	\
 	hard-locale.c	\
+	ialloc.c	\
 	localcharset.c	\
 	malloc.c	\
 	malloca.c	\
 	markup.c	\
+	mbrtoc32.c	\
 	mbrtowc.c	\
 	mbsinit.c	\
 	mbswidth.c	\
+	mbszero.c	\
+	memmem.c	\
 	mem-hash-map.c	\
+	memrchr.c	\
 	msvc-inval.c	\
 	msvc-nothrow.c	\
 	obstack.c	\
@@ -290,7 +346,9 @@ LIBGETTEXTPO_GNULIB_SRCS =	\
 	raise.c	\
 	rawmemchr.c	\
 	realloc.c	\
+	reallocarray.c	\
 	relocatable.c	\
+	safe-write.c	\
 	setlocale_null.c	\
 	sigprocmask.c	\
 	stat-time.c	\
@@ -305,6 +363,8 @@ LIBGETTEXTPO_GNULIB_SRCS =	\
 	striconv.c	\
 	striconveh.c	\
 	striconveha.c	\
+	string-desc-contains.c	\
+	string-desc.c	\
 	strstr.c	\
 	unistd.c	\
 	vasnprintf.c	\
@@ -316,91 +376,145 @@ LIBGETTEXTPO_GNULIB_SRCS =	\
 	windows-recmutex.c	\
 	windows-rwlock.c	\
 	windows-tls.c	\
+	write.c	\
+	xalloc-die.c	\
 	xasprintf.c	\
 	xconcat-filename.c	\
 	xerror.c	\
 	xmalloc.c	\
 	xmalloca.c	\
 	xsize.c	\
-	xstrdup.c	\
 	xstriconv.c	\
 	xvasprintf.c
 
 FORMAT_SOURCES =	\
-	format-awk.c	\
-	format-boost.c	\
+	..\gettext-tools\woe32dll\c++format.cc	\
 	format-c.c	\
-	format-csharp.c	\
-	format-elisp.c	\
-	format-gcc-internal.c	\
-	format-gfc-internal.c	\
-	format-java-printf.c	\
+	format-c++-brace.c	\
+	format-python.c	\
+	format-python-brace.c	\
 	format-java.c	\
+	format-java-printf.c	\
+	format-csharp.c	\
 	format-javascript.c	\
-	format-kde-kuit.c	\
-	format-kde.c	\
-	format-librep.c	\
+	format-scheme.c	\
 	format-lisp.c	\
+	format-elisp.c	\
+	format-librep.c	\
+	format-ruby.c	\
+	format-sh.c	\
+	format-awk.c	\
 	format-lua.c	\
 	format-pascal.c	\
-	format-perl-brace.c	\
-	format-perl.c	\
-	format-php.c	\
-	format-python-brace.c	\
-	format-python.c	\
-	format-qt-plural.c	\
-	format-qt.c	\
-	format-ruby.c	\
-	format-scheme.c	\
-	format-sh.c	\
 	format-smalltalk.c	\
+	format-qt.c	\
+	format-qt-plural.c	\
+	format-kde.c	\
+	format-kde-kuit.c	\
+	format-boost.c	\
 	format-tcl.c	\
-	..\gettext-tools\woe32dll\c++format.cc
+	format-perl.c	\
+	format-perl-brace.c	\
+	format-php.c	\
+	format-gcc-internal.c	\
+	format-gfc-internal.c
 
-LIBGETTEXTSRC_COMMON_SRCS =	\
-	dir-list.c	\
+COMMON_SRCS =	\
 	message.c	\
-	msgl-ascii.c	\
-	msgl-check.c	\
+	pos.c	\
+	po-error.c	\
+	po-xerror.c	\
+	read-catalog-abstract.c	\
+	po-lex.c	\
+	po-gram-gen.c	\
+	po-charset.c	\
+	read-po.c	\
+	read-properties.c	\
+	read-stringtable.c	\
 	open-catalog.c	\
+	dir-list.c	\
+	str-list.c
+  
+LIBGETTEXTSRC_SRCS =	\
+	$(COMMON_SRCS)	\
+	read-catalog.c	\
+	write-catalog.c	\
+	write-properties.c	\
+	write-stringtable.c	\
+	write-po.c	\
+	msgl-ascii.c	\
+	msgl-ofn.c	\
+	msgl-iconv.c	\
+	msgl-equal.c	\
+	msgl-cat.c	\
+	msgl-header.c	\
+	msgl-english.c	\
+	msgl-check.c	\
+	file-list.c	\
+	msgl-charset.c	\
+	po-time.c	\
 	plural-exp.c	\
 	plural-eval.c	\
 	plural-table.c	\
-	po-error.c	\
-	po-gram-gen.c	\
-	po-charset.c	\
-	po-lex.c	\
-	po-xerror.c	\
-	read-catalog.c	\
-	read-catalog-abstract.c	\
-	read-po.c	\
-	read-stringtable.c	\
 	sentence.c	\
-	str-list.c	\
-	write-catalog.c	\
-	write-po.c	\
-	$(FORMAT_SOURCES)
-  
-LIBGETTEXTSRC_SRCS =	\
-	$(LIBGETTEXTSRC_COMMON_SRCS)	\
-	file-list.c	\
-	its.c	\
+	$(FORMAT_SOURCES)	\
+	read-desktop.c \
 	locating-rule.c	\
-	msgl-cat.c	\
-	msgl-english.c	\
-	msgl-equal.c	\
-	msgl-charset.c	\
-	msgl-check.c	\
-	msgl-header.c	\
-	msgl-iconv.c	\
-	po-time.c	\
-	read-desktop.c	\
-	read-properties.c	\
-	search-path.c	\
-	write-properties.c	\
-	write-stringtable.c	\
+	its.c \
+	search-path.c
 
-LIBGETTEXTPO_AUX_SRCS =	$(LIBGETTEXTSRC_COMMON_SRCS)
+LIBGETTEXTPO_AUX_SRCS =	\
+	str-list.c \
+	dir-list.c \
+	message.c \
+	pos.c \
+	msgl-ascii.c \
+	po-error.c \
+	po-xerror.c \
+	write-catalog.c \
+	write-po.c \
+	open-catalog.c \
+	po-charset.c \
+	po-lex.c \
+	po-gram-gen.c \
+	read-po.c \
+	read-catalog-abstract.c \
+	read-catalog.c \
+	plural-table.c \
+	format-c.c \
+	format-c++-brace.c \
+	format-python.c \
+	format-python-brace.c \
+	format-java.c \
+	format-java-printf.c \
+	format-csharp.c \
+	format-javascript.c \
+	format-scheme.c \
+	format-lisp.c \
+	format-elisp.c \
+	format-librep.c \
+	format-ruby.c \
+	format-sh.c \
+	format-awk.c \
+	format-lua.c \
+	format-pascal.c \
+	format-smalltalk.c \
+	format-qt.c \
+	format-qt-plural.c \
+	format-kde.c \
+	format-kde-kuit.c \
+	format-boost.c \
+	format-tcl.c \
+	format-perl.c \
+	format-perl-brace.c \
+	format-php.c \
+	format-gcc-internal.c \
+	format-gfc-internal.c \
+	format.c \
+	plural-exp.c \
+	plural-eval.c \
+	msgl-check.c \
+	sentence.c
 
 MSGATTRIB_SOURCES = msgattrib.c
 MSGCAT_SOURCES = msgcat.c
@@ -478,7 +592,7 @@ XGETTEXT_SOURCES =	\
 	x-po.c	\
 	x-python.c	\
 	x-rst.c	\
-    x-ruby.c	\
+	x-ruby.c	\
 	x-scheme.c	\
 	x-sh.c	\
 	x-smalltalk.c	\

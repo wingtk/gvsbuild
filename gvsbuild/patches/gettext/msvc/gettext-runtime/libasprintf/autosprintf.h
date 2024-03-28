@@ -32,12 +32,14 @@
 # endif
 #endif
 
-#ifdef _MSC_VER
-#ifdef IN_LIBASPRINTF
-#define LIBASPRINTF_DLL_EXPORTED __declspec(dllexport)
-#else defined _MSC_VER
-#define LIBASPRINTF_DLL_EXPORTED __declspec(dllimport)
-#endif
+#if defined (_MSC_VER) && !defined (LIBASPRINTF_STATIC)
+# ifdef IN_LIBASPRINTF
+#  define LIBASPRINTF_DLL_EXPORTED __declspec(dllexport)
+# else
+#  define LIBASPRINTF_DLL_EXPORTED __declspec(dllimport)
+# endif
+#else
+# define LIBASPRINTF_DLL_EXPORTED
 #endif
 
 #include <string>

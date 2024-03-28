@@ -1,25 +1,25 @@
 /* DO NOT EDIT! GENERATED AUTOMATICALLY! */
 /* A substitute for POSIX 2008 <stddef.h>, for platforms that have issues.
 
-   Copyright (C) 2009-2020 Free Software Foundation, Inc.
+   Copyright (C) 2009-2023 Free Software Foundation, Inc.
 
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 3, or (at your option)
-   any later version.
+   This file is free software: you can redistribute it and/or modify
+   it under the terms of the GNU Lesser General Public License as
+   published by the Free Software Foundation; either version 2.1 of the
+   License, or (at your option) any later version.
 
-   This program is distributed in the hope that it will be useful,
+   This file is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   GNU Lesser General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, see <https://www.gnu.org/licenses/>.  */
+   You should have received a copy of the GNU Lesser General Public License
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 /* Written by Eric Blake.  */
 
 /*
- * POSIX 2008 <stddef.h> for platforms that have issues.
+ * POSIX 2008 and ISO C 23 <stddef.h> for platforms that have issues.
  * <https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/stddef.h.html>
  */
 
@@ -38,15 +38,18 @@
    remember if special invocation has ever been used to obtain wint_t,
    in which case we need to clean up NULL yet again.  */
 
-# if !(defined _GL_LTS_STDDEF_H && defined _GL_STDDEF_WINT_T)
+# if !(defined _GL_LTS_STDDEF_H && defined _GL_LTS_STDDEF_WINT_T)
 #  ifdef __need_wint_t
-#   define _GL_STDDEF_WINT_T
+#   define _GL_LTS_STDDEF_WINT_T
 #  endif
-#if (_MSC_VER < 1900)
-#include "../include/stddef.h"
-#else
-#include "../ucrt/stddef.h"
-#endif
+#  include "../ucrt/stddef.h"
+   /* On TinyCC, make sure that the macros that indicate the special invocation
+      convention get undefined.  */
+#  undef __need_wchar_t
+#  undef __need_size_t
+#  undef __need_ptrdiff_t
+#  undef __need_NULL
+#  undef __need_wint_t
 # endif
 
 #else
@@ -54,17 +57,31 @@
 
 # ifndef _GL_LTS_STDDEF_H
 
+/* On AIX 7.2, with xlc in 64-bit mode, <stddef.h> defines max_align_t to a
+   type with alignment 4, but 'long' has alignment 8.  */
+#  if defined _AIX && defined __LP64__ && !0
+#   if !GNULIB_defined_max_align_t
+#    ifdef _MAX_ALIGN_T
+/* /usr/include/stddef.h has already defined max_align_t.  Override it.  */
+typedef long rpl_max_align_t;
+#     define max_align_t rpl_max_align_t
+#    else
+/* Prevent /usr/include/stddef.h from defining max_align_t.  */
+typedef long max_align_t;
+#     define _MAX_ALIGN_T
+#    endif
+#    define __CLANG_MAX_ALIGN_T_DEFINED
+#    define GNULIB_defined_max_align_t 1
+#   endif
+#  endif
+
 /* The include_next requires a split double-inclusion guard.  */
 
-#if (_MSC_VER < 1900)
-#include "../include/stddef.h"
-#else
-#include "../ucrt/stddef.h"
-#endif
+#  include "../ucrt/stddef.h"
 
 /* On NetBSD 5.0, the definition of NULL lacks proper parentheses.  */
 #  if (0 \
-       && (!defined _GL_LTS_STDDEF_H || defined _GL_STDDEF_WINT_T))
+       && (!defined _GL_LTS_STDDEF_H || defined _GL_LTS_STDDEF_WINT_T))
 #   undef NULL
 #   ifdef __cplusplus
    /* ISO C++ says that the macro NULL must expand to an integer constant
@@ -85,6 +102,33 @@
 #  ifndef _GL_LTS_STDDEF_H
 #   define _GL_LTS_STDDEF_H
 
+/* This file uses _Noreturn, _GL_ATTRIBUTE_NOTHROW.  */
+#if !_GL_CONFIG_H_INCLUDED
+ #error "Please include config.h first."
+#endif
+
+/* _GL_ATTRIBUTE_NOTHROW declares that the function does not throw exceptions.
+ */
+#ifndef _GL_ATTRIBUTE_NOTHROW
+# if defined __cplusplus
+#  if (__GNUC__ + (__GNUC_MINOR__ >= 8) > 2) || __clang_major >= 4
+#   if __cplusplus >= 201103L
+#    define _GL_ATTRIBUTE_NOTHROW noexcept (true)
+#   else
+#    define _GL_ATTRIBUTE_NOTHROW throw ()
+#   endif
+#  else
+#   define _GL_ATTRIBUTE_NOTHROW
+#  endif
+# else
+#  if (__GNUC__ + (__GNUC_MINOR__ >= 3) > 3) || defined __clang__
+#   define _GL_ATTRIBUTE_NOTHROW __attribute__ ((__nothrow__))
+#  else
+#   define _GL_ATTRIBUTE_NOTHROW
+#  endif
+# endif
+#endif
+
 /* Some platforms lack wchar_t.  */
 #if !1
 # define wchar_t int
@@ -95,18 +139,20 @@
    we are currently compiling with gcc.
    On MSVC, max_align_t is defined only in C++ mode, after <cstddef> was
    included.  Its definition is good since it has an alignment of 8 (on x86
-   and x86_64).  */
-#if defined _MSC_VER && defined __cplusplus
+   and x86_64).
+   Similarly on OS/2 kLIBC.  */
+#if (defined _MSC_VER || (defined __KLIBC__ && !defined __LIBCN__)) \
+    && defined __cplusplus
 # include <cstddef>
 #else
-# if ! (0 || defined _GCC_MAX_ALIGN_T)
+# if ! (0 || (defined _GCC_MAX_ALIGN_T && !defined __clang__))
 #  if !GNULIB_defined_max_align_t
 /* On the x86, the maximum storage alignment of double, long, etc. is 4,
    but GCC's C11 ABI for x86 says that max_align_t has an alignment of 8,
    and the C11 standard allows this.  Work around this problem by
    using __alignof__ (which returns 8 for double) rather than _Alignof
    (which returns 4), and align each union member accordingly.  */
-#   ifdef __GNUC__
+#   if defined __GNUC__ || (__clang_major__ >= 4)
 #    define _GL_STDDEF_ALIGNAS(type) \
        __attribute__ ((__aligned__ (__alignof__ (type))))
 #   else
@@ -120,9 +166,47 @@ typedef union
   long int __i _GL_STDDEF_ALIGNAS (long int);
 } rpl_max_align_t;
 #   define max_align_t rpl_max_align_t
+#   define __CLANG_MAX_ALIGN_T_DEFINED
 #   define GNULIB_defined_max_align_t 1
 #  endif
 # endif
+#endif
+
+/* ISO C 23 § 7.21.1 The unreachable macro  */
+#ifndef unreachable
+
+/* Code borrowed from verify.h.  */
+# ifndef _GL_HAS_BUILTIN_UNREACHABLE
+#  if defined __clang_major__ && __clang_major__ < 5
+#   define _GL_HAS_BUILTIN_UNREACHABLE 0
+#  elif 4 < __GNUC__ + (5 <= __GNUC_MINOR__)
+#   define _GL_HAS_BUILTIN_UNREACHABLE 1
+#  elif defined __has_builtin
+#   define _GL_HAS_BUILTIN_UNREACHABLE __has_builtin (__builtin_unreachable)
+#  else
+#   define _GL_HAS_BUILTIN_UNREACHABLE 0
+#  endif
+# endif
+
+# if _GL_HAS_BUILTIN_UNREACHABLE
+#  define unreachable() __builtin_unreachable ()
+# elif 1200 <= _MSC_VER
+#  define unreachable() __assume (0)
+# else
+/* Declare abort(), without including <stdlib.h>.  */
+extern
+#  if defined __cplusplus
+"C"
+#  endif
+_Noreturn
+void abort (void)
+#  if defined __cplusplus && (__GLIBC__ >= 2)
+_GL_ATTRIBUTE_NOTHROW
+#  endif
+;
+#  define unreachable() abort ()
+# endif
+
 #endif
 
 #  endif /* _GL_LTS_STDDEF_H */
