@@ -1,0 +1,47 @@
+Subject: [PATCH] Revert always import _giscanner
+---
+Index: giscanner/giscannermodule.c
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/giscanner/giscannermodule.c b/giscanner/giscannermodule.c
+--- a/giscanner/giscannermodule.c	(revision 2b5b93973fbf923a8869d8548052d2379d9e84e6)
++++ b/giscanner/giscannermodule.c	(date 1711590633640)
+@@ -607,7 +607,15 @@
+ MOD_INIT(_giscanner)
+ {
+     PyObject *m, *d;
+-    const char *module_name = "giscanner._giscanner";
++    gboolean is_uninstalled;
++    const char *module_name;
++
++    /* Hack to avoid having to create a fake directory structure; when
++     * running uninstalled, the module will be in the top builddir,
++     * with no _giscanner prefix.
++     */
++    is_uninstalled = g_getenv ("UNINSTALLED_INTROSPECTION_SRCDIR") != NULL;
++    module_name = is_uninstalled ? "_giscanner" : "giscanner._giscanner";
+ 
+ #if PY_MAJOR_VERSION >= 3
+     moduledef.m_name = module_name;
+Index: giscanner/sourcescanner.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/giscanner/sourcescanner.py b/giscanner/sourcescanner.py
+--- a/giscanner/sourcescanner.py	(revision 2b5b93973fbf923a8869d8548052d2379d9e84e6)
++++ b/giscanner/sourcescanner.py	(date 1711590671569)
+@@ -28,7 +28,10 @@
+ 
+ dlldirs = dll_dirs()
+ dlldirs.add_dll_dirs(['gio-2.0'])
+-from giscanner._giscanner import SourceScanner as CSourceScanner
++if 'UNINSTALLED_INTROSPECTION_SRCDIR' in os.environ:
++    from _giscanner import SourceScanner as CSourceScanner
++else:
++    from giscanner._giscanner import SourceScanner as CSourceScanner
+ dlldirs.cleanup_dll_dirs()
+ 
+ HEADER_EXTS = ['.h', '.hpp', '.hxx']
