@@ -12,7 +12,7 @@
 #
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
-
+import sys
 from pathlib import Path
 
 from gvsbuild.utils.base_builders import Meson
@@ -38,7 +38,8 @@ class PyGObject(Tarball, Meson):
         )
 
     def build(self):
-        Meson.build(self)
+        py_dir = Path(sys.executable).parent
+        Meson.build(self, meson_params=f'-Dpython="{py_dir}\\python.exe"')
         gtk_dir = self.builder.gtk_dir
         add_inc = [
             str(Path(gtk_dir) / "include" / "cairo"),
