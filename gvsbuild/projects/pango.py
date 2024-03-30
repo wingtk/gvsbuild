@@ -47,6 +47,7 @@ class Pango(Tarball, Meson):
             enable_gi = "disabled"
 
         self.add_param(f"-Dintrospection={enable_gi}")
+        self.add_param("-Dfreetype=enabled")
 
     def build(self):
         Meson.build(self)
