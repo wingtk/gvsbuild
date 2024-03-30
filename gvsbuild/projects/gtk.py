@@ -138,6 +138,9 @@ class Gtk4(Tarball, Meson):
                 "glib",
                 "fribidi",
             ],
+            patches=[
+                "001-fix-pangoft2-file-not-found.patch",
+            ],
         )
         if self.opts.enable_gi:
             self.add_dependency("gobject-introspection")
