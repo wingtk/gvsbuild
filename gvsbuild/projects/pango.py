@@ -31,6 +31,7 @@ class Pango(Tarball, Meson):
             dependencies=[
                 "ninja",
                 "meson",
+                "freetype",
                 "cairo",
                 "harfbuzz",
                 "fribidi",

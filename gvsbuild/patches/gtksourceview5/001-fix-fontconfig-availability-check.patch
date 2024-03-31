@@ -1,0 +1,38 @@
+From e114e12aae3aeb06b8ed96c0317d4f85bdff5f57 Mon Sep 17 00:00:00 2001
+From: gwillems <g.willems.dev@laposte.net>
+Date: Tue, 2 Apr 2024 19:44:08 +0000
+Subject: [PATCH] utils: fix fontconfig availability check
+
+Macro `ENABLE_FONT_CONFIG` is always defined, either 0 or 1, by meson's `config_h.set10()`,
+so `#ifdef` will always be true.
+Use `#if` instead.
+
+Fixes #360
+---
+ gtksourceview/gtksourceutils.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/gtksourceview/gtksourceutils.c b/gtksourceview/gtksourceutils.c
+index dd68f46a3..122b305c2 100644
+--- a/gtksourceview/gtksourceutils.c
++++ b/gtksourceview/gtksourceutils.c
+@@ -73,7 +73,7 @@
+ # endif
+ #endif
+
+-#ifdef ENABLE_FONT_CONFIG
++#if ENABLE_FONT_CONFIG
+ # include <fontconfig/fontconfig.h>
+ # include <pango/pangocairo.h>
+ # include <pango/pangofc-fontmap.h>
+@@ -967,7 +967,7 @@ _gtk_source_utils_aligned_free (gpointer data)
+ 	aligned_free (data);
+ }
+
+-#ifdef ENABLE_FONT_CONFIG
++#if ENABLE_FONT_CONFIG
+ static PangoFontMap *
+ load_override_font_fc (void)
+ {
+--
+GitLab

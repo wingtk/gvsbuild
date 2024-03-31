@@ -56,6 +56,9 @@ class GtkSourceView5(Tarball, Meson):
             archive_url="https://download.gnome.org/sources/gtksourceview/{major}.{minor}/gtksourceview-{version}.tar.xz",
             hash="daf32ff5d3150d6385917d3503a85b9e047ba158b2b03079314c9c00813fa01f",
             dependencies=["meson", "ninja", "gtk4", "pkgconf", "libxml2"],
+            patches=[
+                "001-fix-fontconfig-availability-check.patch",
+            ],
         )
         if Project.opts.enable_gi:
             self.add_dependency("gobject-introspection")
