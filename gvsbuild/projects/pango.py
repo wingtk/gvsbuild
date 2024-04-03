@@ -38,6 +38,7 @@ class Pango(Tarball, Meson):
             ],
             patches=[
                 "002-fix-wrong-usage-gweakref.patch",
+                "003-remove-extra-hb-face-font.patch",
             ],
         )
         if self.opts.enable_gi:

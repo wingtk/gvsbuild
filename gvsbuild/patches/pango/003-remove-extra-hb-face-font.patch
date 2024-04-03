@@ -1,0 +1,34 @@
+From f41bb0b29304fb5c86d896097321d82fcc6f2168 Mon Sep 17 00:00:00 2001
+From: Luca Bacci <luca.bacci982@gmail.com>
+Date: Tue, 2 Apr 2024 19:14:41 +0200
+Subject: [PATCH] Win32: Remove extra hb_face_set_user_data() call
+
+Appears to be a leftover from 527e220a
+
+Fixes https://gitlab.gnome.org/GNOME/pango/-/issues/789
+---
+ pango/pangowin32.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/pango/pangowin32.c b/pango/pangowin32.c
+index 00b797baf..6781e1794 100644
+--- a/pango/pangowin32.c
++++ b/pango/pangowin32.c
+@@ -1319,14 +1319,12 @@ pango_win32_font_create_hb_font (PangoFont *font)
+ #else
+   hfont = _pango_win32_font_get_hfont (font);
+
+-  /* We are *not* allowed to destroy the HFONT here ! */
+ #ifdef USE_HB_GDI
+   face = hb_gdi_face_create (hfont);
+-
+-  hb_face_set_user_data (face, &key, hfont, g_free, TRUE);
+ #else
+   face = hb_face_create_for_tables (hfont_reference_table, (void *)hfont, NULL);
+ #endif
++
+ #endif
+
+   hb_font = hb_font_create (face);
+--
+GitLab
