@@ -122,12 +122,12 @@ class Gtk4(Tarball, Meson):
             self,
             "gtk4",
             prj_dir="gtk4",
-            version="4.12.5",
+            version="4.14.1",
             lastversion_major=4,
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/gtk",
             archive_url="https://download.gnome.org/sources/gtk/{major}.{minor}/gtk-{version}.tar.xz",
-            hash="28b356d590ee68ef626e2ef9820b2dd21441484a9a042a5a3f0c40e9dfc4f4f8",
+            hash="fcefb3f132f8cc4711a9efa5b353c9ae9bb5eeff0246fa74dbc2f2f839b9e308",
             dependencies=[
                 "gdk-pixbuf",
                 "pango",
@@ -137,6 +137,9 @@ class Gtk4(Tarball, Meson):
                 "harfbuzz",
                 "glib",
                 "fribidi",
+            ],
+            patches=[
+                "001-fix-pangoft2-file-not-found.patch",
             ],
         )
         if self.opts.enable_gi:
@@ -150,6 +153,7 @@ class Gtk4(Tarball, Meson):
         self.add_param("-Dbuild-demos=false")
         self.add_param("-Dbuild-examples=false")
         self.add_param("-Dmedia-gstreamer=disabled")
+        self.add_param("-Dvulkan=disabled")
 
     def build(self):
         Meson.build(self)

@@ -1,0 +1,80 @@
+From 8954e300e6d6433454d05bf5cf925d2141a516c9 Mon Sep 17 00:00:00 2001
+From: Chun-wei Fan <fanchunwei@src.gnome.org>
+Date: Thu, 28 Mar 2024 18:36:41 +0800
+Subject: [PATCH] Introspection: Fix running g-ir-scanner 1.80.x+ on Windows
+
+Since we are now building GLib, so we want to make sure that we indeed
+load the freshly-built DLLs when running g-ir-scanner, so we add the
+various needed subdirs (and if needed, subprojects), to set the
+GI_EXTRA_BASE_DLL_DIRS envvar so that g-ir-scanner will look for the
+newly-built GLib DLLs.
+
+This will also fix the g-ir-scanner not running when there is no
+pre-existing GLib on the system, so that the needed DLLs are found.
+
+Related issue: https://gitlab.gnome.org/GNOME/gobject-introspection/-/issues/499
+---
+ girepository/introspection/meson.build | 35 ++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
+
+diff --git a/girepository/introspection/meson.build b/girepository/introspection/meson.build
+index 9405686c18..cc70ddf50a 100644
+--- a/girepository/introspection/meson.build
++++ b/girepository/introspection/meson.build
+@@ -14,6 +14,34 @@ if get_option('b_sanitize') != ''
+     'ASAN_OPTIONS', 'verify_asan_link_order=0', separator: ',')
+ endif
+
++if host_system == 'windows'
++  build_root = meson.project_build_root()
++  gi_scanner_dll_paths = [
++      build_root / 'glib',
++      build_root / 'gobject',
++      build_root / 'gio',
++      build_root / 'gmodule'
++    ]
++
++  # Check whether ZLib, libffi and proxy-intl and PCRE are indeed built as subprojects, else os.add_dll_directory()
++  # will complain
++  # Keep in sync with GLib's subprojects settings
++  sub_build_root = build_root / 'subprojects'
++  foreach dep: ['proxy-intl', 'libffi', 'zlib-1.2.11', 'pcre2-10.42']
++    dep_dir = sub_build_root / dep
++    if fs.exists(dep_dir) and fs.is_dir(dep_dir)
++      gi_scanner_dll_paths += [dep_dir]
++    endif
++  endforeach
++
++  # Also assume the installation bindir to be considered for DLLs
++  message('Ensure that all of GLib\'s dependent non-system DLLs that are not built')
++  message('alongside with GLib can be found in \'@0@\''.format(get_option('prefix') / get_option('bindir')))
++  message('Check this if building .gir files fail due to \'ImportError: DLL load failed while importing _giscanner\'')
++  gi_scanner_dll_paths += get_option('prefix') / get_option('bindir')
++  gi_gen_env_variables.set('GI_EXTRA_BASE_DLL_DIRS', gi_scanner_dll_paths)
++endif
++
+ # GLib
+ glib_gir_sources = [
+   gi_gen_shared_sources,
+@@ -304,6 +332,12 @@ libgirepository_gir_args = [
+   '--identifier-prefix=GI',
+ ]
+
++gi_libgirepository_gen_env_variables = environment()
++
++if host_system == 'windows'
++  gi_libgirepository_gen_env_variables.set('GI_EXTRA_BASE_DLL_DIRS', gi_scanner_dll_paths)
++endif
++
+ girepository_gir = gnome.generate_gir(libgirepository,
+   sources: libgirepository_gir_sources,
+   namespace: 'GIRepository',
+@@ -316,5 +350,6 @@ girepository_gir = gnome.generate_gir(libgirepository,
+   install: true,
+   dependencies: [ libglib_dep, libgobject_dep, libgmodule_dep, libgio_dep ],
+   extra_args: gir_args + libgirepository_gir_args,
++  env: gi_libgirepository_gen_env_variables,
+ )
+
+--
+GitLab
