@@ -77,9 +77,9 @@ class NvCodecHeaders(Tarball, Project):
         Project.__init__(
             self,
             "nv-codec-headers",
-            version="12.1.14.0",
+            version="12.2.72.0",
             archive_url="https://github.com/FFmpeg/nv-codec-headers/releases/download/n{version}/nv-codec-headers-{version}.tar.gz",
-            hash="62b30ab37e4e9be0d0c5b37b8fee4b094e38e570984d56e1135a6b6c2c164c9f",
+            hash="c295a2ba8a06434d4bdc5c2208f8a825285210d71d91d572329b2c51fd0d4d03",
         )
 
     def build(self):
