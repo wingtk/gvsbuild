@@ -122,12 +122,12 @@ class Gtk4(Tarball, Meson):
             self,
             "gtk4",
             prj_dir="gtk4",
-            version="4.14.1",
+            version="4.14.2",
             lastversion_major=4,
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/gtk",
             archive_url="https://download.gnome.org/sources/gtk/{major}.{minor}/gtk-{version}.tar.xz",
-            hash="fcefb3f132f8cc4711a9efa5b353c9ae9bb5eeff0246fa74dbc2f2f839b9e308",
+            hash="22604cef2898a79e5f2143bb7aee2b7d1fa2eb946989a9d1338ecf9c8ae0e072",
             dependencies=[
                 "gdk-pixbuf",
                 "pango",
@@ -137,9 +137,6 @@ class Gtk4(Tarball, Meson):
                 "harfbuzz",
                 "glib",
                 "fribidi",
-            ],
-            patches=[
-                "001-fix-pangoft2-file-not-found.patch",
             ],
         )
         if self.opts.enable_gi:
