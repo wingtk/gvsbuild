@@ -103,6 +103,9 @@ class GLibNetworking(Tarball, Meson):
                 "openssl",
                 "gsettings-desktop-schemas",
             ],
+            patches=[
+                "add-null-check-in-complete_handshake.patch",
+            ],
         )
 
     def build(self):
