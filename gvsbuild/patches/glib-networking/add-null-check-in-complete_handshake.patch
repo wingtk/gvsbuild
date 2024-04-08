@@ -1,0 +1,28 @@
+From 294fed9a26f4a3cb7c2be19d349d0e5e062265a3 Mon Sep 17 00:00:00 2001
+From: Dario Marino Saccavino <dmsaccav@amazon.com>
+Date: Tue, 2 Apr 2024 17:23:40 +0200
+Subject: [PATCH] openssl: add null check in complete_handshake
+
+Check that the session is valid in g_tls_connection_openssl_complete_handshake,
+before calling SSL_SESSION_get_protocol_version.
+---
+ tls/openssl/gtlsconnection-openssl.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/tls/openssl/gtlsconnection-openssl.c b/tls/openssl/gtlsconnection-openssl.c
+index 983d1513..591bfba4 100644
+--- a/tls/openssl/gtlsconnection-openssl.c
++++ b/tls/openssl/gtlsconnection-openssl.c
+@@ -585,7 +585,8 @@ g_tls_connection_openssl_complete_handshake (GTlsConnectionBase   *tls,
+       *negotiated_protocol = g_strndup ((gchar *)data, len);
+     }
+ 
+-  *protocol_version = glib_protocol_version_from_openssl (SSL_SESSION_get_protocol_version (session));
++  *protocol_version = session ? glib_protocol_version_from_openssl (SSL_SESSION_get_protocol_version (session))
++                              : G_TLS_PROTOCOL_VERSION_UNKNOWN;
+   *ciphersuite_name = g_strdup (SSL_get_cipher_name (ssl));
+ }
+ 
+-- 
+GitLab
+
