@@ -25,15 +25,14 @@ class OpenSSLBase(Tarball, Project):
         Project.__init__(
             self,
             "openssl-base",
-            version="3.2.1",
+            version="3.3.0",
             archive_url="https://www.openssl.org/source/openssl-{version}.tar.gz",
-            hash="83c7329fe52c850677d75e5d0b0ca245309b97e8ecbcfdc1dfdc4ab9fac35b39",
+            hash="53e66b043322a606abf0087e7699a0e033a37fa13feb9742df35c3a33b18fb02",
             dependencies=[
                 "perl",
                 "nasm",
                 "msys2",
             ],
-            patches=["0001-crypto-providers-config.patch"],
         )
 
     def build(self):
