@@ -35,7 +35,7 @@ class Libpanel(Tarball, Meson):
                 "pkgconf",
                 "glib",
                 "gtk4",
-                "libadwaita"
+                "libadwaita",
             ],
         )
         gir = "disabled"
