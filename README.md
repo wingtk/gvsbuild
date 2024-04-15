@@ -318,6 +318,17 @@ gvsbuild deps --graph --gv-file test.gv
 Without option a simple dependency of all the projects is printed, as usual with
 --help a summary of the options/commands is printed.
 
+## Gvsbuild Users
+
+The following projects are using Gvsbuild for Windows GTK cross-platform support:
+
+- [Deluge](https://github.com/deluge-torrent/deluge) - BitTorrent client
+- [Gaphor](https://github.com/gaphor/gaphor) - A simple SysML/UML modeling tool
+- [PothosSDR](https://github.com/pothosware/PothosSDR) - Software-Defined Radio development environment
+- [SkyTemple Randomizer](https://github.com/SkyTemple/skytemple-randomizer) - Randomizer for Pokémon Mystery Dungeon Explorers of Sky
+
+Are you using Gvsbuild? Please submit a Pull Request to add your app to the list.
+
 ## License
 
 This build script is licensed under the GPL2.0 license, see the COPYING file for
