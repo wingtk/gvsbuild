@@ -135,9 +135,9 @@ class ToolNasm(Tool):
         Tool.__init__(
             self,
             "nasm",
-            version="2.16.02",
+            version="2.16.03",
             archive_url="https://www.nasm.us/pub/nasm/releasebuilds/{version}/win64/nasm-{version}-win64.zip",
-            hash="3facb987f97b9fc4a485d2f95aa64219dbfa991fc5d1867f7b0f93e416074d3c",
+            hash="3ee4782247bcb874378d02f7eab4e294a84d3d15f3f6ee2de2f47a46aa7226e6",
             dir_part="nasm-{version}",
             exe_name="nasm.exe",
         )
