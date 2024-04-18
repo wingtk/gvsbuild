@@ -24,10 +24,10 @@ class Opus(Tarball, CmakeProject):
         CmakeProject.__init__(
             self,
             "opus",
-            version="1.5.1",
+            version="1.5.2",
             repository="https://github.com/xiph/opus",
             archive_url="https://downloads.xiph.org/releases/opus/opus-{version}.tar.gz",
-            hash="b84610959b8d417b611aa12a22565e0a3732097c6389d19098d844543e340f85",
+            hash="65c1d2f78b9f2fb20082c38cbe47c951ad5839345876e46941612ee87f9a7ce1",
             dependencies=[
                 "ninja",
                 "cmake",
