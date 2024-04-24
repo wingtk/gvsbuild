@@ -13,15 +13,15 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-from gvsbuild.utils.base_builders import CmakeProject
+from gvsbuild.utils.base_builders import Meson
 from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import project_add
 
 
 @project_add
-class Opus(Tarball, CmakeProject):
+class Opus(Tarball, Meson):
     def __init__(self):
-        CmakeProject.__init__(
+        Meson.__init__(
             self,
             "opus",
             version="1.5.2",
@@ -30,26 +30,13 @@ class Opus(Tarball, CmakeProject):
             hash="65c1d2f78b9f2fb20082c38cbe47c951ad5839345876e46941612ee87f9a7ce1",
             dependencies=[
                 "ninja",
-                "cmake",
+                "meson",
                 "pkgconf",
             ],
         )
+        self.add_param("-Dtests=disabled")
+        self.add_param("-Ddocs=disabled")
 
     def build(self):
-        CmakeProject.build(
-            self,
-            use_ninja=True,
-            cmake_params="-DOPUS_BUILD_SHARED_LIBRARY=ON -DOPUS_BUILD_TESTING=OFF",
-        )
+        Meson.build(self)
         self.install(r"COPYING share\doc\opus")
-
-        configuration = (
-            "debug-optimized"
-            if self.opts.release_configuration_is_actually_debug_optimized
-            else self.opts.configuration
-        )
-        if configuration in ["debug-optimized", "debug"]:
-            self.install(r".\_gvsbuild-cmake\opus.pdb bin")
-
-        # FIXME: remove once we switch back to meson
-        self.install_pc_files()
