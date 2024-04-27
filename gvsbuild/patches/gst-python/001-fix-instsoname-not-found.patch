@@ -1,44 +1,80 @@
-Subject: [PATCH] Windows: fix INSTSONAME not found
----
-Index: meson.build
-IDEA additional info:
-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
-<+>UTF-8
-===================================================================
 diff --git a/meson.build b/meson.build
---- a/meson.build	(revision 95bafc4934a07c2f80979b0133ecc9ec900875a7)
-+++ b/meson.build	(revision eb5d3841eb0733a288166f3225020c21067145ff)
-@@ -53,10 +53,12 @@
+index 1aa43e1f55372c69f58d736159c678be50d05fe9..993b186a2ecb2ccb326668f1004af0134c23310e 100644
+--- a/meson.build
++++ b/meson.build
+@@ -45,35 +45,53 @@ pylib_loc = get_option('libpython-dir')
+ fsmod = import('fs')
+ pylib_prefix = 'lib'
+ pylib_suffix = 'so'
++pylib_ver = python_dep.version()
++pylib_locs = []
+ if host_system == 'windows'
+   if cc.get_argument_syntax() == 'msvc'
+     pylib_prefix = ''
+   endif
+   pylib_suffix = 'dll'
++  pylib_ver = pylib_ver.replace('.', '')
+ elif host_system == 'darwin'
    pylib_suffix = 'dylib'
  endif
  pylib_fnames = []
--# Library name with soversion, non-devel package
+ # Library name with soversion, non-devel package
 -pylib_fnames += python.get_variable('INSTSONAME', [])
--# Library name without soversion, devel package, framework, etc.
++if python.has_variable('INSTSONAME')
++  # For example, libpython3.12.so.1.0 (Linux), libpython3.11.dll.a (MSYS2), etc.
++  pylib_fnames += python.get_variable('INSTSONAME')
++endif
+ # Library name without soversion, devel package, framework, etc.
 -pylib_fnames += python.get_variable('LDLIBRARY', [])
-+if host_system != 'windows'
-+  # Library name with soversion, non-devel package
-+  pylib_fnames += python.get_variable('INSTSONAME', [])
-+  # Library name without soversion, devel package, framework, etc.
-+  pylib_fnames += python.get_variable('LDLIBRARY', [])
++if python.has_variable('LDLIBRARY')
++  # For example, libpython3.12.so (Linux), libpython3.11.dll.a (MSYS2), etc.
++  pylib_fnames += python.get_variable('LDLIBRARY')
 +endif
  # Manually construct name as a fallback
  pylib_fnames += [
-   pylib_prefix + 'python' + python_dep.version() + python_abi_flags + '.' + pylib_suffix
-===================================================================
-diff --git a/meson.build b/meson.build
---- a/meson.build	(revision eb5d3841eb0733a288166f3225020c21067145ff)
-+++ b/meson.build	(date 1710038287450)
-@@ -83,11 +83,7 @@
+-  pylib_prefix + 'python' + python_dep.version() + python_abi_flags + '.' + pylib_suffix
++  pylib_prefix + 'python' + pylib_ver + python_abi_flags + '.' + pylib_suffix
+ ]
+ if pylib_loc != ''
+   pylib_locs = [pylib_loc]
+ else
+-  pylib_locs = [
+-    python.get_variable('LIBDIR', ''),
+-    python.get_variable('LIBPL', ''),
+-  ]
++  if python.has_variable('LIBDIR')
++    pylib_locs += python.get_variable('LIBDIR')
++  endif
++  if python.has_variable('LIBPL')
++    pylib_locs += python.get_variable('LIBPL')
++  endif
++  # On Windows, python312.dll is in the rootdir where Python is installed,
++  # which is configured as the "prefix" in sysconfig.
++  if host_system == 'windows'
++    pylib_locs += python.get_variable('prefix')
++  endif
+ endif
+ pylib_fname = ''
+ foreach loc: pylib_locs
+   foreach fname: pylib_fnames
+-    if fsmod.exists(loc / fname)
++    fpath = loc / fname
++    debug(f'Looking for Python library at: @fpath@')
++    if fsmod.exists(fpath)
+       pylib_fname = fname
+       message(f'PY_LIB_FNAME = @fname@ (@loc@)')
+       break
+@@ -81,12 +99,7 @@ foreach loc: pylib_locs
+   endforeach
  endforeach
  if pylib_fname == ''
-   error_msg = 'Could not find python library to load'
+-  error_msg = 'Could not find python library to load'
 -  if python_opt.enabled()
 -    error(error_msg)
 -  else
 -    message(error_msg)
 -  endif
-+  message(error_msg)
++  message('Could not find python library to load, will try loading at runtime')
  endif
 
  pygi_override_dir = get_option('pygi-overrides-dir')
