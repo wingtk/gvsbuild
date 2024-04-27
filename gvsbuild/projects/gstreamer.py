@@ -235,6 +235,7 @@ class GstPython(Tarball, Meson):
             hash="bd90f3bc8af17dce3bf26b66537efb4951869ffce6403f598461b985e2b2d78e",
             dependencies=["meson", "ninja", "pygobject", "gst-plugins-base"],
             patches=[
+                # Fixed in GStreamer 1.24.3
                 "001-fix-instsoname-not-found.patch",
             ],
         )
