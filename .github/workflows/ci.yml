@@ -140,13 +140,20 @@ jobs:
           Copy-Item (Resolve-Path C:\gtk-build\build\x64\release\pycairo\dist\pycairo*.whl) "C:\gtk-build\gtk\x64\release\wheels"
       - name: Archive GTK runtime
         if: matrix.gtk-version == '4'
-        run: 7z a -tzip gtk${{ matrix.gtk-version }}_gvsbuild-${{ github.event.release.tag_name }}_x64.zip C:\gtk-build\gtk\x64\release\*
-      - name: Upload gtk${{ matrix.gtk-version }}_gvsbuild-${{ github.event.release.tag_name }}_x64.zip
-        if: matrix.gtk-version == '4'
-        uses: actions/upload-artifact@v3
+        run: 7z a -tzip GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.sha }}_x64.zip C:\gtk-build\gtk\x64\release\*
+      - name: Upload GTK${{ matrix.gtk-version }}_Gvsbuild-${{ github.sha }}_x64.zip
+        if: matrix.GTK-version == '4'
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
         with:
-          name: gtk${{ matrix.gtk-version }}_gvsbuild-${{ github.event.release.tag_name }}_x64.zip
-          path: gtk${{ matrix.gtk-version }}_gvsbuild-${{ github.event.release.tag_name }}_x64.zip
+          name: GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.sha }}_x64.zip
+          path: GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.sha }}_x64.zip
+      - name: Upload Release Assets
+        if: github.event_name == 'release' && matrix.gtk-version == '4'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mv GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.sha }}_x64.zip GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.event.release.tag_name }}_x64.zip
+          gh release upload ${{ github.event.release.tag_name }} "GTK${{ matrix.gtk-version }}_Gvsbuild-${{ github.event.release.tag_name }}_x64.zip"
       - name: Create Source Dist and Wheel
         if: matrix.gtk-version == '4'
         run: poetry build

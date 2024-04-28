@@ -8,7 +8,7 @@ stack for Windows using Visual Studio. Currently, GTK 3 and GTK 4 are supported.
 ## Install GTK Only
 
 If you want to only run GTK on Windows and not build it yourself, you can download
-a zip file from the last release and unzip it to `C:\gtk`.
+a zip file from the [latest release](https://github.com/wingtk/gvsbuild/releases/latest) and unzip it to `C:\gtk`.
 
 It comes with GTK4, Cairo, PyGObject, Pycairo, GtkSourceView5, adwaita-icon-theme, and
 all of their dependencies.
