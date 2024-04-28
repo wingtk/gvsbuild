@@ -55,8 +55,10 @@ deps = pytest
 """
 
 [tool.ruff]
-ignore = ["E501"]
 line-length = 88
+
+[tool.ruff.lint]
+ignore = ["E501"]
 select = [
     "B",
     "B9",
@@ -67,7 +69,7 @@ select = [
 ]
 extend-select = ["I"]
 
-[tool.ruff.mccabe]
+[tool.ruff.lint.mccabe]
 max-complexity = 20
 
 [tool.ruff.lint.flake8-bugbear]
