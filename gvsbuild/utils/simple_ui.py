@@ -15,7 +15,6 @@
 
 """Simple user interface for info, log & debug messages."""
 
-
 import ctypes
 import datetime
 import os

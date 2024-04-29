@@ -150,9 +150,9 @@ def list_(
                             hasattr(project, "latest_version")
                             and project.latest_version
                         ):
-                            params[
-                                "latest_version"
-                            ] = f"{str(project.latest_version):<45}"
+                            params["latest_version"] = (
+                                f"{str(project.latest_version):<45}"
+                            )
                         else:
                             params["latest_version"] = "undefined"
                         print("\t{name} {version} {latest_version}".format(**params))
