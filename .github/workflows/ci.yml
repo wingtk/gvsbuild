@@ -153,7 +153,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           mv GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.sha }}_x64.zip GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.event.release.tag_name }}_x64.zip
-          gh release upload ${{ github.event.release.tag_name }} "GTK${{ matrix.gtk-version }}_Gvsbuild-${{ github.event.release.tag_name }}_x64.zip"
+          gh release upload ${{ github.event.release.tag_name }} "GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.event.release.tag_name }}_x64.zip"
       - name: Create Source Dist and Wheel
         if: matrix.gtk-version == '4'
         run: poetry build
