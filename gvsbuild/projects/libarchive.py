@@ -29,7 +29,7 @@ class Libarchive(Tarball, CmakeProject):
             "libarchive",
             version="3.7.4",
             archive_url="https://libarchive.org/downloads/libarchive-{version}.tar.xz",
-            hash="63e7a7174638fc7d6b79b4c8b0ad954e0f4f45abe7239c1ecb200232aa9a43d2",
+            hash="f887755c434a736a609cbd28d87ddbfbe9d6a3bb5b703c22c02f6af80a802735",
             dependencies=[
                 "cmake",
                 "ninja",
