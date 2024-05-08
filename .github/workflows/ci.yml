@@ -90,6 +90,8 @@ jobs:
     needs: lint
     name: Build GTK${{ matrix.gtk-version }} Binaries
     runs-on: windows-latest
+    permissions:
+      contents: write
     timeout-minutes: 75
     if: "!contains(github.event.head_commit.message, 'skip ci')"
     strategy:
