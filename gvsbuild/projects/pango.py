@@ -37,7 +37,6 @@ class Pango(Tarball, Meson):
                 "fribidi",
             ],
             patches=[
-                "001-disable-dwrite.patch",
                 "002-fix-wrong-usage-gweakref.patch",
                 "003-remove-extra-hb-face-font.patch",
             ],
