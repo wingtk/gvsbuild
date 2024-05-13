@@ -160,10 +160,10 @@ class ToolNinja(Tool):
         Tool.__init__(
             self,
             "ninja",
-            version="1.12.0",
+            version="1.12.1",
             archive_url="https://github.com/ninja-build/ninja/releases/download/v{version}/ninja-win.zip",
             archive_filename="ninja-win-{version}.zip",
-            hash="51d99be9ceea8835edf536d52d47fa4c316aa332e57f71a08df5bd059da11417",
+            hash="f550fec705b6d6ff58f2db3c374c2277a37691678d6aba463adcbb129108467a",
             dir_part="ninja-{version}",
             exe_name="ninja.exe",
         )
