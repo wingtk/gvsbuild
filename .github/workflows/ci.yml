@@ -133,7 +133,7 @@ jobs:
         if: matrix.gtk-version == '4'
         run: > # Use -j2 option to prevent out of memory errors with GitHub Action runners
           poetry run gvsbuild build --ninja-opts -j2 --enable-gi --py-wheel gobject-introspection
-          gtk4 libadwaita gtksourceview5 pygobject pycairo adwaita-icon-theme
+          gtk4 libadwaita gtksourceview5 pygobject pycairo adwaita-icon-theme gtkmm
       - name: Copy wheel files
         if: matrix.gtk-version == '4'
         run: |
