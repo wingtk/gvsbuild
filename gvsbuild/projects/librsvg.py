@@ -36,6 +36,9 @@ class Librsvg(Tarball, Project):
                 "libxml2",
                 "freetype",
             ],
+            patches=[
+                "0001-allow-dead-code.patch",
+            ],
         )
         if Project.opts.enable_gi:
             self.add_dependency("gobject-introspection")
