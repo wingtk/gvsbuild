@@ -1,136 +1,157 @@
-Subject: [PATCH] Remove appstream dependency
-
+Subject: [PATCH] Remove appstream
 ---
- demo/adwaita-demo.c                        |  28 ++-
- demo/adwaita-demo.gresources.xml           |   1 -
- demo/data/meson.build                      |  19 --
- demo/meson.build                           |   3 -
- src/adw-about-dialog.c                     | 219 -----------------
- src/adw-about-dialog.h                     |   7 -
- src/adw-about-window.c                     | 259 ++-------------------
- src/adw-about-window.h                     |  13 +-
- src/meson.build                            |   8 -
- subprojects/appstream.wrap                 |   5 -
- tests/meson.build                          |  16 +-
- tests/org.gnome.Adwaita1.Test.metainfo.xml |  29 ---
- tests/test-about-dialog.c                  |  49 ----
- tests/test-about-window.c                  |  49 ----
- tests/tests.gresources.xml                 |   6 -
- 15 files changed, 39 insertions(+), 672 deletions(-)
- delete mode 100644 subprojects/appstream.wrap
- delete mode 100644 tests/org.gnome.Adwaita1.Test.metainfo.xml
- delete mode 100644 tests/tests.gresources.xml
-
-diff --git a/demo/adwaita-demo.c b/demo/adwaita-demo.c
-index f2d25f6e..a023275d 100644
---- a/demo/adwaita-demo.c
-+++ b/demo/adwaita-demo.c
-@@ -1,5 +1,3 @@
--#include "config.h"
+Index: subprojects/appstream.wrap
+===================================================================
+diff --git a/subprojects/appstream.wrap b/subprojects/appstream.wrap
+deleted file mode 100644
+--- a/subprojects/appstream.wrap	(revision d63f6356a13374b834a9b4a674d6516f34f3aa10)
++++ /dev/null	(revision d63f6356a13374b834a9b4a674d6516f34f3aa10)
+@@ -1,5 +0,0 @@
+-[wrap-git]
+-directory = appstream
+-url = https://github.com/ximion/appstream.git
+-revision = main
+-depth = 1
+Index: tests/org.gnome.Adwaita1.Test.metainfo.xml
+===================================================================
+diff --git a/tests/org.gnome.Adwaita1.Test.metainfo.xml b/tests/org.gnome.Adwaita1.Test.metainfo.xml
+deleted file mode 100644
+--- a/tests/org.gnome.Adwaita1.Test.metainfo.xml	(revision d63f6356a13374b834a9b4a674d6516f34f3aa10)
++++ /dev/null	(revision d63f6356a13374b834a9b4a674d6516f34f3aa10)
+@@ -1,29 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<component type="desktop-application">
+-  <id>org.gnome.Adwaita1.Test</id>
+-  <metadata_license>CC0-1.0</metadata_license>
+-  <project_license>LGPL-2.1-or-later</project_license>
+-  <launchable type="desktop-id">org.gnome.Adwaita1.Test.desktop</launchable>
+-  <developer_name>The GNOME Project</developer_name>
 -
- #include <glib/gi18n.h>
- #include <gtk/gtk.h>
- #include <adwaita.h>
-@@ -57,15 +55,23 @@ show_about (GSimpleAction *action,
+-  <name>Adwaita Test</name>
+-
+-  <releases>
+-    <release version="1.0">
+-      <description>
+-        <p>Testing Build</p>
+-      </description>
+-    </release>
+-    <release version="0.1">
+-      <description>
+-        <p>Testing Build Older</p>
+-      </description>
+-    </release>
+-  </releases>
+-
+-  <project_group>GNOME</project_group>
+-
+-  <url type="homepage">https://gitlab.gnome.org/GNOME/libadwaita</url>
+-  <url type="bugtracker">https://gitlab.gnome.org/GNOME/libadwaita/issues</url>
+-  <url type="help">http://www.gnome.org/friends/</url>
+-</component>
+Index: tests/tests.gresources.xml
+===================================================================
+diff --git a/tests/tests.gresources.xml b/tests/tests.gresources.xml
+deleted file mode 100644
+--- a/tests/tests.gresources.xml	(revision d63f6356a13374b834a9b4a674d6516f34f3aa10)
++++ /dev/null	(revision d63f6356a13374b834a9b4a674d6516f34f3aa10)
+@@ -1,6 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<gresources>
+-  <gresource prefix="/org/gnome/Adwaita1/Test">
+-    <file compressed="true">org.gnome.Adwaita1.Test.metainfo.xml</file>
+-  </gresource>
+-</gresources>
+Index: src/meson.build
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/meson.build b/src/meson.build
+--- a/src/meson.build	(revision d63f6356a13374b834a9b4a674d6516f34f3aa10)
++++ b/src/meson.build	(date 1716642545234)
+@@ -284,20 +284,12 @@
  
-   debug_info = adw_demo_generate_debug_info ();
- 
--  about = adw_about_dialog_new_from_appdata ("/org/gnome/Adwaita1/Demo/org.gnome.Adwaita1.Demo.metainfo.xml", NULL);
--  adw_about_dialog_set_version (ADW_ABOUT_DIALOG (about), ADW_VERSION_S);
--  adw_about_dialog_set_debug_info (ADW_ABOUT_DIALOG (about), debug_info);
--  adw_about_dialog_set_debug_info_filename (ADW_ABOUT_DIALOG (about), "adwaita-1-demo-debug-info.txt");
--  adw_about_dialog_set_copyright (ADW_ABOUT_DIALOG (about), "© 2017–2022 Purism SPC");
--  adw_about_dialog_set_developers (ADW_ABOUT_DIALOG (about), developers);
--  adw_about_dialog_set_designers (ADW_ABOUT_DIALOG (about), designers);
--  adw_about_dialog_set_artists (ADW_ABOUT_DIALOG (about), designers);
--  adw_about_dialog_set_translator_credits (ADW_ABOUT_DIALOG (about), _("translator-credits"));
-+  about =
-+    g_object_new (ADW_TYPE_ABOUT_DIALOG,
-+                  "application-icon", "org.gnome.Adwaita1.Demo",
-+                  "application-name", _("Adwaita Demo"),
-+                  "developer-name", _("The GNOME Project"),
-+                  "version", ADW_VERSION_S,
-+                  "website", "https://gitlab.gnome.org/GNOME/libadwaita",
-+                  "issue-url", "https://gitlab.gnome.org/GNOME/libadwaita/-/issues/new",
-+                  "debug-info", debug_info,
-+                  "debug-info-filename", "adwaita-1-demo-debug-info.txt",
-+                  "copyright", "© 2017–2022 Purism SPC",
-+                  "license-type", GTK_LICENSE_LGPL_2_1,
-+                  "developers", developers,
-+                  "designers", designers,
-+                  "artists", designers,
-+                  "translator-credits", _("translator-credits"),
-+                  NULL);
- 
-   adw_about_dialog_add_link (ADW_ABOUT_DIALOG (about),
-                              _("_Documentation"),
-diff --git a/demo/adwaita-demo.gresources.xml b/demo/adwaita-demo.gresources.xml
-index 86e6b067..acea0eb3 100644
---- a/demo/adwaita-demo.gresources.xml
-+++ b/demo/adwaita-demo.gresources.xml
-@@ -3,7 +3,6 @@
-   <gresource prefix="/org/gnome/Adwaita1/Demo">
-     <file preprocess="xml-stripblanks" alias="icons/scalable/apps/org.gnome.Adwaita1.Demo.svg">data/org.gnome.Adwaita1.Demo.svg</file>
-     <file preprocess="xml-stripblanks" alias="icons/symbolic/apps/org.gnome.Adwaita1.Demo-symbolic.svg">data/org.gnome.Adwaita1.Demo-symbolic.svg</file>
--    <file preprocess="xml-stripblanks" alias="org.gnome.Adwaita1.Demo.metainfo.xml">data/org.gnome.Adwaita1.Demo.metainfo.xml</file>
-     <file preprocess="xml-stripblanks">icons/scalable/actions/avatar-delete-symbolic.svg</file>
-     <file preprocess="xml-stripblanks">icons/scalable/actions/avatar-save-symbolic.svg</file>
-     <file preprocess="xml-stripblanks">icons/scalable/actions/clock-alarm-symbolic.svg</file>
-diff --git a/demo/data/meson.build b/demo/data/meson.build
-index 5d176351..12928ac2 100644
---- a/demo/data/meson.build
-+++ b/demo/data/meson.build
-@@ -34,25 +34,6 @@ appdata_config = configuration_data()
- appdata_config.set('BUILD_VERSION', meson.project_version())
- appdata_config.set('BUILD_DATE', today)
- 
--appstream_file = i18n.merge_file(
--  input: configure_file(
--    input: 'org.gnome.Adwaita1.Demo.metainfo.xml.in.in',
--    output: 'org.gnome.Adwaita1.Demo.metainfo.xml.in',
--    configuration: appdata_config
--  ),
--  output: 'org.gnome.Adwaita1.Demo.metainfo.xml',
--  po_dir: '../../po',
--  install: true,
--  install_dir: datadir / 'metainfo'
+ gio_dep = dependency('gio-2.0', version: glib_min_version)
+ gtk_dep = dependency('gtk4', version: gtk_min_version)
+-appstream_dep = dependency('appstream',
+-  fallback : ['appstream', 'appstream_dep'],
+-  default_options : [
+-    'systemd=false', 'apidocs=false', 'install-docs=false',
+-    'stemming=false', 'svg-support=false', 'gir=false',
+-  ],
 -)
+ 
+ libadwaita_deps = [
+   dependency('glib-2.0', version: glib_min_version),
+   dependency('fribidi'),
+   gio_dep,
+   gtk_dep,
+-  appstream_dep,
+   cc.find_library('m', required: false),
+ ]
+ 
+Index: src/adw-about-window.h
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/adw-about-window.h b/src/adw-about-window.h
+--- a/src/adw-about-window.h	(revision d63f6356a13374b834a9b4a674d6516f34f3aa10)
++++ b/src/adw-about-window.h	(date 1716642545223)
+@@ -25,10 +25,6 @@
+ ADW_AVAILABLE_IN_1_2
+ GtkWidget *adw_about_window_new (void) G_GNUC_WARN_UNUSED_RESULT;
+ 
+-ADW_AVAILABLE_IN_1_4
+-GtkWidget *adw_about_window_new_from_appdata (const char *resource_path,
+-                                              const char *release_notes_version) G_GNUC_WARN_UNUSED_RESULT;
 -
--appstreamcli = find_program('appstreamcli', required: false)
--if appstreamcli.found()
--  test('Validate appstream file', appstreamcli,
--    args: ['validate', '--no-net', '--explain', appstream_file]
--  )
--endif
+ ADW_AVAILABLE_IN_1_2
+ const char *adw_about_window_get_application_name (AdwAboutWindow *self);
+ ADW_AVAILABLE_IN_1_2
+@@ -174,13 +170,6 @@
+ ADW_AVAILABLE_IN_1_2
+ void adw_show_about_window (GtkWindow  *parent,
+                             const char *first_property_name,
+-                            ...) G_GNUC_NULL_TERMINATED;
 -
- install_data(
-   'org.gnome.Adwaita1.Demo.svg',
-   install_dir: datadir / 'icons' / 'hicolor' / 'scalable' / 'apps'
-diff --git a/demo/meson.build b/demo/meson.build
-index ca04e31f..d01e1651 100644
---- a/demo/meson.build
-+++ b/demo/meson.build
-@@ -3,7 +3,6 @@ if get_option('examples')
- subdir('data')
+-ADW_AVAILABLE_IN_1_4
+-void adw_show_about_window_from_appdata (GtkWindow  *parent,
+-                                         const char *resource_path,
+-                                         const char *release_notes_version,
+-                                         const char *first_property_name,
+-                                         ...) G_GNUC_NULL_TERMINATED;
++                            ...);
  
- demo_config_data = configuration_data()
--demo_config_data.set_quoted('ADW_METAINFO', appstream_file.full_path())
- demo_config_data.set_quoted('ADW_DEMO_VCS_TAG', '@VCS_TAG@')
+ G_END_DECLS
+Index: src/adw-about-dialog.h
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/adw-about-dialog.h b/src/adw-about-dialog.h
+--- a/src/adw-about-dialog.h	(revision d63f6356a13374b834a9b4a674d6516f34f3aa10)
++++ b/src/adw-about-dialog.h	(date 1716642545163)
+@@ -178,11 +178,4 @@
+                             const char *first_property_name,
+                             ...) G_GNUC_NULL_TERMINATED;
  
- demo_config_h = vcs_tag(
-@@ -19,8 +18,6 @@ adwaita_demo_resources = gnome.compile_resources(
-    'adwaita-demo.gresources.xml',
- 
-    c_name: 'adw',
--   dependencies: appstream_file,
--   source_dir: meson.current_build_dir(),
- )
- 
- adwaita_demo_sources = [
+-ADW_AVAILABLE_IN_1_5
+-void adw_show_about_dialog_from_appdata (GtkWidget  *parent,
+-                                         const char *resource_path,
+-                                         const char *release_notes_version,
+-                                         const char *first_property_name,
+-                                         ...) G_GNUC_NULL_TERMINATED;
+-
+ G_END_DECLS
+Index: src/adw-about-dialog.c
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
 diff --git a/src/adw-about-dialog.c b/src/adw-about-dialog.c
-index 1bed7bed..73af0179 100644
---- a/src/adw-about-dialog.c
-+++ b/src/adw-about-dialog.c
+--- a/src/adw-about-dialog.c	(revision d63f6356a13374b834a9b4a674d6516f34f3aa10)
++++ b/src/adw-about-dialog.c	(date 1716662850354)
 @@ -7,7 +7,6 @@
  
  #include "config.h"
@@ -139,7 +160,7 @@ index 1bed7bed..73af0179 100644
  
  #include "adw-about-dialog.h"
  
-@@ -411,13 +410,6 @@ legal_showing_cb (AdwAboutDialog *self)
+@@ -411,13 +410,6 @@
    self->legal_showing_idle_id = 0;
  }
  
@@ -153,7 +174,7 @@ index 1bed7bed..73af0179 100644
  static void
  update_credits_legal_group (AdwAboutDialog *self)
  {
-@@ -1953,179 +1945,6 @@ adw_about_dialog_new (void)
+@@ -1953,180 +1945,6 @@
    return g_object_new (ADW_TYPE_ABOUT_DIALOG, NULL);
  }
  
@@ -169,14 +190,15 @@ index 1bed7bed..73af0179 100644
 - *
 - * * [property@AboutDialog:application-icon] is set from the `<id>`
 - * * [property@AboutDialog:application-name] is set from the `<name>`
-- * * [property@AboutDialog:developer-name] is set from the `<developer_name>`
+- * * [property@AboutDialog:developer-name] is set from the `<name>` within
+- *      `<developer>`
 - * * [property@AboutDialog:version] is set from the version of the latest release
 - * * [property@AboutDialog:website] is set from the `<url type="homepage">`
 - * * [property@AboutDialog:support-url] is set from the `<url type="help">`
 - * * [property@AboutDialog:issue-url] is set from the `<url type="bugtracker">`
-- * * [property@AboutDialog:license-type] is set from the `<project_license>`
-- *   If the license type retrieved from AppStream is not listed in
-- *   [enum@Gtk.License], it will be set to `GTK_LICENCE_CUSTOM`.
+- * * [property@AboutDialog:license-type] is set from the `<project_license>`.
+- *     If the license type retrieved from AppStream is not listed in
+- *     [enum@Gtk.License], it will be set to `GTK_LICENCE_CUSTOM`.
 - *
 - * If @release_notes_version is not `NULL`,
 - * [property@AboutDialog:release-notes-version] is set to match it, while
@@ -333,10 +355,12 @@ index 1bed7bed..73af0179 100644
  /**
   * adw_about_dialog_get_application_icon: (attributes org.gtk.Method.get_property=application-icon)
   * @self: an about dialog
-@@ -3422,41 +3241,3 @@ adw_show_about_dialog (GtkWidget  *parent,
+@@ -3421,43 +3239,4 @@
+   g_object_set_valist (G_OBJECT (dialog), first_property_name, var_args);
+   va_end (var_args);
  
-   adw_dialog_present (dialog, parent);
- }
+-  adw_dialog_present (dialog, parent);
+-}
 -
 -/**
 - * adw_show_about_dialog_from_appdata: (skip)
@@ -374,27 +398,260 @@ index 1bed7bed..73af0179 100644
 -  va_end (var_args);
 -
 -  adw_dialog_present (dialog, parent);
--}
-diff --git a/src/adw-about-dialog.h b/src/adw-about-dialog.h
-index b41bf11e..2f1d05d0 100644
---- a/src/adw-about-dialog.h
-+++ b/src/adw-about-dialog.h
-@@ -178,11 +178,4 @@ void adw_show_about_dialog (GtkWidget  *parent,
-                             const char *first_property_name,
-                             ...) G_GNUC_NULL_TERMINATED;
+ }
+Index: tests/test-about-dialog.c
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/tests/test-about-dialog.c b/tests/test-about-dialog.c
+--- a/tests/test-about-dialog.c	(revision d63f6356a13374b834a9b4a674d6516f34f3aa10)
++++ b/tests/test-about-dialog.c	(date 1716642545267)
+@@ -9,49 +9,6 @@
  
--ADW_AVAILABLE_IN_1_5
--void adw_show_about_dialog_from_appdata (GtkWidget  *parent,
--                                         const char *resource_path,
--                                         const char *release_notes_version,
--                                         const char *first_property_name,
--                                         ...) G_GNUC_NULL_TERMINATED;
+ #include <adwaita.h>
+ 
+-#include "adwaita-test-resources.h"
 -
- G_END_DECLS
+-static void
+-test_adw_about_dialog_from_appdata (void)
+-{
+-  AdwAboutDialog *dialog = g_object_ref_sink (ADW_ABOUT_DIALOG (adw_about_dialog_new_from_appdata ("/org/gnome/Adwaita1/Test/org.gnome.Adwaita1.Test.metainfo.xml", "1.0")));
+-
+-  g_assert_nonnull (dialog);
+-
+-  g_assert_cmpstr (adw_about_dialog_get_release_notes (dialog), ==, "<p>Testing Build</p>\n");
+-  g_assert_cmpstr (adw_about_dialog_get_release_notes_version (dialog), ==, "1.0");
+-  g_assert_cmpstr (adw_about_dialog_get_version (dialog), ==, "1.0");
+-  g_assert_cmpstr (adw_about_dialog_get_application_icon (dialog), ==, "org.gnome.Adwaita1.Test");
+-  g_assert_cmpstr (adw_about_dialog_get_application_name (dialog), ==, "Adwaita Test");
+-  g_assert_cmpstr (adw_about_dialog_get_developer_name (dialog), ==, "The GNOME Project");
+-  g_assert_cmpstr (adw_about_dialog_get_issue_url (dialog), ==, "https://gitlab.gnome.org/GNOME/libadwaita/issues");
+-  g_assert_cmpstr (adw_about_dialog_get_support_url (dialog), ==, "http://www.gnome.org/friends/");
+-  g_assert_cmpstr (adw_about_dialog_get_website (dialog), ==, "https://gitlab.gnome.org/GNOME/libadwaita");
+-  g_assert_cmpuint (adw_about_dialog_get_license_type (dialog), ==, GTK_LICENSE_LGPL_2_1);
+-
+-  g_assert_finalize_object (dialog);
+-
+-  dialog = g_object_ref_sink (ADW_ABOUT_DIALOG (adw_about_dialog_new_from_appdata ("/org/gnome/Adwaita1/Test/org.gnome.Adwaita1.Test.metainfo.xml", "0.1")));
+-
+-  g_assert_nonnull (dialog);
+-
+-  g_assert_cmpstr (adw_about_dialog_get_release_notes (dialog), ==, "<p>Testing Build Older</p>\n");
+-  g_assert_cmpstr (adw_about_dialog_get_release_notes_version (dialog), ==, "0.1");
+-  g_assert_cmpstr (adw_about_dialog_get_version (dialog), ==, "1.0");
+-
+-  g_assert_finalize_object (dialog);
+-
+-  dialog = g_object_ref_sink (ADW_ABOUT_DIALOG (adw_about_dialog_new_from_appdata ("/org/gnome/Adwaita1/Test/org.gnome.Adwaita1.Test.metainfo.xml", NULL)));
+-
+-  g_assert_nonnull (dialog);
+-
+-  g_assert_cmpstr (adw_about_dialog_get_release_notes (dialog), ==, "");
+-  g_assert_cmpstr (adw_about_dialog_get_release_notes_version (dialog), ==, "");
+-  g_assert_cmpstr (adw_about_dialog_get_version (dialog), ==, "1.0");
+-
+-  g_assert_finalize_object (dialog);
+-}
+-
+ static void
+ test_adw_about_dialog_create (void)
+ {
+@@ -144,16 +101,10 @@
+ main (int   argc,
+       char *argv[])
+ {
+-  GResource *test_resources;
+-
+   gtk_test_init (&argc, &argv, NULL);
+   adw_init ();
+ 
+-  test_resources = test_get_resource ();
+-  g_resources_register (test_resources);
+-
+   g_test_add_func ("/Adwaita/AboutDialog/create", test_adw_about_dialog_create);
+-  g_test_add_func ("/Adwaita/AboutDialog/from_appdata", test_adw_about_dialog_from_appdata);
+ 
+   return g_test_run ();
+ }
+Index: demo/data/meson.build
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/demo/data/meson.build b/demo/data/meson.build
+--- a/demo/data/meson.build	(revision d63f6356a13374b834a9b4a674d6516f34f3aa10)
++++ b/demo/data/meson.build	(date 1716642545017)
+@@ -34,25 +34,6 @@
+ appdata_config.set('BUILD_VERSION', meson.project_version())
+ appdata_config.set('BUILD_DATE', today)
+ 
+-appstream_file = i18n.merge_file(
+-  input: configure_file(
+-    input: 'org.gnome.Adwaita1.Demo.metainfo.xml.in.in',
+-    output: 'org.gnome.Adwaita1.Demo.metainfo.xml.in',
+-    configuration: appdata_config
+-  ),
+-  output: 'org.gnome.Adwaita1.Demo.metainfo.xml',
+-  po_dir: '../../po',
+-  install: true,
+-  install_dir: datadir / 'metainfo'
+-)
+-
+-appstreamcli = find_program('appstreamcli', required: false)
+-if appstreamcli.found()
+-  test('Validate appstream file', appstreamcli,
+-    args: ['validate', '--no-net', '--explain', appstream_file]
+-  )
+-endif
+-
+ install_data(
+   'org.gnome.Adwaita1.Demo.svg',
+   install_dir: datadir / 'icons' / 'hicolor' / 'scalable' / 'apps'
+Index: tests/test-about-window.c
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/tests/test-about-window.c b/tests/test-about-window.c
+--- a/tests/test-about-window.c	(revision d63f6356a13374b834a9b4a674d6516f34f3aa10)
++++ b/tests/test-about-window.c	(date 1716642545276)
+@@ -8,49 +8,6 @@
+ 
+ #include <adwaita.h>
+ 
+-#include "adwaita-test-resources.h"
+-
+-static void
+-test_adw_about_window_from_appdata (void)
+-{
+-  AdwAboutWindow *window = ADW_ABOUT_WINDOW (adw_about_window_new_from_appdata ("/org/gnome/Adwaita1/Test/org.gnome.Adwaita1.Test.metainfo.xml", "1.0"));
+-
+-  g_assert_nonnull (window);
+-
+-  g_assert_cmpstr (adw_about_window_get_release_notes (window), ==, "<p>Testing Build</p>\n");
+-  g_assert_cmpstr (adw_about_window_get_release_notes_version (window), ==, "1.0");
+-  g_assert_cmpstr (adw_about_window_get_version (window), ==, "1.0");
+-  g_assert_cmpstr (adw_about_window_get_application_icon (window), ==, "org.gnome.Adwaita1.Test");
+-  g_assert_cmpstr (adw_about_window_get_application_name (window), ==, "Adwaita Test");
+-  g_assert_cmpstr (adw_about_window_get_developer_name (window), ==, "The GNOME Project");
+-  g_assert_cmpstr (adw_about_window_get_issue_url (window), ==, "https://gitlab.gnome.org/GNOME/libadwaita/issues");
+-  g_assert_cmpstr (adw_about_window_get_support_url (window), ==, "http://www.gnome.org/friends/");
+-  g_assert_cmpstr (adw_about_window_get_website (window), ==, "https://gitlab.gnome.org/GNOME/libadwaita");
+-  g_assert_cmpuint (adw_about_window_get_license_type (window), ==, GTK_LICENSE_LGPL_2_1);
+-
+-  g_assert_finalize_object (window);
+-
+-  window = ADW_ABOUT_WINDOW (adw_about_window_new_from_appdata ("/org/gnome/Adwaita1/Test/org.gnome.Adwaita1.Test.metainfo.xml", "0.1"));
+-
+-  g_assert_nonnull (window);
+-
+-  g_assert_cmpstr (adw_about_window_get_release_notes (window), ==, "<p>Testing Build Older</p>\n");
+-  g_assert_cmpstr (adw_about_window_get_release_notes_version (window), ==, "0.1");
+-  g_assert_cmpstr (adw_about_window_get_version (window), ==, "1.0");
+-
+-  g_assert_finalize_object (window);
+-
+-  window = ADW_ABOUT_WINDOW (adw_about_window_new_from_appdata ("/org/gnome/Adwaita1/Test/org.gnome.Adwaita1.Test.metainfo.xml", NULL));
+-
+-  g_assert_nonnull (window);
+-
+-  g_assert_cmpstr (adw_about_window_get_release_notes (window), ==, "");
+-  g_assert_cmpstr (adw_about_window_get_release_notes_version (window), ==, "");
+-  g_assert_cmpstr (adw_about_window_get_version (window), ==, "1.0");
+-
+-  g_assert_finalize_object (window);
+-}
+-
+ static void
+ test_adw_about_window_create (void)
+ {
+@@ -143,16 +100,10 @@
+ main (int   argc,
+       char *argv[])
+ {
+-  GResource *test_resources;
+-
+   gtk_test_init (&argc, &argv, NULL);
+   adw_init ();
+ 
+-  test_resources = test_get_resource ();
+-  g_resources_register (test_resources);
+-
+   g_test_add_func ("/Adwaita/AboutWindow/create", test_adw_about_window_create);
+-  g_test_add_func ("/Adwaita/AboutWindow/from_appdata", test_adw_about_window_from_appdata);
+ 
+   return g_test_run ();
+ }
+Index: tests/meson.build
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/tests/meson.build b/tests/meson.build
+--- a/tests/meson.build	(revision d63f6356a13374b834a9b4a674d6516f34f3aa10)
++++ b/tests/meson.build	(date 1716642545250)
+@@ -2,13 +2,6 @@
+ 
+ subdir('manual')
+ 
+-test_resources = gnome.compile_resources(
+-   'adwaita-test-resources',
+-   'tests.gresources.xml',
+-
+-   c_name: 'test',
+-)
+-
+ test_env = [
+   'G_TEST_SRCDIR=@0@'.format(meson.current_source_dir()),
+   'G_TEST_BUILDDIR=@0@'.format(meson.current_build_dir()),
+@@ -21,6 +14,7 @@
+ 
+ test_cflags = [
+   '-DADW_LOG_DOMAIN="Adwaita"',
++  '-DTEST_DATA_DIR="@0@/data"'.format(meson.current_source_dir()),
+ ]
+ 
+ test_link_args = []
+@@ -87,13 +81,7 @@
+ ]
+ 
+ foreach test_name : test_names
+-  test_sources = [
+-    test_name + '.c',
+-    test_resources,
+-    libadwaita_generated_headers
+-  ]
+-
+-  t = executable(test_name, test_sources,
++  t = executable(test_name, [test_name + '.c'] + libadwaita_generated_headers,
+                        c_args: test_cflags,
+                     link_args: test_link_args,
+                  dependencies: libadwaita_deps + [libadwaita_dep],
+Index: demo/adwaita-demo.gresources.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/demo/adwaita-demo.gresources.xml b/demo/adwaita-demo.gresources.xml
+--- a/demo/adwaita-demo.gresources.xml	(revision d63f6356a13374b834a9b4a674d6516f34f3aa10)
++++ b/demo/adwaita-demo.gresources.xml	(date 1716642545044)
+@@ -3,7 +3,6 @@
+   <gresource prefix="/org/gnome/Adwaita1/Demo">
+     <file preprocess="xml-stripblanks" alias="icons/scalable/apps/org.gnome.Adwaita1.Demo.svg">data/org.gnome.Adwaita1.Demo.svg</file>
+     <file preprocess="xml-stripblanks" alias="icons/symbolic/apps/org.gnome.Adwaita1.Demo-symbolic.svg">data/org.gnome.Adwaita1.Demo-symbolic.svg</file>
+-    <file preprocess="xml-stripblanks" alias="org.gnome.Adwaita1.Demo.metainfo.xml">data/org.gnome.Adwaita1.Demo.metainfo.xml</file>
+     <file preprocess="xml-stripblanks">icons/scalable/actions/avatar-delete-symbolic.svg</file>
+     <file preprocess="xml-stripblanks">icons/scalable/actions/avatar-save-symbolic.svg</file>
+     <file preprocess="xml-stripblanks">icons/scalable/actions/clock-alarm-symbolic.svg</file>
+Index: src/adw-about-window.c
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
 diff --git a/src/adw-about-window.c b/src/adw-about-window.c
-index 6a816177..9c37faf0 100644
---- a/src/adw-about-window.c
-+++ b/src/adw-about-window.c
+--- a/src/adw-about-window.c	(revision d63f6356a13374b834a9b4a674d6516f34f3aa10)
++++ b/src/adw-about-window.c	(date 1716669139820)
 @@ -6,7 +6,6 @@
  
  #include "config.h"
@@ -455,7 +712,7 @@ index 6a816177..9c37faf0 100644
  };
  /* Copied from GTK 4 for consistency with GtkAboutDialog. */
  /* Keep this static assertion updated with the last element of the enumeration,
-@@ -409,13 +407,6 @@ legal_showing_cb (AdwAboutWindow *self)
+@@ -409,13 +407,6 @@
      g_idle_add_once ((GSourceOnceFunc) legal_showing_idle_cb, self);
  }
  
@@ -469,7 +726,7 @@ index 6a816177..9c37faf0 100644
  static void
  update_credits_legal_group (AdwAboutWindow *self)
  {
-@@ -1952,179 +1943,6 @@ adw_about_window_new (void)
+@@ -1952,180 +1943,6 @@
    return g_object_new (ADW_TYPE_ABOUT_WINDOW, NULL);
  }
  
@@ -485,14 +742,15 @@ index 6a816177..9c37faf0 100644
 - *
 - * * [property@AboutWindow:application-icon] is set from the `<id>`
 - * * [property@AboutWindow:application-name] is set from the `<name>`
-- * * [property@AboutWindow:developer-name] is set from the `<developer_name>`
+- * * [property@AboutWindow:developer-name] is set from the `<name>` within
+- *      `<developer>`
 - * * [property@AboutWindow:version] is set from the version of the latest release
 - * * [property@AboutWindow:website] is set from the `<url type="homepage">`
 - * * [property@AboutWindow:support-url] is set from the `<url type="help">`
 - * * [property@AboutWindow:issue-url] is set from the `<url type="bugtracker">`
-- * * [property@AboutWindow:license-type] is set from the `<project_license>`
-- *   If the license type retrieved from AppStream is not listed in
-- *   [enum@Gtk.License], it will be set to `GTK_LICENCE_CUSTOM`.
+- * * [property@AboutWindow:license-type] is set from the `<project_license>`.
+- *     If the license type retrieved from AppStream is not listed in
+- *     [enum@Gtk.License], it will be set to `GTK_LICENCE_CUSTOM`.
 - *
 - * If @release_notes_version is not `NULL`,
 - * [property@AboutWindow:release-notes-version] is set to match it, while
@@ -649,7 +907,7 @@ index 6a816177..9c37faf0 100644
  /**
   * adw_about_window_get_application_icon: (attributes org.gtk.Method.get_property=application-icon)
   * @self: an about window
-@@ -3422,42 +3240,3 @@ adw_show_about_window (GtkWindow  *parent,
+@@ -3423,42 +3240,3 @@
  
    gtk_window_present (GTK_WINDOW (window));
  }
@@ -692,302 +950,75 @@ index 6a816177..9c37faf0 100644
 -
 -  gtk_window_present (GTK_WINDOW (window));
 -}
-diff --git a/src/adw-about-window.h b/src/adw-about-window.h
-index 79be5009..e6a041d4 100644
---- a/src/adw-about-window.h
-+++ b/src/adw-about-window.h
-@@ -25,10 +25,6 @@ G_DECLARE_FINAL_TYPE (AdwAboutWindow, adw_about_window, ADW, ABOUT_WINDOW, AdwWi
- ADW_AVAILABLE_IN_1_2
- GtkWidget *adw_about_window_new (void) G_GNUC_WARN_UNUSED_RESULT;
+Index: demo/meson.build
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/demo/meson.build b/demo/meson.build
+--- a/demo/meson.build	(revision d63f6356a13374b834a9b4a674d6516f34f3aa10)
++++ b/demo/meson.build	(date 1716642545055)
+@@ -3,7 +3,6 @@
+ subdir('data')
  
--ADW_AVAILABLE_IN_1_4
--GtkWidget *adw_about_window_new_from_appdata (const char *resource_path,
--                                              const char *release_notes_version) G_GNUC_WARN_UNUSED_RESULT;
+ demo_config_data = configuration_data()
+-demo_config_data.set_quoted('ADW_METAINFO', appstream_file.full_path())
+ demo_config_data.set_quoted('ADW_DEMO_VCS_TAG', '@VCS_TAG@')
+ 
+ demo_config_h = vcs_tag(
+@@ -19,8 +18,6 @@
+    'adwaita-demo.gresources.xml',
+ 
+    c_name: 'adw',
+-   dependencies: appstream_file,
+-   source_dir: meson.current_build_dir(),
+ )
+ 
+ adwaita_demo_sources = [
+Index: demo/adwaita-demo.c
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/demo/adwaita-demo.c b/demo/adwaita-demo.c
+--- a/demo/adwaita-demo.c	(revision d63f6356a13374b834a9b4a674d6516f34f3aa10)
++++ b/demo/adwaita-demo.c	(date 1716642545029)
+@@ -1,5 +1,3 @@
+-#include "config.h"
 -
- ADW_AVAILABLE_IN_1_2
- const char *adw_about_window_get_application_name (AdwAboutWindow *self);
- ADW_AVAILABLE_IN_1_2
-@@ -174,13 +170,6 @@ void adw_about_window_add_legal_section (AdwAboutWindow *self,
- ADW_AVAILABLE_IN_1_2
- void adw_show_about_window (GtkWindow  *parent,
-                             const char *first_property_name,
--                            ...) G_GNUC_NULL_TERMINATED;
--
--ADW_AVAILABLE_IN_1_4
--void adw_show_about_window_from_appdata (GtkWindow  *parent,
--                                         const char *resource_path,
--                                         const char *release_notes_version,
--                                         const char *first_property_name,
--                                         ...) G_GNUC_NULL_TERMINATED;
-+                            ...);
- 
- G_END_DECLS
-diff --git a/src/meson.build b/src/meson.build
-index aa71da24..5d7db8c4 100644
---- a/src/meson.build
-+++ b/src/meson.build
-@@ -283,20 +283,12 @@ gtk_min_version = '>= 4.13.4'
- 
- gio_dep = dependency('gio-2.0', version: glib_min_version)
- gtk_dep = dependency('gtk4', version: gtk_min_version)
--appstream_dep = dependency('appstream',
--  fallback : ['appstream', 'appstream_dep'],
--  default_options : [
--    'systemd=false', 'apidocs=false', 'install-docs=false',
--    'stemming=false', 'svg-support=false', 'gir=false',
--  ],
--)
- 
- libadwaita_deps = [
-   dependency('glib-2.0', version: glib_min_version),
-   dependency('fribidi'),
-   gio_dep,
-   gtk_dep,
--  appstream_dep,
-   cc.find_library('m', required: false),
- ]
- 
-diff --git a/subprojects/appstream.wrap b/subprojects/appstream.wrap
-deleted file mode 100644
-index 4262a04b..00000000
---- a/subprojects/appstream.wrap
-+++ /dev/null
-@@ -1,5 +0,0 @@
--[wrap-git]
--directory = appstream
--url = https://github.com/ximion/appstream.git
--revision = main
--depth = 1
-diff --git a/tests/meson.build b/tests/meson.build
-index a5312488..64bc27d0 100644
---- a/tests/meson.build
-+++ b/tests/meson.build
-@@ -2,13 +2,6 @@ if get_option('tests')
- 
- subdir('manual')
- 
--test_resources = gnome.compile_resources(
--   'adwaita-test-resources',
--   'tests.gresources.xml',
--
--   c_name: 'test',
--)
--
- test_env = [
-   'G_TEST_SRCDIR=@0@'.format(meson.current_source_dir()),
-   'G_TEST_BUILDDIR=@0@'.format(meson.current_build_dir()),
-@@ -21,6 +14,7 @@ test_env = [
- 
- test_cflags = [
-   '-DADW_LOG_DOMAIN="Adwaita"',
-+  '-DTEST_DATA_DIR="@0@/data"'.format(meson.current_source_dir()),
- ]
- 
- test_link_args = []
-@@ -87,13 +81,7 @@ test_names = [
- ]
- 
- foreach test_name : test_names
--  test_sources = [
--    test_name + '.c',
--    test_resources,
--    libadwaita_generated_headers
--  ]
--
--  t = executable(test_name, test_sources,
-+  t = executable(test_name, [test_name + '.c'] + libadwaita_generated_headers,
-                        c_args: test_cflags,
-                     link_args: test_link_args,
-                  dependencies: libadwaita_deps + [libadwaita_dep],
-diff --git a/tests/org.gnome.Adwaita1.Test.metainfo.xml b/tests/org.gnome.Adwaita1.Test.metainfo.xml
-deleted file mode 100644
-index 8b4af591..00000000
---- a/tests/org.gnome.Adwaita1.Test.metainfo.xml
-+++ /dev/null
-@@ -1,29 +0,0 @@
--<?xml version="1.0" encoding="UTF-8"?>
--<component type="desktop-application">
--  <id>org.gnome.Adwaita1.Test</id>
--  <metadata_license>CC0-1.0</metadata_license>
--  <project_license>LGPL-2.1-or-later</project_license>
--  <launchable type="desktop-id">org.gnome.Adwaita1.Test.desktop</launchable>
--  <developer_name>The GNOME Project</developer_name>
--
--  <name>Adwaita Test</name>
--
--  <releases>
--    <release version="1.0">
--      <description>
--        <p>Testing Build</p>
--      </description>
--    </release>
--    <release version="0.1">
--      <description>
--        <p>Testing Build Older</p>
--      </description>
--    </release>
--  </releases>
--
--  <project_group>GNOME</project_group>
--
--  <url type="homepage">https://gitlab.gnome.org/GNOME/libadwaita</url>
--  <url type="bugtracker">https://gitlab.gnome.org/GNOME/libadwaita/issues</url>
--  <url type="help">http://www.gnome.org/friends/</url>
--</component>
-diff --git a/tests/test-about-dialog.c b/tests/test-about-dialog.c
-index 6c63aebf..f4577110 100644
---- a/tests/test-about-dialog.c
-+++ b/tests/test-about-dialog.c
-@@ -9,49 +9,6 @@
- 
+ #include <glib/gi18n.h>
+ #include <gtk/gtk.h>
  #include <adwaita.h>
+@@ -57,15 +55,23 @@
  
--#include "adwaita-test-resources.h"
--
--static void
--test_adw_about_dialog_from_appdata (void)
--{
--  AdwAboutDialog *dialog = g_object_ref_sink (ADW_ABOUT_DIALOG (adw_about_dialog_new_from_appdata ("/org/gnome/Adwaita1/Test/org.gnome.Adwaita1.Test.metainfo.xml", "1.0")));
--
--  g_assert_nonnull (dialog);
--
--  g_assert_cmpstr (adw_about_dialog_get_release_notes (dialog), ==, "<p>Testing Build</p>\n");
--  g_assert_cmpstr (adw_about_dialog_get_release_notes_version (dialog), ==, "1.0");
--  g_assert_cmpstr (adw_about_dialog_get_version (dialog), ==, "1.0");
--  g_assert_cmpstr (adw_about_dialog_get_application_icon (dialog), ==, "org.gnome.Adwaita1.Test");
--  g_assert_cmpstr (adw_about_dialog_get_application_name (dialog), ==, "Adwaita Test");
--  g_assert_cmpstr (adw_about_dialog_get_developer_name (dialog), ==, "The GNOME Project");
--  g_assert_cmpstr (adw_about_dialog_get_issue_url (dialog), ==, "https://gitlab.gnome.org/GNOME/libadwaita/issues");
--  g_assert_cmpstr (adw_about_dialog_get_support_url (dialog), ==, "http://www.gnome.org/friends/");
--  g_assert_cmpstr (adw_about_dialog_get_website (dialog), ==, "https://gitlab.gnome.org/GNOME/libadwaita");
--  g_assert_cmpuint (adw_about_dialog_get_license_type (dialog), ==, GTK_LICENSE_LGPL_2_1);
--
--  g_assert_finalize_object (dialog);
--
--  dialog = g_object_ref_sink (ADW_ABOUT_DIALOG (adw_about_dialog_new_from_appdata ("/org/gnome/Adwaita1/Test/org.gnome.Adwaita1.Test.metainfo.xml", "0.1")));
--
--  g_assert_nonnull (dialog);
--
--  g_assert_cmpstr (adw_about_dialog_get_release_notes (dialog), ==, "<p>Testing Build Older</p>\n");
--  g_assert_cmpstr (adw_about_dialog_get_release_notes_version (dialog), ==, "0.1");
--  g_assert_cmpstr (adw_about_dialog_get_version (dialog), ==, "1.0");
--
--  g_assert_finalize_object (dialog);
--
--  dialog = g_object_ref_sink (ADW_ABOUT_DIALOG (adw_about_dialog_new_from_appdata ("/org/gnome/Adwaita1/Test/org.gnome.Adwaita1.Test.metainfo.xml", NULL)));
--
--  g_assert_nonnull (dialog);
--
--  g_assert_cmpstr (adw_about_dialog_get_release_notes (dialog), ==, "");
--  g_assert_cmpstr (adw_about_dialog_get_release_notes_version (dialog), ==, "");
--  g_assert_cmpstr (adw_about_dialog_get_version (dialog), ==, "1.0");
--
--  g_assert_finalize_object (dialog);
--}
--
- static void
- test_adw_about_dialog_create (void)
- {
-@@ -144,16 +101,10 @@ int
- main (int   argc,
-       char *argv[])
- {
--  GResource *test_resources;
--
-   gtk_test_init (&argc, &argv, NULL);
-   adw_init ();
+   debug_info = adw_demo_generate_debug_info ();
  
--  test_resources = test_get_resource ();
--  g_resources_register (test_resources);
--
-   g_test_add_func ("/Adwaita/AboutDialog/create", test_adw_about_dialog_create);
--  g_test_add_func ("/Adwaita/AboutDialog/from_appdata", test_adw_about_dialog_from_appdata);
+-  about = adw_about_dialog_new_from_appdata ("/org/gnome/Adwaita1/Demo/org.gnome.Adwaita1.Demo.metainfo.xml", NULL);
+-  adw_about_dialog_set_version (ADW_ABOUT_DIALOG (about), ADW_VERSION_S);
+-  adw_about_dialog_set_debug_info (ADW_ABOUT_DIALOG (about), debug_info);
+-  adw_about_dialog_set_debug_info_filename (ADW_ABOUT_DIALOG (about), "adwaita-1-demo-debug-info.txt");
+-  adw_about_dialog_set_copyright (ADW_ABOUT_DIALOG (about), "© 2017–2022 Purism SPC");
+-  adw_about_dialog_set_developers (ADW_ABOUT_DIALOG (about), developers);
+-  adw_about_dialog_set_designers (ADW_ABOUT_DIALOG (about), designers);
+-  adw_about_dialog_set_artists (ADW_ABOUT_DIALOG (about), designers);
+-  adw_about_dialog_set_translator_credits (ADW_ABOUT_DIALOG (about), _("translator-credits"));
++  about =
++    g_object_new (ADW_TYPE_ABOUT_DIALOG,
++                  "application-icon", "org.gnome.Adwaita1.Demo",
++                  "application-name", _("Adwaita Demo"),
++                  "developer-name", _("The GNOME Project"),
++                  "version", ADW_VERSION_S,
++                  "website", "https://gitlab.gnome.org/GNOME/libadwaita",
++                  "issue-url", "https://gitlab.gnome.org/GNOME/libadwaita/-/issues/new",
++                  "debug-info", debug_info,
++                  "debug-info-filename", "adwaita-1-demo-debug-info.txt",
++                  "copyright", "© 2017–2022 Purism SPC",
++                  "license-type", GTK_LICENSE_LGPL_2_1,
++                  "developers", developers,
++                  "designers", designers,
++                  "artists", designers,
++                  "translator-credits", _("translator-credits"),
++                  NULL);
  
-   return g_test_run ();
- }
-diff --git a/tests/test-about-window.c b/tests/test-about-window.c
-index 1deda1ee..667a4443 100644
---- a/tests/test-about-window.c
-+++ b/tests/test-about-window.c
-@@ -8,49 +8,6 @@
- 
- #include <adwaita.h>
- 
--#include "adwaita-test-resources.h"
--
--static void
--test_adw_about_window_from_appdata (void)
--{
--  AdwAboutWindow *window = ADW_ABOUT_WINDOW (adw_about_window_new_from_appdata ("/org/gnome/Adwaita1/Test/org.gnome.Adwaita1.Test.metainfo.xml", "1.0"));
--
--  g_assert_nonnull (window);
--
--  g_assert_cmpstr (adw_about_window_get_release_notes (window), ==, "<p>Testing Build</p>\n");
--  g_assert_cmpstr (adw_about_window_get_release_notes_version (window), ==, "1.0");
--  g_assert_cmpstr (adw_about_window_get_version (window), ==, "1.0");
--  g_assert_cmpstr (adw_about_window_get_application_icon (window), ==, "org.gnome.Adwaita1.Test");
--  g_assert_cmpstr (adw_about_window_get_application_name (window), ==, "Adwaita Test");
--  g_assert_cmpstr (adw_about_window_get_developer_name (window), ==, "The GNOME Project");
--  g_assert_cmpstr (adw_about_window_get_issue_url (window), ==, "https://gitlab.gnome.org/GNOME/libadwaita/issues");
--  g_assert_cmpstr (adw_about_window_get_support_url (window), ==, "http://www.gnome.org/friends/");
--  g_assert_cmpstr (adw_about_window_get_website (window), ==, "https://gitlab.gnome.org/GNOME/libadwaita");
--  g_assert_cmpuint (adw_about_window_get_license_type (window), ==, GTK_LICENSE_LGPL_2_1);
--
--  g_assert_finalize_object (window);
--
--  window = ADW_ABOUT_WINDOW (adw_about_window_new_from_appdata ("/org/gnome/Adwaita1/Test/org.gnome.Adwaita1.Test.metainfo.xml", "0.1"));
--
--  g_assert_nonnull (window);
--
--  g_assert_cmpstr (adw_about_window_get_release_notes (window), ==, "<p>Testing Build Older</p>\n");
--  g_assert_cmpstr (adw_about_window_get_release_notes_version (window), ==, "0.1");
--  g_assert_cmpstr (adw_about_window_get_version (window), ==, "1.0");
--
--  g_assert_finalize_object (window);
--
--  window = ADW_ABOUT_WINDOW (adw_about_window_new_from_appdata ("/org/gnome/Adwaita1/Test/org.gnome.Adwaita1.Test.metainfo.xml", NULL));
--
--  g_assert_nonnull (window);
--
--  g_assert_cmpstr (adw_about_window_get_release_notes (window), ==, "");
--  g_assert_cmpstr (adw_about_window_get_release_notes_version (window), ==, "");
--  g_assert_cmpstr (adw_about_window_get_version (window), ==, "1.0");
--
--  g_assert_finalize_object (window);
--}
--
- static void
- test_adw_about_window_create (void)
- {
-@@ -143,16 +100,10 @@ int
- main (int   argc,
-       char *argv[])
- {
--  GResource *test_resources;
--
-   gtk_test_init (&argc, &argv, NULL);
-   adw_init ();
- 
--  test_resources = test_get_resource ();
--  g_resources_register (test_resources);
--
-   g_test_add_func ("/Adwaita/AboutWindow/create", test_adw_about_window_create);
--  g_test_add_func ("/Adwaita/AboutWindow/from_appdata", test_adw_about_window_from_appdata);
- 
-   return g_test_run ();
- }
-diff --git a/tests/tests.gresources.xml b/tests/tests.gresources.xml
-deleted file mode 100644
-index 23e90ea8..00000000
---- a/tests/tests.gresources.xml
-+++ /dev/null
-@@ -1,6 +0,0 @@
--<?xml version="1.0" encoding="UTF-8"?>
--<gresources>
--  <gresource prefix="/org/gnome/Adwaita1/Test">
--    <file compressed="true">org.gnome.Adwaita1.Test.metainfo.xml</file>
--  </gresource>
--</gresources>
--- 
-2.44.0
-
+   adw_about_dialog_add_link (ADW_ABOUT_DIALOG (about),
+                              _("_Documentation"),
