@@ -23,10 +23,10 @@ class HicolorIconTheme(Tarball, Project):
         Project.__init__(
             self,
             "hicolor-icon-theme",
-            version="0.17",
+            version="0.18",
             repository="https://gitlab.freedesktop.org/xdg/default-icon-theme",
             archive_url="http://icon-theme.freedesktop.org/releases/hicolor-icon-theme-{version}.tar.xz",
-            hash="317484352271d18cbbcfac3868eab798d67fff1b8402e740baa6ff41d588a9d8",
+            hash="db0e50a80aa3bf64bb45cbca5cf9f75efd9348cf2ac690b907435238c3cf81d7",
         )
 
     def build(self):
