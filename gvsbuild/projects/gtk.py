@@ -147,6 +147,7 @@ class Gtk4(Tarball, Meson):
 
         self.add_param(f"-Dintrospection={enable_gi}")
         self.add_param("-Dbuild-tests=false")
+        self.add_param("-Dbuild-testsuite=false")
         self.add_param("-Dbuild-demos=false")
         self.add_param("-Dbuild-examples=false")
         self.add_param("-Dmedia-gstreamer=disabled")
