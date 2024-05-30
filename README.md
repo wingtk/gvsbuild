@@ -290,6 +290,8 @@ to build GTK with `gvsbuild build gtk4 adwaita-icon-theme` which will include li
 rebuilding it with `--from-scratch`
 - If the download of a tarball fails a partial file will not pass the hash check,
 delete the file and try again.
+- If you get an out of memory error, reduce the number of processor cores building at once
+by adding the `--ninja-opts -j2` option, where 2 is the number of cores.
 
 ## OpenSSL
 
