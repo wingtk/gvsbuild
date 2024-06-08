@@ -32,6 +32,7 @@ from pathlib import Path
 from typing import Optional
 from urllib.error import ContentTooShortError, URLError
 from urllib.request import urlopen
+from string import ascii_uppercase
 
 from .base_expanders import dirlist2set, make_zip
 from .base_project import Project
@@ -230,13 +231,12 @@ class Builder:
         log.start("Checking msys tool")
         msys_path = opts.msys_dir
         if not msys_path or not Path.exists(msys_path):
-            msys_paths = [
-                Path(r"C:\msys64"),
-                Path(r"C:\msys32"),
-                Path(r"C:\tools\msys64"),
-                Path(r"C:\tools\msys32"),
-            ]
-            for path in msys_paths:
+            # list of drive letters to check
+            possible_drives = ['%s:' % d for d in ascii_uppercase if os.path.exists('%s:' % d)]
+            possible_paths = [r"\msys64", r"\tools\msys64", r"\msys32", r"\tools\msys32"]
+            all_possible_paths = [Path(drive + path) for drive in possible_drives for path in possible_paths]
+
+            for path in all_possible_paths:
                 if Path.exists(path):
                     msys_path = path
                     self.opts.msys_dir = str(msys_path)
