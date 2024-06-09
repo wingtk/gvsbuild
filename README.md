@@ -66,10 +66,71 @@ SHA256 hash of each download. Downloads are done using TLS, using SSL
 certificates provided by the system, but in case of error the download is tried
 again ignoring certificate errors.
 
-### Development Environment
+First we need to install the prerequisites. There are two main options:
 
-#### Choco
-We recommend using [Chocolately](https://chocolatey.org/) as a package manager
+1. WinGet - Available for Windows 11, and modern versions of Windows 10
+2. Chocolately - An alternative for other Windows versions
+
+### Prerequisites with WinGet
+
+If you would prefer to use Chocolately instead of WinGet, you can skip this
+section and follow the Prerequisites with Chocolately steps.
+
+#### WinGet
+WinGet is the Windows Package Manager and is available on Windows 11 and modern
+versions of Windows 10 (1809 / build 17763) as a part of the
+[App Installer](https://www.microsoft.com/p/app-installer/9nblggh4nns1) package
+in the Windows Store.
+
+#### Git
+To setup a development environment in Windows install
+[Git](https://gitforwindows.org) by executing as an administrator:
+
+```PowerShell
+winget install --id Git.Git -e --source winget
+```
+
+#### MSYS2
+Both of the development environments in the next steps need MSYS2 installed.
+
+Install [MSYS2](http://www.msys2.org/):
+
+Keep PowerShell open as administrator and execute:
+```PowerShell
+winget install --id MSYS2.MSYS2 -e --source winget
+```
+
+#### Install Visual Studio 2022
+With your admin PowerShell terminal:
+
+```PowerShell
+winget install Microsoft.VisualStudio.2022.BuildTools -e --source winget --silent --override "--wait --quiet --add ProductLang En-us --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
+```
+
+Restart your computer following this installation.
+
+Note: Visual Studio versions 2013 (not for all projects), 2015, 2017, 2019, and 2022 are currently supported.
+
+#### Install the Latest Python
+
+With your admin PowerShell terminal:
+
+```PowerShell
+winget install --id Python.Python.3.12 -e --source winget
+```
+
+2. Open a PowerShell terminal as a normal user and check the python version:
+
+   ```PowerShell
+   py -3.12 --version
+   ```
+
+### Prerequisites with Chocolately
+
+If you already installed the prerequisites with WinGet, you can skip this section.
+
+#### Chocolatey
+An alternative to WinGet is using [Chocolately](https://chocolatey.org/) as a package manager
 in Windows.
 
 To install it, open PowerShell as an administrator, then execute:
@@ -99,12 +160,6 @@ Keep PowerShell open as administrator and execute:
 choco install msys2
 ```
 
-#### Building GTK
-
-First we will install the gvsbuild dependencies:
-1. Visual C++ build tools workload for Visual Studio 2022 Build Tools
-2. Python
-
 #### Install Visual Studio 2022
 With your admin PowerShell terminal:
 
@@ -116,15 +171,11 @@ Note: Visual Studio versions 2013 (not for all projects), 2015, 2017, 2019, and 
 
 #### Install the Latest Python
 
-In Windows, The official installer contains all the Python components and is the
-best option for developers using Python for any kind of project.
+With your admin PowerShell terminal:
 
-For more information on how to use the official installer, please see the
-[full installer instructions](https://docs.python.org/3/using/windows.html#windows-full).
-The default installation options should be fine for use with gvsbuild.
-
-1. Install the latest Python version using the
-[official installer](https://www.python.org/downloads/windows/).
+```PowerShell
+choco install python312
+```
 
 2. Open a PowerShell terminal as a normal user and check the python version:
 
@@ -132,7 +183,7 @@ The default installation options should be fine for use with gvsbuild.
    py -3.12 --version
    ```
 
-#### Install gvsbuild
+### Install gvsbuild
 
 The recommended way to install gvsbuild is with pipx. Open a new regular user
 PowerShell terminal and execute:
@@ -156,7 +207,7 @@ python -m venv .venv
 pip install .
 ```
 
-#### Build GTK
+### Build GTK
 
 In the same PowerShell terminal, execute:
 
@@ -171,12 +222,16 @@ gvsbuild build gtk4
 
 Grab a coffee, the build will take a few minutes to complete.
 
-#### Add GTK to Your Environmental Variables
+### Add GTK to Your Environmental Variables
 
 1. From the Start menu, go to the Control Panel entry for “Edit environment variables for your account”.
 2. Double-click the `Path` row in the top list of variables. Click “New” to add a new item to the list.
 3. Paste in `C:\gtk-build\gtk\x64\release\bin`
 4. Click "OK" twice.
+
+You are now ready to use GTK!
+
+### Additional Gvsbuild Usage
 
 #### Using GTK with Visual Studio
 
