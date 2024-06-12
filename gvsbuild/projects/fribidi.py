@@ -37,9 +37,9 @@ class Fribidi(Tarball, Meson):
         Project.__init__(
             self,
             "fribidi",
-            version="1.0.14",
+            version="1.0.15",
             archive_url="https://github.com/fribidi/fribidi/releases/download/v{version}/fribidi-{version}.tar.xz",
-            hash="76ae204a7027652ac3981b9fa5817c083ba23114340284c58e756b259cd2259a",
+            hash="0bbc7ff633bfa208ae32d7e369cf5a7d20d5d2557a0b067c9aa98bcbf9967587",
             dependencies=["ninja", "meson"],
         )
 
