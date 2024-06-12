@@ -1,0 +1,92 @@
+From a2b19e62057e30999651202477fbc5bd6636bb72 Mon Sep 17 00:00:00 2001
+From: Danilo Aimini <daimini@amazon.it>
+Date: Tue, 11 Jun 2024 18:09:05 +0200
+Subject: [PATCH] Fixes issues with multiple sequential reads on files always
+ starting from the beginning.
+
+---
+ wing/winginputstream.c | 31 ++++++++++++++++++++++++++++++-
+ 1 file changed, 30 insertions(+), 1 deletion(-)
+
+diff --git a/wing/winginputstream.c b/wing/winginputstream.c
+index 28bead8..72dc6d9 100644
+--- a/wing/winginputstream.c
++++ b/wing/winginputstream.c
+@@ -39,6 +39,7 @@
+ typedef struct {
+   HANDLE handle;
+   gboolean close_handle;
++  DWORD current_offset;
+ 
+   OVERLAPPED overlap;
+ } WingInputStreamPrivate;
+@@ -148,9 +149,18 @@ wing_input_stream_read (GInputStream  *stream,
+   overlap.hEvent = CreateEvent (NULL, FALSE, FALSE, NULL);
+   g_return_val_if_fail (overlap.hEvent != NULL, -1);
+ 
++  overlap.Offset = priv->current_offset;
++  
+   res = ReadFile (priv->handle, buffer, nbytes, &nread, &overlap);
+   if (res)
+-    retval = nread;
++    {
++      retval = nread;
++
++      if(GetFileType(priv->handle) == FILE_TYPE_DISK)
++        {
++          priv->current_offset += nbytes;
++        }
++    }
+   else
+     {
+       int errsv = GetLastError ();
+@@ -160,6 +170,12 @@ wing_input_stream_read (GInputStream  *stream,
+                                     &overlap, &nread, cancellable))
+         {
+           retval = nread;
++
++          if(GetFileType(priv->handle) == FILE_TYPE_DISK)
++            {
++              priv->current_offset += nbytes;
++            }
++            
+           goto end;
+         }
+ 
+@@ -308,6 +324,7 @@ wing_input_stream_read_async (GInputStream        *stream,
+     nbytes = count;
+ 
+   ResetEvent (priv->overlap.hEvent);
++  priv->overlap.Offset = priv->current_offset;
+ 
+   res = ReadFile (priv->handle, buffer, nbytes, &nread, &priv->overlap);
+   if (res)
+@@ -315,6 +332,12 @@ wing_input_stream_read_async (GInputStream        *stream,
+       ResetEvent (priv->overlap.hEvent);
+       g_task_return_int (task, nread);
+       g_object_unref (task);
++
++      if(GetFileType(priv->handle) == FILE_TYPE_DISK)
++        {
++          priv->current_offset += nbytes;
++        }
++      
+       return;
+     }
+ 
+@@ -328,6 +351,12 @@ wing_input_stream_read_async (GInputStream        *stream,
+       g_task_attach_source (task, handle_source,
+                             (GSourceFunc)read_async_ready);
+       g_source_unref (handle_source);
++
++      if(GetFileType(priv->handle) == FILE_TYPE_DISK)
++        {
++          priv->current_offset += nbytes;
++        }
++      
+       return;
+     }
+ 
+-- 
+2.33.0.windows.2
+
