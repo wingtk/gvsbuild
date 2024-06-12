@@ -24,10 +24,10 @@ class Pango(Tarball, Meson):
         Project.__init__(
             self,
             "pango",
-            version="1.52.2",
+            version="1.54.0",
             repository="https://gitlab.gnome.org/GNOME/pango",
             archive_url="https://download.gnome.org/sources/pango/{major}.{minor}/pango-{version}.tar.xz",
-            hash="d0076afe01082814b853deec99f9349ece5f2ce83908b8e58ff736b41f78a96b",
+            hash="8a9eed75021ee734d7fc0fdf3a65c3bba51dfefe4ae51a9b414a60c70b2d1ed8",
             dependencies=[
                 "ninja",
                 "meson",
@@ -36,10 +36,7 @@ class Pango(Tarball, Meson):
                 "harfbuzz",
                 "fribidi",
             ],
-            patches=[
-                "002-fix-wrong-usage-gweakref.patch",
-                "003-remove-extra-hb-face-font.patch",
-            ],
+            patches=[],
         )
         if self.opts.enable_gi:
             self.add_dependency("gobject-introspection")
