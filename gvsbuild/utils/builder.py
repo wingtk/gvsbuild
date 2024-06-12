@@ -380,8 +380,11 @@ class Builder:
         )
 
     def __find_vs_path_with_vs_version(self, paths):
+        # Don't match version with data (e.g. vs version 17 with vs 2017)
+        vs_ver_re = re.compile("[^0-9]" + self.opts.vs_ver)
+
         for path in paths:
-            if self.vs_ver_year[-4:] in path or self.opts.vs_ver in path:
+            if self.vs_ver_year[-4:] in path or vs_ver_re.search(path):
                 return path
         log.debug(f"Can't find vs-ver {self.opts.vs_ver} in found VS installations.")
 
