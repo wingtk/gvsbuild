@@ -1,0 +1,23 @@
+From 69c64ca00a8beb388a93bd4696596512e78e4587 Mon Sep 17 00:00:00 2001
+From: DjLegolas <djlegolas@protonmail.com>
+Date: Fri, 19 Apr 2024 03:09:11 +0300
+Subject: [PATCH] build: fix python search for gobject integration
+
+When compiling with Gobject integration on Windows, the build fails because it finds the incorrect
+python interpreter.
+
+Closes: #265
+---
+diff --git a/src/meson.build b/src/meson.build
+index 29c1920..d701de4 100644
+--- a/src/meson.build
++++ b/src/meson.build
+@@ -97,7 +97,7 @@ graphene_dep_sources = []
+ 
+ # Introspection
+ if build_gir
+-  python = python.find_installation('python3')
++  python = python.find_installation()
+   identfilter_py = join_paths(meson.current_source_dir(), 'identfilter.py')
+ 
+   gir_extra_args = [
