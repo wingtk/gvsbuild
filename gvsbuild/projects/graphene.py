@@ -30,6 +30,7 @@ class Graphene(Tarball, Meson):
             archive_filename="graphene-{version}.tar.gz",
             hash="922dc109d2dc5dc56617a29bd716c79dd84db31721a8493a13a5f79109a4a4ed",
             dependencies=["ninja", "meson", "pkgconf", "glib"],
+            patches=["001-fix-python-lookup.patch"],
         )
         if self.opts.enable_gi:
             self.add_dependency("gobject-introspection")
