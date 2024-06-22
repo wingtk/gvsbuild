@@ -234,6 +234,7 @@ class GstPython(Tarball, Meson):
             archive_url="https://gstreamer.freedesktop.org/src/gst-python/gst-python-{version}.tar.xz",
             hash="c23570c144e6276efd9e82de2ac0cea46b168a57fb2e436bed96cb285d641bf6",
             dependencies=["meson", "ninja", "pygobject", "gst-plugins-base"],
+            patches=["0001-fix-python3-not-found.patch"],
         )
 
     def build(self):
