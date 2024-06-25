@@ -90,6 +90,7 @@ from gvsbuild.projects.protobuf import Protobuf, ProtobufC
 from gvsbuild.projects.pycairo import Pycairo
 from gvsbuild.projects.pygobject import PyGObject
 from gvsbuild.projects.sqlite import SQLite
+from gvsbuild.projects.webrtc_audio_processing import WebrtcAudioProcessing
 from gvsbuild.projects.win_iconv import WinIconv
 from gvsbuild.projects.wing import Wing
 from gvsbuild.projects.x264 import X264
