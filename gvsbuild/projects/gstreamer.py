@@ -155,13 +155,21 @@ class GstPluginsBad(Tarball, Meson):
             lastversion_even=True,
             archive_url="https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-{version}.tar.xz",
             hash="3029bfd7265314d609dc8eab503675a344ea46e8274fd73ab34566c8442dc847",
-            dependencies=["meson", "ninja", "gst-plugins-base"],
+            dependencies=[
+                "meson",
+                "ninja",
+                "gst-plugins-base",
+                "webrtc-audio-processing",
+            ],
             patches=[
                 "wasapisink-reduce-buffer-latency.patch",
             ],
         )
         self.add_param("-Dcurl=disabled")
         self.add_param("-Dcurl-ssh2=disabled")
+
+        # Adding webrtc-audio-processing adds the isac plugin. It fails to compile.
+        self.add_param("-Disac=disabled")
 
         if self.opts.enable_gi:
             self.add_dependency("gobject-introspection")
