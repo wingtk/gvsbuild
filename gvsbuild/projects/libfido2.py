@@ -36,7 +36,9 @@ class Libfido2(Tarball, CmakeProject):
                 "openssl",
                 "libcbor",
             ],
-            patches=[],
+            patches=[
+                "0001-libfido2-update-cmake-script-to-have-sdl-flag-before.patch",
+            ],
         )
 
     def build(self):
