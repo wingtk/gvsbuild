@@ -29,7 +29,13 @@ class Ffmpeg(Tarball, Project):
             version="7.0.1",
             archive_url="https://ffmpeg.org/releases/ffmpeg-{version}.tar.xz",
             hash="bce9eeb0f17ef8982390b1f37711a61b4290dc8c2a0c1a37b5857e85bfb0e4ff",
-            dependencies=["nasm", "msys2", "pkgconf", "nv-codec-headers"],
+            dependencies=[
+                "dav1d",
+                "nasm",
+                "msys2",
+                "pkgconf",
+                "nv-codec-headers",
+            ],
             patches=[],
         )
         if self.opts.ffmpeg_enable_gpl:
