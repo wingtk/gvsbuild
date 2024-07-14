@@ -25,7 +25,6 @@ class Dav1d(Tarball, Meson):
             self,
             "dav1d",
             version="1.4.3",
-            repository="https://code.videolan.org/videolan/dav1d.git",
             archive_url="https://code.videolan.org/videolan/dav1d/-/archive/{version}/dav1d-{version}.tar.gz",
             hash="88a023e58d955e0886faf49c72940e0e90914a948a8e60c1326ce3e09e7a6099",
             dependencies=[
