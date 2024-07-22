@@ -24,11 +24,11 @@ class GLibBase(Tarball, Meson):
         Meson.__init__(
             self,
             "glib-base",
-            version="2.80.4",
+            version="2.81.0",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/glib",
             archive_url="https://download.gnome.org/sources/glib/{major}.{minor}/glib-{version}.tar.xz",
-            hash="24e029c5dfc9b44e4573697adf33078a9827c48938555004b3b9096fa4ea034f",
+            hash="1665188ed9cc941c0a189dc6295e6859872523d1bfc84a5a84732a7ae87b02e4",
             dependencies=[
                 "ninja",
                 "meson",
@@ -40,8 +40,6 @@ class GLibBase(Tarball, Meson):
             ],
             patches=[
                 "001-glib-package-installation-directory.patch",
-                # https://gitlab.gnome.org/GNOME/gobject-introspection/-/issues/499
-                "002-gir-scanner-dll-not-found.patch",
             ],
         )
         self.add_param("-Dman-pages=disabled")
@@ -60,16 +58,14 @@ class GLib(Tarball, Meson):
         Meson.__init__(
             self,
             "glib",
-            version="2.80.4",
+            version="2.81.0",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/glib",
             archive_url="https://download.gnome.org/sources/glib/{major}.{minor}/glib-{version}.tar.xz",
-            hash="24e029c5dfc9b44e4573697adf33078a9827c48938555004b3b9096fa4ea034f",
+            hash="1665188ed9cc941c0a189dc6295e6859872523d1bfc84a5a84732a7ae87b02e4",
             dependencies=["glib-base"],
             patches=[
                 "001-glib-package-installation-directory.patch",
-                # https://gitlab.gnome.org/GNOME/gobject-introspection/-/issues/499
-                "002-gir-scanner-dll-not-found.patch",
             ],
         )
         self.add_param("-Dman-pages=disabled")
