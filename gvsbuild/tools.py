@@ -66,9 +66,9 @@ class ToolCmake(Tool):
         Tool.__init__(
             self,
             "cmake",
-            version="3.30.0",
+            version="3.30.1",
             archive_url="https://github.com/Kitware/CMake/releases/download/v{version}/cmake-{version}-windows-x86_64.zip",
-            hash="f8d2da0eaf3bab9cf065e97bd6d8e1819886f8671d3d4c7bb93cb774123fa448",
+            hash="cf7788ff9d92812da194847d4ec874fc576f34079987d0f20c96cd09e2a16220",
             dir_part="cmake-{version}-windows-x86_64",
         )
 
