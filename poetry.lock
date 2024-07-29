@@ -367,13 +367,13 @@ files = [
 
 [[package]]
 name = "lastversion"
-version = "3.5.3"
+version = "3.5.4"
 description = "A CLI tool to find the latest stable version of an arbitrary project"
 optional = true
 python-versions = ">=3.6"
 files = [
-    {file = "lastversion-3.5.3-py3-none-any.whl", hash = "sha256:b521e203ad960671666c546f99fdabc8d0b9bbd74fffe0b27a9e7a7db21d4c15"},
-    {file = "lastversion-3.5.3.tar.gz", hash = "sha256:e0940be7ba69718566872e5e1686dcb61d1a1b2ee1e748b03d6707cca310bf9a"},
+    {file = "lastversion-3.5.4-py3-none-any.whl", hash = "sha256:04bacec183c40d60eac9fe7fdee9f55256c3886e5fe93adb079c263878d8aa58"},
+    {file = "lastversion-3.5.4.tar.gz", hash = "sha256:b7765fe103b74f26618e0ad5809315af360503ed15d073d7d4192a1b1b8fbf85"},
 ]
 
 [package.dependencies]
@@ -623,13 +623,13 @@ files = [
 
 [[package]]
 name = "pytest"
-version = "8.3.1"
+version = "8.3.2"
 description = "pytest: simple powerful testing with Python"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pytest-8.3.1-py3-none-any.whl", hash = "sha256:e9600ccf4f563976e2c99fa02c7624ab938296551f280835ee6516df8bc4ae8c"},
-    {file = "pytest-8.3.1.tar.gz", hash = "sha256:7e8e5c5abd6e93cb1cc151f23e57adc31fcf8cfd2a3ff2da63e23f732de35db6"},
+    {file = "pytest-8.3.2-py3-none-any.whl", hash = "sha256:4ba08f9ae7dcf84ded419494d229b48d0903ea6407b030eaec46df5e6a73bba5"},
+    {file = "pytest-8.3.2.tar.gz", hash = "sha256:c132345d12ce551242c87269de812483f5bcc87cdbb4722e48487ba194f9fdce"},
 ]
 
 [package.dependencies]
@@ -759,13 +759,13 @@ jupyter = ["ipywidgets (>=7.5.1,<9)"]
 
 [[package]]
 name = "setuptools"
-version = "71.1.0"
+version = "72.0.0"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "setuptools-71.1.0-py3-none-any.whl", hash = "sha256:33874fdc59b3188304b2e7c80d9029097ea31627180896fb549c578ceb8a0855"},
-    {file = "setuptools-71.1.0.tar.gz", hash = "sha256:032d42ee9fb536e33087fb66cac5f840eb9391ed05637b3f2a76a7c8fb477936"},
+    {file = "setuptools-72.0.0-py3-none-any.whl", hash = "sha256:98b4d786a12fadd34eabf69e8d014b84e5fc655981e4ff419994700434ace132"},
+    {file = "setuptools-72.0.0.tar.gz", hash = "sha256:5a0d9c6a2f332881a0153f629d8000118efd33255cfa802757924c53312c76da"},
 ]
 
 [package.extras]
@@ -959,4 +959,4 @@ outdated = ["lastversion", "packaging"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "840db6e04c9b0cf303080c88777e61db15cfe4bbaf563ad240dd7963a3f52f22"
+content-hash = "104d10fbea71bc4390d36a146b1091699725186bbf2d462b3cc6c9c48597ee4d"
