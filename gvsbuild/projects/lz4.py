@@ -13,32 +13,27 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
+from gvsbuild.utils.base_builders import Meson
 from gvsbuild.utils.base_expanders import Tarball
-from gvsbuild.utils.base_project import Project, project_add
+from gvsbuild.utils.base_project import project_add
 
 
 @project_add
-class Lz4(Tarball, Project):
+class Lz4(Tarball, Meson):
     def __init__(self):
-        Project.__init__(
+        Meson.__init__(
             self,
             "lz4",
-            version="1.9.4",
+            version="1.10.0",
             archive_url="https://github.com/lz4/lz4/archive/v{version}.tar.gz",
             archive_filename="lz4-{version}.tar.gz",
-            hash="0b0e3aa07c8c063ddf40b082bdf7e37a1562bda40a0ff5272957f3e987e0e54b",
+            hash="537512904744b35e232912055ccf8ec66d768639ff3abe5788d90d792ec5f48b",
         )
+
+        self.add_param("-Dossfuzz=false")
 
     def build(self):
-        self.exec_msbuild_gen(r"visual", "lz4.sln")
+        Meson.push_location(self, "build/meson")
+        Meson.build(self)
 
-        self.install(
-            r"visual\%(vs_ver_year)s\bin\%(platform)s_%(configuration)s\liblz4.dll visual\%(vs_ver_year)s\bin\%(platform)s_%(configuration)s\liblz4.pdb bin"
-        )
-        self.install(r".\lib\lz4.h .\lib\lz4hc.h .\lib\lz4frame.h include")
-        self.install(
-            r"visual\%(vs_ver_year)s\bin\%(platform)s_%(configuration)s\liblz4.lib lib"
-        )
-
-        self.install(r".\lib\LICENSE share\doc\lz4")
-        self.install_pc_files()
+        self.install(r"..\..\lib\LICENSE share\doc\lz4")
