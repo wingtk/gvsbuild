@@ -35,5 +35,6 @@ class Lz4(Tarball, Meson):
     def build(self):
         Meson.push_location(self, "build/meson")
         Meson.build(self)
+        Meson.pop_location(self)
 
-        self.install(r"..\..\lib\LICENSE share\doc\lz4")
+        self.install(r".\lib\LICENSE share\doc\lz4")
