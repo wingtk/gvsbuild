@@ -93,10 +93,10 @@ class ToolMeson(Tool):
         Tool.__init__(
             self,
             "meson",
-            version="1.4.1",
+            version="1.5.1",
             archive_url="https://github.com/mesonbuild/meson/archive/refs/tags/{version}.tar.gz",
             archive_filename="meson-{version}.tar.gz",
-            hash="a7efc72ecb873c5a62031ade1921a7177b67cfdcb2e9410a7ab023f9e8192f4b",
+            hash="55f6acd5bf72c14d4aa5a781993633f84a1d117bdf2c2057735902ced9b81390",
             dir_part="meson-{version}",
             exe_name="meson.py",
         )
