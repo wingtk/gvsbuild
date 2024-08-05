@@ -145,7 +145,7 @@ jobs:
         run: 7z a -tzip GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.sha }}_x64.zip C:\gtk-build\gtk\x64\release\*
       - name: Upload GTK${{ matrix.gtk-version }}_Gvsbuild-${{ github.sha }}_x64.zip
         if: matrix.GTK-version == '4'
-        uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
+        uses: actions/upload-artifact@89ef406dd8d7e03cfd12d9e0a4a378f454709029 # v4.3.5
         with:
           name: GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.sha }}_x64.zip
           path: GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.sha }}_x64.zip
@@ -160,13 +160,13 @@ jobs:
         if: matrix.gtk-version == '4'
         run: poetry build
       - name: Upload gvsbuild-${{ github.event.release.tag_name }}.tar.gz
-        uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
+        uses: actions/upload-artifact@89ef406dd8d7e03cfd12d9e0a4a378f454709029 # v4.3.5
         if: github.event_name == 'release' && matrix.gtk-version == '4'
         with:
           name: gvsbuild-${{ github.event.release.tag_name }}.tar.gz
           path: dist/gvsbuild-${{ github.event.release.tag_name }}.tar.gz
       - name: Upload gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
-        uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
+        uses: actions/upload-artifact@89ef406dd8d7e03cfd12d9e0a4a378f454709029 # v4.3.5
         if: github.event_name == 'release' && matrix.gtk-version == '4'
         with:
           name: gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
