@@ -31,7 +31,6 @@ class Cairo(Tarball, Meson):
             dependencies=["freetype", "glib", "pixman", "libpng"],
             patches=["0001-fix-alloca-unresolved.patch"],
         )
-        self.add_param("-Ddwrite=enabled")
         self.add_param("-Dfreetype=enabled")
         self.add_param("-Dfontconfig=disabled")
 

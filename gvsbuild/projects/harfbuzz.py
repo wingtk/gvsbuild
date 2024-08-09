@@ -36,9 +36,6 @@ class Harfbuzz(Tarball, Meson):
         else:
             self.add_param("-Dintrospection=disabled")
 
-        self.add_param("-Ddirectwrite=enabled")
-        self.add_param("-Dgdi=enabled")
-
     def build(self):
         Meson.build(self)
         self.install(r".\COPYING share\doc\harfbuzz")
