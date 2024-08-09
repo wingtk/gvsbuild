@@ -36,7 +36,9 @@ class Pango(Tarball, Meson):
                 "harfbuzz",
                 "fribidi",
             ],
-            patches=[],
+            patches=[
+                "001-disable-dwrite.patch",
+            ],
         )
         if self.opts.enable_gi:
             self.add_dependency("gobject-introspection")
