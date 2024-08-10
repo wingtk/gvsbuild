@@ -26,6 +26,7 @@ class Libpanel(Tarball, Meson):
             "libpanel",
             repository="https://gitlab.gnome.org/GNOME/libpanel",
             version="1.7.0",
+            lastversion_even=True,
             archive_url="https://download.gnome.org/sources/libpanel/{major}.{minor}/libpanel-{version}.tar.xz",
             hash="3ab29489f320d07dd032c7481999ba14eddae3ae19bb1c7e9fc2cc67051e1fda",
             dependencies=[
