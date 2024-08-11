@@ -138,6 +138,7 @@ class Gtk4(Tarball, Meson):
                 "glib",
                 "fribidi",
             ],
+            patches=["0001-ngl-icon-drawing-fix.patch"],
         )
         if self.opts.enable_gi:
             self.add_dependency("gobject-introspection")
