@@ -48,7 +48,10 @@ class GLibBase(Tarball, Meson):
         self.add_param("-Dintrospection=disabled")
 
     def build(self):
-        Meson.build(self)
+        build_debug = (
+            "enabled" if self.builder.opts.configuration == "debug" else "disabled"
+        )
+        Meson.build(self, meson_params=f"-Dglib_debug={build_debug}")
         self.install(r".\LICENSES\* share\doc\glib")
 
 
@@ -77,7 +80,10 @@ class GLib(Tarball, Meson):
 
     def build(self):
         if self.opts.enable_gi:
-            Meson.build(self)
+            build_debug = (
+                "enabled" if self.builder.opts.configuration == "debug" else "disabled"
+            )
+            Meson.build(self, meson_params=f"-Dglib_debug={build_debug}")
 
 
 @project_add
