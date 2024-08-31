@@ -15,25 +15,24 @@
 
 from gvsbuild.utils.base_builders import Meson
 from gvsbuild.utils.base_expanders import Tarball
-from gvsbuild.utils.base_project import project_add
+from gvsbuild.utils.base_project import Project, project_add
 
 
 @project_add
-class Cairo(Tarball, Meson):
+class Fontconfig(Tarball, Meson):
     def __init__(self):
-        Meson.__init__(
+        Project.__init__(
             self,
-            "cairo",
-            version="1.18.0",
+            "fontconfig",
+            version="2.15.0",
             lastversion_even=True,
-            archive_url="https://gitlab.freedesktop.org/cairo/cairo/-/archive/{version}/cairo-{version}.tar.gz",
-            hash="39a78afdc33a435c0f2ab53a5ec2a693c3c9b6d2ec9783ceecb2b94d54d942b0",
-            dependencies=["fontconfig", "freetype", "glib", "pixman", "libpng"],
-            patches=["0001-fix-alloca-unresolved.patch"],
+            repository="https://gitlab.freedesktop.org/fontconfig/fontconfig",
+            archive_url="https://www.freedesktop.org/software/fontconfig/release/fontconfig-{version}.tar.gz",
+            hash="f5f359d6332861bd497570848fcb42520964a9e83d5e3abe397b6b6db9bcaaf4",
+            dependencies=["freetype", "gperf", "expat"],
         )
-        self.add_param("-Ddwrite=enabled")
-        self.add_param("-Dfreetype=enabled")
+        self.add_param("-Dtests=disabled")
 
     def build(self):
         Meson.build(self)
-        self.install(r".\COPYING share\doc\cairo")
+        self.install(r".\COPYING share\doc\fontconfig")
