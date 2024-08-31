@@ -24,11 +24,11 @@ class JsonGLib(Tarball, Meson):
         Project.__init__(
             self,
             "json-glib",
-            version="1.8.0",
+            version="1.10.0",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/json-glib",
             archive_url="https://download.gnome.org/sources/json-glib/{major}.{minor}/json-glib-{version}.tar.xz",
-            hash="97ef5eb92ca811039ad50a65f06633f1aae64792789307be7170795d8b319454",
+            hash="1bca8d66d96106ecc147df3133b95a5bb784f1fa6f15d06dd7c1a8fb4a10af7b",
             dependencies=["meson", "ninja", "pkgconf", "glib"],
         )
         if self.opts.enable_gi:
@@ -37,10 +37,10 @@ class JsonGLib(Tarball, Meson):
         else:
             enable_gi = "disabled"
 
-        self.add_param("-Dgtk_doc=disabled")
+        self.add_param("-Ddocumentation=disabled")
         self.add_param(f"-Dintrospection={enable_gi}")
 
     def build(self):
         Meson.build(self, make_tests=True)
 
-        self.install(r".\COPYING share\doc\json-glib")
+        self.install(r".\LICENSES\* share\doc\json-glib")
