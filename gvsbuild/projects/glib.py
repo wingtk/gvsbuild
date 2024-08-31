@@ -46,6 +46,7 @@ class GLibBase(Tarball, Meson):
         self.add_param("-Dtests=false")
         self.add_param("-Ddocumentation=false")
         self.add_param("-Dintrospection=disabled")
+        self.add_param("-Dsysprof=disabled")
 
     def build(self):
         build_debug = (
@@ -74,6 +75,7 @@ class GLib(Tarball, Meson):
         self.add_param("-Dman-pages=disabled")
         self.add_param("-Dtests=false")
         self.add_param("-Ddocumentation=false")
+        self.add_param("-Dsysprof=disabled")
         if self.opts.enable_gi:
             self.add_dependency("gobject-introspection")
             self.add_param("-Dintrospection=enabled")
