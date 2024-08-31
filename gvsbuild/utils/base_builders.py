@@ -68,6 +68,9 @@ class Meson(Project):
         add_opts += f"--buildtype {build_type}"
         if meson_params:
             add_opts += f" {meson_params}"
+        if self.extra_opts:
+            extra_opts = " ".join(self.extra_opts)
+            add_opts += f" {extra_opts}"
         # python meson.py src_dir ninja_build_dir --prefix gtk_bin options
         meson = Project.get_tool_executable("meson")
         python = Path(sys.executable)
@@ -104,6 +107,9 @@ class CmakeProject(Project):
         cmd = f'cmake -G "{cmake_gen}" -DCMAKE_INSTALL_PREFIX="%(pkg_dir)s" -DGTK_DIR="%(gtk_dir)s" -DCMAKE_BUILD_TYPE={cmake_config}'
         if cmake_params:
             cmd += f" {cmake_params}"
+        if self.extra_opts:
+            extra_opts = " ".join(self.extra_opts)
+            cmd += f" {extra_opts}"
         if use_ninja and out_of_source is None:
             # For ninja the default is build out of source
             out_of_source = True
@@ -166,6 +172,9 @@ class Rust(Project):
             folder = "release"
         else:
             folder = "debug"
+
+        if self.extra_opts:
+            params.extend(self.extra_opts)
 
         cargo_build = os.path.join(self.build_dir, "cargo-build")
 
