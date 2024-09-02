@@ -69,6 +69,7 @@ files = [
 ]
 
 [package.dependencies]
+lockfile = {version = ">=0.9", optional = true, markers = "extra == \"filecache\""}
 msgpack = ">=0.5.2"
 requests = "*"
 
@@ -367,22 +368,21 @@ files = [
 
 [[package]]
 name = "lastversion"
-version = "3.5.4"
+version = "3.5.5"
 description = "A CLI tool to find the latest stable version of an arbitrary project"
 optional = true
 python-versions = ">=3.6"
 files = [
-    {file = "lastversion-3.5.4-py3-none-any.whl", hash = "sha256:04bacec183c40d60eac9fe7fdee9f55256c3886e5fe93adb079c263878d8aa58"},
-    {file = "lastversion-3.5.4.tar.gz", hash = "sha256:b7765fe103b74f26618e0ad5809315af360503ed15d073d7d4192a1b1b8fbf85"},
+    {file = "lastversion-3.5.5-py3-none-any.whl", hash = "sha256:9b3c1901e069e6c6365c34b8c9120e2cd3e6ed06f36954c4e4e6046cdcf1548e"},
+    {file = "lastversion-3.5.5.tar.gz", hash = "sha256:236120a3b7cba6dfa7deaf420b509438193fba503bd97b40b556acad36935bbc"},
 ]
 
 [package.dependencies]
 appdirs = "*"
 beautifulsoup4 = "*"
-cachecontrol = "<=0.12.11"
+cachecontrol = {version = "*", extras = ["filecache"]}
 distro = "*"
 feedparser = "*"
-lockfile = "*"
 packaging = "*"
 python-dateutil = "*"
 PyYAML = "*"
@@ -391,9 +391,9 @@ tqdm = "*"
 urllib3 = "<2"
 
 [package.extras]
-build = ["PyYAML", "appdirs", "beautifulsoup4", "cachecontrol (<=0.12.11)", "distro", "feedparser", "flake8", "flake8-bugbear", "lockfile", "markdown-include", "mkdocs (==1.5.3)", "mkdocs-material (==9.5.3)", "mkdocstrings[python]", "packaging", "pytest (>=4.4.0)", "pytest-cov", "pytest-xdist", "python-dateutil", "requests (>=2.6.1)", "tqdm", "urllib3 (<2)"]
+build = ["PyYAML", "appdirs", "beautifulsoup4", "cachecontrol[filecache]", "distro", "feedparser", "flake8", "flake8-bugbear", "markdown-include", "mkdocs (==1.5.3)", "mkdocs-material (==9.5.3)", "mkdocstrings[python]", "packaging", "pytest (>=4.4.0)", "pytest-cov", "pytest-xdist", "python-dateutil", "requests (>=2.6.1)", "tqdm", "urllib3 (<2)"]
 docs = ["markdown-include", "mkdocs (==1.5.3)", "mkdocs-material (==9.5.3)", "mkdocstrings[python]"]
-tests = ["PyYAML", "appdirs", "beautifulsoup4", "cachecontrol (<=0.12.11)", "distro", "feedparser", "flake8", "flake8-bugbear", "lockfile", "packaging", "pytest (>=4.4.0)", "pytest-cov", "pytest-xdist", "python-dateutil", "requests (>=2.6.1)", "tqdm", "urllib3 (<2)"]
+tests = ["PyYAML", "appdirs", "beautifulsoup4", "cachecontrol[filecache]", "distro", "feedparser", "flake8", "flake8-bugbear", "packaging", "pytest (>=4.4.0)", "pytest-cov", "pytest-xdist", "python-dateutil", "requests (>=2.6.1)", "tqdm", "urllib3 (<2)"]
 
 [[package]]
 name = "lockfile"
@@ -759,19 +759,23 @@ jupyter = ["ipywidgets (>=7.5.1,<9)"]
 
 [[package]]
 name = "setuptools"
-version = "73.0.1"
+version = "74.0.0"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "setuptools-73.0.1-py3-none-any.whl", hash = "sha256:b208925fcb9f7af924ed2dc04708ea89791e24bde0d3020b27df0e116088b34e"},
-    {file = "setuptools-73.0.1.tar.gz", hash = "sha256:d59a3e788ab7e012ab2c4baed1b376da6366883ee20d7a5fc426816e3d7b1193"},
+    {file = "setuptools-74.0.0-py3-none-any.whl", hash = "sha256:0274581a0037b638b9fc1c6883cc71c0210865aaa76073f7882376b641b84e8f"},
+    {file = "setuptools-74.0.0.tar.gz", hash = "sha256:a85e96b8be2b906f3e3e789adec6a9323abf79758ecfa3065bd740d81158b11e"},
 ]
 
 [package.extras]
+check = ["pytest-checkdocs (>=2.4)", "pytest-ruff (>=0.2.1)", "ruff (>=0.5.2)"]
 core = ["importlib-metadata (>=6)", "importlib-resources (>=5.10.2)", "jaraco.text (>=3.7)", "more-itertools (>=8.8)", "packaging (>=24)", "platformdirs (>=2.6.2)", "tomli (>=2.0.1)", "wheel (>=0.43.0)"]
+cover = ["pytest-cov"]
 doc = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "pygments-github-lexers (==0.0.5)", "pyproject-hooks (!=1.1)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-favicon", "sphinx-inline-tabs", "sphinx-lint", "sphinx-notfound-page (>=1,<2)", "sphinx-reredirects", "sphinxcontrib-towncrier", "towncrier (<24.7)"]
-test = ["build[virtualenv] (>=1.0.3)", "filelock (>=3.4.0)", "importlib-metadata", "ini2toml[lite] (>=0.14)", "jaraco.develop (>=7.21)", "jaraco.envs (>=2.2)", "jaraco.path (>=3.2.0)", "jaraco.test", "mypy (==1.11.*)", "packaging (>=23.2)", "pip (>=19.1)", "pyproject-hooks (!=1.1)", "pytest (>=6,!=8.1.*)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-home (>=0.5)", "pytest-mypy", "pytest-perf", "pytest-ruff (<0.4)", "pytest-ruff (>=0.2.1)", "pytest-ruff (>=0.3.2)", "pytest-subprocess", "pytest-timeout", "pytest-xdist (>=3)", "tomli", "tomli-w (>=1.0.0)", "virtualenv (>=13.0.0)", "wheel (>=0.44.0)"]
+enabler = ["pytest-enabler (>=2.2)"]
+test = ["build[virtualenv] (>=1.0.3)", "filelock (>=3.4.0)", "ini2toml[lite] (>=0.14)", "jaraco.develop (>=7.21)", "jaraco.envs (>=2.2)", "jaraco.path (>=3.2.0)", "jaraco.test", "packaging (>=23.2)", "pip (>=19.1)", "pyproject-hooks (!=1.1)", "pytest (>=6,!=8.1.*)", "pytest-home (>=0.5)", "pytest-perf", "pytest-subprocess", "pytest-timeout", "pytest-xdist (>=3)", "tomli-w (>=1.0.0)", "virtualenv (>=13.0.0)", "wheel (>=0.44.0)"]
+type = ["importlib-metadata (>=7.0.2)", "jaraco.develop (>=7.21)", "mypy (==1.11.*)", "pytest-mypy"]
 
 [[package]]
 name = "sgmllib3k"
@@ -959,4 +963,4 @@ outdated = ["lastversion", "packaging"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "a68fcbb8ff6213c9aac6393302159f0140e39b6b7942ddb61919106991f8cf36"
+content-hash = "081b95200e1305a658e0b4029b1ab4277537bd428c687e3e7809e9aee783c7cf"
