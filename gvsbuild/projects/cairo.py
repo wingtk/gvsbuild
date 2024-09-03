@@ -24,10 +24,10 @@ class Cairo(Tarball, Meson):
         Meson.__init__(
             self,
             "cairo",
-            version="1.18.0",
+            version="1.18.2",
             lastversion_even=True,
             archive_url="https://gitlab.freedesktop.org/cairo/cairo/-/archive/{version}/cairo-{version}.tar.gz",
-            hash="39a78afdc33a435c0f2ab53a5ec2a693c3c9b6d2ec9783ceecb2b94d54d942b0",
+            hash="7bbfb469b89b1f60584b4f39a1366789b7625a5796905870e108b6c0e8ca8216",
             dependencies=["fontconfig", "freetype", "glib", "pixman", "libpng"],
             patches=["0001-fix-alloca-unresolved.patch"],
         )
