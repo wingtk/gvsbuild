@@ -122,12 +122,12 @@ class Gtk4(Tarball, Meson):
             self,
             "gtk4",
             prj_dir="gtk4",
-            version="4.14.5",
+            version="4.16.0",
             lastversion_major=4,
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/gtk",
             archive_url="https://download.gnome.org/sources/gtk/{major}.{minor}/gtk-{version}.tar.xz",
-            hash="5547f2b9f006b133993e070b87c17804e051efda3913feaca1108fa2be41e24d",
+            hash="8ef538778c82c09870a6cc325195049caec5593c1ca37df915a7b6b10f5524ea",
             dependencies=[
                 "gdk-pixbuf",
                 "pango",
@@ -138,7 +138,7 @@ class Gtk4(Tarball, Meson):
                 "glib",
                 "fribidi",
             ],
-            patches=["0001-ngl-icon-drawing-fix.patch"],
+            patches=[],
         )
         if self.opts.enable_gi:
             self.add_dependency("gobject-introspection")
