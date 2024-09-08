@@ -26,9 +26,9 @@ class Pycairo(Tarball, Meson):
         Meson.__init__(
             self,
             "pycairo",
-            version="1.26.1",
+            version="1.27.0",
             archive_url="https://github.com/pygobject/pycairo/releases/download/v{version}/pycairo-{version}.tar.gz",
-            hash="a11b999ce55b798dbf13516ab038e0ce8b6ec299b208d7c4e767a6f7e68e8430",
+            hash="5cb21e7a00a2afcafea7f14390235be33497a2cce53a98a19389492a60628430",
             dependencies=["cairo"],
         )
 
@@ -37,7 +37,7 @@ class Pycairo(Tarball, Meson):
         Meson.build(self, meson_params=f'-Dpython="{py_dir}\\python.exe"')
         cairo_inc = Path(self.builder.gtk_dir) / "include" / "cairo"
         self.builder.mod_env("INCLUDE", str(cairo_inc))
-        self.exec_vs(r"%(python_dir)s\python.exe -m build")
+        self.exec_vs(r"%(python_dir)s\python.exe -m build -w")
         dist_dir = Path(self.build_dir) / "dist"
         for path in dist_dir.rglob("*.whl"):
             self.exec_vs(r"%(python_dir)s\python.exe -m pip install " + str(path))
