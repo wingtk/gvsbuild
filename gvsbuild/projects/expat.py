@@ -24,10 +24,10 @@ class Expat(Tarball, CmakeProject):
         Project.__init__(
             self,
             "expat",
-            version="2.6.2",
+            version="2.6.3",
             repository="libexpat",
             archive_url="https://github.com/libexpat/libexpat/releases/download/R_{major}_{minor}_{micro}/expat-{version}.tar.xz",
-            hash="ee14b4c5d8908b1bec37ad937607eab183d4d9806a08adee472c3c3121d27364",
+            hash="274db254a6979bde5aad404763a704956940e465843f2a9bd9ed7af22e2c0efc",
             dependencies=["cmake", "ninja"],
             patches=["0001-CMakeLists-do-not-add-postfix-d-in-debug-builds.patch"],
         )
