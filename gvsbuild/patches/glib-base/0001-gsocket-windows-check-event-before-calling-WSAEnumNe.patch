@@ -1,0 +1,37 @@
+From cfdb60d11d353b2dce440edd54cfaac84f7356ab Mon Sep 17 00:00:00 2001
+From: Silvio Lazzeretti <silvio.lazzeretti@gmail.com>
+Date: Thu, 22 Aug 2024 09:16:34 +0200
+Subject: [PATCH] gsocket windows: check event before calling
+ WSAEnumNetworkEvents
+
+The WSAEnumNetworkEvents API is called every time the socket
+needs to be checked for status changes. Doing this in an application
+with several sockets could generate a high cpu usage since
+this call is done for each socket at each iteration of the main loop.
+Since there is also a WSAEvent that gets signaled when there is
+a change in the status of the socket, checking its status and
+calling the WSAEnumNetworkEvents API only if the event is signaled,
+can reduce the overall cpu usage.
+---
+ gio/gsocket.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/gio/gsocket.c b/gio/gsocket.c
+index ccb5958f7..c36ca62f4 100644
+--- a/gio/gsocket.c
++++ b/gio/gsocket.c
+@@ -4107,9 +4107,8 @@ update_condition_unlocked (GSocket *socket)
+   GIOCondition condition;
+ 
+   if (!socket->priv->closed &&
+-      WSAEnumNetworkEvents (socket->priv->fd,
+-			    socket->priv->event,
+-			    &events) == 0)
++      (WSAWaitForMultipleEvents (1, &socket->priv->event, FALSE, 0, FALSE) == WSA_WAIT_EVENT_0) &&
++      (WSAEnumNetworkEvents (socket->priv->fd, socket->priv->event, &events) == 0))
+     {
+       socket->priv->current_events |= events.lNetworkEvents;
+       if (events.lNetworkEvents & FD_WRITE &&
+-- 
+2.40.0.windows.1
+
