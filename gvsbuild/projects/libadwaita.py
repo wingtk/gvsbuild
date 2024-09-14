@@ -25,9 +25,9 @@ class Libadwaita(Tarball, Meson):
             self,
             "libadwaita",
             repository="https://gitlab.gnome.org/GNOME/libadwaita",
-            version="1.5.3",
+            version="1.6.0",
             archive_url="https://download.gnome.org/sources/libadwaita/{major}.{minor}/libadwaita-{version}.tar.xz",
-            hash="3b358635f7ea455d9fe75101373e34d2fba130d1590bd1a1c87ab1ccfba05f32",
+            hash="9ed783934cb99c9101639194e1fc072cb09303b8f3c2fc6623390186a9dad8d3",
             dependencies=[
                 "ninja",
                 "meson",
@@ -48,6 +48,8 @@ class Libadwaita(Tarball, Meson):
         self.add_param(f"-Dintrospection={gir}")
         self.add_param("-Dgtk_doc=false")
         self.add_param("-Dvapi=false")
+        # https://gitlab.gnome.org/GNOME/libadwaita/-/issues/931
+        self.add_param("-Dtests=false")
 
     def build(self, **kwargs):
         Meson.build(self)
