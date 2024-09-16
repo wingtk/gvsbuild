@@ -24,10 +24,10 @@ class GSettingsDesktopSchemas(Tarball, Meson):
         Project.__init__(
             self,
             "gsettings-desktop-schemas",
-            version="46.1",
+            version="47.1",
             repository="https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas",
             archive_url="https://download.gnome.org/sources/gsettings-desktop-schemas/{major}/gsettings-desktop-schemas-{version}.tar.xz",
-            hash="9b88101437a6958ebe6bbd812e49bbf1d09cc667011e415559d847e870468a61",
+            hash="a60204d9c9c0a1b264d6d0d134a38340ba5fc6076a34b84da945d8bfcc7a2815",
             dependencies=["meson", "ninja", "pkgconf", "glib"],
         )
         if self.opts.enable_gi:
