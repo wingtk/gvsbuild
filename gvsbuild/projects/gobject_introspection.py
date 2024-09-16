@@ -28,11 +28,11 @@ class GObjectIntrospection(Tarball, Meson):
         Project.__init__(
             self,
             "gobject-introspection",
-            version="1.80.1",
+            version="1.82.0",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/gobject-introspection",
             archive_url="https://download.gnome.org/sources/gobject-introspection/{major}.{minor}/gobject-introspection-{version}.tar.xz",
-            hash="a1df7c424e15bda1ab639c00e9051b9adf5cea1a9e512f8a603b53cd199bc6d8",
+            hash="0f5a4c1908424bf26bc41e9361168c363685080fbdb87a196c891c8401ca2f09",
             dependencies=[
                 "ninja",
                 "meson",
@@ -43,8 +43,6 @@ class GObjectIntrospection(Tarball, Meson):
             patches=[
                 # https://gitlab.gnome.org/GNOME/gobject-introspection/-/issues/427
                 "001-incorrect-giscanner-path.patch",
-                # https://gitlab.gnome.org/GNOME/gobject-introspection/-/merge_requests/490
-                "002-remove-distutils-msvccompiler.patch",
             ],
         )
 
