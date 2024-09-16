@@ -12,22 +12,22 @@
 #
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
-import sys
 
+from gvsbuild.utils.base_builders import Meson
 from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import Project, project_add
 
 
 @project_add
-class Librsvg(Tarball, Project):
+class Librsvg(Tarball, Meson):
     def __init__(self):
         Project.__init__(
             self,
             "librsvg",
-            version="2.58.3",
+            version="2.59.1",
             repository="https://gitlab.gnome.org/GNOME/librsvg",
             archive_url="https://download.gnome.org/sources/librsvg/{major}.{minor}/librsvg-{version}.tar.xz",
-            hash="49f29a0a92f4c2d19a2cb41e96ab2fce7eb5bde41850c8a914fcf655e3110944",
+            hash="6116267c7ddabfd4daaf1c341326da0a773139a7223e885ae40ee09bd6986ef6",
             dependencies=[
                 "cargo",
                 "cairo",
@@ -36,29 +36,26 @@ class Librsvg(Tarball, Project):
                 "libxml2",
                 "freetype",
             ],
-            patches=[],
+            patches=[
+                # https://gitlab.gnome.org/GNOME/librsvg/-/merge_requests/1040
+                "001-fix-failed-to-rename-query-rust.patch",
+            ],
         )
-        if Project.opts.enable_gi:
+
+        if self.opts.enable_gi:
             self.add_dependency("gobject-introspection")
+            enable_gi = "enabled"
+        else:
+            enable_gi = "disabled"
+
+        self.add_param(f"-Dintrospection={enable_gi}")
+        self.add_param("-Ddocs=disabled")
+        self.add_param("-Dtests=false")
+        self.add_param("-Dvala=disabled")
 
     def build(self):
-        self.builder.mod_env("INCLUDE", "include\\cairo", add_gtk=True)
-
-        b_dir = f"{self.builder.working_dir}\\{self.name}\\win32"
-
-        config = self.builder.opts.configuration
-        gtk_dir = self.builder.gtk_dir
-        rust_ver = Project.get_project("cargo").version
-        python = sys.executable
-        cmd = f'nmake -f makefile.vc CFG={config} "PREFIX={gtk_dir}" CARGO=cargo RUSTUP=rustup "PYTHON={python}" TOOLCHAIN_VERSION={rust_ver} install'
-
-        if Project.opts.enable_gi:
-            cmd += " INTROSPECTION=1"
-
-        self.push_location(b_dir)
-        self.exec_vs(cmd)
-        self.pop_location()
-
+        self.builder.exec_cargo("install cargo-c --locked")
+        Meson.build(self)
         self.install(r".\COPYING.LIB share\doc\librsvg")
 
     def post_install(self):
