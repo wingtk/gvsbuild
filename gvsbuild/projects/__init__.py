@@ -16,7 +16,6 @@ from gvsbuild.projects.enchant import Enchant
 from gvsbuild.projects.expat import Expat
 from gvsbuild.projects.ffmpeg import Ffmpeg, NvCodecHeaders
 from gvsbuild.projects.fontconfig import Fontconfig
-from gvsbuild.projects.freerdp import FreeRDP
 from gvsbuild.projects.freetype import Freetype
 from gvsbuild.projects.fribidi import Fribidi
 from gvsbuild.projects.gdk_pixbuf import GdkPixbuf
