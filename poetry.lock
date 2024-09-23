@@ -751,13 +751,13 @@ jupyter = ["ipywidgets (>=7.5.1,<9)"]
 
 [[package]]
 name = "setuptools"
-version = "75.0.0"
+version = "75.1.0"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "setuptools-75.0.0-py3-none-any.whl", hash = "sha256:791ae94f04f78c880b5e614e560dd32d4b4af5d151bd9e7483e3377846caf90a"},
-    {file = "setuptools-75.0.0.tar.gz", hash = "sha256:25af69c809d9334cd8e653d385277abeb5a102dca255954005a7092d282575ea"},
+    {file = "setuptools-75.1.0-py3-none-any.whl", hash = "sha256:35ab7fd3bcd95e6b7fd704e4a1539513edad446c097797f2985e0e4b960772f2"},
+    {file = "setuptools-75.1.0.tar.gz", hash = "sha256:d59a21b17a275fb872a9c3dae73963160ae079f1049ed956880cd7c09b120538"},
 ]
 
 [package.extras]
@@ -825,13 +825,13 @@ files = [
 
 [[package]]
 name = "tox"
-version = "4.18.1"
+version = "4.20.0"
 description = "tox is a generic virtualenv management and test command line tool"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "tox-4.18.1-py3-none-any.whl", hash = "sha256:35d472032ee1f73fe20c3e0e73d7073a4e85075c86ff02c576f9fc7c6a15a578"},
-    {file = "tox-4.18.1.tar.gz", hash = "sha256:3c0c96bc3a568a5c7e66387a4cfcf8c875b52e09f4d47c9f7a277ec82f1a0b11"},
+    {file = "tox-4.20.0-py3-none-any.whl", hash = "sha256:21a8005e3d3fe5658a8e36b8ca3ed13a4230429063c5cc2a2fdac6ee5aa0de34"},
+    {file = "tox-4.20.0.tar.gz", hash = "sha256:5b78a49b6eaaeab3ae4186415e7c97d524f762ae967c63562687c3e5f0ec23d5"},
 ]
 
 [package.dependencies]
