@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gvsbuild"
-version = "2024.9.0"
+version = "2024.9.1"
 description = "GTK stack for Windows"
 authors = ["Ignacio Casal Quinteiro <qignacio@amazon.com>", "Dan Yeaw <dan@yeaw.me>"]
 license = "GPL-2.0-only"
