@@ -127,30 +127,27 @@ jobs:
       - name: Build GTK3
         if: matrix.gtk-version == '3'
         run: >
-          poetry run gvsbuild build --ninja-opts -j2 gtk3 gtksourceview4 graphene
-          glib-networking
+          poetry run gvsbuild build --ninja-opts -j2 --enable-gi --py-wheel gtk3 gtksourceview4 graphene pygobject
+          adwaita-icon-theme glib-networking
       - name: Build GTK4
         if: matrix.gtk-version == '4'
         run: > # Use -j2 option to prevent out of memory errors with GitHub Action runners
-          poetry run gvsbuild build --ninja-opts -j2 --enable-gi --py-wheel gobject-introspection
-          gtk4 libadwaita gtksourceview5 pygobject pycairo adwaita-icon-theme gtkmm
+          poetry run gvsbuild build --ninja-opts -j2 --enable-gi --py-wheel gtk4 libadwaita gtksourceview5 pygobject
+          adwaita-icon-theme gtkmm
       - name: Copy wheel files
-        if: matrix.gtk-version == '4'
         run: |
           New-Item "C:\gtk-build\gtk\x64\release\wheels" -ItemType "directory"
           Copy-Item (Resolve-Path C:\gtk-build\build\x64\release\pygobject\dist\PyGObject*.whl) "C:\gtk-build\gtk\x64\release\wheels"
           Copy-Item (Resolve-Path C:\gtk-build\build\x64\release\pycairo\dist\pycairo*.whl) "C:\gtk-build\gtk\x64\release\wheels"
       - name: Archive GTK runtime
-        if: matrix.gtk-version == '4'
         run: 7z a -tzip GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.sha }}_x64.zip C:\gtk-build\gtk\x64\release\*
       - name: Upload GTK${{ matrix.gtk-version }}_Gvsbuild-${{ github.sha }}_x64.zip
-        if: matrix.GTK-version == '4'
         uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4.4.0
         with:
           name: GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.sha }}_x64.zip
           path: GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.sha }}_x64.zip
       - name: Upload Release Assets
-        if: github.event_name == 'release' && matrix.gtk-version == '4'
+        if: github.event_name == 'release'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
