@@ -46,9 +46,6 @@ jobs:
   test:
     needs: lint
     name: Test with Python ${{ matrix.python-version }}
-    strategy:
-      matrix:
-        python-version: ['3.9', '3.10', '3.11', '3.12']
     runs-on: windows-latest
     timeout-minutes: 60
     if: "!contains(github.event.head_commit.message, 'skip ci')"
@@ -62,24 +59,19 @@ jobs:
         uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-      - name: Set up Python
-        uses: actions/setup-python@f677139bbe7f9c59b41e40162b753c062f5d49a3 # v5.2.0
-        with:
-          python-version: ${{ matrix.python-version }}
-          allow-prereleases: true
       - name: Install uv
         uses: astral-sh/setup-uv@023eb7875fa1caa15814da58d1df7350f8fb1fd9 # v0.4.17
         with:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
-      - name: Set up Python
-        run: uv python install
       - name: Install the project
         run: uv sync --all-extras --dev
       - name: Install tox
         run: uv tool install tox --with tox-uv
-      - name: Run tests
-        run: tox
+      - name: Setup test suite
+        run: tox run --notest --skip-missing-interpreters false
+      - name: Run test suite
+        run: tox run --skip-pkg-install
 
   build:
     needs: lint
