@@ -38,11 +38,10 @@ jobs:
           python-version: ${{ env.python_version }}
       - name: Lint with Pre-commit
         uses: pre-commit/action@2c7b3805fd2a0fd8c1884dcaebf91fc102a13ecd # v3.0.1
+      - name: Install uv
+        uses: astral-sh/setup-uv@023eb7875fa1caa15814da58d1df7350f8fb1fd9 # v0.4.17
       - name: Check Poetry lock file integrity
-        run: |
-          python -m pip install --constraint=.github/constraints.txt poetry
-          poetry config virtualenvs.in-project true
-          poetry check
+        run: uv lock --locked --offline
 
   test:
     needs: lint
@@ -68,21 +67,19 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           allow-prereleases: true
-      - name: Use Python Dependency Cache
-        uses: actions/cache@2cdf405574d6ef1f33a1d12acccd3ae82f47b3f2 # v4.1.0
+      - name: Install uv
+        uses: astral-sh/setup-uv@023eb7875fa1caa15814da58d1df7350f8fb1fd9 # v0.4.17
         with:
-          path: ~\AppData\Local\pip\Cache
-          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
-          restore-keys: ${{ runner.os }}-poetry-
-      - name: Install Poetry
-        run: |
-          python -m pip install --constraint=.github/constraints.txt poetry
-          poetry config virtualenvs.in-project true
-      - name: Install Python Dependencies
-        run: poetry install
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+      - name: Set up Python
+        run: uv python install
+      - name: Install the project
+        run: uv sync --all-extras --dev
       - name: Install dependencies
-        run: |
-          pip install tox tox-gh-actions
+        run: uv pip install tox tox-gh-actions
+      - name: Run tests
+        run: uv run tox
       - name: Test with tox
         run: tox
 
@@ -112,27 +109,22 @@ jobs:
         uses: actions/setup-python@f677139bbe7f9c59b41e40162b753c062f5d49a3 # v5.2.0
         with:
           python-version: ${{ env.python_version }}
-      - name: Use Python Dependency Cache
-        uses: actions/cache@2cdf405574d6ef1f33a1d12acccd3ae82f47b3f2 # v4.1.0
+      - name: Install uv
+        uses: astral-sh/setup-uv@023eb7875fa1caa15814da58d1df7350f8fb1fd9 # v0.4.17
         with:
-          path: ~\AppData\Local\pip\Cache
-          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
-          restore-keys: ${{ runner.os }}-poetry-
-      - name: Install Poetry
-        run: |
-          python -m pip install --constraint=.github/constraints.txt poetry
-          poetry config virtualenvs.in-project true
-      - name: Install Python Dependencies
-        run: poetry install
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+      - name: Install the project
+        run: uv sync --all-extras --dev
       - name: Build GTK3
         if: matrix.gtk-version == '3'
         run: >
-          poetry run gvsbuild build --ninja-opts -j2 --enable-gi --py-wheel gtk3 gtksourceview4 graphene pygobject
+          uv run gvsbuild build --ninja-opts -j2 --enable-gi --py-wheel gtk3 gtksourceview4 graphene pygobject
           adwaita-icon-theme glib-networking
       - name: Build GTK4
         if: matrix.gtk-version == '4'
         run: > # Use -j2 option to prevent out of memory errors with GitHub Action runners
-          poetry run gvsbuild build --ninja-opts -j2 --enable-gi --py-wheel gtk4 libadwaita gtksourceview5 pygobject
+          uv run gvsbuild build --ninja-opts -j2 --enable-gi --py-wheel gtk4 libadwaita gtksourceview5 pygobject
           adwaita-icon-theme gtkmm
       - name: Copy wheel files
         run: |
@@ -155,7 +147,7 @@ jobs:
           gh release upload ${{ github.event.release.tag_name }} "GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.event.release.tag_name }}_x64.zip"
       - name: Create Source Dist and Wheel
         if: matrix.gtk-version == '4'
-        run: poetry build
+        run: uv build
       - name: Upload gvsbuild-${{ github.event.release.tag_name }}.tar.gz
         uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4.4.0
         if: github.event_name == 'release' && matrix.gtk-version == '4'
