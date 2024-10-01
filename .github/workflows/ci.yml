@@ -40,7 +40,7 @@ jobs:
         uses: pre-commit/action@2c7b3805fd2a0fd8c1884dcaebf91fc102a13ecd # v3.0.1
       - name: Install uv
         uses: astral-sh/setup-uv@023eb7875fa1caa15814da58d1df7350f8fb1fd9 # v0.4.17
-      - name: Check Poetry lock file integrity
+      - name: Check uv lock file integrity
         run: uv lock --locked --offline
 
   test:
@@ -48,7 +48,7 @@ jobs:
     name: Test with Python ${{ matrix.python-version }}
     strategy:
       matrix:
-        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+        python-version: ['3.9', '3.10', '3.11', '3.12']
     runs-on: windows-latest
     timeout-minutes: 60
     if: "!contains(github.event.head_commit.message, 'skip ci')"

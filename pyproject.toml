@@ -19,7 +19,7 @@ dependencies = [
     "typer[all] >=0.6.1,<0.13.0",
     "setuptools >=69.2,<75.0; python_version >= \"3.12\"",
 ]
-requires-python = ">=3.8,<4.0"
+requires-python = ">=3.9,<4.0"
 
 [project.optional-dependencies]
 outdated = [
@@ -42,7 +42,6 @@ envlist = py{38,39,310,311,312}
 
 [gh-actions]
 python =
-    3.8: py38
     3.9: py39
     3.10: py310
     3.11: py311
