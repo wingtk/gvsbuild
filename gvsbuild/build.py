@@ -91,13 +91,6 @@ class WinSdkVersion(str, Enum):
     sdk_22621 = "10.0.22621.0"
 
 
-class PythonVersion(str, Enum):
-    py37 = "3.7"
-    py38 = "3.8"
-    py39 = "3.9"
-    py310 = "3.10"
-
-
 def build(
     projects: List[str] = typer.Argument(..., help="The project to build"),
     platform: Platform = typer.Option(Platform.x64, help="The platform to build for"),
