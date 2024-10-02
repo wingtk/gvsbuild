@@ -232,7 +232,7 @@ wheels = [
 
 [[package]]
 name = "gvsbuild"
-version = "2024.9.1"
+version = "2024.10.0"
 source = { editable = "." }
 dependencies = [
     { name = "build" },
@@ -259,7 +259,7 @@ requires-dist = [
     { name = "lastversion", marker = "extra == 'outdated'", specifier = ">=2.4.2,<4.0.0" },
     { name = "packaging", marker = "extra == 'outdated'", specifier = ">=21.3,<25.0" },
     { name = "setuptools", marker = "python_full_version >= '3.12'", specifier = ">=69.2,<75.0" },
-    { name = "typer", extras = ["all"], specifier = ">=0.6.1,<0.13.0" },
+    { name = "typer", specifier = ">=0.6.1,<0.13.0" },
 ]
 
 [package.metadata.requires-dev]
