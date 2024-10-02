@@ -36,10 +36,15 @@ jobs:
         uses: actions/setup-python@f677139bbe7f9c59b41e40162b753c062f5d49a3 # v5.2.0
         with:
           python-version: ${{ env.python_version }}
-      - name: Lint with Pre-commit
-        uses: pre-commit/action@2c7b3805fd2a0fd8c1884dcaebf91fc102a13ecd # v3.0.1
       - name: Install uv
         uses: astral-sh/setup-uv@023eb7875fa1caa15814da58d1df7350f8fb1fd9 # v0.4.17
+        with:
+          enable-cache: true
+          cache-dependency-glob: ".pre-commit-config.yaml"
+      - name: Install pre-commit
+        run: uv tool install pre-commit --with pre-commit-uv
+      - name: Lint with pre-commit
+        run: pre-commit run --show-diff-on-failure --color=always --all-files
       - name: Check uv lock file integrity
         run: uv lock --locked --offline
 
