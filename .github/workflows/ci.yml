@@ -109,6 +109,8 @@ jobs:
         with:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
+      - name: Seed pip
+        run: uv venv --seed
       - name: Install the project
         run: uv sync --no-dev
       - name: Build GTK3
