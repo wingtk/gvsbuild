@@ -73,6 +73,7 @@ class Options:
         self.log_single = False
         self.cargo_opts = None
         self.ninja_opts = None
+        self.extra_opts = None
         self.capture_out = False
         self.print_out = False
         self.git_expand_dir = None
@@ -108,7 +109,7 @@ class Project(Generic[P]):
         self.extra_env = {}
         self.tag = None
         self.repo_url = None
-        self.archive_filename = None
+        self.extra_opts = None
 
         for k in kwargs:
             setattr(self, k, kwargs[k])

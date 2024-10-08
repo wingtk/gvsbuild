@@ -15,7 +15,7 @@
 
 from enum import Enum
 from pathlib import Path
-from typing import List
+from typing import Dict, List
 
 import typer
 
@@ -57,6 +57,16 @@ def __get_projects_to_build(opts):
                 log.debug(f"Dropped project {s}")
                 to_build.remove(p)
     return to_build
+
+
+def __parse_extra_opts(extra_opts: List[str]) -> Dict[str, List[str]]:
+    if extra_opts is None:
+        return {}
+    parsed_opts = {}
+    for eo in extra_opts:
+        project, opts = eo.split(":")
+        parsed_opts[project] = opts.split(";")
+    return parsed_opts
 
 
 class Platform(str, Enum):
@@ -311,6 +321,12 @@ def build(
         help="Command line options to pass to cargo",
         rich_help_panel="Options to Pass to Build Systems",
     ),
+    extra_opts: List[str] = typer.Option(
+        None,
+        help="Additional command line options to pass to specific project."
+        " Example: --extra_opts <project>:<option1>[;<option1>...]",
+        rich_help_panel="Options to Pass to Build Systems",
+    ),
     git_expand_dir: Path = typer.Option(
         None,
         help="The directory where the projects from git are expanded and updated.",
@@ -386,6 +402,7 @@ def build(
     opts.log_single = log_single
     opts.cargo_opts = cargo_opts
     opts.ninja_opts = ninja_opts
+    opts.extra_opts = __parse_extra_opts(extra_opts)
     opts.capture_out = capture_out
     opts.print_out = print_out
 
