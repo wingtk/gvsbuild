@@ -38,6 +38,9 @@ class Libgxps(Tarball, Meson):
                 "libjpeg-turbo",
                 "libtiff-4",
             ],
+            patches=[
+                "0001-converter-pdf-add-option-for-stdout-output.patch",
+            ],
         )
         if self.opts.enable_gi:
             self.add_dependency("gobject-introspection")

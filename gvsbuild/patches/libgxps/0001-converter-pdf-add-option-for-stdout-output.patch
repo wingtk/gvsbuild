@@ -1,0 +1,126 @@
+From 48363d65af57ebc5c098bd5f21110bc4b88fb00b Mon Sep 17 00:00:00 2001
+From: Ignazio Pillai <ignazp@amazon.com>
+Date: Fri, 11 Oct 2024 15:39:35 +0200
+Subject: [PATCH] converter pdf: add option for stdout output
+
+Add an option for writing  the output to stdout. When enabled the filename will be ignored.
+On windows the binary mode must be set to make sure that line feed character is not replaced with a carriage return-line feed pair in the output
+---
+ tools/gxps-pdf-converter.c | 74 +++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 73 insertions(+), 1 deletion(-)
+
+diff --git a/tools/gxps-pdf-converter.c b/tools/gxps-pdf-converter.c
+index fb5798c..daede25 100644
+--- a/tools/gxps-pdf-converter.c
++++ b/tools/gxps-pdf-converter.c
+@@ -23,6 +23,11 @@
+ #include <libgxps/gxps.h>
+ #include <cairo-pdf.h>
+ #include <string.h>
++#include <stdio.h>
++
++#ifdef G_OS_WIN32
++#include <fcntl.h> /* for _O_BINARY */
++#endif
+ 
+ struct _GXPSPdfConverter {
+ 	GXPSPrintConverter parent;
+@@ -34,12 +39,69 @@ struct _GXPSPdfConverterClass {
+ 
+ G_DEFINE_TYPE (GXPSPdfConverter, gxps_pdf_converter, GXPS_TYPE_PRINT_CONVERTER)
+ 
++static gboolean write_to_stdout = FALSE;
++
++static const GOptionEntry options[] =
++{
++        { "stdout", '\0', 0, G_OPTION_ARG_NONE, &write_to_stdout, "Writes output to stdout", NULL },
++        { NULL }
++};
++
++static gboolean
++gxps_pdf_converter_init_with_args (GXPSConverter *converter,
++                                   gint          *argc,
++                                   gchar       ***argv,
++                                   GList        **option_groups)
++{
++        GOptionContext *context;
++        GOptionGroup   *option_group;
++        GError         *error = NULL;
++
++        option_group = g_option_group_new ("output", "Output Options", "Show Output Options", NULL, NULL);
++        g_option_group_add_entries (option_group, options);
++
++        *option_groups = g_list_prepend (*option_groups, option_group);
++
++        if (GXPS_CONVERTER_CLASS (gxps_pdf_converter_parent_class)->init_with_args) {
++                if (!GXPS_CONVERTER_CLASS (gxps_pdf_converter_parent_class)->init_with_args (converter, argc, argv, option_groups))
++                        return FALSE;
++        }
++
++        context = g_option_context_new (NULL);
++        g_option_context_set_ignore_unknown_options (context, TRUE);
++        g_option_context_set_help_enabled (context, FALSE);
++        g_option_context_add_main_entries (context, options, NULL);
++        if (!g_option_context_parse (context, argc, argv, &error)) {
++                g_printerr ("Error parsing arguments: %s\n", error->message);
++                g_error_free (error);
++                g_option_context_free (context);
++
++                return FALSE;
++        }
++        g_option_context_free (context);
++
++        return TRUE;
++}
++
+ static const gchar *
+ gxps_pdf_converter_get_extension (GXPSConverter *converter)
+ {
+         return "pdf";
+ }
+ 
++static cairo_status_t
++stdout_write_func (void                *closure,
++                   const unsigned char *data,
++                   unsigned int         length)
++{
++        size_t res;
++
++        res = fwrite (data, length, 1, stdout);
++        fflush (stdout);
++
++        return res != 0 ? CAIRO_STATUS_SUCCESS : CAIRO_STATUS_WRITE_ERROR;
++}
++
+ static void
+ gxps_pdf_converter_begin_document (GXPSConverter *converter,
+                                    const gchar   *output_filename,
+@@ -51,7 +113,16 @@ gxps_pdf_converter_begin_document (GXPSConverter *converter,
+         GXPS_CONVERTER_CLASS (gxps_pdf_converter_parent_class)->begin_document (converter, output_filename, first_page);
+ 
+         _gxps_converter_print_get_output_size (print_converter, first_page, &width, &height);
+-        converter->surface = cairo_pdf_surface_create (print_converter->filename, width, height);
++
++        if (write_to_stdout) {
++#ifdef G_OS_WIN32
++                /* Force binary mode on Windows to make sure that line feed character is NOT replaced with a carriage return-line feed pair */
++                _setmode (fileno(stdout), _O_BINARY);
++#endif
++                converter->surface = cairo_pdf_surface_create_for_stream (stdout_write_func, converter, width, height);
++        } else {
++                converter->surface = cairo_pdf_surface_create (print_converter->filename, width, height);
++        }
+ }
+ 
+ static cairo_t *
+@@ -80,6 +151,7 @@ gxps_pdf_converter_class_init (GXPSPdfConverterClass *klass)
+ {
+         GXPSConverterClass *converter_class = GXPS_CONVERTER_CLASS (klass);
+ 
++        converter_class->init_with_args = gxps_pdf_converter_init_with_args;
+         converter_class->get_extension = gxps_pdf_converter_get_extension;
+         converter_class->begin_document = gxps_pdf_converter_begin_document;
+         converter_class->begin_page = gxps_pdf_converter_begin_page;
+-- 
+2.38.1.windows.1
+
