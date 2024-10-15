@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  python_version: '3.12'
+  python_version: '3.13'
 
 name: CI
 
