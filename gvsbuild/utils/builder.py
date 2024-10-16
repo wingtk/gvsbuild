@@ -480,6 +480,8 @@ class Builder:
             proj.mark_file_calc()
             if self.opts.clean:
                 proj.clean = True
+            if self.opts.extra_opts and proj.name in self.opts.extra_opts:
+                proj.extra_opts = self.opts.extra_opts[proj.name]
 
         for proj in Project.list_projects():
             self.__compute_deps(proj)
