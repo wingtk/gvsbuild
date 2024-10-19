@@ -1,5 +1,6 @@
 # flake8: noqa
 
+from gvsbuild.projects.abseil import AbseilCpp
 from gvsbuild.projects.adwaita_icon_theme import AdwaitaIconTheme
 from gvsbuild.projects.atk import Atk
 from gvsbuild.projects.boringssl import BoringSSL
