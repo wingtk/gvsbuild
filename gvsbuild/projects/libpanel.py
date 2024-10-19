@@ -25,10 +25,10 @@ class Libpanel(Tarball, Meson):
             self,
             "libpanel",
             repository="https://gitlab.gnome.org/GNOME/libpanel",
-            version="1.8.0",
+            version="1.8.1",
             lastversion_even=True,
             archive_url="https://download.gnome.org/sources/libpanel/{major}.{minor}/libpanel-{version}.tar.xz",
-            hash="5a9b6b54452fa1903a2fd64ba62278ef94b9b11659b7e1a5fda3518b66cd39c3",
+            hash="b87b8fa9b79768cc704243793f0158a040a1e46d37b9889188545a7f7dcaa6fb",
             dependencies=[
                 "ninja",
                 "meson",
