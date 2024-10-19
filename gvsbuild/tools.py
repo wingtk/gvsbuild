@@ -28,9 +28,7 @@ class ToolCargo(Tool):
         Tool.__init__(
             self,
             "cargo",
-            # Linking error with the latest Cargo version and librsvg
-            # https://gitlab.gnome.org/GNOME/librsvg/-/issues/1107
-            version="1.77.2",
+            version="1.82.0",
             repository="rust-lang/rust",
             archive_url="https://win.rustup.rs/x86_64",
             archive_filename="rustup-init.exe",
