@@ -36,7 +36,10 @@ class Librsvg(Tarball, Meson):
                 "libxml2",
                 "freetype",
             ],
-            patches=[],
+            patches=[
+                # https://gitlab.gnome.org/GNOME/librsvg/-/merge_requests/1040
+                "001-fix-failed-to-rename-query-rust.patch",
+            ],
         )
 
         if self.opts.enable_gi:
