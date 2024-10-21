@@ -37,7 +37,7 @@ jobs:
         with:
           python-version: ${{ env.python_version }}
       - name: Install uv
-        uses: astral-sh/setup-uv@f731690a1dacb2f6393acc910887b8cda1a97789 # v0.4.17
+        uses: astral-sh/setup-uv@f3bcaebff5eace81a1c062af9f9011aae482ca9d # v0.4.17
         with:
           enable-cache: true
           cache-dependency-glob: ".pre-commit-config.yaml"
@@ -65,7 +65,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - name: Install uv
-        uses: astral-sh/setup-uv@f731690a1dacb2f6393acc910887b8cda1a97789 # v0.4.17
+        uses: astral-sh/setup-uv@f3bcaebff5eace81a1c062af9f9011aae482ca9d # v0.4.17
         with:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
@@ -105,7 +105,7 @@ jobs:
         with:
           python-version: ${{ env.python_version }}
       - name: Install uv
-        uses: astral-sh/setup-uv@f731690a1dacb2f6393acc910887b8cda1a97789 # v0.4.17
+        uses: astral-sh/setup-uv@f3bcaebff5eace81a1c062af9f9011aae482ca9d # v0.4.17
         with:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
