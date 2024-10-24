@@ -389,14 +389,21 @@ class Builder:
             f'cmd.exe /c ""{vcvars_bat}"{add_opts}>NUL && set"', text=True
         )
 
-    def __find_vs_path_with_vs_version(self, paths):
+    def __find_vs_paths_with_vs_version(self, paths):
         # Don't match version with data (e.g. vs version 17 with vs 2017)
         vs_ver_re = re.compile("[^0-9]" + self.opts.vs_ver)
 
+        vs_paths = []
         for path in paths:
             if self.vs_ver_year[-4:] in path or vs_ver_re.search(path):
-                return path
-        log.debug(f"Can't find vs-ver {self.opts.vs_ver} in found VS installations.")
+                vs_paths.append(path)
+
+        if len(vs_paths) == 0:
+            log.debug(
+                f"Can't find vs-ver {self.opts.vs_ver} in found VS installations."
+            )
+
+        return vs_paths
 
     def __check_vs(self, opts):
         script_title("* Msvc tool")
@@ -408,17 +415,23 @@ class Builder:
         self.add_global_env("LIBPATH", os.path.join(self.gtk_dir, "lib"))
         self.add_global_env("PATH", os.path.join(self.gtk_dir, "bin"))
 
-        if not opts.vs_install_path:
-            opts.vs_install_path = self.__find_vs_path_with_vs_version(
-                self.__dump_vs_loc()
-            )
-        if opts.vs_install_path is None:
+        if opts.vs_install_path:
+            vs_paths = [opts.vs_install_path]
+        else:
+            vs_paths = self.__find_vs_paths_with_vs_version(self.__dump_vs_loc())
+
+        output = None
+        for path in vs_paths:
+            output = self.__check_good_vs_install(opts, path, False)
+            if output is not None:
+                log.message(f"Using Visual Studio at {path}")
+                break
+
+        if output is None:
             log.error_exit(
                 "Unable to find Visual Studio, try using --vs-ver or --vs-install-path "
                 "to specify Visual Studio version or install location"
             )
-        log.message(f"Using Visual Studio at {opts.vs_install_path}")
-        output = self.__check_good_vs_install(opts, opts.vs_install_path, True)
 
         self.vs_env = {}
         dbg = log.debug_on()
