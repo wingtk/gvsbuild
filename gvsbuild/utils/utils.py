@@ -14,7 +14,6 @@
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 import os
-import pathlib
 import re
 import shutil
 import stat
@@ -121,19 +120,18 @@ def python_find_libs_dir(org_dir):
         return cur
 
     # look for the virtualenv marker
-    chk = os.path.join(org_dir, "lib")
-    if not os.path.isdir(chk):
+    pyvenv_file = os.path.join(org_dir, "pyvenv.cfg")
+    if not os.path.isfile(pyvenv_file):
         # one level up
-        chk = os.path.join(org_dir, "..", "lib")
+        pyvenv_file = os.path.join(org_dir, "..", "pyvenv.cfg")
 
-    if not chk:
-        # oops
-        return None
-
-    orig_file = os.path.join(chk, "orig-prefix.txt")
-    if os.path.isfile(orig_file):
-        # Read and see what's happening
-        org_dir = pathlib.Path(orig_file).read_text()
+    if os.path.isfile(pyvenv_file):
+        # Read file to get home path
+        for line in read_file(pyvenv_file):
+            key, value = line.split("=")
+            if "home" == key.strip():
+                org_dir = value.strip()
+                break
     # Let's see if now is ok ..
     cur = os.path.join(org_dir, "libs")
     return cur if os.path.isdir(cur) else None
