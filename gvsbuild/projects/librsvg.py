@@ -24,10 +24,10 @@ class Librsvg(Tarball, Meson):
         Project.__init__(
             self,
             "librsvg",
-            version="2.59.1",
+            version="2.59.2",
             repository="https://gitlab.gnome.org/GNOME/librsvg",
             archive_url="https://download.gnome.org/sources/librsvg/{major}.{minor}/librsvg-{version}.tar.xz",
-            hash="6116267c7ddabfd4daaf1c341326da0a773139a7223e885ae40ee09bd6986ef6",
+            hash="ecd293fb0cc338c170171bbc7bcfbea6725d041c95f31385dc935409933e4597",
             dependencies=[
                 "cargo",
                 "cairo",
@@ -35,10 +35,6 @@ class Librsvg(Tarball, Meson):
                 "gdk-pixbuf",
                 "libxml2",
                 "freetype",
-            ],
-            patches=[
-                # https://gitlab.gnome.org/GNOME/librsvg/-/merge_requests/1040
-                "001-fix-failed-to-rename-query-rust.patch",
             ],
         )
 
