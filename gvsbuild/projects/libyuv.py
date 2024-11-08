@@ -26,7 +26,7 @@ class Libyuv(GitRepo, CmakeProject):
             "libyuv",
             repo_url="https://chromium.googlesource.com/libyuv/libyuv",
             fetch_submodules=False,
-            tag="93b1b332cd60b56ab90aea14182755e379c28a80",
+            tag="464c51a03",
             dependencies=[
                 "cmake",
                 "ninja",
