@@ -1,0 +1,342 @@
+From 5dceb7f7d2985d79350ae99f657b27864217fd01 Mon Sep 17 00:00:00 2001
+From: Luca Bacci <luca.bacci982@gmail.com>
+Date: Wed, 4 Sep 2024 17:02:20 +0200
+Subject: [PATCH 1/7] WGL: Make context current to get debug info
+
+Otherwise we get NULL from glGetString()
+---
+ gdk/win32/gdkglcontext-win32-wgl.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/gdk/win32/gdkglcontext-win32-wgl.c b/gdk/win32/gdkglcontext-win32-wgl.c
+index 3f378574c04..a3e45280947 100644
+--- a/gdk/win32/gdkglcontext-win32-wgl.c
++++ b/gdk/win32/gdkglcontext-win32-wgl.c
+@@ -646,6 +646,8 @@ gdk_win32_display_init_wgl (GdkDisplay  *display,
+       return NULL;
+     }
+
++  gdk_gl_context_make_current (context);
++
+   {
+     int major, minor;
+     gdk_gl_context_get_version (context, &major, &minor);
+@@ -666,7 +668,7 @@ gdk_win32_display_init_wgl (GdkDisplay  *display,
+                          display_win32->hasGlWINSwapHint ? "yes" : "no"));
+   }
+
+-  wglMakeCurrent (NULL, NULL);
++  gdk_gl_context_clear_current ();
+
+   return context;
+ }
+--
+GitLab
+
+
+From aaf4261969966fe54572ce260452c51269bc2cc4 Mon Sep 17 00:00:00 2001
+From: Luca Bacci <luca.bacci982@gmail.com>
+Date: Wed, 4 Sep 2024 17:03:54 +0200
+Subject: [PATCH 2/7] WGL: Include renderer string in debug output
+
+---
+ gdk/win32/gdkglcontext-win32-wgl.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/gdk/win32/gdkglcontext-win32-wgl.c b/gdk/win32/gdkglcontext-win32-wgl.c
+index a3e45280947..835757de8f6 100644
+--- a/gdk/win32/gdkglcontext-win32-wgl.c
++++ b/gdk/win32/gdkglcontext-win32-wgl.c
+@@ -653,6 +653,7 @@ gdk_win32_display_init_wgl (GdkDisplay  *display,
+     gdk_gl_context_get_version (context, &major, &minor);
+     GDK_NOTE (OPENGL, g_print ("WGL API version %d.%d found\n"
+                          " - Vendor: %s\n"
++                         " - Renderer: %s\n"
+                          " - Checked extensions:\n"
+                          "\t* WGL_ARB_pixel_format: %s\n"
+                          "\t* WGL_ARB_create_context: %s\n"
+@@ -661,6 +662,7 @@ gdk_win32_display_init_wgl (GdkDisplay  *display,
+                          "\t* GL_WIN_swap_hint: %s\n",
+                          major, minor,
+                          glGetString (GL_VENDOR),
++                         glGetString (GL_RENDERER),
+                          display_win32->hasWglARBPixelFormat ? "yes" : "no",
+                          display_win32->hasWglARBCreateContext ? "yes" : "no",
+                          display_win32->hasWglEXTSwapControl ? "yes" : "no",
+--
+GitLab
+
+
+From 6a240c36ac390f3148cfcc45ae2e1e56e8198031 Mon Sep 17 00:00:00 2001
+From: Luca Bacci <luca.bacci982@gmail.com>
+Date: Wed, 4 Sep 2024 17:04:58 +0200
+Subject: [PATCH 3/7] WGL: Swap core / compat in debug output
+
+---
+ gdk/win32/gdkglcontext-win32-wgl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gdk/win32/gdkglcontext-win32-wgl.c b/gdk/win32/gdkglcontext-win32-wgl.c
+index 835757de8f6..247f08cf719 100644
+--- a/gdk/win32/gdkglcontext-win32-wgl.c
++++ b/gdk/win32/gdkglcontext-win32-wgl.c
+@@ -744,7 +744,7 @@ create_wgl_context_with_attribs (HDC           hdc,
+
+   GDK_NOTE (OPENGL,
+             g_print ("Creating %s WGL context (version:%d.%d, debug:%s, forward:%s)\n",
+-                      is_legacy ? "core" : "compat",
++                      is_legacy ? "compat" : "core",
+                       gdk_gl_version_get_major (version),
+                       gdk_gl_version_get_minor (version),
+                       (flags & WGL_CONTEXT_DEBUG_BIT_ARB) ? "yes" : "no",
+--
+GitLab
+
+
+From 3a9f26113fdffa233d5823dacf4150224caa2243 Mon Sep 17 00:00:00 2001
+From: Luca Bacci <luca.bacci982@gmail.com>
+Date: Wed, 4 Sep 2024 17:07:01 +0200
+Subject: [PATCH 4/7] WGL: Fix attribs_remove_last()
+
+---
+ gdk/win32/gdkglcontext-win32-wgl.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/gdk/win32/gdkglcontext-win32-wgl.c b/gdk/win32/gdkglcontext-win32-wgl.c
+index 247f08cf719..e0edc01fbe5 100644
+--- a/gdk/win32/gdkglcontext-win32-wgl.c
++++ b/gdk/win32/gdkglcontext-win32-wgl.c
+@@ -244,9 +244,11 @@ attribs_add (attribs_t *attribs,
+ static bool
+ attribs_remove_last (attribs_t *attribs)
+ {
++  g_assert (attribs->array->len % 2 == 0);
++
+   if (attribs->array->len > attribs->committed)
+     {
+-      g_array_set_size (attribs->array, attribs->array->len - 1);
++      g_array_set_size (attribs->array, attribs->array->len - 2);
+       return true;
+     }
+
+--
+GitLab
+
+
+From 84d2961a91a8da84afcefef20f8f27f52e64338c Mon Sep 17 00:00:00 2001
+From: Luca Bacci <luca.bacci982@gmail.com>
+Date: Wed, 4 Sep 2024 17:10:39 +0200
+Subject: [PATCH 5/7] Inspector: Sync WGL extensions with GdkWin32GLContextWGL
+
+Replace WGL_EXT_pixel_format with WGL_ARB_pixel_format and drop
+WGL_ARB_MULTISAMPLE (unused).
+---
+ gtk/inspector/general.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/gtk/inspector/general.c b/gtk/inspector/general.c
+index 7f86add5b64..1eb204c85e5 100644
+--- a/gtk/inspector/general.c
++++ b/gtk/inspector/general.c
+@@ -453,11 +453,10 @@ init_gl (GtkInspectorGeneral *gen)
+       gtk_widget_set_visible (gen->gl_backend_version, FALSE);
+
+       append_gl_extension_row (gen, "GL_WIN_swap_hint");
+-      append_wgl_extension_row (gen, "WGL_EXT_create_context");
++      append_wgl_extension_row (gen, "WGL_ARB_pixel_format");
++      append_wgl_extension_row (gen, "WGL_ARB_create_context");
+       append_wgl_extension_row (gen, "WGL_EXT_swap_control");
+       append_wgl_extension_row (gen, "WGL_OML_sync_control");
+-      append_wgl_extension_row (gen, "WGL_ARB_pixel_format");
+-      append_wgl_extension_row (gen, "WGL_ARB_multisample");
+     }
+   else
+ #endif
+--
+GitLab
+
+
+From b2394691cc9829cad8ff8f28d296e0cd32f55fb9 Mon Sep 17 00:00:00 2001
+From: Luca Bacci <luca.bacci982@gmail.com>
+Date: Wed, 4 Sep 2024 17:21:12 +0200
+Subject: [PATCH 6/7] Inspector: Fix append_wgl_extension_row()
+
+wglGetExtensionsStringARB takes an HDC argument even though it
+checks extensions for the current context. This was done for future
+extensibility. From [1]:
+
+>    Should this function take an hdc? It seems like a good idea. At
+>    some point MS may want to incorporate this into OpenGL32. If they
+>    do this and and they want to support more than one ICD, then an HDC
+>    would be needed.
+
+Currently the HDC argument is unused, but still wglGetExtensionsStringARB()
+is required to check if HDC is valid:
+
+>    If <hdc> does not indicate a valid device context then the function
+>    fails and the error ERROR_DC_NOT_FOUND is generated. If the function
+>    fails, the return value is NULL. To get extended error information,
+>    call GetLastError.
+
+So wglGetExtensionsStringARB fails if we pass NULL. Here we can pass any
+valid HDC, like for example the screen DC returned by GetDC(NULL), but
+probably using wglGetCurrentDC() makes most sense.
+
+Reference:
+  [1] - https://registry.khronos.org/OpenGL/extensions/ARB/WGL_ARB_extensions_string.txt
+---
+ gtk/inspector/general.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gtk/inspector/general.c b/gtk/inspector/general.c
+index 1eb204c85e5..17527591505 100644
+--- a/gtk/inspector/general.c
++++ b/gtk/inspector/general.c
+@@ -322,7 +322,7 @@ static void
+ append_wgl_extension_row (GtkInspectorGeneral *gen,
+                           const char          *ext)
+ {
+-  HDC hdc = 0;
++  HDC hdc = wglGetCurrentDC ();
+
+   add_check_row (gen, GTK_LIST_BOX (gen->gl_extensions_box), ext, epoxy_has_wgl_extension (hdc, ext), 0);
+ }
+--
+GitLab
+
+
+From 7559a87e8ae406dc5038e6f4ad2c380100417ca9 Mon Sep 17 00:00:00 2001
+From: Luca Bacci <luca.bacci982@gmail.com>
+Date: Wed, 4 Sep 2024 17:53:37 +0200
+Subject: [PATCH 7/7] WGL: Detect MESA D3D12 driver and request GDI
+ compatibility
+
+This way we get a non-opaque framebuffer / render target
+
+Fixes #6975
+
+References:
+  [1] https://gitlab.gnome.org/GNOME/gtk/-/issues/6975
+  [2] https://gitlab.freedesktop.org/mesa/mesa/-/issues/11828
+---
+ gdk/win32/gdkdisplay-win32.h       |  1 +
+ gdk/win32/gdkglcontext-win32-wgl.c | 33 +++++++++++++++++++++++++-----
+ 2 files changed, 29 insertions(+), 5 deletions(-)
+
+diff --git a/gdk/win32/gdkdisplay-win32.h b/gdk/win32/gdkdisplay-win32.h
+index 362fdee2b81..11ba2ad5e48 100644
+--- a/gdk/win32/gdkdisplay-win32.h
++++ b/gdk/win32/gdkdisplay-win32.h
+@@ -135,6 +135,7 @@ struct _GdkWin32Display
+   guint hasWglOMLSyncControl : 1;
+   guint hasWglARBPixelFormat : 1;
+   guint hasGlWINSwapHint : 1;
++  guint wgl_support_gdi : 1;
+
+ #ifdef HAVE_EGL
+   guint hasEglKHRCreateContext : 1;
+diff --git a/gdk/win32/gdkglcontext-win32-wgl.c b/gdk/win32/gdkglcontext-win32-wgl.c
+index e0edc01fbe5..bb837695d9a 100644
+--- a/gdk/win32/gdkglcontext-win32-wgl.c
++++ b/gdk/win32/gdkglcontext-win32-wgl.c
+@@ -295,7 +295,8 @@ find_pixel_format_with_defined_swap_flag (HDC  hdc,
+ }
+
+ static int
+-choose_pixel_format_arb_attribs (HDC hdc)
++choose_pixel_format_arb_attribs (GdkWin32Display *display_win32,
++                                 HDC              hdc)
+ {
+   const int attribs_base[] = {
+     WGL_DRAW_TO_WINDOW_ARB,
+@@ -355,6 +356,10 @@ choose_pixel_format_arb_attribs (HDC hdc)
+   attribs_init (&attribs, reserved);
+
+   attribs_add_static_array (&attribs, attribs_base);
++
++  if (display_win32->wgl_support_gdi)
++    attribs_add (&attribs, WGL_SUPPORT_GDI_ARB, GL_TRUE);
++
+   attribs_commit (&attribs);
+
+   attribs_add_static_array (&attribs, attribs_ancillary_buffers);
+@@ -443,12 +448,14 @@ get_distance (PIXELFORMATDESCRIPTOR *pfd)
+  * outcome by ordering pixel formats in specific ways.
+  */
+ static int
+-choose_pixel_format_opengl32 (HDC hdc)
++choose_pixel_format_opengl32 (GdkWin32Display *display_win32,
++                              HDC              hdc)
+ {
+   const DWORD skip_flags = PFD_GENERIC_FORMAT |
+                            PFD_GENERIC_ACCELERATED;
+   const DWORD required_flags = PFD_DRAW_TO_WINDOW |
+-                               PFD_SUPPORT_OPENGL;
++                               PFD_SUPPORT_OPENGL |
++                               (display_win32->wgl_support_gdi ? PFD_SUPPORT_GDI : 0);
+
+   struct {
+     int index;
+@@ -503,14 +510,14 @@ get_wgl_pfd (HDC                    hdc,
+           return 0;
+         }
+
+-      best_pf = choose_pixel_format_arb_attribs (hdc);
++      best_pf = choose_pixel_format_arb_attribs (display_win32, hdc);
+
+       /* Go back to the HDC that we were using, since we are done with the dummy HDC and GL Context */
+       wglMakeCurrent (hdc_current, hglrc_current);
+     }
+   else
+     {
+-      best_pf = choose_pixel_format_opengl32 (hdc);
++      best_pf = choose_pixel_format_opengl32 (display_win32, hdc);
+
+       if (best_pf > 0)
+         DescribePixelFormat (hdc, best_pf, sizeof (PIXELFORMATDESCRIPTOR), pfd);
+@@ -587,6 +594,18 @@ create_dummy_gl_window (void)
+   return hwnd;
+ }
+
++static bool
++check_driver_is_d3d12 (void)
++{
++  const char *vendor = (const char *) glGetString (GL_VENDOR);
++  const char *renderer = (const char *) glGetString (GL_RENDERER);
++
++  return vendor != NULL &&
++         g_ascii_strncasecmp (vendor, "MICROSOFT", strlen ("MICROSOFT")) == 0 &&
++         renderer != NULL &&
++         g_ascii_strncasecmp (renderer, "D3D12", strlen ("D3D12")) == 0;
++}
++
+ GdkGLContext *
+ gdk_win32_display_init_wgl (GdkDisplay  *display,
+                             GError     **error)
+@@ -639,6 +658,8 @@ gdk_win32_display_init_wgl (GdkDisplay  *display,
+   display_win32->hasGlWINSwapHint =
+     epoxy_has_gl_extension ("GL_WIN_swap_hint");
+
++  display_win32->wgl_support_gdi = check_driver_is_d3d12();
++
+   context = g_object_new (GDK_TYPE_WIN32_GL_CONTEXT_WGL,
+                           "display", display,
+                           NULL);
+@@ -656,6 +677,7 @@ gdk_win32_display_init_wgl (GdkDisplay  *display,
+     GDK_NOTE (OPENGL, g_print ("WGL API version %d.%d found\n"
+                          " - Vendor: %s\n"
+                          " - Renderer: %s\n"
++                         " - GDI compatibility required: %s\n"
+                          " - Checked extensions:\n"
+                          "\t* WGL_ARB_pixel_format: %s\n"
+                          "\t* WGL_ARB_create_context: %s\n"
+@@ -665,6 +687,7 @@ gdk_win32_display_init_wgl (GdkDisplay  *display,
+                          major, minor,
+                          glGetString (GL_VENDOR),
+                          glGetString (GL_RENDERER),
++                         display_win32->wgl_support_gdi ? "yes" : "no",
+                          display_win32->hasWglARBPixelFormat ? "yes" : "no",
+                          display_win32->hasWglARBCreateContext ? "yes" : "no",
+                          display_win32->hasWglEXTSwapControl ? "yes" : "no",
+--
+GitLab

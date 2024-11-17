@@ -138,7 +138,11 @@ class Gtk4(Tarball, Meson):
                 "glib",
                 "fribidi",
             ],
-            patches=[],
+            patches=[
+                # https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/7692
+                # Included in GTK 4.17.0
+                "001-fix-wgl-black-borders.patch",
+            ],
         )
         if self.opts.enable_gi:
             self.add_dependency("gobject-introspection")
