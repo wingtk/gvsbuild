@@ -33,7 +33,7 @@ class Lz4(Tarball, Meson):
         self.add_param("-Dossfuzz=false")
 
     def build(self):
-        self.push_location("build/meson")
+        self.push_location(r".\build\meson")
         Meson.build(self)
         self.pop_location()
 
