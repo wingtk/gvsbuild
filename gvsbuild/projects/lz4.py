@@ -33,8 +33,8 @@ class Lz4(Tarball, Meson):
         self.add_param("-Dossfuzz=false")
 
     def build(self):
-        Meson.push_location(self, "build/meson")
+        self.push_location(r".\build\meson")
         Meson.build(self)
-        Meson.pop_location(self)
+        self.pop_location()
 
         self.install(r".\lib\LICENSE share\doc\lz4")
