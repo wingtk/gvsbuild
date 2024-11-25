@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           token: ${{ secrets.UV_LOCK_PAT }}
-      - uses: astral-sh/setup-uv@e779db74266a80753577425b0f4ee823649f251d # v0.4.17
+      - uses: astral-sh/setup-uv@d8db0a86d3d88f3017a4e6b8a1e2b234e7a0a1b5 # v0.4.17
         with:
           enable-cache: true
       - run: uv lock
