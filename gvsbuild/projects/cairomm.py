@@ -19,19 +19,39 @@ from gvsbuild.utils.base_project import project_add
 
 
 @project_add
-class Cairomm(Tarball, Meson):
+class Cairomm3(Tarball, Meson):
     def __init__(self):
         Meson.__init__(
             self,
-            "cairomm",
-            version="1.16.2",
+            "cairomm3",
+            prj_dir="cairomm-1.0",
+            version="1.14.5",
             archive_url="https://gitlab.freedesktop.org/cairo/cairomm/-/archive/{version}/cairomm-{version}.tar.gz",
-            hash="54da2d1b51c62d9503599031979e3f132fcd6c4d507b37bd244364a0f9c692cf",
-            dependencies=["meson", "ninja", "libsigc++", "cairo"],
+            hash="80c10611888e84c3a660eea0dafc81b6a9faf3e1d1cc31f950c51b3f7d384fc2",
+            dependencies=["meson", "ninja", "libsigc++3", "cairo"],
         )
 
     def build(self):
         Meson.build(
             self, meson_params="-Dbuild-examples=false -Dbuild-documentation=false"
         )
-        self.install(r".\COPYING share\doc\cairomm")
+        self.install(r".\COPYING share\doc\cairomm3")
+
+
+@project_add
+class Cairomm4(Tarball, Meson):
+    def __init__(self):
+        Meson.__init__(
+            self,
+            "cairomm4",
+            version="1.16.2",
+            archive_url="https://gitlab.freedesktop.org/cairo/cairomm/-/archive/{version}/cairomm-{version}.tar.gz",
+            hash="54da2d1b51c62d9503599031979e3f132fcd6c4d507b37bd244364a0f9c692cf",
+            dependencies=["meson", "ninja", "libsigc++4", "cairo"],
+        )
+
+    def build(self):
+        Meson.build(
+            self, meson_params="-Dbuild-examples=false -Dbuild-documentation=false"
+        )
+        self.install(r".\COPYING share\doc\cairomm4")

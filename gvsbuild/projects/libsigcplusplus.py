@@ -18,11 +18,38 @@ from gvsbuild.utils.base_project import Project, project_add
 
 
 @project_add
-class Libsigcplusplus(Tarball, Meson):
+class Libsigcplusplus3(Tarball, Meson):
     def __init__(self):
         Project.__init__(
             self,
-            "libsigc++",
+            "libsigc++3",
+            prj_dir="libsigcplusplus-2.0",
+            version="2.12.1",
+            lastversion_even=True,
+            repository="https://github.com/libsigcplusplus/libsigcplusplus",
+            archive_url="https://github.com/libsigcplusplus/libsigcplusplus/releases/download/{version}/libsigc++-{version}.tar.xz",
+            hash="a9dbee323351d109b7aee074a9cb89ca3e7bcf8ad8edef1851f4cf359bd50843",
+            dependencies=[
+                "meson",
+                "ninja",
+            ],
+        )
+
+    def build(self):
+        Meson.build(
+            self,
+            meson_params="-Dbuild-examples=false -Dbuild-documentation=false",
+        )
+
+        self.install(r".\COPYING share\doc\libsigc++3")
+
+
+@project_add
+class Libsigcplusplus4(Tarball, Meson):
+    def __init__(self):
+        Project.__init__(
+            self,
+            "libsigc++4",
             prj_dir="libsigc++",
             version="3.6.0",
             lastversion_even=True,
@@ -41,4 +68,4 @@ class Libsigcplusplus(Tarball, Meson):
             meson_params="-Dbuild-examples=false -Dbuild-documentation=false",
         )
 
-        self.install(r".\COPYING share\doc\libsigc++")
+        self.install(r".\COPYING share\doc\libsigc++4")

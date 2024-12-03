@@ -2,9 +2,10 @@
 
 from gvsbuild.projects.adwaita_icon_theme import AdwaitaIconTheme
 from gvsbuild.projects.atk import Atk
+from gvsbuild.projects.atkmm import Atkmm
 from gvsbuild.projects.boringssl import BoringSSL
 from gvsbuild.projects.cairo import Cairo
-from gvsbuild.projects.cairomm import Cairomm
+from gvsbuild.projects.cairomm import Cairomm3, Cairomm4
 from gvsbuild.projects.check_libs import CheckLibs
 from gvsbuild.projects.clutter import Clutter
 from gvsbuild.projects.cogl import Cogl
@@ -22,7 +23,7 @@ from gvsbuild.projects.fribidi import Fribidi
 from gvsbuild.projects.gdk_pixbuf import GdkPixbuf
 from gvsbuild.projects.gettext import Gettext
 from gvsbuild.projects.glib import GLib, GLibBase, GLibNetworking, GLibPyWrapper
-from gvsbuild.projects.glibmm import Glibmm
+from gvsbuild.projects.glibmm import Glibmm3, Glibmm4
 from gvsbuild.projects.gobject_introspection import GObjectIntrospection
 from gvsbuild.projects.gperf import Gperf
 from gvsbuild.projects.graphene import Graphene
@@ -38,7 +39,7 @@ from gvsbuild.projects.gstreamer import (
     Orc,
 )
 from gvsbuild.projects.gtk import Gtk2, Gtk3, Gtk4
-from gvsbuild.projects.gtkmm import Gtkmm
+from gvsbuild.projects.gtkmm import Gtkmm3, Gtkmm4
 from gvsbuild.projects.gtksourceview import GtkSourceView4, GtkSourceView5
 from gvsbuild.projects.harfbuzz import Harfbuzz
 from gvsbuild.projects.hello_world import HelloWorld
@@ -62,7 +63,7 @@ from gvsbuild.projects.libpanel import Libpanel
 from gvsbuild.projects.libpng import Libpng
 from gvsbuild.projects.libpsl import Libpsl
 from gvsbuild.projects.librsvg import Librsvg
-from gvsbuild.projects.libsigcplusplus import Libsigcplusplus
+from gvsbuild.projects.libsigcplusplus import Libsigcplusplus3, Libsigcplusplus4
 from gvsbuild.projects.libsoup import Libsoup2, Libsoup3
 from gvsbuild.projects.libssh import Libssh, Libssh2
 from gvsbuild.projects.libtiff import Libtiff4
@@ -83,7 +84,7 @@ from gvsbuild.projects.openssl import OpenSSL
 from gvsbuild.projects.openssl import OpenSSLFips
 from gvsbuild.projects.opus import Opus
 from gvsbuild.projects.pango import Pango
-from gvsbuild.projects.pangomm import Pangomm
+from gvsbuild.projects.pangomm import Pangomm3, Pangomm4
 from gvsbuild.projects.pcre2 import Pcre2
 from gvsbuild.projects.pixman import Pixman
 from gvsbuild.projects.pkgconf import PkgConf
