@@ -37,6 +37,7 @@ from gvsbuild.projects.gstreamer import (
     GstPython,
     GStreamer,
     Orc,
+    GstLibav,
 )
 from gvsbuild.projects.gtk import Gtk2, Gtk3, Gtk4
 from gvsbuild.projects.gtkmm import Gtkmm
