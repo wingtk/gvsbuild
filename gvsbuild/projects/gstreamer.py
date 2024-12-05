@@ -248,3 +248,23 @@ class GstPython(Tarball, Meson):
     def build(self):
         Meson.build(self)
         self.install(r".\COPYING share\doc\gst-python")
+
+
+@project_add
+class GstLibav(Tarball, Meson):
+    def __init__(self):
+        Project.__init__(
+            self,
+            "gst-libav",
+            repository="https://gitlab.freedesktop.org/gstreamer/gstreamer",
+            version="1.24.9",
+            lastversion_even=True,
+            archive_url="https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-{version}.tar.xz",
+            hash="32682e9ae508ee01f4fb134b3a520081e2ac007220997577624b1d16171d456c",
+            # TODO try remove gst-plugins-base
+            dependencies=["meson", "ninja", "pygobject", "ffmpeg", "gst-plugins-base"],
+        )
+
+    def build(self):
+        Meson.build(self)
+        self.install(r".\COPYING share\doc\gst-libav")
