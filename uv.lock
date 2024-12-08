@@ -263,7 +263,7 @@ requires-dist = [
     { name = "lastversion", marker = "extra == 'outdated'", specifier = ">=2.4.2,<4.0.0" },
     { name = "packaging", marker = "extra == 'outdated'", specifier = ">=21.3,<25.0" },
     { name = "setuptools", marker = "python_full_version >= '3.12'", specifier = ">=69.2,<76.0" },
-    { name = "typer", specifier = ">=0.6.1,<0.14.0" },
+    { name = "typer", specifier = ">=0.6.1,<0.15.0" },
 ]
 
 [package.metadata.requires-dev]
