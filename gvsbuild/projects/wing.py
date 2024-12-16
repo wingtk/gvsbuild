@@ -24,10 +24,10 @@ class Wing(Tarball, Meson):
         Project.__init__(
             self,
             "wing",
-            version="0.3.22",
+            version="0.3.24",
             repository="https://gitlab.gnome.org/GNOME/wing",
             archive_url="https://gitlab.gnome.org/GNOME/wing/-/archive/v{version}/wing-v{version}.tar.gz",
-            hash="7c266e4745c4bc2daf8d4b84ad83ae6bf5b8f75f60f4ab70d980ed087e623527",
+            hash="7dce1d21905729b6e2beb57aae5f54330b5523771260be6c92cd237656e021cf",
             dependencies=["ninja", "meson", "pkgconf", "glib"],
         )
 
