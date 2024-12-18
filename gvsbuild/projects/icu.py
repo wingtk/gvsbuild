@@ -34,6 +34,7 @@ class Icu(Tarball, Meson):
                 "meson",
                 "pkgconf",
             ],
+            patches=["0001-Fix-circular-include-on-MS-Visual-Studio.patch"],
         )
 
     def build(self):
