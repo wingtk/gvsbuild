@@ -1,0 +1,33 @@
+From b0a600d2a3f7de6fd817d5b310f1f17f565d81db Mon Sep 17 00:00:00 2001
+From: Ignazio Pillai <ignazp@amazon.com>
+Date: Wed, 18 Dec 2024 12:49:47 +0100
+Subject: [PATCH] Fix circular include on MS Visual Studio
+
+Including ucal.h from a C file on MS VisualStudio triggers a circular include, which triggers a build fail.
+---
+ source/common/unicode/platform.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/source/common/unicode/platform.h b/source/common/unicode/platform.h
+index b2fcb21ef1..81976eacd8 100644
+--- a/source/common/unicode/platform.h
++++ b/source/common/unicode/platform.h
+@@ -728,12 +728,12 @@
+     /*
+      * Notes:
+      * C++11 and C11 require support for UTF-16 literals
+-     * Doesn't work on Mac C11 (see workaround in ptypes.h)
+-     * or Cygwin less than 3.5.
++     * Doesn't work on Mac C11 (see workaround in ptypes.h),
++     * MS Visual Studio or Cygwin less than 3.5.
+      */
+ #   if defined(__cplusplus)
+ #       define U_HAVE_CHAR16_T 1
+-#   elif U_PLATFORM_IS_DARWIN_BASED || (U_PLATFORM == U_PF_CYGWIN && CYGWIN_VERSION_DLL_MAJOR < 3005)
++#   elif U_PLATFORM_IS_DARWIN_BASED || (U_PLATFORM == U_PF_CYGWIN && CYGWIN_VERSION_DLL_MAJOR < 3005) || defined(_MSC_VER)
+ #       define U_HAVE_CHAR16_T 0
+ #   else
+         // conformant C11
+-- 
+2.38.1.windows.1
+
