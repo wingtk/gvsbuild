@@ -5,13 +5,13 @@ Subject: [PATCH] Fix circular include on MS Visual Studio
 
 Including ucal.h from a C file on MS VisualStudio triggers a circular include, which triggers a build fail.
 ---
- icu4c/source/common/unicode/platform.h | 6 +++---
+ source/common/unicode/platform.h | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/icu4c/source/common/unicode/platform.h b/icu4c/source/common/unicode/platform.h
+diff --git a/source/common/unicode/platform.h b/source/common/unicode/platform.h
 index b2fcb21ef1..81976eacd8 100644
---- a/icu4c/source/common/unicode/platform.h
-+++ b/icu4c/source/common/unicode/platform.h
+--- a/source/common/unicode/platform.h
++++ b/source/common/unicode/platform.h
 @@ -728,12 +728,12 @@
      /*
       * Notes:
