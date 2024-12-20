@@ -1,5 +1,5 @@
---- a/source/common/unicode/platform.h.orig	2024-12-19 16:23:37.488862706 +0100
-+++ b/source/common/unicode/platform.h	2024-12-19 16:24:38.342860469 +0100
+--- a/icu/source/common/unicode/platform.h.orig	2024-12-19 16:23:37.488862706 +0100
++++ b/icu/source/common/unicode/platform.h	2024-12-19 16:24:38.342860469 +0100
 @@ -733,7 +733,7 @@
       */
  #   if defined(__cplusplus)
