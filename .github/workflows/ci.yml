@@ -37,7 +37,7 @@ jobs:
         with:
           python-version: ${{ env.python_version }}
       - name: Install uv
-        uses: astral-sh/setup-uv@38f3f104447c67c051c4a08e39b64a148898af3a # v4.2.0
+        uses: astral-sh/setup-uv@180f8b44399608a850e1db031fa65c77746566d3 # v5.0.1
         with:
           enable-cache: true
           cache-dependency-glob: ".pre-commit-config.yaml"
@@ -65,7 +65,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - name: Install uv
-        uses: astral-sh/setup-uv@38f3f104447c67c051c4a08e39b64a148898af3a # v4.2.0
+        uses: astral-sh/setup-uv@180f8b44399608a850e1db031fa65c77746566d3 # v5.0.1
         with:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
@@ -105,7 +105,7 @@ jobs:
         with:
           python-version: ${{ env.python_version }}
       - name: Install uv
-        uses: astral-sh/setup-uv@38f3f104447c67c051c4a08e39b64a148898af3a # v4.2.0
+        uses: astral-sh/setup-uv@180f8b44399608a850e1db031fa65c77746566d3 # v5.0.1
         with:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
@@ -131,7 +131,7 @@ jobs:
       - name: Archive GTK runtime
         run: 7z a -tzip GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.sha }}_x64.zip C:\gtk-build\gtk\x64\release\*
       - name: Upload GTK${{ matrix.gtk-version }}_Gvsbuild-${{ github.sha }}_x64.zip
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
         with:
           name: GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.sha }}_x64.zip
           path: GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.sha }}_x64.zip
@@ -149,13 +149,13 @@ jobs:
         if: matrix.gtk-version == '4'
         run: uv build
       - name: Upload gvsbuild-${{ github.event.release.tag_name }}.tar.gz
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
         if: github.event_name == 'release' && matrix.gtk-version == '4'
         with:
           name: gvsbuild-${{ github.event.release.tag_name }}.tar.gz
           path: dist/gvsbuild-${{ github.event.release.tag_name }}.tar.gz
       - name: Upload gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
         if: github.event_name == 'release' && matrix.gtk-version == '4'
         with:
           name: gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
