@@ -159,6 +159,7 @@ class GstPluginsBad(Tarball, Meson):
                 "meson",
                 "ninja",
                 "gst-plugins-base",
+                "libnice",
                 "webrtc-audio-processing",
             ],
             patches=[
