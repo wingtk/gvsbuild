@@ -12,6 +12,7 @@ stubdata_lib = library(
   cpp_args: '-DSTUBDATA_BUILD',
   include_directories: incdir,
   version: U_ICU_VERSION,
+  install: true,
 )
 
 if meson.can_run_host_binaries()
