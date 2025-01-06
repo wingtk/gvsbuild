@@ -161,7 +161,8 @@ class GstPluginsBad(Tarball, Meson):
                 "gst-plugins-base",
                 "libnice",
                 "webrtc-audio-processing",
-                "openssl"
+                "openssl",
+                "libsrtp2",
             ],
             patches=[
                 "wasapisink-reduce-buffer-latency.patch",
