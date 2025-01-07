@@ -55,8 +55,8 @@ from gvsbuild.projects.libarchive import Libarchive
 from gvsbuild.projects.libcbor import Libcbor
 from gvsbuild.projects.libcurl import Libcurl
 from gvsbuild.projects.libepoxy import Libepoxy
-from gvsbuild.projects.libfido2 import Libfido2
 from gvsbuild.projects.libffi import Libffi
+from gvsbuild.projects.libfido2 import Libfido2
 from gvsbuild.projects.libgxps import Libgxps
 from gvsbuild.projects.libjpeg_turbo import LibjpegTurbo
 from gvsbuild.projects.libmicrohttpd import Libmicrohttpd
@@ -83,8 +83,7 @@ from gvsbuild.projects.mit_kerberos import Kerberos
 from gvsbuild.projects.nghttp2 import Nghttp2
 from gvsbuild.projects.ogg import Ogg
 from gvsbuild.projects.openh264 import OpenH264
-from gvsbuild.projects.openssl import OpenSSL
-from gvsbuild.projects.openssl import OpenSSLFips
+from gvsbuild.projects.openssl import OpenSSL, OpenSSLFips
 from gvsbuild.projects.opus import Opus
 from gvsbuild.projects.pango import Pango
 from gvsbuild.projects.pangomm import Pangomm
