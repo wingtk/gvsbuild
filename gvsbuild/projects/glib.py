@@ -102,11 +102,11 @@ class GLibNetworking(Tarball, Meson):
         Project.__init__(
             self,
             "glib-networking",
-            version="2.80.0",
+            version="2.80.1",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/glib-networking",
             archive_url="https://download.gnome.org/sources/glib-networking/{major}.{minor}/glib-networking-{version}.tar.xz",
-            hash="d8f4f1aab213179ae3351617b59dab5de6bcc9e785021eee178998ebd4bb3acf",
+            hash="b80e2874157cd55071f1b6710fa0b911d5ac5de106a9ee2a4c9c7bee61782f8e",
             dependencies=[
                 "pkgconf",
                 "ninja",
@@ -115,9 +115,7 @@ class GLibNetworking(Tarball, Meson):
                 "openssl",
                 "gsettings-desktop-schemas",
             ],
-            patches=[
-                "add-null-check-in-complete_handshake.patch",
-            ],
+            patches=[],
         )
 
     def build(self):
