@@ -75,6 +75,7 @@ select = [
     "C",
     "E",
     "F",
+    "UP",
     "W",
 ]
 extend-select = ["I"]

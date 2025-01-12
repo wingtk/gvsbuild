@@ -131,10 +131,7 @@ class Builder:
     def _create_msbuild_opts(self, python):
         rt = [f"/nologo /p:Platform={self.opts.platform}"]
         if python:
-            rt.append(
-                '/p:PythonPath="%(python_dir)s" /p:PythonDir="%(python_dir)s"'
-                % {"python_dir": python}
-            )
+            rt.append(f'/p:PythonPath="{python}" /p:PythonDir="{python}"')
 
         if log.verbose_on():
             rt.append("/v:normal")
@@ -269,8 +266,7 @@ class Builder:
             # oops
             cmd = "pacman -S " + " ".join(missing)
             log.error_exit(
-                "Missing package(s) from msys2 installation, try with\n    '%s'\nin a msys2 shell."
-                % (cmd,)
+                f"Missing package(s) from msys2 installation, try with\n    '{cmd}'\nin a msys2 shell."
             )
 
         self.patch = msys_path / "usr" / "bin" / "patch.exe"
@@ -321,7 +317,7 @@ class Builder:
                     del self.vs_env[key]
 
     def __dump_vs_loc(self):
-        vswhere = r"%s\Microsoft Visual Studio\Installer\vswhere.exe" % (
+        vswhere = r"{}\Microsoft Visual Studio\Installer\vswhere.exe".format(
             os.environ.get("ProgramFiles(x86)", r"C:\Program Files (x86)")
         )
         log.log("Trying to find Visual Studio installations ...")
@@ -783,12 +779,7 @@ class Builder:
             hc = self.__hashfile(proj.archive_file)
             if hc != proj.hash:
                 log.error_exit(
-                    "Hash mismatch on %s:\n  Calculated '%s'\n  Expected   '%s'\n"
-                    % (
-                        proj.archive_file,
-                        hc,
-                        proj.hash,
-                    )
+                    f"Hash mismatch on {proj.archive_file}:\n  Calculated '{hc}'\n  Expected   '{proj.hash}'\n"
                 )
                 return True
 
@@ -989,7 +980,7 @@ class Builder:
         # set platform
         rustup = os.path.join(cargo_home, "rustup.exe")
         self.__execute(
-            f'{rustup} default {rust_version}-{"i686" if self.x86 else "x86_64"}-pc-windows-msvc',
+            f"{rustup} default {rust_version}-{'i686' if self.x86 else 'x86_64'}-pc-windows-msvc",
             env=env,
         )
 

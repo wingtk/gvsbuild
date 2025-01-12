@@ -21,7 +21,7 @@ import pathlib
 import re
 import shutil
 from enum import Enum
-from typing import Dict, Generic, List, Tuple, TypeVar
+from typing import Generic, TypeVar
 
 from .simple_ui import log
 from .utils import _rmtree_error_handler
@@ -138,13 +138,13 @@ class Project(Generic[P]):
         # register version params for use from derived classes
         self.version_params = version_params
 
-    _projects: List[P] = []
-    _names: List[str] = []
-    _dict: Dict[str, P] = {}
+    _projects: list[P] = []
+    _names: list[str] = []
+    _dict: dict[str, P] = {}
     _ver_res = None
     name_len = 0
     # List of class/type to add, now not at import time but after some options are parsed
-    _reg_prj_list: List[Tuple[P, ProjectType]] = []
+    _reg_prj_list: list[tuple[P, ProjectType]] = []
     # build option
     opts = Options()
 

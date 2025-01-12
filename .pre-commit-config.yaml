@@ -1,19 +1,19 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: cef0300fd0fc4d2a87a85fa2093c6b283ea36f4b  # frozen: v5.0.0
     hooks:
       - id: check-yaml
   - repo: https://github.com/shellcheck-py/shellcheck-py
-    rev: v0.10.0.1
+    rev: a23f6b85d0fdd5bb9d564e2579e678033debbdff  # frozen: v0.10.0.1
     hooks:
       - id: shellcheck
         args: [--exclude, SC1017]
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.11.2
+    rev: bbc3dc1f890007061f18f17e2334f216ea9e5df7  # frozen: v1.14.1
     hooks:
     -   id: mypy
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: 'v0.6.8'
+    rev: '18ba2d02dcafd1cc608bd83eff6c17fb0108ca71'  # frozen: v0.9.1
     hooks:
       - id: ruff
         args: [--fix]
