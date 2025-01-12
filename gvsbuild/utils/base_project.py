@@ -207,7 +207,7 @@ class Project(Generic[P]):
             add_path=add_path,
         )
 
-    def _msbuild_make_search_replace(self, org_platform):
+    def _msbuild_make_search_replace(self, org_platform: str) -> tuple[bytes, bytes]:
         """Return the search & replace strings (converted to bytes to update
         the platform Toolset version (v140, v141, ...) to use a new compiler,
         e.g. to use vs2017 solution's files for vs2019.
@@ -226,7 +226,7 @@ class Project(Generic[P]):
             dst_platform = "143"
         else:
             dst_platform = f"{ver}0"
-        search = (">v%u</PlatformToolset>" % (org_platform,)).encode("utf-8")
+        search = f">v{org_platform}</PlatformToolset>".encode()
         replace = f">v{dst_platform}</PlatformToolset>".encode()
 
         return search, replace
