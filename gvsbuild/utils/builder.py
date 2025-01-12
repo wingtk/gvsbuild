@@ -533,7 +533,7 @@ class Builder:
         if self.opts.check_hash:
             return
 
-        # List of all the project we can mark for build because of a dependend
+        # List of all the project we can mark for build because of a dependent
         self.prj_to_mark = [x for x in Project._projects if x.is_project()]
 
         self.prj_done = []
@@ -551,11 +551,7 @@ class Builder:
                 if self.__build_one(p):
                     self.prj_skipped.append(p.name)
                 else:
-                    msg = "%-*s (%.3f s)" % (
-                        Project.name_len,
-                        p.name,
-                        time.time() - st,
-                    )
+                    msg = f"{p.name:{Project.name_len}} ({time.time() - st:.3f})"
                     self.prj_done.append(msg)
             except KeyboardInterrupt:
                 traceback.print_exc()
@@ -597,8 +593,7 @@ class Builder:
                     log.message(f"    {p}")
                 miss += len(self.prj_dropped)
 
-            # Don't fool appveyor
-            log.error_exit("%u project(s) missing ;(" % (miss,))
+            log.error_exit("%d project(s) missing ;(")
 
         log.close()
 
@@ -798,21 +793,14 @@ class Builder:
             if perc != self._old_perc:
                 perc = min(perc, 100)
                 self._old_perc = perc
-                sp = "%s (%u k) - %u%%" % (
-                    self._downloading_file,
-                    total_size / 1024,
-                    self._old_perc,
-                )
+                sp = f"{self._downloading_file} ({total_size / 1024}k) - {self._old_perc:.0f}%"
                 print(sp, end="\r")
                 if len(sp) > self._old_print:
                     # Save the len to delete the line when we change file
                     self._old_print = len(sp)
         else:
             # Only the current, we don't know the size
-            sp = "%s - %u k" % (
-                self._downloading_file,
-                c_size / 1024,
-            )
+            sp = f"{self._downloading_file} - {c_size / 1024:.0f} k"
             print(sp, end="\r")
             if len(sp) > self._old_print:
                 self._old_print = len(sp)
@@ -837,14 +825,7 @@ class Builder:
         msg = f"Opening {url} ..."
         print(msg, end="\r")
         with contextlib.closing(urlopen(url, None, context=ssl_ctx)) as fp:
-            print(
-                "%*s"
-                % (
-                    len(msg),
-                    "",
-                ),
-                end="\r",
-            )
+            print(f"{'':>{len(msg)}}", end="\r")
             headers = fp.info()
 
             with open(filename, "wb") as tfp:
@@ -870,7 +851,7 @@ class Builder:
 
         if size >= 0 and read < size:
             raise ContentTooShortError(
-                "retrieval incomplete: got only %i out of %i bytes" % (read, size),
+                f"retrieval incomplete: got only {read} out of {size} bytes",
                 result,
             )
 
@@ -920,9 +901,7 @@ class Builder:
                 raise
         log.end()
 
-        print(
-            "%-*s" % (self._old_print, f"{proj.archive_file} - Download finished"),
-        )
+        print(f"{proj.archive_file:{self._old_print}} - Download finished")
         return self.__check_hash(proj)
 
     def __sub_vars(self, s):

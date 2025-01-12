@@ -131,14 +131,9 @@ class Log:
             self._output_val("Vs path", opts.vs_install_path)
             self._output_val("Sdk ver", opts.win_sdk_ver)
 
-    def _get_delta(self, start, end=None):
-        if not end:
-            end = datetime.datetime.now()
+    def _get_delta(self, start):
         dt = datetime.datetime.now() - start
-        return "%u.%03u" % (
-            dt.seconds,
-            dt.microseconds / 1000,
-        )
+        return f"{dt.seconds}.{dt.microseconds // 1000:03}"
 
     def _indend_check(self):
         if self.operations:
@@ -205,13 +200,7 @@ class Log:
                 now_val = datetime.datetime.now()
                 self.fo.write(f"{now_val.strftime('%Y-%m-%d %H:%M:%S')} {msg}\n")
             else:
-                self.fo.write(
-                    "%19s %s\n"
-                    % (
-                        "",
-                        msg,
-                    )
-                )
+                self.fo.write(f"{msg:<20}")
             return False
         else:
             print(msg)
@@ -219,13 +208,7 @@ class Log:
             return True
 
     def _output_val(self, msg, val):
-        self._output(
-            "%16s: %s"
-            % (
-                msg,
-                val,
-            )
-        )
+        self._output(f"{msg:<16}: {val}")
 
     def message_indent(self, msg):
         if self._output(msg, add_date=False):

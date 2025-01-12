@@ -35,7 +35,9 @@ def test_no_project(typer_app, runner):
     assert "Missing argument" in result.output
 
 
-@pytest.mark.skipif(not sys.platform.startswith("win"), reason="windll only available on Windows")
+@pytest.mark.skipif(
+    not sys.platform.startswith("win"), reason="windll only available on Windows"
+)
 def test_platform(tmp_dir, typer_app, runner):
     assert tmp_dir.exists()
     result = runner.invoke(
