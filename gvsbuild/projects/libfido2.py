@@ -55,4 +55,4 @@ class Libfido2(Tarball, CmakeProject):
         cmake_params = f"-DWITH_ZLIB=ON -DCBOR_INCLUDE_DIRS={include_dirs} -DCRYPTO_INCLUDE_DIRS={include_dirs} -DZLIB_INCLUDE_DIRS={include_dirs} -DCBOR_LIBRARY_DIRS={lib_dirs} -DCRYPTO_LIBRARY_DIRS={lib_dirs} -DZLIB_LIBRARY_DIRS={lib_dirs} -DCBOR_BIN_DIRS={bin_dirs} -DCRYPTO_BIN_DIRS={bin_dirs} -DZLIB_BIN_DIRS={bin_dirs} -DCRYPTO_LIBRARIES=libcrypto {build_params}"
 
         CmakeProject.build(self, cmake_params=cmake_params, use_ninja=True)
-        self.install(r"output\%s\static\* ." % (arch))
+        self.install(rf"output\{arch}\static\* .")

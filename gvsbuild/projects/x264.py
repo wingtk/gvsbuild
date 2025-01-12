@@ -43,12 +43,7 @@ class X264(GitRepo, Project):
         )
         msys_path = Project.get_tool_path("msys2")
         self.exec_vs(
-            r"%s\bash build\build.sh %s %s"
-            % (
-                msys_path,
-                convert_to_msys(self.builder.gtk_dir),
-                configuration,
-            ),
+            rf"{msys_path}\bash build\build.sh {convert_to_msys(self.builder.gtk_dir)} {configuration}",
             add_path=msys_path,
         )
 

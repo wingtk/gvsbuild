@@ -15,8 +15,6 @@
 
 """gvsbuild deps print / .gv graph."""
 
-from typing import List
-
 import typer
 
 # Verify we can import from the script directory
@@ -214,7 +212,7 @@ def deps(
     invert: bool = typer.Option(
         False, help="Invert the dependencies", rich_help_panel="Graphing Options"
     ),
-    skip: List[str] = typer.Option(
+    skip: list[str] = typer.Option(
         None,
         help="A comma separated list of projects not to graph",
         rich_help_panel="Graphing Options",

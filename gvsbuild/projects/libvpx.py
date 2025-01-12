@@ -53,13 +53,7 @@ class Libvpx(Tarball, Project):
         msys_path = Project.get_tool_path("msys2")
 
         self.exec_vs(
-            r"%s\bash ./configure --target=%s --prefix=%s %s"
-            % (
-                msys_path,
-                target,
-                convert_to_msys(self.builder.gtk_dir),
-                configure_options,
-            ),
+            rf"{msys_path}\bash ./configure --target={target} --prefix={convert_to_msys(self.builder.gtk_dir)} {configure_options}",
             add_path=msys_path,
         )
         self.exec_vs(r"make", add_path=msys_path)

@@ -49,7 +49,7 @@ class ToolCargo(Tool):
         env["CARGO_HOME"] = self.build_dir
 
         toolchain = (
-            f'{self.version}-{"i686" if self.opts.x86 else "x86_64"}-pc-windows-msvc'
+            f"{self.version}-{'i686' if self.opts.x86 else 'x86_64'}-pc-windows-msvc"
         )
         subprocess.run(
             f"{self.archive_file} --no-modify-path --default-toolchain {toolchain} -y",

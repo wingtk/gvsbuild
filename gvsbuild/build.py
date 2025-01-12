@@ -15,7 +15,6 @@
 
 from enum import Enum
 from pathlib import Path
-from typing import Dict, List
 
 import typer
 
@@ -59,7 +58,7 @@ def __get_projects_to_build(opts):
     return to_build
 
 
-def __parse_extra_opts(extra_opts: List[str]) -> Dict[str, List[str]]:
+def __parse_extra_opts(extra_opts: list[str]) -> dict[str, list[str]]:
     if extra_opts is None:
         return {}
     parsed_opts = {}
@@ -102,7 +101,7 @@ class WinSdkVersion(str, Enum):
 
 
 def build(
-    projects: List[str] = typer.Argument(..., help="The project to build"),
+    projects: list[str] = typer.Argument(..., help="The project to build"),
     platform: Platform = typer.Option(Platform.x64, help="The platform to build for"),
     configuration: Configuration = typer.Option(
         Configuration.debug_optimized,
@@ -205,7 +204,7 @@ def build(
         help="Command line options to pass to msbuild.",
         rich_help_panel="Options to Pass to Build Systems",
     ),
-    skip: List[str] = typer.Option(
+    skip: list[str] = typer.Option(
         None,
         help="Project to avoid building, can be run multiple times.",
         rich_help_panel="Skip and Cleanup Options",
@@ -314,7 +313,7 @@ def build(
         help="Command line options to pass to cargo",
         rich_help_panel="Options to Pass to Build Systems",
     ),
-    extra_opts: List[str] = typer.Option(
+    extra_opts: list[str] = typer.Option(
         None,
         help="Additional command line options to pass to specific project."
         " Example: --extra_opts <project>:<option1>[;<option1>...]",

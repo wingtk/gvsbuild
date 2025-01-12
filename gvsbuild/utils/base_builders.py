@@ -222,7 +222,7 @@ class MakeGir:
                 log.message(f"Unable to find detectenv-msvc.mak for {prj_name}")
                 return
 
-        cmd = f'nmake -f {prj_name}-introspection-msvc.mak CFG={self.builder.opts.configuration} PREFIX={self.builder.gtk_dir} PYTHON={Project.get_tool_executable("python")} install-introspection'
+        cmd = f"nmake -f {prj_name}-introspection-msvc.mak CFG={self.builder.opts.configuration} PREFIX={self.builder.gtk_dir} PYTHON={Project.get_tool_executable('python')} install-introspection"
 
         self.push_location(b_dir)
         self.exec_vs(cmd)

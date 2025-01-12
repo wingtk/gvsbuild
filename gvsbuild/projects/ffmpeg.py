@@ -49,8 +49,7 @@ class Ffmpeg(Tarball, Project):
         )
         msys_path = Project.get_tool_path("msys2")
         self.exec_vs(
-            r"%s\bash build\build.sh %s %s %s %s"
-            % (
+            r"{}\bash build\build.sh {} {} {} {}".format(
                 msys_path,
                 convert_to_msys(self.pkg_dir),
                 convert_to_msys(self.builder.gtk_dir),

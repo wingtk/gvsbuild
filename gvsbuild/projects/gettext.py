@@ -47,12 +47,7 @@ class Gettext(Tarball, Project):
         self.pop_location()
 
         self.push_location(
-            r".\nmake\vs%s\%s\%s"
-            % (
-                self.builder.opts.vs_ver,
-                self.builder.opts.configuration,
-                self.builder.opts.platform,
-            )
+            rf".\nmake\vs{self.builder.opts.vs_ver}\{self.builder.opts.configuration}\{self.builder.opts.platform}"
         )
         self.install(r".\asprintf.dll bin")
         self.install(r".\asprintf.pdb bin")

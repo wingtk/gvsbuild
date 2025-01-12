@@ -39,7 +39,7 @@ class Project_gtk_base(Tarball, Project, MakeGir):
             self.builder.exec_cmd(cmd, working_dir=self._get_working_dir())
         self.pop_location()
 
-        self.install(r".\COPYING share\doc\%s" % self.name)
+        self.install(rf".\COPYING share\doc\{self.name}")
 
 
 @project_add
