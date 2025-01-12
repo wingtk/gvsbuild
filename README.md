@@ -174,7 +174,7 @@ Note: Visual Studio versions 2013 (not for all projects), 2015, 2017, 2019, and 
 With your admin PowerShell terminal:
 
 ```PowerShell
-choco install python312
+choco install python313
 ```
 
 2. Open a PowerShell terminal as a normal user and check the python version:
