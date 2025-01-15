@@ -1,8 +1,0 @@
-subdir('toolutil')
-subdir('icupkg')
-subdir('pkgdata')
-subdir('icuinfo')
-subdir('ctestfw')
-subdir('genbrk')
-subdir('genccode')
-subdir('gencmn')

@@ -13,30 +13,49 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
+import os
 
-from gvsbuild.utils.base_builders import Meson
 from gvsbuild.utils.base_expanders import Tarball
-from gvsbuild.utils.base_project import project_add
+from gvsbuild.utils.base_project import Project, project_add
 
 
 @project_add
-class Icu(Tarball, Meson):
+class Icu(Tarball, Project):
     def __init__(self):
-        Meson.__init__(
+        Project.__init__(
             self,
             "icu",
             repository="https://github.com/unicode-org/icu",
-            version="76.1",
+            lastversion_major="74",
+            version="74.2",
             archive_url="https://github.com/unicode-org/icu/releases/download/release-{major}-{minor}/icu4c-{major}_{minor}-src.zip",
-            hash="14a1942185dda2c5a07bd74f20a220954a7d94149fb5ef3cc782b52d9817fb3f",
-            dependencies=[
-                "ninja",
-                "meson",
-                "pkgconf",
-            ],
-            patches=["0001-Fix-circular-include-on-MS-Visual-Studio.patch"],
+            hash="b22e94977a82aac7ebe269ee00bc2d3164bd4495cafcb9e0b2109ab7fac2a37d",
         )
 
     def build(self):
-        Meson.build(self)
+        bindir = r".\bin"
+        libdir = r".\lib"
+        if not self.builder.x86:
+            bindir += "64"
+            libdir += "64"
+        if self.opts.vs_ver != "15":
+            # Not Vs2017, we change the platform
+            search, replace = self._msbuild_make_search_replace(141)
+            self._msbuild_copy_dir(
+                None,
+                os.path.join(self.build_dir, "source", "allinone"),
+                search,
+                replace,
+            )
+
+        self.exec_msbuild(r"source\allinone\allinone.sln /t:cal /t:MakeData")
+
+        if self.builder.opts.configuration == "debug":
+            self.install_pc_files("pc-files-debug")
+        else:
+            self.install_pc_files()
+
         self.install(r".\LICENSE share\doc\icu")
+        self.install(bindir + r"\* bin")
+        self.install(libdir + r"\* lib")
+        self.install(r".\include\* include")
