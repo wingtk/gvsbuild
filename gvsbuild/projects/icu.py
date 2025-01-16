@@ -48,7 +48,7 @@ class Icu(Tarball, Project):
                 replace,
             )
 
-        self.exec_msbuild(r"source\allinone\allinone.sln /t:cal /t:MakeData")
+        self.exec_msbuild(r"source\allinone\allinone.sln /p:SkipUWP=true")
 
         if self.builder.opts.configuration == "debug":
             self.install_pc_files("pc-files-debug")
