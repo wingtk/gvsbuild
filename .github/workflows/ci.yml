@@ -25,7 +25,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, 'skip ci')"
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@c95a14d0e5bab51a9f56296a4eb0e416910cd350 # v2.10.3
+        uses: step-security/harden-runner@cb605e52c26070c328afc4562f0b4ada7618a84e # v2.10.4
         with:
           egress-policy: audit
 
@@ -37,7 +37,7 @@ jobs:
         with:
           python-version: ${{ env.python_version }}
       - name: Install uv
-        uses: astral-sh/setup-uv@887a942a15af3a7626099df99e897a18d9e5ab3a # v5.1.0
+        uses: astral-sh/setup-uv@b5f58b2abc5763ade55e4e9d0fe52cd1ff7979ca # v5.2.1
         with:
           enable-cache: true
           cache-dependency-glob: ".pre-commit-config.yaml"
@@ -56,7 +56,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, 'skip ci')"
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@c95a14d0e5bab51a9f56296a4eb0e416910cd350 # v2.10.3
+        uses: step-security/harden-runner@cb605e52c26070c328afc4562f0b4ada7618a84e # v2.10.4
         with:
           egress-policy: audit
 
@@ -65,7 +65,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - name: Install uv
-        uses: astral-sh/setup-uv@887a942a15af3a7626099df99e897a18d9e5ab3a # v5.1.0
+        uses: astral-sh/setup-uv@b5f58b2abc5763ade55e4e9d0fe52cd1ff7979ca # v5.2.1
         with:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
@@ -92,7 +92,7 @@ jobs:
 
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@c95a14d0e5bab51a9f56296a4eb0e416910cd350 # v2.10.3
+        uses: step-security/harden-runner@cb605e52c26070c328afc4562f0b4ada7618a84e # v2.10.4
         with:
           egress-policy: audit
 
@@ -105,7 +105,7 @@ jobs:
         with:
           python-version: ${{ env.python_version }}
       - name: Install uv
-        uses: astral-sh/setup-uv@887a942a15af3a7626099df99e897a18d9e5ab3a # v5.1.0
+        uses: astral-sh/setup-uv@b5f58b2abc5763ade55e4e9d0fe52cd1ff7979ca # v5.2.1
         with:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
