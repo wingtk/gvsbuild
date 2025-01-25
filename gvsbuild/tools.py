@@ -209,10 +209,10 @@ class ToolGo(Tool):
         Tool.__init__(
             self,
             "go",
-            version="1.23.4",
+            version="1.23.5",
             repository="https://github.com/golang/go",
             archive_url="https://go.dev/dl/go{version}.windows-amd64.zip",
-            hash="16c59ac9196b63afb872ce9b47f945b9821a3e1542ec125f16f6085a1c0f3c39",
+            hash="96d74945d7daeeb98a7978d0cf099321d7eb821b45f5c510373d545162d39c20",
             dir_part="go-{version}",
         )
 
