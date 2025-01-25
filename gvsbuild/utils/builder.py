@@ -793,14 +793,14 @@ class Builder:
             if perc != self._old_perc:
                 perc = min(perc, 100)
                 self._old_perc = perc
-                sp = f"{self._downloading_file} ({total_size / 1024}k) - {self._old_perc:.0f}%"
+                sp = f"{self._downloading_file} ({total_size // 1024} kB) - {self._old_perc:.0f}%"
                 print(sp, end="\r")
                 if len(sp) > self._old_print:
                     # Save the len to delete the line when we change file
                     self._old_print = len(sp)
         else:
             # Only the current, we don't know the size
-            sp = f"{self._downloading_file} - {c_size / 1024:.0f} k"
+            sp = f"{self._downloading_file} - {c_size // 1024} kB"
             print(sp, end="\r")
             if len(sp) > self._old_print:
                 self._old_print = len(sp)
