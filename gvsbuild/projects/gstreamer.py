@@ -45,6 +45,9 @@ class GStreamer(Tarball, Meson):
             archive_url="https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-{version}.tar.xz",
             hash="093a379602a250d5cd33b88e723757c80198317efde33893edf3c87b6e53b907",
             dependencies=["meson", "ninja", "glib", "orc"],
+            patches=[
+                "gstpluginloader-win32-fix_use_after_free.patch",
+            ],
         )
 
         if self.opts.enable_gi:
