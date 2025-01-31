@@ -1,0 +1,36 @@
+From 3838829f22d00153935ebd47a35711ddbf80a18a Mon Sep 17 00:00:00 2001
+From: Ignacio Casal Quinteiro <qignacio@amazon.com>
+Date: Thu, 21 Sep 2023 12:18:30 +0200
+Subject: [PATCH] Disable app info support on windows
+
+This makes the agent to go 50% of the CPU in some customer
+environments so better be safe and remove support for it
+---
+ gio/giomodule.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/gio/giomodule.c b/gio/giomodule.c
+index 17fabe640..e55d934a1 100644
+--- a/gio/giomodule.c
++++ b/gio/giomodule.c
+@@ -1131,7 +1131,7 @@ DllMain (HINSTANCE hinstDLL,
+   if (fdwReason == DLL_PROCESS_ATTACH)
+     {
+       gio_dll = hinstDLL;
+-      gio_win32_appinfo_init (FALSE);
++      /* gio_win32_appinfo_init (FALSE); */
+     }
+ 
+   return TRUE;
+@@ -1164,7 +1164,7 @@ giomodule_init_ctor (void)
+    */
+   glib_win32_init ();
+   gobject_win32_init ();
+-  gio_win32_appinfo_init (FALSE);
++  /* gio_win32_appinfo_init (FALSE); */
+ }
+ 
+ #else /* G_PLATFORM_WIN32 && GLIB_STATIC_COMPILATION && !G_HAS_CONSTRUCTORS */
+-- 
+2.34.1
+
