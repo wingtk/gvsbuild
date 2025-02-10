@@ -61,6 +61,8 @@ class Ffmpeg(Tarball, Project):
 
         if configuration in ["debug-optimized", "debug"]:
             self.install(r".\libavcodec\avcodec-60.pdb bin")
+            self.install(r".\libavfilter\avfilter-10.pdb bin")
+            self.install(r".\libavformat\avformat-61.pdb bin")
             self.install(r".\libavutil\avutil-58.pdb bin")
             self.install(r".\libswscale\libswscale-7.pdb bin")
 
@@ -69,7 +71,13 @@ class Ffmpeg(Tarball, Project):
             self.install(r".\COPYING.GPLv2 " r"share\doc\ffmpeg")
 
     def post_install(self):
-        for lib in ["avcodec.lib", "avutil.lib", "swscale.lib"]:
+        for lib in [
+            "avcodec.lib",
+            "avfilter.lib",
+            "avformat.lib",
+            "avutil.lib",
+            "swscale.lib",
+        ]:
             self.builder.exec_msys(
                 ["mv", lib, "../lib/"],
                 working_dir=os.path.join(self.builder.gtk_dir, "bin"),
