@@ -24,16 +24,17 @@ class OpenH264(Tarball, Meson):
         Project.__init__(
             self,
             "openh264",
-            version="2.5.0",
+            version="2.6.0",
             archive_url="https://github.com/cisco/openh264/archive/refs/tags/v{version}.tar.gz",
             archive_filename="openh264-{version}.tar.gz",
-            hash="94c8ca364db990047ec4ec3481b04ce0d791e62561ef5601443011bdc00825e3",
+            hash="558544ad358283a7ab2930d69a9ceddf913f4a51ee9bf1bfb9e377322af81a69",
             dependencies=[
                 "ninja",
                 "meson",
                 "nasm",
             ],
         )
+        self.add_param("-Dtests=disabled")
 
     def build(self):
         Meson.build(self)
