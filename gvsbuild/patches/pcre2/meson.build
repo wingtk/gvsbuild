@@ -3,13 +3,13 @@ project(
   'c',
   license: 'BSD-3',
   meson_version: '>=0.49.0',
-  version: '10.43',
+  version: '10.45',
 )
 
-pcre2_8_lib_version = '0.11.0'
-pcre2_16_lib_version = '0.11.0'
-pcre2_32_lib_version = '0.11.0'
-pcre2_posix_lib_version = '3.0.2'
+pcre2_8_lib_version = '0.14.0'
+pcre2_16_lib_version = '0.14.0'
+pcre2_32_lib_version = '0.14.0'
+pcre2_posix_lib_version = '3.0.6'
 
 c_compiler = meson.get_compiler('c')
 
@@ -25,9 +25,8 @@ platform_is_unixlike = host_machine.system() in [
   'cygwin'
 ]
 
-platform_supports_sljit = host_machine.system() in [
+platform_supports_sealloc = host_machine.system() in [
   'linux',
-  'android',
   'netbsd'
 ]
 
@@ -37,7 +36,7 @@ varr = meson.project_version().split('.')
 pcredata.set('PCRE2_MAJOR', varr[0])
 pcredata.set('PCRE2_MINOR', varr[1])
 pcredata.set('PCRE2_PRERELEASE', '')
-pcredata.set('PCRE2_DATE', '2022-12-11')
+pcredata.set('PCRE2_DATE', '2025-02-05')
 
 # config.h
 cdata = configuration_data()
@@ -49,9 +48,15 @@ cdata.set('NEWLINE_DEFAULT', '2') # default in config.h.generic
 cdata.set('PARENS_NEST_LIMIT', '250')
 cdata.set('PCRE2GREP_BUFSIZE', '20480')
 cdata.set('PCRE2GREP_MAX_BUFSIZE', '1048576')
-cdata.set('MAX_NAME_SIZE', '32')
+cdata.set('MAX_NAME_SIZE', '128')
 cdata.set('MAX_NAME_COUNT', '10000')
 cdata.set('MAX_VARLOOKBEHIND', '255')
+
+if c_compiler.has_function_attribute('visibility:default')
+  cdata.set('PCRE2_EXPORT', '__attribute__ ((visibility ("default")))')
+else
+  cdata.set('PCRE2_EXPORT', '')
+endif
 
 jit_deps = []
 if not get_option('jit').disabled() and platform_is_unixlike
@@ -61,10 +66,12 @@ endif
 
 if not get_option('jit_sealloc').disabled()
   if c_compiler.has_function('mkostemp', prefix: '#include <stdlib.h>', args: ['-D_GNU_SOURCE'])
-    if platform_supports_sljit
+    if platform_supports_sealloc
       cdata.set10('SLJIT_PROT_EXECUTABLE_ALLOCATOR', true)
     elif get_option('jit_sealloc').enabled()
       error('Your configuration is not supported')
+    else
+      message('jit_sealloc is not supported on this platform')
     endif
   endif
 endif
@@ -73,6 +80,7 @@ sources = files(
   'src/pcre2_auto_possess.c',
   'src/pcre2_chkdint.c',
   'src/pcre2_compile.c',
+  'src/pcre2_compile_class.c',
   'src/pcre2_config.c',
   'src/pcre2_context.c',
   'src/pcre2_convert.c',
@@ -104,6 +112,7 @@ includes = include_directories('.', 'src')
 check_headers = [
   'sys/stat.h',
   'sys/types.h',
+  'assert.h',
   'dirent.h',
   'windows.h',
   'unistd.h',
@@ -116,6 +125,8 @@ foreach h : check_headers
 endforeach
 
 check_funs = [
+  '__builtin_mul_overflow',
+  '__builtin_unreachable',
   'bcopy',
   'memfd_create',
   'memmove',
@@ -126,17 +137,38 @@ check_funs = [
 
 foreach f : check_funs
   if c_compiler.has_function(f)
-    cdata.set10('HAVE_@0@'.format(f.to_upper()), true)
+    cdata.set10('HAVE_@0@'.format(f.to_upper().strip('_')), true)
   endif
 endforeach
 
+if c_compiler.links('''
+  int main() {
+    __assume(0);
+  }
+''')
+  cdata.set10('HAVE_BUILTIN_ASSUME', true)
+endif
+
+if c_compiler.compiles('''
+  int main() {
+    char buf[128] __attribute__((uninitialized));
+    (void)buf;
+  }
+''')
+  cdata.set10('HAVE_ATTRIBUTE_UNINITIALIZED', true)
+endif
+
 cdata.set10('SUPPORT_PCRE2_8', true)
+cdata.set10('SUPPORT_PCRE2_16', true)
+cdata.set10('SUPPORT_PCRE2_32', true)
 cdata.set10('SUPPORT_UNICODE', true)
 
 if get_option('default_library') == 'static'
   static_defs = ['-DPCRE2_STATIC']
+  pcre2_posix_defs = []
 else
   static_defs = []
+  pcre2_posix_defs = ['-DPCRE2POSIX_SHARED']
 endif
 
 pcre2_h = configure_file(
@@ -158,6 +190,10 @@ config_h = configure_file(
 )
 
 general_c_args = [static_defs, '-DHAVE_CONFIG_H', '-D_GNU_SOURCE']
+if host_machine.system() == 'windows'
+  general_c_args += ['-D_CRT_SECURE_NO_DEPRECATE', '-D_CRT_SECURE_NO_WARNINGS']
+endif
+
 pcre2_8_lib = library(
   'pcre2-8',
   sources,
@@ -166,6 +202,7 @@ pcre2_8_lib = library(
   c_args: [general_c_args, '-DPCRE2_CODE_UNIT_WIDTH=8'],
   version: pcre2_8_lib_version,
   install: true,
+  gnu_symbol_visibility: 'hidden',
 )
 
 libpcre2_8 = declare_dependency(
@@ -178,15 +215,16 @@ pcre2_posix_lib = library(
   'pcre2-posix',
   'src/pcre2posix.c',
   dependencies: libpcre2_8,
-  c_args: [general_c_args, '-DPCRE2_CODE_UNIT_WIDTH=8'],
+  c_args: [general_c_args, '-DPCRE2_CODE_UNIT_WIDTH=8', pcre2_posix_defs],
   version: pcre2_posix_lib_version,
   install: true,
+  gnu_symbol_visibility: 'hidden',
 )
 
 libpcre2_posix = declare_dependency(
   link_with: pcre2_posix_lib,
   include_directories: includes,
-  compile_args: static_defs,
+  compile_args: [static_defs, pcre2_posix_defs],
 )
 
 pcre2_16_lib = library(
@@ -197,6 +235,7 @@ pcre2_16_lib = library(
   c_args: [general_c_args, '-DPCRE2_CODE_UNIT_WIDTH=16'],
   version: pcre2_16_lib_version,
   install: true,
+  gnu_symbol_visibility: 'hidden',
 )
 
 libpcre2_16 = declare_dependency(
@@ -213,6 +252,7 @@ pcre2_32_lib = library(
   c_args: [general_c_args, '-DPCRE2_CODE_UNIT_WIDTH=32'],
   version: pcre2_32_lib_version,
   install: true,
+  gnu_symbol_visibility: 'hidden',
 )
 
 libpcre2_32 = declare_dependency(
