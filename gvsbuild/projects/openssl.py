@@ -25,9 +25,9 @@ class OpenSSL(Tarball, Project):
         Project.__init__(
             self,
             "openssl",
-            version="3.4.0",
+            version="3.4.1",
             archive_url="https://github.com/openssl/openssl/releases/download/openssl-{version}/openssl-{version}.tar.gz",
-            hash="e15dda82fe2fe8139dc2ac21a36d4ca01d5313c75f99f46c4e8a27709b7294bf",
+            hash="002a2d6b30b58bf4bea46c43bdd96365aaf8daa6c428782aa4feee06da197df3",
             dependencies=[
                 "perl",
                 "nasm",
