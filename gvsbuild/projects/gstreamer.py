@@ -101,6 +101,8 @@ class GstPluginsBase(Tarball, Meson):
                 "gstreamer",
                 "opus",
                 "ogg",
+                "graphene",
+                "pango",
             ],
         )
         # Examples depend on GTK3
