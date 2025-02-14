@@ -1,0 +1,70 @@
+From 7108497fda9d4536a1afade7f42266e06dca4488 Mon Sep 17 00:00:00 2001
+From: Mark Adler <madler@alumni.caltech.edu>
+Date: Thu, 13 Feb 2025 22:44:48 -0800
+Subject: [PATCH] Check that HAVE_UNISTD_H and HAVE_STDARG_H are not defined as
+ 0.
+
+---
+ configure  | 4 ++--
+ zconf.h    | 4 ++--
+ zconf.h.in | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/configure b/configure
+index 393c23c94..1834659fd 100755
+--- a/configure
++++ b/configure
+@@ -611,7 +611,7 @@ cat > $test.c <<EOF
+ int main() { return 0; }
+ EOF
+ if try $CC -c $CFLAGS $test.c; then
+-  sed < zconf.h "/^#ifdef HAVE_UNISTD_H.* may be/s/def HAVE_UNISTD_H\(.*\) may be/ 1\1 was/" > zconf.temp.h
++  sed < zconf.h "/^#if HAVE_UNISTD_H-0.* may be/s/ HAVE_UNISTD_H-0\(.*\) may be/ 1\1 was/" > zconf.temp.h
+   mv zconf.temp.h zconf.h
+   echo "Checking for unistd.h... Yes." | tee -a configure.log
+ else
+@@ -626,7 +626,7 @@ cat > $test.c <<EOF
+ int main() { return 0; }
+ EOF
+ if try $CC -c $CFLAGS $test.c; then
+-  sed < zconf.h "/^#ifdef HAVE_STDARG_H.* may be/s/def HAVE_STDARG_H\(.*\) may be/ 1\1 was/" > zconf.temp.h
++  sed < zconf.h "/^#if HAVE_STDARG_H-0.* may be/s/ HAVE_STDARG_H-0\(.*\) may be/ 1\1 was/" > zconf.temp.h
+   mv zconf.temp.h zconf.h
+   echo "Checking for stdarg.h... Yes." | tee -a configure.log
+ else
+diff --git a/zconf.h b/zconf.h
+index d6c159a1e..bc3ef079b 100644
+--- a/zconf.h
++++ b/zconf.h
+@@ -436,11 +436,11 @@ typedef uLong FAR uLongf;
+    typedef unsigned long z_crc_t;
+ #endif
+
+-#ifdef HAVE_UNISTD_H    /* may be set to #if 1 by ./configure */
++#if HAVE_UNISTD_H-0     /* may be set to #if 1 by ./configure */
+ #  define Z_HAVE_UNISTD_H
+ #endif
+
+-#ifdef HAVE_STDARG_H    /* may be set to #if 1 by ./configure */
++#if HAVE_STDARG_H-0     /* may be set to #if 1 by ./configure */
+ #  define Z_HAVE_STDARG_H
+ #endif
+
+diff --git a/zconf.h.in b/zconf.h.in
+index d6c159a1e..bc3ef079b 100644
+--- a/zconf.h.in
++++ b/zconf.h.in
+@@ -436,11 +436,11 @@ typedef uLong FAR uLongf;
+    typedef unsigned long z_crc_t;
+ #endif
+
+-#ifdef HAVE_UNISTD_H    /* may be set to #if 1 by ./configure */
++#if HAVE_UNISTD_H-0     /* may be set to #if 1 by ./configure */
+ #  define Z_HAVE_UNISTD_H
+ #endif
+
+-#ifdef HAVE_STDARG_H    /* may be set to #if 1 by ./configure */
++#if HAVE_STDARG_H-0     /* may be set to #if 1 by ./configure */
+ #  define Z_HAVE_STDARG_H
+ #endif
+
