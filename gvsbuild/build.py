@@ -109,6 +109,10 @@ def build(
         "includes debug symbols for Meson and CMake projects - other "
         'projects\' build tools will interpret the option as "release"',
     ),
+    enable_tests: bool = typer.Option(
+        False,
+        help="Enable building tests during the build process. This will increase build time.",
+    ),
     build_dir: Path = typer.Option(
         Path(r"C:\gtk-build"),
         help="The full or relative path of the directory to build in",
@@ -389,6 +393,7 @@ def build(
     opts.py_wheel = py_wheel
     opts.enable_gi = enable_gi
     opts.enable_fips = enable_fips
+    opts.enable_tests = enable_tests
     opts.ffmpeg_enable_gpl = ffmpeg_enable_gpl
     opts.log_size = log_size
     opts.log_single = log_single
