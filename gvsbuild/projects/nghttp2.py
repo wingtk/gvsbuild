@@ -24,15 +24,15 @@ class Nghttp2(Tarball, CmakeProject):
         Project.__init__(
             self,
             "nghttp2",
-            version="1.59.0",
+            version="1.64.0",
             archive_url="https://github.com/nghttp2/nghttp2/releases/download/v{version}/nghttp2-{version}.tar.xz",
-            hash="fdc9bd71f5cf8d3fdfb63066b89364c10eb2fdeab55f3c6755cd7917b2ec4ffb",
+            hash="88bb94c9e4fd1c499967f83dece36a78122af7d5fb40da2019c56b9ccc6eb9dd",
             dependencies=[
                 "cmake",
                 "zlib",
                 "ninja",
             ],
-            patches=["0001-Define-ssize_t-if-not-defined.patch"],
+            patches=[],
         )
 
     def build(self):
