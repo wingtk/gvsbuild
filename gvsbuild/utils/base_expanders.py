@@ -46,7 +46,7 @@ def write_mark_file(directory, val, file_name=".wingtk-extracted-file"):
         fo.write(f"{val}\n")
 
 
-def __strip_path(path: str) -> str | None:
+def _strip_path(path: str) -> str | None:
     """Remove the top-level directory from a path."""
     parts = Path(path).parts
     if len(parts) == 1:
@@ -54,7 +54,7 @@ def __strip_path(path: str) -> str | None:
     return Path(*parts[1:]).as_posix()
 
 
-def __is_safe_link_target(
+def _is_safe_link_target(
     target_path: str, seen_files: set[str], current_name: str
 ) -> bool:
     """
@@ -73,7 +73,7 @@ def __is_safe_link_target(
     )
 
 
-def __convert_to_regular_file(
+def _convert_to_regular_file(
     tarinfo: tarfile.TarInfo, tar: tarfile.TarFile, top_dir: str
 ) -> None:
     """
@@ -93,17 +93,38 @@ def __convert_to_regular_file(
         tarinfo.size = 0
 
 
-def __get_stripped_tar_members(tar: tarfile.TarFile) -> Iterator[tarfile.TarInfo]:
+def _get_stripped_tar_members(tar: tarfile.TarFile) -> Iterator[tarfile.TarInfo]:
     """
-    Process tar members while handling symlinks safely.
-    """
-    seen_files: set[str] = set()
-    top_dir: str | None = None
+    Process tar members while handling symlinks safely by stripping the top-level
+    directory and ensuring symlinks don't create security vulnerabilities.
 
-    # First pass to get top directory and build seen_files set
+    Args:
+        tar: The tar file to process
+
+    Returns:
+        Iterator of processed TarInfo objects
+
+    Raises:
+        NotADirectoryError: If archive is empty or contains top-level files
+    """
     members = tar.getmembers()
     if not members:
         raise NotADirectoryError("Empty archive")
+
+    # Build initial context from first pass
+    context = _build_archive_context(members)
+
+    # Process each member with the context
+    for member in members:
+        processed_member = _process_tar_member(member, context, tar)
+        if processed_member:
+            yield processed_member
+
+
+def _build_archive_context(members: list[tarfile.TarInfo]) -> dict:
+    """Build context needed for processing tar members."""
+    seen_files: set[str] = set()
+    top_dir = None
 
     for member in members:
         if not member.name:
@@ -112,51 +133,57 @@ def __get_stripped_tar_members(tar: tarfile.TarFile) -> Iterator[tarfile.TarInfo
         if top_dir is None:
             top_dir = Path(member.name).parts[0]
 
-        stripped_name = __strip_path(member.name)
+        stripped_name = _strip_path(member.name)
         if stripped_name:
             seen_files.add(stripped_name)
 
     if not top_dir:
         raise NotADirectoryError("Empty archive")
 
-    # Second pass to process members
-    for tarinfo in tar.getmembers():
-        stripped_name = __strip_path(tarinfo.name)
-
-        # Skip top-level directory
-        if not stripped_name:
-            if tarinfo.isdir():
-                continue
-            else:
-                raise NotADirectoryError(
-                    "Cannot strip directory prefix from tar with top level files"
-                )
-
-        tarinfo.name = stripped_name
-
-        # Handle symlinks and hardlinks
-        if tarinfo.issym() or tarinfo.islnk():
-            link_path = Path(tarinfo.linkname)
-
-            # Check for circular or parent directory references
-            if (
-                ".." in link_path.parts
-                or Path(tarinfo.linkname).as_posix() == Path(tarinfo.name).as_posix()
-            ):
-                target_path = (Path(tarinfo.name).parent / link_path).as_posix()
-
-                if __is_safe_link_target(target_path, seen_files, stripped_name):
-                    tarinfo.linkname = target_path
-                else:
-                    __convert_to_regular_file(tarinfo, tar, top_dir)
-            else:
-                # Regular internal link, strip normally
-                tarinfo.linkname = __strip_path(tarinfo.linkname) or tarinfo.linkname
-
-        yield tarinfo
+    return {"seen_files": seen_files, "top_dir": top_dir}
 
 
-def __is_unsafe_path(path: str | Path) -> bool:
+def _process_tar_member(
+    member: tarfile.TarInfo, context: dict, tar: tarfile.TarFile
+) -> tarfile.TarInfo | None:
+    """Process a single tar member, handling symlinks and path stripping."""
+    stripped_name = _strip_path(member.name)
+
+    if not stripped_name:
+        if member.isdir():
+            return None
+        raise NotADirectoryError(
+            "Cannot strip directory prefix from tar with top level files"
+        )
+    member.name = stripped_name
+    if member.issym() or member.islnk():
+        _process_link(member, context, tar)
+    return member
+
+
+def _process_link(member: tarfile.TarInfo, context: dict, tar: tarfile.TarFile) -> None:
+    """Process symlink or hardlink, ensuring safe link targets."""
+    link_path = Path(member.linkname)
+
+    if _is_potentially_unsafe_link(link_path, member):
+        target_path = (Path(member.name).parent / link_path).as_posix()
+        if _is_safe_link_target(target_path, context["seen_files"], member.name):
+            member.linkname = target_path
+        else:
+            _convert_to_regular_file(member, tar, context["top_dir"])
+    else:
+        # Regular internal link, strip normally
+        member.linkname = _strip_path(member.linkname) or member.linkname
+
+
+def _is_potentially_unsafe_link(link_path: Path, member: tarfile.TarInfo) -> bool:
+    """Check if a link might be unsafe and needs further verification."""
+    return (
+        ".." in link_path.parts or link_path.as_posix() == Path(member.name).as_posix()
+    )
+
+
+def _is_unsafe_path(path: str | Path) -> bool:
     """Check if a path is unsafe (absolute or traversal)."""
     path_str = str(path)
     return (
@@ -230,7 +257,7 @@ def extract_exec(
                 if info.is_dir():
                     continue
                 path = Path(info.filename)
-                if __is_unsafe_path(path):
+                if _is_unsafe_path(path):
                     continue
 
                 if strip_one and len(path.parts) > 1:
@@ -245,7 +272,7 @@ def extract_exec(
         with tarfile.open(src_path) as tar:
             tar.extractall(
                 full_dest,
-                members=__get_stripped_tar_members(tar)
+                members=_get_stripped_tar_members(tar)
                 if strip_one
                 else tar.getmembers(),
                 filter=tarfile.data_filter,

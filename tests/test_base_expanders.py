@@ -23,10 +23,10 @@ from tempfile import TemporaryDirectory
 import pytest
 
 from gvsbuild.utils.base_expanders import (
-    __get_stripped_tar_members,
-    __is_safe_link_target,
-    __is_unsafe_path,
-    __strip_path,
+    _get_stripped_tar_members,
+    _is_safe_link_target,
+    _is_unsafe_path,
+    _strip_path,
     extract_exec,
 )
 
@@ -74,53 +74,53 @@ def create_test_tar(
 
 def test_strip_path():
     """Test the path stripping functionality."""
-    assert __strip_path("testdir/file.txt") == "file.txt"
+    assert _strip_path("testdir/file.txt") == "file.txt"
 
 
 def test_strip_path_with_nested_directory():
     """Test stripping path with nested directories."""
-    assert __strip_path("testdir/subdir/file.txt") == "subdir/file.txt"
+    assert _strip_path("testdir/subdir/file.txt") == "subdir/file.txt"
 
 
 def test_strip_path_without_directory():
     """Test stripping path without directory prefix."""
-    assert __strip_path("file.txt") is None
+    assert _strip_path("file.txt") is None
 
 
 def test_strip_path_base_directory():
     """Test stripping the base directory itself."""
-    assert __strip_path("testdir") is None
+    assert _strip_path("testdir") is None
 
 
 # Link Target Safety Tests
 def test_safe_link_target_to_existing_file():
     """Test link targeting an existing file."""
     seen_files = {"file1.txt", "dir/file2.txt"}
-    assert __is_safe_link_target("file1.txt", seen_files, "link.txt")
+    assert _is_safe_link_target("file1.txt", seen_files, "link.txt")
 
 
 def test_safe_link_target_to_nested_file():
     """Test link targeting an existing nested file."""
     seen_files = {"file1.txt", "dir/file2.txt"}
-    assert __is_safe_link_target("dir/file2.txt", seen_files, "link.txt")
+    assert _is_safe_link_target("dir/file2.txt", seen_files, "link.txt")
 
 
 def test_unsafe_link_target_directory_traversal():
     """Test link with directory traversal."""
     seen_files = {"file1.txt"}
-    assert not __is_safe_link_target("../file.txt", seen_files, "link.txt")
+    assert not _is_safe_link_target("../file.txt", seen_files, "link.txt")
 
 
 def test_unsafe_link_target_self_reference():
     """Test self-referential link."""
     seen_files = {"file1.txt"}
-    assert not __is_safe_link_target("file1.txt", seen_files, "file1.txt")
+    assert not _is_safe_link_target("file1.txt", seen_files, "file1.txt")
 
 
 def test_unsafe_link_target_nonexistent():
     """Test link to nonexistent file."""
     seen_files = {"file1.txt"}
-    assert not __is_safe_link_target("nonexistent.txt", seen_files, "link.txt")
+    assert not _is_safe_link_target("nonexistent.txt", seen_files, "link.txt")
 
 
 # Basic Tar Extraction Tests
@@ -129,7 +129,7 @@ def test_tar_extraction_single_file():
     files = {"file1.txt": b"content1"}
 
     with create_test_tar(files) as tar:
-        members = list(__get_stripped_tar_members(tar))
+        members = list(_get_stripped_tar_members(tar))
         paths = {Path(m.name).as_posix() for m in members}
         assert paths == {"file1.txt"}
 
@@ -139,7 +139,7 @@ def test_tar_extraction_nested_files():
     files = {"subdir/file2.txt": b"content2", "subdir/": None}
 
     with create_test_tar(files) as tar:
-        members = list(__get_stripped_tar_members(tar))
+        members = list(_get_stripped_tar_members(tar))
         paths = {Path(m.name).as_posix() for m in members}
         assert paths == {"subdir/file2.txt"}
 
@@ -151,7 +151,7 @@ def test_regular_symlink():
     symlinks = {"link1.txt": "file1.txt"}
 
     with create_test_tar(files, symlinks) as tar:
-        members = list(__get_stripped_tar_members(tar))
+        members = list(_get_stripped_tar_members(tar))
         links = {Path(m.name).as_posix(): m for m in members if m.islnk() or m.issym()}
 
         assert "link1.txt" in links
@@ -164,7 +164,7 @@ def test_symlink_with_parent_reference():
     symlinks = {"link2.txt": "../file1.txt"}
 
     with create_test_tar(files, symlinks) as tar:
-        members = list(__get_stripped_tar_members(tar))
+        members = list(_get_stripped_tar_members(tar))
         regular_files = {Path(m.name).as_posix(): m for m in members if m.isfile()}
 
         assert "link2.txt" in regular_files
@@ -177,7 +177,7 @@ def test_circular_symlink():
     symlinks = {"circular.txt": "circular.txt"}
 
     with create_test_tar(files, symlinks) as tar:
-        members = list(__get_stripped_tar_members(tar))
+        members = list(_get_stripped_tar_members(tar))
         regular_files = {Path(m.name).as_posix(): m for m in members if m.isfile()}
 
         assert "circular.txt" in regular_files
@@ -189,7 +189,7 @@ def test_empty_tar_raises_error():
     """Test that empty tar raises appropriate error."""
     with create_test_tar({}) as tar:
         with pytest.raises(NotADirectoryError, match="Empty archive"):
-            list(__get_stripped_tar_members(tar))
+            list(_get_stripped_tar_members(tar))
 
 
 def test_invalid_tar_structure_raises_error():
@@ -204,7 +204,7 @@ def test_invalid_tar_structure_raises_error():
     tar_buffer.seek(0)
     with tarfile.open(fileobj=tar_buffer, mode="r:gz") as tar:
         with pytest.raises(NotADirectoryError, match="Cannot strip directory prefix"):
-            list(__get_stripped_tar_members(tar))
+            list(_get_stripped_tar_members(tar))
 
 
 # Complex Symlink Chain Tests
@@ -214,7 +214,7 @@ def test_symlink_chain_safety():
     symlinks = {"dir1/link1.txt": "../file1.txt", "dir1/link2.txt": "link1.txt"}
 
     with create_test_tar(files, symlinks) as tar:
-        members = list(__get_stripped_tar_members(tar))
+        members = list(_get_stripped_tar_members(tar))
         for member in members:
             if member.islnk() or member.issym():
                 normalized_link = Path(member.linkname).as_posix()
@@ -227,7 +227,7 @@ def test_symlink_chain_resolution():
     symlinks = {"dir1/link1.txt": "../target.txt", "dir1/link2.txt": "link1.txt"}
 
     with create_test_tar(files, symlinks) as tar:
-        members = list(__get_stripped_tar_members(tar))
+        members = list(_get_stripped_tar_members(tar))
         paths = {Path(m.name).as_posix() for m in members}
         assert "target.txt" in paths
 
@@ -235,22 +235,22 @@ def test_symlink_chain_resolution():
 # Path Safety Tests
 def test_safe_paths():
     """Test identification of safe paths."""
-    assert not __is_unsafe_path("file.txt")
-    assert not __is_unsafe_path("dir/file.txt")
-    assert not __is_unsafe_path("dir/subdir/file.txt")
+    assert not _is_unsafe_path("file.txt")
+    assert not _is_unsafe_path("dir/file.txt")
+    assert not _is_unsafe_path("dir/subdir/file.txt")
 
 
 def test_unsafe_windows_absolute_path():
     """Test identification of unsafe Windows absolute paths."""
-    assert __is_unsafe_path("C:/file.txt")
-    assert __is_unsafe_path("D:\\file.txt")
+    assert _is_unsafe_path("C:/file.txt")
+    assert _is_unsafe_path("D:\\file.txt")
 
 
 def test_unsafe_directory_traversal():
     """Test identification of unsafe directory traversal."""
-    assert __is_unsafe_path("../file.txt")
-    assert __is_unsafe_path("dir/../file.txt")
-    assert __is_unsafe_path("dir/../../file.txt")
+    assert _is_unsafe_path("../file.txt")
+    assert _is_unsafe_path("dir/../file.txt")
+    assert _is_unsafe_path("dir/../../file.txt")
 
 
 @pytest.fixture
