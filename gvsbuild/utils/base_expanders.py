@@ -161,8 +161,8 @@ def __is_unsafe_path(path: str | Path) -> bool:
     path_str = str(path)
     return (
         ":" in path_str  # Windows drive letter
-        or ".." in Path(path_str).parts
-    )  # Directory traversal
+        or ".." in Path(path_str).parts  # Directory traversal
+    )
 
 
 def extract_exec(
@@ -229,33 +229,18 @@ def extract_exec(
             for info in zf.infolist():
                 if info.is_dir():
                     continue
-
                 path = Path(info.filename)
-
-                # Skip unsafe paths
                 if __is_unsafe_path(path):
                     continue
 
-                # Handle path stripping if requested
                 if strip_one and len(path.parts) > 1:
-                    # Remove the first directory
-                    safe_name = str(Path(*path.parts[1:]))
-                    # Extract to temporary location
+                    stripped = str(Path(*path.parts[1:]))
+                    info.filename = stripped
+                    (dest_path / stripped).parent.mkdir(parents=True, exist_ok=True)
                     zf.extract(info, path=dest_path)
-                    extracted = dest_path / info.filename
-                    final = dest_path / safe_name
-                    # Move to final location
-                    final.parent.mkdir(parents=True, exist_ok=True)
-                    if extracted.exists():
-                        extracted.rename(final)
-                    # Clean up empty directories
-                    first_dir = dest_path / path.parts[0]
-                    if first_dir.is_dir():
-                        shutil.rmtree(first_dir)
                 else:
-                    # Extract directly to destination
                     info.filename = str(path)
-                    zf.extract(info, path=full_dest)
+                    zf.extract(info, path=dest_path)
     else:
         with tarfile.open(src_path) as tar:
             tar.extractall(
