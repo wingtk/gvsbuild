@@ -13,7 +13,9 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-"""Various downloader / unpacker (tar, git, ...)"""
+"""Support project expanders for Git, Zip, Tar, and for no expansion."""
+
+from __future__ import annotations
 
 import hashlib
 import os
@@ -23,7 +25,6 @@ import tarfile
 import zipfile
 from collections.abc import Iterator
 from pathlib import Path
-from typing import Union
 
 from .simple_ui import log
 from .utils import rmtree_full
@@ -209,12 +210,12 @@ def _safe_extractall(tar: tarfile.TarFile, path: str | Path, members=None):
 
 
 def extract_exec(
-    src: Union[str, Path],
-    dest_dir: Union[str, Path],
-    dir_part: Union[str, Path, None] = None,
+    src: str | Path,
+    dest_dir: str | Path,
+    dir_part: str | Path | None = None,
     strip_one: bool = False,
-    check_file: Union[str, Path, None] = None,
-    force_dest: Union[str, Path, None] = None,
+    check_file: str | Path | None = None,
+    force_dest: str | Path | None = None,
     check_mark: bool = False,
 ) -> bool:
     """Extract (or copy) from src to dest_dir.
