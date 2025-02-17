@@ -20,6 +20,8 @@ import os
 import shutil
 import tarfile
 import zipfile
+from collections.abc import Iterator
+from pathlib import Path
 
 from .simple_ui import log
 from .utils import rmtree_full
@@ -42,6 +44,116 @@ def write_mark_file(directory, val, file_name=".wingtk-extracted-file"):
     """Write the value (filename or content hash) to the mark file."""
     with open(os.path.join(directory, file_name), "w", encoding="utf-8") as fo:
         fo.write(f"{val}\n")
+
+
+def __strip_path(path: str) -> str | None:
+    """Remove the top-level directory from a path."""
+    parts = Path(path).parts
+    if len(parts) == 1:
+        return None
+    return Path(*parts[1:]).as_posix()
+
+
+def __is_safe_link_target(
+    target_path: str, seen_files: set[str], current_name: str
+) -> bool:
+    """
+    Check if a symlink target is safe to maintain.
+
+    Args:
+        target_path: Normalized path to the link target
+        seen_files: Set of files already processed
+        current_name: Name of the current file being processed
+    """
+    target = Path(target_path).as_posix()
+    return (
+        not target.startswith("..")
+        and target in {Path(f).as_posix() for f in seen_files}
+        and target != Path(current_name).as_posix()
+    )
+
+
+def __convert_to_regular_file(
+    tarinfo: tarfile.TarInfo, tar: tarfile.TarFile, top_dir: str
+) -> None:
+    """
+    Convert a symlink to a regular file, copying content if possible.
+    """
+    tarinfo.type = tarfile.REGTYPE
+    tarinfo.linkname = ""
+
+    try:
+        current_dir = Path(tarinfo.name).parent
+        target_path = (current_dir / tarinfo.linkname).as_posix()
+        target_member = tar.getmember(f"{top_dir}/{target_path}")
+        if target_member.isfile():
+            tarinfo.size = target_member.size
+            tarinfo.mtime = target_member.mtime
+    except KeyError:
+        tarinfo.size = 0
+
+
+def __get_stripped_tar_members(tar: tarfile.TarFile) -> Iterator[tarfile.TarInfo]:
+    """
+    Process tar members while handling symlinks safely.
+    """
+    seen_files: set[str] = set()
+    top_dir: str | None = None
+
+    # First pass to get top directory and build seen_files set
+    members = tar.getmembers()
+    if not members:
+        raise NotADirectoryError("Empty archive")
+
+    for member in members:
+        if not member.name:
+            continue
+
+        if top_dir is None:
+            top_dir = Path(member.name).parts[0]
+
+        stripped_name = __strip_path(member.name)
+        if stripped_name:
+            seen_files.add(stripped_name)
+
+    if not top_dir:
+        raise NotADirectoryError("Empty archive")
+
+    # Second pass to process members
+    for tarinfo in tar.getmembers():
+        stripped_name = __strip_path(tarinfo.name)
+
+        # Skip top-level directory
+        if not stripped_name:
+            if tarinfo.isdir():
+                continue
+            else:
+                raise NotADirectoryError(
+                    "Cannot strip directory prefix from tar with top level files"
+                )
+
+        tarinfo.name = stripped_name
+
+        # Handle symlinks and hardlinks
+        if tarinfo.issym() or tarinfo.islnk():
+            link_path = Path(tarinfo.linkname)
+
+            # Check for circular or parent directory references
+            if (
+                ".." in link_path.parts
+                or Path(tarinfo.linkname).as_posix() == Path(tarinfo.name).as_posix()
+            ):
+                target_path = (Path(tarinfo.name).parent / link_path).as_posix()
+
+                if __is_safe_link_target(target_path, seen_files, stripped_name):
+                    tarinfo.linkname = target_path
+                else:
+                    __convert_to_regular_file(tarinfo, tar, top_dir)
+            else:
+                # Regular internal link, strip normally
+                tarinfo.linkname = __strip_path(tarinfo.linkname) or tarinfo.linkname
+
+        yield tarinfo
 
 
 def extract_exec(
@@ -70,22 +182,6 @@ def extract_exec(
     Returns True if the extraction has been done, False if it's skipped (so we can skip
     marking the dependents of the project/tool)
     """
-
-    # Support function
-    def __get_stripped_tar_members(tar):
-        for tarinfo in tar.getmembers():
-            path = tarinfo.name.split("/")
-            if len(path) == 1:
-                if tarinfo.isdir():
-                    continue
-                else:
-                    raise NotADirectoryError(
-                        "Cannot strip directory prefix from tar with top level files"
-                    )
-            tarinfo.name = "/".join(path[1:])
-            if tarinfo.issym() or tarinfo.islnk():
-                tarinfo.linkname = "/".join(tarinfo.linkname.split("/")[1:])
-            yield tarinfo
 
     full_dest = os.path.join(dest_dir, dir_part) if dir_part else dest_dir
     if check_mark:
