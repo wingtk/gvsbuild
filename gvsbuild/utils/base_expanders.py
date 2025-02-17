@@ -18,10 +18,12 @@
 import hashlib
 import os
 import shutil
+import sys
 import tarfile
 import zipfile
 from collections.abc import Iterator
 from pathlib import Path
+from typing import Union
 
 from .simple_ui import log
 from .utils import rmtree_full
@@ -97,15 +99,6 @@ def _get_stripped_tar_members(tar: tarfile.TarFile) -> Iterator[tarfile.TarInfo]
     """
     Process tar members while handling symlinks safely by stripping the top-level
     directory and ensuring symlinks don't create security vulnerabilities.
-
-    Args:
-        tar: The tar file to process
-
-    Returns:
-        Iterator of processed TarInfo objects
-
-    Raises:
-        NotADirectoryError: If archive is empty or contains top-level files
     """
     members = tar.getmembers()
     if not members:
@@ -192,17 +185,39 @@ def _is_unsafe_path(path: str | Path) -> bool:
     )
 
 
+def _is_within_directory(directory: Path, target: Path) -> bool:
+    """Check if a path is within a target directory."""
+    try:
+        directory.resolve().relative_to(target.resolve())
+        return True
+    except ValueError:
+        return False
+
+
+def _safe_extractall(tar: tarfile.TarFile, path: str | Path, members=None):
+    """Safe extractall implementation for Python versions before 3.12.
+    Only checks that files extract within the target directory.
+    Assumes members have already been processed for symlink safety."""
+    path = Path(path)
+    path.mkdir(parents=True, exist_ok=True)
+
+    for member in members or tar.getmembers():
+        member_path = Path(path) / member.name
+        if not _is_within_directory(member_path, Path(path)):
+            continue
+        tar.extract(member, path)
+
+
 def extract_exec(
-    src: str | Path,
-    dest_dir: str | Path,
-    dir_part: str | Path | None = None,
+    src: Union[str, Path],
+    dest_dir: Union[str, Path],
+    dir_part: Union[str, Path, None] = None,
     strip_one: bool = False,
-    check_file: str | Path | None = None,
-    force_dest: str | Path | None = None,
+    check_file: Union[str, Path, None] = None,
+    force_dest: Union[str, Path, None] = None,
     check_mark: bool = False,
 ) -> bool:
     """Extract (or copy) from src to dest_dir.
-
     Args:
         src: Source file to extract
         dest_dir: Destination directory
@@ -211,7 +226,6 @@ def extract_exec(
         check_file: Skip if this file exists
         force_dest: Force destination for exe files
         check_mark: Track original extracted filename
-
     Returns:
         bool: True if extracted, False if skipped
     """
@@ -259,7 +273,6 @@ def extract_exec(
                 path = Path(info.filename)
                 if _is_unsafe_path(path):
                     continue
-
                 if strip_one and len(path.parts) > 1:
                     stripped = str(Path(*path.parts[1:]))
                     info.filename = stripped
@@ -270,17 +283,21 @@ def extract_exec(
                     zf.extract(info, path=dest_path)
     else:
         with tarfile.open(src_path) as tar:
-            tar.extractall(
-                full_dest,
-                members=_get_stripped_tar_members(tar)
-                if strip_one
-                else tar.getmembers(),
-                filter=tarfile.data_filter,
-            )
+            members = _get_stripped_tar_members(tar) if strip_one else tar.getmembers()
+
+            if sys.version_info >= (3, 12):
+                # Use the new data_filter in Python 3.12+
+                tar.extractall(
+                    full_dest,
+                    members=members,
+                    filter=tarfile.data_filter,
+                )
+            else:
+                # Use our safe implementation for earlier versions
+                _safe_extractall(tar, full_dest, members=members)
 
     if check_mark:
         write_mark_file(full_dest, wr_file)
-
     return True
 
 
