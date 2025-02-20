@@ -84,6 +84,7 @@ class ToolCmake(Tool):
             dir_part=self.dir_part,
             check_file=self.full_exe,
             check_mark=True,
+            strip_one=True,
         )
 
 
@@ -108,6 +109,7 @@ class ToolMeson(Tool):
             dir_part=self.dir_part,
             check_file=self.full_exe,
             check_mark=True,
+            strip_one=True,
         )
 
 

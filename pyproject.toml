@@ -49,7 +49,7 @@ ignore_missing_imports = true
 legacy_tox_ini = """
 [tox]
 isolated_build = true
-envlist = py{39,310,311,312}
+envlist = py{39,310,311,312,313}
 
 [gh-actions]
 python =

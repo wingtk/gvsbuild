@@ -13,13 +13,18 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-"""Various downloader / unpacker (tar, git, ...)"""
+"""Support project expanders for Git, Zip, Tar, and for no expansion."""
+
+from __future__ import annotations
 
 import hashlib
 import os
 import shutil
+import sys
 import tarfile
 import zipfile
+from collections.abc import Iterator
+from pathlib import Path
 
 from .simple_ui import log
 from .utils import rmtree_full
@@ -44,111 +49,256 @@ def write_mark_file(directory, val, file_name=".wingtk-extracted-file"):
         fo.write(f"{val}\n")
 
 
-def extract_exec(
-    src,
-    dest_dir,
-    dir_part=None,
-    strip_one=False,
-    check_file=None,
-    force_dest=None,
-    check_mark=False,
-):
-    """Extract (or copy, in case of an exe file) from src to dest_dir, handling
-    the strip of the first part of the path in case of the tarbombs.
+def _strip_path(path: str) -> str | None:
+    """Remove the top-level directory from a path."""
+    parts = Path(path).parts
+    if len(parts) == 1:
+        return None
+    return Path(*parts[1:]).as_posix()
 
-    dir_part is a piece, present in the tar/zip file, added to the dest_dir for
-    the checks
 
-    if check_file is passed and is present in the filesystem the extract is
-    skipped (tool already installed)
-
-    force_dest can be used only on the exe file and set the destination name
-
-    with check_mark the name of the original file extracted is written in the
-    destination dir and checked, forcing a new, clean, extraction
-
-    Returns True if the extraction has been done, False if it's skipped (so we can skip
-    marking the dependents of the project/tool)
+def _is_safe_link_target(
+    target_path: str, seen_files: set[str], current_name: str
+) -> bool:
     """
+    Check if a symlink target is safe to maintain.
 
-    # Support function
-    def __get_stripped_tar_members(tar):
-        for tarinfo in tar.getmembers():
-            path = tarinfo.name.split("/")
-            if len(path) == 1:
-                if tarinfo.isdir():
-                    continue
-                else:
-                    raise NotADirectoryError(
-                        "Cannot strip directory prefix from tar with top level files"
-                    )
-            tarinfo.name = "/".join(path[1:])
-            if tarinfo.issym() or tarinfo.islnk():
-                tarinfo.linkname = "/".join(tarinfo.linkname.split("/")[1:])
-            yield tarinfo
+    Args:
+        target_path: Normalized path to the link target
+        seen_files: Set of files already processed
+        current_name: Name of the current file being processed
+    """
+    target = Path(target_path).as_posix()
+    return (
+        not target.startswith("..")
+        and target in {Path(f).as_posix() for f in seen_files}
+        and target != Path(current_name).as_posix()
+    )
 
-    full_dest = os.path.join(dest_dir, dir_part) if dir_part else dest_dir
+
+def _convert_to_regular_file(
+    tarinfo: tarfile.TarInfo, tar: tarfile.TarFile, top_dir: str
+) -> None:
+    """
+    Convert a symlink to a regular file, copying content if possible.
+    """
+    tarinfo.type = tarfile.REGTYPE
+    tarinfo.linkname = ""
+
+    try:
+        current_dir = Path(tarinfo.name).parent
+        target_path = (current_dir / tarinfo.linkname).as_posix()
+        target_member = tar.getmember(f"{top_dir}/{target_path}")
+        if target_member.isfile():
+            tarinfo.size = target_member.size
+            tarinfo.mtime = target_member.mtime
+    except KeyError:
+        tarinfo.size = 0
+
+
+def _get_stripped_tar_members(tar: tarfile.TarFile) -> Iterator[tarfile.TarInfo]:
+    """
+    Process tar members while handling symlinks safely by stripping the top-level
+    directory and ensuring symlinks don't create security vulnerabilities.
+    """
+    members = tar.getmembers()
+    if not members:
+        raise NotADirectoryError("Empty archive")
+
+    # Build initial context from first pass
+    context = _build_archive_context(members)
+
+    # Process each member with the context
+    for member in members:
+        processed_member = _process_tar_member(member, context, tar)
+        if processed_member:
+            yield processed_member
+
+
+def _build_archive_context(members: list[tarfile.TarInfo]) -> dict:
+    """Build context needed for processing tar members."""
+    seen_files: set[str] = set()
+    top_dir = None
+
+    for member in members:
+        if not member.name:
+            continue
+
+        if top_dir is None:
+            top_dir = Path(member.name).parts[0]
+
+        stripped_name = _strip_path(member.name)
+        if stripped_name:
+            seen_files.add(stripped_name)
+
+    if not top_dir:
+        raise NotADirectoryError("Empty archive")
+
+    return {"seen_files": seen_files, "top_dir": top_dir}
+
+
+def _process_tar_member(
+    member: tarfile.TarInfo, context: dict, tar: tarfile.TarFile
+) -> tarfile.TarInfo | None:
+    """Process a single tar member, handling symlinks and path stripping."""
+    stripped_name = _strip_path(member.name)
+
+    if not stripped_name:
+        if member.isdir():
+            return None
+        raise NotADirectoryError(
+            "Cannot strip directory prefix from tar with top level files"
+        )
+    member.name = stripped_name
+    if member.issym() or member.islnk():
+        _process_link(member, context, tar)
+    return member
+
+
+def _process_link(member: tarfile.TarInfo, context: dict, tar: tarfile.TarFile) -> None:
+    """Process symlink or hardlink, ensuring safe link targets."""
+    link_path = Path(member.linkname)
+
+    if _is_potentially_unsafe_link(link_path, member):
+        target_path = (Path(member.name).parent / link_path).as_posix()
+        if _is_safe_link_target(target_path, context["seen_files"], member.name):
+            member.linkname = target_path
+        else:
+            _convert_to_regular_file(member, tar, context["top_dir"])
+    else:
+        # Regular internal link, strip normally
+        member.linkname = _strip_path(member.linkname) or member.linkname
+
+
+def _is_potentially_unsafe_link(link_path: Path, member: tarfile.TarInfo) -> bool:
+    """Check if a link might be unsafe and needs further verification."""
+    return (
+        ".." in link_path.parts or link_path.as_posix() == Path(member.name).as_posix()
+    )
+
+
+def _is_unsafe_path(path: str | Path) -> bool:
+    """Check if a path is unsafe (absolute or traversal)."""
+    path_str = str(path)
+    return (
+        ":" in path_str  # Windows drive letter
+        or ".." in Path(path_str).parts  # Directory traversal
+    )
+
+
+def _is_within_directory(directory: Path, target: Path) -> bool:
+    """Check if a path is within a target directory."""
+    try:
+        directory.resolve().relative_to(target.resolve())
+        return True
+    except ValueError:
+        return False
+
+
+def _safe_extractall(tar: tarfile.TarFile, path: str | Path, members=None):
+    """Safe extractall implementation for Python versions before 3.12.
+    Only checks that files extract within the target directory.
+    Assumes members have already been processed for symlink safety."""
+    path = Path(path)
+    path.mkdir(parents=True, exist_ok=True)
+
+    for member in members or tar.getmembers():
+        member_path = Path(path) / member.name
+        if not _is_within_directory(member_path, Path(path)):
+            continue
+        tar.extract(member, path)
+
+
+def extract_exec(
+    src: str | Path,
+    dest_dir: str | Path,
+    dir_part: str | Path | None = None,
+    strip_one: bool = False,
+    check_file: str | Path | None = None,
+    force_dest: str | Path | None = None,
+    check_mark: bool = False,
+) -> bool:
+    """Extract (or copy) from src to dest_dir.
+    Args:
+        src: Source file to extract
+        dest_dir: Destination directory
+        dir_part: Part to add to dest_dir for checks
+        strip_one: Whether to strip first path component in archives
+        check_file: Skip if this file exists
+        force_dest: Force destination for exe files
+        check_mark: Track original extracted filename
+    Returns:
+        bool: True if extracted, False if skipped
+    """
+    src_path = Path(src)
+    dest_path = Path(dest_dir)
+    full_dest = dest_path / dir_part if dir_part else dest_path
+
+    # Handle check mark
     if check_mark:
         rd_file = read_mark_file(full_dest)
-        wr_file = os.path.basename(src)
+        wr_file = src_path.name
         if rd_file != wr_file:
             log.log(f"Forcing extraction of {src}")
             rmtree_full(full_dest, retry=True)
             check_file = None
         else:
-            # ok, finish, we've done
             return False
 
+    # Check if we can skip extraction
     if check_file is not None:
         if check_file:
-            # look for the specific file
-            if os.path.isfile(check_file):
+            if Path(check_file).is_file():
                 log.debug(f"Skipping {src} handling, {check_file} present")
                 return False
         else:
-            # If the directory exist we are ok
-            if os.path.exists(full_dest):
+            if full_dest.exists():
                 log.debug(f"Skipping {src} handling, directory exists")
                 return False
 
     log.log(f"Extracting {src} to {full_dest}")
-    os.makedirs(full_dest, exist_ok=True)
+    full_dest.mkdir(parents=True, exist_ok=True)
 
-    _n, ext = os.path.splitext(src.lower())
+    # Handle different file types
+    ext = src_path.suffix.lower()
     if ext == ".exe":
-        # Exe file, copy directly
         if force_dest:
-            shutil.copy2(src, force_dest)
+            shutil.copy2(src_path, force_dest)
         else:
-            shutil.copy2(src, dest_dir)
+            shutil.copy2(src_path, full_dest / src_path.name)
     elif ext == ".zip":
-        # Zip file
-        with zipfile.ZipFile(src) as zf:
-            if strip_one:
-                members = zf.infolist()
-                for m in members:
-                    if m.is_dir():
-                        continue
-                    cl = m.filename.split("/")
-                    if len(cl) > 1:
-                        m.filename = "/".join(cl[1:])
-
-                    zf.extract(m, path=dest_dir)
-            else:
-                zf.extractall(path=dest_dir)
+        with zipfile.ZipFile(src_path) as zf:
+            for info in zf.infolist():
+                if info.is_dir():
+                    continue
+                path = Path(info.filename)
+                if _is_unsafe_path(path):
+                    continue
+                if strip_one and len(path.parts) > 1:
+                    stripped = str(Path(*path.parts[1:]))
+                    info.filename = stripped
+                    (dest_path / stripped).parent.mkdir(parents=True, exist_ok=True)
+                    zf.extract(info, path=dest_path)
+                else:
+                    info.filename = str(path)
+                    zf.extract(info, path=dest_path)
     else:
-        # Ok, hoping it's a tarfile we can handle :)
-        with tarfile.open(src) as tar:
-            tar.extractall(
-                dest_dir,
-                __get_stripped_tar_members(tar) if strip_one else tar.getmembers(),
-            )
+        with tarfile.open(src_path) as tar:
+            members = _get_stripped_tar_members(tar) if strip_one else tar.getmembers()
+
+            if sys.version_info >= (3, 12):
+                # Use the new data_filter in Python 3.12+
+                tar.extractall(
+                    full_dest,
+                    members=members,
+                    filter=tarfile.data_filter,
+                )
+            else:
+                # Use our safe implementation for earlier versions
+                _safe_extractall(tar, full_dest, members=members)
 
     if check_mark:
-        # write the data
         write_mark_file(full_dest, wr_file)
-
-    # Say that we have done the extraction
     return True
 
 

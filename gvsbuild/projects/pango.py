@@ -35,6 +35,7 @@ class Pango(Tarball, Meson):
                 "cairo",
                 "harfbuzz",
                 "fribidi",
+                "glib",
             ],
             patches=[],
         )
