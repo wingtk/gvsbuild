@@ -173,6 +173,10 @@ class Builder:
             re.compile(f"^{win_dir}$"),
             re.compile("\\\\git\\\\"),
             re.compile("\\\\git$"),
+            re.compile("\\\\python\\\\"),
+            re.compile("\\\\python$"),
+            re.compile("\\\\python[0-9]+\\\\"),
+            re.compile("\\\\launcher\\\\"),
         ]
 
         mp = []
