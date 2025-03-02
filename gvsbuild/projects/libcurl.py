@@ -27,19 +27,20 @@ class Libcurl(Tarball, CmakeProject):
         Project.__init__(
             self,
             "libcurl",
-            version="8.12.0",
+            version="8.12.1",
             repository="https://github.com/curl/curl",
             archive_url="https://github.com/curl/curl/releases/download/curl-{major}_{minor}_{micro}/curl-{version}.tar.xz",
-            hash="9a4628c764be6b1a9909567c13e8e771041609df43b2158fcac4e05ea7097e5d",
+            hash="0341f1ed97a26c811abaebd37d62b833956792b7607ea3f15d001613c76de202",
             dependencies=[
                 "perl",
                 "cmake",
                 "ninja",
+                "libpsl",
             ],
         )
 
     def build(self):
-        CmakeProject.build(self, use_ninja=True)
+        CmakeProject.build(self, use_ninja=True, cmake_params="-DUSE_WIN32_IDN=ON")
         # Fix the pkg-config .pc file, correcting the library's names
         file_replace(
             os.path.join(self.pkg_dir, "lib", "pkgconfig", "libcurl.pc"),
