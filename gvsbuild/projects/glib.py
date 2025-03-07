@@ -24,11 +24,11 @@ class GLibBase(Tarball, Meson):
         Meson.__init__(
             self,
             "glib-base",
-            version="2.82.5",
+            version="2.84.0",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/glib",
             archive_url="https://download.gnome.org/sources/glib/{major}.{minor}/glib-{version}.tar.xz",
-            hash="05c2031f9bdf6b5aba7a06ca84f0b4aced28b19bf1b50c6ab25cc675277cbc3f",
+            hash="f8823600cb85425e2815cfad82ea20fdaa538482ab74e7293d58b3f64a5aff6a",
             dependencies=[
                 "ninja",
                 "meson",
@@ -40,12 +40,6 @@ class GLibBase(Tarball, Meson):
             ],
             patches=[
                 "001-glib-package-installation-directory.patch",
-                "002-gsocket-windows-check-event-before-calling-WSAEnumNe.patch",
-                "003-gpoll-windows-use-a-threadpool-when-polling-large-nu.patch",
-                # https://gitlab.gnome.org/GNOME/glib/-/merge_requests/4391
-                "004-fix-python-path-can-contain-spaces.patch",
-                "0001-registrybackend-make-subscribe-and-unsubscribe-threa.patch",
-                "0002-registrybackend-fix-some-memory-leaks.patch",
             ],
         )
         self.add_param("-Dman-pages=disabled")
@@ -68,20 +62,14 @@ class GLib(Tarball, Meson):
         Meson.__init__(
             self,
             "glib",
-            version="2.82.5",
+            version="2.84.0",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/glib",
             archive_url="https://download.gnome.org/sources/glib/{major}.{minor}/glib-{version}.tar.xz",
-            hash="05c2031f9bdf6b5aba7a06ca84f0b4aced28b19bf1b50c6ab25cc675277cbc3f",
+            hash="f8823600cb85425e2815cfad82ea20fdaa538482ab74e7293d58b3f64a5aff6a",
             dependencies=["glib-base"],
             patches=[
                 "001-glib-package-installation-directory.patch",
-                "002-gsocket-windows-check-event-before-calling-WSAEnumNe.patch",
-                "003-gpoll-windows-use-a-threadpool-when-polling-large-nu.patch",
-                # https://gitlab.gnome.org/GNOME/glib/-/merge_requests/4391
-                "004-fix-python-path-can-contain-spaces.patch",
-                "0001-registrybackend-make-subscribe-and-unsubscribe-threa.patch",
-                "0002-registrybackend-fix-some-memory-leaks.patch",
             ],
         )
         self.add_param("-Dman-pages=disabled")
