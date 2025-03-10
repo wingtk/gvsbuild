@@ -26,9 +26,9 @@ class Ffmpeg(Tarball, Project):
         Project.__init__(
             self,
             "ffmpeg",
-            version="7.1",
+            version="7.1.1",
             archive_url="https://ffmpeg.org/releases/ffmpeg-{version}.tar.xz",
-            hash="40973d44970dbc83ef302b0609f2e74982be2d85916dd2ee7472d30678a7abe6",
+            hash="733984395e0dbbe5c046abda2dc49a5544e7e0e1e2366bba849222ae9e3a03b1",
             dependencies=[
                 "dav1d",
                 "nasm",
