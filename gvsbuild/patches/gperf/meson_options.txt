@@ -1,0 +1,12 @@
+# common feature options
+option('tests', type: 'feature', value: 'disabled')
+
+# documentation
+option('docs', type: 'feature', value: 'disabled')
+option('doc-ps', type: 'feature', value: 'disabled')
+option('doc-dvi', type: 'feature', value: 'disabled')
+option('doc-man', type: 'feature', value: 'auto')
+option('doc-pdf', type: 'feature', value: 'auto')
+option('doc-info', type: 'feature', value: 'auto',)
+option('doc-html', type: 'feature', value: 'auto')
+option('doc-examples', type: 'feature', value: 'auto')

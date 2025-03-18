@@ -14,19 +14,18 @@
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 from gvsbuild.utils.base_builders import Meson
-from gvsbuild.utils.base_expanders import GitRepo
+from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import project_add
 
 
 @project_add
-class Gperf(GitRepo, Meson):
+class Gperf(Tarball, Meson):
     def __init__(self):
         Meson.__init__(
             self,
             "gperf",
-            repo_url="https://gitlab.freedesktop.org/tpm/gperf.git",
-            fetch_submodules=False,
-            tag="c24359b4eab86d71c655c3b3fc969f13aac879ce",
+            version="3.1",
+            archive_url="https://download-mirror.savannah.gnu.org/releases/gperf/gperf-{version}.tar.gz",
             dependencies=["ninja"],
         )
 
