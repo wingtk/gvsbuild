@@ -24,10 +24,10 @@ class Pango(Tarball, Meson):
         Project.__init__(
             self,
             "pango",
-            version="1.56.1",
+            version="1.56.3",
             repository="https://gitlab.gnome.org/GNOME/pango",
             archive_url="https://download.gnome.org/sources/pango/{major}.{minor}/pango-{version}.tar.xz",
-            hash="426be66460c98b8378573e7f6b0b2ab450f6bb6d2ec7cecc33ae81178f246480",
+            hash="2606252bc25cd8d24e1b7f7e92c3a272b37acd6734347b73b47a482834ba2491",
             dependencies=[
                 "ninja",
                 "meson",
