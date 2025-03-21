@@ -10,10 +10,10 @@ updates:
       interval: weekly
     labels: ["skip-changelog"]
 
-  - package-ecosystem: "pip"
+  - package-ecosystem: "uv"
     directory: "/"
     groups:
-      pip-updates:
+      uv-updates:
         patterns:
           - "*"
     schedule:
