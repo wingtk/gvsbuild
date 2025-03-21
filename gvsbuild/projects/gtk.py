@@ -122,12 +122,12 @@ class Gtk4(Tarball, Meson):
             self,
             "gtk4",
             prj_dir="gtk4",
-            version="4.16.12",
+            version="4.18.2",
             lastversion_major=4,
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/gtk",
             archive_url="https://download.gnome.org/sources/gtk/{major}.{minor}/gtk-{version}.tar.xz",
-            hash="ef31bdbd6f082c4401634a20c850b0050c9bf252ef1e079764ee95a2a0c4c95a",
+            hash="cca5677be4c3e501b49f1c50bcafacba8dcf4bd3a2d016388f834eff274dc159",
             dependencies=[
                 "gdk-pixbuf",
                 "pango",
@@ -138,7 +138,10 @@ class Gtk4(Tarball, Meson):
                 "glib",
                 "fribidi",
             ],
-            patches=[],
+            patches=[
+                # https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/8333
+                "001-fix-warning-preprocessor.patch"
+            ],
         )
         if self.opts.enable_gi:
             self.add_dependency("gobject-introspection")
