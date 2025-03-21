@@ -1,0 +1,24 @@
+Subject: [PATCH] Fix #warning not defined with MSVC
+---
+Index: gsk/gl/gskglrenderer.h
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/gsk/gl/gskglrenderer.h b/gsk/gl/gskglrenderer.h
+--- a/gsk/gl/gskglrenderer.h	(revision 132755d28682b98ecc699d31dd48605c040797e5)
++++ b/gsk/gl/gskglrenderer.h	(date 1742517146787)
+@@ -20,6 +20,12 @@
+ 
+ #pragma once
+ 
+-#warning "#include <gsk/gsk.h> instead of <gsk/gl/gskglrenderer.h> to avoid this warning"
++#define WARNING_MSG "#include <gsk/gsk.h> instead of <gsk/gl/gskglrenderer.h> to avoid this warning"
++#ifdef _MSC_VER
++#pragma message("WARNING: " WARNING_MSG)
++#else
++#warning WARNING_MSG
++#endif
++#undef WARNING_MSG
+ 
+ #include <gsk/gsk.h>

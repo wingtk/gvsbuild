@@ -26,9 +26,9 @@ class Icu(Tarball, Project):
             self,
             "icu",
             repository="https://github.com/unicode-org/icu",
-            version="76.1",
+            version="77.1",
             archive_url="https://github.com/unicode-org/icu/releases/download/release-{major}-{minor}/icu4c-{major}_{minor}-src.zip",
-            hash="14a1942185dda2c5a07bd74f20a220954a7d94149fb5ef3cc782b52d9817fb3f",
+            hash="d5cf533cf70cd49044d89eda3e74880328eb9426e6fd2b3cc8f9a963d2ad480e",
             patches=["0001-Fix-circular-include-on-MS-Visual-Studio.patch"],
         )
 
