@@ -347,6 +347,9 @@ rebuilding it with `--from-scratch`
 delete the file and try again.
 - If you get an out of memory error, reduce the number of processor cores building at once
 by adding the `--ninja-opts -j2` option, where 2 is the number of cores.
+- If you are getting a C4819 error or warning, this is an issue of Visual Studio running on
+CJK (East Asian) locales. Set your system's locale setting for non-Unicode to English
+(United States), reboot, and restart the build, and the code should build normally.
 
 ## OpenSSL
 
