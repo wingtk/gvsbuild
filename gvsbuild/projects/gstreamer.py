@@ -220,7 +220,14 @@ class GstDevTools(Tarball, Meson):
             lastversion_even=True,
             archive_url="https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-{version}.tar.xz",
             hash="eff33d7dc292bb074a2788ea887b6283398ffdefafa49fb7d08efe6658a65648",
-            dependencies=["meson", "ninja", "json-glib"],
+            dependencies=[
+                "meson",
+                "ninja",
+                "json-glib",
+                "gst-plugins-base",
+                "gst-plugins-bad",
+                "gst-rtsp-server",
+            ],
         )
 
         if self.opts.enable_gi:
@@ -247,8 +254,13 @@ class GstPython(Tarball, Meson):
             lastversion_even=True,
             archive_url="https://gstreamer.freedesktop.org/src/gst-python/gst-python-{version}.tar.xz",
             hash="e5046a05d77abb15671ad01cd1908d17d62e5a06f5d7841be4342ade2a3fb8db",
-            dependencies=["meson", "ninja", "pygobject", "gst-plugins-base"],
-            patches=["0001-fix-python3-not-found.patch"],
+            dependencies=[
+                "meson",
+                "ninja",
+                "pygobject",
+                "gst-plugins-base",
+                "gst-plugins-bad",
+            ],
         )
 
     def build(self):
@@ -274,3 +286,22 @@ class GstLibav(Tarball, Meson):
     def build(self):
         Meson.build(self)
         self.install(r".\COPYING share\doc\gst-libav")
+
+
+@project_add
+class GstRtspServer(Tarball, Meson):
+    def __init__(self):
+        Project.__init__(
+            self,
+            "gst-rtsp-server",
+            repository="https://gitlab.freedesktop.org/gstreamer/gstreamer",
+            version="1.26.0",
+            lastversion_even=True,
+            archive_url="https://gstreamer.freedesktop.org/src/gst-rtsp-server/gst-rtsp-server-{version}.tar.xz",
+            hash="e983c039496e3f75e39696554ce74db4120e2465de17aa1cc37160568e9b40bc",
+            dependencies=["meson", "ninja", "gstreamer"],
+        )
+
+    def build(self):
+        Meson.build(self)
+        self.install(r".\COPYING share\doc\gst-rtsp-server")
