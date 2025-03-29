@@ -1,0 +1,15 @@
+# On windows, the prefix is automagically build from the location of the .pc file
+prefix=@prefix@
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: libavformat
+Description: FFmpeg container format library
+Version: 61.7.100
+Requires:
+Requires.private: libavcodec libavutil
+Conflicts:
+Libs: -L${libdir} -lavformat
+Libs.private: ws2_32.lib zlib1.lib
+Cflags: -I${includedir}

@@ -66,6 +66,7 @@ class Ffmpeg(Tarball, Project):
             self.install(r".\libavutil\avutil-58.pdb bin")
             self.install(r".\libswscale\libswscale-7.pdb bin")
 
+        self.install_pc_files()
         self.install(r".\COPYING.LGPLv2.1 " r".\COPYING.LGPLv3 " r"share\doc\ffmpeg")
         if self.opts.ffmpeg_enable_gpl:
             self.install(r".\COPYING.GPLv2 " r"share\doc\ffmpeg")

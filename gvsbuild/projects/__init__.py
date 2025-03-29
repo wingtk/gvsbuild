@@ -29,15 +29,16 @@ from gvsbuild.projects.gperf import Gperf
 from gvsbuild.projects.graphene import Graphene
 from gvsbuild.projects.gsettings_desktop_schemas import GSettingsDesktopSchemas
 from gvsbuild.projects.gstreamer import (
+    GStreamer,
     GstDevTools,
+    GstLibav,
     GstPluginsBad,
     GstPluginsBase,
     GstPluginsGood,
     GstPluginsUgly,
     GstPython,
-    GStreamer,
+    GstRtspServer,
     Orc,
-    GstLibav,
 )
 from gvsbuild.projects.gtk import Gtk2, Gtk3, Gtk4
 from gvsbuild.projects.gtkmm import Gtkmm

@@ -1,0 +1,15 @@
+# On windows, the prefix is automagically build from the location of the .pc file
+prefix=@prefix@
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: libavcodec
+Description: FFmpeg codec library
+Version: 61.19.101
+Requires:
+Requires.private: libavutil
+Conflicts:
+Libs: -L${libdir}  -lavcodec 
+Libs.private: iconv.lib dav1d.lib ole32.lib user32.lib
+Cflags: -I${includedir}
