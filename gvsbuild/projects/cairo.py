@@ -30,7 +30,6 @@ class Cairo(Tarball, Meson):
             archive_url="https://cairographics.org/releases/cairo-{version}.tar.xz",
             hash="445ed8208a6e4823de1226a74ca319d3600e83f6369f99b14265006599c32ccb",
             dependencies=["fontconfig", "freetype", "glib", "pixman", "libpng"],
-            patches=["0001-fix-alloca-unresolved.patch"],
         )
         self.add_param("-Ddwrite=enabled")
         self.add_param("-Dfreetype=enabled")
