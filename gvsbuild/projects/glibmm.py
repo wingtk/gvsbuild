@@ -25,16 +25,20 @@ class Glibmm(Tarball, Meson):
             self,
             "glibmm",
             prj_dir="glibmm",
-            version="2.82.0",
+            version="2.84.0",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/glibmm",
             archive_url="https://download.gnome.org/sources/glibmm/{major}.{minor}/glibmm-{version}.tar.xz",
-            hash="38684cff317273615c67b8fa9806f16299d51e5506d9b909bae15b589fa99cb6",
+            hash="56ee5f51c8acfc0afdf46959316e4c8554cb50ed2b6bc5ce389d979cbb642509",
             dependencies=[
                 "meson",
                 "ninja",
                 "libsigc++",
                 "glib",
+            ],
+            patches=[
+                # Fixed in https://gitlab.gnome.org/GNOME/gtkmm/-/commit/9490a86b42b7a980ca8cfabaa63be0655071c546
+                "001-fix-python-not-found.patch",
             ],
         )
 
