@@ -1,0 +1,18 @@
+Subject: [PATCH] fix-cmake-compatibility
+---
+Index: CMakeLists.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt	(revision 9f98392dfecadffd62572e73e9aba878e03496c4)
++++ b/CMakeLists.txt	(date 1743461735224)
+@@ -1,6 +1,6 @@
++cmake_minimum_required(VERSION 3.10)
+ project(win_iconv)
+ 
+-cmake_minimum_required(VERSION 2.6)
+ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR})
+ 
+ set(CPACK_GENERATOR "TBZ2")

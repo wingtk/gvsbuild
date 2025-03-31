@@ -32,6 +32,9 @@ class WinIconv(Tarball, CmakeProject):
                 "cmake",
                 "ninja",
             ],
+            patches=[
+                "001-fix-cmake-compatibility.patch",
+            ],
         )
 
     def build(self):
