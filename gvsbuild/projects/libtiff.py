@@ -31,6 +31,7 @@ class Libtiff4(Tarball, CmakeProject):
             dependencies=["cmake", "ninja", "libjpeg-turbo"],
             patches=[
                 "0001-cmake-remove-.d-postfix.patch",
+                "0002-remove-docs-cmake-minimum.patch",
             ],
         )
 
