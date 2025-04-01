@@ -1,0 +1,35 @@
+From d1279f0f9c8fee724c380523a7a6cf60c690521d Mon Sep 17 00:00:00 2001
+From: Even Rouault <even.rouault@spatialys.com>
+Date: Sun, 20 Oct 2024 18:50:23 +0200
+Subject: [PATCH] doc/CMakeLists.txt: remove useless cmake_minimum_required()
+
+There's already one in top CMakeLists.txt (at 3.9.0 currently)
+
+Newer CMake versions throw this warning with current 3.2.0:
+```
+CMake Deprecation Warning at doc/CMakeLists.txt:27 (cmake_minimum_required):
+  Compatibility with CMake < 3.5 will be removed from a future version of
+  CMake.
+  Update the VERSION argument <min> value or use a ...<max> suffix to tell
+  CMake that the project does not need compatibility with older versions.
+```
+---
+ doc/CMakeLists.txt | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/doc/CMakeLists.txt b/doc/CMakeLists.txt
+index 6cc3d2e49..af5cab0e7 100644
+--- a/doc/CMakeLists.txt
++++ b/doc/CMakeLists.txt
+@@ -24,8 +24,6 @@
+ # LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
+ # OF THIS SOFTWARE.
+ 
+-cmake_minimum_required(VERSION 3.2.0)
+-
+ include(Sphinx)
+ 
+ if (BUILD_SPHINX AND SPHINX_BUILD)
+-- 
+GitLab
+
