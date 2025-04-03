@@ -1,0 +1,28 @@
+Subject: [PATCH] replace cat with python script
+---
+Index: python/meson.build
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/python/meson.build b/python/meson.build
+--- a/python/meson.build	(revision eb0c98ebd02ecff53f1a3f9e4be803b93681824d)
++++ b/python/meson.build	(date 1743473672249)
+@@ -29,8 +29,15 @@
+         'libxml2.py',
+         input: [files('libxml.py'), pygenerated[3]],
+         output: 'libxml2.py',
+-        command: [find_program('cat'), '@INPUT@'],
+-        capture: true,
++        command: [
++            py,
++            '-c',
++            'import sys; open(sys.argv[3], "w").write(open(sys.argv[1], "r").read() + open(sys.argv[2], "r").read())',
++            '@INPUT0@',
++            '@INPUT1@',
++            '@OUTPUT@'
++        ],
++        capture: false,
+         install: true,
+         install_dir: py.get_install_dir(),
+     )
