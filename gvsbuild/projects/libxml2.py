@@ -24,11 +24,11 @@ class Libxml2(Tarball, Meson):
         Project.__init__(
             self,
             "libxml2",
-            version="2.14.0",
+            version="2.14.1",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/libxml2",
             archive_url="https://download.gnome.org/sources/libxml2/{major}.{minor}/libxml2-{version}.tar.xz",
-            hash="3e2ed89d81d210322d70b35460166d4ea285e5bb017576972a1d76a09631985c",
+            hash="310df85878b65fa717e5e28e0d9e8f6205fd29d883929303a70a4f2fc4f6f1f2",
             dependencies=["win-iconv", "meson", "ninja"],
             patches=[
                 # https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests/305
