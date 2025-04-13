@@ -38,5 +38,4 @@ class Libxml2(Tarball, Meson):
 
     def build(self):
         Meson.build(self)
-        self.install_pc_files()
         self.install(r".\COPYING share\doc\libxml2")
