@@ -1,0 +1,178 @@
+Subject: [PATCH] python: Stop generating libxml2class.txt
+python: Fix file variable not defined during exception
+python: Concat generated files in generator.py
+---
+Index: python/generator.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/python/generator.py b/python/generator.py
+--- a/python/generator.py	(revision fc4adba90e21e4c49270f159baf1c4c71d51f247)
++++ b/python/generator.py	(revision 38cc2b53eda8bf36d3032ada5cf1d4d59dfd322d)
+@@ -683,7 +683,7 @@
+             parser.feed(data)
+             parser.close()
+         except IOError as msg:
+-            print(file, ":", msg)
++            print("Failed to open libxml2-api.xml:", msg)
+             sys.exit(1)
+ 
+     n = len(list(functions.keys()))
+@@ -697,7 +697,7 @@
+         parser.feed(data)
+         parser.close()
+     except IOError as msg:
+-        print(file, ":", msg)
++        print("Failed to open libxml2-python-api.xml:", msg)
+ 
+ 
+     print("Found %d functions in libxml2-python-api.xml" % (
+@@ -1091,12 +1091,19 @@
+         func = nameFixup(name, "None", file, file)
+         info = (0, func, name, ret, args, file)
+         function_classes['None'].append(info)
+-   
+-    classes = open(os.path.join(dstPref, "libxml2class.py"), "w")
+-    txt = open(os.path.join(dstPref, "libxml2class.txt"), "w")
+-    txt.write("          Generated Classes for libxml2-python\n\n")
++
++    libxml_content = ""
++    try:
++        with open(os.path.join(srcPref, "libxml.py"), "r") as libxml_file:
++            libxml_content = libxml_file.read()
++    except IOError as msg:
++        print("Error reading libxml.py:", msg)
++        sys.exit(1)
+ 
+-    txt.write("#\n# Global functions of the module\n#\n\n")
++    classes = open(os.path.join(dstPref, "libxml2.py"), "w")
++
++    classes.write(libxml_content)
++
+     if "None" in function_classes:
+         flist = function_classes["None"]
+         flist = sorted(flist, key=cmp_to_key(functionCompare))
+@@ -1105,10 +1112,8 @@
+             (index, func, name, ret, args, file) = info
+             if file != oldfile:
+                 classes.write("#\n# Functions from module %s\n#\n\n" % file)
+-                txt.write("\n# functions from module %s\n" % file)
+                 oldfile = file
+             classes.write("def %s(" % func)
+-            txt.write("%s()\n" % func)
+             n = 0
+             for arg in args:
+                 if n != 0:
+@@ -1184,14 +1189,11 @@
+                     classes.write("    return ret\n")
+             classes.write("\n")
+ 
+-    txt.write("\n\n#\n# Set of classes of the module\n#\n\n")
+     for classname in classes_list:
+         if classname == "None":
+             pass
+         else:
+             if classname in classes_ancestor:
+-                txt.write("\n\nClass %s(%s)\n" % (classname,
+-                          classes_ancestor[classname]))
+                 classes.write("class %s(%s):\n" % (classname,
+                               classes_ancestor[classname]))
+                 classes.write("    def __init__(self, _obj=None):\n")
+@@ -1215,7 +1217,6 @@
+                     classes.write("        return \"%s\" %% (self.name, int(pos_id (self)))\n\n" % (
+                                   format))
+             else:
+-                txt.write("Class %s()\n" % (classname))
+                 classes.write("class %s:\n" % (classname))
+                 classes.write("    def __init__(self, _obj=None):\n")
+                 if classname in reference_keepers:
+@@ -1246,16 +1247,13 @@
+                 if file != oldfile:
+                     if file == "python_accessor":
+                         classes.write("    # accessors for %s\n" % (classname))
+-                        txt.write("    # accessors\n")
+                     else:
+                         classes.write("    #\n")
+                         classes.write("    # %s functions from module %s\n" % (
+                                       classname, file))
+-                        txt.write("\n    # functions from module %s\n" % file)
+                         classes.write("    #\n\n")
+                 oldfile = file
+                 classes.write("    def %s(self" % func)
+-                txt.write("    %s()\n" % func)
+                 n = 0
+                 for arg in args:
+                     if n != index:
+@@ -1380,7 +1378,6 @@
+             classes.write("%s = %s\n" % (name,value))
+         classes.write("\n")
+ 
+-    txt.close()
+     classes.close()
+ 
+ buildStubs()
+Index: python/meson.build
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/python/meson.build b/python/meson.build
+--- a/python/meson.build	(revision fc4adba90e21e4c49270f159baf1c4c71d51f247)
++++ b/python/meson.build	(revision 38cc2b53eda8bf36d3032ada5cf1d4d59dfd322d)
+@@ -16,8 +16,7 @@
+             'libxml2-py.h',
+             'libxml2-export.c',
+             'libxml2-py.c',
+-            'libxml2class.py',
+-            'libxml2class.txt',
++            'libxml2.py',
+         ],
+         command: [py, '@INPUT@', meson.current_build_dir()],
+     )
+@@ -25,16 +24,6 @@
+         sources : [pygenerated[0]],
+     )
+ 
+-    libxml2_py = custom_target(
+-        'libxml2.py',
+-        input: [files('libxml.py'), pygenerated[3]],
+-        output: 'libxml2.py',
+-        command: [find_program('cat'), '@INPUT@'],
+-        capture: true,
+-        install: true,
+-        install_dir: py.get_install_dir(),
+-    )
+-
+     libxml2mod_src = [
+         files('libxml.c', 'types.c'),
+         pygenerated[2],
+Index: python/setup.py.in
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/python/setup.py.in b/python/setup.py.in
+--- a/python/setup.py.in	(revision fc4adba90e21e4c49270f159baf1c4c71d51f247)
++++ b/python/setup.py.in	(revision ffef921be312157147d3b825a8e92d80e50a9e86)
+@@ -116,20 +116,6 @@
+         print(sys.exc_info()[0], sys.exc_info()[1])
+         sys.exit(1)
+ 
+-    head = open("libxml.py", "r")
+-    generated = open("libxml2class.py", "r")
+-    result = open("libxml2.py", "w")
+-    for line in head.readlines():
+-        if WITHDLLS:
+-            result.write(altImport(line))
+-        else:
+-            result.write(line)
+-    for line in generated.readlines():
+-        result.write(line)
+-    head.close()
+-    generated.close()
+-    result.close()
+-
+ with_xslt=0
+ if missing("libxslt-py.c") or missing("libxslt.py"):
+     if missing("xsltgenerator.py") or missing("libxslt-api.xml"):

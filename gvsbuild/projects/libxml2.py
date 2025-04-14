@@ -24,16 +24,18 @@ class Libxml2(Tarball, Meson):
         Project.__init__(
             self,
             "libxml2",
-            version="2.12.10",
+            version="2.14.1",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/libxml2",
             archive_url="https://download.gnome.org/sources/libxml2/{major}.{minor}/libxml2-{version}.tar.xz",
-            hash="c3d8c0c34aa39098f66576fe51969db12a5100b956233dc56506f7a8679be995",
+            hash="310df85878b65fa717e5e28e0d9e8f6205fd29d883929303a70a4f2fc4f6f1f2",
             dependencies=["win-iconv", "meson", "ninja"],
-            patches=[],
+            patches=[
+                # https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests/305
+                "001-replace-cat-with-python-script.patch",
+            ],
         )
 
     def build(self):
         Meson.build(self)
-        self.install_pc_files()
         self.install(r".\COPYING share\doc\libxml2")
