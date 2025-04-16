@@ -38,7 +38,9 @@ class Libyuv(GitRepo, CmakeProject):
         )
 
     def build(self):
-        CmakeProject.build(self, use_ninja=False)
+        CmakeProject.build(
+            self, cmake_params=r"-DCMAKE_POLICY_VERSION_MINIMUM=3.5", use_ninja=False
+        )
 
         self.install_pc_files()
         self.install(r".\LICENSE share\doc\libyuv")

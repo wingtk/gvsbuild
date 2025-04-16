@@ -24,9 +24,9 @@ class Libffi(Tarball, Meson):
         Project.__init__(
             self,
             "libffi",
-            version="3.4.7",
+            version="3.4.8",
             archive_url="https://github.com/libffi/libffi/releases/download/v{version}/libffi-{version}.tar.gz",
-            hash="138607dee268bdecf374adf9144c00e839e38541f75f24a1fcf18b78fda48b2d",
+            hash="bc9842a18898bfacb0ed1252c4febcc7e78fa139fd27fdc7a3e30d9d9356119b",
             dependencies=["ninja", "meson"],
         )
 

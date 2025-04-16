@@ -24,11 +24,11 @@ class GLibBase(Tarball, Meson):
         Meson.__init__(
             self,
             "glib-base",
-            version="2.84.0",
+            version="2.84.1",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/glib",
             archive_url="https://download.gnome.org/sources/glib/{major}.{minor}/glib-{version}.tar.xz",
-            hash="f8823600cb85425e2815cfad82ea20fdaa538482ab74e7293d58b3f64a5aff6a",
+            hash="2b4bc2ec49611a5fc35f86aca855f2ed0196e69e53092bab6bb73396bf30789a",
             dependencies=[
                 "ninja",
                 "meson",
@@ -62,11 +62,11 @@ class GLib(Tarball, Meson):
         Meson.__init__(
             self,
             "glib",
-            version="2.84.0",
+            version="2.84.1",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/glib",
             archive_url="https://download.gnome.org/sources/glib/{major}.{minor}/glib-{version}.tar.xz",
-            hash="f8823600cb85425e2815cfad82ea20fdaa538482ab74e7293d58b3f64a5aff6a",
+            hash="2b4bc2ec49611a5fc35f86aca855f2ed0196e69e53092bab6bb73396bf30789a",
             dependencies=["glib-base"],
             patches=[
                 "001-glib-package-installation-directory.patch",
