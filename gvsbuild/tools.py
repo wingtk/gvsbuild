@@ -137,14 +137,14 @@ class ToolNasm(Tool):
             self,
             "nasm",
             version="2.16.03",
-            archive_url="https://www.nasm.us/pub/nasm/releasebuilds/{version}/win64/nasm-{version}-win64.zip",
+            archive_url="https://github.com/xmake-mirror/nasm/releases/download/nasm-{version}/nasm-{version}-win64.zip",
             hash="3ee4782247bcb874378d02f7eab4e294a84d3d15f3f6ee2de2f47a46aa7226e6",
             dir_part="nasm-{version}",
             exe_name="nasm.exe",
         )
 
     def unpack(self):
-        # We download directly the exe file so we copy it on the tool directory ...
+        # We directly download the exe file, so we copy it on the tool directory
         self.mark_deps = extract_exec(
             self.archive_file,
             self.builder.opts.tools_root_dir,
