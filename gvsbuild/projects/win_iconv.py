@@ -24,22 +24,17 @@ class WinIconv(Tarball, CmakeProject):
         Project.__init__(
             self,
             "win-iconv",
-            version="0.0.8",
+            version="0.0.10",
             archive_url="https://github.com/win-iconv/win-iconv/archive/v{version}.tar.gz",
             archive_filename="win-iconv-{version}.tar.gz",
-            hash="23adea990a8303c6e69e32a64a30171efcb1b73824a1c2da1bbf576b0ae7c520",
+            hash="58493387c7c9c70d61e711ec2feec5db0a59d164556642d2b427dde4ef756bc1",
             dependencies=[
                 "cmake",
                 "ninja",
             ],
-            patches=[
-                "001-fix-cmake-compatibility.patch",
-            ],
         )
 
     def build(self):
-        CmakeProject.build(
-            self, use_ninja=True, cmake_params="-DBUILD_TEST=1", make_tests=True
-        )
+        CmakeProject.build(self, use_ninja=True, cmake_params="-DBUILD_TEST=1")
 
         self.install(r".\COPYING share\doc\win-iconv")
