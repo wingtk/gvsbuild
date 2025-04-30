@@ -260,6 +260,7 @@ class GstPython(Tarball, Meson):
                 "pygobject",
                 "gst-plugins-base",
                 "gst-plugins-bad",
+                "gst-rtsp-server",
             ],
         )
 
