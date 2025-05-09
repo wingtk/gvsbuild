@@ -66,9 +66,9 @@ class ToolCmake(Tool):
         Tool.__init__(
             self,
             "cmake",
-            version="4.0.1",
+            version="4.0.2",
             archive_url="https://github.com/Kitware/CMake/releases/download/v{version}/cmake-{version}-windows-x86_64.zip",
-            hash="31742b9a264b36897e0c904ab3520baf00a5b5ac5bc801aeede28d0d217eec65",
+            hash="109ec7de10416d6d78991bab9714d2cb1ccb71d1b436dff42ec978dd283c29fc",
             dir_part="cmake-{version}-windows-x86_64",
         )
 
@@ -210,10 +210,10 @@ class ToolGo(Tool):
         Tool.__init__(
             self,
             "go",
-            version="1.24.2",
+            version="1.24.3",
             repository="https://github.com/golang/go",
             archive_url="https://go.dev/dl/go{version}.windows-amd64.zip",
-            hash="29c553aabee0743e2ffa3e9fa0cda00ef3b3cc4ff0bc92007f31f80fd69892e1",
+            hash="8c2b6fb279b5b42e9ac92ade71832e485852647b53607c43baaafbbcecea04e4",
             dir_part="go-{version}",
         )
 

@@ -29,6 +29,7 @@ class Libcbor(Tarball, CmakeProject):
             archive_filename="libcbor-{version}.tar.gz",
             hash="5368add109db559f546d7ed10f440f39a273b073daa8da4abffc83815069fa7f",
             dependencies=["cmake", "ninja"],
+            patches=["001-fix-minimum-cmake-version.patch"],
         )
 
     def build(self):
