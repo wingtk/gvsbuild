@@ -18,6 +18,9 @@ dependencies = [
     "build >=0.9,<1.3",
     "typer >=0.6.1,<0.16.0",
     "setuptools >=69.2; python_version >= \"3.12\"",
+    # Remove Click once resolved
+    # https://github.com/fastapi/typer/discussions/1215
+    "click <8.2.0",
 ]
 dynamic = []
 
