@@ -24,11 +24,11 @@ class GLibBase(Tarball, Meson):
         Meson.__init__(
             self,
             "glib-base",
-            version="2.84.1",
+            version="2.84.2",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/glib",
             archive_url="https://download.gnome.org/sources/glib/{major}.{minor}/glib-{version}.tar.xz",
-            hash="2b4bc2ec49611a5fc35f86aca855f2ed0196e69e53092bab6bb73396bf30789a",
+            hash="88e960dd937057407d61fcb3b45a860704b25923c37ae2478b85f2ecb5a4021f",
             dependencies=[
                 "ninja",
                 "meson",
@@ -40,8 +40,6 @@ class GLibBase(Tarball, Meson):
             ],
             patches=[
                 "001-glib-package-installation-directory.patch",
-                # https://gitlab.gnome.org/GNOME/glib/-/merge_requests/4582
-                "002-remove-dll-export-check.patch",
             ],
         )
         self.add_param("-Dman-pages=disabled")
@@ -64,16 +62,14 @@ class GLib(Tarball, Meson):
         Meson.__init__(
             self,
             "glib",
-            version="2.84.1",
+            version="2.84.2",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/glib",
             archive_url="https://download.gnome.org/sources/glib/{major}.{minor}/glib-{version}.tar.xz",
-            hash="2b4bc2ec49611a5fc35f86aca855f2ed0196e69e53092bab6bb73396bf30789a",
+            hash="88e960dd937057407d61fcb3b45a860704b25923c37ae2478b85f2ecb5a4021f",
             dependencies=["glib-base"],
             patches=[
                 "001-glib-package-installation-directory.patch",
-                # https://gitlab.gnome.org/GNOME/glib/-/merge_requests/4582
-                "002-remove-dll-export-check.patch",
             ],
         )
         self.add_param("-Dman-pages=disabled")
