@@ -82,6 +82,7 @@ from gvsbuild.projects.luajit import Luajit
 from gvsbuild.projects.lz4 import Lz4
 from gvsbuild.projects.mit_kerberos import Kerberos
 from gvsbuild.projects.nghttp2 import Nghttp2
+from gvsbuild.projects.nuspell import Nuspell
 from gvsbuild.projects.ogg import Ogg
 from gvsbuild.projects.openh264 import OpenH264
 from gvsbuild.projects.openssl import OpenSSL, OpenSSLFips
