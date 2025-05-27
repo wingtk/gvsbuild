@@ -31,6 +31,7 @@ class Pango(Tarball, Meson):
             dependencies=[
                 "ninja",
                 "meson",
+                "fontconfig",
                 "freetype",
                 "cairo",
                 "harfbuzz",
@@ -47,6 +48,7 @@ class Pango(Tarball, Meson):
 
         self.add_param(f"-Dintrospection={enable_gi}")
         self.add_param("-Dfreetype=enabled")
+        self.add_param("-Dfontconfig=enabled")
 
     def build(self):
         Meson.build(self)
