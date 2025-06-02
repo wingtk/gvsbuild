@@ -33,6 +33,7 @@ class Cairo(Tarball, Meson):
         )
         self.add_param("-Ddwrite=enabled")
         self.add_param("-Dfreetype=enabled")
+        self.add_param("-Dfontconfig=enabled")
         self.add_param("-Dtests=disabled")
 
     def build(self):
