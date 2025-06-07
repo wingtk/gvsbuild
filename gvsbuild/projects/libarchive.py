@@ -27,9 +27,9 @@ class Libarchive(Tarball, CmakeProject):
         Project.__init__(
             self,
             "libarchive",
-            version="3.8.0",
+            version="3.8.1",
             archive_url="https://libarchive.org/downloads/libarchive-{version}.tar.xz",
-            hash="67bfac3798a778143f4b1cadcdb3792b4269486f8e1b70ca5c0ee5841398bfdf",
+            hash="19f917d42d530f98815ac824d90c7eaf648e9d9a50e4f309c812457ffa5496b5",
             dependencies=[
                 "cmake",
                 "ninja",
@@ -39,11 +39,17 @@ class Libarchive(Tarball, CmakeProject):
                 "openssl",
                 "libxml2",
             ],
-            patches=[],
+            patches=[
+                # https://github.com/libarchive/libarchive/pull/2676
+                "001-fix-wrong-pkgconfig-path.patch",
+            ],
         )
 
     def build(self):
-        CmakeProject.build(self, cmake_params="-DENABLE_WERROR=OFF", use_ninja=True)
+        cmake_params = (
+            "-DENABLE_WERROR=OFF -DENABLE_TEST=OFF -DBUILD_TESTING=OFF -Wno-dev"
+        )
+        CmakeProject.build(self, cmake_params=cmake_params, use_ninja=True)
         # Fix the pkg-config .pc file, correcting the library's names
         file_replace(
             os.path.join(self.pkg_dir, "lib", "pkgconfig", "libarchive.pc"),
