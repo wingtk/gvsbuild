@@ -42,3 +42,30 @@ class Libsigcplusplus(Tarball, Meson):
         )
 
         self.install(r".\COPYING share\doc\libsigc++")
+
+
+@project_add
+class Libsigcplusplus2(Tarball, Meson):
+    def __init__(self):
+        Project.__init__(
+            self,
+            "libsigc++-2.0",
+            prj_dir="libsigc++-2.0",
+            version="2.12.1",
+            lastversion_even=True,
+            repository="https://github.com/libsigcplusplus/libsigcplusplus",
+            archive_url="https://github.com/libsigcplusplus/libsigcplusplus/releases/download/{version}/libsigc++-{version}.tar.xz",
+            hash="a9dbee323351d109b7aee074a9cb89ca3e7bcf8ad8edef1851f4cf359bd50843",
+            dependencies=[
+                "meson",
+                "ninja",
+            ],
+        )
+
+    def build(self):
+        Meson.build(
+            self,
+            meson_params="-Dbuild-examples=false -Dbuild-documentation=false",
+        )
+
+        self.install(r".\COPYING share\doc\libsigc++-2.0")

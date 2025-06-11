@@ -47,3 +47,33 @@ class Pangomm(Tarball, Meson):
         )
 
         self.install(r".\COPYING share\doc\glibmm")
+
+
+@project_add
+class Pangomm1_4(Tarball, Meson):
+    def __init__(self):
+        Meson.__init__(
+            self,
+            "pangomm-1.4",
+            prj_dir="pangomm-1.4",
+            version="2.46.4",
+            repository="https://gitlab.gnome.org/GNOME/pangomm",
+            archive_url="https://download.gnome.org/sources/pangomm/{major}.{minor}/pangomm-{version}.tar.xz",
+            hash="b92016661526424de4b9377f1512f59781f41fb16c9c0267d6133ba1cd68db22",
+            dependencies=[
+                "meson",
+                "ninja",
+                "libsigc++-2.0",
+                "cairomm-1.0",
+                "pango",
+                "glibmm-2.4",
+            ],
+        )
+
+    def build(self):
+        Meson.build(
+            self,
+            meson_params="-Dbuild-documentation=false",
+        )
+
+        self.install(r".\COPYING share\doc\pangomm-1.4")

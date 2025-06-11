@@ -36,3 +36,22 @@ class Cairomm(Tarball, Meson):
             self, meson_params="-Dbuild-examples=false -Dbuild-documentation=false"
         )
         self.install(r".\COPYING share\doc\cairomm")
+
+
+@project_add
+class Cairomm1_0(Tarball, Meson):
+    def __init__(self):
+        Meson.__init__(
+            self,
+            "cairomm-1.0",
+            version="1.14.5",
+            archive_url="https://gitlab.freedesktop.org/cairo/cairomm/-/archive/{version}/cairomm-{version}.tar.gz",
+            hash="80c10611888e84c3a660eea0dafc81b6a9faf3e1d1cc31f950c51b3f7d384fc2",
+            dependencies=["meson", "ninja", "libsigc++-2.0", "cairo"],
+        )
+
+    def build(self):
+        Meson.build(
+            self, meson_params="-Dbuild-examples=false -Dbuild-documentation=false"
+        )
+        self.install(r".\COPYING share\doc\cairomm-1.0")
