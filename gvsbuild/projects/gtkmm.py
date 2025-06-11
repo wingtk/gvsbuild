@@ -48,3 +48,33 @@ class Gtkmm(Tarball, Meson):
         )
 
         self.install(r".\COPYING share\doc\gtkmm")
+
+
+@project_add
+class Gtkmm3(Tarball, Meson):
+    def __init__(self):
+        Meson.__init__(
+            self,
+            "gtkmm3",
+            prj_dir="gtkmm-3.0",
+            version="3.24.10",
+            lastversion_major=3,
+            lastversion_even=True,
+            repository="https://gitlab.gnome.org/GNOME/gtkmm",
+            archive_url="https://download.gnome.org/sources/gtkmm/{major}.{minor}/gtkmm-{version}.tar.xz",
+            hash="7ab7e2266808716e26c39924ace1fb46da86c17ef39d989624c42314b32b5a76",
+            dependencies=[
+                "gdk-pixbuf",
+                "pangomm-1.4",
+                "glibmm-2.4",
+                "libepoxy",
+                "cairomm-1.0",
+                "atkmm",
+                "gtk3",
+            ],
+        )
+
+    def build(self):
+        Meson.build(self, meson_params="-Dbuild-tests=false -Dbuild-demos=false")
+
+        self.install(r".\COPYING share\doc\gtkmm-3.0")
