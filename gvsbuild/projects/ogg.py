@@ -29,7 +29,7 @@ class Ogg(Tarball, CmakeProject):
             archive_url="https://github.com/xiph/ogg/releases/download/v{version}/libogg-{version}.tar.xz",
             hash="5c8253428e181840cd20d41f3ca16557a9cc04bad4a3d04cce84808677fa1061",
             dependencies=["cmake", "ninja"],
-            patches=["001-fix-cmake-min-version.patch"],
+            patches=[],
         )
 
     def build(self):
