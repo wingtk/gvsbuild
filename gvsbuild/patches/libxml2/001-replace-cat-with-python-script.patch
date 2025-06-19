@@ -6,9 +6,9 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 <+>UTF-8
 ===================================================================
 diff --git a/python/meson.build b/python/meson.build
---- a/python/meson.build	(revision 8d509f483dd5ce268b2fded9c738132c47d820d8)
-+++ b/python/meson.build	(date 1747955866002)
-@@ -16,27 +16,22 @@
+--- a/python/meson.build	(revision 4c6b2c3096b1da0d0780fe0b4f147e837140468d)
++++ b/python/meson.build	(date 1750343247774)
+@@ -16,25 +16,22 @@
              'libxml2-py.h',
              'libxml2-export.c',
              'libxml2-py.c',
@@ -23,8 +23,7 @@ diff --git a/python/meson.build b/python/meson.build
 +            py.get_install_dir(),
          ],
          command: [py, '@INPUT@', meson.current_build_dir()],
-         install: true,
--        install_dir: [ false, false, false, py.get_install_dir(), false ],
++        install: true,
 +        install_dir: [ get_option('includedir'), false, false, py.get_install_dir() ],
      )
      pygenerated_dep = declare_dependency(
@@ -44,14 +43,63 @@ diff --git a/python/meson.build b/python/meson.build
      libxml2mod_src = [
          files('libxml.c', 'types.c'),
          pygenerated[2],
+Index: CMakeLists.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt	(revision 4c6b2c3096b1da0d0780fe0b4f147e837140468d)
++++ b/CMakeLists.txt	(date 1750343302090)
+@@ -525,11 +525,6 @@
+         ${CMAKE_CURRENT_SOURCE_DIR}/python/generator.py
+         ${CMAKE_CURRENT_BINARY_DIR}
+     )
+-    file(READ python/libxml.py LIBXML_PY)
+-    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/libxml2.py.in "${LIBXML_PY}")
+-    file(READ ${CMAKE_CURRENT_BINARY_DIR}/libxml2class.py LIBXML2CLASS_PY)
+-    file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/libxml2.py.in "${LIBXML2CLASS_PY}")
+-    configure_file(${CMAKE_CURRENT_BINARY_DIR}/libxml2.py.in libxml2.py COPYONLY)
+     add_library(
+         LibXml2Mod SHARED
+         libxml2-py.c
+Index: python/Makefile.am
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/python/Makefile.am b/python/Makefile.am
+--- a/python/Makefile.am	(revision 4c6b2c3096b1da0d0780fe0b4f147e837140468d)
++++ b/python/Makefile.am	(date 1750343302102)
+@@ -32,8 +32,8 @@
+ nodist_python_PYTHON = libxml2.py
+ 
+ API_DESC = $(top_srcdir)/doc/libxml2-api.xml $(srcdir)/libxml2-python-api.xml
+-GENERATED = libxml2class.py libxml2class.txt $(BUILT_SOURCES)
+-CLEANFILES = libxml2.py $(GENERATED)
++GENERATED = libxml2.py $(BUILT_SOURCES)
++CLEANFILES = $(GENERATED)
+ 
+ all-local: libxml2.py
+ 
+@@ -43,9 +43,6 @@
+ # libxml.c #includes libxml2-export.c
+ libxml.$(OBJEXT): libxml2-export.c
+ 
+-libxml2.py: $(srcdir)/libxml.py libxml2class.py
+-	cat $(srcdir)/libxml.py `test -f libxml2class.py || echo $(srcdir)/`libxml2class.py > $@
+-
+ clean-local:
+ 	rm -rf __pycache__ *.pyc
+ 
 Index: python/generator.py
 IDEA additional info:
 Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 <+>UTF-8
 ===================================================================
 diff --git a/python/generator.py b/python/generator.py
---- a/python/generator.py	(revision 8d509f483dd5ce268b2fded9c738132c47d820d8)
-+++ b/python/generator.py	(date 1747955658979)
+--- a/python/generator.py	(revision 4c6b2c3096b1da0d0780fe0b4f147e837140468d)
++++ b/python/generator.py	(date 1750343302124)
 @@ -678,7 +678,7 @@
              parser.feed(data)
              parser.close()

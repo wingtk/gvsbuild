@@ -27,6 +27,7 @@ class LibSRTP(Tarball, Meson):
             repository="https://github.com/cisco/libsrtp",
             version="2.7.0",
             archive_url="https://github.com/cisco/libsrtp/archive/refs/tags/v{version}.tar.gz",
+            archive_filename="libsrtp2-v{version}.tar.gz",
             hash="54facb1727a557c2a76b91194dcb2d0a453aaf8e2d0cbbf1e3c2848c323e28ad",
             dependencies=["meson", "ninja"],
         )

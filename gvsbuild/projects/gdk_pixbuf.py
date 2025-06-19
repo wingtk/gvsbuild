@@ -25,6 +25,7 @@ class GdkPixbuf(Tarball, Meson):
             self,
             "gdk-pixbuf",
             version="2.42.12",
+            lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/gdk-pixbuf",
             archive_url="https://download.gnome.org/sources/gdk-pixbuf/{major}.{minor}/gdk-pixbuf-{version}.tar.xz",
             hash="b9505b3445b9a7e48ced34760c3bcb73e966df3ac94c95a148cb669ab748e3c7",

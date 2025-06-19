@@ -66,9 +66,9 @@ class ToolCmake(Tool):
         Tool.__init__(
             self,
             "cmake",
-            version="4.0.2",
+            version="4.0.3",
             archive_url="https://github.com/Kitware/CMake/releases/download/v{version}/cmake-{version}-windows-x86_64.zip",
-            hash="109ec7de10416d6d78991bab9714d2cb1ccb71d1b436dff42ec978dd283c29fc",
+            hash="b59a31dfbfa376a4aaea9ff560ff2b29f78ee5f9fb15447fc71ae7bf9fea9379",
             dir_part="cmake-{version}-windows-x86_64",
         )
 
@@ -93,10 +93,10 @@ class ToolMeson(Tool):
         Tool.__init__(
             self,
             "meson",
-            version="1.8.1",
+            version="1.8.2",
             archive_url="https://github.com/mesonbuild/meson/archive/refs/tags/{version}.tar.gz",
             archive_filename="meson-{version}.tar.gz",
-            hash="c945684cfa718e24d98e880a384d5263d3ce8338501639c388451c85b8deebab",
+            hash="6b878fb0f6f0318cbd54e13539f89a1a8305791668e8e93ffd59d82722888dac",
             dir_part="meson-{version}",
             exe_name="meson.py",
         )
@@ -210,10 +210,10 @@ class ToolGo(Tool):
         Tool.__init__(
             self,
             "go",
-            version="1.24.3",
+            version="1.24.4",
             repository="https://github.com/golang/go",
             archive_url="https://go.dev/dl/go{version}.windows-amd64.zip",
-            hash="8c2b6fb279b5b42e9ac92ade71832e485852647b53607c43baaafbbcecea04e4",
+            hash="b751a1136cb9d8a2e7ebb22c538c4f02c09b98138c7c8bfb78a54a4566c013b1",
             dir_part="go-{version}",
         )
 
