@@ -24,10 +24,10 @@ class Ogg(Tarball, CmakeProject):
         Project.__init__(
             self,
             "ogg",
-            version="1.3.5",
+            version="1.3.6",
             repository="https://github.com/xiph/ogg",
             archive_url="https://github.com/xiph/ogg/releases/download/v{version}/libogg-{version}.tar.xz",
-            hash="c4d91be36fc8e54deae7575241e03f4211eb102afb3fc0775fbbc1b740016705",
+            hash="5c8253428e181840cd20d41f3ca16557a9cc04bad4a3d04cce84808677fa1061",
             dependencies=["cmake", "ninja"],
             patches=["001-fix-cmake-min-version.patch"],
         )
