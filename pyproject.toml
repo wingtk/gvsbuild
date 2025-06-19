@@ -7,7 +7,7 @@ name = "gvsbuild"
 version = "2025.6.0"
 description = "GTK stack for Windows"
 readme = "README.md"
-requires-python = "<4.0,>=3.9"
+requires-python = "<4.0,>=3.9,!=3.13.4"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Environment :: X11 Applications :: GTK",
