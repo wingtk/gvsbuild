@@ -65,6 +65,7 @@ class Ffmpeg(Tarball, Project):
             self.install(r".\libavformat\avformat-61.pdb bin")
             self.install(r".\libavutil\avutil-58.pdb bin")
             self.install(r".\libswscale\libswscale-7.pdb bin")
+            self.install(r".\libswresample\swresample-4.pdb bin")
 
         self.install_pc_files()
         self.install(r".\COPYING.LGPLv2.1 " r".\COPYING.LGPLv3 " r"share\doc\ffmpeg")
@@ -78,6 +79,7 @@ class Ffmpeg(Tarball, Project):
             "avformat.lib",
             "avutil.lib",
             "swscale.lib",
+            "swresample.lib",
         ]:
             self.builder.exec_msys(
                 ["mv", lib, "../lib/"],
