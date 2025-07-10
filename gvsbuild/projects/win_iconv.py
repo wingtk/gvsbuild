@@ -32,6 +32,9 @@ class WinIconv(Tarball, CmakeProject):
                 "cmake",
                 "ninja",
             ],
+            patches=[
+                "0001-CMakeLists.txt-Remove-debug-postfix.patch",
+            ],
         )
 
     def build(self):
