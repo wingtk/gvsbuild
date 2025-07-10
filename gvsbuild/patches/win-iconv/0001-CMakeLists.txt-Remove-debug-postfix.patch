@@ -1,0 +1,24 @@
+From 3e4f6c2280e76cc638b2a92ad533bc8ef5464165 Mon Sep 17 00:00:00 2001
+From: Alessandro Bono <abono@amazon.com>
+Date: Thu, 10 Jul 2025 12:16:47 +0200
+Subject: [PATCH] CMakeLists.txt: Remove debug postfix
+
+---
+ CMakeLists.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1656fa9..7b1644c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,7 +1,6 @@
+ cmake_minimum_required(VERSION 3.10)
+ project(win_iconv)
+ 
+-set(CMAKE_DEBUG_POSTFIX "d")
+ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR})
+ 
+ find_package(Doxygen)
+-- 
+2.47.1.windows.2
+
