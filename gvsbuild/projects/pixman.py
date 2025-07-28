@@ -25,9 +25,9 @@ class Pixman(Tarball, Meson):
             self,
             "pixman",
             repository="https://gitlab.freedesktop.org/pixman/pixman",
-            version="0.46.2",
+            version="0.46.4",
             archive_url="http://cairographics.org/releases/pixman-{version}.tar.gz",
-            hash="3e0de5ba6e356916946a3d958192f15505dcab85134771bfeab4ce4e29bbd733",
+            hash="d09c44ebc3bd5bee7021c79f922fe8fb2fb57f7320f55e97ff9914d2346a591c",
             dependencies=["ninja", "meson"],
         )
 
