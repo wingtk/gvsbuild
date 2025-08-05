@@ -26,6 +26,7 @@ class X264(GitRepo, Project):
         Project.__init__(
             self,
             "x264",
+            repository="http://git.videolan.org/git/x264",
             repo_url="http://git.videolan.org/git/x264.git",
             fetch_submodules=False,
             dependencies=["nasm", "msys2"],

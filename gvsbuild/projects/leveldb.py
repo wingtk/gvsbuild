@@ -25,6 +25,7 @@ class LevelDB(Tarball, CmakeProject):
             self,
             "leveldb",
             version="1.23",
+            repository="https://github.com/google/leveldb",
             archive_url="https://github.com/google/leveldb/archive/tags/{version}.tar.gz",
             archive_filename="leveldb-{version}.tar.gz",
             hash="fa183b494f3ffe418a6804a57dfc0670080fbb0bcd1949cc4527d9b0077887a8",

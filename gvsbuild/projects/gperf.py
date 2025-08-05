@@ -25,6 +25,7 @@ class Gperf(Tarball, Meson):
             self,
             "gperf",
             version="3.1",
+            repository="https://savannah.gnu.org/git/?group=gperf",
             archive_url="https://download-mirror.savannah.gnu.org/releases/gperf/gperf-{version}.tar.gz",
             dependencies=["ninja"],
         )

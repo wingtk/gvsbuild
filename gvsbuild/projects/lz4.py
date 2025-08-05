@@ -25,6 +25,7 @@ class Lz4(Tarball, Meson):
             self,
             "lz4",
             version="1.10.0",
+            repository="https://github.com/lz4/lz4",
             archive_url="https://github.com/lz4/lz4/archive/v{version}.tar.gz",
             archive_filename="lz4-{version}.tar.gz",
             hash="537512904744b35e232912055ccf8ec66d768639ff3abe5788d90d792ec5f48b",
