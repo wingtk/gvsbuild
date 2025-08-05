@@ -26,6 +26,7 @@ class PkgConf(Tarball, Meson):
             "pkgconf",
             prj_dir="pkgconf",
             version="2.5.1",
+            repository="https://github.com/pkgconf/pkgconf",
             archive_url="https://distfiles.ariadne.space/pkgconf/pkgconf-{version}.tar.gz",
             hash="ab89d59810d9cad5dfcd508f25efab8ea0b1c8e7bad91c2b6351f13e6a5940d8",
             dependencies=["ninja", "meson"],

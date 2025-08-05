@@ -24,6 +24,7 @@ class Lmdb(GitRepo, Meson):
         Project.__init__(
             self,
             "lmdb",
+            repository="https://github.com/wingtk/lmdb",
             repo_url="https://github.com/wingtk/lmdb.git",
             fetch_submodules=False,
             tag="mdb.RE/0.9-meson",

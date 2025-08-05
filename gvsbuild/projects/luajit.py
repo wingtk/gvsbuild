@@ -24,6 +24,7 @@ class Luajit(GitRepo, Project):
             self,
             "luajit",
             version="2.1.1692716794",
+            repository="https://github.com/LuaJIT/LuaJIT",
             repo_url="https://github.com/LuaJIT/LuaJIT",
             fetch_submodules=False,
             tag="03c31124cc3b521ef54fe398e10fa55660a5057d",

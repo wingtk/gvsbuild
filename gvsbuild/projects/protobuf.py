@@ -25,6 +25,7 @@ class Protobuf(Tarball, CmakeProject):
             self,
             "protobuf",
             version="25.1",
+            repository="https://github.com/protocolbuffers/protobuf",
             archive_url="https://github.com/protocolbuffers/protobuf/releases/download/v{version}/protobuf-{version}.tar.gz",
             hash="9bd87b8280ef720d3240514f884e56a712f2218f0d693b48050c836028940a42",
             dependencies=[
@@ -53,6 +54,7 @@ class ProtobufC(Tarball, CmakeProject):
             self,
             "protobuf-c",
             version="1.5.2",
+            repository="https://github.com/protobuf-c/protobuf-c",
             archive_url="https://github.com/protobuf-c/protobuf-c/releases/download/v{version}/protobuf-c-{version}.tar.gz",
             hash="e2c86271873a79c92b58fef7ebf8de1aa0df4738347a8bd5d4e65a80a16d0d24",
             dependencies=[

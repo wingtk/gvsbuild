@@ -26,6 +26,7 @@ class OpenSSL(Tarball, Project):
             self,
             "openssl",
             version="3.5.3",
+            repository="https://github.com/openssl/openssl",
             archive_url="https://github.com/openssl/openssl/releases/download/openssl-{version}/openssl-{version}.tar.gz",
             hash="c9489d2abcf943cdc8329a57092331c598a402938054dc3a22218aea8a8ec3bf",
             dependencies=[
@@ -65,6 +66,7 @@ class OpenSSLFips(Tarball, Project):
             self,
             "openssl-fips",
             version="3.1.2",
+            repository="https://github.com/openssl/openssl",
             archive_url="https://www.openssl.org/source/old/{major}.{minor}/openssl-{version}.tar.gz",
             hash="a0ce69b8b97ea6a35b96875235aa453b966ba3cba8af2de23657d8b6767d6539",
             dependencies=[

@@ -24,6 +24,7 @@ class Lgi(GitRepo, Meson):
         Project.__init__(
             self,
             "lgi",
+            repository="https://github.com/pavouk/lgi",
             repo_url="https://github.com/pavouk/lgi.git",
             fetch_submodules=False,
             tag="4a12286ffd5ec162a50efeff3c4896d6cd14c43c",

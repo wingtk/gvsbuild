@@ -25,6 +25,7 @@ class WinIconv(Tarball, CmakeProject):
             self,
             "win-iconv",
             version="0.0.10",
+            repository="https://github.com/win-iconv/win-iconv",
             archive_url="https://github.com/win-iconv/win-iconv/archive/v{version}.tar.gz",
             archive_filename="win-iconv-{version}.tar.gz",
             hash="58493387c7c9c70d61e711ec2feec5db0a59d164556642d2b427dde4ef756bc1",
