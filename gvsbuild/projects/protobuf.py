@@ -61,9 +61,6 @@ class ProtobufC(Tarball, CmakeProject):
                 "protobuf",
                 "ninja",
             ],
-            patches=[
-                "0001-CMakeList.txt-Remove-double-dashes.patch",
-            ],
         )
 
     def build(self):
