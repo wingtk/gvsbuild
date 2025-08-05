@@ -25,6 +25,7 @@ class LibjpegTurbo(Tarball, CmakeProject):
             self,
             "libjpeg-turbo",
             version="3.1.1",
+            repository="https://github.com/libjpeg-turbo/libjpeg-turbo",
             archive_url="https://github.com/libjpeg-turbo/libjpeg-turbo/releases/download/{version}/libjpeg-turbo-{version}.tar.gz",
             hash="aadc97ea91f6ef078b0ae3a62bba69e008d9a7db19b34e4ac973b19b71b4217c",
             dependencies=[
