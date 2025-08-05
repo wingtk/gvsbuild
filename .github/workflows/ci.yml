@@ -89,7 +89,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, 'skip ci')"
     strategy:
       matrix:
-        package-set: ['GTK3', 'GTK4']
+        package-set: ['GTK3', 'GTK4', 'Others']
 
     steps:
       - name: Harden Runner
@@ -125,12 +125,18 @@ jobs:
         run: > # Use -j2 option to prevent out of memory errors with GitHub Action runners
           uv run gvsbuild build --ninja-opts -j2 --enable-gi --py-wheel gtk4 libadwaita gtksourceview5 pygobject
           adwaita-icon-theme gtkmm
+      - name: Build Others
+        if: matrix.package-set == 'Others'
+        run: > # Use -j2 option to prevent out of memory errors with GitHub Action runners
+          uv run gvsbuild build --ninja-opts -j2 --enable-gi --py-wheel protobuf-c
       - name: Copy wheel files
+        if: matrix.package-set != 'Others'
         run: |
           New-Item "C:\gtk-build\gtk\x64\release\wheels" -ItemType "directory"
           Copy-Item (Resolve-Path C:\gtk-build\build\x64\release\pygobject\dist\PyGObject*.whl) "C:\gtk-build\gtk\x64\release\wheels"
           Copy-Item (Resolve-Path C:\gtk-build\build\x64\release\pycairo\dist\pycairo*.whl) "C:\gtk-build\gtk\x64\release\wheels"
       - name: Archive GTK runtime
+        if: matrix.package-set != 'Others'
         run: 7z a -tzip ${{ matrix.package-set }}_Gvsbuild_${{ github.sha }}_x64.zip C:\gtk-build\gtk\x64\release\*
       - name: Upload ${{ matrix.package-set }}_Gvsbuild-${{ github.sha }}_x64.zip
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
@@ -138,14 +144,14 @@ jobs:
           name: ${{ matrix.package-set }}_Gvsbuild_${{ github.sha }}_x64.zip
           path: ${{ matrix.package-set }}_Gvsbuild_${{ github.sha }}_x64.zip
       - name: Upload Release Assets
-        if: github.event_name == 'release'
+        if: github.event_name == 'release' && matrix.package-set != 'Others'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           mv ${{ matrix.package-set }}_Gvsbuild_${{ github.sha }}_x64.zip ${{ matrix.package-set }}_Gvsbuild_${{ github.event.release.tag_name }}_x64.zip
           gh release upload ${{ github.event.release.tag_name }} "${{ matrix.package-set }}_Gvsbuild_${{ github.event.release.tag_name }}_x64.zip"
       - name: Cleanup Zip Files
-        if: github.event_name == 'release'
+        if: github.event_name == 'release' && matrix.package-set != 'Others'
         run: rm ${{ matrix.package-set }}_Gvsbuild_${{ github.event.release.tag_name }}_x64.zip
       - name: Create Source Dist and Wheel
         if: matrix.package-set == 'GTK4'
