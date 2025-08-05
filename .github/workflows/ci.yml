@@ -128,7 +128,8 @@ jobs:
       - name: Build Others
         if: matrix.package-set == 'Others'
         run: > # Use -j2 option to prevent out of memory errors with GitHub Action runners
-          uv run gvsbuild build --ninja-opts -j2 --enable-gi --py-wheel protobuf-c
+          uv run gvsbuild build --ninja-opts -j2 --enable-gi --py-wheel protobuf-c gst-plugins-good gst-plugins-bad
+          gst-plugins-ugly
       - name: Copy wheel files
         if: matrix.package-set != 'Others'
         run: |
