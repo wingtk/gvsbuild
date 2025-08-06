@@ -40,10 +40,8 @@ class GLibBase(Tarball, Meson):
             ],
             patches=[
                 "001-glib-package-installation-directory.patch",
-                "002-gsocket-windows-check-event-before-calling-WSAEnumNe.patch",
-                "003-gpoll-windows-use-a-threadpool-when-polling-large-nu.patch",
-                # https://gitlab.gnome.org/GNOME/glib/-/merge_requests/4391
-                "004-fix-python-path-can-contain-spaces.patch",
+                "0001-gsocket-windows-check-event-before-calling-WSAEnumNe.patch",
+                "0001-gpoll-windows-use-a-threadpool-when-polling-large-nu.patch",
             ],
         )
         self.add_param("-Dman-pages=disabled")
@@ -74,10 +72,8 @@ class GLib(Tarball, Meson):
             dependencies=["glib-base"],
             patches=[
                 "001-glib-package-installation-directory.patch",
-                "002-gsocket-windows-check-event-before-calling-WSAEnumNe.patch",
-                "003-gpoll-windows-use-a-threadpool-when-polling-large-nu.patch",
-                # https://gitlab.gnome.org/GNOME/glib/-/merge_requests/4391
-                "004-fix-python-path-can-contain-spaces.patch",
+                "0001-gsocket-windows-check-event-before-calling-WSAEnumNe.patch",
+                "0001-gpoll-windows-use-a-threadpool-when-polling-large-nu.patch",
             ],
         )
         self.add_param("-Dman-pages=disabled")
