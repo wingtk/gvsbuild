@@ -40,8 +40,6 @@ class GLibBase(Tarball, Meson):
             ],
             patches=[
                 "001-glib-package-installation-directory.patch",
-                # https://gitlab.gnome.org/GNOME/glib/-/merge_requests/4582
-                "002-remove-dll-export-check.patch",
             ],
         )
         self.add_param("-Dman-pages=disabled")
@@ -72,8 +70,6 @@ class GLib(Tarball, Meson):
             dependencies=["glib-base"],
             patches=[
                 "001-glib-package-installation-directory.patch",
-                # https://gitlab.gnome.org/GNOME/glib/-/merge_requests/4582
-                "002-remove-dll-export-check.patch",
             ],
         )
         self.add_param("-Dman-pages=disabled")
