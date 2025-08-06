@@ -24,11 +24,11 @@ class GLibBase(Tarball, Meson):
         Meson.__init__(
             self,
             "glib-base",
-            version="2.84.3",
+            version="2.82.2",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/glib",
             archive_url="https://download.gnome.org/sources/glib/{major}.{minor}/glib-{version}.tar.xz",
-            hash="aa4f87c3225bf57ca85f320888f7484901a17934ca37023c3bd8435a72db863e",
+            hash="ab45f5a323048b1659ee0fbda5cecd94b099ab3e4b9abf26ae06aeb3e781fd63",
             dependencies=[
                 "ninja",
                 "meson",
@@ -40,6 +40,8 @@ class GLibBase(Tarball, Meson):
             ],
             patches=[
                 "001-glib-package-installation-directory.patch",
+                "0001-gsocket-windows-check-event-before-calling-WSAEnumNe.patch",
+                "0001-gpoll-windows-use-a-threadpool-when-polling-large-nu.patch",
             ],
         )
         self.add_param("-Dman-pages=disabled")
@@ -62,14 +64,16 @@ class GLib(Tarball, Meson):
         Meson.__init__(
             self,
             "glib",
-            version="2.84.3",
+            version="2.82.2",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/glib",
             archive_url="https://download.gnome.org/sources/glib/{major}.{minor}/glib-{version}.tar.xz",
-            hash="aa4f87c3225bf57ca85f320888f7484901a17934ca37023c3bd8435a72db863e",
+            hash="ab45f5a323048b1659ee0fbda5cecd94b099ab3e4b9abf26ae06aeb3e781fd63",
             dependencies=["glib-base"],
             patches=[
                 "001-glib-package-installation-directory.patch",
+                "0001-gsocket-windows-check-event-before-calling-WSAEnumNe.patch",
+                "0001-gpoll-windows-use-a-threadpool-when-polling-large-nu.patch",
             ],
         )
         self.add_param("-Dman-pages=disabled")
@@ -94,11 +98,11 @@ class GLibNetworking(Tarball, Meson):
         Project.__init__(
             self,
             "glib-networking",
-            version="2.80.1",
+            version="2.80.0",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/glib-networking",
             archive_url="https://download.gnome.org/sources/glib-networking/{major}.{minor}/glib-networking-{version}.tar.xz",
-            hash="b80e2874157cd55071f1b6710fa0b911d5ac5de106a9ee2a4c9c7bee61782f8e",
+            hash="d8f4f1aab213179ae3351617b59dab5de6bcc9e785021eee178998ebd4bb3acf",
             dependencies=[
                 "pkgconf",
                 "ninja",
@@ -107,7 +111,9 @@ class GLibNetworking(Tarball, Meson):
                 "openssl",
                 "gsettings-desktop-schemas",
             ],
-            patches=[],
+            patches=[
+                "add-null-check-in-complete_handshake.patch",
+            ],
         )
 
     def build(self):
