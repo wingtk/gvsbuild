@@ -108,7 +108,6 @@ class Project(Generic[P]):
         self.to_add = True
         self.extra_env = {}
         self.tag = None
-        self.repo_url = None
         self.extra_opts = None
 
         for k in kwargs:
@@ -118,7 +117,7 @@ class Project(Generic[P]):
             Project.name_len = len(self.name)
 
         if not self.version:
-            self.version = f"git/{self.tag}" if self.repo_url else "undefined"
+            self.version = f"git/{self.tag}" if self.tag else "undefined"
         version_params = {
             "version": self.version,
             "tag": self.tag,
