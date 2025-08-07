@@ -506,9 +506,9 @@ class GitRepo:
         return self.create_zip()
 
     def _clone_and_checkout(self, dest):
-        log.start(f"(git) Cloning {self.repo_url} to {dest}")
+        log.start(f"(git) Cloning {self.repository} to {dest}")
 
-        self.builder.exec_msys(f"git clone {self.repo_url} {dest}")
+        self.builder.exec_msys(f"git clone {self.repository} {dest}")
 
         if self.tag:
             self.builder.exec_msys(f"git checkout -f {self.tag}", working_dir=dest)
