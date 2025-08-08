@@ -38,6 +38,7 @@ class Fribidi(Tarball, Meson):
             self,
             "fribidi",
             version="1.0.16",
+            repository="https://github.com/fribidi/fribidi",
             archive_url="https://github.com/fribidi/fribidi/releases/download/v{version}/fribidi-{version}.tar.xz",
             hash="1b1cde5b235d40479e91be2f0e88a309e3214c8ab470ec8a2744d82a5a9ea05c",
             dependencies=["ninja", "meson"],

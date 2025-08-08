@@ -28,6 +28,7 @@ class Libarchive(Tarball, CmakeProject):
             self,
             "libarchive",
             version="3.8.1",
+            repository="https://github.com/libarchive/libarchive",
             archive_url="https://libarchive.org/downloads/libarchive-{version}.tar.xz",
             hash="19f917d42d530f98815ac824d90c7eaf648e9d9a50e4f309c812457ffa5496b5",
             dependencies=[
