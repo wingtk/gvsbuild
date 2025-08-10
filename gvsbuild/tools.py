@@ -28,7 +28,7 @@ class ToolCargo(Tool):
         Tool.__init__(
             self,
             "cargo",
-            version="1.88.0",
+            version="1.89.0",
             repository="rust-lang/rust",
             archive_url="https://win.rustup.rs/x86_64",
             archive_filename="rustup-init.exe",
@@ -210,7 +210,7 @@ class ToolGo(Tool):
         Tool.__init__(
             self,
             "go",
-            version="1.24.5",
+            version="1.24.6",
             repository="https://github.com/golang/go",
             archive_url="https://go.dev/dl/go{version}.windows-amd64.zip",
             hash="658f432689106d4e0a401a2ebb522b1213f497bc8357142fe8def18d79f02957",
