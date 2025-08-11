@@ -25,7 +25,7 @@ class Expat(Tarball, CmakeProject):
             self,
             "expat",
             version="2.7.1",
-            repository="libexpat",
+            repository="https://github.com/libexpat/libexpat",
             archive_url="https://github.com/libexpat/libexpat/releases/download/R_{major}_{minor}_{micro}/expat-{version}.tar.xz",
             hash="354552544b8f99012e5062f7d570ec77f14b412a3ff5c7d8d0dae62c0d217c30",
             dependencies=["cmake", "ninja"],
