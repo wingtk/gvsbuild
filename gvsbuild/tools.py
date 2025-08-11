@@ -93,10 +93,10 @@ class ToolMeson(Tool):
         Tool.__init__(
             self,
             "meson",
-            version="1.8.3",
+            version="1.8.2",  # Regression with 1.8.3: https://github.com/mesonbuild/meson/issues/14896
             archive_url="https://github.com/mesonbuild/meson/archive/refs/tags/{version}.tar.gz",
             archive_filename="meson-{version}.tar.gz",
-            hash="bda9d0cea7bec46b244534264d47bab86eb30e233f7ab6ec3e14c7380fd4bfc3",
+            hash="6b878fb0f6f0318cbd54e13539f89a1a8305791668e8e93ffd59d82722888dac",
             dir_part="meson-{version}",
             exe_name="meson.py",
         )
