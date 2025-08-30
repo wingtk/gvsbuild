@@ -41,7 +41,6 @@ configure_cmd[idx++]="--enable-hwaccel=hevc_nvdec"
 configure_cmd[idx++]="--disable-programs"
 configure_cmd[idx++]="--disable-avdevice"
 configure_cmd[idx++]="--disable-swresample"
-configure_cmd[idx++]="--disable-postproc"
 
 if [ "$build_type" = "debug" ]; then
     configure_cmd[idx++]="--enable-debug"
