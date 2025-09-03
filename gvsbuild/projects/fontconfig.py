@@ -24,11 +24,10 @@ class Fontconfig(Tarball, Meson):
         Project.__init__(
             self,
             "fontconfig",
-            version="2.16.2",
-            lastversion_even=True,
+            version="2.17.1",
             repository="https://gitlab.freedesktop.org/fontconfig/fontconfig",
             archive_url="https://gitlab.freedesktop.org/api/v4/projects/890/packages/generic/fontconfig/{version}/fontconfig-{version}.tar.xz",
-            hash="165b8fd2a119864c87464b233986c4a1bc09efb09c65de1ca40cc1e85ffb77e2",
+            hash="9f5cae93f4fffc1fbc05ae99cdfc708cd60dfd6612ffc0512827025c026fa541",
             dependencies=["freetype", "gperf", "expat"],
         )
         self.add_param("-Dtests=disabled")
