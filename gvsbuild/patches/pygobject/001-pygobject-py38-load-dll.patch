@@ -1,6 +1,3 @@
-From 6047c54d2a28b6e9d1561ab353aed09e3ba23762 Mon Sep 17 00:00:00 2001
-From: Dan Yeaw <dan@yeaw.me>
-Date: Sat, 10 Sep 2022 09:36:52 -0400
 Subject: [PATCH] Windows: fix DLL not found error in Python 3.8+
 
 This upstreams a patch from gvsbuild. In Python 3.8, a new
@@ -10,25 +7,29 @@ successfully with MSVC, and add it to the Path, INCLUDE, and LIB, I am
 still not able to pip install PyGObject in Windows. This closes #545 by
 finding the first GTK DLL location from the Windows PATH variable.
 ---
- gi/__init__.py | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
-
+Index: gi/__init__.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
 diff --git a/gi/__init__.py b/gi/__init__.py
-index 826489a16..afba7884f 100644
---- a/gi/__init__.py
-+++ b/gi/__init__.py
-@@ -23,6 +23,7 @@ from pkgutil import extend_path
+--- a/gi/__init__.py	(revision 6194329e36cc421c4d9d18a4c155f8a0ed57840c)
++++ b/gi/__init__.py	(date 1757177920641)
+@@ -21,6 +21,7 @@
  __path__ = extend_path(__path__, __name__)
-
+ 
  import sys
 +import sysconfig
  import os
  import importlib
  import types
-@@ -36,8 +37,23 @@ _static_binding_error = ('When using gi.repository you must not import static '
- if 'gobject' in sys.modules:
+@@ -36,9 +37,24 @@
+ if "gobject" in sys.modules:
      raise ImportError(_static_binding_error)
-
+ 
+-
+-from . import _gi
+-from ._gi import _API as _API
 +# Windows official Python requires gi DLLs to be loaded manually
 +if sysconfig.get_platform().startswith("win"):
 +    env_path = os.environ.get("PATH", "").split(os.pathsep)
@@ -45,11 +46,8 @@ index 826489a16..afba7884f 100644
 +
 +else:
 +    from . import _gi
-
--from . import _gi
- from ._gi import _API  # noqa: F401
++
++from ._gi import _API
  from ._gi import Repository
- from ._gi import PyGIDeprecationWarning  # noqa: F401
---
-GitLab
-
+ from ._gi import PyGIDeprecationWarning as PyGIDeprecationWarning
+ from ._gi import PyGIWarning as PyGIWarning
