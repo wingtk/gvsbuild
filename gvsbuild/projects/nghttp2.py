@@ -25,6 +25,7 @@ class Nghttp2(Tarball, CmakeProject):
             self,
             "nghttp2",
             version="1.67.0",
+            repository="https://github.com/nghttp2/nghttp2",
             archive_url="https://github.com/nghttp2/nghttp2/releases/download/v{version}/nghttp2-{version}.tar.xz",
             hash="d21cf317837f5176b76bed7eded54a4e4583dfa378c9f915913329d9d4a1be86",
             dependencies=[

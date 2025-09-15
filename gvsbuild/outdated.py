@@ -40,11 +40,16 @@ def outdated():
     try:
         for project in projects.values():
             try:
-                latest_version = lastversion.latest(
-                    repo=project.repository or project.name,
-                    major=project.lastversion_major,
-                    even=project.lastversion_even,
-                )
+                for repo in filter(None, [project.repository, project.name]):
+                    try:
+                        latest_version = lastversion.latest(
+                            repo=repo,
+                            major=project.lastversion_major,
+                            even=project.lastversion_even,
+                        )
+                        break
+                    except lastversion.exceptions.BadProjectError:
+                        continue
 
                 if not latest_version:
                     print(

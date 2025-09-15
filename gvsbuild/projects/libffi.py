@@ -25,6 +25,7 @@ class Libffi(Tarball, Meson):
             self,
             "libffi",
             version="3.5.2",
+            repository="https://github.com/libffi/libffi",
             archive_url="https://github.com/libffi/libffi/releases/download/v{version}/libffi-{version}.tar.gz",
             hash="f3a3082a23b37c293a4fcd1053147b371f2ff91fa7ea1b2a52e335676bac82dc",
             dependencies=["ninja", "meson"],

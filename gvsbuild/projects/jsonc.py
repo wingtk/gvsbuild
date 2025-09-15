@@ -25,6 +25,7 @@ class Jsonc(Tarball, CmakeProject):
             self,
             "json-c",
             version="0.18.20240915",
+            repository="https://github.com/json-c/json-c",
             archive_url="https://github.com/json-c/json-c/archive/json-c-{major}.{minor}-{micro}.tar.gz",
             hash="3112c1f25d39eca661fe3fc663431e130cc6e2f900c081738317fba49d29e298",
         )

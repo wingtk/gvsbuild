@@ -26,7 +26,7 @@ class Gettext(Tarball, Project):
             self,
             "gettext",
             version="0.21",
-            repository="autotools-mirror/gettext",
+            repository="https://github.com/autotools-mirror/gettext",
             archive_url="http://ftp.gnu.org/pub/gnu/gettext/gettext-{version}.tar.xz",
             hash="d20fcbb537e02dcf1383197ba05bd0734ef7bf5db06bdb241eb69b7d16b73192",
             dependencies=["win-iconv"],

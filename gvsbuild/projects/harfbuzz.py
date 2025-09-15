@@ -25,6 +25,7 @@ class Harfbuzz(Tarball, Meson):
             self,
             "harfbuzz",
             version="11.4.5",
+            repository="https://github.com/harfbuzz/harfbuzz",
             archive_url="https://github.com/harfbuzz/harfbuzz/releases/download/{version}/harfbuzz-{version}.tar.xz",
             hash="0f052eb4ab01d8bae98ba971c954becb32be57d7250f18af343b1d27892e03fa",
             dependencies=["meson", "cmake", "freetype", "cairo", "pkgconf", "glib"],
