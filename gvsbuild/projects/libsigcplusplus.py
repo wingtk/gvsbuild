@@ -53,6 +53,7 @@ class Libsigcplusplus2(Tarball, Meson):
             prj_dir="libsigc++-2.0",
             version="2.12.1",
             lastversion_even=True,
+            lastversion_major=2,
             repository="https://github.com/libsigcplusplus/libsigcplusplus",
             archive_url="https://github.com/libsigcplusplus/libsigcplusplus/releases/download/{version}/libsigc++-{version}.tar.xz",
             hash="a9dbee323351d109b7aee074a9cb89ca3e7bcf8ad8edef1851f4cf359bd50843",

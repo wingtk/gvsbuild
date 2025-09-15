@@ -28,7 +28,7 @@ class ToolCargo(Tool):
         Tool.__init__(
             self,
             "cargo",
-            version="1.88.0",
+            version="1.89.0",
             repository="https://github.com/rust-lang/rust",
             archive_url="https://win.rustup.rs/x86_64",
             archive_filename="rustup-init.exe",
@@ -66,10 +66,10 @@ class ToolCmake(Tool):
         Tool.__init__(
             self,
             "cmake",
-            version="4.0.3",
+            version="4.1.1",
             repository="https://gitlab.kitware.com/cmake/cmake",
             archive_url="https://github.com/Kitware/CMake/releases/download/v{version}/cmake-{version}-windows-x86_64.zip",
-            hash="b59a31dfbfa376a4aaea9ff560ff2b29f78ee5f9fb15447fc71ae7bf9fea9379",
+            hash="6f531bd4ba31a7aa0c3511082b544d306df50e7aecfbeef8bdbc1dd770736993",
             dir_part="cmake-{version}-windows-x86_64",
         )
 
@@ -94,11 +94,11 @@ class ToolMeson(Tool):
         Tool.__init__(
             self,
             "meson",
-            version="1.8.3",
+            version="1.8.2",  # Regression with 1.8.3: https://github.com/mesonbuild/meson/issues/14896
             repository="https://github.com/mesonbuild/meson",
             archive_url="https://github.com/mesonbuild/meson/archive/refs/tags/{version}.tar.gz",
             archive_filename="meson-{version}.tar.gz",
-            hash="bda9d0cea7bec46b244534264d47bab86eb30e233f7ab6ec3e14c7380fd4bfc3",
+            hash="6b878fb0f6f0318cbd54e13539f89a1a8305791668e8e93ffd59d82722888dac",
             dir_part="meson-{version}",
             exe_name="meson.py",
         )
@@ -215,10 +215,10 @@ class ToolGo(Tool):
         Tool.__init__(
             self,
             "go",
-            version="1.24.5",
+            version="1.25.1",
             repository="https://github.com/golang/go",
             archive_url="https://go.dev/dl/go{version}.windows-amd64.zip",
-            hash="658f432689106d4e0a401a2ebb522b1213f497bc8357142fe8def18d79f02957",
+            hash="89efb4f9b30812eee083cc1770fdd2913c14d301064f6454851428f9707d190b",
             dir_part="go-{version}",
         )
 
