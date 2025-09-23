@@ -35,6 +35,7 @@ class Libadwaita(Tarball, Meson):
                 "pkgconf",
                 "glib",
                 "gtk4",
+                "sassc",
             ],
             patches=[
                 "0001-remove-appstream-dependency.patch",
