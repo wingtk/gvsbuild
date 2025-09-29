@@ -25,7 +25,7 @@ class Libssh(Tarball, CmakeProject):
             self,
             "libssh",
             version="0.9.3",
-            repository="libssh/libssh-mirror",
+            repository="https://git.libssh.org/projects/libssh.git",
             archive_url="https://www.libssh.org/files/{major}.{minor}/libssh-{version}.tar.xz",
             hash="2c8b5f894dced58b3d629f16f3afa6562c20b4bdc894639163cf657833688f0c",
             dependencies=["zlib", "openssl", "cmake", "ninja"],
@@ -43,7 +43,7 @@ class Libssh2(Tarball, CmakeProject):
             self,
             "libssh2",
             version="1.11.1",
-            repository="libssh2/libssh2",
+            repository="https://github.com/libssh2/libssh2",
             archive_url="https://www.libssh2.org/download/libssh2-{version}.tar.gz",
             hash="d9ec76cbe34db98eec3539fe2c899d26b0c837cb3eb466a56b0f109cabf658f7",
             dependencies=[
