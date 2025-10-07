@@ -26,11 +26,11 @@ class Libvpx(Tarball, Project):
         Project.__init__(
             self,
             "libvpx",
-            version="1.15.1",
+            version="1.15.0",
             repository="https://github.com/webmproject/libvpx",
             archive_url="https://github.com/webmproject/libvpx/archive/v{version}.tar.gz",
             archive_filename="libvpx-v{version}.tar.gz",
-            hash="6cba661b22a552bad729bd2b52df5f0d57d14b9789219d46d38f73c821d3a990",
+            hash="e935eded7d81631a538bfae703fd1e293aad1c7fd3407ba00440c95105d2011e",
             dependencies=["nasm", "msys2", "libyuv", "perl"],
             patches=[
                 "0006-gen_msvs_vcxproj.sh-Select-current-Windows-SDK-if-av.patch",
