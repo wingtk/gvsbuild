@@ -66,10 +66,10 @@ class ToolCmake(Tool):
         Tool.__init__(
             self,
             "cmake",
-            version="4.1.1",
+            version="4.1.2",
             repository="https://gitlab.kitware.com/cmake/cmake",
             archive_url="https://github.com/Kitware/CMake/releases/download/v{version}/cmake-{version}-windows-x86_64.zip",
-            hash="6f531bd4ba31a7aa0c3511082b544d306df50e7aecfbeef8bdbc1dd770736993",
+            hash="82730741149681597510a4bc7095da1460b472dac24eaf9c23ad7440f47753ab",
             dir_part="cmake-{version}-windows-x86_64",
         )
 
@@ -138,10 +138,10 @@ class ToolNasm(Tool):
         Tool.__init__(
             self,
             "nasm",
-            version="2.16.03",
+            version="3.00",
             repository="https://github.com/netwide-assembler/nasm",
-            archive_url="https://github.com/xmake-mirror/nasm/releases/download/nasm-{version}/nasm-{version}-win64.zip",
-            hash="3ee4782247bcb874378d02f7eab4e294a84d3d15f3f6ee2de2f47a46aa7226e6",
+            archive_url="https://www.nasm.us/pub/nasm/releasebuilds/{version}/win64/nasm-{version}-win64.zip",
+            hash="bec5259760c1db38bcce247ab02eff567666486789574161a7a1aa7da9cf6af7",
             dir_part="nasm-{version}",
             exe_name="nasm.exe",
         )
@@ -164,11 +164,11 @@ class ToolNinja(Tool):
         Tool.__init__(
             self,
             "ninja",
-            version="1.12.1",
+            version="1.13.1",
             repository="https://github.com/ninja-build/ninja",
             archive_url="https://github.com/ninja-build/ninja/releases/download/v{version}/ninja-win.zip",
             archive_filename="ninja-win-{version}.zip",
-            hash="f550fec705b6d6ff58f2db3c374c2277a37691678d6aba463adcbb129108467a",
+            hash="26a40fa8595694dec2fad4911e62d29e10525d2133c9a4230b66397774ae25bf",
             dir_part="ninja-{version}",
             exe_name="ninja.exe",
         )
