@@ -26,4 +26,4 @@ def test_outdated(typer_app, runner):
 def test_extra_arg(typer_app, runner):
     result = runner.invoke(typer_app, ["outdated", "extra"])
     assert result.exit_code == 2
-    assert "Got unexpected extra" in result.stdout
+    assert "Got unexpected extra" in result.stderr
