@@ -26,14 +26,16 @@ class PyGObject(Tarball, Meson):
         Project.__init__(
             self,
             "pygobject",
-            version="3.54.2",
+            version="3.54.3",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/pygobject",
             archive_url="https://download.gnome.org/sources/pygobject/{major}.{minor}/pygobject-{version}.tar.gz",
-            hash="03cffeb49d8a1879b621d8f606ac904218019a0ae699b1cd3780a8ee611e696b",
+            hash="a8da09134a0f7d56491cf2412145e35aa74e91d760e8f337096a1cda0b92bae7",
             dependencies=["pycairo", "gobject-introspection", "libffi"],
             patches=[
                 "001-pygobject-py38-load-dll.patch",
+                # https://gitlab.gnome.org/GNOME/pygobject/-/merge_requests/463
+                "002-fix-syntax-error.patch",
             ],
         )
 
