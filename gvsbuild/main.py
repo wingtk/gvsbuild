@@ -44,11 +44,16 @@ from gvsbuild.outdated import outdated
 
 rich.reconfigure(markup=False)
 
-app = App(help="Build GTK for Windows")
+app = App(
+    help="Build GTK for Windows",
+    help_on_error=True,
+)
 app.command(build)
 app.command(outdated)
 app.command(name="list")(list_)
 app.command(deps)
+
+app.register_install_completion_command()
 
 
 def run():
