@@ -15,22 +15,6 @@
 
 """gvsbuild deps print / .gv graph."""
 
-# Verify we can import from the script directory
-try:
-    import gvsbuild.utils.utils
-except ImportError:
-    # We are probably using an embedded installation
-    print(
-        "Error importing utility (running the embedded interpreter ?), fixing paths ..."
-    )
-    import os
-    import sys
-
-    # Get the script dir
-    script_dir = os.path.dirname(os.path.realpath(sys.argv[0]))
-    # and add it at the beginning, emulating the standard python startup
-    sys.path.insert(0, script_dir)
-
 import gvsbuild.groups  # noqa: F401
 import gvsbuild.projects  # noqa: F401
 import gvsbuild.tools  # noqa: F401

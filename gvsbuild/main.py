@@ -16,30 +16,15 @@
 
 """Main build script."""
 
-# Verify we can import from the script directory
 import rich
 from cyclopts import App
-
-from gvsbuild.deps import deps
-from gvsbuild.list import list_
-
-try:
-    import gvsbuild.utils.utils  # noqa: F401
-except ImportError:
-    # We are probably using an embedded installation
-    print("Error importing utility, fixing paths ...")
-    import os
-    import sys
-
-    # Get the script dir
-    script_dir = os.path.dirname(os.path.realpath(sys.argv[0]))
-    # and add it at the beginning, emulating the standard python startup
-    sys.path.insert(0, script_dir)
 
 import gvsbuild.groups  # noqa: F401
 import gvsbuild.projects  # noqa: F401
 import gvsbuild.tools  # noqa: F401
 from gvsbuild.build import build
+from gvsbuild.deps import deps
+from gvsbuild.list import list_
 from gvsbuild.outdated import outdated
 
 rich.reconfigure(markup=False)
