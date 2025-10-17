@@ -12,9 +12,6 @@
 #
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
-import sys
-
-import pytest
 
 
 def test_build_help(app, runner, console):
@@ -46,9 +43,6 @@ def test_no_project(app, runner):
     )
 
 
-@pytest.mark.skipif(
-    not sys.platform.startswith("win"), reason="windll only available on Windows"
-)
 def test_platform(tmp_dir, app, runner):
     # This test just ensures the command can be invoked with platform argument
     # Actual building may fail due to missing tools/dependencies in test environment
