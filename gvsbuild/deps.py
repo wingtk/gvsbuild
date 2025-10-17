@@ -15,8 +15,6 @@
 
 """gvsbuild deps print / .gv graph."""
 
-import typer
-
 # Verify we can import from the script directory
 try:
     import gvsbuild.utils.utils
@@ -185,39 +183,29 @@ def compute_deps(proj):
 
 
 def deps(
-    flatten: bool = typer.Option(False, help="Flatten the dependencies"),
-    dep_tools: bool = typer.Option(
-        False,
-        help="Include tools in the dependencies",
-    ),
-    graph: bool = typer.Option(
-        False, help="Generate a graphviz file", rich_help_panel="Graphing Options"
-    ),
-    graph_all: bool = typer.Option(
-        False,
-        help="Also include unreferenced projects to the graph",
-        rich_help_panel="Graphing Options",
-    ),
-    add_tools: bool = typer.Option(
-        False, help="Include tools in the graph", rich_help_panel="Graphing Options"
-    ),
-    add_groups: bool = typer.Option(
-        False,
-        help="Include group projects in the graph",
-        rich_help_panel="Graphing Options",
-    ),
-    gv_file: str = typer.Option(
-        "wingtk.gv", help="Graphviz output file", rich_help_panel="Graphing Options"
-    ),
-    invert: bool = typer.Option(
-        False, help="Invert the dependencies", rich_help_panel="Graphing Options"
-    ),
-    skip: list[str] = typer.Option(
-        None,
-        help="A comma separated list of projects not to graph",
-        rich_help_panel="Graphing Options",
-    ),
+    flatten: bool = False,
+    dep_tools: bool = False,
+    graph: bool = False,
+    graph_all: bool = False,
+    add_tools: bool = False,
+    add_groups: bool = False,
+    gv_file: str = "wingtk.gv",
+    invert: bool = False,
+    skip: list[str] | None = None,
 ):
+    """Show project dependencies.
+
+    Args:
+        flatten: Flatten the dependencies.
+        dep_tools: Include tools in the dependencies.
+        graph: Generate a graphviz file.
+        graph_all: Also include unreferenced projects to the graph.
+        add_tools: Include tools in the graph.
+        add_groups: Include group projects in the graph.
+        gv_file: Graphviz output file.
+        invert: Invert the dependencies.
+        skip: A comma separated list of projects not to graph.
+    """
     Project.add_all()
     # do what's asked
     if graph:

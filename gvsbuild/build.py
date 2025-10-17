@@ -16,8 +16,6 @@
 from enum import Enum
 from pathlib import Path
 
-import typer
-
 from gvsbuild.utils.base_project import Options, Project, ProjectType
 from gvsbuild.utils.builder import Builder
 from gvsbuild.utils.simple_ui import log
@@ -101,240 +99,102 @@ class WinSdkVersion(str, Enum):
 
 
 def build(
-    projects: list[str] = typer.Argument(..., help="The project to build"),
-    platform: Platform = typer.Option(Platform.x64, help="The platform to build for"),
-    configuration: Configuration = typer.Option(
-        Configuration.debug_optimized,
-        help='The configuration to build for. "debug-optimized" only '
-        "includes debug symbols for Meson and CMake projects - other "
-        'projects\' build tools will interpret the option as "release"',
-    ),
-    build_dir: Path = typer.Option(
-        Path(r"C:\gtk-build"),
-        help="The full or relative path of the directory to build in",
-        rich_help_panel="Directory Options",
-    ),
-    msys_dir: Path = typer.Option(
-        None,
-        help="The directory of the msys installation. If not specified, automatically searches in common locations",
-        rich_help_panel="Directory Options",
-        exists=True,
-        dir_okay=True,
-        resolve_path=True,
-    ),
-    archives_download_dir: Path = typer.Option(
-        None,
-        help="The directory to download the source archives to. It will be created. "
-        "If a source archive already exists here, it won't be downloaded again. "
-        "Default is the build-dir\\src.",
-        rich_help_panel="Directory Options",
-    ),
-    export_dir: Path = typer.Option(
-        None,
-        help="The directory to export the source archives to. It will be created. "
-        "It creates an archive with the source code and any possible patch. "
-        "Default is the build-dir\\export.",
-        rich_help_panel="Directory Options",
-    ),
-    patches_root_dir: Path = typer.Option(
-        None,
-        help="The directory where you checked out https://github.com/wingtk/gvsbuild.git. Default is the build-dir\\github\\gvsbuild.",
-        rich_help_panel="Directory Options",
-    ),
-    tools_root_dir: Path = typer.Option(
-        None,
-        help="The directory where to install the downloaded tools. Default is $(build-dir)\\tools.",
-        rich_help_panel="Directory Options",
-    ),
-    vs_ver: VsVer = typer.Option(
-        VsVer.vs2022,
-        help="Visual Studio version 12 (vs2013), 14 (vs2015), 15 (vs2017), 16 (vs2019), 17 (vs2022)",
-        rich_help_panel="Visual Studio and SDK Options",
-    ),
-    vs_install_path: Path = typer.Option(
-        None,
-        help=r"The directory where you installed Visual Studio."
-        r"Default is 'C:\Program Files (x86)\Microsoft Visual Studio $(vs-ver).0' (for vs-ver <= 14) "
-        r"or 'C:\Program Files (x86)\Microsoft Visual Studio\20xx (2017 for vs-ver 15, 2019 for vs-ver 16, "
-        r"...). If not set, the script look automatically under Professional, BuildTools, "
-        r"Enterprise, Community, and Preview sub directory until it finds the startup batch file.",
-        rich_help_panel="Visual Studio and SDK Options",
-    ),
-    win_sdk_ver: WinSdkVersion = typer.Option(
-        None,
-        help=r"The Windows SDK version to use for building, used to initialize the Visual Studio build environment. "
-        "It can be 8.1 (for windows 8 compatibility) or 10.0.xxxxx.0, where xxxxx, at the moment, can be 10150, 10240, "
-        "10586, 14393, 15063, 16299, 17134, or 17763 depending on the VS version / installation's options. "
-        "If you don't specify one the scripts tries to locate the used one to pass the value to the msbuild command.",
-        rich_help_panel="Visual Studio and SDK Options",
-    ),
-    net_target_framework: str = typer.Option(
-        None,
-        help=".net target framework. If set then TargetFrameworks parameter is passed down to msbuild with the "
-        "specific target. i.e net45",
-        rich_help_panel=".NET Options",
-    ),
-    net_target_framework_version: str = typer.Option(
-        None,
-        help=".net target framework version. If set then TargetFrameworkVersion parameter is passed down to "
-        "msbuild with the specific version. i.e v4.6.2",
-        rich_help_panel=".NET Options",
-    ),
-    check_hash: bool = typer.Option(
-        False,
-        help="If set, only check the hash of the downloaded archives, no build.",
-    ),
-    clean: bool = typer.Option(
-        False,
-        help="If set, clean the build directory before building.",
-        rich_help_panel="Skip and Cleanup Options",
-    ),
-    clean_built: bool = typer.Option(
-        False,
-        help="If set, clean only the projects asked on the command line, not all the ones to build (via a dependency)",
-        rich_help_panel="Skip and Cleanup Options",
-    ),
-    deps: bool = typer.Option(
-        True,
-        help="If not set, don't build the dependencies of the projects.",
-        rich_help_panel="Skip and Cleanup Options",
-    ),
-    msbuild_opts: str = typer.Option(
-        None,
-        help="Command line options to pass to msbuild.",
-        rich_help_panel="Options to Pass to Build Systems",
-    ),
-    skip: list[str] = typer.Option(
-        None,
-        help="Project to avoid building, can be run multiple times.",
-        rich_help_panel="Skip and Cleanup Options",
-    ),
-    use_env: bool = typer.Option(
-        False,
-        help="Use and keep the calling environment for LIB, LIBPATH, INCLUDE and PATH",
-        rich_help_panel="Environment Options",
-    ),
-    make_zip: bool = typer.Option(
-        False,
-        help="Create singles zips of the projects built under the build-dir\\dist\\vsXXXX[-sdkVer]\\[platform]\\[configuration], "
-        "for example 'C:\\gtk-build\\dist\\vs2015-8.1\\win32\\release'. "
-        "NOTE: the destination dir (e.g. 'C:\\gtk-build\\gtk\\win32\\release') "
-        "will be cleared completely before the build!",
-        rich_help_panel="Zip Options",
-    ),
-    zip_continue: bool = typer.Option(
-        False,
-        help="If set, don't initialize the zip creation phase and keep the destination dir.",
-        rich_help_panel="Zip Options",
-    ),
-    from_scratch: bool = typer.Option(
-        False,
-        help="Start from scratch, deleting the build and the "
-        "destination directories of the project for the current "
-        "platform/configuration "
-        "setup (e.g. 'C:\\gtk-build\\build\\x64\\release' and "
-        "'C:\\gtk-build\\gtk\\x64\\release' and the common tools ('C:\\gtk-build\\tools')",
-        rich_help_panel="Skip and Cleanup Options",
-    ),
-    keep_tools: bool = typer.Option(
-        False,
-        help="Active only when used with --from-scratch, keep and don't delete the (common) tool directory.",
-        rich_help_panel="Skip and Cleanup Options",
-    ),
-    fast_build: bool = typer.Option(
-        False,
-        help="Don't build a project if it's already built and not updated."
-        "Note: you can have wrong results if you change only the patches or the script (updating the tarball or "
-        "the git source is handled correctly)",
-        rich_help_panel="Skip and Cleanup Options",
-    ),
-    keep_going: bool = typer.Option(
-        False,
-        help="Continue the build even on errors, dropping the projects that depends on the failed ones",
-        rich_help_panel="Skip and Cleanup Options",
-    ),
-    py_wheel: bool = typer.Option(
-        False,
-        help="pycairo/pygobject: build also the wheel distribution format",
-        rich_help_panel="Introspection Options",
-    ),
-    enable_gi: bool = typer.Option(
-        False,
-        help="For the GTK stack, create the .gir/.typelib files for gobject introspection",
-        rich_help_panel="Introspection Options",
-    ),
-    enable_fips: bool = typer.Option(
-        False,
-        help="Build the FIPS validated cryptographic module",
-        rich_help_panel="OpenSSL Options",
-    ),
-    ffmpeg_enable_gpl: bool = typer.Option(
-        False,
-        help="ffmpeg: build with the gpl libraries/modules",
-        rich_help_panel="FFmpeg Options",
-    ),
-    log_size: int = typer.Option(
-        0,
-        help="Maximum log size (in kilobytes) before restarting with a new file",
-        rich_help_panel="Logging Options",
-    ),
-    log_single: bool = typer.Option(
-        False,
-        help="If set, always start a new log file, with date and time",
-        rich_help_panel="Logging Options",
-    ),
-    capture_out: bool = typer.Option(
-        False,
-        help="If set, capture the output of the build commands and write it to the log file",
-        rich_help_panel="Logging Options",
-    ),
-    verbose: bool = typer.Option(
-        False,
-        help="If set, print the output of the build commands to the console",
-        rich_help_panel="Logging Options",
-    ),
-    debug: bool = typer.Option(
-        False,
-        help="If set, print debug messages to the console",
-        rich_help_panel="Logging Options",
-    ),
-    print_out: bool = typer.Option(
-        False,
-        help="With --capture-out active print the result of the commands also on stdout.",
-        rich_help_panel="Logging Options",
-    ),
-    ninja_opts: str = typer.Option(
-        None,
-        help="Command line options to pass to ninja, e.g. to limit the use (-j 2) or for debug purposes.",
-        rich_help_panel="Options to Pass to Build Systems",
-    ),
-    cargo_opts: str = typer.Option(
-        None,
-        help="Command line options to pass to cargo",
-        rich_help_panel="Options to Pass to Build Systems",
-    ),
-    extra_opts: list[str] = typer.Option(
-        None,
-        help="Additional command line options to pass to specific project."
-        " Example: --extra_opts <project>:<option1>[;<option1>...]",
-        rich_help_panel="Options to Pass to Build Systems",
-    ),
-    git_expand_dir: Path = typer.Option(
-        None,
-        help="The directory where the projects from git are expanded and updated.",
-        rich_help_panel="Directory Options",
-    ),
+    projects: list[str],
+    platform: Platform = Platform.x64,
+    configuration: Configuration = Configuration.debug_optimized,
+    build_dir: Path = Path(r"C:\gtk-build"),
+    msys_dir: Path | None = None,
+    archives_download_dir: Path | None = None,
+    export_dir: Path | None = None,
+    patches_root_dir: Path | None = None,
+    tools_root_dir: Path | None = None,
+    vs_ver: VsVer = VsVer.vs2022,
+    vs_install_path: Path | None = None,
+    win_sdk_ver: WinSdkVersion | None = None,
+    net_target_framework: str | None = None,
+    net_target_framework_version: str | None = None,
+    check_hash: bool = False,
+    clean: bool = False,
+    clean_built: bool = False,
+    deps: bool = True,
+    msbuild_opts: str | None = None,
+    skip: list[str] | None = None,
+    use_env: bool = False,
+    make_zip: bool = False,
+    zip_continue: bool = False,
+    from_scratch: bool = False,
+    keep_tools: bool = False,
+    fast_build: bool = False,
+    keep_going: bool = False,
+    py_wheel: bool = False,
+    enable_gi: bool = False,
+    enable_fips: bool = False,
+    ffmpeg_enable_gpl: bool = False,
+    log_size: int = 0,
+    log_single: bool = False,
+    capture_out: bool = False,
+    verbose: bool = False,
+    debug: bool = False,
+    print_out: bool = False,
+    ninja_opts: str | None = None,
+    cargo_opts: str | None = None,
+    extra_opts: list[str] | None = None,
+    git_expand_dir: Path | None = None,
 ):
     """Build a project or a list of projects.
 
-    gvsbuild build libpng libffi
-        Build libpng, libffi, and their dependencies (zlib).
+    Examples:
+        gvsbuild build libpng libffi
+            Build libpng, libffi, and their dependencies (zlib).
 
-    gvsbuild build --no-deps glib
-        Build glib only.
+        gvsbuild build --no-deps glib
+            Build glib only.
 
-    gvsbuild build --skip gtk4 --skip pycairo all
-        Build everything except gtk4 and pycairo
+        gvsbuild build --skip gtk4 --skip pycairo all
+            Build everything except gtk4 and pycairo
+
+    Args:
+        projects: The project to build.
+        platform: The platform to build for.
+        configuration: The configuration to build for. "debug-optimized" only includes debug symbols for Meson and CMake projects - other projects' build tools will interpret the option as "release".
+        build_dir: The full or relative path of the directory to build in.
+        msys_dir: The directory of the msys installation. If not specified, automatically searches in common locations.
+        archives_download_dir: The directory to download the source archives to. It will be created. If a source archive already exists here, it won't be downloaded again. Default is the build-dir\\src.
+        export_dir: The directory to export the source archives to. It will be created. It creates an archive with the source code and any possible patch. Default is the build-dir\\export.
+        patches_root_dir: The directory where you checked out https://github.com/wingtk/gvsbuild.git. Default is the build-dir\\github\\gvsbuild.
+        tools_root_dir: The directory where to install the downloaded tools. Default is $(build-dir)\\tools.
+        vs_ver: Visual Studio version 12 (vs2013), 14 (vs2015), 15 (vs2017), 16 (vs2019), 17 (vs2022).
+        vs_install_path: The directory where you installed Visual Studio. Default is 'C:\\Program Files (x86)\\Microsoft Visual Studio $(vs-ver).0' (for vs-ver <= 14) or 'C:\\Program Files (x86)\\Microsoft Visual Studio\\20xx (2017 for vs-ver 15, 2019 for vs-ver 16, ...). If not set, the script look automatically under Professional, BuildTools, Enterprise, Community, and Preview sub directory until it finds the startup batch file.
+        win_sdk_ver: The Windows SDK version to use for building, used to initialize the Visual Studio build environment. It can be 8.1 (for windows 8 compatibility) or 10.0.xxxxx.0, where xxxxx, at the moment, can be 10150, 10240, 10586, 14393, 15063, 16299, 17134, or 17763 depending on the VS version / installation's options. If you don't specify one the scripts tries to locate the used one to pass the value to the msbuild command.
+        net_target_framework: .net target framework. If set then TargetFrameworks parameter is passed down to msbuild with the specific target. i.e net45.
+        net_target_framework_version: .net target framework version. If set then TargetFrameworkVersion parameter is passed down to msbuild with the specific version. i.e v4.6.2.
+        check_hash: If set, only check the hash of the downloaded archives, no build.
+        clean: If set, clean the build directory before building.
+        clean_built: If set, clean only the projects asked on the command line, not all the ones to build (via a dependency).
+        deps: If not set, don't build the dependencies of the projects.
+        msbuild_opts: Command line options to pass to msbuild.
+        skip: Project to avoid building, can be run multiple times.
+        use_env: Use and keep the calling environment for LIB, LIBPATH, INCLUDE and PATH.
+        make_zip: Create singles zips of the projects built under the build-dir\\dist\\vsXXXX[-sdkVer]\\[platform]\\[configuration], for example 'C:\\gtk-build\\dist\\vs2015-8.1\\win32\\release'. NOTE: the destination dir (e.g. 'C:\\gtk-build\\gtk\\win32\\release') will be cleared completely before the build!
+        zip_continue: If set, don't initialize the zip creation phase and keep the destination dir.
+        from_scratch: Start from scratch, deleting the build and the destination directories of the project for the current platform/configuration setup (e.g. 'C:\\gtk-build\\build\\x64\\release' and 'C:\\gtk-build\\gtk\\x64\\release' and the common tools ('C:\\gtk-build\\tools').
+        keep_tools: Active only when used with --from-scratch, keep and don't delete the (common) tool directory.
+        fast_build: Don't build a project if it's already built and not updated. Note: you can have wrong results if you change only the patches or the script (updating the tarball or the git source is handled correctly).
+        keep_going: Continue the build even on errors, dropping the projects that depends on the failed ones.
+        py_wheel: pycairo/pygobject: build also the wheel distribution format.
+        enable_gi: For the GTK stack, create the .gir/.typelib files for gobject introspection.
+        enable_fips: Build the FIPS validated cryptographic module.
+        ffmpeg_enable_gpl: ffmpeg: build with the gpl libraries/modules.
+        log_size: Maximum log size (in kilobytes) before restarting with a new file.
+        log_single: If set, always start a new log file, with date and time.
+        capture_out: If set, capture the output of the build commands and write it to the log file.
+        verbose: If set, print the output of the build commands to the console.
+        debug: If set, print debug messages to the console.
+        print_out: With --capture-out active print the result of the commands also on stdout.
+        ninja_opts: Command line options to pass to ninja, e.g. to limit the use (-j 2) or for debug purposes.
+        cargo_opts: Command line options to pass to cargo.
+        extra_opts: Additional command line options to pass to specific project. Example: --extra_opts <project>:<option1>[;<option1>...].
+        git_expand_dir: The directory where the projects from git are expanded and updated.
     """
     opts = Options()
     opts.verbose = verbose
@@ -394,7 +254,7 @@ def build(
     opts.log_single = log_single
     opts.cargo_opts = cargo_opts
     opts.ninja_opts = ninja_opts
-    opts.extra_opts = __parse_extra_opts(extra_opts)
+    opts.extra_opts = __parse_extra_opts(extra_opts if extra_opts else [])
     opts.capture_out = capture_out
     opts.print_out = print_out
 

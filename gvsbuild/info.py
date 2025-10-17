@@ -1,4 +1,4 @@
-import typer
+import sys
 
 
 def version_callback(active: bool):
@@ -8,5 +8,5 @@ def version_callback(active: bool):
     import importlib.metadata
 
     version = importlib.metadata.version("gvsbuild")
-    typer.echo(f"gvsbuild v{version}")
-    raise typer.Exit()
+    print(f"gvsbuild v{version}")
+    sys.exit(0)
