@@ -19,6 +19,7 @@ from gvsbuild.utils.base_project import Project, ProjectType
 
 
 def list_(
+    *,
     projects_names: list[str] | None = None,
     project_type: ProjectType | None = None,
     show_deps: bool = False,
