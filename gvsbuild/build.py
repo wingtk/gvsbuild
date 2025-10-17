@@ -15,11 +15,28 @@
 
 from enum import Enum
 from pathlib import Path
+from typing import Annotated
+
+from cyclopts import Group, Parameter
 
 from gvsbuild.utils.base_project import Options, Project, ProjectType
 from gvsbuild.utils.builder import Builder
 from gvsbuild.utils.simple_ui import log
 from gvsbuild.utils.utils import ordered_set
+
+# Define parameter groups for organized help output
+BUILD_CONFIG_GROUP = Group("Build Configuration", sort_key=0)
+DIRECTORY_GROUP = Group("Directory Options", sort_key=1)
+VS_SDK_GROUP = Group("Visual Studio and SDK Options", sort_key=2)
+NET_GROUP = Group(".NET Options", sort_key=3)
+BUILD_OPTIONS_GROUP = Group("Options to Pass to Build Systems", sort_key=4)
+SKIP_CLEANUP_GROUP = Group("Skip and Cleanup Options", sort_key=5)
+ZIP_GROUP = Group("Zip Options", sort_key=6)
+INTROSPECTION_GROUP = Group("Introspection Options", sort_key=7)
+OPENSSL_GROUP = Group("OpenSSL Options", sort_key=8)
+FFMPEG_GROUP = Group("FFmpeg Options", sort_key=9)
+LOGGING_GROUP = Group("Logging Options", sort_key=10)
+ENVIRONMENT_GROUP = Group("Environment Options", sort_key=11)
 
 
 def __get_projects_to_build(opts):
@@ -100,58 +117,70 @@ class WinSdkVersion(str, Enum):
 
 def build(
     projects: list[str],
-    platform: Platform = Platform.x64,
-    configuration: Configuration = Configuration.debug_optimized,
-    build_dir: Path = Path(r"C:\gtk-build"),
-    msys_dir: Path | None = None,
-    archives_download_dir: Path | None = None,
-    export_dir: Path | None = None,
-    patches_root_dir: Path | None = None,
-    tools_root_dir: Path | None = None,
-    vs_ver: VsVer = VsVer.vs2022,
-    vs_install_path: Path | None = None,
-    win_sdk_ver: WinSdkVersion | None = None,
-    net_target_framework: str | None = None,
-    net_target_framework_version: str | None = None,
-    check_hash: bool = False,
-    clean: bool = False,
-    clean_built: bool = False,
-    deps: bool = True,
-    msbuild_opts: str | None = None,
-    skip: list[str] | None = None,
-    use_env: bool = False,
-    make_zip: bool = False,
-    zip_continue: bool = False,
-    from_scratch: bool = False,
-    keep_tools: bool = False,
-    fast_build: bool = False,
-    keep_going: bool = False,
-    py_wheel: bool = False,
-    enable_gi: bool = False,
-    enable_fips: bool = False,
-    ffmpeg_enable_gpl: bool = False,
-    log_size: int = 0,
-    log_single: bool = False,
-    capture_out: bool = False,
-    verbose: bool = False,
-    debug: bool = False,
-    print_out: bool = False,
-    ninja_opts: str | None = None,
-    cargo_opts: str | None = None,
-    extra_opts: list[str] | None = None,
-    git_expand_dir: Path | None = None,
+    /,
+    *,
+    platform: Annotated[Platform, Parameter(group=BUILD_CONFIG_GROUP)] = Platform.x64,
+    configuration: Annotated[
+        Configuration, Parameter(group=BUILD_CONFIG_GROUP)
+    ] = Configuration.debug_optimized,
+    check_hash: Annotated[bool, Parameter(group=BUILD_CONFIG_GROUP)] = False,
+    build_dir: Annotated[Path, Parameter(group=DIRECTORY_GROUP)] = Path(
+        r"C:\gtk-build"
+    ),
+    msys_dir: Annotated[Path | None, Parameter(group=DIRECTORY_GROUP)] = None,
+    archives_download_dir: Annotated[
+        Path | None, Parameter(group=DIRECTORY_GROUP)
+    ] = None,
+    export_dir: Annotated[Path | None, Parameter(group=DIRECTORY_GROUP)] = None,
+    patches_root_dir: Annotated[Path | None, Parameter(group=DIRECTORY_GROUP)] = None,
+    tools_root_dir: Annotated[Path | None, Parameter(group=DIRECTORY_GROUP)] = None,
+    git_expand_dir: Annotated[Path | None, Parameter(group=DIRECTORY_GROUP)] = None,
+    vs_ver: Annotated[VsVer, Parameter(group=VS_SDK_GROUP)] = VsVer.vs2022,
+    vs_install_path: Annotated[Path | None, Parameter(group=VS_SDK_GROUP)] = None,
+    win_sdk_ver: Annotated[WinSdkVersion | None, Parameter(group=VS_SDK_GROUP)] = None,
+    net_target_framework: Annotated[str | None, Parameter(group=NET_GROUP)] = None,
+    net_target_framework_version: Annotated[
+        str | None, Parameter(group=NET_GROUP)
+    ] = None,
+    msbuild_opts: Annotated[str | None, Parameter(group=BUILD_OPTIONS_GROUP)] = None,
+    ninja_opts: Annotated[str | None, Parameter(group=BUILD_OPTIONS_GROUP)] = None,
+    cargo_opts: Annotated[str | None, Parameter(group=BUILD_OPTIONS_GROUP)] = None,
+    extra_opts: Annotated[
+        list[str] | None, Parameter(group=BUILD_OPTIONS_GROUP)
+    ] = None,
+    clean: Annotated[bool, Parameter(group=SKIP_CLEANUP_GROUP)] = False,
+    clean_built: Annotated[bool, Parameter(group=SKIP_CLEANUP_GROUP)] = False,
+    deps: Annotated[bool, Parameter(group=SKIP_CLEANUP_GROUP)] = True,
+    skip: Annotated[list[str] | None, Parameter(group=SKIP_CLEANUP_GROUP)] = None,
+    from_scratch: Annotated[bool, Parameter(group=SKIP_CLEANUP_GROUP)] = False,
+    keep_tools: Annotated[bool, Parameter(group=SKIP_CLEANUP_GROUP)] = False,
+    fast_build: Annotated[bool, Parameter(group=SKIP_CLEANUP_GROUP)] = False,
+    keep_going: Annotated[bool, Parameter(group=SKIP_CLEANUP_GROUP)] = False,
+    use_env: Annotated[bool, Parameter(group=ENVIRONMENT_GROUP)] = False,
+    make_zip: Annotated[bool, Parameter(group=ZIP_GROUP)] = False,
+    zip_continue: Annotated[bool, Parameter(group=ZIP_GROUP)] = False,
+    py_wheel: Annotated[bool, Parameter(group=INTROSPECTION_GROUP)] = False,
+    enable_gi: Annotated[bool, Parameter(group=INTROSPECTION_GROUP)] = False,
+    enable_fips: Annotated[bool, Parameter(group=OPENSSL_GROUP)] = False,
+    ffmpeg_enable_gpl: Annotated[bool, Parameter(group=FFMPEG_GROUP)] = False,
+    log_size: Annotated[int, Parameter(group=LOGGING_GROUP)] = 0,
+    log_single: Annotated[bool, Parameter(group=LOGGING_GROUP)] = False,
+    capture_out: Annotated[bool, Parameter(group=LOGGING_GROUP)] = False,
+    verbose: Annotated[bool, Parameter(group=LOGGING_GROUP)] = False,
+    debug: Annotated[bool, Parameter(group=LOGGING_GROUP)] = False,
+    print_out: Annotated[bool, Parameter(group=LOGGING_GROUP)] = False,
 ):
     """Build a project or a list of projects.
 
     Examples:
-        gvsbuild build libpng libffi
-            Build libpng, libffi, and their dependencies (zlib).
+    gvsbuild build libpng libffi
+        Build libpng, libffi, and their dependencies (zlib).
 
-        gvsbuild build --no-deps glib
-            Build glib only.
+    gvsbuild build --no-deps glib
+        Build glib only.
 
-        gvsbuild build --skip gtk4 --skip pycairo all
-            Build everything except gtk4 and pycairo
+    gvsbuild build --skip gtk4 --skip pycairo all
+        Build everything except gtk4 and pycairo
 
     Args:
         projects: The project to build.
