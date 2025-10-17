@@ -15,11 +15,19 @@
 
 """gvsbuild deps print / .gv graph."""
 
+from typing import Annotated
+
+from cyclopts import Group, Parameter
+
 import gvsbuild.groups  # noqa: F401
 import gvsbuild.projects  # noqa: F401
 import gvsbuild.tools  # noqa: F401
 from gvsbuild.utils.base_project import Project, ProjectType
 from gvsbuild.utils.utils import ordered_set
+
+TEXT_OUTPUT_GROUP = Group("Text Output Options", sort_key=0)
+GRAPH_GROUP = Group("Graph Options", sort_key=1)
+GRAPH_FILTER_GROUP = Group("Graph Filter Options", sort_key=2)
 
 
 def print_deps(flatten=False, add_all=False):
@@ -167,15 +175,16 @@ def compute_deps(proj):
 
 
 def deps(
-    flatten: bool = False,
-    dep_tools: bool = False,
-    graph: bool = False,
-    graph_all: bool = False,
-    add_tools: bool = False,
-    add_groups: bool = False,
-    gv_file: str = "wingtk.gv",
-    invert: bool = False,
-    skip: list[str] | None = None,
+    *,
+    flatten: Annotated[bool, Parameter(group=TEXT_OUTPUT_GROUP)] = False,
+    dep_tools: Annotated[bool, Parameter(group=TEXT_OUTPUT_GROUP)] = False,
+    graph: Annotated[bool, Parameter(group=GRAPH_GROUP)] = False,
+    graph_all: Annotated[bool, Parameter(group=GRAPH_GROUP)] = False,
+    gv_file: Annotated[str, Parameter(group=GRAPH_GROUP)] = "wingtk.gv",
+    add_tools: Annotated[bool, Parameter(group=GRAPH_FILTER_GROUP)] = False,
+    add_groups: Annotated[bool, Parameter(group=GRAPH_FILTER_GROUP)] = False,
+    invert: Annotated[bool, Parameter(group=GRAPH_FILTER_GROUP)] = False,
+    skip: Annotated[list[str] | None, Parameter(group=GRAPH_FILTER_GROUP)] = None,
 ):
     """Show project dependencies.
 
@@ -184,9 +193,9 @@ def deps(
         dep_tools: Include tools in the dependencies.
         graph: Generate a graphviz file.
         graph_all: Also include unreferenced projects to the graph.
+        gv_file: Graphviz output file.
         add_tools: Include tools in the graph.
         add_groups: Include group projects in the graph.
-        gv_file: Graphviz output file.
         invert: Invert the dependencies.
         skip: A comma separated list of projects not to graph.
     """
