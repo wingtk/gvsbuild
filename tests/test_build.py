@@ -52,7 +52,7 @@ def test_platform(tmp_dir, app, runner):
         [
             "build",
             "--build-dir",
-            tmp_dir,
+            str(tmp_dir),
             "--platform",
             "x86",
             "hello-world",
