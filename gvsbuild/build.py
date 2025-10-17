@@ -17,14 +17,23 @@ from enum import Enum
 from pathlib import Path
 from typing import Annotated
 
-from cyclopts import Group, Parameter
+from cyclopts import Group, Parameter, ValidationError
 
 from gvsbuild.utils.base_project import Options, Project, ProjectType
 from gvsbuild.utils.builder import Builder
 from gvsbuild.utils.simple_ui import log
 from gvsbuild.utils.utils import ordered_set
 
-# Define parameter groups for organized help output
+
+def validate_ninja_opts(type_, value: str) -> None:
+    """Validator for ninja_opts to ensure it starts with a dash."""
+    if value and not (value.startswith("-") or value.startswith("--")):
+        raise ValidationError(
+            f"ninja-opts must start with a dash (- or --). Got: '{value}'. "
+            "Examples: --ninja-opts -j2, --ninja-opts --verbose"
+        )
+
+
 BUILD_CONFIG_GROUP = Group("Build Configuration", sort_key=0)
 DIRECTORY_GROUP = Group("Directory Options", sort_key=1)
 VS_SDK_GROUP = Group("Visual Studio and SDK Options", sort_key=2)
@@ -143,7 +152,14 @@ def build(
         str | None, Parameter(group=NET_GROUP)
     ] = None,
     msbuild_opts: Annotated[str | None, Parameter(group=BUILD_OPTIONS_GROUP)] = None,
-    ninja_opts: Annotated[str | None, Parameter(group=BUILD_OPTIONS_GROUP)] = None,
+    ninja_opts: Annotated[
+        str | None,
+        Parameter(
+            group=BUILD_OPTIONS_GROUP,
+            validator=validate_ninja_opts,
+            allow_leading_hyphen=True,
+        ),
+    ] = None,
     cargo_opts: Annotated[str | None, Parameter(group=BUILD_OPTIONS_GROUP)] = None,
     extra_opts: Annotated[
         list[str] | None, Parameter(group=BUILD_OPTIONS_GROUP)
