@@ -13,7 +13,6 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 import sys
-from unittest.mock import Mock
 
 import pytest
 
@@ -21,11 +20,9 @@ from gvsbuild.utils.base_project import Project, ProjectType
 
 
 def test_tools_registered():
-    """Test that all tools are properly registered."""
     Project.add_all()
     tools = [p for p in Project._projects if p.type == ProjectType.TOOL]
 
-    # Check that we have the expected tools
     tool_names = [t.name for t in tools]
     assert "cmake" in tool_names
     assert "meson" in tool_names
@@ -38,7 +35,6 @@ def test_tools_registered():
 
 
 def test_cmake_tool():
-    """Test CMake tool initialization."""
     from gvsbuild.tools import ToolCmake
 
     cmake = ToolCmake()
@@ -48,7 +44,6 @@ def test_cmake_tool():
 
 
 def test_meson_tool():
-    """Test Meson tool initialization."""
     from gvsbuild.tools import ToolMeson
 
     meson = ToolMeson()
@@ -58,7 +53,6 @@ def test_meson_tool():
 
 
 def test_ninja_tool():
-    """Test Ninja tool initialization."""
     from gvsbuild.tools import ToolNinja
 
     ninja = ToolNinja()
@@ -68,7 +62,6 @@ def test_ninja_tool():
 
 
 def test_perl_tool():
-    """Test Perl tool initialization."""
     from gvsbuild.tools import ToolPerl
 
     perl = ToolPerl()
@@ -77,7 +70,6 @@ def test_perl_tool():
 
 
 def test_nasm_tool():
-    """Test NASM tool initialization."""
     from gvsbuild.tools import ToolNasm
 
     nasm = ToolNasm()
@@ -87,7 +79,6 @@ def test_nasm_tool():
 
 
 def test_cargo_tool():
-    """Test Cargo tool initialization."""
     from gvsbuild.tools import ToolCargo
 
     cargo = ToolCargo()
@@ -97,7 +88,6 @@ def test_cargo_tool():
 
 
 def test_go_tool():
-    """Test Go tool initialization."""
     from gvsbuild.tools import ToolGo
 
     go = ToolGo()
@@ -106,7 +96,6 @@ def test_go_tool():
 
 
 def test_msys2_tool():
-    """Test MSYS2 tool initialization."""
     from gvsbuild.tools import ToolMsys2
 
     msys2 = ToolMsys2()
@@ -117,12 +106,10 @@ def test_msys2_tool():
 @pytest.mark.skipif(
     not sys.platform.startswith("win"), reason="Windows-specific tool test"
 )
-def test_cmake_load_defaults():
-    """Test CMake load_defaults method."""
+def test_cmake_load_defaults(mock_opts):
     from gvsbuild.tools import ToolCmake
 
     cmake = ToolCmake()
-    mock_opts = Mock()
     mock_opts.tools_root_dir = "C:\\tools"
     cmake.opts = mock_opts
 
@@ -134,12 +121,10 @@ def test_cmake_load_defaults():
 @pytest.mark.skipif(
     not sys.platform.startswith("win"), reason="Windows-specific tool test"
 )
-def test_perl_load_defaults():
-    """Test Perl load_defaults method."""
+def test_perl_load_defaults(mock_opts):
     from gvsbuild.tools import ToolPerl
 
     perl = ToolPerl()
-    mock_opts = Mock()
     mock_opts.tools_root_dir = "C:\\tools"
     perl.opts = mock_opts
 
@@ -152,12 +137,10 @@ def test_perl_load_defaults():
 @pytest.mark.skipif(
     not sys.platform.startswith("win"), reason="Windows-specific tool test"
 )
-def test_perl_get_base_dir():
-    """Test Perl get_base_dir method."""
+def test_perl_get_base_dir(mock_opts):
     from gvsbuild.tools import ToolPerl
 
     perl = ToolPerl()
-    mock_opts = Mock()
     mock_opts.tools_root_dir = "C:\\tools"
     perl.opts = mock_opts
     perl.load_defaults()
@@ -169,12 +152,10 @@ def test_perl_get_base_dir():
 @pytest.mark.skipif(
     not sys.platform.startswith("win"), reason="Windows-specific tool test"
 )
-def test_msys2_get_path():
-    """Test MSYS2 get_path method."""
+def test_msys2_get_path(mock_opts):
     from gvsbuild.tools import ToolMsys2
 
     msys2 = ToolMsys2()
-    mock_opts = Mock()
     mock_opts.msys_dir = "C:\\msys64"
     mock_opts.tools_root_dir = "C:\\tools"
     msys2.opts = mock_opts
@@ -183,24 +164,21 @@ def test_msys2_get_path():
     result = msys2.get_path()
     assert result is not None
     assert isinstance(result, tuple)
-    assert result[0] is None  # First element should be None for msys2
+    assert result[0] is None
 
 
 @pytest.mark.skipif(
     not sys.platform.startswith("win"), reason="Windows-specific tool test"
 )
-def test_cargo_load_defaults():
-    """Test Cargo load_defaults method."""
+def test_cargo_load_defaults(mock_opts):
     from gvsbuild.tools import ToolCargo
 
     cargo = ToolCargo()
-    mock_opts = Mock()
     mock_opts.tools_root_dir = "C:\\tools"
     cargo.opts = mock_opts
     cargo.build_dir = "C:\\tools\\cargo"
 
     cargo.load_defaults()
     assert cargo.full_exe is not None
-    # Check if extra_env attribute exists and has expected structure
     if hasattr(cargo, "extra_env"):
         assert len(cargo.extra_env) > 0
