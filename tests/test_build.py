@@ -60,3 +60,59 @@ def test_platform(tmp_dir, app, runner):
     )
     # Exit code may be 0 (success) or 1 (build error), but should not be 2 (argument error)
     assert result.exit_code in [0, 1]
+
+
+def test_ninja_opts_validation_valid_single_dash(app, runner):
+    """Test that ninja-opts accepts valid single-dash options."""
+    result = runner.invoke(app, ["build", "--ninja-opts", "-j2", "hello-world"])
+    # Should not fail with validation error (exit code 1 is OK for build errors)
+    assert result.exit_code != 2
+    full_output = result.output + result.stderr
+    assert "ninja-opts must start with a dash" not in full_output
+
+
+def test_ninja_opts_validation_valid_double_dash(app, runner):
+    """Test that ninja-opts accepts valid double-dash options."""
+    result = runner.invoke(app, ["build", "--ninja-opts", "--verbose", "hello-world"])
+    # Should not fail with validation error (exit code 1 is OK for build errors)
+    assert result.exit_code != 2
+    full_output = result.output + result.stderr
+    assert "ninja-opts must start with a dash" not in full_output
+
+
+def test_ninja_opts_validation_valid_equals_syntax(app, runner):
+    """Test that ninja-opts accepts equals syntax."""
+    result = runner.invoke(app, ["build", "--ninja-opts=-j2", "hello-world"])
+    # Should not fail with validation error (exit code 1 is OK for build errors)
+    assert result.exit_code != 2
+    full_output = result.output + result.stderr
+    assert "ninja-opts must start with a dash" not in full_output
+
+
+def test_ninja_opts_validation_invalid_no_dash(app, runner):
+    """Test that ninja-opts rejects values that don't start with dash."""
+    result = runner.invoke(app, ["build", "--ninja-opts", "j2", "hello-world"])
+    assert result.exit_code == 1  # Validation error
+    full_output = result.output + result.stderr
+    assert "ninja-opts must start with a dash (- or --)" in full_output
+    assert "Got: 'j2'" in full_output
+    assert "--ninja-opts -j2" in full_output
+    assert "--ninja-opts --verbose" in full_output
+
+
+def test_ninja_opts_validation_invalid_equals_syntax(app, runner):
+    """Test that ninja-opts rejects invalid values with equals syntax."""
+    result = runner.invoke(app, ["build", "--ninja-opts=j2", "hello-world"])
+    assert result.exit_code == 1  # Validation error
+    full_output = result.output + result.stderr
+    assert "ninja-opts must start with a dash (- or --)" in full_output
+    assert "Got: 'j2'" in full_output
+
+
+def test_ninja_opts_validation_empty_value(app, runner):
+    """Test that ninja-opts accepts empty/None values."""
+    result = runner.invoke(app, ["build", "hello-world"])
+    # Should not fail with validation error (exit code 1 is OK for build errors)
+    assert result.exit_code != 2
+    full_output = result.output + result.stderr
+    assert "ninja-opts must start with a dash" not in full_output
