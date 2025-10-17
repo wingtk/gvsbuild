@@ -12,9 +12,7 @@
 #
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
-import sys
 
-import pytest
 
 from gvsbuild.utils.base_project import Project, ProjectType
 
@@ -103,9 +101,6 @@ def test_msys2_tool():
     assert msys2.internal is True
 
 
-@pytest.mark.skipif(
-    not sys.platform.startswith("win"), reason="Windows-specific tool test"
-)
 def test_cmake_load_defaults(mock_opts):
     from gvsbuild.tools import ToolCmake
 
@@ -118,9 +113,6 @@ def test_cmake_load_defaults(mock_opts):
     assert cmake.tool_path is not None
 
 
-@pytest.mark.skipif(
-    not sys.platform.startswith("win"), reason="Windows-specific tool test"
-)
 def test_perl_load_defaults(mock_opts):
     from gvsbuild.tools import ToolPerl
 
@@ -134,9 +126,6 @@ def test_perl_load_defaults(mock_opts):
     assert perl.base_dir is not None
 
 
-@pytest.mark.skipif(
-    not sys.platform.startswith("win"), reason="Windows-specific tool test"
-)
 def test_perl_get_base_dir(mock_opts):
     from gvsbuild.tools import ToolPerl
 
@@ -149,9 +138,6 @@ def test_perl_get_base_dir(mock_opts):
     assert base_dir is not None
 
 
-@pytest.mark.skipif(
-    not sys.platform.startswith("win"), reason="Windows-specific tool test"
-)
 def test_msys2_get_path(mock_opts):
     from gvsbuild.tools import ToolMsys2
 
@@ -167,9 +153,6 @@ def test_msys2_get_path(mock_opts):
     assert result[0] is None
 
 
-@pytest.mark.skipif(
-    not sys.platform.startswith("win"), reason="Windows-specific tool test"
-)
 def test_cargo_load_defaults(mock_opts):
     from gvsbuild.tools import ToolCargo
 
