@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  python_version: '3.13'
+  python_version: '3.14'
 
 name: CI
 
@@ -36,7 +36,6 @@ jobs:
         uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
         with:
           python-version: ${{ env.python_version }}
-          check-latest: true # 3.13.4 broken
       - name: Install uv
         uses: astral-sh/setup-uv@3259c6206f993105e3a61b142c2d97bf4b9ef83d # v7.1.0
         with:
@@ -105,14 +104,11 @@ jobs:
         uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
         with:
           python-version: ${{ env.python_version }}
-          check-latest: true # 3.13.4 broken
       - name: Install uv
         uses: astral-sh/setup-uv@3259c6206f993105e3a61b142c2d97bf4b9ef83d # v7.1.0
         with:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
-      - name: Seed pip
-        run: uv venv --seed
       - name: Install the project
         run: uv sync --no-dev
       - name: Build GTK3

@@ -32,3 +32,4 @@ perl/perl-x86-cache
 perl/perl-x86-SetupFiles
 __pycache__
 .tox
+.coverage

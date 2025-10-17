@@ -94,11 +94,11 @@ class ToolMeson(Tool):
         Tool.__init__(
             self,
             "meson",
-            version="1.8.2",  # Regression with 1.8.3: https://github.com/mesonbuild/meson/issues/14896
+            version="1.9.1",  # Regression with 1.8.3: https://github.com/mesonbuild/meson/issues/14896
             repository="https://github.com/mesonbuild/meson",
             archive_url="https://github.com/mesonbuild/meson/archive/refs/tags/{version}.tar.gz",
             archive_filename="meson-{version}.tar.gz",
-            hash="6b878fb0f6f0318cbd54e13539f89a1a8305791668e8e93ffd59d82722888dac",
+            hash="febaa8f7c1916521c53eb5fd11c0641b5eb4741c2c6e9b42c288ed62d9e4fd2c",
             dir_part="meson-{version}",
             exe_name="meson.py",
         )
@@ -215,7 +215,7 @@ class ToolGo(Tool):
         Tool.__init__(
             self,
             "go",
-            version="1.25.1",
+            version="1.25.3",
             repository="https://github.com/golang/go",
             archive_url="https://go.dev/dl/go{version}.windows-amd64.zip",
             hash="89efb4f9b30812eee083cc1770fdd2913c14d301064f6454851428f9707d190b",
