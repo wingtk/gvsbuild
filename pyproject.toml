@@ -70,7 +70,9 @@ python =
 
 [testenv]
 commands = pytest
-deps = pytest
+deps = 
+    pytest
+    pytest-mock
 """
 
 [tool.ruff]
