@@ -18,7 +18,7 @@
 
 # Verify we can import from the script directory
 import rich
-import typer
+from cyclopts import App
 
 from gvsbuild.deps import deps
 from gvsbuild.list import list_
@@ -40,26 +40,15 @@ import gvsbuild.groups  # noqa: F401
 import gvsbuild.projects  # noqa: F401
 import gvsbuild.tools  # noqa: F401
 from gvsbuild.build import build
-from gvsbuild.info import version_callback
 from gvsbuild.outdated import outdated
 
 rich.reconfigure(markup=False)
 
-app = typer.Typer(help="Build GTK for Windows")
-app.command(help="")(build)
-app.command(help="")(outdated)
-app.command(help="", name="list")(list_)
-app.command(help="")(deps)
-
-
-@app.callback()
-def common(
-    ctx: typer.Context,
-    version: bool = typer.Option(
-        None, "--version", callback=version_callback, help="Show the app's version"
-    ),
-):
-    pass
+app = App(help="Build GTK for Windows")
+app.command(build)
+app.command(outdated)
+app.command(name="list")(list_)
+app.command(deps)
 
 
 def run():

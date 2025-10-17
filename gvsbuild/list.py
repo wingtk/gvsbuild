@@ -15,32 +15,23 @@
 
 import json
 
-import typer
-
 from gvsbuild.utils.base_project import Project, ProjectType
 
 
 def list_(
-    projects_names: list[str] = typer.Argument(None, help="The projects to list"),
-    project_type: ProjectType = typer.Option(
-        None,
-        "--type",
-        help="Specify type of projects to show, if not selected show all",
-        rich_help_panel="Selection Options",
-    ),
-    show_deps: bool = typer.Option(
-        False,
-        "--deps",
-        help="Include dependencies, only useful when selecting the projects to show",
-        rich_help_panel="Selection Options",
-    ),
-    json_: bool = typer.Option(
-        False,
-        "--json",
-        help="Show list in JSON format",
-        rich_help_panel="Formatting Options",
-    ),
+    projects_names: list[str] | None = None,
+    project_type: ProjectType | None = None,
+    show_deps: bool = False,
+    json_: bool = False,
 ):
+    """List available projects.
+
+    Args:
+        projects_names: The projects to list.
+        project_type: Specify type of projects to show, if not selected show all.
+        show_deps: Include dependencies, only useful when selecting the projects to show.
+        json_: Show list in JSON format.
+    """
     Project.add_all()
 
     projects = Project.list_projects()

@@ -14,16 +14,25 @@
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 
-def test_main_help(typer_app, runner):
-    result = runner.invoke(typer_app, ["--help"])
+def test_main_help(app, runner, console):
+    """Test main app help output with consistent console formatting."""
+    result = runner.invoke(app, ["--help"], console=console)
     assert result.exit_code == 0
+    assert "Build GTK for Windows" in result.stdout
     assert "build" in result.stdout
     assert "outdated" in result.stdout
     assert "deps" in result.stdout
     assert "list" in result.stdout
 
 
-def test_wrong_command(typer_app, runner):
-    result = runner.invoke(typer_app, ["builds"])
-    assert result.exit_code == 2
-    assert "No such command" in result.stderr
+def test_wrong_command(app, runner):
+    result = runner.invoke(app, ["builds"])
+    # Cyclopts returns exit code 1 for errors
+    assert result.exit_code in [1, 2]
+    # Cyclopts outputs errors to stdout
+    full_output = result.stdout + result.stderr
+    assert (
+        "builds" in full_output
+        or "command" in full_output.lower()
+        or "unrecognized" in full_output.lower()
+    )
