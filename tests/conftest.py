@@ -13,6 +13,9 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
+import io
+import sys
+
 import pytest
 
 
@@ -38,58 +41,31 @@ class CycloptsRunner:
         Returns:
             Result object with exit_code, output, stdout, and stderr
         """
-
+        stdout = io.StringIO()
+        stderr = io.StringIO()
         exit_code = 0
 
-        # Capture stdout and stderr using pytest's capsys
-        # We'll call the app and catch SystemExit
+        old_stdout = sys.stdout
+        old_stderr = sys.stderr
+
         try:
-            # Capture output
-            import io
-            import sys as _sys
+            sys.stdout = stdout
+            sys.stderr = stderr
 
-            stdout = io.StringIO()
-            stderr = io.StringIO()
+            # Call app with args list (not empty call to avoid warning)
+            # Pass console if provided for consistent Rich formatting
+            if console:
+                app(args if args else [], console=console)
+            else:
+                app(args if args else [])
 
-            old_stdout = _sys.stdout
-            old_stderr = _sys.stderr
+        except SystemExit as e:
+            exit_code = e.code if e.code is not None else 0
+        finally:
+            sys.stdout = old_stdout
+            sys.stderr = old_stderr
 
-            try:
-                _sys.stdout = stdout
-                _sys.stderr = stderr
-
-                # Call app with args list (not empty call to avoid warning)
-                # Pass console if provided for consistent Rich formatting
-                if console:
-                    app(args if args else [], console=console)
-                else:
-                    app(args if args else [])
-
-            except SystemExit as e:
-                exit_code = e.code if e.code is not None else 0
-            except Exception as e:
-                import traceback
-
-                stderr.write(str(e) + "\n")
-                stderr.write(traceback.format_exc())
-                exit_code = 1
-            finally:
-                _sys.stdout = old_stdout
-                _sys.stderr = old_stderr
-
-        except Exception as e:
-            # Fallback error handling
-            import traceback
-
-            exit_code = 1
-            stderr = io.StringIO(str(e) + "\n" + traceback.format_exc())
-            stdout = io.StringIO()
-
-        return self.Result(
-            exit_code,
-            stdout.getvalue() if hasattr(stdout, "getvalue") else "",
-            stderr.getvalue() if hasattr(stderr, "getvalue") else "",
-        )
+        return self.Result(exit_code, stdout.getvalue(), stderr.getvalue())
 
 
 @pytest.fixture
