@@ -16,8 +16,8 @@ classifiers = [
 ]
 dependencies = [
     "build>=1.3.0",
-    "typer>=0.19.2",
     "setuptools >=69.2; python_version >= \"3.12\"",
+    "cyclopts>=3.24.0",
     "pip",
 ]
 dynamic = []
@@ -90,6 +90,3 @@ extend-select = ["I"]
 
 [tool.ruff.lint.mccabe]
 max-complexity = 20
-
-[tool.ruff.lint.flake8-bugbear]
-extend-immutable-calls = [ "typer.Argument", "typer.Option",]

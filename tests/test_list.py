@@ -19,11 +19,11 @@ import gvsbuild.tools  # noqa: F401
 from gvsbuild.utils.base_project import Project, ProjectType
 
 
-def test_list(typer_app, runner):
+def test_list(app, runner):
     Project.add_all()
     projects = Project.list_projects()
 
-    result = runner.invoke(typer_app, ["list"])
+    result = runner.invoke(app, ["list"])
     assert result.exit_code == 0
     for project_type in [ProjectType.GROUP, ProjectType.PROJECT, ProjectType.TOOL]:
         for project_name in [

@@ -21,6 +21,7 @@ from gvsbuild.utils.base_project import Project, ProjectType
 
 
 def outdated():
+    """Check for outdated project versions."""
     try:
         import lastversion
     except ImportError:
