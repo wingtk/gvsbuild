@@ -124,3 +124,26 @@ def console():
         color_system=None,
         legacy_windows=False,
     )
+
+
+@pytest.fixture
+def mock_opts(mocker, tmp_path):
+    """Fixture providing a mock opts object with common attributes."""
+    opts = mocker.Mock()
+    opts.tools_root_dir = str(tmp_path / "tools")
+    opts.build_dir = str(tmp_path / "build")
+    opts.msys_dir = str(tmp_path / "msys64")
+    opts.gtk_dir = str(tmp_path / "gtk")
+    opts.archives_download_dir = str(tmp_path / "downloads")
+    opts.patches_root_dir = str(tmp_path / "patches")
+    return opts
+
+
+@pytest.fixture
+def mock_project(mocker):
+    """Fixture providing a mock project with common attributes."""
+    project = mocker.Mock()
+    project.dependencies = []
+    project.all_dependencies = []
+    project.name = "test-project"
+    return project
