@@ -17,37 +17,36 @@ import pytest
 
 
 def test_version_callback_inactive():
-    """Test version_callback when active=False."""
     from gvsbuild.info import version_callback
 
-    # Should return None without raising
     result = version_callback(False)
     assert result is None
 
 
-def test_version_callback_active():
-    """Test version_callback when active=True."""
+def test_version_callback_active_exit_code(mocker):
     from gvsbuild.info import version_callback
 
-    # Should raise SystemExit
-    with pytest.raises(SystemExit):
+    mocker.patch("importlib.metadata.version", return_value="1.0.0")
+
+    with pytest.raises(SystemExit) as exc_info:
         version_callback(True)
 
+    assert exc_info.value.code == 0
 
-def test_version_callback_output(capsys):
-    """Test version_callback output."""
+
+def test_version_callback_output(capsys, mocker):
     from gvsbuild.info import version_callback
 
-    # Should print version and exit
-    with pytest.raises(SystemExit):
+    mocker.patch("importlib.metadata.version", return_value="1.2.3")
+
+    with pytest.raises(SystemExit) as exc_info:
         version_callback(True)
 
     captured = capsys.readouterr()
-    assert "gvsbuild v" in captured.out
+    assert captured.out == "gvsbuild v1.2.3\n"
+    assert exc_info.value.code == 0
 
 
 def test_version_via_cli(app, runner, console):
-    """Test version output via CLI with consistent console formatting."""
     result = runner.invoke(app, ["--version"], console=console)
-    # The --version flag should trigger the callback
     assert "gvsbuild v" in result.output or result.exit_code in [0, 1]
