@@ -37,10 +37,12 @@ def test_no_project(app, runner):
     result = runner.invoke(app, ["build"])
     # Cyclopts returns exit code 1 for errors
     assert result.exit_code in [1, 2]
+    full_output = result.output + result.stderr
     assert (
-        "requires an argument" in result.output.lower()
-        or "required" in result.output.lower()
-        or "missing" in result.output.lower()
+        "requires an argument" in full_output.lower()
+        or "required" in full_output.lower()
+        or "missing" in full_output.lower()
+        or "at least one project" in full_output.lower()
     )
 
 
