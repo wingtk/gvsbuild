@@ -96,6 +96,7 @@ from gvsbuild.projects.pkgconf import PkgConf
 from gvsbuild.projects.protobuf import Protobuf, ProtobufC
 from gvsbuild.projects.pycairo import Pycairo
 from gvsbuild.projects.pygobject import PyGObject
+from gvsbuild.projects.sass import Libsass, Sassc
 from gvsbuild.projects.sqlite import SQLite
 from gvsbuild.projects.webrtc_audio_processing import WebrtcAudioProcessing
 from gvsbuild.projects.win_iconv import WinIconv
