@@ -15,29 +15,19 @@
 
 """gvsbuild deps print / .gv graph."""
 
-import typer
+from typing import Annotated
 
-# Verify we can import from the script directory
-try:
-    import gvsbuild.utils.utils
-except ImportError:
-    # We are probably using an embedded installation
-    print(
-        "Error importing utility (running the embedded interpreter ?), fixing paths ..."
-    )
-    import os
-    import sys
-
-    # Get the script dir
-    script_dir = os.path.dirname(os.path.realpath(sys.argv[0]))
-    # and add it at the beginning, emulating the standard python startup
-    sys.path.insert(0, script_dir)
+from cyclopts import Group, Parameter
 
 import gvsbuild.groups  # noqa: F401
 import gvsbuild.projects  # noqa: F401
 import gvsbuild.tools  # noqa: F401
 from gvsbuild.utils.base_project import Project, ProjectType
 from gvsbuild.utils.utils import ordered_set
+
+TEXT_OUTPUT_GROUP = Group("Text Output Options", sort_key=0)
+GRAPH_GROUP = Group("Graph Options", sort_key=1)
+GRAPH_FILTER_GROUP = Group("Graph Filter Options", sort_key=2)
 
 
 def print_deps(flatten=False, add_all=False):
@@ -185,39 +175,30 @@ def compute_deps(proj):
 
 
 def deps(
-    flatten: bool = typer.Option(False, help="Flatten the dependencies"),
-    dep_tools: bool = typer.Option(
-        False,
-        help="Include tools in the dependencies",
-    ),
-    graph: bool = typer.Option(
-        False, help="Generate a graphviz file", rich_help_panel="Graphing Options"
-    ),
-    graph_all: bool = typer.Option(
-        False,
-        help="Also include unreferenced projects to the graph",
-        rich_help_panel="Graphing Options",
-    ),
-    add_tools: bool = typer.Option(
-        False, help="Include tools in the graph", rich_help_panel="Graphing Options"
-    ),
-    add_groups: bool = typer.Option(
-        False,
-        help="Include group projects in the graph",
-        rich_help_panel="Graphing Options",
-    ),
-    gv_file: str = typer.Option(
-        "wingtk.gv", help="Graphviz output file", rich_help_panel="Graphing Options"
-    ),
-    invert: bool = typer.Option(
-        False, help="Invert the dependencies", rich_help_panel="Graphing Options"
-    ),
-    skip: list[str] = typer.Option(
-        None,
-        help="A comma separated list of projects not to graph",
-        rich_help_panel="Graphing Options",
-    ),
+    *,
+    flatten: Annotated[bool, Parameter(group=TEXT_OUTPUT_GROUP)] = False,
+    dep_tools: Annotated[bool, Parameter(group=TEXT_OUTPUT_GROUP)] = False,
+    graph: Annotated[bool, Parameter(group=GRAPH_GROUP)] = False,
+    graph_all: Annotated[bool, Parameter(group=GRAPH_GROUP)] = False,
+    gv_file: Annotated[str, Parameter(group=GRAPH_GROUP)] = "wingtk.gv",
+    add_tools: Annotated[bool, Parameter(group=GRAPH_FILTER_GROUP)] = False,
+    add_groups: Annotated[bool, Parameter(group=GRAPH_FILTER_GROUP)] = False,
+    invert: Annotated[bool, Parameter(group=GRAPH_FILTER_GROUP)] = False,
+    skip: Annotated[list[str] | None, Parameter(group=GRAPH_FILTER_GROUP)] = None,
 ):
+    """Show project dependencies.
+
+    Args:
+        flatten: Flatten the dependencies.
+        dep_tools: Include tools in the dependencies.
+        graph: Generate a graphviz file.
+        graph_all: Also include unreferenced projects to the graph.
+        gv_file: Graphviz output file.
+        add_tools: Include tools in the graph.
+        add_groups: Include group projects in the graph.
+        invert: Invert the dependencies.
+        skip: A comma separated list of projects not to graph.
+    """
     Project.add_all()
     # do what's asked
     if graph:
