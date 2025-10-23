@@ -24,10 +24,10 @@ class Librsvg(Tarball, Meson):
         Project.__init__(
             self,
             "librsvg",
-            version="2.61.1",
+            version="2.61.2",
             repository="https://gitlab.gnome.org/GNOME/librsvg",
             archive_url="https://download.gnome.org/sources/librsvg/{major}.{minor}/librsvg-{version}.tar.xz",
-            hash="bc1bbcd419120b098db28bea55335d9de2470d4e6a9f6ee97207b410fc15867d",
+            hash="4644d83623dd61cc4479c2b3c372e1da2b281552ebc90035c8d1ac502eb1dc00",
             dependencies=[
                 "cargo",
                 "cairo",
