@@ -80,7 +80,7 @@ jobs:
 
   build:
     needs: lint
-    name: Build GTK${{ matrix.gtk-version }} Binaries
+    name: Build ${{ matrix.package-set }} Binaries
     runs-on: windows-latest
     permissions:
       contents: write
@@ -88,7 +88,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, 'skip ci')"
     strategy:
       matrix:
-        gtk-version: ['3', '4']
+        package-set: ['GTK3', 'GTK4', 'Others']
 
     steps:
       - name: Harden Runner
@@ -113,49 +113,56 @@ jobs:
       - name: Install the project
         run: uv sync --no-dev
       - name: Build GTK3
-        if: matrix.gtk-version == '3'
+        if: matrix.package-set == 'GTK3'
         run: >
           uv run gvsbuild build --ninja-opts -j2 --enable-gi --py-wheel gtk3 gtksourceview4 graphene pygobject
           adwaita-icon-theme glib-networking
       - name: Build GTK4
-        if: matrix.gtk-version == '4'
+        if: matrix.package-set == 'GTK4'
         run: > # Use -j2 option to prevent out of memory errors with GitHub Action runners
           uv run gvsbuild build --ninja-opts -j2 --enable-gi --py-wheel gtk4 libadwaita gtksourceview5 pygobject
           adwaita-icon-theme gtkmm
+      - name: Build Others
+        if: matrix.package-set == 'Others'
+        run: > # Use -j2 option to prevent out of memory errors with GitHub Action runners
+          uv run gvsbuild build --ninja-opts -j2 --enable-gi --py-wheel protobuf-c gst-plugins-good gst-plugins-bad
+          gst-plugins-ugly
       - name: Copy wheel files
+        if: matrix.package-set != 'Others'
         run: |
           New-Item "C:\gtk-build\gtk\x64\release\wheels" -ItemType "directory"
           Copy-Item (Resolve-Path C:\gtk-build\build\x64\release\pygobject\dist\PyGObject*.whl) "C:\gtk-build\gtk\x64\release\wheels"
           Copy-Item (Resolve-Path C:\gtk-build\build\x64\release\pycairo\dist\pycairo*.whl) "C:\gtk-build\gtk\x64\release\wheels"
       - name: Archive GTK runtime
-        run: 7z a -tzip GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.sha }}_x64.zip C:\gtk-build\gtk\x64\release\*
-      - name: Upload GTK${{ matrix.gtk-version }}_Gvsbuild-${{ github.sha }}_x64.zip
+        if: matrix.package-set != 'Others'
+        run: 7z a -tzip ${{ matrix.package-set }}_Gvsbuild_${{ github.sha }}_x64.zip C:\gtk-build\gtk\x64\release\*
+      - name: Upload ${{ matrix.package-set }}_Gvsbuild-${{ github.sha }}_x64.zip
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          name: GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.sha }}_x64.zip
-          path: GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.sha }}_x64.zip
+          name: ${{ matrix.package-set }}_Gvsbuild_${{ github.sha }}_x64.zip
+          path: ${{ matrix.package-set }}_Gvsbuild_${{ github.sha }}_x64.zip
       - name: Upload Release Assets
-        if: github.event_name == 'release'
+        if: github.event_name == 'release' && matrix.package-set != 'Others'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          mv GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.sha }}_x64.zip GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.event.release.tag_name }}_x64.zip
-          gh release upload ${{ github.event.release.tag_name }} "GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.event.release.tag_name }}_x64.zip"
+          mv ${{ matrix.package-set }}_Gvsbuild_${{ github.sha }}_x64.zip ${{ matrix.package-set }}_Gvsbuild_${{ github.event.release.tag_name }}_x64.zip
+          gh release upload ${{ github.event.release.tag_name }} "${{ matrix.package-set }}_Gvsbuild_${{ github.event.release.tag_name }}_x64.zip"
       - name: Cleanup Zip Files
-        if: github.event_name == 'release'
-        run: rm GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.event.release.tag_name }}_x64.zip
+        if: github.event_name == 'release' && matrix.package-set != 'Others'
+        run: rm ${{ matrix.package-set }}_Gvsbuild_${{ github.event.release.tag_name }}_x64.zip
       - name: Create Source Dist and Wheel
-        if: matrix.gtk-version == '4'
+        if: matrix.package-set == 'GTK4'
         run: uv build
       - name: Upload gvsbuild-${{ github.event.release.tag_name }}.tar.gz
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
-        if: github.event_name == 'release' && matrix.gtk-version == '4'
+        if: github.event_name == 'release' && matrix.package-set == 'GTK4'
         with:
           name: gvsbuild-${{ github.event.release.tag_name }}.tar.gz
           path: dist/gvsbuild-${{ github.event.release.tag_name }}.tar.gz
       - name: Upload gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
-        if: github.event_name == 'release' && matrix.gtk-version == '4'
+        if: github.event_name == 'release' && matrix.package-set == 'GTK4'
         with:
           name: gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
           path: dist/gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
