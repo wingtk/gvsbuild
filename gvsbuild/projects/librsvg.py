@@ -48,6 +48,7 @@ class Librsvg(Tarball, Meson):
         self.add_param("-Ddocs=disabled")
         self.add_param("-Dtests=false")
         self.add_param("-Dvala=disabled")
+        self.add_param("-Dpixbuf-loader=enabled")
 
     def build(self):
         self.builder.exec_cargo("install cargo-c --locked")
