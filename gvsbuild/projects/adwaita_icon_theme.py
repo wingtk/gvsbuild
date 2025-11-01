@@ -13,7 +13,6 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-import os
 
 from gvsbuild.utils.base_builders import Meson
 from gvsbuild.utils.base_expanders import Tarball
@@ -35,20 +34,11 @@ class AdwaitaIconTheme(Tarball, Meson):
                 "librsvg",
                 "gtk4",
             ],
+            patches=[
+                "001-fix-svg-symlink.patch",
+            ],
         )
 
     def build(self):
         Meson.build(self)
-        # Work around for https://gitlab.gnome.org/GNOME/adwaita-icon-theme/-/issues/282
-        self.builder.exec_msys(
-            [
-                "cp",
-                "--remove-destination",
-                "places/folder.svg",
-                "status/folder-open.svg",
-            ],
-            working_dir=os.path.join(
-                self.builder.gtk_dir, "share", "icons", "Adwaita", "scalable"
-            ),
-        )
         self.install(r".\COPYING_CCBYSA3 share\doc\adwaita-icon-theme")
