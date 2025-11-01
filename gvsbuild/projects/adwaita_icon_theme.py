@@ -33,6 +33,7 @@ class AdwaitaIconTheme(Tarball, Meson):
             dependencies=[
                 "hicolor-icon-theme",
                 "librsvg",
+                "gtk4",
             ],
         )
 
