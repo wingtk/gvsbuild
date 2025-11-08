@@ -306,3 +306,24 @@ class GstRtspServer(Tarball, Meson):
     def build(self):
         Meson.build(self)
         self.install(r".\COPYING share\doc\gst-rtsp-server")
+
+@project_add
+class GstPluginGtk4(Tarball, Project):
+    def __init__(self):
+        Project.__init__(
+            self,
+            "gst-plugin-gtk4",
+            version="0.14.3",
+            lastversion_even=True,
+            repository="https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs",
+            archive_url="https://crates.io/api/v1/crates/gst-plugin-gtk4/{version}/download",
+            archive_filename="gst-plugin-gtk4-{version}.tar.gz",
+            hash="defe41c5b45f2f1617253274abcaa497b53624fd6e23c1d89fe5e0c8cfbe3fd2",
+            dependencies=["cargo", "gstreamer"],
+        )
+
+    def build(self):
+        self.builder.exec_cargo("install cargo-c")
+        print("gst-plugin-gtk4: installed cargo-c")
+        print("gst-plugin-gtk4: TODO: Translate this into gvsbuild: cargo cinstall -p gst-plugin-gtk4 --prefix 'C:\gtk-build\build\gtk\x64\release' --libdir 'C:\gtk-build\build\gtk\x64\release\lib'")
+        # TODO: then test via gst-inspect-1.0.exe gtk4paintablesink
