@@ -26,20 +26,22 @@ class PyGObject(Tarball, Meson):
         Project.__init__(
             self,
             "pygobject",
-            version="3.54.0",
+            version="3.54.5",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/pygobject",
             archive_url="https://download.gnome.org/sources/pygobject/{major}.{minor}/pygobject-{version}.tar.gz",
-            hash="4652a7cc7ff950a5099d56ac61a78c144629c20f8855a1306933b46b10f3b417",
+            hash="b6656f6348f5245606cf15ea48c384c7f05156c75ead206c1b246c80a22fb585",
             dependencies=["pycairo", "gobject-introspection", "libffi"],
             patches=[
                 "001-pygobject-py38-load-dll.patch",
+                # https://gitlab.gnome.org/GNOME/pygobject/-/merge_requests/463
+                "002-fix-syntax-error.patch",
             ],
         )
 
     def build(self):
         py_dir = Path(sys.executable).parent
-        Meson.build(self, meson_params=f'-Dpython="{py_dir}\\python.exe"')
+        Meson.build(self, meson_params=f'-Dpython="{py_dir}\\python.exe" -Dtests=false')
         gtk_dir = self.builder.gtk_dir
         add_inc = [
             str(Path(gtk_dir) / "include" / "cairo"),

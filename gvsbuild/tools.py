@@ -28,8 +28,8 @@ class ToolCargo(Tool):
         Tool.__init__(
             self,
             "cargo",
-            version="1.89.0",
-            repository="rust-lang/rust",
+            version="1.90.0",
+            repository="https://github.com/rust-lang/rust",
             archive_url="https://win.rustup.rs/x86_64",
             archive_filename="rustup-init.exe",
             exe_name="cargo.exe",
@@ -66,9 +66,10 @@ class ToolCmake(Tool):
         Tool.__init__(
             self,
             "cmake",
-            version="4.1.1",
+            version="4.1.2",
+            repository="https://gitlab.kitware.com/cmake/cmake",
             archive_url="https://github.com/Kitware/CMake/releases/download/v{version}/cmake-{version}-windows-x86_64.zip",
-            hash="6f531bd4ba31a7aa0c3511082b544d306df50e7aecfbeef8bdbc1dd770736993",
+            hash="82730741149681597510a4bc7095da1460b472dac24eaf9c23ad7440f47753ab",
             dir_part="cmake-{version}-windows-x86_64",
         )
 
@@ -94,6 +95,7 @@ class ToolMeson(Tool):
             self,
             "meson",
             version="1.8.2",  # Regression with 1.8.3: https://github.com/mesonbuild/meson/issues/14896
+            repository="https://github.com/mesonbuild/meson",
             archive_url="https://github.com/mesonbuild/meson/archive/refs/tags/{version}.tar.gz",
             archive_filename="meson-{version}.tar.gz",
             hash="6b878fb0f6f0318cbd54e13539f89a1a8305791668e8e93ffd59d82722888dac",
@@ -136,9 +138,10 @@ class ToolNasm(Tool):
         Tool.__init__(
             self,
             "nasm",
-            version="2.16.03",
-            archive_url="https://github.com/xmake-mirror/nasm/releases/download/nasm-{version}/nasm-{version}-win64.zip",
-            hash="3ee4782247bcb874378d02f7eab4e294a84d3d15f3f6ee2de2f47a46aa7226e6",
+            version="3.01",
+            repository="https://github.com/netwide-assembler/nasm",
+            archive_url="https://www.nasm.us/pub/nasm/releasebuilds/{version}/win64/nasm-{version}-win64.zip",
+            hash="e0ba5157007abc7b1a65118a96657a961ddf55f7e3f632ee035366dfce039ca4",
             dir_part="nasm-{version}",
             exe_name="nasm.exe",
         )
@@ -161,10 +164,11 @@ class ToolNinja(Tool):
         Tool.__init__(
             self,
             "ninja",
-            version="1.12.1",
+            version="1.13.1",
+            repository="https://github.com/ninja-build/ninja",
             archive_url="https://github.com/ninja-build/ninja/releases/download/v{version}/ninja-win.zip",
             archive_filename="ninja-win-{version}.zip",
-            hash="f550fec705b6d6ff58f2db3c374c2277a37691678d6aba463adcbb129108467a",
+            hash="26a40fa8595694dec2fad4911e62d29e10525d2133c9a4230b66397774ae25bf",
             dir_part="ninja-{version}",
             exe_name="ninja.exe",
         )
@@ -182,6 +186,7 @@ class ToolPerl(Tool):
             self,
             "perl",
             version="5.20.0",
+            repository="https://github.com/Perl/perl5",
             archive_url="https://github.com/wingtk/gtk-win32/releases/download/Perl-{major}.{minor}/perl-{version}-x64.tar.xz",
             hash="05e01cf30bb47d3938db6169299ed49271f91c1615aeee5649174f48ff418c55",
             dir_part="perl-{version}",
@@ -210,10 +215,10 @@ class ToolGo(Tool):
         Tool.__init__(
             self,
             "go",
-            version="1.25.1",
+            version="1.25.3",
             repository="https://github.com/golang/go",
             archive_url="https://go.dev/dl/go{version}.windows-amd64.zip",
-            hash="89efb4f9b30812eee083cc1770fdd2913c14d301064f6454851428f9707d190b",
+            hash="bc249a599c6fe9d0d4093c363856f6c6320dbbe05e5d5d8818b711fb4a14fc23",
             dir_part="go-{version}",
         )
 

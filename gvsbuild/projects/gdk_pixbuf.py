@@ -24,11 +24,11 @@ class GdkPixbuf(Tarball, Meson):
         Project.__init__(
             self,
             "gdk-pixbuf",
-            version="2.44.0",
+            version="2.44.3",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/gdk-pixbuf",
             archive_url="https://download.gnome.org/sources/gdk-pixbuf/{major}.{minor}/gdk-pixbuf-{version}.tar.xz",
-            hash="31d65c2db14d321b9d862a323fc63002179cf3cc0b10d04db6ed55ffaed00db3",
+            hash="40a92dcc237ff94b63a80c159a3f6f22cd59f6fb4961f201c78799fa2c8ac0a6",
             dependencies=[
                 "ninja",
                 "pkgconf",

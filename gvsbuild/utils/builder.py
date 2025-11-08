@@ -29,7 +29,6 @@ import sys
 import time
 import traceback
 from pathlib import Path
-from typing import Optional
 from urllib.error import ContentTooShortError, URLError
 from urllib.request import urlopen
 
@@ -210,7 +209,7 @@ class Builder:
         os.environ["INCLUDE"] = ""
         log.end()
 
-    def __msys_missing(self, base_dir: Path) -> Optional[list]:
+    def __msys_missing(self, base_dir: Path) -> list | None:
         msys_pkg = [
             ("patch", "patch"),
             ("make", "make"),

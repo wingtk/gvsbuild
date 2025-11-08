@@ -24,6 +24,7 @@ class CyrusSasl(Tarball, Project):
             self,
             "cyrus-sasl",
             version="2.1.28",
+            repository="https://github.com/cyrusimap/cyrus-sasl",
             hash="9e8035c12d419209ea60584d5efa51d042c3ed44b450b9d173d5504b222df9f1",
             archive_url="https://github.com/wingtk/cyrus-sasl/releases/download/cyrus-sasl-lmdb-{version}/cyrus-sasl-{version}.tar.xz",
             dependencies=["lmdb", "openssl", "mit-kerberos"],

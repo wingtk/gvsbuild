@@ -26,4 +26,4 @@ def test_main_help(typer_app, runner):
 def test_wrong_command(typer_app, runner):
     result = runner.invoke(typer_app, ["builds"])
     assert result.exit_code == 2
-    assert "No such command" in result.stdout
+    assert "No such command" in result.stderr

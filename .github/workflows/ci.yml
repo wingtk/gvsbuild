@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  python_version: '3.13'
+  python_version: '3.14'
 
 name: CI
 
@@ -25,7 +25,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, 'skip ci')"
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
+        uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
         with:
           egress-policy: audit
 
@@ -36,9 +36,8 @@ jobs:
         uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
         with:
           python-version: ${{ env.python_version }}
-          check-latest: true # 3.13.4 broken
       - name: Install uv
-        uses: astral-sh/setup-uv@557e51de59eb14aaaba2ed9621916900a91d50c6 # v6.6.1
+        uses: astral-sh/setup-uv@85856786d1ce8acfbcc2f13a5f3fbd6b938f9f41 # v7.1.2
         with:
           enable-cache: true
           cache-dependency-glob: ".pre-commit-config.yaml"
@@ -57,7 +56,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, 'skip ci')"
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
+        uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
         with:
           egress-policy: audit
 
@@ -66,7 +65,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - name: Install uv
-        uses: astral-sh/setup-uv@557e51de59eb14aaaba2ed9621916900a91d50c6 # v6.6.1
+        uses: astral-sh/setup-uv@85856786d1ce8acfbcc2f13a5f3fbd6b938f9f41 # v7.1.2
         with:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
@@ -93,7 +92,7 @@ jobs:
 
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
+        uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
         with:
           egress-policy: audit
 
@@ -107,12 +106,10 @@ jobs:
           python-version: ${{ env.python_version }}
           check-latest: true # 3.13.4 broken
       - name: Install uv
-        uses: astral-sh/setup-uv@557e51de59eb14aaaba2ed9621916900a91d50c6 # v6.6.1
+        uses: astral-sh/setup-uv@85856786d1ce8acfbcc2f13a5f3fbd6b938f9f41 # v7.1.2
         with:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
-      - name: Seed pip
-        run: uv venv --seed
       - name: Install the project
         run: uv sync --no-dev
       - name: Build GTK3
@@ -133,7 +130,7 @@ jobs:
       - name: Archive GTK runtime
         run: 7z a -tzip GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.sha }}_x64.zip C:\gtk-build\gtk\x64\release\*
       - name: Upload GTK${{ matrix.gtk-version }}_Gvsbuild-${{ github.sha }}_x64.zip
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         with:
           name: GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.sha }}_x64.zip
           path: GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.sha }}_x64.zip
@@ -151,13 +148,13 @@ jobs:
         if: matrix.gtk-version == '4'
         run: uv build
       - name: Upload gvsbuild-${{ github.event.release.tag_name }}.tar.gz
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         if: github.event_name == 'release' && matrix.gtk-version == '4'
         with:
           name: gvsbuild-${{ github.event.release.tag_name }}.tar.gz
           path: dist/gvsbuild-${{ github.event.release.tag_name }}.tar.gz
       - name: Upload gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         if: github.event_name == 'release' && matrix.gtk-version == '4'
         with:
           name: gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
@@ -171,12 +168,12 @@ jobs:
     if: ${{ github.event_name == 'release' }}
     steps:
       - name: Download tar.gz
-        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
           name: gvsbuild-${{ github.event.release.tag_name }}.tar.gz
           path: dist
       - name: Download wheel
-        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
           name: gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
           path: dist

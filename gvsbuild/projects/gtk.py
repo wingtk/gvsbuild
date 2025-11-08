@@ -90,15 +90,17 @@ class Gtk3(Tarball, Meson):
             self,
             "gtk3",
             prj_dir="gtk3",
-            version="3.24.50",
+            version="3.24.51",
             lastversion_major=3,
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/gtk",
             archive_url="https://download.gnome.org/sources/gtk/{major}.{minor}/gtk-{version}.tar.xz",
-            hash="399118a5699314622165a11b769ea9b6ed68e037b6d46d57cfcf4851dec07529",
+            hash="0013877c6bd23c2dbe42ad7c70a053d0e449be66736574e37867c49c5f905a4f",
             dependencies=["atk", "gdk-pixbuf", "pango", "libepoxy"],
             patches=[
-                "gtk_update_icon_cache.patch",
+                "001-gtk-update-icon-cache.patch",
+                # https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/9067
+                "002-fix-gdkglcontext-not-public.patch",
             ],
         )
         if self.opts.enable_gi:
