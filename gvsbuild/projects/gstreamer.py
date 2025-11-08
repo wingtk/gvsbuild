@@ -314,7 +314,6 @@ class GstPluginGtk4(Tarball, Project):
             self,
             "gst-plugin-gtk4",
             version="0.14.3",
-            lastversion_even=True,
             repository="https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs",
             archive_url="https://crates.io/api/v1/crates/gst-plugin-gtk4/{version}/download",
             archive_filename="gst-plugin-gtk4-{version}.tar.gz",
