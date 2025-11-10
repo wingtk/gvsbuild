@@ -327,3 +327,4 @@ class GstPluginGtk4(Tarball, Meson):
     def build(self):
         self.builder.exec_cargo("install cargo-c")
         Meson.build(self)
+        self.install(r".\LICENSE-MPL-2.0 share\doc\gst-plugin-gtk4")
