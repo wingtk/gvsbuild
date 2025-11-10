@@ -319,7 +319,13 @@ class GstPluginGtk4(Tarball, Meson):
             archive_url="https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs/-/archive/{version}/gst-plugins-rs-{version}.tar.gz?ref_type=tags",
             archive_filename="gst-plugins-rs-{version}.tar.gz",
             hash="0609b2459ec29f4678edd98e69b6b0a473ef4a303d60645260245dbc23f75167",
-            dependencies=["meson", "cargo", "gst-plugins-base", "gst-plugins-bad", "gtk4"],
+            dependencies=[
+                "meson",
+                "cargo",
+                "gst-plugins-base",
+                "gst-plugins-bad",
+                "gtk4",
+            ],
         )
         self.add_param("-Dgtk4=enabled")
         self.add_param("--auto-features=disabled")
