@@ -309,7 +309,7 @@ class GstRtspServer(Tarball, Meson):
 
 
 @project_add
-class GstPluginGtk4Meson(Tarball, Meson):
+class GstPluginGtk4(Tarball, Meson):
     def __init__(self):
         Project.__init__(
             self,
