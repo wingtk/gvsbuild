@@ -24,11 +24,11 @@ class Libsigcplusplus(Tarball, Meson):
             self,
             "libsigc++",
             prj_dir="libsigc++",
-            version="3.6.0",
+            version="3.8.0",
             lastversion_even=True,
             repository="https://github.com/libsigcplusplus/libsigcplusplus",
             archive_url="https://github.com/libsigcplusplus/libsigcplusplus/releases/download/{version}/libsigc++-{version}.tar.xz",
-            hash="c3d23b37dfd6e39f2e09f091b77b1541fbfa17c4f0b6bf5c89baef7229080e17",
+            hash="502a743bb07ed7627dd41bd85ec4b93b4954f06b531adc45818d24a959f54e36",
             dependencies=[
                 "meson",
                 "ninja",
