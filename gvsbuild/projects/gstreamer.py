@@ -331,6 +331,6 @@ class GstPluginGtk4(Tarball, Meson):
         self.add_param("--auto-features=disabled")
 
     def build(self):
-        self.builder.exec_cargo("install cargo-c")
+        self.builder.exec_cargo("install cargo-c --locked")
         Meson.build(self)
         self.install(r".\LICENSE-MPL-2.0 share\doc\gst-plugin-gtk4")
