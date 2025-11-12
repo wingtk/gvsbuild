@@ -47,9 +47,9 @@ class Libadwaita(Tarball, Meson):
             gir = "enabled"
 
         self.add_param(f"-Dintrospection={gir}")
-        self.add_param("-Dgtk_doc=false")
+        self.add_param("-Ddocumentation=false")
         self.add_param("-Dvapi=false")
-        # https://gitlab.gnome.org/GNOME/libadwaita/-/issues/931
+        self.add_param("-Dexamples=false")
         self.add_param("-Dtests=false")
 
     def build(self, **kwargs):
