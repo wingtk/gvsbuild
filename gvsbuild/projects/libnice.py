@@ -25,7 +25,7 @@ class Libnice(GitRepo, Meson):
             self,
             "libnice",
             version="0.1.22",
-            repository="https://gitlab.freedesktop.org/libnice/libnice",
+            repository="https://gitlab.freedesktop.org/libnice/libnice.git",
             fetch_submodules=False,
             tag="ae3eb16fd7d1237353bf64e899c612b8a63bca8a",
             dependencies=[
