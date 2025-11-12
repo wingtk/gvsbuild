@@ -1,0 +1,28 @@
+diff --git a/meson.build b/meson.build
+index d4cbbbacc..526da6536 100644
+--- a/meson.build
++++ b/meson.build
+@@ -23,6 +23,23 @@ install_subdir(
+   install_tag : 'runtime',
+ )
+ 
++files('Adwaita/scalable/places/folder.svg')
++if host_machine.system() == 'windows'
++  install_data(
++    'Adwaita/scalable/places/folder.svg',
++    install_dir: adwaita_dir / 'scalable' / 'status',
++    rename: 'folder-open.svg',
++    install_tag : 'runtime',
++  )
++else
++  install_symlink(
++    'folder-open.svg',
++    install_dir: adwaita_dir / 'scalable' / 'status',
++    install_tag: 'runtime',
++    pointing_to: '../places/folder.svg',
++  )
++endif
++
+ command_output = run_command('tools/find_cursors_win32.py', check: true)
+ win32_cursors = command_output.stdout().strip().split('\n')
+ if host_machine.system() == 'windows'
