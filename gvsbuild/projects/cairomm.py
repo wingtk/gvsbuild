@@ -24,10 +24,10 @@ class Cairomm(Tarball, Meson):
         Meson.__init__(
             self,
             "cairomm",
-            version="1.18.0",
+            version="1.19.0",
             repository="https://gitlab.freedesktop.org/cairo/cairomm",
             archive_url="https://cairographics.org/releases/cairomm-{version}.tar.xz",
-            hash="b81255394e3ea8e8aa887276d22afa8985fc8daef60692eb2407d23049f03cfb",
+            hash="8b14f03a0e5178c7ff8f7b288cb342a61711c84c9fbed6e663442cfcc873ce5b",
             dependencies=["meson", "ninja", "libsigc++", "cairo"],
         )
 

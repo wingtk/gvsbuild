@@ -25,9 +25,9 @@ class Libadwaita(Tarball, Meson):
             self,
             "libadwaita",
             repository="https://gitlab.gnome.org/GNOME/libadwaita",
-            version="1.7.6",
+            version="1.8.1",
             archive_url="https://download.gnome.org/sources/libadwaita/{major}.{minor}/libadwaita-{version}.tar.xz",
-            hash="5eacc5550f0bdbba6a1568aebf25a3d88f5ee07d6b558becc6fd9487579c9a29",
+            hash="8b1d4d5f89373a5b6eea8d93ecdaee34cd26ad27a4dd396c06f5d9929fb313bc",
             dependencies=[
                 "ninja",
                 "meson",
@@ -35,6 +35,7 @@ class Libadwaita(Tarball, Meson):
                 "pkgconf",
                 "glib",
                 "gtk4",
+                "sassc",
             ],
             patches=[
                 "0001-remove-appstream-dependency.patch",
@@ -46,9 +47,9 @@ class Libadwaita(Tarball, Meson):
             gir = "enabled"
 
         self.add_param(f"-Dintrospection={gir}")
-        self.add_param("-Dgtk_doc=false")
+        self.add_param("-Ddocumentation=false")
         self.add_param("-Dvapi=false")
-        # https://gitlab.gnome.org/GNOME/libadwaita/-/issues/931
+        self.add_param("-Dexamples=false")
         self.add_param("-Dtests=false")
 
     def build(self, **kwargs):
