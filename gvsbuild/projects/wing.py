@@ -27,7 +27,8 @@ class Wing(Tarball, Meson):
             version="0.3.24",
             repository="https://gitlab.gnome.org/GNOME/wing",
             archive_url="https://github.com/GNOME/wing/archive/refs/tags/v{version}.tar.gz",
-            hash="ea828739d77f1d1841863fddb693bf2ede9142ee47ba527f5946604a2635591e",
+            archive_filename="wing-{version}.tar.gz",
+            hash="66c333973bb7efa2f6424ca3d3e03e60bd25e291292d0e766a18602ac797f62d",
             dependencies=["ninja", "meson", "pkgconf", "glib"],
         )
 
