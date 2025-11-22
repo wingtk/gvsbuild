@@ -1,0 +1,17 @@
+diff --git a/rsvg/meson.build b/rsvg/meson.build
+index dc29b8879..f6cf40394 100644
+--- a/rsvg/meson.build
++++ b/rsvg/meson.build
+@@ -198,6 +198,12 @@ strip_link_args = cc.get_supported_link_arguments(
+ # executable Meson uses will lack the necessary functions.
+ link_args = strip_link_args + vflag
+ 
++# On Windows/MSVC with link_whole, Windows system libraries from the Rust static
++# library cause duplicate symbol errors. Use /FORCE:MULTIPLE to allow this.
++if host_system == 'windows' and is_msvc_style and get_option('default_library') in ['shared', 'both']
++  link_args += ['/FORCE:MULTIPLE']
++endif
++
+ # Some systems, reportedly OpenBSD and macOS, refuse
+ # to create libraries without any object files. Compiling
+ # this file, and adding its object file to the library,
