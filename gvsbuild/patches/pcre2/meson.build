@@ -1,15 +1,15 @@
 project(
   'pcre2',
   'c',
-  license: 'BSD-3',
-  meson_version: '>=0.49.0',
-  version: '10.45',
+  license: 'BSD-3-Clause WITH PCRE2-exception',
+  meson_version: '>=0.54.0',
+  version: '10.47',
 )
 
-pcre2_8_lib_version = '0.14.0'
-pcre2_16_lib_version = '0.14.0'
-pcre2_32_lib_version = '0.14.0'
-pcre2_posix_lib_version = '3.0.6'
+pcre2_8_lib_version = '0.15.0'
+pcre2_16_lib_version = '0.15.0'
+pcre2_32_lib_version = '0.15.0'
+pcre2_posix_lib_version = '3.0.7'
 
 c_compiler = meson.get_compiler('c')
 
@@ -22,13 +22,10 @@ platform_is_unixlike = host_machine.system() in [
   'linux',
   'android',
   'darwin',
-  'cygwin'
+  'cygwin',
 ]
 
-platform_supports_sealloc = host_machine.system() in [
-  'linux',
-  'netbsd'
-]
+platform_supports_sealloc = host_machine.system() in ['linux', 'netbsd']
 
 # pcre2.h
 pcredata = configuration_data()
@@ -36,7 +33,7 @@ varr = meson.project_version().split('.')
 pcredata.set('PCRE2_MAJOR', varr[0])
 pcredata.set('PCRE2_MINOR', varr[1])
 pcredata.set('PCRE2_PRERELEASE', '')
-pcredata.set('PCRE2_DATE', '2025-02-05')
+pcredata.set('PCRE2_DATE', '2025-08-27')
 
 # config.h
 cdata = configuration_data()
@@ -44,7 +41,7 @@ cdata.set('LINK_SIZE', '2')
 cdata.set('HEAP_LIMIT', '20000000')
 cdata.set('MATCH_LIMIT', '10000000')
 cdata.set('MATCH_LIMIT_DEPTH', 'MATCH_LIMIT')
-cdata.set('NEWLINE_DEFAULT', '2') # default in config.h.generic
+cdata.set('NEWLINE_DEFAULT', '2')  # default in config.h.generic
 cdata.set('PARENS_NEST_LIMIT', '250')
 cdata.set('PCRE2GREP_BUFSIZE', '20480')
 cdata.set('PCRE2GREP_MAX_BUFSIZE', '1048576')
@@ -65,7 +62,17 @@ if not get_option('jit').disabled() and platform_is_unixlike
 endif
 
 if not get_option('jit_sealloc').disabled()
-  if c_compiler.has_function('mkostemp', prefix: '#include <stdlib.h>', args: ['-D_GNU_SOURCE'])
+  foreach f : ['mkostemp', 'memfd_create', 'secure_getenv']
+    if c_compiler.has_function(
+      f,
+      prefix: '#include <stdlib.h>',
+      args: ['-D_GNU_SOURCE'],
+    )
+      cdata.set10('HAVE_@0@'.format(f.to_upper()), true)
+    endif
+  endforeach
+
+  if cdata.has('HAVE_MKOSTEMP') and cdata.has('HAVE_SECURE_GETENV')
     if platform_supports_sealloc
       cdata.set10('SLJIT_PROT_EXECUTABLE_ALLOCATOR', true)
     elif get_option('jit_sealloc').enabled()
@@ -80,6 +87,7 @@ sources = files(
   'src/pcre2_auto_possess.c',
   'src/pcre2_chkdint.c',
   'src/pcre2_compile.c',
+  'src/pcre2_compile_cgroup.c',
   'src/pcre2_compile_class.c',
   'src/pcre2_config.c',
   'src/pcre2_context.c',
@@ -92,6 +100,7 @@ sources = files(
   'src/pcre2_maketables.c',
   'src/pcre2_match.c',
   'src/pcre2_match_data.c',
+  'src/pcre2_match_next.c',
   'src/pcre2_newline.c',
   'src/pcre2_ord2utf.c',
   'src/pcre2_pattern_info.c',
@@ -124,37 +133,61 @@ foreach h : check_headers
   endif
 endforeach
 
-check_funs = [
-  '__builtin_mul_overflow',
-  '__builtin_unreachable',
-  'bcopy',
-  'memfd_create',
-  'memmove',
-  'realpath',
-  'secure_getenv',
-  'strerror',
-]
-
-foreach f : check_funs
+foreach f : ['bcopy', 'memmove', 'realpath', 'strerror']
   if c_compiler.has_function(f)
-    cdata.set10('HAVE_@0@'.format(f.to_upper().strip('_')), true)
+    cdata.set10('HAVE_@0@'.format(f.to_upper()), true)
   endif
 endforeach
 
-if c_compiler.links('''
-  int main() {
-    __assume(0);
+if c_compiler.links(
+  '''
+  int main(int c, char *v[]) {
+    if (c)
+      __builtin_unreachable();
+    return (int)(*v[0]);
   }
-''')
+''',
+  name: '__builtin_unreachable',
+)
+  cdata.set10('HAVE_BUILTIN_UNREACHABLE', true)
+endif
+
+if c_compiler.links(
+  '''
+  #include <stddef.h>
+  int main(void) {
+    int a, b;
+    size_t res;
+    __builtin_mul_overflow(a, b, &res);
+  }
+''',
+  name: '__builtin_mul_overflow',
+)
+  cdata.set10('HAVE_BUILTIN_MUL_OVERFLOW', true)
+endif
+
+if c_compiler.links(
+  '''
+  int main(void) {
+    __assume(1);
+    return 0;
+  }
+''',
+  name: '__assume',
+)
   cdata.set10('HAVE_BUILTIN_ASSUME', true)
 endif
 
-if c_compiler.compiles('''
-  int main() {
+if c_compiler.compiles(
+  '''
+  int main(void) {
     char buf[128] __attribute__((uninitialized));
     (void)buf;
+    return 0;
   }
-''')
+''',
+  name: '__attribute__((uninitialized))',
+)
   cdata.set10('HAVE_ATTRIBUTE_UNINITIALIZED', true)
 endif
 
@@ -211,6 +244,8 @@ libpcre2_8 = declare_dependency(
   compile_args: static_defs,
 )
 
+meson.override_dependency('libpcre2-8', libpcre2_8)
+
 pcre2_posix_lib = library(
   'pcre2-posix',
   'src/pcre2posix.c',
@@ -224,8 +259,10 @@ pcre2_posix_lib = library(
 libpcre2_posix = declare_dependency(
   link_with: pcre2_posix_lib,
   include_directories: includes,
-  compile_args: [static_defs, pcre2_posix_defs],
+  compile_args: static_defs + pcre2_posix_defs,
 )
+
+meson.override_dependency('libpcre2-posix', libpcre2_posix)
 
 pcre2_16_lib = library(
   'pcre2-16',
@@ -244,6 +281,8 @@ libpcre2_16 = declare_dependency(
   compile_args: static_defs,
 )
 
+meson.override_dependency('libpcre2-16', libpcre2_16)
+
 pcre2_32_lib = library(
   'pcre2-32',
   sources,
@@ -260,6 +299,8 @@ libpcre2_32 = declare_dependency(
   include_directories: includes,
   compile_args: static_defs,
 )
+
+meson.override_dependency('libpcre2-32', libpcre2_32)
 
 if get_option('grep')
   pcre2grep = executable(
@@ -300,9 +341,8 @@ pkg.generate(
 
 #### tests
 
-if (
-  get_option('test')
-  and not meson.is_cross_build() # wine wrappers are not bat-friendly, this would need better testing
+if (get_option('test')
+  and not meson.is_cross_build()  # wine wrappers are not bat-friendly, this would need better testing
 )
   link_args = []
   if c_compiler.get_argument_syntax() == 'msvc'
@@ -345,7 +385,7 @@ if (
     test(
       'RunGrepTest',
       rungreptest,
-      should_fail: host_machine.system() == 'windows',
+      should_fail: host_machine.system() == 'windows' and c_compiler.get_argument_syntax() != 'msvc',
       env: 'srcdir=@0@'.format(meson.current_source_dir()),
       workdir: meson.current_build_dir(),
     )
