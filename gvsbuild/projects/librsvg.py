@@ -24,10 +24,10 @@ class Librsvg(Tarball, Meson):
         Project.__init__(
             self,
             "librsvg",
-            version="2.61.2",
+            version="2.61.3",
             repository="https://gitlab.gnome.org/GNOME/librsvg",
             archive_url="https://download.gnome.org/sources/librsvg/{major}.{minor}/librsvg-{version}.tar.xz",
-            hash="4644d83623dd61cc4479c2b3c372e1da2b281552ebc90035c8d1ac502eb1dc00",
+            hash="a56d2c80d744ad2f2718f85df466fe71d24ff1f9bc3e5ef588bde4d7e87815f2",
             dependencies=[
                 "cargo",
                 "cairo",
@@ -35,6 +35,10 @@ class Librsvg(Tarball, Meson):
                 "gdk-pixbuf",
                 "libxml2",
                 "freetype",
+            ],
+            patches=[
+                # https://gitlab.gnome.org/GNOME/librsvg/-/issues/1210
+                "001-fix-duplicate-symbols.patch",
             ],
         )
 
