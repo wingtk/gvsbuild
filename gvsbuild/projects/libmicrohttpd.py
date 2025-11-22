@@ -28,7 +28,7 @@ class Libmicrohttpd(Tarball, Project):
             version="1.0.1",
             lastversion_major=1,
             repository="https://www.gnu.org/software/libmicrohttpd/",
-            archive_url="http://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-{version}.tar.gz",
+            archive_url="https://mirrors.ibiblio.org/gnu/libmicrohttpd/libmicrohttpd-{version}.tar.gz",
             hash="a89e09fc9b4de34dde19f4fcb4faaa1ce10299b9908db1132bbfa1de47882b94",
             patches=["001-remove-postsample-perf-retries.patch"],
         )
