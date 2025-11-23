@@ -141,6 +141,12 @@ class Gtk4(Tarball, Meson):
                 "fribidi",
                 "directx-headers",
             ],
+            patches=[
+                # https://gitlab.gnome.org/GNOME/gtk/-/issues/7567
+                "0001-remove-direct-composition.patch",
+                # https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/9185
+                "0002-fix-cairo-crash-with-direct-composition-disabled.patch",
+            ],
         )
         if self.opts.enable_gi:
             self.add_dependency("gobject-introspection")
