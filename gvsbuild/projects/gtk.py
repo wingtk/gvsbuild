@@ -140,6 +140,7 @@ class Gtk4(Tarball, Meson):
                 "glib",
                 "fribidi",
                 "directx-headers",
+                "librsvg",
             ],
             patches=[
                 # https://gitlab.gnome.org/GNOME/gtk/-/issues/7567
