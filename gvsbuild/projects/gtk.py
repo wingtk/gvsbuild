@@ -124,12 +124,12 @@ class Gtk4(Tarball, Meson):
             self,
             "gtk4",
             prj_dir="gtk4",
-            version="4.18.6",
+            version="4.20.3",
             lastversion_major=4,
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/gtk",
             archive_url="https://download.gnome.org/sources/gtk/{major}.{minor}/gtk-{version}.tar.xz",
-            hash="e1817c650ddc3261f9a8345b3b22a26a5d80af154630dedc03cc7becefffd0fa",
+            hash="2873f2903088a66c71173ea2ed85ffae266a66b972c3a4842bbb2f6f187ec153",
             dependencies=[
                 "gdk-pixbuf",
                 "pango",
@@ -139,6 +139,14 @@ class Gtk4(Tarball, Meson):
                 "harfbuzz",
                 "glib",
                 "fribidi",
+                "directx-headers",
+                "librsvg",
+            ],
+            patches=[
+                # https://gitlab.gnome.org/GNOME/gtk/-/issues/7567
+                "0001-remove-direct-composition.patch",
+                # https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/9185
+                "0002-fix-cairo-crash-with-direct-composition-disabled.patch",
             ],
         )
         if self.opts.enable_gi:
