@@ -279,7 +279,7 @@ class GstLibav(Tarball, Meson):
             version="1.26.7",
             lastversion_even=True,
             archive_url="https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-{version}.tar.xz",
-            hash="d6de05884ef42376dd8cde89940f7b50ced96f4f6f52888e764cd8233e74f052",
+            hash="91d4a7a14527d97fe0ce7ccedb3554e8f692b216429ef2b1850944bbf5435c09",
             # TODO try remove gst-plugins-base
             dependencies=["meson", "ninja", "pygobject", "ffmpeg", "gst-plugins-base"],
         )
