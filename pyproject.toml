@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "gvsbuild"
-version = "2025.11.0"
+version = "2025.11.1"
 description = "GTK stack for Windows"
 readme = "README.md"
 requires-python = "<4.0,>=3.10,!=3.13.4"
