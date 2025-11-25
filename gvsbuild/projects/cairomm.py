@@ -25,6 +25,7 @@ class Cairomm(Tarball, Meson):
             self,
             "cairomm",
             version="1.18.0",
+            lastversion_even=True,
             repository="https://gitlab.freedesktop.org/cairo/cairomm",
             archive_url="https://cairographics.org/releases/cairomm-{version}.tar.xz",
             hash="b81255394e3ea8e8aa887276d22afa8985fc8daef60692eb2407d23049f03cfb",
