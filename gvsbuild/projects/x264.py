@@ -26,10 +26,10 @@ class X264(GitRepo, Project):
         Project.__init__(
             self,
             "x264",
-            repository="http://git.videolan.org/git/x264",
+            repository="http://code.videolan.org/videolan/x264.git",
             fetch_submodules=False,
             dependencies=["nasm", "msys2"],
-            tag="31e19f92f00c7003fa115047ce50978bc98c3a0d",
+            tag="b35605ace3ddf7c1a5d67a2eb553f034aef41d55",
             patches=[
                 "x264-0001-Prevent-mb_info_free-to-be-called-before-all-threads.patch",
             ],
