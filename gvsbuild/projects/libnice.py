@@ -24,10 +24,10 @@ class Libnice(GitRepo, Meson):
         Project.__init__(
             self,
             "libnice",
-            version="0.1.22",
+            version="0.1.23",
             repository="https://gitlab.freedesktop.org/libnice/libnice",
             fetch_submodules=False,
-            tag="ae3eb16fd7d1237353bf64e899c612b8a63bca8a",
+            tag="0a3890f1830d4c77ecbb41de835aa549e7645ed5",
             dependencies=[
                 "ninja",
                 "meson",
@@ -35,5 +35,5 @@ class Libnice(GitRepo, Meson):
         )
 
     def build(self):
-        Meson.build(self)
+        Meson.build(self, meson_params="-Dtests=false")
         self.install(r"LICENSE share\doc\libnice")
