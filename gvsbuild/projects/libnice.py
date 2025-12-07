@@ -33,7 +33,16 @@ class Libnice(GitRepo, Meson):
                 "meson",
             ],
         )
+        if self.opts.enable_gi:
+            self.add_dependency("gobject-introspection")
+            enable_gi = "enabled"
+        else:
+            enable_gi = "disabled"
+
+        self.add_param(f"-Dintrospection={enable_gi}")
+        self.add_param("-Dtests=disabled")
+        self.add_param("-Dgtk_doc=disabled")
 
     def build(self):
-        Meson.build(self, meson_params="-Dtests=false")
+        Meson.build(self)
         self.install(r"LICENSE share\doc\libnice")
