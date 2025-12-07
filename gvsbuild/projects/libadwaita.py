@@ -40,12 +40,10 @@ class Libadwaita(Tarball, Meson):
                 "0001-remove-appstream-dependency.patch",
             ],
         )
-        gir = "disabled"
         if self.opts.enable_gi:
             self.add_dependency("gobject-introspection")
-            gir = "enabled"
-
-        self.add_param(f"-Dintrospection={gir}")
+        enable_gi = "enabled" if self.opts.enable_gi else "disabled"
+        self.add_param(f"-Dintrospection={enable_gi}")
         self.add_param("-Ddocumentation=false")
         self.add_param("-Dvapi=false")
         self.add_param("-Dexamples=false")

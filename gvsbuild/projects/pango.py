@@ -42,10 +42,7 @@ class Pango(Tarball, Meson):
         )
         if self.opts.enable_gi:
             self.add_dependency("gobject-introspection")
-            enable_gi = "enabled"
-        else:
-            enable_gi = "disabled"
-
+        enable_gi = "enabled" if self.opts.enable_gi else "disabled"
         self.add_param(f"-Dintrospection={enable_gi}")
         self.add_param("-Dfreetype=enabled")
         self.add_param("-Dfontconfig=enabled")
