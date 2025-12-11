@@ -101,6 +101,7 @@ class Gtk3(Tarball, Meson):
                 "001-gtk-update-icon-cache.patch",
                 # https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/9067
                 "002-fix-gdkglcontext-not-public.patch",
+                "003-disable-low-level-keyboard-hook.patch",
             ],
         )
         if self.opts.enable_gi:
