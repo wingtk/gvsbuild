@@ -28,7 +28,7 @@ class ToolCargo(Tool):
         Tool.__init__(
             self,
             "cargo",
-            version="1.91.1",
+            version="1.92.0",
             repository="https://github.com/rust-lang/rust",
             archive_url="https://win.rustup.rs/x86_64",
             archive_filename="rustup-init.exe",
