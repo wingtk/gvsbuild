@@ -73,6 +73,27 @@ class GroupToolsCheck(Group):
 
 
 @group_add
+class GroupGStreamerAll(Group):
+    """Group to build GStreamer and all plugins."""
+
+    def __init__(self):
+        Group.__init__(
+            self,
+            "gstreamer-all",
+            dependencies=[
+                "gstreamer",
+                "gst-plugins-good",
+                "gst-plugins-bad",
+                "gst-plugins-ugly",
+                "gst-devtools",
+                "gst-python",
+                "gst-libav",
+                "gst-rtsp-server",
+            ],
+        )
+
+
+@group_add
 class GroupAll(Group):
     def __init__(self):
         Group.__init__(self, "all")

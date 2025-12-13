@@ -24,15 +24,21 @@ class Libnice(GitRepo, Meson):
         Project.__init__(
             self,
             "libnice",
-            version="0.1.22",
+            version="0.1.23",
             repository="https://gitlab.freedesktop.org/libnice/libnice",
             fetch_submodules=False,
-            tag="ae3eb16fd7d1237353bf64e899c612b8a63bca8a",
+            tag="0a3890f1830d4c77ecbb41de835aa549e7645ed5",
             dependencies=[
                 "ninja",
                 "meson",
             ],
         )
+        if self.opts.enable_gi:
+            self.add_dependency("gobject-introspection")
+        enable_gi = "enabled" if self.opts.enable_gi else "disabled"
+        self.add_param(f"-Dintrospection={enable_gi}")
+        self.add_param("-Dtests=disabled")
+        self.add_param("-Dgtk_doc=disabled")
 
     def build(self):
         Meson.build(self)

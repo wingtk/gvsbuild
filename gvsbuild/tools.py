@@ -28,7 +28,7 @@ class ToolCargo(Tool):
         Tool.__init__(
             self,
             "cargo",
-            version="1.91.1",
+            version="1.92.0",
             repository="https://github.com/rust-lang/rust",
             archive_url="https://win.rustup.rs/x86_64",
             archive_filename="rustup-init.exe",
@@ -66,10 +66,10 @@ class ToolCmake(Tool):
         Tool.__init__(
             self,
             "cmake",
-            version="4.2.0",
+            version="4.2.1",
             repository="https://gitlab.kitware.com/cmake/cmake",
             archive_url="https://github.com/Kitware/CMake/releases/download/v{version}/cmake-{version}-windows-x86_64.zip",
-            hash="cf35a516c4f5f4646b301e51c8e24b168cc012c3b1453b8f675303b54eb0ef45",
+            hash="dfc2b2afac257555e3b9ce375b12b2883964283a366c17fec96cf4d17e4f1677",
             dir_part="cmake-{version}-windows-x86_64",
         )
 
@@ -94,11 +94,11 @@ class ToolMeson(Tool):
         Tool.__init__(
             self,
             "meson",
-            version="1.9.1",
+            version="1.10.0",
             repository="https://github.com/mesonbuild/meson",
             archive_url="https://github.com/mesonbuild/meson/archive/refs/tags/{version}.tar.gz",
             archive_filename="meson-{version}.tar.gz",
-            hash="febaa8f7c1916521c53eb5fd11c0641b5eb4741c2c6e9b42c288ed62d9e4fd2c",
+            hash="cad50c9484cbc3d4e5a45b1c2662d079be9a848aaa4cef02de7dbec412b0eede",
             dir_part="meson-{version}",
             exe_name="meson.py",
         )
@@ -215,10 +215,10 @@ class ToolGo(Tool):
         Tool.__init__(
             self,
             "go",
-            version="1.25.4",
+            version="1.25.5",
             repository="https://github.com/golang/go",
             archive_url="https://go.dev/dl/go{version}.windows-amd64.zip",
-            hash="6dad204d42719795f22067553b2b042c0e710b32c5a00f6c67892865167fdfd0",
+            hash="ae756cce1cb80c819b4fe01b0353807178f532211b47f72d7fa77949de054ebb",
             dir_part="go-{version}",
         )
 
