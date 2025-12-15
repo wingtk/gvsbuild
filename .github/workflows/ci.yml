@@ -25,7 +25,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, 'skip ci')"
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@df199fb7be9f65074067a9eb93f12bb4c5547cf2 # v2.13.3
+        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
         with:
           egress-policy: audit
 
@@ -37,7 +37,7 @@ jobs:
         with:
           python-version: ${{ env.python_version }}
       - name: Install uv
-        uses: astral-sh/setup-uv@ed21f2f24f8dd64503750218de024bcf64c7250a # v7.1.5
+        uses: astral-sh/setup-uv@681c641aba71e4a1c380be3ab5e12ad51f415867 # v7.1.6
         with:
           enable-cache: true
           cache-dependency-glob: ".pre-commit-config.yaml"
@@ -56,7 +56,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, 'skip ci')"
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@df199fb7be9f65074067a9eb93f12bb4c5547cf2 # v2.13.3
+        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
         with:
           egress-policy: audit
 
@@ -65,7 +65,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - name: Install uv
-        uses: astral-sh/setup-uv@ed21f2f24f8dd64503750218de024bcf64c7250a # v7.1.5
+        uses: astral-sh/setup-uv@681c641aba71e4a1c380be3ab5e12ad51f415867 # v7.1.6
         with:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
@@ -92,7 +92,7 @@ jobs:
 
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@df199fb7be9f65074067a9eb93f12bb4c5547cf2 # v2.13.3
+        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
         with:
           egress-policy: audit
 
@@ -105,7 +105,7 @@ jobs:
         with:
           python-version: ${{ env.python_version }}
       - name: Install uv
-        uses: astral-sh/setup-uv@ed21f2f24f8dd64503750218de024bcf64c7250a # v7.1.5
+        uses: astral-sh/setup-uv@681c641aba71e4a1c380be3ab5e12ad51f415867 # v7.1.6
         with:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
@@ -129,7 +129,7 @@ jobs:
       - name: Archive GTK runtime
         run: 7z a -tzip GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.sha }}_x64.zip C:\gtk-build\gtk\x64\release\*
       - name: Upload GTK${{ matrix.gtk-version }}_Gvsbuild-${{ github.sha }}_x64.zip
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.sha }}_x64.zip
           path: GTK${{ matrix.gtk-version }}_Gvsbuild_${{ github.sha }}_x64.zip
@@ -147,13 +147,13 @@ jobs:
         if: matrix.gtk-version == '4'
         run: uv build
       - name: Upload gvsbuild-${{ github.event.release.tag_name }}.tar.gz
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         if: github.event_name == 'release' && matrix.gtk-version == '4'
         with:
           name: gvsbuild-${{ github.event.release.tag_name }}.tar.gz
           path: dist/gvsbuild-${{ github.event.release.tag_name }}.tar.gz
       - name: Upload gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         if: github.event_name == 'release' && matrix.gtk-version == '4'
         with:
           name: gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
@@ -167,12 +167,12 @@ jobs:
     if: ${{ github.event_name == 'release' }}
     steps:
       - name: Download tar.gz
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: gvsbuild-${{ github.event.release.tag_name }}.tar.gz
           path: dist
       - name: Download wheel
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: gvsbuild-${{ github.event.release.tag_name }}-py3-none-any.whl
           path: dist
