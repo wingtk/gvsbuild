@@ -1,0 +1,15 @@
+diff --git a/gdk/win32/gdkevents-win32.c b/gdk/win32/gdkevents-win32.c
+index a53ab90485..b1cb80b8e5 100644
+--- a/gdk/win32/gdkevents-win32.c
++++ b/gdk/win32/gdkevents-win32.c
+@@ -550,7 +550,9 @@ _gdk_events_init (GdkDisplay *display)
+   g_source_set_can_recurse (source, TRUE);
+   g_source_attach (source, NULL);
+ 
+-  set_up_low_level_keyboard_hook ();
++  if (g_strcmp0 (g_getenv ("GTK_CSD"), "1") == 0) {
++    set_up_low_level_keyboard_hook ();
++  }
+ }
+ 
+ gboolean
