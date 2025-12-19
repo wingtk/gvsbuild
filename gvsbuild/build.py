@@ -109,6 +109,7 @@ class VsVer(str, Enum):
     vs2017 = "15"
     vs2019 = "16"
     vs2022 = "17"
+    vs2026 = "18"
 
 
 class WinSdkVersion(str, Enum):
@@ -208,7 +209,7 @@ def build(
         export_dir: The directory to export the source archives to. It will be created. It creates an archive with the source code and any possible patch. Default is the build-dir\\export.
         patches_root_dir: The directory where you checked out https://github.com/wingtk/gvsbuild.git. Default is the build-dir\\github\\gvsbuild.
         tools_root_dir: The directory where to install the downloaded tools. Default is $(build-dir)\\tools.
-        vs_ver: Visual Studio version 12 (vs2013), 14 (vs2015), 15 (vs2017), 16 (vs2019), 17 (vs2022).
+        vs_ver: Visual Studio version 12 (vs2013), 14 (vs2015), 15 (vs2017), 16 (vs2019), 17 (vs2022), 18 (vs2026).
         vs_install_path: The directory where you installed Visual Studio. Default is 'C:\\Program Files (x86)\\Microsoft Visual Studio $(vs-ver).0' (for vs-ver <= 14) or 'C:\\Program Files (x86)\\Microsoft Visual Studio\\20xx (2017 for vs-ver 15, 2019 for vs-ver 16, ...). If not set, the script look automatically under Professional, BuildTools, Enterprise, Community, and Preview sub directory until it finds the startup batch file.
         win_sdk_ver: The Windows SDK version to use for building, used to initialize the Visual Studio build environment. It can be 8.1 (for windows 8 compatibility) or 10.0.xxxxx.0, where xxxxx, at the moment, can be 10150, 10240, 10586, 14393, 15063, 16299, 17134, or 17763 depending on the VS version / installation's options. If you don't specify one the scripts tries to locate the used one to pass the value to the msbuild command.
         net_target_framework: .net target framework. If set then TargetFrameworks parameter is passed down to msbuild with the specific target. i.e net45.

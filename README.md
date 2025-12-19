@@ -109,7 +109,7 @@ winget install Microsoft.VisualStudio.2022.BuildTools -e --source winget --silen
 
 Restart your computer following this installation.
 
-Note: Visual Studio versions 2013 (not for all projects), 2015, 2017, 2019, and 2022 are currently supported.
+Note: Visual Studio versions 2013 (not for all projects), 2015, 2017, 2019, 2022, and 2026 are currently supported.
 
 #### Install the Latest Python
 
@@ -167,7 +167,7 @@ With your admin PowerShell terminal:
 choco install visualstudio2022-workload-vctools
 ```
 
-Note: Visual Studio versions 2013 (not for all projects), 2015, 2017, 2019, and 2022 are currently supported.
+Note: Visual Studio versions 2013 (not for all projects), 2015, 2017, 2019, 2022, and 2026 are currently supported.
 
 #### Install the Latest Python
 
