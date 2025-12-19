@@ -100,6 +100,7 @@ class Builder:
             "15": "vs2017",
             "16": "vs2019",
             "17": "vs2022",
+            "18": "vs2026",
         }
 
         self.vs_ver_year = vs_zip_parts.get(opts.vs_ver)
