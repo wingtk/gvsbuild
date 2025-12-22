@@ -13,9 +13,9 @@ a zip file from the [latest release](https://github.com/wingtk/gvsbuild/releases
 It comes with GTK4, Cairo, PyGObject, Pycairo, GtkSourceView5, adwaita-icon-theme, and
 all of their dependencies.
 
-Note however that these binaries are provided “AS IS”, WITHOUT WARRANTY OF ANY KIND.
+Note these binaries are provided “AS IS”, WITHOUT WARRANTY OF ANY KIND.
 They just contain the output of our latest CI run. They are not tested, and we cannot
-commit to timely updates even for security issues. We strongly recommend to build your
+commit to timely updates even for security issues. We strongly recommend building your
 own binaries, especially if you plan to distribute them with your application or use them in
 production.
 
@@ -57,7 +57,7 @@ Desktop](http://www.visualstudio.com), [Python 3](https://www.python.org) and
 [msys2](https://msys2.github.io). The script will download any additional tools
 required to build the libraries and will use them from a local directory,
 without any installation. As of today these tools include cmake, meson, ninja,
-nuget and perl.
+nuget, and perl.
 
 The script fetches source tarballs for the projects from their original
 locations, however in some cases it might be necessary to host a patched tarball
@@ -66,14 +66,14 @@ SHA256 hash of each download. Downloads are done using TLS, using SSL
 certificates provided by the system, but in case of error the download is tried
 again ignoring certificate errors.
 
-First we need to install the prerequisites. There are two main options:
+First, we need to install the prerequisites. There are two main options:
 
 1. WinGet - Available for Windows 11, and modern versions of Windows 10
 2. Chocolately - An alternative for other Windows versions
 
 ### Prerequisites with WinGet
 
-If you would prefer to use Chocolately instead of WinGet, you can skip this
+If you prefer to use Chocolately instead of WinGet, you can skip this
 section and follow the Prerequisites with Chocolately steps.
 
 #### WinGet
@@ -83,7 +83,7 @@ versions of Windows 10 (1809 / build 17763) as a part of the
 in the Windows Store.
 
 #### Git
-To setup a development environment in Windows install
+To set up a development environment in Windows install
 [Git](https://gitforwindows.org) by executing as an administrator:
 
 ```PowerShell
@@ -95,12 +95,12 @@ Both of the development environments in the next steps need MSYS2 installed.
 
 Install [MSYS2](http://www.msys2.org/):
 
-Keep PowerShell open as administrator and execute:
+Keep PowerShell open as an administrator and execute:
 ```PowerShell
 winget install --id MSYS2.MSYS2 -e --source winget
 ```
 
-#### Install Visual Studio 2022
+#### Install Visual Studio
 With your admin PowerShell terminal:
 
 ```PowerShell
@@ -111,19 +111,13 @@ Restart your computer following this installation.
 
 Note: Visual Studio versions 2013 (not for all projects), 2015, 2017, 2019, 2022, and 2026 are currently supported.
 
-#### Install the Latest Python
+#### Install uv
 
 With your admin PowerShell terminal:
 
 ```PowerShell
-winget install --id Python.Python.3.13 -e --source winget
+winget install --id=astral-sh.uv  -e
 ```
-
-2. Open a PowerShell terminal as a normal user and check the python version:
-
-   ```PowerShell
-   py -3.13 --version
-   ```
 
 ### Prerequisites with Chocolately
 
@@ -155,7 +149,7 @@ Both of the development environments in the next steps need MSYS2 installed.
 
 Install [MSYS2](http://www.msys2.org/):
 
-Keep PowerShell open as administrator and execute:
+Keep PowerShell open as an administrator and execute:
 ```PowerShell
 choco install msys2
 ```
@@ -167,31 +161,23 @@ With your admin PowerShell terminal:
 choco install visualstudio2022-workload-vctools
 ```
 
-Note: Visual Studio versions 2013 (not for all projects), 2015, 2017, 2019, 2022, and 2026 are currently supported.
+Note: Visual Studio versions 2013 (not for all projects), 2015, 2017, 2019, 2022, 2025, and 2026 are currently supported.
 
-#### Install the Latest Python
+#### Install uv
 
 With your admin PowerShell terminal:
 
 ```PowerShell
-choco install python313
+choco install uv
 ```
-
-2. Open a PowerShell terminal as a normal user and check the python version:
-
-   ```PowerShell
-   py -3.13 --version
-   ```
 
 ### Install gvsbuild
 
-The recommended way to install gvsbuild is with pipx. Open a new regular user
+The recommended way to install gvsbuild is with uv. Open a new regular user
 PowerShell terminal and execute:
 
 ```PowerShell
-py -3.13 -m pip install --user pipx
-py -3.13 -m pipx ensurepath
-pipx install gvsbuild
+uv tool install gvsbuild
 ```
 
 Alternatively, you can also use git to clone the repository and install it.
@@ -202,9 +188,7 @@ mkdir C:\gtk-build\github
 cd C:\gtk-build\github
 git clone https://github.com/wingtk/gvsbuild.git
 cd C:\gtk-build\github\gvsbuild
-python -m venv .venv
-.\.venv\Scripts\activate.ps1
-pip install .
+uv sync --no-dev
 ```
 
 ### Build GTK
@@ -212,12 +196,12 @@ pip install .
 In the same PowerShell terminal, execute:
 
 ```PowerShell
-gvsbuild build gtk3
+uv run gvsbuild build gtk3
 ```
 
 Alternatively, if you want to build GTK 4, execute:
 ```PowerShell
-gvsbuild build gtk4
+uv run gvsbuild build gtk4
 ```
 
 Grab a coffee, the build will take a few minutes to complete.
@@ -236,7 +220,7 @@ You are now ready to use GTK!
 #### Using GTK with Visual Studio
 
 1. Open Visual Studio and "Create a new project" using the "Empty Project" template
-2. On the left, right click on "Source Files" and choose "Add", then "New Item..." and replace the name with `main.c`
+2. On the left, right-click on "Source Files" and choose "Add", then "New Item..." and replace the name with `main.c`
 3. Paste in the following contents, then save the file:
 
    ```
@@ -290,9 +274,7 @@ gvsbuild build --enable-gi --py-wheel gtk4 pygobject
 ```
 
 Once that finishes, then you need to use the gvsbuild generated wheels with your
-[Python virtualenv](https://docs.python.org/3/tutorial/venv.html) in order to
-work around this [PyGObject
-bug](https://gitlab.gnome.org/GNOME/pygobject/-/issues/545):
+[Python virtualenv](https://docs.python.org/3/tutorial/venv.html) to work around this [PyGObject bug](https://gitlab.gnome.org/GNOME/pygobject/-/issues/545):
 
 ```PowerShell
 pip install --force-reinstall (Resolve-Path C:\gtk-build\build\x64\release\pygobject\dist\PyGObject*.whl)

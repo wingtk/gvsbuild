@@ -41,10 +41,10 @@ jobs:
         with:
           enable-cache: true
           cache-dependency-glob: ".pre-commit-config.yaml"
-      - name: Install pre-commit
-        run: uv tool install pre-commit --with pre-commit-uv
-      - name: Lint with pre-commit
-        run: pre-commit run --show-diff-on-failure --color=always --all-files
+      - name: Install prek
+        run: uv tool install prek
+      - name: Lint with prek
+        run: prek run --show-diff-on-failure --color=always --all-files
       - name: Check uv lock file integrity
         run: uv lock --locked --offline
 
