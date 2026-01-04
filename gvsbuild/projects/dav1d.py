@@ -24,10 +24,10 @@ class Dav1d(Tarball, Meson):
         Meson.__init__(
             self,
             "dav1d",
-            version="1.5.2",
+            version="1.5.3",
             repository="https://code.videolan.org/videolan/dav1d",
             archive_url="https://code.videolan.org/videolan/dav1d/-/archive/{version}/dav1d-{version}.tar.gz",
-            hash="2fc0810b4cdf72784b3c107827ff10b1d83ec709a1ec1fbdbc6a932daf65ead6",
+            hash="cbe212b02faf8c6eed5b6d55ef8a6e363aaab83f15112e960701a9c3df813686",
             dependencies=[
                 "nasm",
                 "ninja",
