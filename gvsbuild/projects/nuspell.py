@@ -24,11 +24,11 @@ class Nuspell(Tarball, CmakeProject):
         Project.__init__(
             self,
             "nuspell",
-            version="5.1.6",
+            version="5.1.7",
             repository="https://github.com/nuspell/nuspell",
             archive_url="https://github.com/nuspell/nuspell/archive/v{version}.tar.gz",
             archive_filename="nuspell-{version}.tar.gz",
-            hash="5d4baa1daf833a18dc06ae0af0571d9574cc849d47daff6b9ce11dac0a5ded6a",
+            hash="9aee944e86924ce44434741cb950fee8f9a6ff9c4f002803ab5f04698c8e4c68",
             dependencies=["cmake", "ninja", "icu"],
         )
 
