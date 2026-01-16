@@ -63,6 +63,9 @@ class ProtobufC(Tarball, CmakeProject):
                 "protobuf",
                 "ninja",
             ],
+            patches=[
+                "0001-cmake-Replace-generator-expression.patch",
+            ],
         )
 
     def build(self):
