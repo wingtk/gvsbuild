@@ -41,7 +41,11 @@ configure_cmd[idx++]="--enable-hwaccel=hevc_nvdec"
 configure_cmd[idx++]="--disable-programs"
 configure_cmd[idx++]="--disable-avdevice"
 configure_cmd[idx++]="--disable-swresample"
+
+# Enable audio decoder which aren't available in native gst plugins, expected to be used via gst-libav
 configure_cmd[idx++]="--enable-decoder=mp2float"
+configure_cmd[idx++]="--enable-decoder=wmav2"
+configure_cmd[idx++]="--enable-decoder=wmapro"
 
 if [ "$build_type" = "debug" ]; then
     configure_cmd[idx++]="--enable-debug"
