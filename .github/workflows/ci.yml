@@ -84,7 +84,7 @@ jobs:
     runs-on: windows-latest
     permissions:
       contents: write
-    timeout-minutes: 75
+    timeout-minutes: 120
     if: "!contains(github.event.head_commit.message, 'skip ci')"
     strategy:
       matrix:
@@ -115,7 +115,7 @@ jobs:
         if: matrix.gtk-version == '3'
         run: >
           uv run gvsbuild build --ninja-opts -j2 --enable-gi --py-wheel gtk3 gtksourceview4 graphene pygobject
-          adwaita-icon-theme glib-networking
+          adwaita-icon-theme glib-networking gtkmm3
       - name: Build GTK4
         if: matrix.gtk-version == '4'
         run: > # Use -j2 option to prevent out of memory errors with GitHub Action runners
