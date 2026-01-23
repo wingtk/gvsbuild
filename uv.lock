@@ -323,7 +323,7 @@ wheels = [
 
 [[package]]
 name = "lastversion"
-version = "3.5.7"
+version = "3.6.7"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "appdirs" },
@@ -336,11 +336,10 @@ dependencies = [
     { name = "pyyaml" },
     { name = "requests" },
     { name = "tqdm" },
-    { name = "urllib3" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/7e/07/3ce9210d1c62b5f2d6314e2abb17ccd4a93b474d2a878538cb14fccc8f11/lastversion-3.5.7.tar.gz", hash = "sha256:1f77181552daa0f35cc6f8054946cb8031b6abdbf189c1ef3f9a9e10bd07ada9", size = 82823, upload-time = "2024-11-09T09:15:02.973Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/6f/84/15eb5a9459578bf95fab5ec21e18a5f2a716abc7e1881cbdcf1dcb574a18/lastversion-3.6.7.tar.gz", hash = "sha256:d9b19314fc7c16f56f093678d834634aac7dc18b6ee026364c239d4f880b1945", size = 117557, upload-time = "2026-01-04T15:14:28.418Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/3b/76/f2bcb61fcd980d991dd75ec8ba1783b665b4728024e20607e67ed12019e0/lastversion-3.5.7-py3-none-any.whl", hash = "sha256:c60c5fba60962fc5c9536ae5b5701a20c3bc5115575d60553eb2040b0060956c", size = 67827, upload-time = "2024-11-09T09:15:01.752Z" },
+    { url = "https://files.pythonhosted.org/packages/ad/8d/4b405a6dca60987d680a3270528ed9ec4d496a09e436f2d413619bc1c92b/lastversion-3.6.7-py3-none-any.whl", hash = "sha256:a7ec9319c04ea920df958fec92c5c035196fee3bab072859ead3a10183f0ec84", size = 96153, upload-time = "2026-01-04T15:14:26.905Z" },
 ]
 
 [[package]]
@@ -779,11 +778,11 @@ wheels = [
 
 [[package]]
 name = "urllib3"
-version = "1.26.20"
+version = "2.6.3"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/e4/e8/6ff5e6bc22095cfc59b6ea711b687e2b7ed4bdb373f7eeec370a97d7392f/urllib3-1.26.20.tar.gz", hash = "sha256:40c2dc0c681e47eb8f90e7e27bf6ff7df2e677421fd46756da1161c39ca70d32", size = 307380, upload-time = "2024-08-29T15:43:11.37Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/c7/24/5f1b3bdffd70275f6661c76461e25f024d5a38a46f04aaca912426a2b1d3/urllib3-2.6.3.tar.gz", hash = "sha256:1b62b6884944a57dbe321509ab94fd4d3b307075e0c2eae991ac71ee15ad38ed", size = 435556, upload-time = "2026-01-07T16:24:43.925Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/33/cf/8435d5a7159e2a9c83a95896ed596f68cf798005fe107cc655b5c5c14704/urllib3-1.26.20-py2.py3-none-any.whl", hash = "sha256:0ed14ccfbf1c30a9072c7ca157e4319b70d65f623e91e7b32fadb2853431016e", size = 144225, upload-time = "2024-08-29T15:43:08.921Z" },
+    { url = "https://files.pythonhosted.org/packages/39/08/aaaad47bc4e9dc8c725e68f9d04865dbcb2052843ff09c97b08904852d84/urllib3-2.6.3-py3-none-any.whl", hash = "sha256:bf272323e553dfb2e87d9bfd225ca7b0f467b919d7bbd355436d3fd37cb0acd4", size = 131584, upload-time = "2026-01-07T16:24:42.685Z" },
 ]
 
 [[package]]
