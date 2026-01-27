@@ -25,10 +25,10 @@ class OpenSSL(Tarball, Project):
         Project.__init__(
             self,
             "openssl",
-            version="3.6.0",
+            version="3.6.1",
             repository="https://github.com/openssl/openssl",
             archive_url="https://github.com/openssl/openssl/releases/download/openssl-{version}/openssl-{version}.tar.gz",
-            hash="b6a5f44b7eb69e3fa35dbf15524405b44837a481d43d81daddde3ff21fcbb8e9",
+            hash="b1bfedcd5b289ff22aee87c9d600f515767ebf45f77168cb6d64f231f518a82e",
             dependencies=[
                 "perl",
                 "nasm",
@@ -65,10 +65,10 @@ class OpenSSLFips(Tarball, Project):
         Project.__init__(
             self,
             "openssl-fips",
-            version="3.6.0",
+            version="3.6.1",
             repository="https://github.com/openssl/openssl",
             archive_url="https://www.openssl.org/source/old/{major}.{minor}/openssl-{version}.tar.gz",
-            hash="b6a5f44b7eb69e3fa35dbf15524405b44837a481d43d81daddde3ff21fcbb8e9",
+            hash="b1bfedcd5b289ff22aee87c9d600f515767ebf45f77168cb6d64f231f518a82e",
             dependencies=[
                 "openssl",
             ],
