@@ -1,0 +1,32 @@
+From f20ed3666efe28d94bcfe198f924c2f1044816ba Mon Sep 17 00:00:00 2001
+From: Dario Marino Saccavino <dmsaccav@amazon.com>
+Date: Fri, 16 Jan 2026 11:14:02 +0100
+Subject: [PATCH] cmake: Replace usage of generator expression with target
+ property
+
+In the definition of `PROTOBUF_PROTOC_EXECUTABLE`, replace the `$<TARGET_FILE>`
+expression with the target's `LOCATION` property.
+
+On MSVC, cmake copies to the build directory the shared libraries that are
+in the same directory as protoc.exe. The copy happens at configure time,
+when generator expressions cannot be used.
+---
+ build-cmake/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/build-cmake/CMakeLists.txt b/build-cmake/CMakeLists.txt
+index 83526e5..b077ebf 100644
+--- a/build-cmake/CMakeLists.txt
++++ b/build-cmake/CMakeLists.txt
+@@ -18,7 +18,7 @@ endif()
+ find_package(Protobuf CONFIG)
+ if(Protobuf_FOUND)
+   # Keep compatibility with FindProtobuf CMake module
+-  set(PROTOBUF_PROTOC_EXECUTABLE $<TARGET_FILE:protobuf::protoc>)
++  get_target_property(PROTOBUF_PROTOC_EXECUTABLE protobuf::protoc LOCATION)
+   get_target_property(PROTOBUF_INCLUDE_DIR protobuf::libprotobuf INTERFACE_INCLUDE_DIRECTORIES)
+ else()
+   message(STATUS "Protobuf CMake config not found fallback to Cmake Module")
+-- 
+2.50.1 (Apple Git-155)
+
