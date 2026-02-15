@@ -24,11 +24,11 @@ class Libpng(Tarball, CmakeProject):
         Project.__init__(
             self,
             "libpng",
-            version="1.6.54",
+            version="1.6.55",
             repository="https://github.com/pnggroup/libpng",
             archive_url="https://github.com/pnggroup/libpng/archive/v{version}.tar.gz",
             archive_filename="libpng-{version}.tar.gz",
-            hash="ba7efce137409079989df4667706c339bebfbb10e9f413474718012a13c8cd4c",
+            hash="71a2c5b1218f60c4c6d2f1954c7eb20132156cae90bdb90b566c24db002782a6",
             dependencies=["cmake", "ninja", "zlib"],
         )
 
