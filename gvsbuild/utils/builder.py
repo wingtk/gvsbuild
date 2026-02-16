@@ -38,6 +38,10 @@ from .simple_ui import log, script_title
 from .utils import ordered_set, rmtree_full
 
 
+class CheckVsInstallError(Exception):
+    pass
+
+
 class Builder:
     def __init__(self, opts):
         self.opts = opts
@@ -327,7 +331,7 @@ class Builder:
         log.log("Trying to find Visual Studio installations ...")
         if not os.path.exists(vswhere):
             log.log(f"Could not find vswhere executable ({vswhere})")
-            return
+            return []
 
         completed_process = subprocess.run(
             [f"{vswhere}", "-all", "-products", "*", "-format", "json", "-utf8"],
@@ -340,6 +344,7 @@ class Builder:
             return self.__extract_paths(vs_installs)
         except subprocess.CalledProcessError as e:
             log.log(f"Unable to call vswhere.exe to find Visual Studio with error {e}")
+            return []
 
     def __extract_paths(self, res):
         log.message("")
@@ -353,7 +358,15 @@ class Builder:
         log.message("")
         return paths
 
-    def __check_good_vs_install(self, opts, vs_path, exit_missing=True):
+    def __check_vs_install(self, opts, vs_path, assert_vs_version):
+        if assert_vs_version:
+            # Don't match version with data (e.g. vs version 17 with vs 2017)
+            vs_ver_re = re.compile("[^0-9]" + self.opts.vs_ver)
+            if self.vs_ver_year[-4:] not in vs_path and not vs_ver_re.search(vs_path):
+                raise CheckVsInstallError(
+                    f"Doesn't match target Visual Studio version of {self.opts.vs_ver}"
+                )
+
         # Verify VS exists at the indicated location, and that it supports the required target
         if opts.platform == "Win32":
             vcvars_bat = os.path.join(vs_path, "VC", "bin", "vcvars32.bat")
@@ -378,32 +391,18 @@ class Builder:
         add_opts = f" {opts.win_sdk_ver}" if opts.win_sdk_ver else ""
         log.log(f'Running script "{vcvars_bat}"{add_opts}')
         if not os.path.exists(vcvars_bat):
-            if not exit_missing:
-                return None
-
-            self.__dump_vs_loc()
-            log.error_exit(
-                f"\n  {vcvars_bat} could not be found.\n  Please check you have Visual Studio installed at {vs_path}\n  and that it supports the target platform {opts.platform}."
+            raise CheckVsInstallError(
+                f'{vcvars_bat} could not be found (is target platform "{opts.platform}" supported?)'
             )
-        return subprocess.check_output(
+
+        vs_environment = subprocess.check_output(
             f'cmd.exe /c ""{vcvars_bat}"{add_opts}>NUL && set"', text=True
         )
-
-    def __find_vs_paths_with_vs_version(self, paths):
-        # Don't match version with data (e.g. vs version 17 with vs 2017)
-        vs_ver_re = re.compile("[^0-9]" + self.opts.vs_ver)
-
-        vs_paths = []
-        for path in paths:
-            if self.vs_ver_year[-4:] in path or vs_ver_re.search(path):
-                vs_paths.append(path)
-
-        if len(vs_paths) == 0:
-            log.debug(
-                f"Can't find vs-ver {self.opts.vs_ver} in found VS installations."
+        if not vs_environment:
+            raise CheckVsInstallError(
+                f"{vcvars_bat} did not export environment variables properly"
             )
-
-        return vs_paths
+        return vs_environment
 
     def __check_vs(self, opts):
         script_title("* Msvc tool")
@@ -417,19 +416,25 @@ class Builder:
 
         if opts.vs_install_path:
             vs_paths = [opts.vs_install_path]
+            assert_vs_version = False
         else:
-            vs_paths = self.__find_vs_paths_with_vs_version(self.__dump_vs_loc())
+            vs_paths = self.__dump_vs_loc()
+            assert_vs_version = True
 
         output = None
         for path in vs_paths:
-            output = self.__check_good_vs_install(opts, path, False)
+            try:
+                output = self.__check_vs_install(opts, path, assert_vs_version)
+            except CheckVsInstallError as check_vs_error:
+                log.message(f'- Skipping Visual Studio at "{path}": {check_vs_error}')
+
             if output is not None:
                 log.message(f"Using Visual Studio at {path}")
                 break
 
         if output is None:
             log.error_exit(
-                "Unable to find Visual Studio, try using --vs-ver or --vs-install-path "
+                "Unable to find applicable Visual Studio, try using --vs-ver or --vs-install-path "
                 "to specify Visual Studio version or install location"
             )
 
