@@ -25,10 +25,10 @@ class Kerberos(Tarball, Project):
         Project.__init__(
             self,
             "mit-kerberos",
-            version="1.22.1",
+            version="1.22.2",
             repository="https://github.com/krb5/krb5",
             archive_url="https://github.com/krb5/krb5/archive/refs/tags/krb5-{version}-final.tar.gz",
-            hash="d7dd1ded54c1c2d3381da4a266935feda6ba6398155720df27e2975bd5a39239",
+            hash="289f5bb81d1f2f8d5eecebe56a056aeed95d35fd9bb4a7071c5dd7ad4b3fe888",
             dependencies=[
                 "perl",
             ],

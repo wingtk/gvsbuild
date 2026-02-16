@@ -1,0 +1,12 @@
+diff --git a/giscanner/msvccompiler.py b/giscanner/msvccompiler.py
+--- a/giscanner/msvccompiler.py
++++ b/giscanner/msvccompiler.py
+@@ -50,7 +50,8 @@
+     def __init__(self, verbose=0, dry_run=0, force=0):
+         super(DistutilsMSVCCompiler, self).__init__()
+-        CCompiler.__init__(self, verbose, dry_run, force)
++        # dry_run removed in setuptools 81; just ignore it
++        CCompiler.__init__(self, verbose=verbose, force=force)
+         self.__paths = []
+         self.__arch = None  # deprecated name
+         self.initialized = False
