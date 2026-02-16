@@ -50,7 +50,7 @@ def test_vs_check_error_if_vcvars_fails(tmp_path):
     opts.platform = "x64"
     builder = Builder.__new__(Builder)
     builder.opts = opts
-    vcvars_path = tmp_path / "VC" / "Auxiliary" / "build" / "vcvars64.bat"
+    vcvars_path = tmp_path / "VC" / "Auxiliary" / "Build" / "vcvars64.bat"
     vcvars_path.parent.mkdir(parents=True)
     vcvars_path.write_text("exit 1")
 
@@ -63,7 +63,7 @@ def test_vs_check_error_if_vcvars_no_env(tmp_path):
     opts.platform = "x64"
     builder = Builder.__new__(Builder)
     builder.opts = opts
-    vcvars_path = tmp_path / "VC" / "Auxiliary" / "build" / "vcvars64.bat"
+    vcvars_path = tmp_path / "VC" / "Auxiliary" / "Build" / "vcvars64.bat"
     vcvars_path.parent.mkdir(parents=True)
     vcvars_path.write_text("exit 0")
 
@@ -78,7 +78,7 @@ def test_vs_check_success(tmp_path):
     opts.platform = "x64"
     builder = Builder.__new__(Builder)
     builder.opts = opts
-    vcvars_path = tmp_path / "VC" / "Auxiliary" / "build" / "vcvars64.bat"
+    vcvars_path = tmp_path / "VC" / "Auxiliary" / "Build" / "vcvars64.bat"
     vcvars_path.parent.mkdir(parents=True)
     vcvars_path.write_text("SET FOO=BAR")
     builder._Builder__check_vs_install(opts, str(tmp_path), False)

@@ -331,7 +331,7 @@ class Builder:
         log.log("Trying to find Visual Studio installations ...")
         if not os.path.exists(vswhere):
             log.log(f"Could not find vswhere executable ({vswhere})")
-            return
+            return []
 
         completed_process = subprocess.run(
             [f"{vswhere}", "-all", "-products", "*", "-format", "json", "-utf8"],
@@ -344,6 +344,7 @@ class Builder:
             return self.__extract_paths(vs_installs)
         except subprocess.CalledProcessError as e:
             log.log(f"Unable to call vswhere.exe to find Visual Studio with error {e}")
+            return []
 
     def __extract_paths(self, res):
         log.message("")
