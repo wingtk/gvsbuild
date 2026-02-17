@@ -35,9 +35,7 @@ class Libadwaita(Tarball, Meson):
                 "pkgconf",
                 "glib",
                 "gtk4",
-            ],
-            patches=[
-                "0001-remove-appstream-dependency.patch",
+                "ministream",
             ],
         )
         if self.opts.enable_gi:
