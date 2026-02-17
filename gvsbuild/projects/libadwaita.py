@@ -14,20 +14,19 @@
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 from gvsbuild.utils.base_builders import Meson
-from gvsbuild.utils.base_expanders import Tarball
+from gvsbuild.utils.base_expanders import GitRepo
 from gvsbuild.utils.base_project import Project, project_add
 
 
 @project_add
-class Libadwaita(Tarball, Meson):
+class Libadwaita(GitRepo, Meson):
     def __init__(self):
         Project.__init__(
             self,
             "libadwaita",
-            repository="https://gitlab.gnome.org/GNOME/libadwaita",
-            version="1.8.3",
-            archive_url="https://download.gnome.org/sources/libadwaita/{major}.{minor}/libadwaita-{version}.tar.xz",
-            hash="a362fe72a9b58ae5e64e876d2f5e11c90a72351cb6c0dae7f4d1a436358a217e",
+            repository="https://gitlab.gnome.org/sp1rit/libadwaita.git",
+            fetch_submodules=False,
+            tag="ministream",
             dependencies=[
                 "ninja",
                 "meson",
