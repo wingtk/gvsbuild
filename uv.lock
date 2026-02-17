@@ -279,7 +279,7 @@ requires-dist = [
     { name = "lastversion", marker = "extra == 'outdated'", specifier = ">=2.4.2,<4.0.0" },
     { name = "packaging", marker = "extra == 'outdated'", specifier = ">=25.0" },
     { name = "pip" },
-    { name = "setuptools", marker = "python_full_version >= '3.12'", specifier = ">=69.2" },
+    { name = "setuptools", marker = "python_full_version >= '3.12'", specifier = ">=69.2,<81" },
 ]
 provides-extras = ["outdated"]
 
