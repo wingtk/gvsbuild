@@ -24,10 +24,10 @@ class Protobuf(Tarball, CmakeProject):
         Project.__init__(
             self,
             "protobuf",
-            version="25.1",
+            version="33.4",
             repository="https://github.com/protocolbuffers/protobuf",
             archive_url="https://github.com/protocolbuffers/protobuf/releases/download/v{version}/protobuf-{version}.tar.gz",
-            hash="9bd87b8280ef720d3240514f884e56a712f2218f0d693b48050c836028940a42",
+            hash="bc670a4e34992c175137ddda24e76562bb928f849d712a0e3c2fb2e19249bea1",
             dependencies=[
                 "abseil-cpp",
                 "cmake",
@@ -40,7 +40,7 @@ class Protobuf(Tarball, CmakeProject):
         # We need to compile with STATIC_RUNTIME off since protobuf-c also compiles with it OFF
         CmakeProject.build(
             self,
-            cmake_params=r'-DBUILD_SHARED_LIBS=ON -Dprotobuf_ABSL_PROVIDER=package -Dprotobuf_DEBUG_POSTFIX="" -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_WITH_ZLIB=ON -Dprotobuf_MSVC_STATIC_RUNTIME=OFF',
+            cmake_params=r'-DBUILD_SHARED_LIBS=ON -Dprotobuf_ABSL_PROVIDER=package -Dprotobuf_DEBUG_POSTFIX="" -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_WITH_ZLIB=ON -Dprotobuf_MSVC_STATIC_RUNTIME=OFF -DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_STANDARD_REQUIRED=ON',
             use_ninja=True,
         )
 
@@ -63,12 +63,15 @@ class ProtobufC(Tarball, CmakeProject):
                 "protobuf",
                 "ninja",
             ],
+            patches=[
+                "0001-cmake-Replace-generator-expression.patch",
+            ],
         )
 
     def build(self):
         CmakeProject.build(
             self,
-            cmake_params="-DBUILD_SHARED_LIBS=ON",
+            cmake_params="-DBUILD_SHARED_LIBS=ON -DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_STANDARD_REQUIRED=ON",
             use_ninja=True,
             source_part="build-cmake",
         )
