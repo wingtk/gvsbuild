@@ -343,17 +343,20 @@ to build GTK with `gvsbuild build gtk4 adwaita-icon-theme` which will include li
 
 - If a build fails, try rebuilding it with `--clean`, if that fails, try
 rebuilding it with `--from-scratch`
-- If the download of a tarball fails a partial file will not pass the hash check,
+- If the download of a tarball fails, a partial file will not pass the hash check,
 delete the file and try again.
-- If you get an out of memory error, reduce the number of processor cores building at once
+- If you get an out-of-memory error, reduce the number of processor cores building at once
 by adding the `--ninja-opts -j2` option, where 2 is the number of cores.
 - If you are getting a C4819 error or warning, this is an issue of Visual Studio running on
 CJK (East Asian) locales. Set your system's locale setting for non-Unicode to English
 (United States), reboot, and restart the build, and the code should build normally.
-- On GitHub Windows runners, if you encounter errors involving basic Linux commind line tools it may be related to Git Bash and MSYS2 environment conflicts as both are installed on official GitHub Windows image where Git Bash takes precedence over MYSYS2.\
-  Workaround:
-  - Prioritize MSYS2 environment: `$env:Path = "C:\msys64\usr\bin;$env:Path"`
-  - Make sure that gvsbuild uses environment variables as-is: Enable gvsbuild build option `--use-env`
+- On GitHub Windows runners, if you encounter errors involving basic Linux command line tools,
+it may be related to Git Bash and MSYS2 environment conflicts as both are installed on the runner 
+images. These conflicts may occur because Git Bash takes precedence over MYSYS2. Here are some
+potential workarounds:
+  - Prioritize the MSYS2 environment: `$env:Path = "C:\msys64\usr\bin;$env:Path"`
+  - Run the build using the `--use-env` flag, which allows Gvsbuild to preserve the path you set
+  instead of using a minimal environment.
 
 ## OpenSSL
 
