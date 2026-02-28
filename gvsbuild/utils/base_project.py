@@ -103,6 +103,7 @@ class Project(Generic[P]):
         self.lastversion_major = None
         self.lastversion_even = None
         self.internal = False
+        self.outdated_skip = False
         self.mark_file = None
         self.clean = False
         self.to_add = True

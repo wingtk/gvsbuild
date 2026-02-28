@@ -28,6 +28,7 @@ class BoringSSL(GitRepo, CmakeProject):
             fetch_submodules=False,
             tag="44b3df6f03d85c901767250329c571db405122d5",  # commit from master-with-bazel branch
             dependencies=["cmake", "go", "perl", "nasm", "ninja"],
+            outdated_skip=True,
         )
 
     def build(self, **kwargs):

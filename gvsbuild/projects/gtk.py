@@ -51,6 +51,7 @@ class Gtk2(Project_gtk_base):
             version="2.24.33",
             lastversion_major=2,
             lastversion_even=True,
+            outdated_skip=True,
             repository="https://gitlab.gnome.org/GNOME/gtk",
             archive_url="https://download.gnome.org/sources/gtk+/{major}.{minor}/gtk+-{version}.tar.xz",
             hash="ac2ac757f5942d318a311a54b0c80b5ef295f299c2a73c632f6bfb1ff49cc6da",

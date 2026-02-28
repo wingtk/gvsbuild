@@ -56,6 +56,7 @@ class Glibmm2_4(Tarball, Meson):
             prj_dir="glibmm-2.4",
             version="2.66.8",
             lastversion_even=True,
+            outdated_skip=True,
             repository="https://gitlab.gnome.org/GNOME/glibmm",
             archive_url="https://download.gnome.org/sources/glibmm/{major}.{minor}/glibmm-{version}.tar.xz",
             hash="64f11d3b95a24e2a8d4166ecff518730f79ecc27222ef41faf7c7e0340fc9329",

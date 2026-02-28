@@ -33,6 +33,7 @@ class X264(GitRepo, Project):
             patches=[
                 "x264-0001-Prevent-mb_info_free-to-be-called-before-all-threads.patch",
             ],
+            outdated_skip=True,
         )
 
     def build(self):
