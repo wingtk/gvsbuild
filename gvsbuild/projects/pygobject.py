@@ -34,8 +34,6 @@ class PyGObject(Tarball, Meson):
             dependencies=["pycairo", "gobject-introspection", "libffi"],
             patches=[
                 "001-pygobject-py38-load-dll.patch",
-                # https://gitlab.gnome.org/GNOME/pygobject/-/merge_requests/463
-                "002-fix-syntax-error.patch",
             ],
         )
 
