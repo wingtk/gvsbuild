@@ -36,13 +36,11 @@ class Zlib(Tarball, Project):
         Project.__init__(
             self,
             "zlib",
-            version="1.3.1",
+            version="1.3.2",
             repository="https://github.com/madler/zlib",
             archive_url="https://github.com/madler/zlib/releases/download/v{version}/zlib-{version}.tar.xz",
-            hash="38ef96b8dfe510d42707d9c781877914792541133e1870841463bfa73f883e32",
-            patches=[
-                "001-fix-ffmpeg-build-failure.patch",
-            ],
+            hash="d7a0654783a4da529d1bb793b7ad9c3318020af77667bcae35f95d0e42a792f3",
+            patches=[],
         )
 
     def build(self):
