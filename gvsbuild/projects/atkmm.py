@@ -26,6 +26,7 @@ class Atkmm(Tarball, Meson):
             "atkmm",
             prj_dir="atkmm-1.6",
             version="2.28.4",
+            outdated_skip=True,
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/atkmm",
             archive_url="https://download.gnome.org/sources/atkmm/{major}.{minor}/atkmm-{version}.tar.xz",

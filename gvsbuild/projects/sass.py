@@ -25,6 +25,7 @@ class Libsass(Tarball, Meson):
             self,
             "libsass",
             version="3.6.6",
+            outdated_skip=True,
             archive_url="https://github.com/sass/libsass/archive/refs/tags/{version}.tar.gz",
             hash="11f0bb3709a4f20285507419d7618f3877a425c0131ea8df40fe6196129df15d",
             archive_filename="libsass-{version}.tar.gz",

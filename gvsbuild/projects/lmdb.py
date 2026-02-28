@@ -31,6 +31,7 @@ class Lmdb(GitRepo, Meson):
                 "ninja",
                 "meson",
             ],
+            outdated_skip=True,
         )
 
     def build(self):

@@ -186,6 +186,7 @@ class ToolPerl(Tool):
             self,
             "perl",
             version="5.20.0",
+            outdated_skip=True,
             repository="https://github.com/Perl/perl5",
             archive_url="https://github.com/wingtk/gtk-win32/releases/download/Perl-{major}.{minor}/perl-{version}-x64.tar.xz",
             hash="05e01cf30bb47d3938db6169299ed49271f91c1615aeee5649174f48ff418c55",

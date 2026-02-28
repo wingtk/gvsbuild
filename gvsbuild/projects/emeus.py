@@ -25,6 +25,7 @@ class Emeus(GitRepo, Meson):
             self,
             "emeus",
             repository="https://github.com/ebassi/emeus",
+            outdated_skip=True,
             fetch_submodules=False,
             tag="master",
             dependencies=["ninja", "meson", "pkgconf", "gtk3"],

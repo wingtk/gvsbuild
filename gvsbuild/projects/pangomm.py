@@ -57,6 +57,7 @@ class Pangomm1_4(Tarball, Meson):
             "pangomm-1.4",
             prj_dir="pangomm-1.4",
             version="2.46.4",
+            outdated_skip=True,
             repository="https://gitlab.gnome.org/GNOME/pangomm",
             archive_url="https://download.gnome.org/sources/pangomm/{major}.{minor}/pangomm-{version}.tar.xz",
             hash="b92016661526424de4b9377f1512f59781f41fb16c9c0267d6133ba1cd68db22",
