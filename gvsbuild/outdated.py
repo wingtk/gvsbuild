@@ -34,6 +34,7 @@ def outdated():
         for project in Project.list_projects()
         if project.type.value in [ProjectType.PROJECT, ProjectType.TOOL]
         and not project.internal
+        and not project.outdated_skip
     }
 
     print("Looking for projects and tools that are out-of-date, please submit a PR!")

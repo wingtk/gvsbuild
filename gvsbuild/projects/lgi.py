@@ -28,6 +28,7 @@ class Lgi(GitRepo, Meson):
             fetch_submodules=False,
             tag="4a12286ffd5ec162a50efeff3c4896d6cd14c43c",
             dependencies=["luajit", "gobject-introspection"],
+            outdated_skip=True,
         )
         self.add_param("-Dtests=false")
         self.add_param("-Dlua-bin=luajit")
