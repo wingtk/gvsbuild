@@ -1,19 +1,115 @@
-Subject: [PATCH] Patch out dcomp
----
-Index: gdk/win32/gdkdisplay-win32.c
-IDEA additional info:
-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
-<+>UTF-8
-===================================================================
+diff --git a/gdk/gdk.c b/gdk/gdk.c
+index dbf234c7584a263aee17a6caed186a466310b4b4..21c5f557065122362bc86eabf968874da8dee4c6 100644
+--- a/gdk/gdk.c
++++ b/gdk/gdk.c
+@@ -148,6 +148,7 @@ static const GdkDebugKey gdk_debug_keys[] = {
+   { "no-vsync",        GDK_DEBUG_NO_VSYNC, "Repaint instantly (uses 100% CPU with animations)" },
+   { "color-mgmt",      GDK_DEBUG_COLOR_MANAGEMENT, "Enable color management" },
+   { "session-mgmt",    GDK_DEBUG_SESSION_MANAGEMENT, "Enable session management" },
++  { "dcomp",           GDK_DEBUG_DCOMP, "Enable Direct Composition (Windows)" },
+ };
+
+ static const GdkDebugKey gdk_feature_keys[] = {
+@@ -161,7 +162,6 @@ static const GdkDebugKey gdk_feature_keys[] = {
+   { "dmabuf",     GDK_FEATURE_DMABUF,           "Disable dmabuf support" },
+   { "d3d11",      GDK_FEATURE_D3D11,            "Disable Direct3D 11" },
+   { "d3d12",      GDK_FEATURE_D3D12,            "Disable Direct3D 12" },
+-  { "dcomp",      GDK_FEATURE_DCOMP,            "Disable Direct Composition" },
+   { "offload",    GDK_FEATURE_OFFLOAD,          "Disable graphics offload" },
+   { "threads",    GDK_FEATURE_THREADS,          "Disable threads where possible" },
+   { "icon-nodes", GDK_FEATURE_ICON_NODES,       "Disable svg->node conversion for symbolic icons" },
+diff --git a/gdk/gdkdebugprivate.h b/gdk/gdkdebugprivate.h
+index 12c8b78cbe5c487c37adaf4c5f873cd41ce64a43..62ece82233caad0bcc8bbc5b494bfcc5aa256acf 100644
+--- a/gdk/gdkdebugprivate.h
++++ b/gdk/gdkdebugprivate.h
+@@ -25,32 +25,33 @@
+ G_BEGIN_DECLS
+
+ typedef enum {
+-  GDK_DEBUG_MISC            = 1 <<  0,
+-  GDK_DEBUG_EVENTS          = 1 <<  1,
+-  GDK_DEBUG_DND             = 1 <<  2,
+-  GDK_DEBUG_INPUT           = 1 <<  3,
+-  GDK_DEBUG_EVENTLOOP       = 1 <<  4,
+-  GDK_DEBUG_FRAMES          = 1 <<  5,
+-  GDK_DEBUG_SETTINGS        = 1 <<  6,
+-  GDK_DEBUG_OPENGL          = 1 <<  7,
+-  GDK_DEBUG_VULKAN          = 1 <<  8,
+-  GDK_DEBUG_SELECTION       = 1 <<  9,
+-  GDK_DEBUG_CLIPBOARD       = 1 << 10,
+-  GDK_DEBUG_DMABUF          = 1 << 11,
+-  GDK_DEBUG_D3D12           = 1 << 12,
+-  GDK_DEBUG_OFFLOAD         = 1 << 13,
+-  GDK_DEBUG_LINEAR          = 1 << 14,
+-  GDK_DEBUG_HDR             = 1 << 15,
+-  GDK_DEBUG_PORTALS         = 1 << 16,
+-  GDK_DEBUG_NO_PORTALS      = 1 << 17,
+-  GDK_DEBUG_FORCE_OFFLOAD   = 1 << 18,
+-  GDK_DEBUG_GL_PREFER_GL    = 1 << 19,
+-  GDK_DEBUG_GL_DEBUG        = 1 << 20,
+-  GDK_DEBUG_DEFAULT_SETTINGS= 1 << 21,
+-  GDK_DEBUG_HIGH_DEPTH      = 1 << 22,
+-  GDK_DEBUG_NO_VSYNC        = 1 << 23,
+-  GDK_DEBUG_COLOR_MANAGEMENT= 1 << 24,
+-  GDK_DEBUG_SESSION_MANAGEMENT= 1 << 25,
++  GDK_DEBUG_MISC               = 1 <<  0,
++  GDK_DEBUG_EVENTS             = 1 <<  1,
++  GDK_DEBUG_DND                = 1 <<  2,
++  GDK_DEBUG_INPUT              = 1 <<  3,
++  GDK_DEBUG_EVENTLOOP          = 1 <<  4,
++  GDK_DEBUG_FRAMES             = 1 <<  5,
++  GDK_DEBUG_SETTINGS           = 1 <<  6,
++  GDK_DEBUG_OPENGL             = 1 <<  7,
++  GDK_DEBUG_VULKAN             = 1 <<  8,
++  GDK_DEBUG_SELECTION          = 1 <<  9,
++  GDK_DEBUG_CLIPBOARD          = 1 << 10,
++  GDK_DEBUG_DMABUF             = 1 << 11,
++  GDK_DEBUG_D3D12              = 1 << 12,
++  GDK_DEBUG_OFFLOAD            = 1 << 13,
++  GDK_DEBUG_LINEAR             = 1 << 14,
++  GDK_DEBUG_HDR                = 1 << 15,
++  GDK_DEBUG_PORTALS            = 1 << 16,
++  GDK_DEBUG_NO_PORTALS         = 1 << 17,
++  GDK_DEBUG_FORCE_OFFLOAD      = 1 << 18,
++  GDK_DEBUG_GL_PREFER_GL       = 1 << 19,
++  GDK_DEBUG_GL_DEBUG           = 1 << 20,
++  GDK_DEBUG_DEFAULT_SETTINGS   = 1 << 21,
++  GDK_DEBUG_HIGH_DEPTH         = 1 << 22,
++  GDK_DEBUG_NO_VSYNC           = 1 << 23,
++  GDK_DEBUG_COLOR_MANAGEMENT   = 1 << 24,
++  GDK_DEBUG_SESSION_MANAGEMENT = 1 << 25,
++  GDK_DEBUG_DCOMP              = 1 << 26,
+ } GdkDebugFlags;
+
+ typedef enum {
+@@ -64,13 +65,12 @@ typedef enum {
+   GDK_FEATURE_DMABUF           = 1 << 7,
+   GDK_FEATURE_D3D11            = 1 << 8,
+   GDK_FEATURE_D3D12            = 1 << 9,
+-  GDK_FEATURE_DCOMP            = 1 << 10,
+-  GDK_FEATURE_OFFLOAD          = 1 << 11,
+-  GDK_FEATURE_THREADS          = 1 << 12,
+-  GDK_FEATURE_ICON_NODES       = 1 << 13,
++  GDK_FEATURE_OFFLOAD          = 1 << 10,
++  GDK_FEATURE_THREADS          = 1 << 11,
++  GDK_FEATURE_ICON_NODES       = 1 << 12,
+ } GdkFeatures;
+
+-#define GDK_ALL_FEATURES ((1 << 14) - 1)
++#define GDK_ALL_FEATURES ((1 << 13) - 1)
+
+ extern guint _gdk_debug_flags;
+
 diff --git a/gdk/win32/gdkdisplay-win32.c b/gdk/win32/gdkdisplay-win32.c
---- a/gdk/win32/gdkdisplay-win32.c	(revision c6ed65e10cdcdc5240fcc80492a0dc1dea6a673a)
-+++ b/gdk/win32/gdkdisplay-win32.c	(date 1763926875241)
-@@ -517,7 +517,7 @@
-   const GUID my_IID_IDCompositionDevice = { 0xC37EA93A,0xE7AA,0x450D,0xB1,0x6F,0x97,0x46,0xCB,0x04,0x07,0xF3 };
+index 8ec9114d7cd925911b6fc7805ad0e9c435fff986..1ee437c057a2d43a68a956a7744169dcfad1e28a 100644
+--- a/gdk/win32/gdkdisplay-win32.c
++++ b/gdk/win32/gdkdisplay-win32.c
+@@ -517,7 +517,7 @@ gdk_win32_display_init_dcomp (GdkWin32Display *self)
+   const GUID my_IID_IDCompositionDevice = { 0xC37EA93A,0xE7AA,0x450D, { 0xB1,0x6F,0x97,0x46,0xCB,0x04,0x07,0xF3 } };
    IDXGIDevice *dxgi_device;
- 
+
 -  if (!gdk_has_feature (GDK_FEATURE_DCOMP))
-+  if (!gdk_has_feature (GDK_FEATURE_DCOMP) || g_getenv ("GDK_WIN32_FORCE_DCOMP") == NULL)
++  if (!GDK_DISPLAY_DEBUG_CHECK (GDK_DISPLAY (self), DCOMP))
      return;
-   
+
    hr_warn (ID3D11Device_QueryInterface (self->d3d11_device, &IID_IDXGIDevice, (void **) &dxgi_device));
