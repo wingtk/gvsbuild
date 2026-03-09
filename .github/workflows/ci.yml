@@ -119,7 +119,7 @@ jobs:
       - name: Build GTK4
         if: matrix.gtk-version == '4'
         run: > # Use -j2 option to prevent out of memory errors with GitHub Action runners
-          uv run gvsbuild build --ninja-opts -j2 --enable-gi --py-wheel gtk4 libadwaita gtksourceview5 pygobject
+          uv run gvsbuild build --ninja-opts -j2 --enable-gi --py-wheel gtk4 libadwaita gtksourceview5 pygobject protobuf-c
           adwaita-icon-theme gtkmm
       - name: Copy wheel files
         run: |

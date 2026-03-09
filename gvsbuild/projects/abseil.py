@@ -24,10 +24,10 @@ class AbseilCpp(Tarball, CmakeProject):
         Project.__init__(
             self,
             "abseil-cpp",
-            version="20250512.1",
+            version="20260107.1",
             repository="https://github.com/abseil/abseil-cpp",
             archive_url="https://github.com/abseil/abseil-cpp/releases/download/{version}/abseil-cpp-{version}.tar.gz",
-            hash="9b7a064305e9fd94d124ffa6cc358592eb42b5da588fb4e07d09254aa40086db",
+            hash="4314e2a7cbac89cac25a2f2322870f343d81579756ceff7f431803c2c9090195",
             dependencies=[
                 "cmake",
                 "ninja",
@@ -38,6 +38,6 @@ class AbseilCpp(Tarball, CmakeProject):
     def build(self):
         CmakeProject.build(
             self,
-            cmake_params=r"-DBUILD_SHARED_LIBS=ON -DABSL_PROPAGATE_CXX_STD=ON",
+            cmake_params=r"-DBUILD_SHARED_LIBS=ON -DABSL_PROPAGATE_CXX_STD=ON -DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_STANDARD_REQUIRED=ON",
             use_ninja=True,
         )
