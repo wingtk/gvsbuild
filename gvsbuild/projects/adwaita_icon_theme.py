@@ -34,10 +34,6 @@ class AdwaitaIconTheme(Tarball, Meson):
                 "librsvg",
                 "gtk4",
             ],
-            patches=[
-                # https://gitlab.gnome.org/GNOME/adwaita-icon-theme/-/merge_requests/89
-                "001-fix-svg-symlink.patch",
-            ],
         )
 
     def build(self):
