@@ -24,11 +24,11 @@ class GLibBase(Tarball, Meson):
         Meson.__init__(
             self,
             "glib-base",
-            version="2.86.4",
+            version="2.88.0",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/glib",
             archive_url="https://download.gnome.org/sources/glib/{major}.{minor}/glib-{version}.tar.xz",
-            hash="d4e2b5d791d5015ffd8c6971ad8e975a0a55c1a14926cdb25cf843ff00682260",
+            hash="3546251ccbb3744d4bc4eb48354540e1f6200846572bab68e3a2b7b2b64dfd07",
             dependencies=[
                 "ninja",
                 "meson",
@@ -40,7 +40,6 @@ class GLibBase(Tarball, Meson):
             ],
             patches=[
                 "001-glib-package-installation-directory.patch",
-                "002-gtask-fix-g_task_run_in_thread.patch",
             ],
         )
         self.add_param("-Dman-pages=disabled")
@@ -63,15 +62,14 @@ class GLib(Tarball, Meson):
         Meson.__init__(
             self,
             "glib",
-            version="2.86.4",
+            version="2.88.0",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/glib",
             archive_url="https://download.gnome.org/sources/glib/{major}.{minor}/glib-{version}.tar.xz",
-            hash="d4e2b5d791d5015ffd8c6971ad8e975a0a55c1a14926cdb25cf843ff00682260",
+            hash="3546251ccbb3744d4bc4eb48354540e1f6200846572bab68e3a2b7b2b64dfd07",
             dependencies=["glib-base"],
             patches=[
                 "001-glib-package-installation-directory.patch",
-                "002-gtask-fix-g_task_run_in_thread.patch",
             ],
         )
         self.add_param("-Dman-pages=disabled")
