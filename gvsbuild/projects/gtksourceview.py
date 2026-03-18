@@ -49,12 +49,12 @@ class GtkSourceView5(Tarball, Meson):
         Project.__init__(
             self,
             "gtksourceview5",
-            version="5.18.0",
+            version="5.20.0",
             lastversion_major=5,
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/gtksourceview",
             archive_url="https://download.gnome.org/sources/gtksourceview/{major}.{minor}/gtksourceview-{version}.tar.xz",
-            hash="051a78fe38f793328047e5bcd6d855c6425c0b480c20d9432179e356742c6ac0",
+            hash="e38bcd23f52b86eadf0fe4d8bde698e3a8ca102322b8b4cf1a51ac294a448c1b",
             dependencies=["meson", "ninja", "gtk4", "pkgconf", "libxml2"],
             patches=[],
         )
