@@ -27,6 +27,7 @@ class Ministream(Tarball, Meson):
             repository="https://gitlab.gnome.org/sp1rit/ministream",
             version="0.99.0",
             archive_url="https://gitlab.gnome.org/-/project/37671/uploads/1caaee1f000934410df11677d1e1cccf/ministream-{version}.tar.xz",
+            hash="6aa0ee83cd877fd86396a1d86294b1cd952da14c29e8f996315939bf961529e3",
             dependencies=["meson", "glib"],
         )
         if self.opts.enable_gi:
