@@ -17,10 +17,10 @@ jobs:
     steps:
       # Drafts your next Release notes as Pull Requests are merged into "main"
       - name: Harden Runner
-        uses: step-security/harden-runner@58077d3c7e43986b6b15fba718e8ea69e387dfcc # v2.15.1
+        uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
         with:
           egress-policy: audit
 
-      - uses: release-drafter/release-drafter@3a7fb5c85b80b1dda66e1ccb94009adbbd32fce3 # v7.0.0
+      - uses: release-drafter/release-drafter@139054aeaa9adc52ab36ddf67437541f039b88e2 # v7.1.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
