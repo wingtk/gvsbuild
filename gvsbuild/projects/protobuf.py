@@ -24,10 +24,10 @@ class Protobuf(Tarball, CmakeProject):
         Project.__init__(
             self,
             "protobuf",
-            version="33.5",
+            version="34.1",
             repository="https://github.com/protocolbuffers/protobuf",
             archive_url="https://github.com/protocolbuffers/protobuf/releases/download/v{version}/protobuf-{version}.tar.gz",
-            hash="c6c7c27fadc19d40ab2eaa23ff35debfe01f6494a8345559b9bb285ce4144dd1",
+            hash="e4e6ff10760cf747a2decd1867741f561b216bd60cc4038c87564713a6da1848",
             dependencies=[
                 "abseil-cpp",
                 "cmake",
