@@ -24,10 +24,10 @@ class Freetype(Tarball, Meson):
         Project.__init__(
             self,
             "freetype",
-            version="2.14.2",
+            version="2.14.3",
             repository="https://gitlab.freedesktop.org/freetype/freetype",
             archive_url="https://downloads.sourceforge.net/project/freetype/freetype2/{version}/freetype-{version}.tar.xz",
-            hash="4b62dcab4c920a1a860369933221814362e699e26f55792516d671e6ff55b5e1",
+            hash="36bc4f1cc413335368ee656c42afca65c5a3987e8768cc28cf11ba775e785a5f",
             dependencies=["pkgconf", "ninja", "libpng"],
             patches=["0001-meson-in-shared-libraries-we-need-to-export-the-meth.patch"],
         )
