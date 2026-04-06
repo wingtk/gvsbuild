@@ -1,53 +1,32 @@
-Subject: [PATCH] Windows: fix DLL not found error in Python 3.8+
-
-This upstreams a patch from gvsbuild. In Python 3.8, a new
-os.add_dll_directory method was added to make loading DLLs in Windows
-more consistent. The impact of this is that even if I compile GTK
-successfully with MSVC, and add it to the Path, INCLUDE, and LIB, I am
-still not able to pip install PyGObject in Windows. This closes #545 by
-finding the first GTK DLL location from the Windows PATH variable.
----
-Index: gi/__init__.py
-IDEA additional info:
-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
-<+>UTF-8
-===================================================================
 diff --git a/gi/__init__.py b/gi/__init__.py
---- a/gi/__init__.py	(revision 6194329e36cc421c4d9d18a4c155f8a0ed57840c)
-+++ b/gi/__init__.py	(date 1757177920641)
-@@ -21,6 +21,7 @@
- __path__ = extend_path(__path__, __name__)
- 
- import sys
-+import sysconfig
- import os
- import importlib
- import types
-@@ -36,9 +37,24 @@
- if "gobject" in sys.modules:
+index 942a4040cf7b39e75e272b3ebf060b8a8d3fc949..8e989713c5ce56ab0356c7d5c94df8aeeb0031b0 100644
+--- a/gi/__init__.py
++++ b/gi/__init__.py
+@@ -36,6 +36,27 @@ _static_binding_error = ('When using gi.repository you must not import static '
+ if 'gobject' in sys.modules:
      raise ImportError(_static_binding_error)
- 
--
--from . import _gi
--from ._gi import _API as _API
-+# Windows official Python requires gi DLLs to be loaded manually
-+if sysconfig.get_platform().startswith("win"):
-+    env_path = os.environ.get("PATH", "").split(os.pathsep)
-+    first_gtk_dll_path = next(
-+        filter(
-+            lambda path: path is not None and os.path.isfile(os.path.join(path, "girepository-1.0-1.dll")),
-+            env_path,
-+        ),
-+        None,
-+    )
-+    if first_gtk_dll_path:
-+        with os.add_dll_directory(first_gtk_dll_path):
-+            from . import _gi
-+
-+else:
-+    from . import _gi
-+
-+from ._gi import _API
- from ._gi import Repository
- from ._gi import PyGIDeprecationWarning as PyGIDeprecationWarning
- from ._gi import PyGIWarning as PyGIWarning
+
++if sys.platform.startswith('win'):
++    bindirs = []
++    if 'PYGI_DLL_DIRS' in os.environ:
++        bindirs = os.environ['PYGI_DLL_DIRS'].split(os.pathsep)
++    else:
++        # Find prefix assuming directory layout is Lib/site-packages/gi (msvc)
++        prefix = os.path.abspath(os.path.join(
++            os.path.dirname(__file__),
++            os.path.pardir,
++            os.path.pardir,
++            os.path.pardir
++        ))
++        bindir = os.path.join(prefix, 'bin')
++        if not os.path.isdir(bindir):
++            # Find prefix assuming layout is lib/pythonx.y/site-packages/gi (mingw)
++            prefix = os.path.dirname(prefix)
++            bindir = os.path.join(prefix, 'bin')
++        if os.path.isdir(bindir):
++            bindirs = [bindir]
++    for bindir in bindirs:
++        os.add_dll_directory(bindir)
+
+ from . import _gi
+ from ._gi import _API  # noqa: F401
