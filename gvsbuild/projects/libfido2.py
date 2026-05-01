@@ -26,10 +26,10 @@ class Libfido2(Tarball, CmakeProject):
         Project.__init__(
             self,
             "libfido2",
-            version="1.16.0",
+            version="1.17.0",
             repository="https://github.com/yubico/libfido2",
             archive_url="https://developers.yubico.com/libfido2/Releases/libfido2-{version}.tar.gz",
-            hash="8c2b6fb279b5b42e9ac92ade71832e485852647b53607c43baaafbbcecea04e4",
+            hash="c1012c8871d71b65872fd5ff1a9d6b0838a55683a03e85ba97479ce57129c736",
             dependencies=[
                 "cmake",
                 "ninja",
