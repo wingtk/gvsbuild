@@ -23,10 +23,10 @@ class SQLite(Tarball, Project):
         Project.__init__(
             self,
             "sqlite",
-            version="3.52.0",
+            version="3.53.0",
             repository="https://github.com/sqlite/sqlite",
             archive_url="https://www.sqlite.org/2026/sqlite-autoconf-{major}{minor:0<3}{micro:0<3}.tar.gz",
-            hash="f6b50b0c103392af32a8be15b2b9d25959de9a00a70c3979128aafeaa5338b3f",
+            hash="851e9b38192fe2ceaa65e0baa665e7fa06230c3d9bd1a6a9662d02380d73365a",
         )
 
     def build(self):
