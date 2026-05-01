@@ -24,10 +24,10 @@ class Libssh(Tarball, CmakeProject):
         Project.__init__(
             self,
             "libssh",
-            version="0.11.3",
+            version="0.12.0",
             repository="https://git.libssh.org/projects/libssh.git",
             archive_url="https://www.libssh.org/files/{major}.{minor}/libssh-{version}.tar.xz",
-            hash="7d8a1361bb094ec3f511964e78a5a4dba689b5986e112afabe4f4d0d6c6125c3",
+            hash="1a6af424d8327e5eedef4e5fe7f5b924226dd617ac9f3de80f217d82a36a7121",
             dependencies=["zlib", "openssl", "cmake", "ninja"],
         )
 
