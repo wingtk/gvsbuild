@@ -100,8 +100,6 @@ class Gtk3(Tarball, Meson):
             dependencies=["atk", "gdk-pixbuf", "pango", "libepoxy"],
             patches=[
                 "001-gtk-update-icon-cache.patch",
-                # https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/9067
-                "002-fix-gdkglcontext-not-public.patch",
                 # https://gitlab.gnome.org/GNOME/gtk/-/issues/2015
                 "003-disable-low-level-keyboard-hook.patch",
             ],
