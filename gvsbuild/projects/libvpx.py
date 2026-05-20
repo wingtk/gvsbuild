@@ -34,6 +34,7 @@ class Libvpx(Tarball, Project):
             dependencies=["nasm", "msys2", "libyuv", "perl"],
             patches=[
                 "0006-gen_msvs_vcxproj.sh-Select-current-Windows-SDK-if-av.patch",
+                "0001-Always-generate-pc-file.patch",
             ],
         )
 

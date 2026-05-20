@@ -1,0 +1,62 @@
+From 6f97ce08c2215084c0161e7729aa509a82352a63 Mon Sep 17 00:00:00 2001
+From: Ignacio Casal Quinteiro <qignacio@amazon.com>
+Date: Wed, 20 May 2026 09:15:02 +0200
+Subject: [PATCH] Always generate pc file
+
+---
+ libs.mk | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/libs.mk b/libs.mk
+index 483da0fdd..8e93f70df 100644
+--- a/libs.mk
++++ b/libs.mk
+@@ -386,6 +386,15 @@ INSTALL-LIBS-$(CONFIG_SHARED) += $(LIBSUBDIR)/$(LIBVPX_SO)
+ INSTALL-LIBS-$(CONFIG_SHARED) += $(if $(LIBVPX_SO_IMPLIB),$(LIBSUBDIR)/$(LIBVPX_SO_IMPLIB))
+ 
+ 
++ifeq ($(CONFIG_ENCODERS),yes)
++  RC_RTC_OBJS=$(call objs,$(RC_RTC_SRCS))
++  OBJS-yes += $(RC_RTC_OBJS)
++  LIBS-yes += $(BUILD_PFX)libvpxrc.a $(BUILD_PFX)libvpxrc_g.a
++  $(BUILD_PFX)libvpxrc_g.a: $(RC_RTC_OBJS)
++endif
++
++endif # ifeq ($(CONFIG_EXTERNAL_BUILD),yes)
++
+ LIBS-yes += vpx.pc
+ vpx.pc: config.mk libs.mk
+ 	@echo "    [CREATE] $@"
+@@ -400,26 +409,17 @@ vpx.pc: config.mk libs.mk
+ 	$(qexec)echo 'Version: $(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)' >> $@
+ 	$(qexec)echo 'Requires:' >> $@
+ 	$(qexec)echo 'Conflicts:' >> $@
+-	$(qexec)echo 'Libs: -L$${libdir} -lvpx -lm' >> $@
++	$(qexec)echo 'Libs: -L$${libdir} -lvpx' >> $@
+ ifeq ($(HAVE_PTHREAD_H),yes)
+-	$(qexec)echo 'Libs.private: -lm -lpthread' >> $@
++	$(qexec)echo 'Libs.private: -lpthread' >> $@
+ else
+-	$(qexec)echo 'Libs.private: -lm' >> $@
++	$(qexec)echo 'Libs.private: ' >> $@
+ endif
+ 	$(qexec)echo 'Cflags: -I$${includedir}' >> $@
+ INSTALL-LIBS-yes += $(LIBSUBDIR)/pkgconfig/vpx.pc
+ INSTALL_MAPS += $(LIBSUBDIR)/pkgconfig/%.pc %.pc
+ CLEAN-OBJS += vpx.pc
+ 
+-ifeq ($(CONFIG_ENCODERS),yes)
+-  RC_RTC_OBJS=$(call objs,$(RC_RTC_SRCS))
+-  OBJS-yes += $(RC_RTC_OBJS)
+-  LIBS-yes += $(BUILD_PFX)libvpxrc.a $(BUILD_PFX)libvpxrc_g.a
+-  $(BUILD_PFX)libvpxrc_g.a: $(RC_RTC_OBJS)
+-endif
+-
+-endif # ifeq ($(CONFIG_EXTERNAL_BUILD),yes)
+-
+ libvpx.ver: $(call enabled,CODEC_EXPORTS)
+ 	@echo "    [CREATE] $@"
+ 	$(qexec)echo "{ global:" > $@
+-- 
+2.43.0
+
