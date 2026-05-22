@@ -953,12 +953,14 @@ class Builder:
     def exec_cmd(self, cmd, working_dir=None, add_path=None):
         self.__execute(cmd, working_dir=working_dir, add_path=add_path)
 
-    def exec_ninja(self, params="", working_dir=None, add_path=None):
+    def exec_ninja(
+        self, params: list[str] | None = None, working_dir=None, add_path=None
+    ):
         cmd = ["ninja"]
         if self.opts.ninja_opts:
             cmd += self.opts.ninja_opts.split()
         if params:
-            cmd += params.split()
+            cmd += params
         self.__execute(
             cmd,
             working_dir=working_dir,

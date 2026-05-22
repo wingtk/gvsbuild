@@ -17,7 +17,7 @@
 
 import pytest
 
-from gvsbuild.utils.base_builders import Rust
+from gvsbuild.utils.base_builders import Meson, Rust
 from gvsbuild.utils.base_project import Project
 from gvsbuild.utils.builder import Builder
 
@@ -119,7 +119,7 @@ def test_exec_ninja_no_params_produces_list(builder, mocker):
 def test_exec_ninja_with_params_produces_list(builder, mocker):
     mock_exec = mocker.patch.object(builder, "_Builder__execute")
 
-    builder.exec_ninja(params="install")
+    builder.exec_ninja(params=["install"])
 
     assert mock_exec.call_args[0][0] == ["ninja", "install"]
 
@@ -128,7 +128,7 @@ def test_exec_ninja_with_opts_produces_list(builder, mocker):
     builder.opts.ninja_opts = "-j4"
     mock_exec = mocker.patch.object(builder, "_Builder__execute")
 
-    builder.exec_ninja(params="install")
+    builder.exec_ninja(params=["install"])
 
     assert mock_exec.call_args[0][0] == ["ninja", "-j4", "install"]
 
@@ -269,3 +269,33 @@ def test_rust_build_forwards_cargo_params(rust_project):
     params = rust_project.builder.exec_cargo.call_args[1]["params"]
     assert "--features" in params
     assert "foo" in params
+
+
+@pytest.fixture
+def meson_project(mocker, tmp_path):
+    """Minimal Meson project with a pre-existing build.ninja to skip setup."""
+    p = Meson.__new__(Meson)
+    p.builder = mocker.Mock()
+    p.build_dir = str(tmp_path)
+    p.params = []
+    p.extra_opts = []
+    ninja_build = tmp_path / "_gvsbuild-meson"
+    ninja_build.mkdir()
+    (ninja_build / "build.ninja").write_text("")
+    return p
+
+
+def test_meson_build_calls_ninja_install(meson_project):
+    meson_project.build()
+    calls = meson_project.builder.exec_ninja.call_args_list
+    params = [c[1].get("params") for c in calls]
+    assert ["install"] in params
+
+
+def test_meson_build_with_tests_calls_ninja_test_then_install(meson_project):
+    meson_project.build(make_tests=True)
+    calls = meson_project.builder.exec_ninja.call_args_list
+    params = [c[1].get("params") for c in calls]
+    assert None in params
+    assert ["test"] in params
+    assert ["install"] in params
