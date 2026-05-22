@@ -116,3 +116,55 @@ def test_ninja_opts_validation_empty_value(app, runner):
     assert result.exit_code != 2
     full_output = result.output + result.stderr
     assert "ninja-opts must start with a dash" not in full_output
+
+
+def test_build_all_orders_dependencies_before_dependents(mocker):
+    """'build all' must emit each dependency before the project that needs it.
+
+    Without topological ordering, projects are added in registration order.
+    A project registered first (e.g. 'a-app') would be built before a later
+    one it depends on (e.g. 'z-lib'), causing missing-binary failures at build
+    time (the historical gtk4-update-icon-cache issue is one such case).
+    """
+    import gvsbuild.build as build_module
+    from gvsbuild.utils.base_project import Project, ProjectType
+    from gvsbuild.utils.utils import ordered_set
+
+    # proj_a has no dependencies.
+    # proj_b depends on proj_a but is registered first (simulating alphabetical
+    # registration order where a project starting with "a" comes before "z").
+    proj_a = mocker.Mock()
+    proj_a.name = "z-lib"
+    proj_a.type = ProjectType.PROJECT
+    proj_a.all_dependencies = ordered_set()
+
+    proj_b = mocker.Mock()
+    proj_b.name = "a-app"
+    proj_b.type = ProjectType.PROJECT
+    b_deps = ordered_set()
+    b_deps.add(proj_a)
+    proj_b.all_dependencies = b_deps
+
+    # Registration order: proj_b first — without dep-sorting, proj_b would be
+    # built before its dependency proj_a.
+    mocker.patch.object(Project, "list_projects", return_value=[proj_b, proj_a])
+
+    group_all = mocker.Mock()
+    group_all.all_dependencies = ordered_set()
+    mocker.patch.object(Project, "get_project", return_value=group_all)
+
+    opts = mocker.Mock()
+    opts.projects = ["all"]
+    opts.deps = True
+    opts.skip = None
+    opts.clean_built = False
+    opts.enable_fips = False
+
+    get_projects_fn = vars(build_module)["__get_projects_to_build"]
+    result = list(get_projects_fn(opts))
+
+    assert proj_a in result, "dependency must be present in the build list"
+    assert proj_b in result, "dependent must be present in the build list"
+    assert result.index(proj_a) < result.index(proj_b), (
+        "proj_a (dependency of proj_b) must appear before proj_b in the build order"
+    )

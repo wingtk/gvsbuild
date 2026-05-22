@@ -41,7 +41,7 @@ class Glibmm(Tarball, Meson):
     def build(self):
         Meson.build(
             self,
-            meson_params="-Dbuild-examples=false -Dbuild-documentation=false",
+            meson_params=["-Dbuild-examples=false", "-Dbuild-documentation=false"],
         )
 
         self.install(r".\COPYING share\doc\glibmm")
@@ -65,7 +65,8 @@ class Glibmm2_4(Tarball, Meson):
 
     def build(self):
         Meson.build(
-            self, meson_params="-Dbuild-examples=false -Dbuild-documentation=false"
+            self,
+            meson_params=["-Dbuild-examples=false", "-Dbuild-documentation=false"],
         )
 
         self.install(r".\COPYING share\doc\glibmm-2.4")

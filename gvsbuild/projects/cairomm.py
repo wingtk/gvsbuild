@@ -34,7 +34,8 @@ class Cairomm(Tarball, Meson):
 
     def build(self):
         Meson.build(
-            self, meson_params="-Dbuild-examples=false -Dbuild-documentation=false"
+            self,
+            meson_params=["-Dbuild-examples=false", "-Dbuild-documentation=false"],
         )
         self.install(r".\COPYING share\doc\cairomm")
 
@@ -54,6 +55,7 @@ class Cairomm1_0(Tarball, Meson):
 
     def build(self):
         Meson.build(
-            self, meson_params="-Dbuild-examples=false -Dbuild-documentation=false"
+            self,
+            meson_params=["-Dbuild-examples=false", "-Dbuild-documentation=false"],
         )
         self.install(r".\COPYING share\doc\cairomm-1.0")

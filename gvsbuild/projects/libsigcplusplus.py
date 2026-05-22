@@ -38,7 +38,7 @@ class Libsigcplusplus(Tarball, Meson):
     def build(self):
         Meson.build(
             self,
-            meson_params="-Dbuild-examples=false -Dbuild-documentation=false",
+            meson_params=["-Dbuild-examples=false", "-Dbuild-documentation=false"],
         )
 
         self.install(r".\COPYING share\doc\libsigc++")
@@ -66,7 +66,7 @@ class Libsigcplusplus2(Tarball, Meson):
     def build(self):
         Meson.build(
             self,
-            meson_params="-Dbuild-examples=false -Dbuild-documentation=false",
+            meson_params=["-Dbuild-examples=false", "-Dbuild-documentation=false"],
         )
 
         self.install(r".\COPYING share\doc\libsigc++-2.0")

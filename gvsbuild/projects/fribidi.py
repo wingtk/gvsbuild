@@ -45,5 +45,5 @@ class Fribidi(Tarball, Meson):
         )
 
     def build(self):
-        Meson.build(self, meson_params="-Ddocs=false")
+        Meson.build(self, meson_params=["-Ddocs=false"])
         self.install(r".\COPYING share\doc\fribidi")

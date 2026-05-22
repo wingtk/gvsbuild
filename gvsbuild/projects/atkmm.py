@@ -35,5 +35,5 @@ class Atkmm(Tarball, Meson):
         )
 
     def build(self):
-        Meson.build(self, meson_params="-Dbuild-documentation=false")
+        Meson.build(self, meson_params=["-Dbuild-documentation=false"])
         self.install(r".\COPYING share\doc\atkmm-1.6")

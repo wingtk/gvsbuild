@@ -115,7 +115,10 @@ class Gtk3(Tarball, Meson):
         self.add_param(f"-Dintrospection={enable_gi}")
 
     def build(self):
-        Meson.build(self, meson_params="-Dtests=false -Ddemos=false -Dexamples=false")
+        Meson.build(
+            self,
+            meson_params=["-Dtests=false", "-Ddemos=false", "-Dexamples=false"],
+        )
 
         self.install(r".\COPYING share\doc\gtk3")
 

@@ -52,7 +52,7 @@ class GLibBase(Tarball, Meson):
         build_debug = (
             "enabled" if self.builder.opts.configuration == "debug" else "disabled"
         )
-        Meson.build(self, meson_params=f"-Dglib_debug={build_debug}")
+        Meson.build(self, meson_params=[f"-Dglib_debug={build_debug}"])
         self.install(r".\LICENSES\* share\doc\glib")
 
 
@@ -85,7 +85,7 @@ class GLib(Tarball, Meson):
             build_debug = (
                 "enabled" if self.builder.opts.configuration == "debug" else "disabled"
             )
-            Meson.build(self, meson_params=f"-Dglib_debug={build_debug}")
+            Meson.build(self, meson_params=[f"-Dglib_debug={build_debug}"])
 
 
 @project_add
@@ -112,7 +112,12 @@ class GLibNetworking(Tarball, Meson):
 
     def build(self):
         Meson.build(
-            self, meson_params="-Dgnutls=disabled -Dopenssl=enabled -Dlibproxy=disabled"
+            self,
+            meson_params=[
+                "-Dgnutls=disabled",
+                "-Dopenssl=enabled",
+                "-Dlibproxy=disabled",
+            ],
         )
         self.install(r".\COPYING share\doc\glib-networking")
         self.install(r".\LICENSE_EXCEPTION share\doc\glib-networking")
