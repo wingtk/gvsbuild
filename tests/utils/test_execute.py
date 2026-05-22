@@ -17,6 +17,8 @@
 
 import pytest
 
+from gvsbuild.utils.base_builders import Rust
+from gvsbuild.utils.base_project import Project
 from gvsbuild.utils.builder import Builder
 
 # Patch targets — always patch where the name is looked up
@@ -165,7 +167,6 @@ def test_exec_vs_does_not_expand_percent_substitution(builder, mocker):
 
     builder.exec_vs(["nmake", "PREFIX=%(gtk_dir)s"])
 
-    # Must be passed through unchanged, not expanded
     assert mock_exec.call_args[0][0][1] == "PREFIX=%(gtk_dir)s"
 
 
@@ -200,3 +201,71 @@ def test_exec_cargo_global_opts_are_split_and_prepended(cargo_builder, mocker):
     cargo_builder.exec_cargo(["build"])
     cargo_cmd = mock_exec.call_args_list[1][0][0]
     assert cargo_cmd == ["cargo", "--color", "always", "build"]
+
+
+@pytest.fixture
+def project_stub(mocker):
+    """Minimal Project instance for exec_msbuild tests."""
+    p = Project.__new__(Project)
+    p.builder = mocker.Mock()
+    p.builder.opts.configuration = "release"
+    p.builder._create_msbuild_opts.return_value = [
+        "/nologo",
+        "/p:Platform=x64",
+        "/v:minimal",
+    ]
+    p.build_dir = r"C:\build\myproject"
+    p._Project__working_dir = None  # required by _get_working_dir
+    return p
+
+
+def test_exec_msbuild_builds_correct_command(project_stub):
+    project_stub.exec_msbuild([r"src\all.sln", "/p:SkipUWP=true"])
+    cmd = project_stub.builder.exec_vs.call_args[0][0]
+    assert cmd[0] == "msbuild"
+    assert r"src\all.sln" in cmd
+    assert "/p:SkipUWP=true" in cmd
+    assert "/p:Configuration=release" in cmd
+    assert "/nologo" in cmd
+
+
+def test_exec_msbuild_explicit_configuration_overrides_opts(project_stub):
+    project_stub.exec_msbuild([r"src\all.sln"], configuration="debug")
+    cmd = project_stub.builder.exec_vs.call_args[0][0]
+    assert "/p:Configuration=debug" in cmd
+
+
+@pytest.fixture
+def rust_project(mocker):
+    """Minimal Rust project instance for cargo-params construction tests."""
+    p = Rust.__new__(Rust)
+    p.builder = mocker.Mock()
+    p.builder.opts.configuration = "debug"
+    p.build_dir = r"C:\build\librsvg"
+    p.clean = False
+    p.extra_opts = []
+    p.version = "stable"
+    # Rust.build calls shutil.copytree after exec_cargo; patch it out
+    mocker.patch("gvsbuild.utils.base_builders.shutil.copytree")
+    return p
+
+
+def test_rust_build_debug_does_not_add_release_flag(rust_project):
+    rust_project.build()
+    params = rust_project.builder.exec_cargo.call_args[1]["params"]
+    assert "build" in params
+    assert "--release" not in params
+
+
+def test_rust_build_release_adds_release_flag(rust_project):
+    rust_project.builder.opts.configuration = "release"
+    rust_project.build()
+    params = rust_project.builder.exec_cargo.call_args[1]["params"]
+    assert "--release" in params
+
+
+def test_rust_build_forwards_cargo_params(rust_project):
+    rust_project.build(cargo_params=["--features", "foo"])
+    params = rust_project.builder.exec_cargo.call_args[1]["params"]
+    assert "--features" in params
+    assert "foo" in params

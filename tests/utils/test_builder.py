@@ -20,6 +20,51 @@ from gvsbuild.utils.base_project import Options
 from gvsbuild.utils.builder import Builder, CheckVsInstallError
 
 
+@pytest.fixture
+def msbuild_builder(mocker):
+    """Builder with opts configured for _create_msbuild_opts tests."""
+    b = Builder.__new__(Builder)
+    b.opts = mocker.Mock()
+    b.opts.platform = "x64"
+    b.opts.win_sdk_ver = None
+    b.opts.net_target_framework = None
+    b.opts.net_target_framework_version = None
+    b.opts.msbuild_opts = None
+    return b
+
+
+def test_create_msbuild_opts_minimal(msbuild_builder):
+    result = msbuild_builder._create_msbuild_opts(None)
+    assert "/nologo" in result
+    assert "/p:Platform=x64" in result
+    assert not any("PythonPath" in s for s in result)
+
+
+def test_create_msbuild_opts_with_python(msbuild_builder, tmp_path):
+    result = msbuild_builder._create_msbuild_opts(tmp_path)
+    assert f"/p:PythonPath={tmp_path}" in result
+    assert f"/p:PythonDir={tmp_path}" in result
+
+
+def test_create_msbuild_opts_with_sdk_ver(msbuild_builder):
+    msbuild_builder.opts.win_sdk_ver = "10.0.22000.0"
+    result = msbuild_builder._create_msbuild_opts(None)
+    assert "/p:WindowsTargetPlatformVersion=10.0.22000.0" in result
+
+
+def test_create_msbuild_opts_with_framework(msbuild_builder):
+    msbuild_builder.opts.net_target_framework = "net6.0"
+    result = msbuild_builder._create_msbuild_opts(None)
+    assert "/p:TargetFrameworks=net6.0" in result
+
+
+def test_create_msbuild_opts_extra_opts_are_split(msbuild_builder):
+    msbuild_builder.opts.msbuild_opts = "/m:4 /nr:false"
+    result = msbuild_builder._create_msbuild_opts(None)
+    assert "/m:4" in result
+    assert "/nr:false" in result
+
+
 def test_vs_check_error_if_version_not_matching():
     opts = Options()
     opts.vs_ver = "17"
