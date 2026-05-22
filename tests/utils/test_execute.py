@@ -151,6 +151,8 @@ def test_exec_msys_list_calls_check_call(builder, mocker):
 
 
 def test_exec_msys_list_passes_args_verbatim(builder, mocker):
+    """List args must not be shell-split; URLs and paths with spaces are preserved."""
+    mocker.patch("gvsbuild.utils.builder.shutil.which", return_value=None)
     mock_cc = mocker.patch(SUBPROCESS_CHECK_CALL)
 
     dest = "C:\\Program Files\\source"
@@ -299,3 +301,33 @@ def test_meson_build_with_tests_calls_ninja_test_then_install(meson_project):
     assert None in params
     assert ["test"] in params
     assert ["install"] in params
+
+
+def test_execute_resolves_bare_name_via_env_path(builder, mocker):
+    """Bare executable names must be resolved using env['PATH'], not the parent
+    process PATH — Windows CreateProcess does not consult env for bare lookups."""
+    builder.vs_env = {"PATH": r"C:\fake\tools"}
+    fake_cmake = r"C:\fake\tools\cmake.exe"
+    mocker.patch(
+        "gvsbuild.utils.builder.shutil.which",
+        side_effect=lambda name, path=None: fake_cmake if name == "cmake" else None,
+    )
+    mock_cc = mocker.patch(SUBPROCESS_CHECK_CALL)
+
+    builder.exec_vs(["cmake", "-G", "Ninja"])
+
+    resolved_args = mock_cc.call_args[0][0]
+    assert resolved_args[0] == fake_cmake
+    assert resolved_args[1:] == ["-G", "Ninja"]
+
+
+def test_execute_absolute_path_skips_resolution(builder, mocker):
+    """An absolute path in args[0] must pass through without calling shutil.which."""
+    mock_which = mocker.patch("gvsbuild.utils.builder.shutil.which")
+    mock_cc = mocker.patch(SUBPROCESS_CHECK_CALL)
+
+    bash = r"C:\msys64\usr\bin\bash"
+    builder.exec_vs([bash, "build.sh"])
+
+    mock_which.assert_not_called()
+    assert mock_cc.call_args[0][0][0] == bash

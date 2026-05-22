@@ -991,11 +991,28 @@ class Builder:
             add_path=os.path.join(self.opts.msys_dir, "usr", "bin"),
         )
 
+    @staticmethod
+    def __resolve_executable(args, env):
+        """On Windows, CreateProcess does not use env['PATH'] for bare-name lookup.
+        Resolve the first argument to a full path via shutil.which so that tools
+        installed into vs_env['PATH'] (cmake, ninja, nmake, cargo, …) are found."""
+        if not isinstance(args, (list, tuple)) or not args:
+            return args
+        first = os.fspath(args[0])
+        if os.path.isabs(first) or os.sep in first or "/" in first:
+            return args  # already qualified — let CreateProcess use it directly
+        search_path = (env or os.environ).get("PATH")
+        resolved = shutil.which(first, path=search_path)
+        if resolved is None:
+            return args  # let subprocess raise a clear error
+        return [resolved, *args[1:]]
+
     def __execute(self, args, working_dir=None, add_path=None, env=None):
         log.debug(f"running {args}, cwd={working_dir}, path+={add_path}")
         if add_path:
             env = dict(env) if env is not None else dict(os.environ)
             self.__add_path(env, add_path)
+        args = self.__resolve_executable(args, env)
         if self.opts.capture_out:
             try:
                 res = subprocess.run(

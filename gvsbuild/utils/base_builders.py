@@ -130,7 +130,7 @@ class CmakeProject(Project):
                 if source_part
                 else Path(self.build_dir)
             )
-            cmd += ["-B", cmake_dir, "-H", src_full]
+            cmd += ["-B", str(cmake_dir), "-S", str(src_full)]
             work_dir = cmake_dir
         else:
             work_dir = self._get_working_dir()
