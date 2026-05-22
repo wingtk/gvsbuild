@@ -26,10 +26,10 @@ class Ffmpeg(Tarball, Project):
         Project.__init__(
             self,
             "ffmpeg",
-            version="8.1",
+            version="8.1.1",
             repository="https://git.ffmpeg.org/ffmpeg.git",
             archive_url="https://ffmpeg.org/releases/ffmpeg-{version}.tar.xz",
-            hash="b072aed6871998cce9b36e7774033105ca29e33632be5b6347f3206898e0756a",
+            hash="b6863adde98898f42602017462871b5f6333e65aec803fdd7a6308639c52edf3",
             dependencies=[
                 "dav1d",
                 "nasm",
