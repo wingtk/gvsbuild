@@ -44,7 +44,7 @@ class Gtkmm(Tarball, Meson):
     def build(self):
         Meson.build(
             self,
-            meson_params="-Dbuild-tests=false -Dbuild-demos=false",
+            meson_params=["-Dbuild-tests=false", "-Dbuild-demos=false"],
         )
 
         self.install(r".\COPYING share\doc\gtkmm")
@@ -75,6 +75,9 @@ class Gtkmm3(Tarball, Meson):
         )
 
     def build(self):
-        Meson.build(self, meson_params="-Dbuild-tests=false -Dbuild-demos=false")
+        Meson.build(
+            self,
+            meson_params=["-Dbuild-tests=false", "-Dbuild-demos=false"],
+        )
 
         self.install(r".\COPYING share\doc\gtkmm-3.0")

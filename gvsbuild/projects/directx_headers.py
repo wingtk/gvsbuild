@@ -49,7 +49,7 @@ class DirectXHeaders(Tarball, Meson):
         )
 
     def build(self):
-        Meson.build(self, meson_params="-Dbuild-test=false")
+        Meson.build(self, meson_params=["-Dbuild-test=false"])
         self.install(r".\LICENSE share\doc\directx-headers")
 
     def post_install(self):

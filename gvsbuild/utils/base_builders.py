@@ -37,7 +37,12 @@ class Meson(Project):
         self._ensure_params()
         self.params.append(par)
 
-    def build(self, meson_params=None, make_tests=False, add_path=None):
+    def build(
+        self,
+        meson_params: list[str] | None = None,
+        make_tests: bool = False,
+        add_path=None,
+    ):
         # where we build, with ninja, the library
         ninja_build = Path(self.build_dir) / "_gvsbuild-meson"
 
@@ -54,7 +59,9 @@ class Meson(Project):
         # running explicitly from the build dir
         self.builder.exec_ninja(params=["install"], working_dir=ninja_build)
 
-    def _setup_meson_and_ninja(self, ninja_build, meson_params, add_path):
+    def _setup_meson_and_ninja(
+        self, ninja_build, meson_params: list[str] | None, add_path
+    ):
         log.start_verbose("Generating meson directory")
         self.builder.make_dir(ninja_build)
         self._ensure_params()
@@ -76,7 +83,7 @@ class Meson(Project):
         ]
         cmd += self.params
         if meson_params:
-            cmd += meson_params.split()
+            cmd += meson_params
         if self.extra_opts:
             cmd += self.extra_opts
 

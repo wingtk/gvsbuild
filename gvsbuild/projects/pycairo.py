@@ -35,7 +35,7 @@ class Pycairo(Tarball, Meson):
 
     def build(self):
         py_dir = Path(sys.executable).parent
-        Meson.build(self, meson_params=f'-Dpython="{py_dir}\\python.exe"')
+        Meson.build(self, meson_params=[f"-Dpython={py_dir}\\python.exe"])
         cairo_inc = Path(self.builder.gtk_dir) / "include" / "cairo"
         self.builder.mod_env("INCLUDE", str(cairo_inc))
         python_exe = str(py_dir / "python.exe")

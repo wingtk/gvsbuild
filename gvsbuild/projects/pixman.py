@@ -35,7 +35,12 @@ class Pixman(Tarball, Meson):
         enable_mmx = "disabled" if self.builder.x64 else "enabled"
         Meson.build(
             self,
-            meson_params=f"-Dsse2=enabled -Dssse3=enabled -Dmmx={enable_mmx} -Dtests=disabled",
+            meson_params=[
+                "-Dsse2=enabled",
+                "-Dssse3=enabled",
+                f"-Dmmx={enable_mmx}",
+                "-Dtests=disabled",
+            ],
         )
 
         self.install(r".\COPYING share\doc\pixman")

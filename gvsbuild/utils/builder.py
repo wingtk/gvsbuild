@@ -998,14 +998,12 @@ class Builder:
         installed into vs_env['PATH'] (cmake, ninja, nmake, cargo, …) are found."""
         if not isinstance(args, (list, tuple)) or not args:
             return args
-        first = os.fspath(args[0])
-        if os.path.isabs(first) or os.sep in first or "/" in first:
-            return args  # already qualified — let CreateProcess use it directly
+        first = Path(args[0])
+        if first.parent != Path("."):
+            return args  # absolute or path-qualified — pass through
         search_path = (env or os.environ).get("PATH")
-        resolved = shutil.which(first, path=search_path)
-        if resolved is None:
-            return args  # let subprocess raise a clear error
-        return [resolved, *args[1:]]
+        resolved = shutil.which(first.name, path=search_path)
+        return [resolved, *args[1:]] if resolved else args
 
     def __execute(self, args, working_dir=None, add_path=None, env=None):
         log.debug(f"running {args}, cwd={working_dir}, path+={add_path}")

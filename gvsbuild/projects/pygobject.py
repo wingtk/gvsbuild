@@ -39,7 +39,13 @@ class PyGObject(Tarball, Meson):
 
     def build(self):
         py_dir = Path(sys.executable).parent
-        Meson.build(self, meson_params=f'-Dpython="{py_dir}\\python.exe" -Dtests=false')
+        Meson.build(
+            self,
+            meson_params=[
+                f"-Dpython={py_dir}\\python.exe",
+                "-Dtests=false",
+            ],
+        )
         gtk_dir = self.builder.gtk_dir
         add_inc = [
             str(Path(gtk_dir) / "include" / "cairo"),

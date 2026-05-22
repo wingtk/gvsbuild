@@ -54,6 +54,8 @@ def __get_projects_to_build(opts):
         if name == "all":
             for proj in Project.list_projects():
                 if proj.type == ProjectType.PROJECT:
+                    for dep in proj.all_dependencies:
+                        to_build.add(dep)
                     to_build.add(proj)
         p = Project.get_project(name)
         if opts.deps:

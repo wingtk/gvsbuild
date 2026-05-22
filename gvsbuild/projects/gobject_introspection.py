@@ -63,5 +63,8 @@ class GObjectIntrospection(Tarball, Meson):
 
         Meson.build(
             self,
-            meson_params=f'-Dpython="{py_dir}\\python.exe" -Dcairo_libname=cairo-gobject-2.dll',
+            meson_params=[
+                f"-Dpython={py_dir}\\python.exe",
+                "-Dcairo_libname=cairo-gobject-2.dll",
+            ],
         )

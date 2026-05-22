@@ -32,5 +32,5 @@ class Libffi(Tarball, Meson):
         )
 
     def build(self):
-        Meson.build(self, meson_params="-Dtests=false")
+        Meson.build(self, meson_params=["-Dtests=false"])
         self.install(r"LICENSE share\doc\libffi")

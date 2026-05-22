@@ -57,7 +57,9 @@ class GStreamer(Tarball, Meson):
         add_path = os.path.join(self.builder.opts.msys_dir, "usr", "bin")
 
         Meson.build(
-            self, add_path=add_path, meson_params="-Dtests=disabled -Dexamples=disabled"
+            self,
+            add_path=add_path,
+            meson_params=["-Dtests=disabled", "-Dexamples=disabled"],
         )
         self.install(r".\COPYING share\doc\gstreamer")
 
@@ -77,7 +79,7 @@ class Orc(Tarball, Meson):
         )
 
     def build(self):
-        Meson.build(self, meson_params="-Dbenchmarks=disabled -Dtools=enabled")
+        Meson.build(self, meson_params=["-Dbenchmarks=disabled", "-Dtools=enabled"])
         self.install(r"COPYING share\doc\orc")
 
 
@@ -112,7 +114,7 @@ class GstPluginsBase(Tarball, Meson):
 
     def build(self):
         Meson.build(
-            self, meson_params=f'-Dc_link_args="{self.builder.gtk_dir}\\lib\\ogg.lib"'
+            self, meson_params=[f"-Dc_link_args={self.builder.gtk_dir}\\lib\\ogg.lib"]
         )
         self.install(r".\COPYING share\doc\gst-plugins-base")
 
