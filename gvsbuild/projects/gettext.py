@@ -13,7 +13,8 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-import os
+import sys
+from pathlib import Path
 
 from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import Project, project_add
@@ -39,10 +40,19 @@ class Gettext(Tarball, Project):
         )
 
     def build(self):
+        python_exe = Path(sys.executable).parent / "python.exe"
         self.push_location(r".\nmake")
         self.exec_vs(
-            r'nmake /nologo /f Makefile.vc CFG=%(configuration)s PYTHON="%(python_dir)s\python.exe" PREFIX="%(gtk_dir)s"',
-            add_path=os.path.join(self.builder.opts.msys_dir, "usr", "bin"),
+            [
+                "nmake",
+                "/nologo",
+                "/f",
+                "Makefile.vc",
+                f"CFG={self.builder.opts.configuration}",
+                f"PYTHON={python_exe}",
+                f"PREFIX={self.builder.gtk_dir}",
+            ],
+            add_path=Path(self.builder.opts.msys_dir) / "usr" / "bin",
         )
         self.pop_location()
 
@@ -92,5 +102,5 @@ class Gettext(Tarball, Project):
     def post_install(self):
         self.builder.exec_msys(
             ["mv", "libgnuintl.h", "libintl.h"],
-            working_dir=os.path.join(self.builder.gtk_dir, "include"),
+            working_dir=Path(self.builder.gtk_dir) / "include",
         )

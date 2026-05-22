@@ -13,6 +13,8 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
+from pathlib import Path
+
 from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import Project, project_add
 
@@ -41,22 +43,27 @@ class CyrusSasl(Tarball, Project):
             "Debug" if self.builder.opts.configuration == "debug" else "Release"
         )
         gssapilib = "gssapi32.lib" if self.builder.x86 else "gssapi64.lib"
-        self.exec_vs(
-            r'nmake /nologo /f NTMakefile SASLDB="LMDB" LMDB_INCLUDE="%(gtk_dir)s\include" LMDB_LIBPATH="%(gtk_dir)s\lib" '
-            + r'GSSAPI="MITKerberos" GSSAPILIB="'
-            + gssapilib
-            + r'" GSSAPI_INCLUDE="%(gtk_dir)s\include" GSSAPI_LIBPATH="%(gtk_dir)s\lib" '
-            + r'OPENSSL_INCLUDE="%(gtk_dir)s\include" OPENSSL_LIBPATH="%(gtk_dir)s\lib" prefix="%(pkg_dir)s" CFG='
-            + configuration
-        )
-        self.exec_vs(
-            r'nmake /nologo /f NTMakefile install SASLDB="LMDB" LMDB_INCLUDE="%(gtk_dir)s\include" '
-            + r'GSSAPI="MITKerberos" GSSAPILIB="'
-            + gssapilib
-            + r'" GSSAPI_INCLUDE="%(gtk_dir)s\include" GSSAPI_LIBPATH="%(gtk_dir)s\lib" '
-            + r'LMDB_LIBPATH="%(gtk_dir)s\lib" OPENSSL_INCLUDE="%(gtk_dir)s\include" OPENSSL_LIBPATH="%(gtk_dir)s\lib" prefix="%(pkg_dir)s" CFG='
-            + configuration
-        )
+        gtk = Path(self.builder.gtk_dir)
+        inc = gtk / "include"
+        lib = gtk / "lib"
+        common_params = [
+            "/nologo",
+            "/f",
+            "NTMakefile",
+            "SASLDB=LMDB",
+            f"LMDB_INCLUDE={inc}",
+            f"LMDB_LIBPATH={lib}",
+            "GSSAPI=MITKerberos",
+            f"GSSAPILIB={gssapilib}",
+            f"GSSAPI_INCLUDE={inc}",
+            f"GSSAPI_LIBPATH={lib}",
+            f"OPENSSL_INCLUDE={inc}",
+            f"OPENSSL_LIBPATH={lib}",
+            f"prefix={self.pkg_dir}",
+            f"CFG={configuration}",
+        ]
+        self.exec_vs(["nmake"] + common_params)
+        self.exec_vs(["nmake", "install"] + common_params)
 
         self.install(r".\COPYING share\doc\cyrus-sasl")
         self.install_pc_files()

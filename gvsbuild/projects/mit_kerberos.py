@@ -13,7 +13,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-import os
+from pathlib import Path
 
 from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import Project, project_add
@@ -35,26 +35,21 @@ class Kerberos(Tarball, Project):
         )
 
     def build(self):
-        configuration = (
-            "Debug" if self.builder.opts.configuration == "debug" else "Release"
-        )
-        add_path = os.path.join(self.builder.opts.msys_dir, "usr", "bin")
+        nodebug = "1" if self.builder.opts.configuration != "debug" else "0"
+        add_path = Path(self.builder.opts.msys_dir) / "usr" / "bin"
+        krb_install = f"KRB_INSTALL_DIR={self.builder.gtk_dir}"
 
         self.push_location("src")
         self.exec_vs(
-            r"nmake -f Makefile.in prep-windows NO_LEASH=1 KRB_INSTALL_DIR=%(gtk_dir)s ",
+            ["nmake", "-f", "Makefile.in", "prep-windows", "NO_LEASH=1", krb_install],
             add_path=add_path,
         )
         self.exec_vs(
-            r"nmake NODEBUG="
-            + str(1 if configuration == "Release" else 0)
-            + " NO_LEASH=1 KRB_INSTALL_DIR=%(gtk_dir)s ",
+            ["nmake", f"NODEBUG={nodebug}", "NO_LEASH=1", krb_install],
             add_path=add_path,
         )
         self.exec_vs(
-            r"nmake install NODEBUG="
-            + str(1 if configuration == "Release" else 0)
-            + " NO_LEASH=1 KRB_INSTALL_DIR=%(gtk_dir)s ",
+            ["nmake", "install", f"NODEBUG={nodebug}", "NO_LEASH=1", krb_install],
             add_path=add_path,
         )
         self.pop_location()

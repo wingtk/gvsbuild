@@ -25,7 +25,6 @@ import re
 import shutil
 import ssl
 import subprocess
-import sys
 import time
 import traceback
 from pathlib import Path
@@ -132,31 +131,28 @@ class Builder:
         self.__check_tools(opts)
         self.__check_vs(opts)
 
-    def _create_msbuild_opts(self, python):
-        rt = [f"/nologo /p:Platform={self.opts.platform}"]
+    def _create_msbuild_opts(self, python) -> list[str]:
+        rt = ["/nologo", f"/p:Platform={self.opts.platform}"]
         if python:
-            rt.append(f'/p:PythonPath="{python}" /p:PythonDir="{python}"')
+            rt += [f"/p:PythonPath={python}", f"/p:PythonDir={python}"]
 
-        if log.verbose_on():
-            rt.append("/v:normal")
-        else:
-            rt.append("/v:minimal")
+        rt.append("/v:normal" if log.verbose_on() else "/v:minimal")
 
         if self.opts.win_sdk_ver:
-            rt.append(f'/p:WindowsTargetPlatformVersion="{self.opts.win_sdk_ver}"')
+            rt.append(f"/p:WindowsTargetPlatformVersion={self.opts.win_sdk_ver}")
 
         if self.opts.net_target_framework:
-            rt.append(f'/p:TargetFrameworks="{self.opts.net_target_framework}"')
+            rt.append(f"/p:TargetFrameworks={self.opts.net_target_framework}")
 
         if self.opts.net_target_framework_version:
             rt.append(
-                f'/p:TargetFrameworkVersion="{self.opts.net_target_framework_version}"'
+                f"/p:TargetFrameworkVersion={self.opts.net_target_framework_version}"
             )
 
         if self.opts.msbuild_opts:
-            rt.append(self.opts.msbuild_opts)
+            rt += self.opts.msbuild_opts.split()
 
-        return " ".join(rt)
+        return rt
 
     def __minimum_env(self):
         r"""Set the environment to the minimum needed to run, leaving only the
@@ -261,14 +257,10 @@ class Builder:
         missing = self.__msys_missing(msys_path)
         if missing:
             # install using pacman
-            cmd = (
-                str(msys_path / "usr" / "bin" / "bash")
-                + ' -l -c "pacman --noconfirm -S '
-                + " ".join(missing)
-                + '"'
-            )
+            bash = str(msys_path / "usr" / "bin" / "bash")
+            cmd = [bash, "-l", "-c", f"pacman --noconfirm -S {' '.join(missing)}"]
             log.debug(f"Updating msys2 with '{cmd}'")
-            subprocess.check_call(cmd, shell=True)
+            subprocess.check_call(cmd, shell=False)
             missing = self.__msys_missing(msys_path)
         if missing:
             # oops
@@ -913,49 +905,26 @@ class Builder:
         print(f"{proj.archive_file:{self._old_print}} - Download finished")
         return self.__check_hash(proj)
 
-    def __sub_vars(self, s):
-        if "%" not in s:
-            return s
-        d = {
-            "platform": self.opts.platform,
-            "configuration": self.opts.configuration,
-            "build_dir": self.opts.build_dir,
-            "vs_ver": self.opts.vs_ver,
-            "gtk_dir": self.gtk_dir,
-            "vs_ver_year": self.vs_ver_year,
-        }
-        python = None
-        if self.__project is not None:
-            d["pkg_dir"] = self.__project.pkg_dir
-            d["build_dir"] = self.__project.build_dir
-            python = Path(sys.executable).parent
-            d["python_dir"] = python
-            # Add perl only if the project depends on them
-
-            p = Project.get_project("perl")
-            if p in self.__project.all_dependencies:
-                perl = Project.get_tool_base_dir(p)
-                d["perl_dir"] = perl
-
-        d["msbuild_opts"] = self._create_msbuild_opts(python)
-        return s % d
-
     def exec_vs(self, cmd, working_dir=None, add_path=None):
         self.__execute(
-            self.__sub_vars(cmd),
+            cmd,
             working_dir=working_dir,
             add_path=add_path,
             env=self.vs_env,
         )
 
     def exec_cargo(
-        self, params="", working_dir=None, rustc_opts=None, rust_version="stable"
+        self,
+        params: list[str] | None = None,
+        working_dir=None,
+        rustc_opts=None,
+        rust_version="stable",
     ):
-        cmd = "cargo"
+        cmd = ["cargo"]
         if self.opts.cargo_opts:
-            cmd += f" {self.opts.cargo_opts}"
+            cmd += self.opts.cargo_opts.split()
         if params:
-            cmd += f" {params}"
+            cmd += params
 
         cargo_home = Project.get_tool_path("cargo")
 
@@ -967,30 +936,31 @@ class Builder:
 
         # set platform
         rustup = os.path.join(cargo_home, "rustup.exe")
+        arch = "i686" if self.x86 else "x86_64"
         self.__execute(
-            f"{rustup} default {rust_version}-{'i686' if self.x86 else 'x86_64'}-pc-windows-msvc",
+            [rustup, "default", f"{rust_version}-{arch}-pc-windows-msvc"],
             env=env,
         )
 
         # build
         self.__execute(
-            self.__sub_vars(cmd),
+            cmd,
             working_dir=working_dir,
             add_path=cargo_home,
             env=self.vs_env,
         )
 
     def exec_cmd(self, cmd, working_dir=None, add_path=None):
-        self.__execute(self.__sub_vars(cmd), working_dir=working_dir, add_path=add_path)
+        self.__execute(cmd, working_dir=working_dir, add_path=add_path)
 
     def exec_ninja(self, params="", working_dir=None, add_path=None):
-        cmd = "ninja"
+        cmd = ["ninja"]
         if self.opts.ninja_opts:
-            cmd += f" {self.opts.ninja_opts}"
+            cmd += self.opts.ninja_opts.split()
         if params:
-            cmd += f" {params}"
+            cmd += params.split()
         self.__execute(
-            self.__sub_vars(cmd),
+            cmd,
             working_dir=working_dir,
             add_path=add_path,
             env=self.vs_env,
@@ -999,16 +969,16 @@ class Builder:
     def install(self, build_dir, pkg_dir, *args):
         if len(args) == 1:
             args = args[0].split()
-        dest = os.path.join(pkg_dir, self.__sub_vars(args[-1]))
+        dest = os.path.join(pkg_dir, args[-1])
         self.make_dir(dest)
         for f in args[:-1]:
-            src = os.path.join(self.__sub_vars(build_dir), self.__sub_vars(f))
+            src = os.path.join(build_dir, f)
             log.debug(f"copying {src} to {dest}")
             self.__copy_to(src, dest)
 
     def install_dir(self, build_dir, pkg_dir, src, dest):
-        src = os.path.join(build_dir, self.__sub_vars(src))
-        dest = os.path.join(pkg_dir, self.__sub_vars(dest))
+        src = os.path.join(build_dir, src)
+        dest = os.path.join(pkg_dir, dest)
         log.debug(f"copying {src} content to {dest}")
         self.copy_all(src, dest)
 
@@ -1030,7 +1000,6 @@ class Builder:
                     args,
                     cwd=working_dir,
                     env=env,
-                    shell=True,
                     check=True,
                     stdout=subprocess.PIPE,
                     stderr=subprocess.STDOUT,
@@ -1045,7 +1014,7 @@ class Builder:
 
             log.messages_dump(res.stdout, prt=self.opts.print_out)
         else:
-            subprocess.check_call(args, cwd=working_dir, env=env, shell=True)
+            subprocess.check_call(args, cwd=working_dir, env=env)
 
     def __add_path(self, env, folder):
         key = next((k for k in env if k.lower() == "path"), None)

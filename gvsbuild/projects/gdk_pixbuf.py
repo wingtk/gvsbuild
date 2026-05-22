@@ -13,6 +13,8 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
+from pathlib import Path
+
 from gvsbuild.utils.base_builders import Meson
 from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import Project, project_add
@@ -53,4 +55,5 @@ class GdkPixbuf(Tarball, Meson):
         self.install(r".\COPYING share\doc\gdk-pixbuf")
 
     def post_install(self):
-        self.exec_cmd(r"%(gtk_dir)s\bin\gdk-pixbuf-query-loaders.exe --update-cache")
+        exe = Path(self.builder.gtk_dir) / "bin" / "gdk-pixbuf-query-loaders.exe"
+        self.exec_cmd([exe, "--update-cache"])

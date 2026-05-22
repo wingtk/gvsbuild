@@ -13,7 +13,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-import os
+from pathlib import Path
 
 from gvsbuild.utils.base_expanders import GitRepo
 from gvsbuild.utils.base_project import Project, project_add
@@ -43,15 +43,21 @@ class X264(GitRepo, Project):
             else self.opts.configuration
         )
         msys_path = Project.get_tool_path("msys2")
+        bash = str(Path(msys_path) / "bash")
         self.exec_vs(
-            rf"{msys_path}\bash build\build.sh {convert_to_msys(self.builder.gtk_dir)} {configuration}",
+            [
+                bash,
+                r"build\build.sh",
+                convert_to_msys(self.builder.gtk_dir),
+                configuration,
+            ],
             add_path=msys_path,
         )
 
         # use the path expected when building with a dependent project
         self.builder.exec_msys(
             ["mv", "libx264.dll.lib", "libx264.lib"],
-            working_dir=os.path.join(self.builder.gtk_dir, "lib"),
+            working_dir=Path(self.builder.gtk_dir) / "lib",
         )
 
         if configuration in ["debug-optimized", "debug"]:

@@ -13,6 +13,8 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
+import os
+
 from gvsbuild.utils.base_project import Project, ProjectType, project_add
 from gvsbuild.utils.simple_ui import log
 
@@ -62,7 +64,8 @@ class DevShell(Project):
         if self.meson:
             # Add a _meson env to use it directly
             meson_path = Project.get_tool_path("meson")
-            self.builder.mod_env("_MESON", f"python {meson_path}\\meson.py")
+            meson_py = os.path.join(meson_path, "meson.py")
+            self.builder.mod_env("_MESON", f'python "{meson_py}"')
             print("If you need to use meson you can use the _MESON environment, e.g.")
             print("%_MESON% configure")
             print("")
@@ -70,4 +73,4 @@ class DevShell(Project):
         # If you need to use it as a --prefix in some build test ...
         self.builder.mod_env("GTK_BASE_DIR", self.builder.gtk_dir)
         self.builder.mod_env("PROMPT", "[ gvsbuild shell ] $P $G", subst=True)
-        self.builder.exec_vs("cmd", working_dir=self.builder.working_dir)
+        self.builder.exec_vs(["cmd"], working_dir=self.builder.working_dir)

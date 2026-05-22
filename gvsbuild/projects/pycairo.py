@@ -38,10 +38,11 @@ class Pycairo(Tarball, Meson):
         Meson.build(self, meson_params=f'-Dpython="{py_dir}\\python.exe"')
         cairo_inc = Path(self.builder.gtk_dir) / "include" / "cairo"
         self.builder.mod_env("INCLUDE", str(cairo_inc))
-        self.exec_vs(r"%(python_dir)s\python.exe -m build -w")
+        python_exe = str(py_dir / "python.exe")
+        self.exec_vs([python_exe, "-m", "build", "--wheel"])
         dist_dir = Path(self.build_dir) / "dist"
         for path in dist_dir.rglob("*.whl"):
-            self.exec_vs(r"%(python_dir)s\python.exe -m pip install " + str(path))
+            self.exec_vs([python_exe, "-m", "pip", "install", str(path)])
         if self.builder.opts.py_wheel:
             self.install_dir("dist", "python")
         self.install(r".\COPYING share\doc\pycairo")

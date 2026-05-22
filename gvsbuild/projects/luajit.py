@@ -31,10 +31,11 @@ class Luajit(GitRepo, Project):
         )
 
     def build(self):
-        option = "debug" if self.builder.opts.configuration == "debug" else ""
         self.push_location("src")
-
-        self.exec_vs(r".\msvcbuild " + option)
+        cmd = [r".\msvcbuild"]
+        if self.builder.opts.configuration == "debug":
+            cmd.append("debug")
+        self.exec_vs(cmd)
 
         self.install(
             r".\lua.h .\lualib.h .\luaconf.h .\lauxlib.h .\luajit.h include\luajit-2.1"
