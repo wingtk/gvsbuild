@@ -13,7 +13,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-import os
+from pathlib import Path
 
 from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import Project, project_add
@@ -53,12 +53,19 @@ class Libvpx(Tarball, Project):
 
         msys_path = Project.get_tool_path("msys2")
 
+        bash = str(Path(msys_path) / "bash")
         self.exec_vs(
-            rf"{msys_path}\bash ./configure --target={target} --prefix={convert_to_msys(self.builder.gtk_dir)} {configure_options}",
+            [
+                bash,
+                "./configure",
+                f"--target={target}",
+                f"--prefix={convert_to_msys(self.builder.gtk_dir)}",
+            ]
+            + configure_options.split(),
             add_path=msys_path,
         )
-        self.exec_vs(r"make", add_path=msys_path)
-        self.exec_vs(r"make install", add_path=msys_path)
+        self.exec_vs(["make"], add_path=msys_path)
+        self.exec_vs(["make", "install"], add_path=msys_path)
 
         self.install(r".\LICENSE share\doc\libvpx")
 
@@ -72,5 +79,5 @@ class Libvpx(Tarball, Project):
         lib_path = f"Win32/{lib_name}" if self.builder.x86 else f"x64/{lib_name}"
         self.builder.exec_msys(
             ["mv", lib_path, "./vpx.lib"],
-            working_dir=os.path.join(self.builder.gtk_dir, "lib"),
+            working_dir=Path(self.builder.gtk_dir) / "lib",
         )

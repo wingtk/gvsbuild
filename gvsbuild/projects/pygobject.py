@@ -49,12 +49,13 @@ class PyGObject(Tarball, Meson):
         ]
         self.builder.mod_env("INCLUDE", ";".join(add_inc))
         if self.builder.opts.py_wheel:
-            self.exec_vs(r"%(python_dir)s\python.exe -m build --wheel")
+            python_exe = str(py_dir / "python.exe")
+            self.exec_vs([python_exe, "-m", "build", "--wheel"])
             dist_dir = Path(self.build_dir) / "dist"
             for path in dist_dir.rglob("*.whl"):
                 self.exec_vs(
-                    r"%(python_dir)s\python.exe -m pip install --force-reinstall "
-                    + str(path)
+                    [python_exe, "-m", "pip", "install", "--force-reinstall", str(path)]
                 )
+
                 self.install_dir("dist", "python")
         self.install(r".\COPYING share\doc\pygobject")

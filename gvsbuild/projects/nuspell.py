@@ -34,9 +34,9 @@ class Nuspell(Tarball, CmakeProject):
 
     def build(self):
         cmake_params = (
-            f"-DCMAKE_INSTALL_PREFIX={self.builder.gtk_dir} "
+            f'-DCMAKE_INSTALL_PREFIX="{self.builder.gtk_dir}" '
             "-DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF -DBUILD_DOCS=OFF "
-            f"-DBUILD_TOOLS=OFF -DICU_ROOT={self.builder.gtk_dir}"
+            f'-DBUILD_TOOLS=OFF -DICU_ROOT="{self.builder.gtk_dir}"'
         )
         CmakeProject.build(self, use_ninja=True, cmake_params=cmake_params)
 

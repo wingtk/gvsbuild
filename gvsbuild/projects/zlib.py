@@ -44,14 +44,17 @@ class Zlib(Tarball, Project):
         )
 
     def build(self):
-        options = ""
+        cmd = [
+            "nmake",
+            "/nologo",
+            r"/f",
+            r"win32\Makefile.msc",
+            "STATICLIB=zlib-static.lib",
+            "IMPLIB=zlib1.lib",
+        ]
         if self.builder.opts.configuration == "debug":
-            options = 'CFLAGS="-nologo -MDd -W3 -Od -Zi -Fd\\"zlib\\""'
-
-        self.exec_vs(
-            r"nmake /nologo /f win32\Makefile.msc STATICLIB=zlib-static.lib IMPLIB=zlib1.lib "
-            + options
-        )
+            cmd.append(r'CFLAGS=-nologo -MDd -W3 -Od -Zi -Fd"zlib"')
+        self.exec_vs(cmd)
 
         self.install(r".\zlib.h .\zconf.h include")
         self.install(r".\zlib1.dll .\zlib1.pdb bin")

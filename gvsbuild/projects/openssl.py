@@ -14,6 +14,7 @@
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 import contextlib
+from pathlib import Path
 
 from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import Project, project_add
@@ -37,22 +38,35 @@ class OpenSSL(Tarball, Project):
         )
 
     def build(self):
-        common_options = r"enable-fips no-comp no-docs no-ssl3 --openssldir=%(gtk_dir)s/etc/ssl --prefix=%(gtk_dir)s"
+        perl_exe = (
+            Path(Project.get_tool_base_dir(Project.get_project("perl")))
+            / "bin"
+            / "perl.exe"
+        )
+        gtk_dir = Path(self.builder.gtk_dir)
         debug_option = "debug-" if self.builder.opts.configuration == "debug" else ""
-        target_option = "VC-WIN32 " if self.builder.x86 else "VC-WIN64A "
+        target = "VC-WIN32" if self.builder.x86 else "VC-WIN64A"
+        configure_target = f"{debug_option}{target}"
 
         self.exec_vs(
-            r"%(perl_dir)s\bin\perl.exe Configure "
-            + debug_option
-            + target_option
-            + common_options
+            [
+                perl_exe,
+                "Configure",
+                configure_target,
+                "enable-fips",
+                "no-comp",
+                "no-docs",
+                "no-ssl3",
+                f"--openssldir={gtk_dir / 'etc' / 'ssl'}",
+                f"--prefix={gtk_dir}",
+            ]
         )
 
         with contextlib.suppress(Exception):
-            self.exec_vs(r"nmake /nologo clean")
-        self.exec_vs(r"nmake /nologo")
-        self.exec_vs(r"%(perl_dir)s\bin\perl.exe mk-ca-bundle.pl -n cert.pem")
-        self.exec_vs(r"nmake /nologo install")
+            self.exec_vs(["nmake", "/nologo", "clean"])
+        self.exec_vs(["nmake", "/nologo"])
+        self.exec_vs([perl_exe, "mk-ca-bundle.pl", "-n", "cert.pem"])
+        self.exec_vs(["nmake", "/nologo", "install"])
 
         self.install(r".\cert.pem bin")
         self.install(r".\LICENSE share\doc\openssl")
@@ -75,18 +89,30 @@ class OpenSSLFips(Tarball, Project):
         )
 
     def build(self):
-        common_options = "enable-fips no-ssl3 no-comp --openssldir=%(gtk_dir)s/etc/ssl --prefix=%(gtk_dir)s"
+        perl_exe = (
+            Path(Project.get_tool_base_dir(Project.get_project("perl")))
+            / "bin"
+            / "perl.exe"
+        )
+        gtk_dir = Path(self.builder.gtk_dir)
         debug_option = "debug-" if self.builder.opts.configuration == "debug" else ""
-        target_option = "VC-WIN32 " if self.builder.x86 else "VC-WIN64A "
+        target = "VC-WIN32" if self.builder.x86 else "VC-WIN64A"
+        configure_target = f"{debug_option}{target}"
 
         self.exec_vs(
-            r"%(perl_dir)s\bin\perl.exe Configure "
-            + debug_option
-            + target_option
-            + common_options
+            [
+                perl_exe,
+                "Configure",
+                configure_target,
+                "enable-fips",
+                "no-ssl3",
+                "no-comp",
+                f"--openssldir={gtk_dir / 'etc' / 'ssl'}",
+                f"--prefix={gtk_dir}",
+            ]
         )
 
         with contextlib.suppress(Exception):
-            self.exec_vs(r"nmake /nologo clean")
-        self.exec_vs(r"nmake /nologo")
-        self.exec_vs(r"nmake /nologo install_fips")
+            self.exec_vs(["nmake", "/nologo", "clean"])
+        self.exec_vs(["nmake", "/nologo"])
+        self.exec_vs(["nmake", "/nologo", "install_fips"])

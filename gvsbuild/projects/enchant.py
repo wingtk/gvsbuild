@@ -13,6 +13,8 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
+from pathlib import Path
+
 from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import Project, project_add
 
@@ -31,15 +33,19 @@ class Enchant(Tarball, Project):
         )
 
     def build(self):
-        x64_param = "X64=1" if self.builder.x64 else ""
         self.push_location(r".\src")
-
-        # Exec nmake /nologo -f makefile.mak clean
-        self.exec_vs(
-            r"nmake /nologo -f makefile.mak DLL=1 "
-            + x64_param
-            + r" MFLAGS=-MD GLIBDIR=%(gtk_dir)s\include\glib-2.0"
-        )
+        cmd = [
+            "nmake",
+            "/nologo",
+            "-f",
+            "makefile.mak",
+            "DLL=1",
+            "MFLAGS=-MD",
+            f"GLIBDIR={Path(self.builder.gtk_dir) / 'include' / 'glib-2.0'}",
+        ]
+        if self.builder.x64:
+            cmd.append("X64=1")
+        self.exec_vs(cmd)
 
         self.pop_location()
 

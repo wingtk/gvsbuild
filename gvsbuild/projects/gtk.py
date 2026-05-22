@@ -35,8 +35,10 @@ class Project_gtk_base(Tarball, Project, MakeGir):
             f = os.path.basename(fp)
             lcmsgdir = os.path.join(localedir, f[:-3], "LC_MESSAGES")
             self.builder.make_dir(lcmsgdir)
-            cmd = " ".join(["msgfmt", "-co", os.path.join(lcmsgdir, mo), f])
-            self.builder.exec_cmd(cmd, working_dir=self._get_working_dir())
+            self.builder.exec_cmd(
+                ["msgfmt", "-co", os.path.join(lcmsgdir, mo), f],
+                working_dir=self._get_working_dir(),
+            )
         self.pop_location()
 
         self.install(rf".\COPYING share\doc\{self.name}")

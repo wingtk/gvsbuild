@@ -20,6 +20,7 @@ import os
 import pathlib
 import re
 import shutil
+import sys
 from enum import Enum
 from typing import Generic, TypeVar
 
@@ -195,15 +196,13 @@ class Project(Generic[P]):
             cmd, working_dir=self._get_working_dir(), add_path=add_path
         )
 
-    def exec_msbuild(self, cmd, configuration=None, add_path=None):
+    def exec_msbuild(self, cmd: list[str], configuration=None, add_path=None):
         if not configuration:
-            configuration = "%(configuration)s"
+            configuration = self.builder.opts.configuration
+        python = pathlib.Path(sys.executable).parent
+        msbuild_opts = self.builder._create_msbuild_opts(python)
         self.exec_vs(
-            "msbuild "
-            + cmd
-            + " /p:Configuration="
-            + configuration
-            + " %(msbuild_opts)s",
+            ["msbuild"] + cmd + [f"/p:Configuration={configuration}"] + msbuild_opts,
             add_path=add_path,
         )
 
@@ -389,11 +388,11 @@ class Project(Generic[P]):
                 log.log(f"Project {self.name}, using {part} directory")
 
         if part:
-            cmd = os.path.join(base_dir, part, sln_file)
-            if add_pars:
-                cmd += f" {add_pars}"
+            sln_path = os.path.join(base_dir, part, sln_file)
+            extra_flags = add_pars.split() if add_pars else []
             if use_env:
-                cmd += " /p:UseEnv=True"
+                extra_flags.append("/p:UseEnv=True")
+            cmd = [sln_path] + extra_flags
         else:
             log.error_exit(
                 f"Solution file '{sln_file}' for project '{self.name}' not found!"

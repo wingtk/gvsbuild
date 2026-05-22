@@ -13,7 +13,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-import os
+from pathlib import Path
 
 from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import Project, project_add
@@ -49,14 +49,17 @@ class Ffmpeg(Tarball, Project):
             else self.opts.configuration
         )
         msys_path = Project.get_tool_path("msys2")
+        bash = str(Path(msys_path) / "bash")
+        gpl_flag = "enable_gpl" if self.opts.ffmpeg_enable_gpl else "disable_gpl"
         self.exec_vs(
-            r"{}\bash build\build.sh {} {} {} {}".format(
-                msys_path,
+            [
+                bash,
+                r"build\build.sh",
                 convert_to_msys(self.pkg_dir),
                 convert_to_msys(self.builder.gtk_dir),
                 configuration,
-                "enable_gpl" if self.opts.ffmpeg_enable_gpl else "disable_gpl",
-            ),
+                gpl_flag,
+            ],
             add_path=msys_path,
         )
 
@@ -82,7 +85,7 @@ class Ffmpeg(Tarball, Project):
         ]:
             self.builder.exec_msys(
                 ["mv", lib, "../lib/"],
-                working_dir=os.path.join(self.builder.gtk_dir, "bin"),
+                working_dir=Path(self.builder.gtk_dir) / "bin",
             )
 
 
@@ -99,6 +102,9 @@ class NvCodecHeaders(Tarball, Project):
         )
 
     def build(self):
-        add_path = os.path.join(self.builder.opts.msys_dir, "usr", "bin")
+        add_path = Path(self.builder.opts.msys_dir) / "usr" / "bin"
 
-        self.exec_vs(r'make install PREFIX="%(gtk_dir)s"', add_path=add_path)
+        self.exec_vs(
+            ["make", "install", f"PREFIX={self.builder.gtk_dir}"],
+            add_path=add_path,
+        )

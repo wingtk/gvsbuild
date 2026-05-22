@@ -13,6 +13,9 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
+import shutil
+from pathlib import Path
+
 from gvsbuild.utils.base_builders import Meson
 from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import Project, project_add
@@ -39,6 +42,5 @@ class PkgConf(Tarball, Meson):
         self.install(r".\COPYING share\doc\pkgconf")
 
     def post_install(self):
-        self.exec_cmd(
-            r"copy %(gtk_dir)s\bin\pkgconf.exe %(gtk_dir)s\bin\pkg-config.exe"
-        )
+        gtk_bin = Path(self.builder.gtk_dir) / "bin"
+        shutil.copy2(gtk_bin / "pkgconf.exe", gtk_bin / "pkg-config.exe")
