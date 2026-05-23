@@ -56,7 +56,7 @@ class Libsigcplusplus2(Tarball, Meson):
             lastversion_major=2,
             repository="https://github.com/libsigcplusplus/libsigcplusplus",
             archive_url="https://github.com/libsigcplusplus/libsigcplusplus/releases/download/{version}/libsigc++-{version}.tar.xz",
-            hash="a9dbee323351d109b7aee074a9cb89ca3e7bcf8ad8edef1851f4cf359bd50843",
+            hash="7d4cdf1e4332ebfee8085ad960075045e7763cb291b3ccf4744d7cbf08a22b75",
             dependencies=[
                 "meson",
                 "ninja",
