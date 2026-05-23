@@ -98,12 +98,12 @@ class CmakeProject(Project):
 
     def build(
         self,
-        cmake_params=None,
-        use_ninja=False,
-        make_tests=False,
-        do_install=True,
-        out_of_source=None,
-        source_part=None,
+        cmake_params: list[str] | None = None,
+        use_ninja: bool = False,
+        make_tests: bool = False,
+        do_install: bool = True,
+        out_of_source: bool | None = None,
+        source_part: str | None = None,
     ):
         cmake_gen = "Ninja" if use_ninja else "NMake Makefiles"
 
@@ -122,7 +122,7 @@ class CmakeProject(Project):
             f"-DCMAKE_BUILD_TYPE={cmake_config}",
         ]
         if cmake_params:
-            cmd += cmake_params.split()
+            cmd += cmake_params
         if self.extra_opts:
             cmd += self.extra_opts
         if use_ninja and out_of_source is None:

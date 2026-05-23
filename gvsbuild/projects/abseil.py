@@ -38,6 +38,11 @@ class AbseilCpp(Tarball, CmakeProject):
     def build(self):
         CmakeProject.build(
             self,
-            cmake_params=r"-DBUILD_SHARED_LIBS=ON -DABSL_PROPAGATE_CXX_STD=ON -DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_STANDARD_REQUIRED=ON",
+            cmake_params=[
+                "-DBUILD_SHARED_LIBS=ON",
+                "-DABSL_PROPAGATE_CXX_STD=ON",
+                "-DCMAKE_CXX_STANDARD=17",
+                "-DCMAKE_CXX_STANDARD_REQUIRED=ON",
+            ],
             use_ninja=True,
         )

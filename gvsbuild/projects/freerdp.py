@@ -42,7 +42,9 @@ class FreeRDP(Tarball, CmakeProject):
 
     def build(self):
         CmakeProject.build(
-            self, use_ninja=True, cmake_params="-DWITH_SSE2=ON -DCHANNEL_URBDRC=OFF"
+            self,
+            use_ninja=True,
+            cmake_params=["-DWITH_SSE2=ON", "-DCHANNEL_URBDRC=OFF"],
         )
 
         self.install(r".\LICENSE share\doc\freerdp")

@@ -132,18 +132,6 @@ if glib_dep.found()
         test('glib', test_glib)
 endif
 
-# jasper
-jasper_required_ver = '>= 2.0.12'
-jasper_dep = dependency('jasper', version: jasper_required_ver, required: check_all)
-if jasper_dep.found()
-        test_jasper = executable('test_jasper',
-                                 [ 'test_jasper.c', 'check_utils.c', ],
-                                 dependencies: [ jasper_dep, ],
-                                )
-
-        test('jasper', test_jasper)
-endif
-
 # json-glib
 json_glib_required_ver = '>= 1.4.2'
 json_glib_dep = dependency('json-glib-1.0', version: json_glib_required_ver, required: check_all)
