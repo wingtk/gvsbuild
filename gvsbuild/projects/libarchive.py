@@ -44,9 +44,12 @@ class Libarchive(Tarball, CmakeProject):
         )
 
     def build(self):
-        cmake_params = (
-            "-DENABLE_WERROR=OFF -DENABLE_TEST=OFF -DBUILD_TESTING=OFF -Wno-dev"
-        )
+        cmake_params = [
+            "-DENABLE_WERROR=OFF",
+            "-DENABLE_TEST=OFF",
+            "-DBUILD_TESTING=OFF",
+            "-Wno-dev",
+        ]
         CmakeProject.build(self, cmake_params=cmake_params, use_ninja=True)
         # Fix the pkg-config .pc file, correcting the library's names
         file_replace(

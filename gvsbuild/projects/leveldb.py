@@ -38,7 +38,10 @@ class LevelDB(Tarball, CmakeProject):
         CmakeProject.build(
             self,
             use_ninja=True,
-            cmake_params="-DLEVELDB_BUILD_TESTS=OFF -DLEVELDB_BUILD_BENCHMARKS=OFF",
+            cmake_params=[
+                "-DLEVELDB_BUILD_TESTS=OFF",
+                "-DLEVELDB_BUILD_BENCHMARKS=OFF",
+            ],
         )
 
         self.install(r".\LICENSE share\doc\leveldb")

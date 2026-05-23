@@ -32,7 +32,7 @@ class Libssh(Tarball, CmakeProject):
         )
 
     def build(self):
-        CmakeProject.build(self, cmake_params="-DWITH_ZLIB=ON", use_ninja=True)
+        CmakeProject.build(self, cmake_params=["-DWITH_ZLIB=ON"], use_ninja=True)
         self.install(r".\COPYING share\doc\libssh")
 
 
@@ -53,5 +53,5 @@ class Libssh2(Tarball, CmakeProject):
         )
 
     def build(self):
-        CmakeProject.build(self, cmake_params="-DWITH_ZLIB=ON", use_ninja=True)
+        CmakeProject.build(self, cmake_params=["-DWITH_ZLIB=ON"], use_ninja=True)
         self.install(r".\COPYING share\doc\libssh2")

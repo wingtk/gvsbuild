@@ -40,7 +40,16 @@ class Protobuf(Tarball, CmakeProject):
         # We need to compile with STATIC_RUNTIME off since protobuf-c also compiles with it OFF
         CmakeProject.build(
             self,
-            cmake_params=r'-DBUILD_SHARED_LIBS=ON -Dprotobuf_ABSL_PROVIDER=package -Dprotobuf_DEBUG_POSTFIX="" -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_WITH_ZLIB=ON -Dprotobuf_MSVC_STATIC_RUNTIME=OFF -DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_STANDARD_REQUIRED=ON',
+            cmake_params=[
+                "-DBUILD_SHARED_LIBS=ON",
+                "-Dprotobuf_ABSL_PROVIDER=package",
+                "-Dprotobuf_DEBUG_POSTFIX=",
+                "-Dprotobuf_BUILD_TESTS=OFF",
+                "-Dprotobuf_WITH_ZLIB=ON",
+                "-Dprotobuf_MSVC_STATIC_RUNTIME=OFF",
+                "-DCMAKE_CXX_STANDARD=17",
+                "-DCMAKE_CXX_STANDARD_REQUIRED=ON",
+            ],
             use_ninja=True,
         )
 
@@ -71,7 +80,11 @@ class ProtobufC(Tarball, CmakeProject):
     def build(self):
         CmakeProject.build(
             self,
-            cmake_params="-DBUILD_SHARED_LIBS=ON -DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_STANDARD_REQUIRED=ON",
+            cmake_params=[
+                "-DBUILD_SHARED_LIBS=ON",
+                "-DCMAKE_CXX_STANDARD=17",
+                "-DCMAKE_CXX_STANDARD_REQUIRED=ON",
+            ],
             use_ninja=True,
             source_part="build-cmake",
         )

@@ -40,7 +40,7 @@ class Libcurl(Tarball, CmakeProject):
         )
 
     def build(self):
-        CmakeProject.build(self, use_ninja=True, cmake_params="-DUSE_WIN32_IDN=ON")
+        CmakeProject.build(self, use_ninja=True, cmake_params=["-DUSE_WIN32_IDN=ON"])
         # Fix the pkg-config .pc file, correcting the library's names
         file_replace(
             os.path.join(self.pkg_dir, "lib", "pkgconfig", "libcurl.pc"),
