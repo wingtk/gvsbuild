@@ -46,6 +46,7 @@ class CheckLibs(NullExpander, Meson):
                 "libyuv",
                 "pango",
                 "zlib",
+                "wing",
             ],
             version="0.1.0",
             internal=True,
