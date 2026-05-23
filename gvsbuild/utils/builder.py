@@ -995,13 +995,17 @@ class Builder:
     def __resolve_executable(args, env):
         """On Windows, CreateProcess does not use env['PATH'] for bare-name lookup.
         Resolve the first argument to a full path via shutil.which so that tools
-        installed into vs_env['PATH'] (cmake, ninja, nmake, cargo, …) are found."""
+        installed into vs_env['PATH'] (cmake, ninja, nmake, cargo, …) are found.
+        When env is None the subprocess inherits the parent process environment and
+        CreateProcess finds bare names normally, so no resolution is needed."""
         if not isinstance(args, (list, tuple)) or not args:
             return args
+        if env is None:
+            return args  # subprocess inherits parent env and no custom PATH to search
         first = Path(args[0])
         if first.parent != Path("."):
             return args  # absolute or path-qualified — pass through
-        search_path = (env or os.environ).get("PATH")
+        search_path = env.get("PATH")
         resolved = shutil.which(first.name, path=search_path)
         return [resolved, *args[1:]] if resolved else args
 
