@@ -116,7 +116,7 @@ def make_graph(
     ]
     gr_index = 0
 
-    to_skip = set(skip)
+    to_skip = set(skip or [])
     with open(out_file, "w", encoding="utf-8") as fo:
         print(f"Writing file {out_file}")
         used = set()
