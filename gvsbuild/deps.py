@@ -30,10 +30,10 @@ GRAPH_GROUP = Group("Graph Options", sort_key=1)
 GRAPH_FILTER_GROUP = Group("Graph Filter Options", sort_key=2)
 
 
-def print_deps(flatten=False, add_all=False):
-    done = []
+def print_deps(flatten: bool = False, add_all: bool = False):
+    done: list[str] = []
 
-    def dump_single_dep(st, name, flatten):
+    def dump_single_dep(st: str, name: str, flatten: bool):
         if flatten:
             if not st:
                 done.append(name)
@@ -83,12 +83,12 @@ def print_deps(flatten=False, add_all=False):
 
 
 def make_graph(
-    out_file,
-    put_all=False,
-    invert_dep=False,
-    add_tools=False,
-    add_groups=False,
-    skip=None,
+    out_file: str,
+    put_all: bool = False,
+    invert_dep: bool = False,
+    add_tools: bool = False,
+    add_groups: bool = False,
+    skip: list[str] | None = None,
 ):
     gr_colors = [
         0x000080,
@@ -119,7 +119,7 @@ def make_graph(
     to_skip = set(skip or [])
     with open(out_file, "w", encoding="utf-8") as fo:
         print(f"Writing file {out_file}")
-        used = set()
+        used: set[str] = set()
         fo.write("digraph gtk3dep {\n")
         for n in Project._names:
             if n not in to_skip:
