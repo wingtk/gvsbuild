@@ -106,6 +106,7 @@ class Configuration(str, Enum):
 
 
 class VsVer(str, Enum):
+    latest = "latest"
     vs2013 = "12"
     vs2015 = "14"
     vs2017 = "15"
@@ -147,7 +148,7 @@ def build(
     patches_root_dir: Annotated[Path | None, Parameter(group=DIRECTORY_GROUP)] = None,
     tools_root_dir: Annotated[Path | None, Parameter(group=DIRECTORY_GROUP)] = None,
     git_expand_dir: Annotated[Path | None, Parameter(group=DIRECTORY_GROUP)] = None,
-    vs_ver: Annotated[VsVer, Parameter(group=VS_SDK_GROUP)] = VsVer.vs2022,
+    vs_ver: Annotated[VsVer, Parameter(group=VS_SDK_GROUP)] = VsVer.latest,
     vs_install_path: Annotated[Path | None, Parameter(group=VS_SDK_GROUP)] = None,
     win_sdk_ver: Annotated[WinSdkVersion | None, Parameter(group=VS_SDK_GROUP)] = None,
     net_target_framework: Annotated[str | None, Parameter(group=NET_GROUP)] = None,
