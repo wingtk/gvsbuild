@@ -47,12 +47,12 @@ def print_deps(flatten: bool = False, add_all: bool = False):
             done.append(name)
 
         rt = False
-        p = Project._dict[name]
+        p = Project.get_project(name)
         if p.dependencies:
             for d in p.dependencies:
                 add = True
                 if not add_all:
-                    ty = Project._dict[d].type
+                    ty = Project.get_project(d).type
                     if ty != ProjectType.PROJECT:
                         add = False
 
@@ -66,7 +66,7 @@ def print_deps(flatten: bool = False, add_all: bool = False):
                         dump_single_dep(f"{st}    ", d, flatten)
         return rt
 
-    prj = [x.name for x in Project._projects if x.type == ProjectType.PROJECT]
+    prj = [x.name for x in Project.list_projects() if x.type == ProjectType.PROJECT]
     print("Projects dependencies:")
     for n in prj:
         done = []
@@ -121,9 +121,9 @@ def make_graph(
         print(f"Writing file {out_file}")
         used: set[str] = set()
         fo.write("digraph gtk3dep {\n")
-        for n in Project._names:
+        for n in Project.get_names():
             if n not in to_skip:
-                t = Project._dict[n]
+                t = Project.get_project(n)
 
                 add = True
                 if t.type == ProjectType.TOOL:
@@ -155,7 +155,7 @@ def make_graph(
 
         if put_all:
             # Puts all projects that are not referenced from others
-            for n in Project._names:
+            for n in Project.get_names():
                 if n not in used:
                     fo.write(f'    "BUILD" -> "{n}" [color="#c00080"];\n')
 
