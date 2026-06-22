@@ -30,10 +30,10 @@ GRAPH_GROUP = Group("Graph Options", sort_key=1)
 GRAPH_FILTER_GROUP = Group("Graph Filter Options", sort_key=2)
 
 
-def print_deps(flatten=False, add_all=False):
-    done = []
+def print_deps(flatten: bool = False, add_all: bool = False):
+    done: list[str] = []
 
-    def dump_single_dep(st, name, flatten):
+    def dump_single_dep(st: str, name: str, flatten: bool):
         if flatten:
             if not st:
                 done.append(name)
@@ -47,12 +47,12 @@ def print_deps(flatten=False, add_all=False):
             done.append(name)
 
         rt = False
-        p = Project._dict[name]
+        p = Project.get_project(name)
         if p.dependencies:
             for d in p.dependencies:
                 add = True
                 if not add_all:
-                    ty = Project._dict[d].type
+                    ty = Project.get_project(d).type
                     if ty != ProjectType.PROJECT:
                         add = False
 
@@ -66,7 +66,7 @@ def print_deps(flatten=False, add_all=False):
                         dump_single_dep(f"{st}    ", d, flatten)
         return rt
 
-    prj = [x.name for x in Project._projects if x.type == ProjectType.PROJECT]
+    prj = [x.name for x in Project.list_projects() if x.type == ProjectType.PROJECT]
     print("Projects dependencies:")
     for n in prj:
         done = []
@@ -83,12 +83,12 @@ def print_deps(flatten=False, add_all=False):
 
 
 def make_graph(
-    out_file,
-    put_all=False,
-    invert_dep=False,
-    add_tools=False,
-    add_groups=False,
-    skip=None,
+    out_file: str,
+    put_all: bool = False,
+    invert_dep: bool = False,
+    add_tools: bool = False,
+    add_groups: bool = False,
+    skip: list[str] | None = None,
 ):
     gr_colors = [
         0x000080,
@@ -116,14 +116,14 @@ def make_graph(
     ]
     gr_index = 0
 
-    to_skip = set(skip)
+    to_skip = set(skip or [])
     with open(out_file, "w", encoding="utf-8") as fo:
         print(f"Writing file {out_file}")
-        used = set()
+        used: set[str] = set()
         fo.write("digraph gtk3dep {\n")
-        for n in Project._names:
+        for n in Project.get_names():
             if n not in to_skip:
-                t = Project._dict[n]
+                t = Project.get_project(n)
 
                 add = True
                 if t.type == ProjectType.TOOL:
@@ -155,7 +155,7 @@ def make_graph(
 
         if put_all:
             # Puts all projects that are not referenced from others
-            for n in Project._names:
+            for n in Project.get_names():
                 if n not in used:
                     fo.write(f'    "BUILD" -> "{n}" [color="#c00080"];\n')
 
