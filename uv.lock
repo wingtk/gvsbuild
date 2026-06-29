@@ -323,18 +323,19 @@ toml = [
 
 [[package]]
 name = "cyclopts"
-version = "5.0.0a6"
+version = "5.0.0a7"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "attrs" },
     { name = "docstring-parser" },
     { name = "rich" },
+    { name = "rich-rst" },
     { name = "tomli", marker = "python_full_version < '3.11'" },
     { name = "typing-extensions", marker = "python_full_version < '3.11'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d0/85/50f3ab8e645be7de39689d0ba8f9020009de3e15bd4cad26d11425f73a5d/cyclopts-5.0.0a6.tar.gz", hash = "sha256:e66ad6823c97e00dd4081277d9d5f95d9a67914750c595b9aae6ef2f93a7e17b", size = 171447, upload-time = "2026-03-23T14:51:23.769Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/47/e0/2718af0353632bd92bad5c54e738f3364df3283b38cfa68c4e92e0edab86/cyclopts-5.0.0a7.tar.gz", hash = "sha256:1de3e5e0adb7bd03083e1be63a941f799b845d4fbd2141a83b080d7f57496359", size = 191043, upload-time = "2026-06-23T00:57:57.719Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/b3/5e/61b12b46657a4cd38f07ed90aab2a6f4e6110448276826940defa0eb5830/cyclopts-5.0.0a6-py3-none-any.whl", hash = "sha256:2098634e797a498f561ee87429babfe4c16068d50e9ebfe6b35626207e741799", size = 209583, upload-time = "2026-03-23T14:51:24.795Z" },
+    { url = "https://files.pythonhosted.org/packages/5c/e1/d6f8c1e1680c0084201dbad8ba2be2d685d96aaf14c6dc91af26a37a3c8a/cyclopts-5.0.0a7-py3-none-any.whl", hash = "sha256:1409e7de686e1c6c4d8c6fb9742ae2503026d43e99c7709c09ffb5968172c1b6", size = 229854, upload-time = "2026-06-23T00:57:56.157Z" },
 ]
 
 [[package]]
@@ -841,6 +842,19 @@ wheels = [
 ]
 
 [[package]]
+name = "rich-rst"
+version = "2.0.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pygments" },
+    { name = "rich" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/0b/40/905f612e7bf105d7efefa923542e0c85b731cf29bcc1864331427dbc52b8/rich_rst-2.0.2.tar.gz", hash = "sha256:664a669801695c5a126151338f309ce3ea3e0ea081c89a4130b8a4f659911ed9", size = 300822, upload-time = "2026-06-25T17:24:14.298Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/cf/5f/62fdf0f574ec75af7ada8ad27c1a67e3723d491143bc88d5371c25673949/rich_rst-2.0.2-py3-none-any.whl", hash = "sha256:7bc2923929c9bbc61aadfef2069b742446823b306af84cf9e0f56b965a3d3035", size = 273082, upload-time = "2026-06-25T17:24:09.557Z" },
+]
+
+[[package]]
 name = "setuptools"
 version = "82.0.1"
 source = { registry = "https://pypi.org/simple" }
@@ -938,7 +952,7 @@ wheels = [
 
 [[package]]
 name = "tox"
-version = "4.55.1"
+version = "4.56.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "cachetools" },
@@ -954,9 +968,9 @@ dependencies = [
     { name = "typing-extensions", marker = "python_full_version < '3.11'" },
     { name = "virtualenv" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/79/5b/4f09156a3f7bf3c4fa23212717f097c59126d81e2c557e6fd872a62db38a/tox-4.55.1.tar.gz", hash = "sha256:0678fbf26dd5b559b1ef128fa4388325920219322ebc8cc5f3497627c00f4472", size = 280676, upload-time = "2026-06-03T20:01:03.487Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/60/6a/d20d405fc6661902ff803a9fa048d8aae27597c3b5dc750369ded82d08f7/tox-4.56.1.tar.gz", hash = "sha256:db1c2610802553189cf40de251661d066a635ee0ed9bf2a60093b5f1a7f36ef8", size = 283155, upload-time = "2026-06-25T06:18:36.802Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/bb/fd/394f00f3d3e23d87eb7b20276d88fe835e48780d3eb30e6f362428bb80c8/tox-4.55.1-py3-none-any.whl", hash = "sha256:e2084be6dfdef96ba1bed4948e6a1f73613d6952e1477be5dca45653d4c053c8", size = 215360, upload-time = "2026-06-03T20:01:01.967Z" },
+    { url = "https://files.pythonhosted.org/packages/d8/97/560a5dfde154619d9643b1e208119dddc29bbb35a38a4ce4d095c16cf8f0/tox-4.56.1-py3-none-any.whl", hash = "sha256:4d06b925c4dd67872099b39c5a46fba79a2169c5f6e32060f95a8b1181f0ef55", size = 216469, upload-time = "2026-06-25T06:18:35.229Z" },
 ]
 
 [[package]]
