@@ -41,6 +41,16 @@ class CheckVsInstallError(Exception):
     pass
 
 
+VS_ZIP_PARTS: dict[str, str] = {
+    "12": "vs2013",
+    "14": "vs2015",
+    "15": "vs2017",
+    "16": "vs2019",
+    "17": "vs2022",
+    "18": "vs2026",
+}
+
+
 class Builder:
     def __init__(self, opts):
         self.opts = opts
@@ -96,20 +106,17 @@ class Builder:
         self.x86 = opts.platform == "Win32"
         self.x64 = not self.x86
 
-        # Create the year version for Visual Studio
-        vs_zip_parts = {
-            "12": "vs2013",
-            "14": "vs2015",
-            "15": "vs2017",
-            "16": "vs2019",
-            "17": "vs2022",
-            "18": "vs2026",
-        }
+        # Set vs_ver_year for specific version requests so __check_vs can use it
+        # for path matching. For "latest", this is resolved inside __check_vs.
+        if opts.vs_ver != "latest":
+            self.vs_ver_year = VS_ZIP_PARTS.get(opts.vs_ver, f"ms-cl-{opts.vs_ver}")
+        else:
+            self.vs_ver_year = None
 
-        self.vs_ver_year = vs_zip_parts.get(opts.vs_ver)
-        if not self.vs_ver_year:
-            self.vs_ver_year = f"ms-cl-{opts.vs_ver}"
+        self.__check_tools(opts)
+        self.__check_vs(opts)
 
+        # zip_dir depends on the resolved vs_ver_year, so compute it after __check_vs
         vs_part = self.vs_ver_year
         if opts.win_sdk_ver:
             vs_part += f"-{opts.win_sdk_ver}"
@@ -127,9 +134,6 @@ class Builder:
                         rmtree_full(self.gtk_dir, retry=True)
                 self.file_built = set()
             os.makedirs(self.zip_dir, exist_ok=True)
-
-        self.__check_tools(opts)
-        self.__check_vs(opts)
 
     def _create_msbuild_opts(self, python) -> list[str]:
         rt = ["/nologo", f"/p:Platform={self.opts.platform}"]
@@ -316,7 +320,7 @@ class Builder:
                 else:
                     del self.vs_env[key]
 
-    def __dump_vs_loc(self):
+    def __dump_vs_loc(self) -> list[tuple[str, str]]:
         vswhere = r"{}\Microsoft Visual Studio\Installer\vswhere.exe".format(
             os.environ.get("ProgramFiles(x86)", r"C:\Program Files (x86)")
         )
@@ -338,17 +342,18 @@ class Builder:
             log.log(f"Unable to call vswhere.exe to find Visual Studio with error {e}")
             return []
 
-    def __extract_paths(self, res):
+    def __extract_paths(self, res) -> list[tuple[str, str]]:
         log.message("")
         log.message("Visual Studio installation(s) found:")
-        paths = []
+        installs = []
         for i in res:
             disp = i.get("displayName", "?")
             path = i.get("installationPath", r"?:\?")
+            major = i.get("installationVersion", "0.0.0.0").split(".")[0]
             log.message(f"    {disp} @ {path}")
-            paths.append(path)
+            installs.append((path, major))
         log.message("")
-        return paths
+        return installs
 
     def __check_vs_install(self, opts, vs_path, assert_vs_version):
         if assert_vs_version:
@@ -407,16 +412,31 @@ class Builder:
         self.add_global_env("PATH", os.path.join(self.gtk_dir, "bin"))
 
         if opts.vs_install_path:
-            vs_paths = [opts.vs_install_path]
+            m = re.search(
+                r"Microsoft Visual Studio[\\\/](\d+)[\\\/]",
+                str(opts.vs_install_path),
+            )
+            path_major: str | None = m.group(1) if m else None
+            vs_installs: list[tuple[str, str | None]] = [
+                (opts.vs_install_path, path_major)
+            ]
             assert_vs_version = False
         else:
-            vs_paths = self.__dump_vs_loc()
-            assert_vs_version = True
+            vs_installs = self.__dump_vs_loc()
+            if opts.vs_ver == "latest":
+                assert_vs_version = False
+                vs_installs = sorted(
+                    vs_installs, key=lambda x: int(x[1] or 0), reverse=True
+                )
+            else:
+                assert_vs_version = True
 
         output = None
-        for path in vs_paths:
+        selected_major: str | None = None
+        for path, major in vs_installs:
             try:
                 output = self.__check_vs_install(opts, path, assert_vs_version)
+                selected_major = major
             except CheckVsInstallError as check_vs_error:
                 log.message(f'- Skipping Visual Studio at "{path}": {check_vs_error}')
 
@@ -428,6 +448,12 @@ class Builder:
             log.error_exit(
                 "Unable to find applicable Visual Studio, try using --vs-ver or --vs-install-path "
                 "to specify Visual Studio version or install location"
+            )
+
+        if opts.vs_ver == "latest" and selected_major:
+            opts.vs_ver = selected_major
+            self.vs_ver_year = VS_ZIP_PARTS.get(
+                selected_major, f"ms-cl-{selected_major}"
             )
 
         self.vs_env = {}
