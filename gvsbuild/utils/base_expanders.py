@@ -27,6 +27,7 @@ import zipfile
 from collections.abc import Iterator
 from pathlib import Path
 
+from . import offline_repos
 from .simple_ui import log
 from .utils import rmtree_full
 
@@ -486,10 +487,33 @@ class GitRepo:
     def unpack(self):
         self.update_build_dir()
 
+    def fetch_to_mirror(self):
+        """Populate the offline mirror archive for this git project."""
+        offline_repos.fetch_to_mirror(self)
+
     def _update_dir(self, remove_dest=False):
         dest = os.path.join(self.opts.git_expand_dir, self.name)
         if (self.clean or remove_dest) and os.path.isdir(dest):
             rmtree_full(dest)
+
+        if self.opts.offline:
+            # Never hit the network: reconstruct the checkout from the mirror
+            # archive and check out the pinned revision without fetching.
+            if not os.path.isdir(dest) and not offline_repos.restore_mirror_archive(
+                self, dest
+            ):
+                log.error_exit(
+                    f"offline: no mirror archive for git project '{self.name}' "
+                    f"in {os.path.join(self.opts.archives_download_dir, 'git')}"
+                )
+            log.start(f"(git) Checking out {dest} offline")
+            if self.tag:
+                self.builder.exec_msys(f"git checkout -f {self.tag}", working_dir=dest)
+            else:
+                self.builder.exec_msys("git checkout -f", working_dir=dest)
+            if self.fetch_submodules:
+                self._update_submodules("Update submodule(s)", dest)
+            return self.create_zip()
 
         if not os.path.isdir(dest):
             return self._clone_and_checkout(dest)

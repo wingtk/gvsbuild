@@ -159,8 +159,12 @@ class Builder:
         c:\windows\XXXX directory and the git one.
 
         The LIB, LIBPATH & INCLUDE environment are also cleaned to avoid
-        mismatch with  libs / programs already installed
+        mismatch with  libs / programs already installed.
+
+        No-op on non-Windows platforms.
         """
+        if os.name != "nt":
+            return
 
         log.start("Cleaning up the build environment")
         win_dir = os.environ.get("SYSTEMROOT", r"c:\windows").lower()
@@ -227,6 +231,8 @@ class Builder:
         return missing
 
     def __check_tools(self, opts):
+        if os.name != "nt":
+            return
         script_title("* Msys tool")
         log.start("Checking msys tool")
         msys_path = opts.msys_dir
@@ -397,6 +403,8 @@ class Builder:
         return vs_environment
 
     def __check_vs(self, opts):
+        if os.name != "nt":
+            return
         script_title("* Msvc tool")
         log.start("Checking Msvc tool")
 
@@ -486,7 +494,11 @@ class Builder:
             proj.export_dir = self.opts.export_dir
             proj.dependencies = [Project.get_project(dep) for dep in proj.dependencies]
             proj.dependents = []
-            proj.load_defaults()
+            # load_defaults() wires up build-time tool paths (msys, Visual
+            # Studio, ...) that are unavailable off-Windows. Fetching sources
+            # only needs archive_url/archive_file, computed above, so skip it.
+            if not self.opts.fetch_only:
+                proj.load_defaults()
             proj.mark_file_calc()
             if self.opts.clean:
                 proj.clean = True
@@ -531,7 +543,7 @@ class Builder:
         if self.__prepare_build(projects):
             return
 
-        if self.opts.check_hash:
+        if self.opts.check_hash or self.opts.fetch_only:
             return
 
         # List of all the project we can mark for build because of a dependent
@@ -603,9 +615,13 @@ class Builder:
             log.log(f"Creating working directory {self.working_dir}")
             os.makedirs(self.working_dir)
 
-        shutil.copy(
-            os.path.join(self.opts.patches_root_dir, "stack.props"), self.working_dir
-        )
+        if not self.opts.fetch_only:
+            # stack.props is only needed for Windows builds. Source download-only
+            # runs on any platform and should not require it.
+            shutil.copy(
+                os.path.join(self.opts.patches_root_dir, "stack.props"),
+                self.working_dir,
+            )
 
         build_dir = os.path.join(
             self.working_dir, "..", "..", "..", "gtk", self.opts.platform
@@ -621,6 +637,16 @@ class Builder:
         script_title("* Downloading")
         log.start("Downloading packages")
         for p in projects:
+            # When populating a mirror, also fetch git-based sources (which have
+            # no archive_file and are otherwise only cloned at build time) into
+            # their offline mirror archive.
+            if (
+                self.opts.fetch_only
+                and not p.archive_file
+                and hasattr(p, "fetch_to_mirror")
+            ):
+                p.fetch_to_mirror()
+                continue
             if self.__download_one(p):
                 return True
         log.end()
@@ -780,7 +806,7 @@ class Builder:
                 return True
 
             # Print the correct hash
-            if self.opts.check_hash:
+            if self.opts.check_hash or self.opts.fetch_only:
                 log.message(f"Hash ok on {proj.archive_file} ({hc})")
             else:
                 log.debug(f"Hash ok on {proj.archive_file} ({hc})")
@@ -875,6 +901,12 @@ class Builder:
             )
 
             os.makedirs(self.opts.archives_download_dir)
+
+        if self.opts.offline:
+            log.error_exit(
+                f"offline: archive not found for project '{proj.name}' "
+                f"at {proj.archive_file}"
+            )
 
         log.start_verbose(f"Downloading {proj.archive_file}")
         # Setup for progress show

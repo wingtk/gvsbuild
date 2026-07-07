@@ -61,6 +61,8 @@ class Options:
         self.use_env = False
         self.deps = False
         self.check_hash = False
+        self.fetch_only = False
+        self.offline = False
         self.skip = False
         self.make_zip = False
         self.zip_continue = False

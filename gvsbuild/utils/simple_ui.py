@@ -32,6 +32,9 @@ def script_title(new_title):
 
     Passing None to the title restores the old, saved, one
     """
+    # Win32 console title updates are Windows-only and cosmetic.
+    if os.name != "nt":
+        return
 
     global _script_org_title
     if new_title:

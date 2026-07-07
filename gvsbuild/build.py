@@ -136,6 +136,8 @@ def build(
         Configuration, Parameter(group=BUILD_CONFIG_GROUP)
     ] = Configuration.debug_optimized,
     check_hash: Annotated[bool, Parameter(group=BUILD_CONFIG_GROUP)] = False,
+    fetch_only: Annotated[bool, Parameter(group=BUILD_CONFIG_GROUP)] = False,
+    offline: Annotated[bool, Parameter(group=BUILD_CONFIG_GROUP)] = False,
     build_dir: Annotated[Path, Parameter(group=DIRECTORY_GROUP)] = Path(
         r"C:\gtk-build"
     ),
@@ -217,6 +219,8 @@ def build(
         net_target_framework: .net target framework. If set then TargetFrameworks parameter is passed down to msbuild with the specific target. i.e net45.
         net_target_framework_version: .net target framework version. If set then TargetFrameworkVersion parameter is passed down to msbuild with the specific version. i.e v4.6.2.
         check_hash: If set, only check the hash of the downloaded archives, no build.
+        fetch_only: If set, only download and hash-check the source archives, no build. Unlike check_hash this does not require the build toolchain (msys2, Visual Studio), so it can run on any platform, e.g. to populate a mirror.
+        offline: If set, never contact the network. Use the already downloaded tarballs and the git checkouts restored from their mirror archives, and fail if any source is missing. Use together with a pre-populated archives download dir, typically created with --fetch-only.
         clean: If set, clean the build directory before building.
         clean_built: If set, clean only the projects asked on the command line, not all the ones to build (via a dependency).
         deps: If not set, don't build the dependencies of the projects.
@@ -286,6 +290,8 @@ def build(
     opts.use_env = use_env
     opts.deps = deps
     opts.check_hash = check_hash
+    opts.fetch_only = fetch_only
+    opts.offline = offline
     opts.skip = skip
     opts.make_zip = make_zip
     opts.zip_continue = zip_continue
@@ -308,8 +314,10 @@ def build(
 
     if opts.make_zip and not opts.deps:
         log.error_exit("Options --make-zip and --no-deps are not compatible")
+    if opts.fetch_only and opts.offline:
+        log.error_exit("Options --fetch-only and --offline are not compatible")
     prop_file = patches_root_dir / "stack.props"
-    if not Path.is_file(prop_file):
+    if not fetch_only and not Path.is_file(prop_file):
         log.error_exit(
             f"Missing 'stack.props' file on directory {opts.patches_root_dir}.\n"
             "Wrong or missing --patches-root-dir option?"
