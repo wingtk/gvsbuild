@@ -66,6 +66,40 @@ SHA256 hash of each download. Downloads are done using TLS, using SSL
 certificates provided by the system, but in case of error the download is tried
 again ignoring certificate errors.
 
+### Source caching and offline builds
+
+This feature supports a common workflow where one machine populates a source
+cache and another machine builds from it.
+
+Typical use cases:
+
+- Populate or refresh a source mirror from a Linux server or CI job.
+- Reuse the same cached sources on a Windows build machine.
+- Keep the sources in-house so builds are less exposed to upstream server or
+  network issues.
+
+The workflow is usually split into two runs:
+
+1. `--fetch-only` downloads tarball sources and also clones git-based projects
+   so it can create mirror archives under the archives download directory.
+2. `--offline` tells the build to use only already downloaded tarballs and git
+   mirror archives, and to fail instead of falling back to the network when a
+   source is missing.
+
+```PowerShell
+uv run gvsbuild build --fetch-only --no-deps x264
+uv run gvsbuild build --offline x264
+```
+
+For git-based projects, the mirror archive is keyed by the resolved commit hash
+that was checked out, plus a download timestamp. If multiple snapshots exist
+for the same commit, the most recent one is used.
+
+`--offline` is still a build mode, so it keeps the normal build environment
+requirements on Windows. It is intended to consume a pre-populated source cache,
+not to replace the build toolchain. If a required source archive or mirror is
+missing, the build fails immediately instead of trying to reach the network.
+
 First, we need to install the prerequisites. There are two main options:
 
 1. WinGet - Available for Windows 11, and modern versions of Windows 10
