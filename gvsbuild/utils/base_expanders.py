@@ -390,7 +390,8 @@ class Tarball:
     def export(self):
         log.start(f"(tar) Exporting {self.name}")
 
-        path = os.path.join(self.export_dir, f"{self.name}.zip")
+        safe_ver = self.version.replace("/", "_")
+        path = os.path.join(self.export_dir, f"{self.name}-{safe_ver}.zip")
         with zipfile.ZipFile(path, "w") as zipped_path:
             log.log(f"(tar) Exporting {self.archive_file}")
             zipped_path.write(
@@ -581,7 +582,8 @@ class GitRepo:
             ["git", "archive", "-o", filename, "HEAD"], working_dir=self.build_dir
         )
 
-        path = os.path.join(self.export_dir, f"{self.name}.zip")
+        safe_ver = self.version.replace("/", "_")
+        path = os.path.join(self.export_dir, f"{self.name}-{safe_ver}.zip")
         with zipfile.ZipFile(path, "w") as zipped_path:
             log.log(f"(git) Exporting {filename}")
             zipped_path.write(os.path.join(self.build_dir, filename), arcname=filename)
