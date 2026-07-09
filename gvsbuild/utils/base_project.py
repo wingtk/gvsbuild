@@ -121,7 +121,7 @@ class Project(Generic[P]):
             Project.name_len = len(self.name)
 
         if not self.version:
-            self.version = f"git/{self.tag}" if self.tag else "undefined"
+            self.version = self.tag if self.tag else "undefined"
         version_params = {
             "version": self.version,
             "tag": self.tag,

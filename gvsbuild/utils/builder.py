@@ -747,7 +747,7 @@ class Builder:
         return False
 
     def __build_zip(self, proj, new, cur):
-        t_ver = proj.version[4:] if proj.version.startswith("git/") else proj.version
+        t_ver = proj.version
         _t = [c if c.isalnum() else "_" for c in t_ver]
         ver_part = "".join(_t)
 
