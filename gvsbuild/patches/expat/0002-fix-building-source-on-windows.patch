@@ -1,0 +1,24 @@
+From 40ec096ead4524ac13b0c5b6b2da8fe776009419 Mon Sep 17 00:00:00 2001
+From: Zhang Wen <zhw2101024@gmail.com>
+Date: Sun, 12 Jul 2026 22:21:47 +0800
+Subject: [PATCH] fix building source on windows
+
+---
+ expat/lib/random_rand_s.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/lib/random_rand_s.c b/lib/random_rand_s.c
+index 46156563..f4133075 100644
+--- a/lib/random_rand_s.c
++++ b/lib/random_rand_s.c
+@@ -42,7 +42,6 @@
+ 
+ // Workaround MinGW GCC trouble with recognizing `rand_s`, likely related
+ // to return type `error_t`; the symptom was:
+-// > error: implicit declaration of function ‘rand_s’
+ #if defined(__MINGW32__)
+ #  include <errno.h>
+ #endif
+-- 
+2.53.0.windows.2
+
