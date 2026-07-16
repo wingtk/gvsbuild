@@ -64,11 +64,11 @@ class Ffmpeg(Tarball, Project):
         )
 
         if configuration in ["debug-optimized", "debug"]:
-            self.install(r".\libavcodec\avcodec-60.pdb bin")
-            self.install(r".\libavfilter\avfilter-10.pdb bin")
-            self.install(r".\libavformat\avformat-61.pdb bin")
-            self.install(r".\libavutil\avutil-58.pdb bin")
-            self.install(r".\libswscale\libswscale-7.pdb bin")
+            self.install(r".\libavcodec\avcodec-*.pdb bin")
+            self.install(r".\libavfilter\avfilter-*.pdb bin")
+            self.install(r".\libavformat\avformat-*.pdb bin")
+            self.install(r".\libavutil\avutil-*.pdb bin")
+            self.install(r".\libswscale\libswscale-*.pdb bin")
 
         self.install_pc_files()
         self.install(r".\COPYING.LGPLv2.1 " r".\COPYING.LGPLv3 " r"share\doc\ffmpeg")
