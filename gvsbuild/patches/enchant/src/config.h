@@ -12,7 +12,10 @@ typedef int         ssize_t;
 #define SSIZE_T_DEFINED
 #endif
 
-#define ENCHANT_VERSION_STRING "1.6.1"
+#define PACKAGE "enchant"
+#define PACKAGE_VERSION "2.8.19"
+#define ENCHANT_MAJOR_VERSION "2"
+#define ENCHANT_VERSION_STRING "2.8.19"
 
 #if defined(_MSC_VER)
 #pragma warning(disable: 4996) /* The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name. */
