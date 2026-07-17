@@ -25,10 +25,10 @@ class Enchant(Tarball, Project):
         Project.__init__(
             self,
             "enchant",
-            version="1.6.1",
+            version="2.8.19",
             repository="https://github.com/rrthomas/enchant",
-            archive_url="https://dl.hexchat.net/gtk-win32/src/enchant-{version}.tar.xz",
-            hash="d6cddd2621589ca8becaba1bfe8d3668f7d6592743664ef0e1a35543971fbe6e",
+            archive_url="https://github.com/rrthomas/enchant/releases/download/v{version}/enchant-{version}.tar.gz",
+            hash="c8d70991d544ee39274b96bd01d2858a009fe732ff43f2aaf605fd61ecd06f60",
             dependencies=["glib"],
         )
 
