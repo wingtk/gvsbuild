@@ -64,9 +64,9 @@ class Enchant(Tarball, Project):
         self.install(r".\fonts.conf " r".\fonts.dtd " r"etc\fonts")
 
         self.install(
-            r".\src\enchant.h "
-            r".\src\enchant++.h "
-            r".\src\enchant-provider.h "
+            r".\lib\enchant.h "
+            r".\lib\enchant++.h "
+            r".\lib\enchant-provider.h "
             r"include\enchant"
         )
 

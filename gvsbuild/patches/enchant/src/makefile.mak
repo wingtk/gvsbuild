@@ -140,6 +140,7 @@ CFLAGS = \
 
 INCLUDES = \
     -I$(topsrcdir) \
+    -I$(rootdir)\lib \
     -I$(rootdir) \
     -I$(includedir) \
     -I$(glibdir) \
