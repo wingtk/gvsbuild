@@ -144,10 +144,10 @@ class ToolNasm(Tool):
         Tool.__init__(
             self,
             "nasm",
-            version="3.01",
+            version="3.02",
             repository="https://github.com/netwide-assembler/nasm",
             archive_url="https://www.nasm.us/pub/nasm/releasebuilds/{version}/win64/nasm-{version}-win64.zip",
-            hash="e0ba5157007abc7b1a65118a96657a961ddf55f7e3f632ee035366dfce039ca4",
+            hash="161d0bfaff53c2f9e9f3e69fd0672323ebabafd1268976a5cec11be92a19aee7",
             dir_part="nasm-{version}",
             exe_name="nasm.exe",
         )
