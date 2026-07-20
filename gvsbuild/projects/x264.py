@@ -61,7 +61,7 @@ class X264(GitRepo, Project):
         )
 
         if configuration in ["debug-optimized", "debug"]:
-            self.install(r".\libx264-164.pdb bin")
+            self.install(r".\libx264-*.pdb bin")
             self.install(r".\x264.pdb bin")
 
         self.install(r".\COPYING share\doc\x264")
