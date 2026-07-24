@@ -225,7 +225,7 @@ class ToolGo(Tool):
             version="1.26.4",
             repository="https://github.com/golang/go",
             archive_url="https://go.dev/dl/go{version}.windows-amd64.zip",
-            hash="20d2ceafb4ed41b96b879010927b28bc92a5be57a7c1801ce365a9ca51d3224a",
+            hash="3ca8fb4630b07c419cbdd51f754e31363cfcfb83b3a5354d9e895c90be2cc345",
             dir_part="go-{version}",
         )
 
