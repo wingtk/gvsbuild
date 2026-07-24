@@ -354,17 +354,9 @@ LIBENCHANT_LIBS = \
     advapi32.lib
 
 LIBENCHANT_OBJECTS = \
-    $(objdir)\enchant.obj \
-    $(objdir)\prefix.obj \
-    $(objdir)\pwl.obj
+    $(objdir)\enchant.obj
 
 
-
-$(objdir)\pwl.obj : $(srcdir)\pwl.c
-	$(CC_OBJ) $** $(LIBENCHANT_DEFINES)
-
-$(objdir)\prefix.obj : $(srcdir)\prefix.c
-	$(CC_OBJ) $** $(LIBENCHANT_DEFINES)
 
 $(objdir)\enchant.obj : $(srcdir)\enchant.c 
 	$(CC_OBJ) $** $(LIBENCHANT_DEFINES)
