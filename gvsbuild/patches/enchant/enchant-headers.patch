@@ -1,0 +1,84 @@
+--- a/lib/enchant.h
++++ b/lib/enchant.h
+@@ -35,0 +36,5 @@
++#if defined (_MSC_VER) && defined (_ENCHANT_BUILD) && defined (DLL_EXPORT)
++# define ENCHANT_API __declspec (dllexport)
++#else
++# define ENCHANT_API
++#endif
+@@ -43,0 +49,1 @@
++ENCHANT_API
+@@ -56,0 +63,1 @@
++ENCHANT_API
+@@ -64,0 +72,1 @@
++ENCHANT_API
+@@ -75,0 +84,1 @@
++ENCHANT_API
+@@ -89,0 +99,1 @@
++ENCHANT_API
+@@ -98,0 +109,1 @@
++ENCHANT_API
+@@ -108,0 +120,1 @@
++ENCHANT_API
+@@ -118,0 +131,1 @@
++ENCHANT_API
+@@ -129,0 +143,1 @@
++ENCHANT_API
+@@ -141,0 +156,1 @@
++ENCHANT_API
+@@ -167,0 +183,1 @@
++ENCHANT_API
+@@ -180,0 +197,1 @@
++ENCHANT_API
+@@ -193,0 +211,1 @@
++ENCHANT_API
+@@ -205,0 +224,1 @@
++ENCHANT_API
+@@ -213,0 +233,1 @@
++ENCHANT_API
+@@ -224,0 +245,1 @@
++ENCHANT_API
+@@ -232,0 +254,1 @@
++ENCHANT_API
+@@ -242,0 +265,1 @@
++ENCHANT_API
+@@ -254,0 +278,1 @@
++ENCHANT_API
+@@ -267,0 +292,1 @@
++ENCHANT_API
+@@ -278,0 +304,1 @@
++ENCHANT_API
+@@ -289,0 +316,1 @@
++ENCHANT_API
+@@ -303,0 +331,1 @@
++ENCHANT_API
+@@ -332,0 +361,1 @@
++ENCHANT_API
+@@ -359,0 +389,1 @@
++ENCHANT_API
+@@ -372,0 +403,1 @@
++ENCHANT_API
+@@ -382,0 +414,1 @@
++ENCHANT_API
+--- a/lib/enchant-provider.h
++++ b/lib/enchant-provider.h
+@@ -53,0 +54,1 @@
++ENCHANT_API
+@@ -66,0 +68,1 @@
++ENCHANT_API
+@@ -76,0 +79,1 @@
++ENCHANT_API
+@@ -91,0 +95,1 @@
++ENCHANT_API
+@@ -101,0 +106,1 @@
++ENCHANT_API
+@@ -111,0 +117,1 @@
++ENCHANT_API
+@@ -121,0 +128,1 @@
++ENCHANT_API
+@@ -130,0 +138,1 @@
++ENCHANT_API
+@@ -137,0 +146,1 @@
++ENCHANT_API
+@@ -147,0 +157,1 @@
++ENCHANT_API

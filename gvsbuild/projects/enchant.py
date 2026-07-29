@@ -25,11 +25,15 @@ class Enchant(Tarball, Project):
         Project.__init__(
             self,
             "enchant",
-            version="1.6.1",
+            version="2.8.19",
             repository="https://github.com/rrthomas/enchant",
-            archive_url="https://dl.hexchat.net/gtk-win32/src/enchant-{version}.tar.xz",
-            hash="d6cddd2621589ca8becaba1bfe8d3668f7d6592743664ef0e1a35543971fbe6e",
+            archive_url=(
+                "https://github.com/rrthomas/enchant/releases/download/"
+                "v{version}/enchant-{version}.tar.gz"
+            ),
+            hash="c8d70991d544ee39274b96bd01d2858a009fe732ff43f2aaf605fd61ecd06f60",
             dependencies=["glib"],
+            patches=["enchant-headers.patch"],
         )
 
     def build(self):
@@ -38,10 +42,11 @@ class Enchant(Tarball, Project):
             "nmake",
             "/nologo",
             "-f",
-            "makefile.mak",
+            "makefile-2.mak",
             "DLL=1",
-            "MFLAGS=-MD",
+            "MFLAGS=/MD",
             f"GLIBDIR={Path(self.builder.gtk_dir) / 'include' / 'glib-2.0'}",
+            f"CPREFIX={Path(self.builder.gtk_dir).as_posix()}",
         ]
         if self.builder.x64:
             cmd.append("X64=1")
@@ -51,35 +56,31 @@ class Enchant(Tarball, Project):
 
         self.install(
             r".\bin\release\enchant.exe "
-            r".\bin\release\pdb\enchant.pdb "
+            r".\bin\release\enchant-2.exe "
+            r".\bin\release\pdb\enchant-2.pdb "
             r".\bin\release\enchant-lsmod.exe "
-            r".\bin\release\pdb\enchant-lsmod.pdb "
-            r".\bin\release\test-enchant.exe "
-            r".\bin\release\pdb\test-enchant.pdb "
+            r".\bin\release\enchant-lsmod-2.exe "
+            r".\bin\release\pdb\enchant-lsmod-2.pdb "
             r".\bin\release\libenchant.dll "
             r".\bin\release\pdb\libenchant.pdb "
             r"bin"
         )
 
-        self.install(r".\fonts.conf " r".\fonts.dtd " r"etc\fonts")
-
         self.install(
-            r".\src\enchant.h "
-            r".\src\enchant++.h "
-            r".\src\enchant-provider.h "
+            r".\lib\enchant.h "
+            r".\lib\enchant++.h "
+            r".\lib\enchant-provider.h "
+            r"include\enchant-2"
+        )
+        self.install(
+            r".\lib\enchant.h "
+            r".\lib\enchant++.h "
+            r".\lib\enchant-provider.h "
             r"include\enchant"
         )
 
         self.install(r".\bin\release\libenchant.lib lib")
-
-        self.install(
-            r".\bin\release\libenchant_ispell.dll "
-            r".\bin\release\libenchant_ispell.lib "
-            r".\bin\release\pdb\libenchant_ispell.pdb "
-            r".\bin\release\libenchant_myspell.dll "
-            r".\bin\release\libenchant_myspell.lib "
-            r".\bin\release\pdb\libenchant_myspell.pdb "
-            r"lib\enchant"
-        )
-
+        self.install(r".\bin\release\enchant_winspell.dll lib\enchant-2")
+        self.install(r".\bin\release\pdb\enchant_winspell.pdb bin\pdb\enchant")
+        self.install(r".\lib\enchant.ordering share\enchant-2")
         self.install(r".\COPYING.LIB share\doc\enchant")
