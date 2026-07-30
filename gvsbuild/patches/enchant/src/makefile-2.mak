@@ -224,7 +224,9 @@ $(objdir)\cli-util.obj: $(srcdir)\util.c
 
 ENCHANT_LSMOD_EXE=$(outdir)\enchant-lsmod-2.exe
 ENCHANT_LSMOD_PDB=$(pdbdir)\enchant-lsmod-2.pdb
-ENCHANT_LSMOD_OBJECTS=$(objdir)\cli-enchant-lsmod.obj
+ENCHANT_LSMOD_OBJECTS= \
+    $(objdir)\cli-enchant-lsmod.obj \
+    $(objdir)\cli-util.obj
 
 enchant_lsmod: $(ENCHANT_LSMOD_EXE)
 
