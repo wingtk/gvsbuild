@@ -32,7 +32,7 @@ class Luajit(GitRepo, Project):
 
     def build(self):
         self.push_location("src")
-        cmd = [r".\msvcbuild.bat"]
+        cmd = ["cmd.exe", "/d", "/c", "call", r".\msvcbuild.bat"]
         if self.builder.opts.configuration == "debug":
             cmd.append("debug")
         self.exec_vs(cmd)
