@@ -168,6 +168,16 @@ def fetch_to_mirror(repo):
     """Clone the repository and create the offline mirror archive, using plain
     git (not msys) so it can run on any platform. The archive path is keyed by
     the resolved commit hash, so a changed checkout gets a new archive."""
+
+    # skip if the archive for the pinned commit already exists
+    if repo.tag:
+        existing = _find_mirror_archive_for_commit(repo, repo.tag)
+        if existing:
+            log.debug(
+                f"(git) mirror archive for {repo.name} at {repo.tag} already exists with name '{existing}'"
+            )
+            return
+
     dest = os.path.join(repo.opts.git_expand_dir, repo.name)
     os.makedirs(repo.opts.git_expand_dir, exist_ok=True)
     if os.path.isdir(dest):
