@@ -71,10 +71,17 @@ def _archive_name_parts(repo, path):
 
 
 def _find_mirror_archive_for_commit(repo, commit):
-    """Locate the cached archive for a specific commit hash, if present."""
-    matches = glob.glob(
-        os.path.join(_git_mirror_dir(repo), f"{repo.name}-{commit}-*{_ARCHIVE_SUFFIX}")
-    )
+    """Locate the cached archive for a specific commit hash, if present.
+    Supports both full and short (prefix) commit hashes."""
+
+    matches = []
+    for path in glob.glob(
+        os.path.join(_git_mirror_dir(repo), f"{repo.name}-{commit}*{_ARCHIVE_SUFFIX}")
+    ):
+        parts = _archive_name_parts(repo, path)
+        if parts and parts[0].startswith(commit):
+            matches.append(path)
+
     if not matches:
         return None
 
