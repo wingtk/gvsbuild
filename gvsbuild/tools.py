@@ -222,7 +222,7 @@ class ToolGo(Tool):
         Tool.__init__(
             self,
             "go",
-            version="1.26.4",
+            version="1.26.5",
             repository="https://github.com/golang/go",
             archive_url="https://go.dev/dl/go{version}.windows-amd64.zip",
             hash="3ca8fb4630b07c419cbdd51f754e31363cfcfb83b3a5354d9e895c90be2cc345",
