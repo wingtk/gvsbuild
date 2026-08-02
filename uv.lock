@@ -400,7 +400,7 @@ wheels = [
 
 [[package]]
 name = "gvsbuild"
-version = "2026.7.0"
+version = "2026.8.0"
 source = { editable = "." }
 dependencies = [
     { name = "build" },
