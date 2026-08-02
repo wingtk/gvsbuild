@@ -15,9 +15,9 @@
 #
 # This makefile expects glib-2.0.lib and gmodule-2.0.lib to be available in the $(PREFIX)\lib folder.
 
-ENCHANT_MAJOR_VERSION=1
-ENCHANT_MINOR_VERSION=6
-ENCHANT_MICRO_VERSION=0
+ENCHANT_MAJOR_VERSION=2
+ENCHANT_MINOR_VERSION=8
+ENCHANT_MICRO_VERSION=19
 BUILDNUMBER=0
 ENCHANT_VERSION="$(ENCHANT_MAJOR_VERSION).$(ENCHANT_MINOR_VERSION).$(ENCHANT_MICRO_VERSION)"
 
@@ -140,6 +140,7 @@ CFLAGS = \
 
 INCLUDES = \
     -I$(topsrcdir) \
+    -I$(rootdir)\lib \
     -I$(rootdir) \
     -I$(includedir) \
     -I$(glibdir) \
@@ -353,17 +354,9 @@ LIBENCHANT_LIBS = \
     advapi32.lib
 
 LIBENCHANT_OBJECTS = \
-    $(objdir)\enchant.obj \
-    $(objdir)\prefix.obj \
-    $(objdir)\pwl.obj
+    $(objdir)\enchant.obj
 
 
-
-$(objdir)\pwl.obj : $(srcdir)\pwl.c
-	$(CC_OBJ) $** $(LIBENCHANT_DEFINES)
-
-$(objdir)\prefix.obj : $(srcdir)\prefix.c
-	$(CC_OBJ) $** $(LIBENCHANT_DEFINES)
 
 $(objdir)\enchant.obj : $(srcdir)\enchant.c 
 	$(CC_OBJ) $** $(LIBENCHANT_DEFINES)
