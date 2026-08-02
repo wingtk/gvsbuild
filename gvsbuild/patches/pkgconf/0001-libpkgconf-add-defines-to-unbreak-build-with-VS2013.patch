@@ -9,36 +9,33 @@ Subject: [PATCH] libpkgconf: add defines to unbreak build with VS2013
  2 files changed, 9 insertions(+)
 
 diff --git a/libpkgconf/bsdstubs.c b/libpkgconf/bsdstubs.c
-index f02c6ca..4d25ec9 100644
+index aebf831..3c6399f 100644
 --- a/libpkgconf/bsdstubs.c
 +++ b/libpkgconf/bsdstubs.c
-@@ -23,6 +23,7 @@
- #include <errno.h>
+@@ -14,6 +14,7 @@
  
+ #include <libpkgconf/stdinc.h>
  #include <libpkgconf/bsdstubs.h>
 +#include <libpkgconf/libpkgconf.h>
  #include <libpkgconf/config.h>
  
- #ifndef HAVE_STRLCPY
+ #if HAVE_DECL_STRNDUP
 diff --git a/libpkgconf/libpkgconf.h b/libpkgconf/libpkgconf.h
-index 1dd443d..57b2c8a 100644
+index 28d1bd4..f435294 100644
 --- a/libpkgconf/libpkgconf.h
 +++ b/libpkgconf/libpkgconf.h
-@@ -21,6 +21,14 @@
- #include <stddef.h>
- #include <stdbool.h>
- #include <stdint.h>
-+
-+/* Macro for building with vs2013 */
-+#if defined _MSC_VER && _MSC_VER <= 1800
-+#define inline		__inline
-+#define snprintf	_snprintf
-+#define __func__	__FUNCTION__
-+#endif
-+
- #include <libpkgconf/libpkgconf-api.h>
+@@ -29,6 +29,13 @@
  #include <libpkgconf/iter.h>
  #include <libpkgconf/bsdstubs.h>
--- 
-2.36.1.windows.1
-
+ 
++/* Macro for building with vs2013 */
++#if defined _MSC_VER && _MSC_VER <= 1800
++#define inline         __inline
++#define snprintf       _snprintf
++#define __func__       __FUNCTION__
++#endif
++
+ #ifdef __cplusplus
+ extern "C" {
+ #endif
+(END)
