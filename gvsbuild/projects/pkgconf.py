@@ -28,10 +28,10 @@ class PkgConf(Tarball, Meson):
             self,
             "pkgconf",
             prj_dir="pkgconf",
-            version="2.5.1",
+            version="3.0.4",
             repository="https://github.com/pkgconf/pkgconf",
             archive_url="https://distfiles.ariadne.space/pkgconf/pkgconf-{version}.tar.gz",
-            hash="ab89d59810d9cad5dfcd508f25efab8ea0b1c8e7bad91c2b6351f13e6a5940d8",
+            hash="67dd778366d1a094f26a9bf5ad0cce1b2e25588420c49a4c9fea6452a6eef829",
             dependencies=["ninja", "meson"],
             patches=["0001-libpkgconf-add-defines-to-unbreak-build-with-VS2013.patch"],
         )
