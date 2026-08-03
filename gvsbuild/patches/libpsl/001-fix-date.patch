@@ -1,0 +1,38 @@
+diff --git a/meson.build b/meson.build
+index 06c36c6..fc5d72b 100644
+--- a/meson.build
++++ b/meson.build
+@@ -157,15 +157,24 @@ endif
+ # Shared configuration data for copyright date and version
+ _cdata = configuration_data()
+ _cdata.set('PACKAGE_VERSION', meson.project_version())
+-date_exe = find_program('date')
+-epoch_cmd = run_command('sh', '-c', 'LC_ALL=C echo "${SOURCE_DATE_EPOCH:-$(date +%s)}"', check: true)
+-source_date_epoch = epoch_cmd.stdout().strip()
+-copyright_cmd = run_command('sh', '-c',
+-  'date -u -d "@' + source_date_epoch + '" "+%B %Y" 2>/dev/null || ' +
+-  'date -u -r "' + source_date_epoch + '" "+%B %Y" 2>/dev/null || ' +
+-  'date -u "+%B %Y"',
+-  check: true
+-)
++# Use a small C program for cross-platform date formatting (no Python/date dependency)
++# Reads SOURCE_DATE_EPOCH for reproducible builds, falls back to current time
++copyright_prog = '''
++#include <stdio.h>
++#include <stdlib.h>
++#include <time.h>
++
++int main(void) {
++    const char *env = getenv("SOURCE_DATE_EPOCH");
++    time_t epoch = env ? (time_t)atoll(env) : time(NULL);
++    struct tm tm = *gmtime(&epoch);
++    char buf[32];
++    strftime(buf, sizeof(buf), "%B %Y", &tm);
++    puts(buf);
++    return 0;
++}
++'''
++copyright_cmd = cc.run(copyright_prog)
+ copyright_date = copyright_cmd.stdout().strip()
+ _cdata.set('COPYRIGHT_MONTH', copyright_date.split()[0])
+ _cdata.set('COPYRIGHT_YEAR', copyright_date.split()[1])
