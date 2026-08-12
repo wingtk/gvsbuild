@@ -15,6 +15,8 @@
 
 """Tests for list-arg execution — all subprocess calls use shell=False implicitly."""
 
+from pathlib import Path
+
 import pytest
 
 from gvsbuild.utils.base_builders import Meson, Rust
@@ -203,6 +205,21 @@ def test_exec_cargo_global_opts_are_split_and_prepended(cargo_builder, mocker):
     cargo_builder.exec_cargo(["build"])
     cargo_cmd = mock_exec.call_args_list[1][0][0]
     assert cargo_cmd == ["cargo", "--color", "always", "build"]
+
+
+def test_exec_cargo_sets_cargo_home_to_parent_of_cargo_bin(cargo_builder, mocker):
+    mock_exec = mocker.patch.object(cargo_builder, "_Builder__execute")
+    cargo_builder.exec_cargo(["install", "cargo-c", "--locked"])
+
+    # The second __execute call runs the actual cargo build
+    build_call = mock_exec.call_args_list[1]
+    build_env = build_call.kwargs["env"]
+
+    cargo_bin = "C:\\cargo"
+    expected_cargo_home = str(Path(cargo_bin).parent)
+
+    assert build_env["CARGO_HOME"] == expected_cargo_home
+    assert build_env["RUSTUP_HOME"] == expected_cargo_home
 
 
 @pytest.fixture
