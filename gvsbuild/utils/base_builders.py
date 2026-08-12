@@ -51,13 +51,17 @@ class Meson(Project):
             self._setup_meson_and_ninja(ninja_build, meson_params, add_path)
         if make_tests:
             # Run ninja to build all (library, ....
-            self.builder.exec_ninja(working_dir=ninja_build)
+            self.builder.exec_ninja(working_dir=ninja_build, add_path=add_path)
             # .. run the tests ...
-            self.builder.exec_ninja(params=["test"], working_dir=ninja_build)
+            self.builder.exec_ninja(
+                params=["test"], working_dir=ninja_build, add_path=add_path
+            )
             # .. and finally install everything
         # if we don't make the tests we simply run 'ninja install' that takes care of everything,
         # running explicitly from the build dir
-        self.builder.exec_ninja(params=["install"], working_dir=ninja_build)
+        self.builder.exec_ninja(
+            params=["install"], working_dir=ninja_build, add_path=add_path
+        )
 
     def _setup_meson_and_ninja(
         self, ninja_build, meson_params: list[str] | None, add_path

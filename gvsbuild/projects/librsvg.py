@@ -55,7 +55,8 @@ class Librsvg(Tarball, Meson):
 
     def build(self):
         self.builder.exec_cargo(["install", "cargo-c", "--locked"])
-        Meson.build(self)
+        cargo_bin = Project.get_tool_path("cargo")
+        Meson.build(self, add_path=cargo_bin)
         self.install(r".\COPYING.LIB share\doc\librsvg")
 
     def post_install(self):
