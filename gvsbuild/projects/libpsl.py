@@ -24,10 +24,10 @@ class Libpsl(Tarball, Meson):
         Project.__init__(
             self,
             "libpsl",
-            version="0.23.1",
+            version="0.23.3",
             repository="https://github.com/rockdaboot/libpsl",
             archive_url="https://github.com/rockdaboot/libpsl/releases/download/{version}/libpsl-{version}.tar.gz",
-            hash="8fbb03054556498ba9c4cc48fcaa36a4483748c6504a65bdb9ba348f555b0e56",
+            hash="93941f85a1e7bd593fa94f299233cb5dfc91cd144fd9a78a6ceb75001c5b03be",
             dependencies=[
                 "meson",
                 "ninja",
