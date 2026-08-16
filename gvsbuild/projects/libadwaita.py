@@ -25,9 +25,9 @@ class Libadwaita(Tarball, Meson):
             self,
             "libadwaita",
             repository="https://gitlab.gnome.org/GNOME/libadwaita",
-            version="1.9.2",
+            version="1.9.3",
             archive_url="https://download.gnome.org/sources/libadwaita/{major}.{minor}/libadwaita-{version}.tar.xz",
-            hash="6920f813a76c4856591ca56ee842e94efbbe736e8ca2f445c9e9fc3b4e7076f0",
+            hash="fc59b37028fe0126308e7b805d2f6e4e80227080a1797715e5e6286b8111e723",
             dependencies=[
                 "ninja",
                 "meson",
