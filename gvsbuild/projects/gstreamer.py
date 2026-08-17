@@ -304,11 +304,11 @@ class GstPluginGtk4(Tarball, Meson):
         Project.__init__(
             self,
             "gst-plugin-gtk4",
-            version="0.15.2",
+            version="0.15.3",
             repository="https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs",
             archive_url="https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs/-/archive/{version}/gst-plugins-rs-{version}.tar.gz?ref_type=tags",
             archive_filename="gst-plugins-rs-{version}.tar.gz",
-            hash="8c889d443281baaf34d7bfb3781d331a5eed0bc091852eba37ef358206a37bab",
+            hash="3d2da3ece81e7964ec37ad4f2efc99dae3d51d65ccafa9ac7c709e247ca30c39",
             dependencies=[
                 "meson",
                 "cargo",
