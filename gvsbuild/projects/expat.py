@@ -31,7 +31,6 @@ class Expat(Tarball, CmakeProject):
             dependencies=["cmake", "ninja"],
             patches=[
                 "0001-CMakeLists-do-not-add-postfix-d-in-debug-builds.patch",
-                "0002-fix-building-source-on-windows.patch",
             ],
         )
 
