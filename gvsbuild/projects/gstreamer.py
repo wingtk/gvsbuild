@@ -308,7 +308,7 @@ class GstPluginGtk4(Tarball, Meson):
             repository="https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs",
             archive_url="https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs/-/archive/{version}/gst-plugins-rs-{version}.tar.gz?ref_type=tags",
             archive_filename="gst-plugins-rs-{version}.tar.gz",
-            hash="0609b2459ec29f4678edd98e69b6b0a473ef4a303d60645260245dbc23f75167",
+            hash="8c889d443281baaf34d7bfb3781d331a5eed0bc091852eba37ef358206a37bab",
             dependencies=[
                 "meson",
                 "cargo",
