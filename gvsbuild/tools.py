@@ -100,11 +100,11 @@ class ToolMeson(Tool):
         Tool.__init__(
             self,
             "meson",
-            version="1.11.2",
+            version="1.12.0",
             repository="https://github.com/mesonbuild/meson",
             archive_url="https://github.com/mesonbuild/meson/archive/refs/tags/{version}.tar.gz",
             archive_filename="meson-{version}.tar.gz",
-            hash="09cc2faedc61262fc62abf57aa6c47c57a8c0730b950609a0711bbaf587bd133",
+            hash="5ab1c86446d9dfe073f07141088cde545e43f8ddb2f97ebe3f600ab12e77ca1f",
             dir_part="meson-{version}",
             exe_name="meson.py",
         )
@@ -222,10 +222,10 @@ class ToolGo(Tool):
         Tool.__init__(
             self,
             "go",
-            version="1.26.5",
+            version="1.26.6",
             repository="https://github.com/golang/go",
             archive_url="https://go.dev/dl/go{version}.windows-amd64.zip",
-            hash="97e6b2a833b6d89f9ff17d25419ac0a7e3b482a044e9ab18cdef834bd834fd38",
+            hash="5b6c5b556525810463b5c897b50dc7a82d6a3dc0bfaf55d990a7e9f31d6b2318",
             dir_part="go-{version}",
         )
 
