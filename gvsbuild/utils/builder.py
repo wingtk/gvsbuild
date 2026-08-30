@@ -1050,6 +1050,8 @@ class Builder:
         if add_path:
             env = dict(env) if env is not None else dict(os.environ)
             self.__add_path(env, add_path)
+        if env:
+            env["RUSTC_WRAPPER"] = ""
         args = self.__resolve_executable(args, env)
         if self.opts.capture_out:
             try:
