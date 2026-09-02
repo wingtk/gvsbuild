@@ -79,10 +79,10 @@ class OpenSSLFips(Tarball, Project):
         Project.__init__(
             self,
             "openssl-fips",
-            version="3.6.1",
+            version="3.1.2",
             repository="https://github.com/openssl/openssl",
             archive_url="https://www.openssl.org/source/old/{major}.{minor}/openssl-{version}.tar.gz",
-            hash="b1bfedcd5b289ff22aee87c9d600f515767ebf45f77168cb6d64f231f518a82e",
+            hash="a0ce69b8b97ea6a35b96875235aa453b966ba3cba8af2de23657d8b6767d6539",
             dependencies=[
                 "openssl",
             ],
