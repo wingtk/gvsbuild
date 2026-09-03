@@ -80,6 +80,7 @@ class OpenSSLFips(Tarball, Project):
             self,
             "openssl-fips",
             version="3.1.2",  # This version must be FIPS validated
+            outdated_skip=True,
             repository="https://github.com/openssl/openssl",
             archive_url="https://www.openssl.org/source/old/{major}.{minor}/openssl-{version}.tar.gz",
             hash="a0ce69b8b97ea6a35b96875235aa453b966ba3cba8af2de23657d8b6767d6539",
