@@ -24,10 +24,10 @@ class Libffi(Tarball, Meson):
         Project.__init__(
             self,
             "libffi",
-            version="3.7.1",
+            version="3.8.0",
             repository="https://github.com/libffi/libffi",
             archive_url="https://github.com/libffi/libffi/releases/download/v{version}/libffi-{version}.tar.gz",
-            hash="d5e9a6638ddbd2513ddb54518eb67e4bbe6fa707bcc01c10f6212f0a088d819d",
+            hash="7da3e2d9a171eb0a038f592ecad3ff2bb2550f3496d87b3b29ad0cf4430c0db4",
             dependencies=["ninja", "meson"],
         )
 
