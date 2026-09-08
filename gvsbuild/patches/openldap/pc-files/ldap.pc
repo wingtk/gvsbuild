@@ -1,0 +1,13 @@
+# On windows, the prefix is automagically build from the location of the .pc file
+prefix=@prefix@
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: ldap (OpenLDAP)
+Description: OpenLDAP Lightweight Directory Access Protocol library
+URL: https://www.openldap.org
+Version: @version@
+Requires: lber
+Cflags: -I${includedir}
+Libs: -L${libdir} -llibldap
