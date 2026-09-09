@@ -28,7 +28,7 @@ class ToolCargo(Tool):
         Tool.__init__(
             self,
             "cargo",
-            version="1.97.1",
+            version="1.98.1",
             repository="https://github.com/rust-lang/rust",
             archive_url="https://win.rustup.rs/x86_64",
             archive_filename="rustup-init.exe",
@@ -72,10 +72,10 @@ class ToolCmake(Tool):
         Tool.__init__(
             self,
             "cmake",
-            version="4.4.2",
+            version="4.4.3",
             repository="https://gitlab.kitware.com/cmake/cmake",
             archive_url="https://github.com/Kitware/CMake/releases/download/v{version}/cmake-{version}-windows-x86_64.zip",
-            hash="e8139d85b3813bc38833142ae1940472e9a587e9b5d2718ac1804c60f4e57a64",
+            hash="4d52ebab7193a698651639ed80d8d04fd903358843572cf44c7fd234cb7c26ab",
             dir_part="cmake-{version}-windows-x86_64",
         )
 
@@ -222,10 +222,10 @@ class ToolGo(Tool):
         Tool.__init__(
             self,
             "go",
-            version="1.26.6",
+            version="1.27.1",
             repository="https://github.com/golang/go",
             archive_url="https://go.dev/dl/go{version}.windows-amd64.zip",
-            hash="5b6c5b556525810463b5c897b50dc7a82d6a3dc0bfaf55d990a7e9f31d6b2318",
+            hash="a3911b5e0e1b1053f25ed0675f4c1c6aad1e2bfcf253df2b9be4caabd2edd95d",
             dir_part="go-{version}",
         )
 
