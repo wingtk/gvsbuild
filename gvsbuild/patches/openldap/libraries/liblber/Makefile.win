@@ -1,0 +1,58 @@
+# liblber nmake makefile for Windows (MSVC)
+#
+# Source list from Makefile.in (2.7.0): assert.c decode.c encode.c io.c
+# bprint.c debug.c memory.c options.c sockbuf.c + nt_err.c (NT_SRCS).
+# Exports come from lber.def (derived from lber.map.in).
+
+!IFNDEF CFG
+CFG=Release
+!ENDIF
+
+OUTDIR=$(CFG)
+OBJDIR=$(CFG)\obj
+
+!IF "$(CFG)" == "Debug"
+RT=/MDd
+OPT=/Od
+DBGDEFS=/D "_DEBUG" /D "LDAP_DEBUG"
+!ELSE
+RT=/MD
+OPT=/O2 /Oy-
+DBGDEFS=/D "NDEBUG"
+!ENDIF
+
+DEFS=/D "_CRT_SECURE_NO_WARNINGS" /D "_WIN32" /D "WIN32" /D "WINNT" \
+	/D "_WINNT" /D "LBER_LIBRARY" /D "LDAP_LIBS_DYNAMIC"
+
+CFLAGS=/nologo $(RT) /W3 /Zi $(OPT) $(DBGDEFS) /I "..\..\include" $(DEFS) \
+	/Fd"$(OBJDIR)\liblber_src.pdb" /c
+
+OBJS= \
+	$(OBJDIR)\assert.obj \
+	$(OBJDIR)\bprint.obj \
+	$(OBJDIR)\debug.obj \
+	$(OBJDIR)\decode.obj \
+	$(OBJDIR)\encode.obj \
+	$(OBJDIR)\io.obj \
+	$(OBJDIR)\memory.obj \
+	$(OBJDIR)\nt_err.obj \
+	$(OBJDIR)\options.obj \
+	$(OBJDIR)\sockbuf.obj
+
+build: $(OUTDIR)\liblber.dll
+
+$(OBJDIR):
+	@if not exist $(OBJDIR) mkdir $(OBJDIR)
+
+{.\}.c{$(OBJDIR)\}.obj::
+	$(CC) $(CFLAGS) /Fo"$(OBJDIR)\\" $<
+
+$(OBJS): $(OBJDIR)
+
+$(OUTDIR)\liblber.dll: $(OBJS) lber.def
+	link /nologo /DLL /DEBUG /PDB:"$(OUTDIR)\liblber.pdb" \
+		/DEF:lber.def /IMPLIB:"$(OUTDIR)\liblber.lib" \
+		/OUT:"$(OUTDIR)\liblber.dll" $(OBJS) ws2_32.lib
+
+clean:
+	@if exist $(OUTDIR) rd /s /q $(OUTDIR)
