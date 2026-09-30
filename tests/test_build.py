@@ -92,7 +92,7 @@ def test_ninja_opts_validation_valid_equals_syntax(app, runner):
 def test_ninja_opts_validation_invalid_no_dash(app, runner):
     """Test that ninja-opts rejects values that don't start with dash."""
     result = runner.invoke(app, ["build", "--ninja-opts", "j2", "hello-world"])
-    assert result.exit_code == 1  # Validation error
+    assert result.exit_code == 2
     full_output = result.output + result.stderr
     assert "ninja-opts must start with a dash (- or --)" in full_output
     assert "Got: 'j2'" in full_output
@@ -103,7 +103,7 @@ def test_ninja_opts_validation_invalid_no_dash(app, runner):
 def test_ninja_opts_validation_invalid_equals_syntax(app, runner):
     """Test that ninja-opts rejects invalid values with equals syntax."""
     result = runner.invoke(app, ["build", "--ninja-opts=j2", "hello-world"])
-    assert result.exit_code == 1  # Validation error
+    assert result.exit_code == 2
     full_output = result.output + result.stderr
     assert "ninja-opts must start with a dash (- or --)" in full_output
     assert "Got: 'j2'" in full_output
