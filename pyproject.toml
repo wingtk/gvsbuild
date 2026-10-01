@@ -7,7 +7,7 @@ name = "gvsbuild"
 version = "2026.9.0"
 description = "GTK stack for Windows"
 readme = "README.md"
-requires-python = "<4.0,>=3.10,!=3.13.4"
+requires-python = "<4.0,>=3.11,!=3.13.4"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Environment :: X11 Applications :: GTK",
@@ -59,11 +59,10 @@ ignore_missing_imports = true
 legacy_tox_ini = """
 [tox]
 isolated_build = true
-envlist = py{310,311,312,313,314,314t, 315}
+envlist = py{311,312,313,314,314t,315}
 
 [gh-actions]
 python =
-    3.10: py310
     3.11: py311
     3.12: py312
     3.13: py313
