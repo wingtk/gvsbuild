@@ -29,7 +29,7 @@ import glob
 import os
 import subprocess
 import zipfile
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from .simple_ui import log
@@ -48,7 +48,7 @@ def mirror_archive_write_path(repo, commit):
     identifier regardless of whether the project pins a full hash, a short hash
     or a branch/tag; the timestamp lets us prefer the newest cached snapshot
     when multiple archives exist."""
-    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ")
+    stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%S.%fZ")
     return os.path.join(
         _git_mirror_dir(repo), f"{repo.name}-{commit}-{stamp}{_ARCHIVE_SUFFIX}"
     )
