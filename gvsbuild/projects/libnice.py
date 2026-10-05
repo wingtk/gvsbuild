@@ -24,7 +24,7 @@ class Libnice(GitRepo, Meson):
         Project.__init__(
             self,
             "libnice",
-            version="0.1.23",
+            version="0.1.24",
             repository="https://gitlab.freedesktop.org/libnice/libnice",
             fetch_submodules=False,
             tag="0a3890f1830d4c77ecbb41de835aa549e7645ed5",
