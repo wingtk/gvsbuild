@@ -130,12 +130,12 @@ class Gtk4(Tarball, Meson):
             self,
             "gtk4",
             prj_dir="gtk4",
-            version="4.22.4",
+            version="4.24.1",
             lastversion_major=4,
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/gtk",
             archive_url="https://download.gnome.org/sources/gtk/{major}.{minor}/gtk-{version}.tar.xz",
-            hash="51bd9f60c7d23a665a556c7364c21fb2e4e282566b3e7e092455e8f910330893",
+            hash="e98abe720e16129c8c0f50761dee0a2e9ae2478055e31018f6cf977fcf6513e9",
             dependencies=[
                 "gdk-pixbuf",
                 "pango",
@@ -147,10 +147,6 @@ class Gtk4(Tarball, Meson):
                 "fribidi",
                 "directx-headers",
                 "librsvg",
-            ],
-            patches=[
-                # https://gitlab.gnome.org/GNOME/gtk/-/issues/7567
-                "0001-remove-direct-composition.patch",
             ],
         )
         if self.opts.enable_gi:

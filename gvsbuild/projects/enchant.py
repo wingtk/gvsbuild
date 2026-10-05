@@ -25,13 +25,13 @@ class Enchant(Tarball, Project):
         Project.__init__(
             self,
             "enchant",
-            version="2.8.19",
+            version="2.8.21",
             repository="https://github.com/rrthomas/enchant",
             archive_url=(
                 "https://github.com/rrthomas/enchant/releases/download/"
                 "v{version}/enchant-{version}.tar.gz"
             ),
-            hash="c8d70991d544ee39274b96bd01d2858a009fe732ff43f2aaf605fd61ecd06f60",
+            hash="dd2a762697c463148a8f59867089a5ebf2dd1449d869f93764b76c12bcf8acc0",
             dependencies=["glib"],
             patches=["enchant-headers.patch"],
         )
