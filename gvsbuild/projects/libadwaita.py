@@ -25,9 +25,9 @@ class Libadwaita(Tarball, Meson):
             self,
             "libadwaita",
             repository="https://gitlab.gnome.org/GNOME/libadwaita",
-            version="1.9.3",
+            version="1.10.0",
             archive_url="https://download.gnome.org/sources/libadwaita/{major}.{minor}/libadwaita-{version}.tar.xz",
-            hash="fc59b37028fe0126308e7b805d2f6e4e80227080a1797715e5e6286b8111e723",
+            hash="b1bf56239269d101a6391ad4553c910eff9cc6170b803916405477ef60a66c84",
             dependencies=[
                 "ninja",
                 "meson",
@@ -35,9 +35,7 @@ class Libadwaita(Tarball, Meson):
                 "pkgconf",
                 "glib",
                 "gtk4",
-            ],
-            patches=[
-                "0001-remove-appstream-dependency.patch",
+                "ministream",
             ],
         )
         if self.opts.enable_gi:
