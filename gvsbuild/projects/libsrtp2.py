@@ -25,10 +25,10 @@ class LibSRTP(Tarball, Meson):
             self,
             "libsrtp2",
             repository="https://github.com/cisco/libsrtp",
-            version="2.8.0",
+            version="2.8.1",
             archive_url="https://github.com/cisco/libsrtp/archive/refs/tags/v{version}.tar.gz",
             archive_filename="libsrtp2-v{version}.tar.gz",
-            hash="d123dcff5c56d4f1a9006f2b311ea99a85016cbf3bb24b1007885d422237db85",
+            hash="ef5569220749529d778013aae1178391d972570a2b4f7288dda22effa875b07c",
             dependencies=["meson", "ninja"],
         )
 
