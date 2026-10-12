@@ -32,9 +32,6 @@ class PyGObject(Tarball, Meson):
             archive_url="https://download.gnome.org/sources/pygobject/{major}.{minor}/pygobject-{version}.tar.gz",
             hash="45068697de3ffe46840ca369705f23118b34db4f7deb63f6eff079a6734ddcca",
             dependencies=["pycairo", "gobject-introspection", "libffi"],
-            patches=[
-                "001-pygobject-py38-load-dll.patch",
-            ],
         )
 
     def build(self):
