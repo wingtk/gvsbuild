@@ -1,0 +1,53 @@
+/* $OpenLDAP$ */
+/* This work is part of OpenLDAP Software <http://www.openldap.org/>.
+ *
+ * Copyright 1998-2026 The OpenLDAP Foundation.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted only as authorized by the OpenLDAP
+ * Public License.
+ *
+ * A copy of this license is available in file LICENSE in the
+ * top-level directory of the distribution or, alternatively, at
+ * <http://www.OpenLDAP.org/license.html>.
+ */
+
+/*
+ * libldap optional components for Windows (MSVC), see libldap-config.hin
+ */
+
+#ifndef _LDAP_LIBCONFIG_H
+#define _LDAP_LIBCONFIG_H 1
+
+#include "liblber-config.h"
+
+/* deprecated functions */
+#define LDAP_DEPRECATED 1
+
+#ifndef NO_THREADS
+#define LDAP_R_COMPILE 1
+#endif
+
+/* Do not duplicate work in portable.h so we can import this from ldap-int.h */
+#ifndef HAVE_CYRUS_SASL
+#undef HAVE_CYRUS_SASL
+#endif /* HAVE_CYRUS_SASL */
+#ifndef HAVE_GMTIME_R
+#undef HAVE_GMTIME_R
+#endif /* HAVE_GMTIME_R */
+#ifndef HAVE_LOCALTIME_R
+#undef HAVE_LOCALTIME_R
+#endif /* HAVE_LOCALTIME_R */
+#ifndef HAVE_GETADDRINFO
+#undef HAVE_GETADDRINFO
+#endif /* HAVE_GETADDRINFO */
+#ifndef HAVE_GETNAMEINFO
+#undef HAVE_GETNAMEINFO
+#endif /* HAVE_GETNAMEINFO */
+#ifndef HAVE_GAI_STRERROR
+#undef HAVE_GAI_STRERROR
+#endif /* HAVE_GAI_STRERROR */
+
+
+#endif /* LDAP_LIBCONFIG */
