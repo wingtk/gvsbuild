@@ -135,6 +135,7 @@ class GstPluginsGood(Tarball, Meson):
                 "ninja",
                 "gst-plugins-base",
                 "libvpx",
+                "mpg123",
             ],
         )
 
