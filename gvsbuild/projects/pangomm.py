@@ -25,11 +25,11 @@ class Pangomm(Tarball, Meson):
             self,
             "pangomm",
             prj_dir="pangomm",
-            version="2.56.2",
+            version="2.58.0",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/pangomm",
             archive_url="https://download.gnome.org/sources/pangomm/{major}.{minor}/pangomm-{version}.tar.xz",
-            hash="f1e984c85a85b6a0e61616366521f51dd8282a072bb45d15b5084762b62f4c0e",
+            hash="217514c1a65035c2fce6e69e33b0d92bafa2594cc474e995a4473441b10f3a33",
             dependencies=[
                 "meson",
                 "ninja",

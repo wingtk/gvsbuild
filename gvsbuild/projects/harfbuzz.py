@@ -24,10 +24,10 @@ class Harfbuzz(Tarball, Meson):
         Project.__init__(
             self,
             "harfbuzz",
-            version="14.3.1",
+            version="14.5.1",
             repository="https://github.com/harfbuzz/harfbuzz",
             archive_url="https://github.com/harfbuzz/harfbuzz/releases/download/{version}/harfbuzz-{version}.tar.xz",
-            hash="9dae9538aae2ffdf70cec31f2c27bf68e2aaeeae3112688467697d5faf6194f7",
+            hash="7e2fa4e8c7c98e8d8140671f5772542afaaa6acccfbd746506886b6d85f7f8d6",
             dependencies=["meson", "cmake", "freetype", "cairo", "pkgconf", "glib"],
         )
 
