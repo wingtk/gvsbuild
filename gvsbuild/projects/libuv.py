@@ -24,11 +24,11 @@ class Libuv(Tarball, CmakeProject):
         Project.__init__(
             self,
             "libuv",
-            version="1.52.1",
+            version="1.53.0",
             repository="https://github.com/libuv/libuv",
             archive_filename="libuv-v{version}.tar.gz",
             archive_url="https://github.com/libuv/libuv/archive/v{version}.tar.gz",
-            hash="478baf2599bfbc882c355288c9cb6f92e0e7dda435fa04031fa5b607cf3f414c",
+            hash="279f3f67a24bb9921fe999ca6cd5e332fade8d515873ef9ba054b70e70a31d9e",
             dependencies=[
                 "cmake",
                 "ninja",

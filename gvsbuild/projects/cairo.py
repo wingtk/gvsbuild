@@ -24,11 +24,11 @@ class Cairo(Tarball, Meson):
         Meson.__init__(
             self,
             "cairo",
-            version="1.18.4",
+            version="1.18.6",
             lastversion_even=True,
             repository="https://gitlab.freedesktop.org/cairo/cairo",
             archive_url="https://cairographics.org/releases/cairo-{version}.tar.xz",
-            hash="445ed8208a6e4823de1226a74ca319d3600e83f6369f99b14265006599c32ccb",
+            hash="1c767308174337a74694da0f3ec069c271452163a1ef4540964c50c301f157d4",
             dependencies=["fontconfig", "freetype", "glib", "pixman", "libpng"],
         )
         self.add_param("-Ddwrite=enabled")
