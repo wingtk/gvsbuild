@@ -25,11 +25,11 @@ class Glibmm(Tarball, Meson):
             self,
             "glibmm",
             prj_dir="glibmm",
-            version="2.88.1",
+            version="2.90.0",
             lastversion_even=True,
             repository="https://gitlab.gnome.org/GNOME/glibmm",
             archive_url="https://download.gnome.org/sources/glibmm/{major}.{minor}/glibmm-{version}.tar.xz",
-            hash="c139f962b1575c8827cd39d1ac21b7a367be3bda1409c0c7e21a29090f371506",
+            hash="e2efa45643f16b9fea2d6299f2f403d672eaeacddf0ff7f8094e1af9b0f5980b",
             dependencies=[
                 "meson",
                 "ninja",
@@ -54,12 +54,12 @@ class Glibmm2_4(Tarball, Meson):
             self,
             "glibmm-2.4",
             prj_dir="glibmm-2.4",
-            version="2.66.8",
+            version="2.66.10",
             lastversion_even=True,
             outdated_skip=True,
             repository="https://gitlab.gnome.org/GNOME/glibmm",
             archive_url="https://download.gnome.org/sources/glibmm/{major}.{minor}/glibmm-{version}.tar.xz",
-            hash="64f11d3b95a24e2a8d4166ecff518730f79ecc27222ef41faf7c7e0340fc9329",
+            hash="2b61780203aed98e701d3ea57c8f353e7c8ada9706a79be782f6c5153dd035c0",
             dependencies=["meson", "ninja", "libsigc++-2.0", "glib"],
         )
 
