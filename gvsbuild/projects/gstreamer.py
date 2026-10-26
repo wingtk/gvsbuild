@@ -27,6 +27,8 @@
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 import os
+import sys
+from pathlib import Path
 
 from gvsbuild.utils.base_builders import Meson
 from gvsbuild.utils.base_expanders import Tarball
@@ -256,7 +258,8 @@ class GstPython(Tarball, Meson):
         )
 
     def build(self):
-        Meson.build(self)
+        py_dir = Path(sys.executable).parent
+        Meson.build(self, meson_params=[f"-Dpython={py_dir}\\python.exe"])
         self.install(r".\COPYING share\doc\gst-python")
 
 
