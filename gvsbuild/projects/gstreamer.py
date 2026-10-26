@@ -294,6 +294,11 @@ class GstRtspServer(Tarball, Meson):
             dependencies=["meson", "ninja", "gstreamer"],
         )
 
+        if self.opts.enable_gi:
+            self.add_dependency("gobject-introspection")
+        enable_gi = "enabled" if self.opts.enable_gi else "disabled"
+        self.add_param(f"-Dintrospection={enable_gi}")
+
     def build(self):
         Meson.build(self)
         self.install(r".\COPYING share\doc\gst-rtsp-server")
