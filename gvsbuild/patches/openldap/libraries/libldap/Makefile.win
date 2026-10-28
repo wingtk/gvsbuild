@@ -1,0 +1,134 @@
+# libldap nmake makefile for Windows (MSVC)
+#
+# Source list from Makefile.in (2.7.0) OBJS; test programs (apitest, dntest,
+# ftest, ltest, urltest, testavl) are not built. tls_g.c (GnuTLS) and
+# tls_mt.c (mbedtls) compile to empty objects without HAVE_GNUTLS/HAVE_MBEDTLS.
+# thr_posix.c, thr_thr.c, thr_pth.c, thr_debug.c are likewise inert with
+# HAVE_NT_THREADS. Exports come from ldap.def (derived from ldap.map.in).
+#
+# OpenSSL (libcrypto/libssl) and Cyrus SASL (libsasl) headers and import
+# libraries are picked up from the INCLUDE / LIB environment variables.
+
+!IFNDEF CFG
+CFG=Release
+!ENDIF
+
+OUTDIR=$(CFG)
+OBJDIR=$(CFG)\obj
+
+!IF "$(CFG)" == "Debug"
+RT=/MDd
+OPT=/Od
+DBGDEFS=/D "_DEBUG" /D "LDAP_DEBUG"
+!ELSE
+RT=/MD
+OPT=/O2 /Oy-
+DBGDEFS=/D "NDEBUG"
+!ENDIF
+
+DEFS=/D "_CRT_SECURE_NO_WARNINGS" /D "_WIN32" /D "WIN32" /D "WINNT" \
+	/D "_WINNT" /D "LDAP_LIBRARY" /D "LDAP_LIBS_DYNAMIC"
+
+CFLAGS=/nologo $(RT) /W3 /Zi $(OPT) $(DBGDEFS) /I "..\..\include" $(DEFS) \
+	/Fd"$(OBJDIR)\libldap_src.pdb" /c
+
+LBER_LIB=..\liblber\$(CFG)\liblber.lib
+
+OBJS= \
+	$(OBJDIR)\abandon.obj \
+	$(OBJDIR)\account_usability.obj \
+	$(OBJDIR)\add.obj \
+	$(OBJDIR)\addentry.obj \
+	$(OBJDIR)\assertion.obj \
+	$(OBJDIR)\avl.obj \
+	$(OBJDIR)\bind.obj \
+	$(OBJDIR)\cancel.obj \
+	$(OBJDIR)\charray.obj \
+	$(OBJDIR)\compare.obj \
+	$(OBJDIR)\controls.obj \
+	$(OBJDIR)\cyrus.obj \
+	$(OBJDIR)\dds.obj \
+	$(OBJDIR)\delete.obj \
+	$(OBJDIR)\deref.obj \
+	$(OBJDIR)\dnssrv.obj \
+	$(OBJDIR)\error.obj \
+	$(OBJDIR)\extended.obj \
+	$(OBJDIR)\fetch.obj \
+	$(OBJDIR)\filter.obj \
+	$(OBJDIR)\free.obj \
+	$(OBJDIR)\getattr.obj \
+	$(OBJDIR)\getdn.obj \
+	$(OBJDIR)\getentry.obj \
+	$(OBJDIR)\getvalues.obj \
+	$(OBJDIR)\init.obj \
+	$(OBJDIR)\lbase64.obj \
+	$(OBJDIR)\ldap_sync.obj \
+	$(OBJDIR)\ldif.obj \
+	$(OBJDIR)\ldifutil.obj \
+	$(OBJDIR)\messages.obj \
+	$(OBJDIR)\modify.obj \
+	$(OBJDIR)\modrdn.obj \
+	$(OBJDIR)\msctrl.obj \
+	$(OBJDIR)\open.obj \
+	$(OBJDIR)\options.obj \
+	$(OBJDIR)\os-ip.obj \
+	$(OBJDIR)\os-local.obj \
+	$(OBJDIR)\pagectrl.obj \
+	$(OBJDIR)\passwd.obj \
+	$(OBJDIR)\ppolicy.obj \
+	$(OBJDIR)\print.obj \
+	$(OBJDIR)\psearchctrl.obj \
+	$(OBJDIR)\rdwr.obj \
+	$(OBJDIR)\references.obj \
+	$(OBJDIR)\request.obj \
+	$(OBJDIR)\result.obj \
+	$(OBJDIR)\rq.obj \
+	$(OBJDIR)\sasl.obj \
+	$(OBJDIR)\sbind.obj \
+	$(OBJDIR)\schema.obj \
+	$(OBJDIR)\search.obj \
+	$(OBJDIR)\sort.obj \
+	$(OBJDIR)\sortctrl.obj \
+	$(OBJDIR)\stctrl.obj \
+	$(OBJDIR)\string.obj \
+	$(OBJDIR)\tavl.obj \
+	$(OBJDIR)\thr_debug.obj \
+	$(OBJDIR)\thr_nt.obj \
+	$(OBJDIR)\thr_posix.obj \
+	$(OBJDIR)\thr_pth.obj \
+	$(OBJDIR)\thr_thr.obj \
+	$(OBJDIR)\threads.obj \
+	$(OBJDIR)\tls2.obj \
+	$(OBJDIR)\tls_g.obj \
+	$(OBJDIR)\tls_mt.obj \
+	$(OBJDIR)\tls_o.obj \
+	$(OBJDIR)\tpool.obj \
+	$(OBJDIR)\turn.obj \
+	$(OBJDIR)\txn.obj \
+	$(OBJDIR)\unbind.obj \
+	$(OBJDIR)\url.obj \
+	$(OBJDIR)\utf-8.obj \
+	$(OBJDIR)\utf-8-conv.obj \
+	$(OBJDIR)\util-int.obj \
+	$(OBJDIR)\vc.obj \
+	$(OBJDIR)\vlvctrl.obj \
+	$(OBJDIR)\whoami.obj
+
+build: $(OUTDIR)\libldap.dll
+
+$(OBJDIR):
+	@if not exist $(OBJDIR) mkdir $(OBJDIR)
+
+{.\}.c{$(OBJDIR)\}.obj::
+	$(CC) $(CFLAGS) /Fo"$(OBJDIR)\\" $<
+
+$(OBJS): $(OBJDIR)
+
+$(OUTDIR)\libldap.dll: $(OBJS) ldap.def $(LBER_LIB)
+	link /nologo /DLL /DEBUG /PDB:"$(OUTDIR)\libldap.pdb" \
+		/DEF:ldap.def /IMPLIB:"$(OUTDIR)\libldap.lib" \
+		/OUT:"$(OUTDIR)\libldap.dll" $(OBJS) $(LBER_LIB) \
+		ws2_32.lib libcrypto.lib libssl.lib libsasl.lib
+
+clean:
+	@if exist $(OUTDIR) rd /s /q $(OUTDIR)
