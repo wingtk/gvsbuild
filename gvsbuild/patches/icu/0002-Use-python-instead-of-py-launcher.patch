@@ -4,9 +4,8 @@ Date: Tue Oct 27 2026 00:00:00 +0000
 Subject: [PATCH] Use python instead of py launcher on Windows
 
 ICU's Windows makefiles invoke the Windows "py" launcher ("py -3 ..."),
-which is not always installed (e.g. Microsoft Store Python does not
-include py.exe). Fall back to plain "python" so the build works with any
-Python on PATH.
+which is not always installed when executing Gvsbuild.  Fall back to plain
+python so the build works with any Python on PATH.
 ---
  source/data/makedata.mak | 2 +-
  source/test/testdata/testdata.mak | 2 +-
