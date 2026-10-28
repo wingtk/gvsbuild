@@ -14,6 +14,7 @@
 #  along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 import os
+import sys
 
 from gvsbuild.utils.base_expanders import Tarball
 from gvsbuild.utils.base_project import Project, project_add
@@ -29,7 +30,10 @@ class Icu(Tarball, Project):
             version="79.1",
             archive_url="https://github.com/unicode-org/icu/releases/download/release-{version}/icu4c-{version}-sources.zip",
             hash="86fed675c2270afd2faa4ec0c3f37342bd38740feb101432e131758292ae72e7",
-            patches=["0001-Fix-circular-include-on-MS-Visual-Studio.patch"],
+            patches=[
+                "0001-Fix-circular-include-on-MS-Visual-Studio.patch",
+                "0002-Use-python-instead-of-py-launcher.patch",
+            ],
         )
 
     def build(self):
@@ -48,7 +52,10 @@ class Icu(Tarball, Project):
                 replace,
             )
 
-        self.exec_msbuild([r"source\allinone\allinone.sln", "/p:SkipUWP=true"])
+        self.exec_msbuild(
+            [r"source\allinone\allinone.sln", "/p:SkipUWP=true"],
+            add_path=os.path.dirname(sys.executable),
+        )
 
         if self.builder.opts.configuration == "debug":
             self.install_pc_files("pc-files-debug")
