@@ -40,10 +40,10 @@ class DirectXHeaders(Tarball, Meson):
             self,
             "directx-headers",
             repository="https://github.com/microsoft/DirectX-Headers",
-            version="1.619.5",
+            version="1.620.2",
             archive_url="https://github.com/microsoft/DirectX-Headers/archive/refs/tags/v{version}.tar.gz",
             archive_filename="directx-headers-v{version}.tar.gz",
-            hash="24a0b7d8079a2dbbc90753c0d8bc812040d052acce2302e69a97c5d873b313b8",
+            hash="2b916ef1be5db35313f56d60499274fed39db37b54a1f0befa8aa49041c14855",
             dependencies=["meson", "ninja"],
             patches=[],
         )
