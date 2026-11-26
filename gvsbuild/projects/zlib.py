@@ -36,10 +36,10 @@ class Zlib(Tarball, Project):
         Project.__init__(
             self,
             "zlib",
-            version="1.3.2",
+            version="1.4",
             repository="https://github.com/madler/zlib",
             archive_url="https://github.com/madler/zlib/releases/download/v{version}/zlib-{version}.tar.xz",
-            hash="d7a0654783a4da529d1bb793b7ad9c3318020af77667bcae35f95d0e42a792f3",
+            hash="4f11c512053d7bab8d9e9b89bde3575add3e4c50a383b42ef6cb837035fc5a7c",
             patches=[],
         )
 
