@@ -1,0 +1,66 @@
+# Makefile.win for OpenLDAP client libraries on Windows (MSVC)
+#
+# Targets are:
+#
+#     buildall   - compile everything
+#     installall - install everything (into PREFIX)
+#     clean      - mop up everything
+#
+# For example:
+#
+#   nmake -f Makefile.win PREFIX=C:\openldap CFG=Release buildall installall
+#
+
+!IFNDEF PREFIX
+PREFIX=..\..\openldap-dist
+!ENDIF
+
+!IFNDEF CFG
+CFG=Release
+!ENDIF
+
+!IFNDEF MAKEOPT
+MAKEOPT=/nologo
+!ENDIF
+
+!MESSAGE CFG         = $(CFG)  (Debug or Release)
+!MESSAGE PREFIX      = $(PREFIX)  (install path)
+
+all: buildall
+
+buildall:
+	cd .\libraries\liblber
+	$(MAKE) $(MAKEOPT) -f Makefile.win CFG="$(CFG)" PREFIX="$(PREFIX)" build
+	cd ..\..
+	cd .\libraries\libldap
+	$(MAKE) $(MAKEOPT) -f Makefile.win CFG="$(CFG)" PREFIX="$(PREFIX)" build
+	cd ..\..
+
+clean:
+	cd .\libraries\liblber
+	$(MAKE) $(MAKEOPT) -f Makefile.win CFG="$(CFG)" clean
+	cd ..\..
+	cd .\libraries\libldap
+	$(MAKE) $(MAKEOPT) -f Makefile.win CFG="$(CFG)" clean
+	cd ..\..
+
+installall:
+	@if NOT EXIST "$(PREFIX)\."         mkdir "$(PREFIX)"
+	@if NOT EXIST "$(PREFIX)\bin\."     mkdir "$(PREFIX)\bin"
+	@if NOT EXIST "$(PREFIX)\include\." mkdir "$(PREFIX)\include"
+	@if NOT EXIST "$(PREFIX)\lib\."     mkdir "$(PREFIX)\lib"
+	copy /y libraries\liblber\$(CFG)\liblber.dll "$(PREFIX)\bin\"
+	copy /y libraries\liblber\$(CFG)\liblber.pdb "$(PREFIX)\bin\"
+	copy /y libraries\liblber\$(CFG)\liblber.lib "$(PREFIX)\lib\"
+	copy /y libraries\libldap\$(CFG)\libldap.dll "$(PREFIX)\bin\"
+	copy /y libraries\libldap\$(CFG)\libldap.pdb "$(PREFIX)\bin\"
+	copy /y libraries\libldap\$(CFG)\libldap.lib "$(PREFIX)\lib\"
+	copy /y include\lber.h          "$(PREFIX)\include\"
+	copy /y include\lber_types.h    "$(PREFIX)\include\"
+	copy /y include\ldap.h          "$(PREFIX)\include\"
+	copy /y include\ldap_cdefs.h    "$(PREFIX)\include\"
+	copy /y include\ldap_schema.h   "$(PREFIX)\include\"
+	copy /y include\ldap_utf8.h     "$(PREFIX)\include\"
+	copy /y include\ldap_features.h "$(PREFIX)\include\"
+	copy /y include\ldif.h          "$(PREFIX)\include\"
+	copy /y include\openldap.h      "$(PREFIX)\include\"
